@@ -2,7 +2,17 @@
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
-  }
-}
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
+};
 
-export default nextConfig
+export default nextConfig;
