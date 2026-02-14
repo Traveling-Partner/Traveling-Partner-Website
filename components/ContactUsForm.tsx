@@ -2,12 +2,14 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from "react";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { IoCloudUploadOutline, IoClose } from "react-icons/io5";
+import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import axios from "axios";
 import Image from "next/image";
 import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
 import BasicModal from "./Modal";
+import { motion } from "framer-motion";
 
 interface SubmissionStatus {
   type: "success" | "error" | null;
@@ -65,7 +67,7 @@ const ContactUsForm: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "https://api.traveling-partner.com/api/contact",
+        "https://api.traveling-partner.com/api/contact ",
         formData,
         {
           headers: {
@@ -80,7 +82,6 @@ const ContactUsForm: React.FC = () => {
       });
       setAlertVisible(true);
       setLoading(false);
-      // Reset form
       form.reset();
       setSelectedFile("");
       setFile(null);
@@ -123,6 +124,12 @@ const ContactUsForm: React.FC = () => {
     }
   };
 
+  const contactInfo = [
+    { icon: MdLocationOn, label: "Address", value: "Islamabad, Pakistan" },
+    { icon: MdEmail, label: "Email", value: "info@traveling-partner.com" },
+    { icon: MdPhone, label: "Phone", value: "+92 300 1234567" },
+  ];
+
   return (
     <div
       className="relative w-full bg-cover bg-center bg-no-repeat"
@@ -132,168 +139,254 @@ const ContactUsForm: React.FC = () => {
       }}
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/70"></div>
 
-      <div className="relative mx-auto grid min-h-[750px] max-w-7xl grid-cols-2 items-center gap-16 px-6 py-20 max-lg:grid-cols-1">
-        {/* LEFT SIDE */}
-        <div className="text-white max-lg:text-center">
-          <h1 className="font-poppins text-6xl font-bold uppercase tracking-wide max-md:text-4xl">
-            CONTACT US
-          </h1>
+      <div className="relative mx-auto max-w-6xl px-4 py-16 lg:py-20">
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-10"
+        >
+          <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-full text-xs font-bold text-black uppercase tracking-wider mb-4">
+            Get In Touch
+          </span>
+          <h2 className="text-3xl lg:text-4xl font-black text-white mb-3">
+            Contact <span className="text-[#FCE001]">Us</span>
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] mx-auto rounded-full" />
+        </motion.div>
 
-          <p className="mt-6 max-w-md text-lg text-gray-200 max-lg:mx-auto">
-            Have questions or need assistance? Fill out the form and our team
-            will get back to you as soon as possible.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start max-lg:max-w-xl max-lg:mx-auto">
+          {/* LEFT SIDE - Contact Info */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <p className="text-gray-300 text-sm leading-relaxed max-w-sm">
+              Have questions or need assistance? Our team is here to help you with any inquiries about our services.
+            </p>
 
-        {/* RIGHT SIDE FORM */}
-        <div className="w-full">
-          <div className="relative w-full rounded-2xl bg-white p-10 shadow-2xl max-md:p-6">
-            {/* Loader Overlay - Only show when loading */}
-            {loading && (
-              <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/80 rounded-2xl">
-                <CircularIndeterminate />
-              </div>
-            )}
-
-            <form onSubmit={submitHandler} className="space-y-6 relative">
-              {/* Name */}
-              <input
-                type="text"
-                name="Name"
-                placeholder="Name"
-                required
-                disabled={loading}
-                className="w-full border-0 border-b border-gray-300 bg-transparent py-4 text-base text-gray-700 placeholder-gray-400 outline-none transition focus:border-black disabled:opacity-50"
-              />
-
-              {/* Subject */}
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                required
-                disabled={loading}
-                className="w-full border-0 border-b border-gray-300 bg-transparent py-4 text-base text-gray-700 placeholder-gray-400 outline-none transition focus:border-black disabled:opacity-50"
-              />
-
-              {/* Email */}
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                disabled={loading}
-                className="w-full border-0 border-b border-gray-300 bg-transparent py-4 text-base text-gray-700 placeholder-gray-400 outline-none transition focus:border-black disabled:opacity-50"
-              />
-
-              {/* Phone */}
-              <input
-                type="text"
-                name="phoneNumber"
-                placeholder="Phone Number"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                required
-                disabled={loading}
-                className="w-full border-0 border-b border-gray-300 bg-transparent py-4 text-base text-gray-700 placeholder-gray-400 outline-none transition focus:border-black disabled:opacity-50"
-              />
-
-              {/* Message */}
-              <textarea
-                name="message"
-                placeholder="Message"
-                required
-                rows={3}
-                disabled={loading}
-                className="w-full resize-none border-0 border-b border-gray-300 bg-transparent py-4 text-base text-gray-700 placeholder-gray-400 outline-none transition focus:border-black disabled:opacity-50"
-              />
-
-              {/* Upload + Submit */}
-              <div className="flex items-center justify-between pt-6">
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={handleUploadClick}
-                    disabled={loading}
-                    className="flex items-center gap-2 text-sm text-gray-500 transition hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <IoCloudUploadOutline className="text-xl" />
-                    Upload
-                  </button>
-
-                  <input
-                    ref={fileInputRef}
-                    className="hidden"
-                    type="file"
-                    id="photo"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    disabled={loading}
-                  />
-                  
-                  {selectedFile && (
-                    <span className="text-xs text-gray-600 max-w-[150px] truncate">
-                      {selectedFile}
-                    </span>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="rounded-lg bg-gradient-to-b from-[#fce001] to-[#fdb813] px-8 py-3 text-sm font-medium text-black transition hover:shadow-lg hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            {/* Contact Cards */}
+            <div className="space-y-3">
+              {contactInfo.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-all duration-300 group"
                 >
-                  {loading ? "Submitting..." : "Submit"}
-                </button>
-              </div>
-
-              {/* File Preview */}
-              {filePreview && (
-                <div className="flex items-center gap-4 pt-4">
-                  <div
-                    className="relative h-[100px] w-[100px] cursor-pointer overflow-hidden rounded-lg border"
-                    onClick={handleOpen}
-                  >
-                    <Image
-                      src={filePreview}
-                      alt="Preview"
-                      fill
-                      className="object-cover"
-                      sizes="100px"
-                    />
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#FCE001] to-[#FDB813] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <item.icon className="w-5 h-5 text-black" />
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFile(null);
-                      setFilePreview(null);
-                      setSelectedFile("");
-                      if (fileInputRef.current) {
-                        fileInputRef.current.value = "";
-                      }
-                    }}
-                    className="text-xs text-red-500 hover:text-red-700 underline"
-                    disabled={loading}
-                  >
-                    Remove
-                  </button>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">{item.label}</p>
+                    <p className="text-sm font-medium text-white">{item.value}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* RIGHT SIDE FORM */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="relative bg-white rounded-2xl shadow-2xl p-6 lg:p-8">
+              {/* Decorative Corner */}
+              <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-[#FCE001] to-[#FDB813] rounded-xl -z-10 opacity-30 blur-lg" />
+
+              {/* Loader Overlay */}
+              {loading && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-2xl">
+                  <CircularIndeterminate />
                 </div>
               )}
-            </form>
 
-            {/* Alerts */}
-            {alertVisible && <FormAlert status={submissionStatus.type} />}
+              <form onSubmit={submitHandler} className="space-y-4 relative">
+                {/* Two Column Layout */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Name */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="Name"
+                      placeholder="Your Name"
+                      required
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
+                    />
+                  </div>
 
-            {/* Modal */}
-            <BasicModal
-              imgSrc={filePreview}
-              open={open}
-              handleClose={handleClose}
-            />
-          </div>
+                  {/* Subject */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                      required
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
+                    />
+                  </div>
+                </div>
+
+                {/* Two Column Layout */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Email */}
+                  <div className="relative">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      required
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="phoneNumber"
+                      placeholder="Phone Number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
+                    />
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="relative">
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    required
+                    rows={3}
+                    disabled={loading}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 resize-none disabled:opacity-50"
+                  />
+                </div>
+
+                {/* Upload & Submit Row */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+                  {/* Upload Section */}
+                  <div className="flex items-center gap-3">
+                    <motion.button
+                      type="button"
+                      onClick={handleUploadClick}
+                      disabled={loading}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-dashed border-gray-300 text-sm font-medium text-gray-600 hover:border-[#FDB813] hover:text-[#FDB813] hover:bg-[#FDB813]/5 transition-all duration-300 disabled:opacity-50"
+                    >
+                      <IoCloudUploadOutline className="text-lg" />
+                      Attach File
+                    </motion.button>
+
+                    <input
+                      ref={fileInputRef}
+                      className="hidden"
+                      type="file"
+                      id="photo"
+                      name="photo"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      disabled={loading}
+                    />
+                    
+                    {selectedFile && (
+                      <span className="text-xs text-gray-600 max-w-[100px] truncate bg-gray-100 px-2 py-1 rounded">
+                        {selectedFile}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Submit Button */}
+                  <motion.button
+                    type="submit"
+                    disabled={loading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FCE001] to-[#FDB813] text-black font-bold text-sm shadow-lg shadow-[#FDB813]/30 hover:shadow-xl hover:shadow-[#FDB813]/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {loading ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                      </>
+                    )}
+                  </motion.button>
+                </div>
+
+                {/* File Preview */}
+                {filePreview && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 pt-2"
+                  >
+                    <div
+                      className="relative h-14 w-14 cursor-pointer overflow-hidden rounded-lg border-2 border-gray-200 hover:border-[#FDB813] transition-colors"
+                      onClick={handleOpen}
+                    >
+                      <Image
+                        src={filePreview}
+                        alt="Preview"
+                        fill
+                        className="object-cover"
+                        sizes="56px"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFile(null);
+                        setFilePreview(null);
+                        setSelectedFile("");
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                      className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
+                      disabled={loading}
+                    >
+                      <IoClose className="w-4 h-4" />
+                      Remove
+                    </button>
+                  </motion.div>
+                )}
+              </form>
+
+              {/* Alerts */}
+              {alertVisible && <FormAlert status={submissionStatus.type} />}
+
+              {/* Modal */}
+              <BasicModal
+                imgSrc={filePreview}
+                open={open}
+                handleClose={handleClose}
+              />
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
