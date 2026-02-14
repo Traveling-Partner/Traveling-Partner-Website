@@ -1,282 +1,334 @@
 // components/Footer.jsx
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { 
+  MdEmail, 
+  MdPhone, 
+  MdArrowForward,
+  MdDirectionsCar,
+  MdLocalShipping,
+  MdFlightTakeoff,
+  MdDeliveryDining,
+  MdMap
+} from "react-icons/md";
+import { 
+  FaFacebook, 
+  FaTwitter, 
+  FaInstagram, 
+  FaLinkedin, 
+  FaYoutube
+} from "react-icons/fa";
+import { FaGooglePlay } from "react-icons/fa";
+import { IoLogoApple } from "react-icons/io5";
+
+const quickLinks = [
+  { icon: MdDirectionsCar, label: "Taxi", href: "/taxi-stand", color: "from-[#FCE001] to-[#FDB813]", desc: "City rides" },
+  { icon: MdLocalShipping, label: "Pool", href: "/pool-ride", color: "from-[#FDB813] to-[#FFA500]", desc: "Shared trips" },
+  { icon: MdDeliveryDining, label: "Delivery", href: "/delivery", color: "from-[#FCE001] to-[#FFD700]", desc: "Fast delivery" },
+  { icon: MdFlightTakeoff, label: "Logistics", href: "/logistic", color: "from-[#FDB813] to-[#FF8C00]", desc: "Enterprise" },
+  { icon: MdMap, label: "Trip", href: "/trip", color: "from-[#FCE001] to-[#FDB813]", desc: "Plan journey" },
+];
+
+const footerLinks = {
+  company: [
+    { label: "About Us", href: "/about-us" },
+    { label: "Careers", href: "/careers" },
+    { label: "Press", href: "/press" },
+    { label: "Blog", href: "/blog" },
+  ],
+  support: [
+    { label: "Help Center", href: "/help" },
+    { label: "Safety", href: "/safety" },
+    { label: "Terms", href: "/terms-conditions" },
+    { label: "Privacy", href: "/privacy-policy" },
+  ],
+};
+
+const socialLinks = [
+  { icon: FaFacebook, href: "#", bg: "bg-[#1877F2]", shadow: "shadow-blue-500/30" },
+  { icon: FaTwitter, href: "#", bg: "bg-[#1DA1F2]", shadow: "shadow-sky-500/30" },
+  { icon: FaInstagram, href: "#", bg: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]", shadow: "shadow-pink-500/30" },
+  { icon: FaLinkedin, href: "#", bg: "bg-[#0A66C2]", shadow: "shadow-blue-600/30" },
+  { icon: FaYoutube, href: "#", bg: "bg-[#FF0000]", shadow: "shadow-red-500/30" },
+];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-  
-  const services = [
-    { href: "/taxi-stand", label: "Taxi Stand" },
-    { href: "/pool-ride", label: "Pool Ride" },
-    { href: "/delivery", label: "Delivery" },
-    { href: "/logistic", label: "Logistics" },
-    { href: "/trip", label: "Trip Planning" },
-  ];
-
-  const company = [
-    { href: "/about-us", label: "About Us" },
-    { href: "/careers", label: "Careers" },
-    { href: "/blog", label: "Blog" },
-    { href: "/privacy-policy", label: "Privacy Policy" },
-    { href: "/terms-conditions", label: "Terms & Conditions" },
-  ];
-
-  const socialLinks = [
-    { icon: FaFacebook, href: "#", label: "Facebook" },
-    { icon: FaTwitter, href: "#", label: "Twitter" },
-    { icon: FaInstagram, href: "#", label: "Instagram" },
-    { icon: FaLinkedin, href: "#", label: "LinkedIn" },
-    { icon: FaYoutube, href: "#", label: "YouTube" },
-  ];
-
   return (
-    <footer className="w-full relative overflow-hidden">
-      {/* Decorative Top Wave */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
-        <svg 
-          className="relative block w-full h-[50px]" 
-          data-name="Layer 1" 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 1200 120" 
-          preserveAspectRatio="none"
-        >
-          <path 
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-            className="fill-white"
-          ></path>
-        </svg>
+    <footer className="relative w-full bg-white text-gray-800 overflow-hidden">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, #FDB813 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
+        
+        {/* Decorative Yellow Gradients */}
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-[#FDB813]/15 to-[#FCE001]/5 rounded-full blur-[100px]" />
       </div>
 
-      {/* Main Footer */}
-      <div className="w-full pt-20 pb-12 bg-gradient-to-b from-[#fce001] via-[#ffd700] to-[#fdb813] relative">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}></div>
-        </div>
-
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Quick Access Cards */}
+      <div className="relative z-10 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Our Services</h3>
+            <div className="w-16 h-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] mx-auto rounded-full" />
+          </motion.div>
           
-          {/* Top Section - Newsletter */}
-          <div className="bg-black/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 mb-12 border border-black/5">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-              <div className="text-center lg:text-left">
-                <h3 className="text-2xl sm:text-3xl font-bold text-black mb-2">
-                  Stay Connected
-                </h3>
-                <p className="text-black/70 text-sm sm:text-base">
-                  Get updates on new features and exclusive offers
-                </p>
-              </div>
-              <div className="flex w-full lg:w-auto gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email"
-                  className="flex-1 lg:w-80 px-4 py-3 rounded-full bg-white/90 border-2 border-transparent focus:border-black/20 focus:outline-none text-black placeholder-black/40 transition-all"
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {quickLinks.map((item, index) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={item.href}>
+                  <motion.div
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 p-5 shadow-lg hover:shadow-xl transition-all duration-500 h-full"
+                  >
+                    {/* Hover Gradient Overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-r ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                    
+                    <div className="relative flex flex-col items-center text-center gap-3">
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300`}>
+                        <item.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-base text-gray-900 group-hover:text-[#FDB813] transition-colors">{item.label}</h3>
+                        <p className="text-xs text-gray-500 mt-1">{item.desc}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+          
+          {/* Brand Column */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-5 space-y-6"
+          >
+            <Link href="/" className="inline-block group">
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="relative"
+              >
+                <div className="absolute -inset-4 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                <Image
+                  src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png"
+                  alt="Traveling Partner"
+                  width={260}
+                  height={90}
+                  className="relative w-[220px] h-auto drop-shadow-lg"
+                  unoptimized
                 />
-                <button className="px-6 py-3 bg-black text-[#fce001] rounded-full font-semibold hover:bg-black/80 transition-all duration-300 hover:scale-105 active:scale-95 whitespace-nowrap">
-                  Subscribe
-                </button>
-              </div>
+              </motion.div>
+            </Link>
+            
+            <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
+              Revolutionizing urban mobility across Pakistan. Fast, safe, and reliable rides at your fingertips with zero commission.
+            </p>
+
+            {/* Contact Info */}
+            <div className="space-y-3 pt-2">
+              <motion.a 
+                href="mailto:info@traveling-partner.com"
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-3 text-gray-600 hover:text-[#FDB813] transition-colors group"
+              >
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/20 flex items-center justify-center group-hover:from-[#FCE001] group-hover:to-[#FDB813] transition-all">
+                  <MdEmail className="w-5 h-5 text-[#FDB813] group-hover:text-white transition-colors" />
+                </div>
+                <span className="text-sm font-medium">info@traveling-partner.com</span>
+              </motion.a>
+              
+              <motion.a 
+                href="tel:+1234567890"
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-3 text-gray-600 hover:text-[#FDB813] transition-colors group"
+              >
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/20 flex items-center justify-center group-hover:from-[#FCE001] group-hover:to-[#FDB813] transition-all">
+                  <MdPhone className="w-5 h-5 text-[#FDB813] group-hover:text-white transition-colors" />
+                </div>
+                <span className="text-sm font-medium">+92 300 1234567</span>
+              </motion.a>
             </div>
+          </motion.div>
+
+          {/* Links Columns - Only Company and Support */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-8">
+            {Object.entries(footerLinks).map(([category, links], catIndex) => (
+              <motion.div
+                key={category}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 + catIndex * 0.1 }}
+              >
+                <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-full" />
+                  {category}
+                </h4>
+                <ul className="space-y-3">
+                  {links.map((link, index) => (
+                    <motion.li 
+                      key={link.href}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + index * 0.05 }}
+                    >
+                      <Link 
+                        href={link.href}
+                        className="text-gray-500 hover:text-[#FDB813] hover:translate-x-1 transition-all duration-300 text-sm inline-flex items-center gap-2 group"
+                      >
+                        <span className="w-0 group-hover:w-2 h-[2px] bg-[#FDB813] transition-all duration-300" />
+                        {link.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Main Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6 mb-12">
-            
-            {/* Logo & Description - Takes 4 columns */}
-            <div className="lg:col-span-4 flex flex-col items-center md:items-start">
-              <Link href="/" className="inline-block mb-6 group">
-                <div className="relative overflow-hidden rounded-xl bg-transparent p-4 group-hover:shadow-xl transition-all duration-300">
-                  <Image
-                    src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png"
-                    alt="Traveling Partner Logo"
-                    width={220}
-                    height={140}
-                    className="w-[180px] sm:w-[220px] h-auto object-contain transform group-hover:scale-105 transition-transform duration-300"
-                    priority={false}
-                    unoptimized
-                  />
-                </div>
-              </Link>
-              <p className="text-black/80 text-center md:text-left mb-6 max-w-sm leading-relaxed">
-                Your trusted companion for seamless travel experiences. Connecting you to destinations with comfort, safety, and reliability.
-              </p>
-              
-              {/* Social Icons */}
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center text-black hover:bg-black hover:text-[#fce001] transition-all duration-300 hover:scale-110 hover:-translate-y-1"
-                  >
-                    <social.icon className="text-lg" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Services Section - Takes 2 columns */}
-            <div className="lg:col-span-2 flex flex-col items-center md:items-start">
-              <h2 className="text-lg font-bold text-black mb-5 flex items-center gap-2">
-                <span className="w-8 h-1 bg-black rounded-full"></span>
-                Services
-              </h2>
-              <nav className="flex flex-col gap-3">
-                {services.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-black/80 hover:text-black font-medium transition-all duration-300 hover:translate-x-2 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-black transition-all duration-300"></span>
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            {/* Company Section - Takes 2 columns */}
-            <div className="lg:col-span-2 flex flex-col items-center md:items-start">
-              <h2 className="text-lg font-bold text-black mb-5 flex items-center gap-2">
-                <span className="w-8 h-1 bg-black rounded-full"></span>
-                Company
-              </h2>
-              <nav className="flex flex-col gap-3">
-                {company.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-black/80 hover:text-black font-medium transition-all duration-300 hover:translate-x-2 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 group-hover:w-2 h-0.5 bg-black transition-all duration-300"></span>
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            {/* Contact Section - Takes 2 columns */}
-            <div className="lg:col-span-2 flex flex-col items-center md:items-start">
-              <h2 className="text-lg font-bold text-black mb-5 flex items-center gap-2">
-                <span className="w-8 h-1 bg-black rounded-full"></span>
-                Contact
-              </h2>
-              <div className="flex flex-col gap-4">
-                <a
-                  href="mailto:info@traveling-partner.com"
-                  className="flex items-center gap-3 text-black/80 hover:text-black transition-all duration-300 group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#fce001] transition-all duration-300">
-                    <MdEmail className="text-lg" />
-                  </div>
-                  <span className="text-sm break-all">info@traveling-partner.com</span>
-                </a>
-                <a
-                  href="tel:+1234567890"
-                  className="flex items-center gap-3 text-black/80 hover:text-black transition-all duration-300 group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#fce001] transition-all duration-300">
-                    <MdPhone className="text-lg" />
-                  </div>
-                  <span className="text-sm">+1 (234) 567-890</span>
-                </a>
-                <div className="flex items-center gap-3 text-black/80">
-                  <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center">
-                    <MdLocationOn className="text-lg" />
-                  </div>
-                  <span className="text-sm">123 Travel Street, NYC</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Download Apps - Takes 2 columns */}
-            <div className="lg:col-span-2 flex flex-col items-center md:items-start">
-              <h2 className="text-lg font-bold text-black mb-5 flex items-center gap-2">
-                <span className="w-8 h-1 bg-black rounded-full"></span>
-                Download
-              </h2>
-              <div className="flex flex-col gap-3 w-full">
-                <Link 
-                  href="https://play.google.com/store/apps?hl=en&gl=US"
+          {/* Download & Social Column */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-3 space-y-6"
+          >
+            <div>
+              <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-4">
+                Get the app
+              </h4>
+              <div className="space-y-3">
+                <motion.a
+                  href="https://play.google.com/store"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-xl bg-black/10 hover:bg-black transition-all duration-300 p-1"
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl p-3 hover:bg-gray-800 transition-all group shadow-lg hover:shadow-xl"
                 >
-                  <Image
-                    src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253809/tp-Imgs/img/google_wy7mc6.png"
-                    alt="Get it on Google Play"
-                    width={160}
-                    height={48}
-                    className="w-full h-auto rounded-lg transform group-hover:scale-105 transition-transform duration-300"
-                    unoptimized
-                  />
-                </Link>
-                <Link 
+                  <FaGooglePlay className="w-8 h-8 text-black" />
+                  <div>
+                    <p className="text-[10px] text-black font-bold uppercase tracking-wider">Get it on</p>
+                    <p className="text-sm font-bold text-black">Google Play</p>
+                  </div>
+                </motion.a>
+                
+                <motion.a
                   href="https://www.apple.com/app-store/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden rounded-xl bg-black/10 hover:bg-black transition-all duration-300 p-1"
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl p-3 hover:bg-gray-800 transition-all group shadow-lg hover:shadow-xl"
                 >
-                  <Image
-                    src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253812/tp-Imgs/img/iso_imftsl.png"
-                    alt="Download on App Store"
-                    width={160}
-                    height={48}
-                    className="w-full h-auto rounded-lg transform group-hover:scale-105 transition-transform duration-300"
-                    unoptimized
-                  />
-                </Link>
-              </div>
-              
-              {/* Certification Badge */}
-              <div className="mt-6 p-3 bg-white/30 rounded-xl backdrop-blur-sm border border-white/40">
-                <Image
-                  src="https://res.cloudinary.com/duubabjk7/image/upload/v1770879272/tp-Imgs/logo/image_12_uaxjz0.png"
-                  alt="Certification"
-                  width={120}
-                  height={60}
-                  className="w-[100px] h-auto object-contain"
-                  unoptimized
-                />
+                  <IoLogoApple className="w-8 h-8 text-black" />
+                  <div>
+                    <p className="text-[10px] text-black font-bold uppercase tracking-wider">Download on</p>
+                    <p className="text-sm font-bold text-black">App Store</p>
+                  </div>
+                </motion.a>
               </div>
             </div>
-          </div>
 
-          {/* Bottom Bar */}
-          <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-black/70 text-sm text-center md:text-left">
-              © {currentYear} Traveling Partner. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm">
-              <Link href="/privacy-policy" className="text-black/70 hover:text-black transition-colors">Privacy</Link>
-              <Link href="/terms-conditions" className="text-black/70 hover:text-black transition-colors">Terms</Link>
-              <Link href="/sitemap" className="text-black/70 hover:text-black transition-colors">Sitemap</Link>
+            {/* Social Icons */}
+            <div>
+              <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-3">
+                Follow us
+              </h4>
+              <div className="flex gap-2">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    whileHover={{ scale: 1.1, y: -3 }}
+                    whileTap={{ scale: 0.9 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    className={`w-9 h-9 rounded-full ${social.bg} flex items-center justify-center text-white shadow-md ${social.shadow} hover:shadow-lg transition-all duration-300`}
+                  >
+                    <social.icon className="w-4 h-4" />
+                  </motion.a>
+                ))}
+              </div>
             </div>
-          </div>
+
+            {/* Trust Badge */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="inline-block mt-2"
+            >
+              <div className="bg-gradient-to-r from-[#FCE001] to-[#FDB813] p-[2px] rounded-xl">
+                <div className="bg-white rounded-xl px-4 py-2 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-xs font-bold text-gray-800">Verified Partner</span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Copyright Bar - Dark */}
-      <div className="bg-black py-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-white/90 text-center text-sm">
-            Made with passion for travelers worldwide
-          </p>
-          <div className="flex items-center gap-2 text-white/60 text-xs">
-            <span>Powered by</span>
-            <span className="text-[#fce001] font-semibold">Traveling Partner</span>
+      {/* Bottom Bar */}
+      <div className="relative z-10 border-t border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-gray-500 text-sm"
+            >
+              © {new Date().getFullYear()} Traveling Partner. All rights reserved.
+            </motion.p>
+            
+            <div className="flex items-center gap-6">
+              {["Privacy", "Terms", "Cookies", "Sitemap"].map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link 
+                    href={`/${item.toLowerCase()}`}
+                    className="text-gray-500 hover:text-[#FDB813] text-sm transition-colors relative group font-medium"
+                  >
+                    {item}
+                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#FCE001] to-[#FDB813] group-hover:w-full transition-all duration-300" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
