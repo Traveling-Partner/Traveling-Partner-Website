@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[97367,["/_next/static/chunks/d7d6a28d9807771b.js","/_next/static/chunks/d2be314c3ece3fbe.js","/_next/static/chunks/1a6e345dead1683d.js","/_next/static/chunks/2fa27687dcc7b034.js"],"ViewportBoundary"]
+3:I[97367,["/_next/static/chunks/d7d6a28d9807771b.js","/_next/static/chunks/d2be314c3ece3fbe.js","/_next/static/chunks/1a6e345dead1683d.js","/_next/static/chunks/2fa27687dcc7b034.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"Yd_YXffUscgArcGA4h5qt","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Traveling Partner"}],["$","meta","1",{"name":"description","content":"Your ultimate travel companion app"}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}

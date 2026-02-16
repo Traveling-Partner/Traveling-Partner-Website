@@ -44,16 +44,14 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-20">
             
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <Image
-                src={logo}
-                alt="Traveling Partner"
-                width={140}
-                height={50}
-                className="w-32 h-auto object-contain"
-                priority
-              />
-            </Link>
+            <Image
+              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png"
+              alt="Traveling Partner"
+              width={260}
+              height={90}
+              className="relative w-[220px] h-auto drop-shadow-lg mt-5"
+              unoptimized
+            />
 
             {/* Center Navigation */}
             <div className={`hidden lg:flex items-center rounded-full p-1 h-11 transition-colors ${
@@ -81,14 +79,14 @@ export default function Navigation() {
 
             {/* Right Side */}
             <div className="hidden lg:flex items-center gap-4 h-11">
-              <Link
+              {/* <Link
                 href="/login"
                 className={`text-sm font-medium transition-colors px-3 flex items-center h-9 ${
                   scrolled ? "text-gray-600 hover:text-black" : "text-black/80 hover:text-black"
                 }`}
               >
                 Log in
-              </Link>
+              </Link> */}
               <Link
                 href="/download"
                 className="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-black/80 transition-colors flex items-center gap-2 h-9"
