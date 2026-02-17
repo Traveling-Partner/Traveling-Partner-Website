@@ -17,10 +17,10 @@ interface FeatureCardProps {
 export default function FeatureCard({ feature, index }: FeatureCardProps) {
   return (
     <div className="group relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/20 to-[#fdb813]/20 rounded-3xl transform rotate-1 scale-[1.02] opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-      <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-xl transform transition-all duration-500 group-hover:-translate-y-2 border-2 border-gray-100 group-hover:border-[#fce001]/50 overflow-hidden h-full">
+      <div className="absolute inset-0 rounded-3xl transform rotate-1 scale-[1.02] opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-xl transform transition-all duration-500 group-hover:-translate-y-2 border-2 border-gray-100  overflow-hidden h-full">
         {/* Shine Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+        <div className="absolute inset-0  group-hover:translate-x-full transition-transform duration-1000"></div>
 
         {/* Icon */}
         <div className="relative mb-8">
@@ -29,8 +29,8 @@ export default function FeatureCard({ feature, index }: FeatureCardProps) {
             <Image
               src={feature.imageSrc}
               alt={feature.title}
-              width={80}
-              height={80}
+              width={50}
+              height={50}
               className="w-full h-full object-contain drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300"
             />
           </div>

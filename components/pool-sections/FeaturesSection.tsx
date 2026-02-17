@@ -31,7 +31,7 @@ export default function FeaturesSection() {
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-        backgroundSize: '50px 50px'
+        backgroundSize: '30px 30px'
       }}></div>
 
       <div className="relative max-w-7xl mx-auto">
