@@ -37,7 +37,7 @@ export default function ForDriversSection() {
         {/* Header */}
         <div className="text-center mb-20">
           <h2 className="text-[#1a1a1a] text-4xl lg:text-6xl font-black uppercase tracking-tight mb-4 drop-shadow-sm">
-            For Drivers
+            For <span className="text-white">Drivers</span> 
           </h2>
           <p className="text-[#1a1a1a]/90 text-2xl lg:text-3xl font-light uppercase tracking-wide">
             Ready to Earn with Us?

@@ -1,9 +1,10 @@
+// TripHero.jsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 
-export default function HeroSection() {
+export default function TripHero() {
   return (
     <div
       className="w-full bg-cover bg-no-repeat relative overflow-hidden"
@@ -14,31 +15,26 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
           <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
-            {/* <p className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-medium leading-tight text-black mb-2">
-              CONNECT AND COMMUTE{" "}
-              <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent font-bold">
-                COMMISSION-FREE
-              </span>
-            </p> */}
-
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-tight font-black text-black mb-2 md:mb-3">
-              Taxi Stand
+              Trip
             </h2>
 
             <p className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-medium leading-tight text-black mb-2">
-              CONNECT AND COMMUTE <br />
+              Organize Trips <br />
               <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent font-bold">
-                COMMISSION-FREE
+                No Added Commissions
               </span>
             </p>
 
             <p className="text-sm sm:text-base text-gray-700 mb-4 md:mb-6 max-w-md mx-auto md:mx-0">
-              Traveling Partner presents a modern platform connecting users to
-              diverse taxi stands across Pakistan. Say goodbye to added fees
-              when you access this hassle-free, commission-free service. Our
-              platform ensures an affordable, direct connection with various
-              taxi stands, allowing you to negotiate fares at your convenience
-              and make your commuting experience both smooth and cost-effective.
+              Experience stress-free trip planning for family, friends, or
+              school outings with Traveling Partner. Our platform, known for its
+              commission-free and self-negotiation nature, eliminates the hassle
+              of navigating multiple locations or dealing with different trip
+              drivers and prices. With just a few clicks, users can efficiently
+              select their trip driver, ensuring a seamless and time-saving trip
+              planning experience. Trust Traveling Partner for a
+              community-driven approach to convenient trip coordination.
             </p>
 
             <div
@@ -113,8 +109,8 @@ export default function HeroSection() {
               <div className="absolute inset-2 bg-gradient-to-br from-[#fce001]/20 to-[#fdb813]/20 rounded-full blur-xl pointer-events-none"></div>
 
               <Image
-                src="/Assist/Taxi-stand-img/Image (1).png"
-                alt="Taxi Stand"
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1771314326/trip-circle-img_s0edm7.png  "
+                alt="Trip Circle"
                 fill
                 className="object-contain p-1 sm:p-2 relative z-10"
                 priority
@@ -138,10 +134,10 @@ export default function HeroSection() {
                   </div>
                   <div>
                     <p className="text-[10px] sm:text-xs text-gray-500 leading-none">
-                      Available in
+                      Plan Your
                     </p>
                     <p className="text-xs sm:text-sm font-bold text-black leading-none">
-                      All Major Cities
+                      Perfect Trip
                     </p>
                   </div>
                 </div>
