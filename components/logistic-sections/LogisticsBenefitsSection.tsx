@@ -6,28 +6,34 @@ import { FaCheck } from "react-icons/fa6";
 const logisticsBenefits = [
   {
     title: "Commission-Free Logistics",
-    description: "Enjoy a commission-free model that empowers users with cost-effective and transparent logistics solutions."
+    description:
+      "Enjoy a commission-free model that empowers users with cost-effective and transparent logistics solutions.",
   },
   {
     title: "Direct Connections",
-    description: "Facilitate seamless collaborations for transporting goods, ensuring a direct and reliable logistics experience."
+    description:
+      "Facilitate seamless collaborations for transporting goods, ensuring a direct and reliable logistics experience.",
   },
   {
     title: "Shared Vehicle Option",
-    description: "Opt for shared vehicle logistics, allowing users to share transportation space for more sustainable and economical shipping."
+    description:
+      "Opt for shared vehicle logistics, allowing users to share transportation space for more sustainable and economical shipping.",
   },
   {
     title: "Flexible Negotiations",
-    description: "Benefit from a user-centric approach that allows for personalized negotiations, ensuring a fair and tailored logistics experience."
+    description:
+      "Benefit from a user-centric approach that allows for personalized negotiations, ensuring a fair and tailored logistics experience.",
   },
   {
     title: "Real-Time Shipment Tracking",
-    description: "Experience the convenience of real-time tracking for your shipments, providing visibility and control throughout the transportation process."
+    description:
+      "Experience the convenience of real-time tracking for your shipments, providing visibility and control throughout the transportation process.",
   },
   {
     title: "Community Collaboration",
-    description: "Join a community-centric platform that fosters collaboration between users and logistics service providers."
-  }
+    description:
+      "Join a community-centric platform that fosters collaboration between users and logistics service providers.",
+  },
 ];
 
 export default function LogisticsBenefitsSection() {
@@ -38,19 +44,31 @@ export default function LogisticsBenefitsSection() {
 
       <div className="w-[90%] mx-auto max-w-7xl relative z-10 max-md:w-[96%]">
         <div className="text-center mb-16 lg:mb-24">
-          <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-2 rounded-full mb-6">
-            <svg className="w-4 h-4 text-[#1a1a1a]" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          <div className="inline-flex items-center gap-2 bg-white/20 border border-white px-4 py-2 rounded-full mb-6">
+            <svg
+              className="w-4 h-4 text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
-            <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">Key Advantages</span>
+            <span className="text-white text-sm font-semibold uppercase tracking-wider">
+              Key Advantages
+            </span>
           </div>
 
           <h2 className="text-4xl lg:text-6xl font-black text-[#1a1a1a] uppercase tracking-tight mb-6 max-md:text-3xl max-md:text-left">
-            Logistics <span className="text-white drop-shadow-md">Benefits</span>
+            Logistics{" "}
+            <span className="text-white drop-shadow-md">Benefits</span>
           </h2>
 
           <p className="text-center text-lg text-[#1a1a1a]/80 max-w-3xl mx-auto leading-relaxed max-md:text-left max-md:text-base">
-            Experience the future of logistics with our commission-free platform designed for modern transportation needs.
+            Experience the future of logistics with our commission-free platform
+            designed for modern transportation needs.
           </p>
         </div>
 
@@ -59,14 +77,28 @@ export default function LogisticsBenefitsSection() {
           <div className="order-2 lg:order-1 space-y-6">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">
-                <svg className="w-7 h-7 text-[#1a1a1a]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-7 h-7 text-[#1a1a1a]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
-              <span className="text-white font-bold uppercase tracking-wider text-sm drop-shadow-md">Benefits 01</span>
+              <span className="text-white font-bold uppercase tracking-wider text-sm drop-shadow-md">
+                Benefits 01
+              </span>
             </div>
 
-            <h3 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] leading-tight max-md:text-2xl">Key Logistics Benefits</h3>
+            <h3 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] leading-tight max-md:text-2xl">
+              Key Logistics Benefits
+            </h3>
 
             <div className="space-y-4 pt-2">
               {logisticsBenefits.map((benefit, index) => (
@@ -75,8 +107,12 @@ export default function LogisticsBenefitsSection() {
                     <FaCheck className="w-4 h-4 text-[#1a1a1a]" />
                   </div>
                   <div>
-                    <span className="font-bold text-[#1a1a1a]">{benefit.title}:</span>{' '}
-                    <span className="text-[#1a1a1a]/80">{benefit.description}</span>
+                    <span className="font-bold text-[#1a1a1a]">
+                      {benefit.title}:
+                    </span>{" "}
+                    <span className="text-[#1a1a1a]/80">
+                      {benefit.description}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -99,7 +135,9 @@ export default function LogisticsBenefitsSection() {
                   <span className="text-lg font-black text-[#1a1a1a]">6+</span>
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-[#1a1a1a]">Benefits</div>
+                  <div className="text-sm font-bold text-[#1a1a1a]">
+                    Benefits
+                  </div>
                   <div className="text-xs text-gray-500">Available</div>
                 </div>
               </div>
@@ -122,8 +160,18 @@ export default function LogisticsBenefitsSection() {
               />
               <div className="absolute -bottom-4 -left-4 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-xl flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[#1a1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="w-6 h-6 text-[#1a1a1a]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <div>
@@ -137,30 +185,61 @@ export default function LogisticsBenefitsSection() {
           <div className="space-y-6">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
-                <svg className="w-7 h-7 text-[#1a1a1a]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-7 h-7 text-[#1a1a1a]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
-              <span className="text-white font-bold uppercase tracking-wider text-sm drop-shadow-md">Benefits 02</span>
+              <span className="text-white font-bold uppercase tracking-wider text-sm drop-shadow-md">
+                Benefits 02
+              </span>
             </div>
 
-            <h3 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] leading-tight max-md:text-2xl">Faster Than You Think Safer Than You Expect!</h3>
+            <h3 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] leading-tight max-md:text-2xl">
+              Faster Than You Think Safer Than You Expect!
+            </h3>
 
             <p className="text-[#1a1a1a]/80 text-lg leading-relaxed max-md:text-base">
-              Our courier, packing and moving services support your goods or documents reach at different locations worldwide. Reliable and safe transportation of products allow for online shopping and delivery to customers doors.
+              Our courier, packing and moving services support your goods or
+              documents reach at different locations worldwide. Reliable and
+              safe transportation of products allow for online shopping and
+              delivery to customers doors.
             </p>
 
             <div className="bg-white/20 rounded-2xl p-6 border border-white/30">
               <h4 className="font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5 text-[#1a1a1a]" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 text-[#1a1a1a]"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Service Highlights
               </h4>
               <ul className="space-y-2 text-[#1a1a1a]/80">
                 {/* <li className="flex items-start gap-2"><span className="text-[#1a1a1a] mt-1">•</span>Worldwide delivery coverage</li> */}
-                <li className="flex items-start gap-2"><span className="text-[#1a1a1a] mt-1">•</span>Reliable and safe transportation</li>
-                <li className="flex items-start gap-2"><span className="text-[#1a1a1a] mt-1">•</span>Door-to-door delivery service</li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#1a1a1a] mt-1">•</span>Reliable and
+                  safe transportation
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#1a1a1a] mt-1">•</span>Door-to-door
+                  delivery service
+                </li>
               </ul>
             </div>
           </div>

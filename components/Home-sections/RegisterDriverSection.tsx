@@ -13,15 +13,15 @@ export default function RegisterDriverSection(): React.ReactElement {
       <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-5">
         {/* Section Header */}
         <div className="text-center mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 bg-black/10 border border-black/20 px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white px-4 py-2 rounded-full mb-6">
             <svg
-              className="w-4 h-4 text-[#1a1a1a]"
+              className="w-4 h-4 text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
               <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
             </svg>
-            <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">
+            <span className="text-white text-sm font-semibold uppercase tracking-wider">
               Get Started
             </span>
           </div>
