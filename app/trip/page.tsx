@@ -1,151 +1,186 @@
-import { Calendar, MapPin, Users, Clock } from 'lucide-react'
+// app/trip/page.jsx or components/Trip.jsx
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Trip() {
-  const trips = [
-    {
-      id: 1,
-      title: 'European Backpacking Adventure',
-      destination: 'Paris, Rome, Barcelona',
-      date: 'April 10 - May 5, 2024',
-      duration: '26 days',
-      travelers: 12,
-      image: '🗼',
-      price: '$1,299',
-    },
-    {
-      id: 2,
-      title: 'Tropical Paradise Escape',
-      destination: 'Bali, Indonesia',
-      date: 'May 1 - May 15, 2024',
-      duration: '15 days',
-      travelers: 8,
-      image: '🏝️',
-      price: '$899',
-    },
-    {
-      id: 3,
-      title: 'Mountain Hiking Expedition',
-      destination: 'Swiss Alps',
-      date: 'June 15 - July 1, 2024',
-      duration: '17 days',
-      travelers: 10,
-      image: '⛰️',
-      price: '$1,199',
-    },
-    {
-      id: 4,
-      title: 'Asian Cultural Tour',
-      destination: 'Thailand, Vietnam, Cambodia',
-      date: 'July 10 - August 5, 2024',
-      duration: '27 days',
-      travelers: 15,
-      image: '🏯',
-      price: '$1,099',
-    },
-    {
-      id: 5,
-      title: 'Amazon Jungle Adventure',
-      destination: 'Peru, Ecuador',
-      date: 'August 20 - September 5, 2024',
-      duration: '17 days',
-      travelers: 6,
-      image: '🌿',
-      price: '$1,599',
-    },
-    {
-      id: 6,
-      title: 'Northern Lights Journey',
-      destination: 'Iceland, Norway, Finland',
-      date: 'September 10 - October 1, 2024',
-      duration: '22 days',
-      travelers: 11,
-      image: '🌌',
-      price: '$1,799',
-    },
-  ]
-
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div>
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Organize Your Trip</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose from curated group trips or create your own adventure. Connect with fellow travelers and make memories together.
+      <div 
+        className="flex justify-evenly py-[30px] px-0 bg-cover bg-center bg-no-repeat max-md:flex-col-reverse max-md:px-5"
+        style={{
+          backgroundImage: "url('/images/image-95.png')"
+        }}
+      >
+        <div className="w-[42%] mt-20 max-md:w-full max-md:mt-[50px] max-md:text-center">
+          <h3 className="bg-gradient-to-b from-[#fce001] to-[#fdb813] px-[10px] text-[50px] font-semibold uppercase font-poppins text-center inline-block max-md:text-[40px] max-md:w-[40%] max-md:mx-auto">
+            Trip
+          </h3>
+          <h4 className="text-[20px] font-medium pt-[10px]">
+            Organize Trips with No Added Commissions
+          </h4>
+          <p className="text-[16px] font-poppins py-5">
+            Experience stress-free trip planning for family, friends, or school outings with Traveling
+            Partner. Our platform, known for its commission-free and self-negotiation nature,
+            eliminates the hassle of navigating multiple locations or dealing with different trip drivers
+            and prices. With just a few clicks, users can efficiently select their trip driver, ensuring a
+            seamless and time-saving trip planning experience. Trust Traveling Partner for a
+            community-driven approach to convenient trip coordination.
           </p>
-        </div>
 
-        {/* Search/Filter Bar */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <input type="text" placeholder="Destination" className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <input type="date" className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <input type="number" placeholder="Budget" className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button className="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow duration-200">
-              Search Trips
-            </button>
+          <div className="flex gap-5 py-5 max-md:justify-center">
+            <Link href="https://play.google.com/store/apps?hl=en&gl=US" target="_blank" rel="noopener noreferrer">
+              <Image 
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253809/tp-Imgs/img/google_wy7mc6.png" 
+                alt="Google-PlayStore" 
+                width={150} 
+                height={45}
+                className="w-full h-auto"
+              />
+            </Link>
+            <Link href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+              <Image 
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253812/tp-Imgs/img/iso_imftsl.png" 
+                alt="App-Store" 
+                width={150} 
+                height={45}
+                className="w-full h-auto"
+              />
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Trips Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {trips.map((trip) => (
-            <div
-              key={trip.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden border border-gray-100"
-            >
-              <div className="w-full h-40 bg-gradient-to-br from-blue-400 via-green-400 to-orange-400 flex items-center justify-center text-5xl">
-                {trip.image}
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{trip.title}</h3>
-                <p className="text-gray-600 mb-4 flex items-center gap-2">
-                  <MapPin size={18} className="text-blue-600 flex-shrink-0" />
-                  {trip.destination}
-                </p>
+        <div className="w-[40%] flex justify-end max-md:w-full">
+          <Image 
+            src="https://res.cloudinary.com/duubabjk7/image/upload/v1771314326/trip-circle-img_s0edm7.png" 
+            alt="Trip Circle" 
+            width={600} 
+            height={500}
+            className="w-[90%] max-md:w-full"
+          />
+        </div>
+      </div>
 
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <Calendar size={18} className="text-green-600" />
-                    <span>{trip.date}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <Clock size={18} className="text-orange-500" />
-                    <span>{trip.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <Users size={18} className="text-blue-600" />
-                    <span>{trip.travelers} travelers interested</span>
-                  </div>
-                </div>
+      {/* Enjoy your weekend with Travel partner */}
+      <div className="flex justify-evenly bg-gradient-to-b from-[#fce001] to-[#fdb813] w-full py-[50px] max-md:flex-col-reverse">
+        <div className="w-[40%] flex flex-col justify-center max-md:w-full max-md:p-3">
+          <h2 className="text-[50px] font-semibold max-md:text-[30px]">
+            Enjoy your weekend with Travel partner
+          </h2>
+          <p className="text-[16px] w-[88%]">
+            Go on a long trip with your friends and family Get a Taxi That is Just
+            Made for Road Trips Freedom from Car Servicing Hassles Optimize Travelling Time
+          </p>
+        </div>
+        <div className="w-[40%] max-md:w-[96%] max-md:flex max-md:mx-auto">
+          <Image 
+            src="https://res.cloudinary.com/duubabjk7/image/upload/v1771314285/image_81_1_sqeawd.png" 
+            alt="Enjoy Weekend" 
+            width={600} 
+            height={400}
+            className="w-full"
+          />
+        </div>
+      </div>
 
-                <div className="border-t pt-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Starting from</p>
-                    <p className="text-2xl font-bold text-blue-600">{trip.price}</p>
-                  </div>
-                  <button className="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-shadow duration-200">
-                    Join Now
-                  </button>
-                </div>
-              </div>
+      {/* Reliable, Safe, Transparent */}
+      <div 
+        className="w-full h-[686px] flex flex-col items-center justify-center px-5 bg-cover bg-center bg-no-repeat max-md:h-[270px]"
+        style={{
+          backgroundImage: "url('https://res.cloudinary.com/duubabjk7/image/upload/v1771314285/image_86_vhkebd.png')"
+        }}
+      >
+        <h2 className="text-[50px] font-semibold text-white text-center m-0 uppercase max-md:text-[35px]">
+          Reliable, Safe, Transparent
+        </h2>
+        <p className="text-[25px] text-white text-center m-0 uppercase max-md:text-[16px]">
+          Your trusted ride for every occasion!
+        </p>
+        <div className="flex justify-around w-full max-w-[400px] mt-5 gap-2.5">
+          <Link href="https://play.google.com/store/apps?hl=en&gl=US" target="_blank" rel="noopener noreferrer">
+            <Image 
+              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253809/tp-Imgs/img/google_wy7mc6.png" 
+              alt="Google-PlayStore" 
+              width={250} 
+              height={75}
+              className="w-full max-w-[250px] h-auto"
+            />
+          </Link>
+          <Link href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+            <Image 
+              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253812/tp-Imgs/img/iso_imftsl.png" 
+              alt="App-Store" 
+              width={250} 
+              height={75}
+              className="w-full max-w-[250px] h-auto"
+            />
+          </Link>
+        </div>
+      </div>
+
+      {/* Best Things Of Travel partner - How its work */}
+      <div className="py-[60px] pb-[60px] max-md:py-0">
+        <div className="text-center py-10">
+          <h1 className="uppercase text-[50px] font-semibold max-md:text-[30px]">
+            How its work
+          </h1>
+        </div>
+        <div className="flex w-[75%] mx-auto gap-[30px] justify-center max-md:flex-col max-md:w-full max-md:items-center">
+          <div className="w-[30%] flex flex-col gap-5 items-center max-md:w-[90%]">
+            <div className="text-center shadow-[0_4px_8px_0_rgba(0,0,0,0.2),0_6px_20px_0_rgba(0,0,0,0.19)] w-full px-2.5 py-5 min-h-[300px] flex flex-col items-center justify-center">
+              <Image 
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Carpool_edmkbm.png" 
+                alt="Book a Ride" 
+                width={50} 
+                height={50}
+                className="w-[10%]"
+              />
+              <h3 className="text-xl font-semibold mt-4">Book a Ride</h3>
+              <p className="text-sm mt-2">
+                Initiate your journey by booking a ride through Traveling Partner. Whether it's a family
+                outing, a trip with friends, or a school excursion, easily connect with reliable trip drivers
+                on our platform.
+              </p>
             </div>
-          ))}
+          </div>
+          <div className="w-[30%] flex flex-col gap-5 items-center mt-[60px] max-md:w-[90%] max-md:mt-0">
+            <div className="text-center shadow-[0_4px_8px_0_rgba(0,0,0,0.2),0_6px_20px_0_rgba(0,0,0,0.19)] w-full px-2.5 py-5 min-h-[300px] flex flex-col items-center justify-center">
+              <Image 
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253511/tp-Imgs/Taxi-stand-img/Track_your_cab_aixhyc.png" 
+                alt="Track Your Vehicle" 
+                width={50} 
+                height={50}
+                className="w-[10%]"
+              />
+              <h3 className="text-xl font-semibold mt-4">Track Your Vehicle</h3>
+              <p className="text-sm mt-2">
+                Enjoy peace of mind during your trip with real-time vehicle tracking. Our user-friendly
+                app allows you to monitor your vehicle's location, ensuring transparency and security
+                throughout the journey.
+              </p>
+            </div>
+          </div>
+          <div className="w-[30%] flex flex-col gap-5 items-center max-md:w-[90%]">
+            <div className="text-center shadow-[0_4px_8px_0_rgba(0,0,0,0.2),0_6px_20px_0_rgba(0,0,0,0.19)] w-full px-2.5 py-5 min-h-[300px] flex flex-col items-center justify-center">
+              <Image 
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1771314258/Arrive_safely_wp1cvl.png" 
+                alt="Arrive safely" 
+                width={50} 
+                height={50}
+                className="w-[10%]"
+              />
+              <h3 className="text-xl font-semibold mt-4">Arrive safely</h3>
+              <p className="text-sm mt-2">
+                With Traveling Partner, safety is a shared responsibility. Arrive at your destination with
+                the flexibility of self-negotiable arrangements, as our commission-free app empowers
+                users to manage their travel experience independently.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
-
-      {/* Create Trip CTA */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Have Your Own Trip Idea?</h2>
-          <p className="text-blue-100 mb-8 text-lg">Create a custom trip and find travelers who share your vision.</p>
-          <button className="bg-white text-blue-600 px-10 py-4 rounded-lg font-bold text-lg hover:shadow-2xl transition-shadow duration-200">
-            Create a Trip
-          </button>
-        </div>
-      </section>
-    </main>
-  )
+      </div>
+    </div>
+  );
 }
