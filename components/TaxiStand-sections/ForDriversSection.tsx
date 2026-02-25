@@ -42,11 +42,11 @@ export default function ForDriversSection() {
           <p className="text-[#1a1a1a]/90 text-2xl lg:text-3xl font-light uppercase tracking-wide">
             Ready to Earn with Us?
           </p>
-          <div className="flex items-center justify-center gap-2 mt-6">
+          {/* <div className="flex items-center justify-center gap-2 mt-6">
             <div className="w-12 h-1 bg-[#1a1a1a]/30 rounded-full"></div>
             <div className="w-3 h-3 bg-[#1a1a1a] rounded-full rotate-45"></div>
             <div className="w-12 h-1 bg-[#1a1a1a]/30 rounded-full"></div>
-          </div>
+          </div> */}
         </div>
 
         {/* Cards */}
