@@ -35,13 +35,13 @@ const quickLinks = [
 const footerLinks = {
   company: [
     { label: "About Us", href: "/about-us" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press", href: "/press" },
+    // { label: "Careers", href: "/careers" },
+    // { label: "Press", href: "/press" },
     { label: "Blog", href: "/blog" },
   ],
   support: [
     { label: "Help Center", href: "/help" },
-    { label: "Safety", href: "/safety" },
+    // { label: "Safety", href: "/safety" },
     { label: "Terms", href: "/terms-conditions" },
     { label: "Privacy", href: "/privacy-policy" },
   ],

@@ -21,7 +21,7 @@ export default function TripWeekend() {
               Enjoy your weekend <br /><span className="text-white" >with</span> <br />
               <span className="relative inline-block">
                 <span className="relative z-10">Travel partner</span>
-                <svg className="absolute -bottom-1 left-0 w-full h-2.5 text-[#1a1a1a]/20 -z-0" viewBox="0 0 100 8" preserveAspectRatio="none">
+                <svg className="absolute -bottom-1 left-0 w-full h-2.5 text-white/60 -z-0" viewBox="0 0 100 8" preserveAspectRatio="none">
                   <path d="M0 4 Q 50 8 100 4" stroke="currentColor" strokeWidth="6" fill="none" />
                 </svg>
               </span>

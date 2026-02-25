@@ -39,11 +39,11 @@ export default function BenefitsSection() {
           <p className="text-[#1a1a1a]/80 text-lg lg:text-xl font-medium uppercase tracking-widest">
             For Users
           </p>
-          <div className="flex items-center justify-center gap-3 mt-6">
+          {/* <div className="flex items-center justify-center gap-3 mt-6">
             <div className="w-16 h-0.5 bg-[#1a1a1a]/20 rounded-full"></div>
             <div className="w-2 h-2 bg-[#1a1a1a] rounded-full rotate-45"></div>
             <div className="w-16 h-0.5 bg-[#1a1a1a]/20 rounded-full"></div>
-          </div>
+          </div> */}
         </div>
 
         {/* Benefits Grid */}

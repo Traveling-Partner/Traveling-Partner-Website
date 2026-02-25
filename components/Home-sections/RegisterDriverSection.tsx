@@ -29,7 +29,7 @@ export default function RegisterDriverSection(): React.ReactElement {
           <h2 className="uppercase text-[42px] lg:text-[50px] font-bold text-[#1a1a1a] leading-tight max-md:text-[30px]">
             Join Our <span className="text-white">Network</span>
           </h2>
-          <div className="w-32 h-1.5 bg-[#1a1a1a] rounded-full mx-auto mt-4"></div>
+          {/* <div className="w-32 h-1.5 bg-[#1a1a1a] rounded-full mx-auto mt-4"></div> */}
         </div>
 
         {/* Content Grid */}

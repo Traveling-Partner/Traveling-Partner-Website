@@ -79,13 +79,59 @@ const fakeBlogs: Blog[] = [
   },
 ];
 
+// Custom Arrow Components
+const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
+  <button
+    onClick={onClick}
+    className="!absolute !left-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
+    aria-label="Previous slide"
+    style={{ position: "absolute" }}
+  >
+    <svg
+      className="w-6 h-6 text-gray-800 group-hover:text-black"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M15 19l-7-7 7-7"
+      />
+    </svg>
+  </button>
+);
+
+const NextArrow = ({ onClick }: { onClick?: () => void }) => (
+  <button
+    onClick={onClick}
+    className="!absolute !right-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
+    aria-label="Next slide"
+    style={{ position: "absolute" }}
+  >
+    <svg
+      className="w-6 h-6 text-gray-800 group-hover:text-white"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+  </button>
+);
+
 const BlogSlider: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Simulate API call with fake data
     const timer = setTimeout(() => {
       setBlogs(fakeBlogs);
       setLoading(false);
@@ -102,16 +148,27 @@ const BlogSlider: React.FC = () => {
     autoplaySpeed: 3500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
     customPaging: () => (
       <div className="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors mt-4"></div>
     ),
     responsive: [
       {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          arrows: false,
         },
       },
       {
@@ -119,6 +176,7 @@ const BlogSlider: React.FC = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          arrows: false,
         },
       },
     ],
@@ -137,14 +195,13 @@ const BlogSlider: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-5">
+    <div className="w-full py-5 relative px-16">
       <Slider {...settings}>
         {blogs.map((blog) => (
-          <div className="px-3" key={blog.id}>
-            {/* Link wraps the entire card - points to /blog/[id] */}
+          <div className="px-3 h-full" key={blog.id}>
             <Link href={`/blog/${blog.id}`}>
-              <article className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-full">
-                <div className="w-full h-[220px] relative overflow-hidden">
+              <article className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-full flex flex-col">
+                <div className="w-full h-[220px] relative overflow-hidden flex-shrink-0">
                   <Image
                     src={blog.cover_image}
                     alt={blog.main_title}
@@ -156,7 +213,7 @@ const BlogSlider: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
 
-                <div className="p-6 relative">
+                <div className="p-6 relative flex flex-col flex-grow">
                   <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
                     <span className="flex items-center gap-1">
                       <svg
@@ -178,15 +235,15 @@ const BlogSlider: React.FC = () => {
                     <span>{blog.readTime}</span>
                   </div>
 
-                  <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300">
+                  <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300 min-h-[56px]">
                     {blog.main_title}
                   </h2>
 
-                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4">
+                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4 flex-grow">
                     {blog.description1}
                   </p>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
                     <span className="text-sm font-medium text-gray-900">
                       {blog.author}
                     </span>
