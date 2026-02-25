@@ -43,17 +43,16 @@ export default function Navigation() {
     <>
       {/* Spacer */}
       <div className="h-16 sm:h-20"></div>
-      
-      <nav 
+
+      <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? "bg-white shadow-md" 
+          scrolled
+            ? "bg-white shadow-md"
             : "bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-0">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            
             {/* Logo - Smaller and responsive */}
             <Link href="/" className="flex-shrink-0" onClick={handleLinkClick}>
               <Image
@@ -68,17 +67,19 @@ export default function Navigation() {
             </Link>
 
             {/* Center Navigation - Hidden on mobile, visible on lg+ */}
-            <div className={`hidden lg:flex items-center rounded-full p-1 h-10 sm:h-11 transition-colors ${
-              scrolled ? "bg-gray-100" : "bg-black/5"
-            }`}>
+            <div
+              className={`hidden lg:flex items-center rounded-full p-1 h-10 sm:h-11 transition-colors ${
+                scrolled ? "bg-gray-100" : "bg-black/5"
+              }`}
+            >
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`px-3 xl:px-5 py-2 text-xs xl:text-sm font-medium rounded-full transition-all duration-200 flex items-center h-8 sm:h-9 whitespace-nowrap ${
                     pathname === link.href
-                      ? scrolled 
-                        ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm" 
+                      ? scrolled
+                        ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
                         : "bg-white text-black shadow-sm"
                       : scrolled
                         ? "text-gray-600 hover:text-[#FDB813]"
@@ -97,8 +98,18 @@ export default function Navigation() {
                 className="bg-black text-white px-4 xl:px-5 py-2 rounded-full text-xs xl:text-sm font-semibold hover:bg-black/80 transition-colors flex items-center gap-1.5 xl:gap-2 h-8 sm:h-9 whitespace-nowrap"
               >
                 Get App
-                <svg className="w-3.5 h-3.5 xl:w-4 xl:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <svg
+                  className="w-3.5 h-3.5 xl:w-4 xl:h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
                 </svg>
               </Link>
             </div>
@@ -110,9 +121,15 @@ export default function Navigation() {
               aria-label="Toggle menu"
             >
               <div className="w-5 sm:w-6 h-4 sm:h-5 flex flex-col justify-between">
-                <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "rotate-45 translate-y-[7px] sm:translate-y-[9px]" : ""}`} />
-                <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "opacity-0" : ""}`} />
-                <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "-rotate-45 -translate-y-[7px] sm:-translate-y-[9px]" : ""}`} />
+                <span
+                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "rotate-45 translate-y-[7px] sm:translate-y-[9px]" : ""}`}
+                />
+                <span
+                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "opacity-0" : ""}`}
+                />
+                <span
+                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "-rotate-45 -translate-y-[7px] sm:-translate-y-[9px]" : ""}`}
+                />
               </div>
             </button>
           </div>
@@ -120,9 +137,13 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className={`lg:hidden border-t absolute left-0 right-0 ${
-            scrolled ? "bg-white border-gray-200" : "bg-gradient-to-b from-[#FCE001] to-[#FDB813] border-black/10"
-          }`}>
+          <div
+            className={`lg:hidden border-t absolute left-0 right-0 ${
+              scrolled
+                ? "bg-white border-gray-200"
+                : "bg-gradient-to-b from-[#FCE001] to-[#FDB813] border-black/10"
+            }`}
+          >
             <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
               {links.map((link) => (
                 <Link
