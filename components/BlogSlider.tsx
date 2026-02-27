@@ -196,15 +196,18 @@ const BlogSlider: React.FC = () => {
 
   return (
     <div className="w-full py-5 relative px-16 blog-slider">
-      <style jsx>{`
+      <style jsx global>{`
         .blog-slider .slick-track {
           display: flex !important;
+          align-items: stretch !important;
         }
         .blog-slider .slick-slide {
           height: auto !important;
+          display: flex !important;
         }
         .blog-slider .slick-slide > div {
           height: 100%;
+          width: 100%;
         }
       `}</style>
       <Slider {...settings}>
