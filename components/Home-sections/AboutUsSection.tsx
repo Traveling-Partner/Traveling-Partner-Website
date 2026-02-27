@@ -67,7 +67,7 @@ export default function AboutUsSection(): React.ReactElement {
 
             <div className="max-md:flex max-md:justify-center">
               <Link
-                href="/about-us"
+                href="/about"
                 className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] text-[#1a1a1a] px-10 py-4 rounded-xl font-bold text-lg shadow-xl shadow-[#fce001]/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
               >
                 <span className="relative z-10">Learn more</span>

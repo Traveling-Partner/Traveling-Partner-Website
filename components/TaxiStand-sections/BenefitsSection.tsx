@@ -6,10 +6,8 @@ const benefits = [
   "Connect with passengers without added fees.",
   "Independently negotiate and finalize fares.",
   "Foster a collaborative and transparent environment.",
-  "Plan and execute your travel in your preferred style",
   "Receive positive reviews, enhancing your stand's reputation.",
   "Streamline operations with the app's user-friendly features.",
-  "Freedom to choose your travel companions.",
 ];
 
 export default function BenefitsSection() {

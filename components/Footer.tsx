@@ -34,7 +34,7 @@ const quickLinks = [
 
 const footerLinks = {
   company: [
-    { label: "About Us", href: "/about-us" },
+    { label: "About Us", href: "/about" },
     // { label: "Careers", href: "/careers" },
     // { label: "Press", href: "/press" },
     { label: "Blog", href: "/blog" },
@@ -300,7 +300,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="relative z-10 border-t border-gray-100 bg-gradient-to-r from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
             <motion.p 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -311,7 +311,7 @@ export default function Footer() {
             </motion.p>
             
             <div className="flex items-center gap-6">
-              {["Privacy", "Terms", "Cookies", "Sitemap"].map((item, index) => (
+              {[""].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0 }}

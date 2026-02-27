@@ -18,15 +18,8 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll to top when pathname changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname]);
-
   const handleLinkClick = () => {
     setIsOpen(false);
-    // Immediate scroll for mobile menu clicks
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const links = [
