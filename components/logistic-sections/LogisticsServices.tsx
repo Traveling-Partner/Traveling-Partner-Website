@@ -24,17 +24,17 @@ const services: Service[] = [
   {
     icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253811/tp-Imgs/img/Categories_4_fgj7t1.png",
     title: "on time pickup",
-    description: "Optimize your logistics operations independently, saving both time and money.",
+    description: "Take control of your logistics schedule with on-time pickups as per your convenience.",
   },
   {
     icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314313/Map_Marker_yjd9ga.png",
     title: "Fast Shipments",
-    description: "Lorem ipsum dolor sit amet,to the consectetur adipiscing elit. Lacus, faucibus amet",
+    description: "Swift and efficient handling of your shipments, driven by your",
   },
   {
     icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253504/tp-Imgs/Taxi-stand-img/Local_Delivery_Time_hly4lo.png",
     title: "On-Time Delivery",
-    description: "Lorem ipsum dolor sit amet,to the consectetur adipiscing elit. Lacus, faucibus amet",
+    description: "Ensure punctual delivery by actively managing and overseeing the logistics process.",
   },
   {
     icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314269/Euro_Money_x2dby9.png",

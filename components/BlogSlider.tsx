@@ -24,7 +24,7 @@ const fakeBlogs: Blog[] = [
   {
     id: 1,
     cover_image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80 ",
     main_title: "Top 10 Hidden Gems to Explore in Europe This Summer",
     description1:
       "Discover the most breathtaking off-the-beaten-path destinations in Europe that will make your summer vacation unforgettable.",
@@ -35,7 +35,7 @@ const fakeBlogs: Blog[] = [
   {
     id: 2,
     cover_image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
+      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80 ",
     main_title:
       "How to Travel Sustainably: A Complete Guide for Eco-Conscious Travelers",
     description1:
@@ -47,7 +47,7 @@ const fakeBlogs: Blog[] = [
   {
     id: 3,
     cover_image:
-      "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80",
+      "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80 ",
     main_title: "Solo Travel: Embracing the Journey of Self-Discovery",
     description1:
       "Why traveling alone might be the best decision you ever make. Tips for staying safe and creating memories.",
@@ -58,7 +58,7 @@ const fakeBlogs: Blog[] = [
   {
     id: 4,
     cover_image:
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80 ",
     main_title: "Budget Travel Hacks: See the World Without Breaking the Bank",
     description1:
       "Expert strategies for affordable accommodation, cheap flights, and local experiences.",
@@ -69,7 +69,7 @@ const fakeBlogs: Blog[] = [
   {
     id: 5,
     cover_image:
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80 ",
     main_title: "The Ultimate Road Trip Guide: Routes You Can't Miss",
     description1:
       "From coastal highways to mountain passes, discover the most scenic driving routes around the world.",
@@ -195,11 +195,22 @@ const BlogSlider: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-5 relative px-16">
+    <div className="w-full py-5 relative px-16 blog-slider">
+      <style jsx>{`
+        .blog-slider .slick-track {
+          display: flex !important;
+        }
+        .blog-slider .slick-slide {
+          height: auto !important;
+        }
+        .blog-slider .slick-slide > div {
+          height: 100%;
+        }
+      `}</style>
       <Slider {...settings}>
         {blogs.map((blog) => (
           <div className="px-3 h-full" key={blog.id}>
-            <Link href={`/blog/${blog.id}`}>
+            <Link href={`/blog/${blog.id}`} className="block h-full">
               <article className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-full flex flex-col">
                 <div className="w-full h-[220px] relative overflow-hidden flex-shrink-0">
                   <Image

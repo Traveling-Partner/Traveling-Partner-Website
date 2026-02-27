@@ -1,7 +1,16 @@
 // components/Home-sections/BlogSection.tsx
 "use client";
 import React, { Suspense } from "react";
-import BlogSlider from "../BlogSlider";
+import dynamic from "next/dynamic";
+
+const BlogSlider = dynamic(() => import("../BlogSlider"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex justify-center items-center py-20">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fdb813]"></div>
+    </div>
+  ),
+});
 
 export default function BlogSection(): React.ReactElement {
   return (
