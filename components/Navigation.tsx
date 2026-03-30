@@ -54,6 +54,7 @@ export default function Navigation() {
                 width={180}
                 height={65}
                 className="relative w-[140px] sm:w-[160px] md:w-[180px] h-auto drop-shadow-lg mt-3 sm:mt-5"
+                style={{ height: "auto" }}
                 unoptimized
                 priority
               />
