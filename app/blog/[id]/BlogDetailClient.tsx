@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface Blog {
   id: string | number;
@@ -21,9 +22,16 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
 
 const mapBlogDetail = (item: any): Blog => ({
-  id: item?.id ?? item?.blog_id ?? "",
-  cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
-  main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
+  id:
+    item?.id ??
+    item?.blog_id ??
+    item?.blogId ??
+    item?.website_blog_id ??
+    item?.websiteBlogId ??
+    item?.slug ??
+    "",
+  cover_image: item?.coverImage ?? item?.cover_image ?? item?.image ?? "",
+  main_title: item?.mainTitle ?? item?.main_title ?? item?.title ?? "Untitled",
   description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
   description2: item?.description2 ?? item?.content ?? item?.long_description ?? "",
   date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
@@ -32,13 +40,43 @@ const mapBlogDetail = (item: any): Blog => ({
   tags: Array.isArray(item?.tags) ? item.tags : [],
 });
 
+const extractBlogDetail = (payload: any): any | null => {
+  if (!payload) return null;
+  if (payload?.success === false) return null;
+  if (payload?.data?.data && typeof payload.data.data === "object" && !Array.isArray(payload.data.data)) {
+    return payload.data.data;
+  }
+  if (payload?.data && typeof payload.data === "object" && !Array.isArray(payload.data)) {
+    return payload.data;
+  }
+  if (payload?.blog && typeof payload.blog === "object") return payload.blog;
+  if (payload?.data?.blog && typeof payload.data.blog === "object") return payload.data.blog;
+  if (typeof payload === "object" && !Array.isArray(payload)) return payload;
+  return null;
+};
+
+/** Same shapes as blog list (e.g. Spring Page → data.content). */
+const extractBlogListFromListResponse = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  return [];
+};
+
+const normalize = (value: unknown): string =>
+  String(value ?? "").trim().toLowerCase();
+
 const Loader = () => (
   <div className="flex items-center justify-center">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fdb813]"></div>
   </div>
 );
 
-export default function BlogDetailClient({ id }: { id: string }) {
+export default function BlogDetailClient({ id: idProp }: { id: string }) {
+  const params = useParams();
+  const routeId = (params?.id as string) || idProp || "";
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,28 +87,83 @@ export default function BlogDetailClient({ id }: { id: string }) {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${API_BASE_URL}/api/website/blog/view/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const idCandidates = Array.from(
+          new Set(
+            [
+              routeId,
+              decodeURIComponent(routeId),
+              String(Number(routeId)),
+              String(routeId).replace(/-/g, " "),
+            ].filter((value) => value && value !== "NaN")
+          )
+        );
+        const normalizedCandidates = idCandidates.map(normalize);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch blog detail. Status: ${response.status}`);
+        let detailData: any = null;
+        let detailResponseError = "";
+
+        for (const candidateId of idCandidates) {
+          const response = await fetch(
+            `${API_BASE_URL}/api/website/blog/view/${encodeURIComponent(candidateId)}`,
+            { method: "GET" }
+          );
+
+          if (!response.ok) {
+            detailResponseError = `Failed to fetch blog detail. Status: ${response.status}`;
+            continue;
+          }
+
+          const json = await response.json();
+          console.log("Blog detail API response:", json);
+          detailData = extractBlogDetail(json);
+          if (detailData) break;
         }
 
-        const json = await response.json();
-        console.log("Blog detail API response:", json);
+        if (!detailData) {
+          const listResponse = await fetch(`${API_BASE_URL}/api/website/blog/list`, { method: "GET" });
+          if (!listResponse.ok) {
+            throw new Error(detailResponseError || `Failed to fetch blog detail. Status: ${listResponse.status}`);
+          }
 
-        const rawBlog = json?.data ?? json;
-        if (!rawBlog) {
+          const listJson = await listResponse.json();
+          console.log("Blog list fallback response:", listJson);
+
+          const listData = extractBlogListFromListResponse(listJson);
+
+          const foundFromList = listData.find((item: any) => {
+            const possibleValues = [
+              item?.id,
+              item?.blog_id,
+              item?.blogId,
+              item?.website_blog_id,
+              item?.websiteBlogId,
+              item?.slug,
+              item?.title,
+              item?.main_title,
+              item?.mainTitle,
+            ].map(normalize);
+
+            return possibleValues.some((value) => normalizedCandidates.includes(value));
+          });
+
+          if (foundFromList) {
+            detailData = foundFromList;
+          }
+        }
+
+        if (!detailData) {
           setBlog(null);
           return;
         }
 
-        const mappedBlog = mapBlogDetail(rawBlog);
-        setBlog(mappedBlog.id ? mappedBlog : null);
+        const mappedBlog = mapBlogDetail(detailData);
+        const resolvedId =
+          mappedBlog.id !== "" && mappedBlog.id != null ? mappedBlog.id : routeId;
+        setBlog(
+          resolvedId
+            ? { ...mappedBlog, id: resolvedId }
+            : null
+        );
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         console.error("Error while fetching blog detail:", err);
@@ -80,8 +173,14 @@ export default function BlogDetailClient({ id }: { id: string }) {
       }
     };
 
+    if (!routeId) {
+      setLoading(false);
+      setBlog(null);
+      return;
+    }
+
     fetchBlogDetail();
-  }, [id]);
+  }, [routeId]);
 
   if (loading) {
     return (
