@@ -12,6 +12,11 @@ export function generateStaticParams() {
   ];
 }
 
-export default function BlogDetailPage({ params }: { params: { id: string } }) {
-  return <BlogDetailClient id={params.id} />;
+export default async function BlogDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <BlogDetailClient id={id} />;
 }

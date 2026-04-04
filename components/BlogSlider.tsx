@@ -19,65 +19,27 @@ interface Blog {
   readTime?: string;
 }
 
-// Fake blog data for demonstration
-const fakeBlogs: Blog[] = [
-  {
-    id: 1,
-    cover_image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80 ",
-    main_title: "Top 10 Hidden Gems to Explore in Europe This Summer",
-    description1:
-      "Discover the most breathtaking off-the-beaten-path destinations in Europe that will make your summer vacation unforgettable.",
-    date: "Jan 15, 2024",
-    author: "Sarah Mitchell",
-    readTime: "5 min read",
-  },
-  {
-    id: 2,
-    cover_image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80 ",
-    main_title:
-      "How to Travel Sustainably: A Complete Guide for Eco-Conscious Travelers",
-    description1:
-      "Learn practical tips and tricks to reduce your carbon footprint while exploring the world.",
-    date: "Jan 12, 2024",
-    author: "James Chen",
-    readTime: "8 min read",
-  },
-  {
-    id: 3,
-    cover_image:
-      "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80 ",
-    main_title: "Solo Travel: Embracing the Journey of Self-Discovery",
-    description1:
-      "Why traveling alone might be the best decision you ever make. Tips for staying safe and creating memories.",
-    date: "Jan 10, 2024",
-    author: "Emma Rodriguez",
-    readTime: "6 min read",
-  },
-  {
-    id: 4,
-    cover_image:
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80 ",
-    main_title: "Budget Travel Hacks: See the World Without Breaking the Bank",
-    description1:
-      "Expert strategies for affordable accommodation, cheap flights, and local experiences.",
-    date: "Jan 8, 2024",
-    author: "Michael Park",
-    readTime: "7 min read",
-  },
-  {
-    id: 5,
-    cover_image:
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80 ",
-    main_title: "The Ultimate Road Trip Guide: Routes You Can't Miss",
-    description1:
-      "From coastal highways to mountain passes, discover the most scenic driving routes around the world.",
-    date: "Jan 5, 2024",
-    author: "Lisa Thompson",
-    readTime: "10 min read",
-  },
-];
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
+
+const mapBlog = (item: any): Blog => ({
+  id: item?.id ?? item?.blog_id ?? "",
+  cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
+  main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
+  description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
+  date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
+  author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
+  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
+});
+
+const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  return [];
+};
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
@@ -132,12 +94,37 @@ const BlogSlider: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBlogs(fakeBlogs);
-      setLoading(false);
-    }, 1000);
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-    return () => clearTimeout(timer);
+        const response = await fetch(`${API_BASE_URL}/api/website/blog/list`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch blogs. Status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        console.log("Blog slider API response:", json);
+
+        const rawList = extractBlogList(json);
+        const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
+        setBlogs(mappedBlogs);
+      } catch (err) {
+        console.error("Error while fetching slider blogs:", err);
+        setError("Unable to load blogs right now. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
   const settings = {

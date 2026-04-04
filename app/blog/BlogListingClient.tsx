@@ -16,68 +16,29 @@ interface Blog {
   category?: string;
 }
 
-const allBlogs: Blog[] = [
-  {
-    id: 1,
-    cover_image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
-    main_title: "Top 10 Hidden Gems to Explore in Europe This Summer",
-    description1: "Discover the most breathtaking off-the-beaten-path destinations in Europe that will make your summer vacation unforgettable.",
-    date: "Jan 15, 2024",
-    author: "Sarah Mitchell",
-    readTime: "5 min read",
-    category: "Travel Guide"
-  },
-  {
-    id: 2,
-    cover_image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
-    main_title: "How to Travel Sustainably: A Complete Guide for Eco-Conscious Travelers",
-    description1: "Learn practical tips and tricks to reduce your carbon footprint while exploring the world.",
-    date: "Jan 12, 2024",
-    author: "James Chen",
-    readTime: "8 min read",
-    category: "Sustainable Travel"
-  },
-  {
-    id: 3,
-    cover_image: "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=800&q=80",
-    main_title: "Solo Travel: Embracing the Journey of Self-Discovery",
-    description1: "Why traveling alone might be the best decision you ever make. Tips for staying safe and creating memories.",
-    date: "Jan 10, 2024",
-    author: "Emma Rodriguez",
-    readTime: "6 min read",
-    category: "Solo Travel"
-  },
-  {
-    id: 4,
-    cover_image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80",
-    main_title: "Budget Travel Hacks: See the World Without Breaking the Bank",
-    description1: "Expert strategies for affordable accommodation, cheap flights, and local experiences.",
-    date: "Jan 8, 2024",
-    author: "Michael Park",
-    readTime: "7 min read",
-    category: "Budget Travel"
-  },
-  {
-    id: 5,
-    cover_image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80",
-    main_title: "The Ultimate Road Trip Guide: Routes You Can't Miss",
-    description1: "From coastal highways to mountain passes, discover the most scenic driving routes around the world.",
-    date: "Jan 5, 2024",
-    author: "Lisa Thompson",
-    readTime: "10 min read",
-    category: "Road Trip"
-  },
-  {
-    id: 6,
-    cover_image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
-    main_title: "Beach Paradise: World's Most Beautiful Coastal Destinations",
-    description1: "Explore pristine beaches and crystal-clear waters at these breathtaking coastal getaways.",
-    date: "Jan 3, 2024",
-    author: "Anna Wilson",
-    readTime: "6 min read",
-    category: "Beach"
-  }
-];
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
+const BLOG_LIST_API = `${API_BASE_URL}/api/website/blog/list`;
+
+const mapBlog = (item: any): Blog => ({
+  id: item?.id ?? item?.blog_id ?? "",
+  cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
+  main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
+  description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
+  date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
+  author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
+  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
+  category: item?.category ?? item?.type ?? "General",
+});
+
+const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  return [];
+};
 
 const Loader = () => (
   <div className="flex items-center justify-center py-20">
@@ -88,17 +49,44 @@ const Loader = () => (
 export default function BlogListingClient() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBlogs(allBlogs);
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(BLOG_LIST_API, { method: "GET" });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch blogs. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Blog list API response:", data);
+
+        const rawList = extractBlogList(data);
+        const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
+        setBlogs(mappedBlogs);
+      } catch (err) {
+        console.error("Error while fetching blog list:", err);
+        setError("Unable to load blogs right now. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
-  const categories = ["All", ...Array.from(new Set(allBlogs.map(blog => blog.category).filter((cat): cat is string => cat !== undefined)))];
+  const categories = [
+    "All",
+    ...Array.from(
+      new Set(blogs.map((blog) => blog.category).filter((cat): cat is string => cat !== undefined))
+    ),
+  ];
   
   const filteredBlogs = selectedCategory === "All" 
     ? blogs 
@@ -108,6 +96,14 @@ export default function BlogListingClient() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#fce001]/10 to-white">
         <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center px-4">
+        <p className="text-red-600 text-center">{error}</p>
       </div>
     );
   }
@@ -158,73 +154,79 @@ export default function BlogListingClient() {
 
       {/* Blog Grid */}
       <div className="w-[85%] mx-auto max-w-7xl pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredBlogs.map((blog, index) => (
-            <Link key={blog.id} href={`/blog/${blog.id}`}>
-              <article 
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Image Container */}
-                <div className="relative h-[240px] overflow-hidden">
-                  <Image
-                    src={blog.cover_image}
-                    alt={blog.main_title}
-                    fill
-                    className="object-cover transform group-hover:scale-110 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-[#fce001] text-black px-3 py-1 rounded-full text-xs font-semibold">
-                      {blog.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {blog.date}
-                    </span>
-                    <span>•</span>
-                    <span>{blog.readTime}</span>
-                  </div>
-
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300">
-                    {blog.main_title}
-                  </h2>
-                  
-                  <p className="text-gray-600 line-clamp-3 mb-4 flex-grow">
-                    {blog.description1}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#fce001] to-[#fdb813] flex items-center justify-center text-black font-bold text-sm">
-                        {blog.author?.charAt(0)}
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">{blog.author}</span>
-                    </div>
+        {filteredBlogs.length === 0 ? (
+          <div className="text-center text-gray-600 py-12">
+            No blogs found.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredBlogs.map((blog, index) => (
+              <Link key={blog.id} href={`/blog/${blog.id}`}>
+                <article 
+                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* Image Container */}
+                  <div className="relative h-[240px] overflow-hidden">
+                    <Image
+                      src={blog.cover_image}
+                      alt={blog.main_title}
+                      fill
+                      className="object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <span className="inline-flex items-center gap-1 text-[#fdb813] font-semibold text-sm group-hover:gap-2 transition-all">
-                      Read More
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </span>
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-[#fce001] text-black px-3 py-1 rounded-full text-xs font-semibold">
+                        {blog.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            </Link>
-          ))}
-        </div>
+
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {blog.date}
+                      </span>
+                      <span>•</span>
+                      <span>{blog.readTime}</span>
+                    </div>
+
+                    <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300">
+                      {blog.main_title}
+                    </h2>
+                    
+                    <p className="text-gray-600 line-clamp-3 mb-4 flex-grow">
+                      {blog.description1}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#fce001] to-[#fdb813] flex items-center justify-center text-black font-bold text-sm">
+                          {blog.author?.charAt(0)}
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">{blog.author}</span>
+                      </div>
+                      
+                      <span className="inline-flex items-center gap-1 text-[#fdb813] font-semibold text-sm group-hover:gap-2 transition-all">
+                        Read More
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Newsletter Section */}
         <div className="mt-20 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-3xl p-8 lg:p-12 text-center relative overflow-hidden">

@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface Blog {
   id: string | number;
@@ -17,63 +18,55 @@ interface Blog {
   tags?: string[];
 }
 
-const fakeBlogsDetail: Record<string | number, Blog> = {
-  1: {
-    id: 1,
-    cover_image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=80",
-    main_title: "Top 10 Hidden Gems to Explore in Europe This Summer",
-    description1: "Europe is a continent that never fails to enchant travelers with its rich history, diverse cultures, and stunning landscapes.",
-    description2: "From the fairy-tale villages of the Czech Republic to the pristine beaches of Albania, this comprehensive guide will take you through ten extraordinary destinations that promise authentic experiences away from the tourist crowds.",
-    date: "Jan 15, 2024",
-    author: "Sarah Mitchell",
-    readTime: "5 min read",
-    tags: ["Europe", "Summer Travel", "Hidden Gems"]
-  },
-  2: {
-    id: 2,
-    cover_image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80",
-    main_title: "How to Travel Sustainably: A Complete Guide for Eco-Conscious Travelers",
-    description1: "Sustainable travel is no longer just a trend—it's a necessity.",
-    description2: "In this guide, we'll explore practical ways to reduce your carbon footprint while exploring the world.",
-    date: "Jan 12, 2024",
-    author: "James Chen",
-    readTime: "8 min read",
-    tags: ["Sustainable Travel", "Eco-Friendly"]
-  },
-  3: {
-    id: 3,
-    cover_image: "https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=1200&q=80",
-    main_title: "Solo Travel: Embracing the Journey of Self-Discovery",
-    description1: "There's a unique kind of magic that happens when you travel alone.",
-    description2: "Solo travel isn't just about seeing new places—it's about discovering yourself.",
-    date: "Jan 10, 2024",
-    author: "Emma Rodriguez",
-    readTime: "6 min read",
-    tags: ["Solo Travel", "Adventure"]
-  },
-  4: {
-    id: 4,
-    cover_image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80",
-    main_title: "Budget Travel Hacks: See the World Without Breaking the Bank",
-    description1: "Dreaming of far-off destinations but worried about the cost?",
-    description2: "This guide reveals the secrets of budget travel that experienced backpackers have been using for years.",
-    date: "Jan 8, 2024",
-    author: "Michael Park",
-    readTime: "7 min read",
-    tags: ["Budget Travel", "Money Saving"]
-  },
-  5: {
-    id: 5,
-    cover_image: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1200&q=80",
-    main_title: "The Ultimate Road Trip Guide: Routes You Can't Miss",
-    description1: "There's something inherently liberating about hitting the open road.",
-    description2: "From the dramatic coastal cliffs of Big Sur to the winding mountain passes of the Swiss Alps.",
-    date: "Jan 5, 2024",
-    author: "Lisa Thompson",
-    readTime: "10 min read",
-    tags: ["Road Trip", "Adventure"]
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
+
+const mapBlogDetail = (item: any): Blog => ({
+  id:
+    item?.id ??
+    item?.blog_id ??
+    item?.blogId ??
+    item?.website_blog_id ??
+    item?.websiteBlogId ??
+    item?.slug ??
+    "",
+  cover_image: item?.coverImage ?? item?.cover_image ?? item?.image ?? "",
+  main_title: item?.mainTitle ?? item?.main_title ?? item?.title ?? "Untitled",
+  description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
+  description2: item?.description2 ?? item?.content ?? item?.long_description ?? "",
+  date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
+  author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
+  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
+  tags: Array.isArray(item?.tags) ? item.tags : [],
+});
+
+const extractBlogDetail = (payload: any): any | null => {
+  if (!payload) return null;
+  if (payload?.success === false) return null;
+  if (payload?.data?.data && typeof payload.data.data === "object" && !Array.isArray(payload.data.data)) {
+    return payload.data.data;
   }
+  if (payload?.data && typeof payload.data === "object" && !Array.isArray(payload.data)) {
+    return payload.data;
+  }
+  if (payload?.blog && typeof payload.blog === "object") return payload.blog;
+  if (payload?.data?.blog && typeof payload.data.blog === "object") return payload.data.blog;
+  if (typeof payload === "object" && !Array.isArray(payload)) return payload;
+  return null;
 };
+
+/** Same shapes as blog list (e.g. Spring Page → data.content). */
+const extractBlogListFromListResponse = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  return [];
+};
+
+const normalize = (value: unknown): string =>
+  String(value ?? "").trim().toLowerCase();
 
 const Loader = () => (
   <div className="flex items-center justify-center">
@@ -81,25 +74,132 @@ const Loader = () => (
   </div>
 );
 
-export default function BlogDetailClient({ id }: { id: string }) {
+export default function BlogDetailClient({ id: idProp }: { id: string }) {
+  const params = useParams();
+  const routeId = (params?.id as string) || idProp || "";
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const foundBlog = fakeBlogsDetail[id] || fakeBlogsDetail[1];
-      setBlog(foundBlog);
-      setLoading(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 800);
+    const fetchBlogDetail = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-    return () => clearTimeout(timer);
-  }, [id]);
+        const idCandidates = Array.from(
+          new Set(
+            [
+              routeId,
+              decodeURIComponent(routeId),
+              String(Number(routeId)),
+              String(routeId).replace(/-/g, " "),
+            ].filter((value) => value && value !== "NaN")
+          )
+        );
+        const normalizedCandidates = idCandidates.map(normalize);
+
+        let detailData: any = null;
+        let detailResponseError = "";
+
+        for (const candidateId of idCandidates) {
+          const response = await fetch(
+            `${API_BASE_URL}/api/website/blog/view/${encodeURIComponent(candidateId)}`,
+            { method: "GET" }
+          );
+
+          if (!response.ok) {
+            detailResponseError = `Failed to fetch blog detail. Status: ${response.status}`;
+            continue;
+          }
+
+          const json = await response.json();
+          console.log("Blog detail API response:", json);
+          detailData = extractBlogDetail(json);
+          if (detailData) break;
+        }
+
+        if (!detailData) {
+          const listResponse = await fetch(`${API_BASE_URL}/api/website/blog/list`, { method: "GET" });
+          if (!listResponse.ok) {
+            throw new Error(detailResponseError || `Failed to fetch blog detail. Status: ${listResponse.status}`);
+          }
+
+          const listJson = await listResponse.json();
+          console.log("Blog list fallback response:", listJson);
+
+          const listData = extractBlogListFromListResponse(listJson);
+
+          const foundFromList = listData.find((item: any) => {
+            const possibleValues = [
+              item?.id,
+              item?.blog_id,
+              item?.blogId,
+              item?.website_blog_id,
+              item?.websiteBlogId,
+              item?.slug,
+              item?.title,
+              item?.main_title,
+              item?.mainTitle,
+            ].map(normalize);
+
+            return possibleValues.some((value) => normalizedCandidates.includes(value));
+          });
+
+          if (foundFromList) {
+            detailData = foundFromList;
+          }
+        }
+
+        if (!detailData) {
+          setBlog(null);
+          return;
+        }
+
+        const mappedBlog = mapBlogDetail(detailData);
+        const resolvedId =
+          mappedBlog.id !== "" && mappedBlog.id != null ? mappedBlog.id : routeId;
+        setBlog(
+          resolvedId
+            ? { ...mappedBlog, id: resolvedId }
+            : null
+        );
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (err) {
+        console.error("Error while fetching blog detail:", err);
+        setError("Unable to load this blog right now. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!routeId) {
+      setLoading(false);
+      setBlog(null);
+      return;
+    }
+
+    fetchBlogDetail();
+  }, [routeId]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#fce001]/10 to-white">
         <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
+          <p className="text-red-600 mb-4">{error}</p>
+          <Link href="/blog" className="text-[#fdb813] hover:underline">
+            Back to Blog
+          </Link>
+        </div>
       </div>
     );
   }
