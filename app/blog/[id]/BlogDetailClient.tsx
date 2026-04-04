@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 
 interface Blog {
   id: string | number;
@@ -17,9 +18,6 @@ interface Blog {
   readTime?: string;
   tags?: string[];
 }
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
 
 const mapBlogDetail = (item: any): Blog => ({
   id:
@@ -104,7 +102,7 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
 
         for (const candidateId of idCandidates) {
           const response = await fetch(
-            `${API_BASE_URL}/api/website/blog/view/${encodeURIComponent(candidateId)}`,
+            websiteApiUrl(`/blog/view/${encodeURIComponent(candidateId)}`),
             { method: "GET" }
           );
 
@@ -120,7 +118,9 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
         }
 
         if (!detailData) {
-          const listResponse = await fetch(`${API_BASE_URL}/api/website/blog/list`, { method: "GET" });
+          const listResponse = await fetch(websiteApiUrl("/blog/list"), {
+            method: "GET",
+          });
           if (!listResponse.ok) {
             throw new Error(detailResponseError || `Failed to fetch blog detail. Status: ${listResponse.status}`);
           }

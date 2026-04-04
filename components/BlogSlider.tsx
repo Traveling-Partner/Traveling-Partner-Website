@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import Image from "next/image";
 import CircularIndeterminate from "./loader";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 
 interface Blog {
   id: string | number;
@@ -18,9 +19,6 @@ interface Blog {
   author?: string;
   readTime?: string;
 }
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
 
 const mapBlog = (item: any): Blog => ({
   id: item?.id ?? item?.blog_id ?? "",
@@ -99,7 +97,7 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${API_BASE_URL}/api/website/blog/list`, {
+        const response = await fetch(websiteApiUrl("/blog/list"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

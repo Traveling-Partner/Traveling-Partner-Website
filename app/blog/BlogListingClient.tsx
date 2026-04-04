@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 
 interface Blog {
   id: string | number;
@@ -15,10 +16,6 @@ interface Blog {
   readTime?: string;
   category?: string;
 }
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://45.55.78.67:8080";
-const BLOG_LIST_API = `${API_BASE_URL}/api/website/blog/list`;
 
 const mapBlog = (item: any): Blog => ({
   id: item?.id ?? item?.blog_id ?? "",
@@ -58,7 +55,9 @@ export default function BlogListingClient() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(BLOG_LIST_API, { method: "GET" });
+        const response = await fetch(websiteApiUrl("/blog/list"), {
+          method: "GET",
+        });
 
         if (!response.ok) {
           throw new Error(`Failed to fetch blogs. Status: ${response.status}`);

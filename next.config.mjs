@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+const backendOrigin =
+  (process.env.BACKEND_ORIGIN || "http://45.55.78.67:8080").replace(
+    /\/$/,
+    ""
+  );
+
 const nextConfig = {
   // Required for static export
   output: "export",
@@ -6,6 +12,16 @@ const nextConfig = {
   // Allow build even with TS errors (as you already had)
   typescript: {
     ignoreBuildErrors: true,
+  },
+
+  // Proxy same-origin /website-api → Spring (local dev only; Vercel uses vercel.json)
+  async rewrites() {
+    return [
+      {
+        source: "/website-api/:path*",
+        destination: `${backendOrigin}/api/website/:path*`,
+      },
+    ];
   },
 
   // Required for static hosting
