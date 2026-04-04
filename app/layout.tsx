@@ -36,7 +36,7 @@ export default function RootLayout({
         <Navigation />
 
         {/* Page Content */}
-        <main className="flex-1">
+        <main className="flex-1 min-w-0 overflow-x-hidden">
           {children}
         </main>
 

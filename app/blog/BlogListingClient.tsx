@@ -28,15 +28,15 @@ const mapBlog = (item: any): Blog => ({
   date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
   author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
   readTime: item?.readTime ?? item?.read_time ?? "5 min read",
-  category: item?.category ?? item?.type ?? "General",
+  category: item?.categoryName ?? item?.category ?? item?.type ?? "General",
 });
 
 const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
   if (Array.isArray(payload?.data)) return payload.data;
   if (Array.isArray(payload)) return payload;
   if (Array.isArray(payload?.data?.data)) return payload.data.data;
   if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
-  if (Array.isArray(payload?.data?.content)) return payload.data.content;
   return [];
 };
 
@@ -109,13 +109,13 @@ export default function BlogListingClient() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-x-hidden">
       {/* Hero Section */}
       <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-20 lg:py-28 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
         
-        <div className="w-[85%] mx-auto max-w-7xl relative z-10 text-center">
+        <div className="w-[85%] max-md:w-full max-md:px-4 mx-auto max-w-7xl relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-2 rounded-full mb-6">
             <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
@@ -123,7 +123,7 @@ export default function BlogListingClient() {
             <span className="text-black text-sm font-semibold uppercase tracking-wider">Travel Stories</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black mb-6 break-words px-1">
             Our <span className="text-white drop-shadow-md">Blog</span>
           </h1>
           <div className="w-32 h-1.5 bg-white rounded-full mx-auto mb-6"></div>
@@ -134,7 +134,7 @@ export default function BlogListingClient() {
       </div>
 
       {/* Filter Section */}
-      <div className="w-[85%] mx-auto max-w-7xl py-8">
+      <div className="w-[85%] max-md:w-full max-md:px-4 mx-auto max-w-7xl py-8">
         <div className="flex flex-wrap gap-3 justify-center">
           {categories.map((category) => (
             <button
@@ -153,7 +153,7 @@ export default function BlogListingClient() {
       </div>
 
       {/* Blog Grid */}
-      <div className="w-[85%] mx-auto max-w-7xl pb-20">
+      <div className="w-[85%] max-md:w-full max-md:px-4 mx-auto max-w-7xl pb-20">
         {filteredBlogs.length === 0 ? (
           <div className="text-center text-gray-600 py-12">
             No blogs found.
@@ -187,7 +187,7 @@ export default function BlogListingClient() {
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mb-3">
                       <span className="flex items-center gap-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -206,7 +206,7 @@ export default function BlogListingClient() {
                       {blog.description1}
                     </p>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div className="flex flex-wrap items-center justify-between gap-y-3 pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#fce001] to-[#fdb813] flex items-center justify-center text-black font-bold text-sm">
                           {blog.author?.charAt(0)}

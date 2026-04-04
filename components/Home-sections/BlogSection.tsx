@@ -46,7 +46,7 @@ export default function BlogSection(): React.ReactElement {
           </p>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full min-w-0 overflow-x-hidden">
           <Suspense
             fallback={<div className="text-center p-4">Loading...</div>}
           >
