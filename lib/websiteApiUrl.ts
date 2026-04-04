@@ -1,15 +1,24 @@
 /**
  * URLs for Spring "website" blog APIs.
  *
- * - Set NEXT_PUBLIC_API_BASE_URL (e.g. http://45.55.78.67:8080) for local dev → browser calls backend directly.
- * - Leave it unset or empty on Vercel → use same-origin /website-api/... (HTTPS) so the request is not mixed content.
- *   Vercel (vercel.json) and Next dev (next.config rewrites) proxy /website-api → backend /api/website.
+ * On HTTPS (e.g. Vercel), the browser must NOT call http://… (mixed content).
+ * We always use same-origin /website-api/... there, even if NEXT_PUBLIC_API_BASE_URL
+ * is still set in env — that var is only used for http pages (localhost).
+ *
+ * Vercel: vercel.json rewrites /website-api → backend.
+ * Local: next.config.mjs rewrites /website-api → BACKEND_ORIGIN.
  */
 export function websiteApiUrl(path: string): string {
   const segment = path.startsWith("/") ? path : `/${path}`;
+  const proxyPath = `/website-api${segment}`;
+
+  if (typeof window !== "undefined" && window.location.protocol === "https:") {
+    return proxyPath;
+  }
+
   const base = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (base) {
     return `${base.replace(/\/$/, "")}/api/website${segment}`;
   }
-  return `/website-api${segment}`;
+  return proxyPath;
 }
