@@ -33,11 +33,11 @@ const mapBlog = (item: any): Blog => ({
 });
 
 const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
   if (Array.isArray(payload?.data)) return payload.data;
   if (Array.isArray(payload)) return payload;
   if (Array.isArray(payload?.data?.data)) return payload.data.data;
   if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
-  if (Array.isArray(payload?.data?.content)) return payload.data.content;
   return [];
 };
 
@@ -45,7 +45,7 @@ const extractBlogList = (payload: any): any[] => {
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !left-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
+    className="!absolute !left-0 sm:!left-1 xl:!left-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
     aria-label="Previous slide"
     style={{ position: "absolute" }}
   >
@@ -68,7 +68,7 @@ const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
 const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !right-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
+    className="!absolute !right-0 sm:!right-1 xl:!right-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
     aria-label="Next slide"
     style={{ position: "absolute" }}
   >
@@ -182,7 +182,7 @@ const BlogSlider: React.FC = () => {
   }
 
   return (
-    <div className="w-full py-5 relative px-16 blog-slider">
+    <div className="w-full max-w-full min-w-0 py-5 relative px-3 sm:px-6 md:px-10 lg:px-12 xl:px-16 blog-slider">
       <style jsx global>{`
         .blog-slider .slick-track {
           display: flex !important;

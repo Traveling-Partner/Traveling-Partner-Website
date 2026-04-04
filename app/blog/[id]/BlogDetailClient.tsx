@@ -216,27 +216,27 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="relative h-[60vh] min-h-[400px] w-full">
+    <div className="min-h-screen bg-white overflow-x-hidden">
+      <div className="relative h-[50vh] min-h-[280px] sm:h-[60vh] sm:min-h-[400px] w-full">
         <Image src={blog.cover_image} alt={blog.main_title} fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         
-        <Link href="/" className="absolute top-6 left-6 sm:top-8 sm:left-8 z-20 flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-white/30 transition-colors">
+        <Link href="/" className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 sm:px-4 rounded-full text-white text-sm sm:text-base hover:bg-white/30 transition-colors max-w-[calc(100%-2rem)]">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Back to Home
         </Link>
 
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-12">
-          <div className="w-[85%] mx-auto max-w-4xl">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12">
+          <div className="w-[85%] max-md:w-full max-md:px-2 mx-auto max-w-4xl">
             <div className="flex flex-wrap gap-2 mb-4">
               {blog.tags?.map((tag) => (
                 <span key={tag} className="bg-[#fce001] text-black px-3 py-1 rounded-full text-sm font-semibold">{tag}</span>
               ))}
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">{blog.main_title}</h1>
-            <div className="flex items-center gap-4 text-white/90 text-sm sm:text-base">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight break-words">{blog.main_title}</h1>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-white/90 text-sm sm:text-base">
               <span className="flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -252,13 +252,15 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
         </div>
       </div>
 
-      <article className="w-[85%] mx-auto max-w-4xl py-12 sm:py-16">
-        <p className="text-xl text-gray-700 leading-relaxed mb-8 font-medium">{blog.description1}</p>
-        {blog.description2 && <div className="text-gray-600 leading-relaxed whitespace-pre-line">{blog.description2}</div>}
+      <article className="w-[85%] max-md:w-full max-md:px-4 mx-auto max-w-4xl py-12 sm:py-16 min-w-0">
+        <p className="text-lg sm:text-xl text-gray-700 leading-relaxed mb-8 font-medium break-words">{blog.description1}</p>
+        {blog.description2 && (
+          <div className="text-gray-600 leading-relaxed whitespace-pre-line break-words overflow-x-auto">{blog.description2}</div>
+        )}
         
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h3 className="text-lg font-semibold mb-4">Share this article</h3>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             {["Twitter", "Facebook", "LinkedIn"].map((social) => (
               <button key={social} className="px-4 py-2 bg-gray-100 hover:bg-[#fce001] rounded-full text-sm font-medium transition-colors">{social}</button>
             ))}
