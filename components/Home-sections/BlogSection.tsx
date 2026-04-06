@@ -14,13 +14,13 @@ const BlogSlider = dynamic(() => import("../BlogSlider"), {
 
 export default function BlogSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 lg:py-16 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:px-4">
-        <div className="text-center mb-8 lg:mb-12">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-2 rounded-full mb-6">
             <svg
               className="w-4 h-4 text-white"

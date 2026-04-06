@@ -12,7 +12,7 @@ const features = [
 export default function WhyChooseUs() {
   return (
     <div 
-      className="relative bg-no-repeat bg-cover bg-center py-12 lg:py-16"
+      className="relative bg-no-repeat bg-cover bg-center py-12"
       style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D')"
       }}

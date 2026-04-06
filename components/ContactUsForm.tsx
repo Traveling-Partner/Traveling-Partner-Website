@@ -141,7 +141,7 @@ const ContactUsForm: React.FC = () => {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/70"></div>
 
-      <div className="relative mx-auto max-w-6xl px-4 py-16 lg:py-20">
+      <div className="relative mx-auto max-w-6xl px-4 py-16">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

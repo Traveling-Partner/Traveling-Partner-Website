@@ -10,12 +10,12 @@ const PurposeSection: React.FC = () => {
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
-      <div className="w-[90%] mx-auto max-w-7xl relative z-10 py-16 lg:py-24 space-y-20 lg:space-y-32">
+      <div className="w-[90%] mx-auto max-w-7xl relative z-10 py-16 space-y-20 lg:space-y-32">
         
  {/* Purpose Of Travel Partner */}
 <div className="flex flex-col items-center">
   {/* Header - Centered at top */}
-  <div className="text-center mb-12 lg:mb-16">
+  <div className="text-center mb-12">
     {/* Badge */}
     <div className="inline-flex items-center gap-2 bg-white/30 border border-white/40 px-4 py-2 rounded-full mb-6">
       <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">

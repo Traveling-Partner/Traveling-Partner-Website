@@ -110,7 +110,7 @@ export default function BlogListingClient() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-x-hidden">
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 lg:py-14 relative overflow-hidden">
+      <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
         
