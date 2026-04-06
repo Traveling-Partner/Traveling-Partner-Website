@@ -38,12 +38,12 @@ const logisticsBenefits = [
 
 export default function LogisticsBenefitsSection() {
   return (
-    <div className="py-20 lg:py-32 w-full bg-gradient-to-br from-[#fce001] to-[#fdb813] relative overflow-hidden">
+    <div className="py-12 lg:py-16 w-full bg-gradient-to-br from-[#fce001] to-[#fdb813] relative overflow-hidden">
       <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[90%] mx-auto max-w-7xl relative z-10 max-md:w-[96%]">
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="text-center mb-8 lg:mb-12">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white px-4 py-2 rounded-full mb-6">
             <svg
               className="w-4 h-4 text-white"
@@ -73,7 +73,7 @@ export default function LogisticsBenefitsSection() {
         </div>
 
         {/* First Block - Logistics Benefits */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20 lg:mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-10 lg:mb-14">
           <div className="order-2 lg:order-1 space-y-6">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">

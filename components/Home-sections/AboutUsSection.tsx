@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function AboutUsSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-br from-white via-gray-50 to-white py-24 lg:py-32 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-br from-white via-gray-50 to-white py-12 lg:py-16 relative overflow-hidden">
       <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-[#fce001]/5 rounded-full blur-3xl translate-x-1/2"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#fdb813]/5 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2"></div>
 

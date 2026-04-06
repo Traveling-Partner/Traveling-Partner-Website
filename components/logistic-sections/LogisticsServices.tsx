@@ -68,12 +68,12 @@ const ServiceCard = ({ title, icon, description, index }: ServiceCardProps) => (
 
 export default function LogisticsServices() {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-24 lg:py-32 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 lg:py-16 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-0">
-        <div className="text-center mb-16 lg:mb-20">
+        <div className="text-center mb-8 lg:mb-12">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />

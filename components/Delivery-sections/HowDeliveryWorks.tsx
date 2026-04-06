@@ -32,7 +32,7 @@ const steps = [
 
 export default function HowDeliveryWorks() {
   return (
-    <div className="relative w-full bg-white overflow-hidden py-20 lg:py-28 px-4">
+    <div className="relative w-full bg-white overflow-hidden py-12 lg:py-14 px-4">
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#fce001]/5 to-transparent"></div>
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#fdb813]/10 rounded-full blur-3xl"></div>
@@ -46,7 +46,7 @@ export default function HowDeliveryWorks() {
 
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 rounded-full px-4 py-2 mb-6">
             <span className="w-2 h-2 bg-[#fdb813] rounded-full animate-pulse"></span>
             <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">Simple Process</span>

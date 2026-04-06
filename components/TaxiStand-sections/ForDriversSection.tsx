@@ -25,7 +25,7 @@ const driverSteps = [
 
 export default function ForDriversSection() {
   return (
-    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-24 px-4 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 px-4 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
@@ -35,7 +35,7 @@ export default function ForDriversSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-10">
           <h2 className="text-[#1a1a1a] text-4xl lg:text-6xl font-black uppercase tracking-tight mb-4 drop-shadow-sm">
             For <span className="text-white">Drivers</span> 
           </h2>
@@ -50,7 +50,7 @@ export default function ForDriversSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-20 perspective-1000">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-10 perspective-1000">
           {driverSteps.map((step, index) => (
             <DriverCard key={step.number} step={step} index={index} />
           ))}

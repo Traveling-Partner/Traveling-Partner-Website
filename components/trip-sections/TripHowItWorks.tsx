@@ -59,12 +59,12 @@ const StepCard = ({ title, icon, description, index }: StepCardProps) => (
 
 export default function TripHowItWorks() {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-24 lg:py-32 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 lg:py-16 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-0">
-        <div className="text-center mb-16 lg:mb-20">
+        <div className="text-center mb-8 lg:mb-12">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" />

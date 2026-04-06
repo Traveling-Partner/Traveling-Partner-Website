@@ -24,7 +24,7 @@ export default function BenefitsSection() {
         backgroundSize: '40px 40px'
       }}></div>
 
-      <div className="relative w-full lg:w-[90%] mx-auto flex flex-col lg:flex-row justify-around items-center py-20 lg:py-28 px-4">
+      <div className="relative w-full lg:w-[90%] mx-auto flex flex-col lg:flex-row justify-around items-center py-12 lg:py-14 px-4">
         <div className="w-[90%] lg:w-[41%] px-[10px] relative z-10">
           {/* Section Label */}
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 rounded-full px-4 py-2 mb-6">
