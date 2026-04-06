@@ -16,7 +16,7 @@ export default function VideoSection({ title, videoSrc, posterSrc }: VideoSectio
       <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2"></div>
 
       {/* Section Header - Redesigned */}
-      <div className="text-center py-10 lg:py-14 relative z-10 px-4">
+      <div className="text-center py-10 relative z-10 px-4">
         <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-4">
           <svg 
             className="w-4 h-4 text-[#fdb813]" 

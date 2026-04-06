@@ -9,6 +9,8 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
+  const APP_STORE_URL = "https://www.apple.com/app-store/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +21,24 @@ export default function Navigation() {
   }, []);
 
   const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
+  const getStoreUrl = () => {
+    if (typeof navigator === "undefined") return PLAY_STORE_URL;
+    const ua = navigator.userAgent || "";
+    const isApple = /iPhone|iPad|iPod|Macintosh|Mac OS X/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const isWindows = /Windows/i.test(ua);
+
+    if (isApple) return APP_STORE_URL;
+    if (isAndroid || isWindows) return PLAY_STORE_URL;
+    return PLAY_STORE_URL;
+  };
+
+  const handleGetAppClick = () => {
+    const url = getStoreUrl();
+    window.open(url, "_blank", "noopener,noreferrer");
     setIsOpen(false);
   };
 
@@ -87,8 +107,9 @@ export default function Navigation() {
 
             {/* Right Side - Hidden on mobile */}
             <div className="hidden lg:flex items-center gap-3 xl:gap-4 h-10 sm:h-11">
-              <Link
-                href="/download"
+              <button
+                type="button"
+                onClick={handleGetAppClick}
                 className="bg-black text-white px-4 xl:px-5 py-2 rounded-full text-xs xl:text-sm font-semibold hover:bg-black/80 transition-colors flex items-center gap-1.5 xl:gap-2 h-8 sm:h-9 whitespace-nowrap"
               >
                 Get App
@@ -105,7 +126,7 @@ export default function Navigation() {
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>
-              </Link>
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -158,13 +179,13 @@ export default function Navigation() {
                 </Link>
               ))}
               <div className="pt-3 sm:pt-4 flex flex-col gap-2">
-                <Link
-                  href="/download"
-                  onClick={handleLinkClick}
+                <button
+                  type="button"
+                  onClick={handleGetAppClick}
                   className="block px-3 sm:px-4 py-2.5 sm:py-3 text-center bg-black text-white rounded-full text-sm font-semibold hover:bg-black/80 transition-colors"
                 >
                   Get App →
-                </Link>
+                </button>
               </div>
             </div>
           </div>

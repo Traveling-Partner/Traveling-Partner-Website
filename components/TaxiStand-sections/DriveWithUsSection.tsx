@@ -23,7 +23,7 @@ export default function DriveWithUsSection() {
         backgroundSize: '50px 50px'
       }}></div>
 
-      <div className="relative w-full lg:w-[90%] mx-auto flex flex-col lg:flex-row justify-around items-center py-12 lg:py-14 px-4">
+      <div className="relative w-full lg:w-[90%] mx-auto flex flex-col lg:flex-row justify-around items-center py-12 px-4">
         <div className="w-full lg:w-[50%] flex justify-center order-2 lg:order-1 relative group">
           {/* Yellow Glow Effect Behind Image */}
           <div className="absolute inset-0 bg-gradient-to-tr from-[#fce001]/30 to-[#fdb813]/20 rounded-3xl blur-2xl transform scale-90 group-hover:scale-100 transition-transform duration-700"></div>

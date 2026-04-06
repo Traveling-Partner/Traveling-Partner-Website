@@ -12,12 +12,12 @@ const safetyFeatures = [
 
 export default function SafetySecuritySection(): React.ReactElement {
   return (
-    <div className="py-10 lg:py-14 w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
+    <div className="py-10 w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-96 h-96 bg-[#fce001]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[90%] mx-auto max-w-7xl relative z-10 max-md:w-[96%]">
-        <div className="text-center mb-6 lg:mb-10">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <svg
               className="w-4 h-4 text-[#fdb813]"
@@ -49,7 +49,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         </div>
 
         {/* Safe and Secure */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-8 lg:mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-8">
           <div className="order-2 lg:order-1 space-y-6">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-14 h-14 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">

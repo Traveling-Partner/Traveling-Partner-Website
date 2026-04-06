@@ -32,7 +32,7 @@ const treasureContent = [
 
 export default function DeliveryTreasureSection() {
   return (
-    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 lg:py-14 px-4 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 px-4 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>

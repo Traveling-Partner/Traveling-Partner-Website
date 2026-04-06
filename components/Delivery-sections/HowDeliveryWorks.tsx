@@ -32,7 +32,7 @@ const steps = [
 
 export default function HowDeliveryWorks() {
   return (
-    <div className="relative w-full bg-white overflow-hidden py-12 lg:py-14 px-4">
+    <div className="relative w-full bg-white overflow-hidden py-12 px-4">
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#fce001]/5 to-transparent"></div>
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#fdb813]/10 rounded-full blur-3xl"></div>

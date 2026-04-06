@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,58571,t=>{"use strict";function e(t){let e=t.startsWith("/")?t:`/${t}`,i=`/website-api${e}`;if("https:"===window.location.protocol)return i;let o="http://45.55.78.67:8080".trim();return o?`${o.replace(/\/$/,"")}/api/website${e}`:i}t.s(["websiteApiUrl",()=>e])}]);

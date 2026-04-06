@@ -12,7 +12,7 @@ export default function HeroSection(): React.ReactElement {
         backgroundImage: "url('/images/image-95.png')",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
           <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
             {/* <div className="flex justify-center md:justify-start mb-4 md:mb-6">
