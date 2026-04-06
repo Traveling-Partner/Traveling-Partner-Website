@@ -15,7 +15,7 @@ export default function AppStoreButton({ href, icon, label, store }: AppStoreBut
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative overflow-hidden flex items-center gap-4 bg-[#1a1a1a] text-white px-6 py-4 rounded-2xl hover:shadow-2xl transition-all duration-300 min-w-[180px] transform hover:-translate-y-1"
+      className="group relative overflow-hidden w-full sm:w-[240px] h-[72px] flex items-center gap-4 bg-[#1a1a1a] text-white px-6 rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-[#fce001] to-[#fdb813] transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-0"></div>
       <div className="relative z-10 flex items-center gap-3">

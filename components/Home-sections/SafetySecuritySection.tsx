@@ -12,12 +12,12 @@ const safetyFeatures = [
 
 export default function SafetySecuritySection(): React.ReactElement {
   return (
-    <div className="py-12 lg:py-16 w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
+    <div className="py-10 lg:py-14 w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-96 h-96 bg-[#fce001]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
       <div className="w-[90%] mx-auto max-w-7xl relative z-10 max-md:w-[96%]">
-        <div className="text-center mb-8 lg:mb-12">
+        <div className="text-center mb-6 lg:mb-10">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <svg
               className="w-4 h-4 text-[#fdb813]"
@@ -49,7 +49,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         </div>
 
         {/* Safe and Secure */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-10 lg:mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-8 lg:mb-12">
           <div className="order-2 lg:order-1 space-y-6">
             <div className="flex items-center gap-4 mb-2">
               <div className="w-14 h-14 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">
@@ -110,7 +110,7 @@ export default function SafetySecuritySection(): React.ReactElement {
               ))}
             </ul>
 
-            <div className="pt-4">
+            <div className="pt-4 flex items-start">
               <Link
                 href="/about"
                 className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-[#fce001] to-[#fdb813] text-[#1a1a1a] px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-[#fce001]/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
@@ -173,7 +173,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         </div>
 
         {/* Female Driver */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/30 to-[#fdb813]/30 rounded-3xl transform -rotate-3 scale-95 blur-xl group-hover:-rotate-6 transition-transform duration-500"></div>
             <div className="relative bg-white p-4 rounded-3xl shadow-2xl border-2 border-[#fce001]/20 overflow-hidden">

@@ -6,7 +6,7 @@ import { FaRegHandshake } from "react-icons/fa6";
 
 export default function RegisterDriverSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-16 lg:py-24 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-16 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl"></div>
 
@@ -33,18 +33,18 @@ export default function RegisterDriverSection(): React.ReactElement {
         </div>
 
         {/* Content Grid */}
-        <div className="flex items-center justify-center gap-16 max-md:flex-col max-md:gap-10">
+        <div className="flex items-center justify-center gap-10 lg:gap-12 max-md:flex-col max-md:gap-10">
           {/* Left - Image */}
-          <div className="w-1/2 flex justify-center max-md:w-full">
+          <div className="w-[60%] flex justify-center max-md:w-full">
             <div className="relative group">
               <div className="absolute inset-0  rounded-3xl transform -rotate-3 scale-95 blur-xl"></div>
-              <div className="relative   rounded-3xl p-6 ">
+              <div className="relative rounded-3xl p-0">
                 <Image
                   src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253508/tp-Imgs/Taxi-stand-img/home-page-b-img_l1ekvj.png"
                   alt="Mobile App"
-                  width={500}
-                  height={500}
-                  className="w-full h-auto max-w-[400px] drop-shadow-2xl"
+                  width={600}
+                  height={600}
+                  className="w-[600px] max-w-full h-auto drop-shadow-2xl"
                 />
               </div>
             </div>
