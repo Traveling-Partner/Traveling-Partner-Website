@@ -127,7 +127,7 @@ function AppStoreButton({ href, icon, label, store }: { href: string; icon: "goo
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative overflow-hidden flex items-center gap-4 bg-white text-[#1a1a1a] px-8 py-5 rounded-2xl hover:shadow-2xl transition-all duration-300 min-w-[220px] transform hover:-translate-y-1 border border-gray-200"
+      className="group relative overflow-hidden w-full sm:w-[240px] h-[72px] flex items-center gap-4 bg-white text-[#1a1a1a] px-6 rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-[#fce001] to-[#fdb813] transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-0"></div>
       <div className="relative z-10 flex items-center gap-4">

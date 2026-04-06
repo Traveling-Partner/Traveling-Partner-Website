@@ -231,7 +231,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl p-3 hover:bg-gray-800 transition-all group shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 transition-all group shadow-lg hover:shadow-xl"
                 >
                   <FaGooglePlay className="w-8 h-8 text-black" />
                   <div>
@@ -246,7 +246,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl p-3 hover:bg-gray-800 transition-all group shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 transition-all group shadow-lg hover:shadow-xl"
                 >
                   <IoLogoApple className="w-8 h-8 text-black" />
                   <div>

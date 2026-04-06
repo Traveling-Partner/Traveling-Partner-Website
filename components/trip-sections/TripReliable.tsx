@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import StoreButtons from "../common/StoreButtons";
 
 export default function TripReliable() {
   return (
@@ -48,42 +48,11 @@ export default function TripReliable() {
         </p>
 
         {/* App Store Buttons with hover effects */}
-        <div className="flex justify-center items-center gap-5 mt-10 flex-wrap max-md:gap-3 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-          <Link 
-            href="https://play.google.com/store/apps?hl=en&gl=US" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group relative block"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#fce001]/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative bg-black/20 backdrop-blur-sm rounded-xl p-1 border border-white/10 hover:border-[#fce001]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <Image 
-                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253809/tp-Imgs/img/google_wy7mc6.png" 
-                alt="Google-PlayStore" 
-                width={220} 
-                height={65}
-                className="w-full max-w-[220px] h-auto rounded-lg"
-              />
-            </div>
-          </Link>
-
-          <Link 
-            href="https://www.apple.com/app-store/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group relative block"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#fce001]/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative bg-black/20 backdrop-blur-sm rounded-xl p-1 border border-white/10 hover:border-[#fce001]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <Image 
-                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253812/tp-Imgs/img/iso_imftsl.png" 
-                alt="App-Store" 
-                width={220} 
-                height={65}
-                className="w-full max-w-[220px] h-auto rounded-lg"
-              />
-            </div>
-          </Link>
+        <div
+          className="flex justify-center mt-10 flex-wrap max-md:gap-3 animate-fade-in-up"
+          style={{ animationDelay: "0.3s" }}
+        >
+          <StoreButtons className="justify-center" />
         </div>
 
         {/* Trust indicators */}
