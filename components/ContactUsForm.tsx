@@ -1,7 +1,13 @@
 // app/components/ContactUsForm.tsx
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useRef,
+} from "react";
 import { IoCloudUploadOutline, IoClose } from "react-icons/io5";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import axios from "axios";
@@ -10,6 +16,7 @@ import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
 import BasicModal from "./Modal";
 import { motion } from "framer-motion";
+import { LuSendHorizontal } from "react-icons/lu";
 
 interface SubmissionStatus {
   type: "success" | "error" | null;
@@ -143,7 +150,7 @@ const ContactUsForm: React.FC = () => {
 
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -160,14 +167,15 @@ const ContactUsForm: React.FC = () => {
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start max-lg:max-w-xl max-lg:mx-auto">
           {/* LEFT SIDE - Contact Info */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="space-y-6"
           >
             <p className="text-gray-300 text-sm leading-relaxed max-w-sm">
-              Have questions or need assistance? Our team is here to help you with any inquiries about our services.
+              Have questions or need assistance? Our team is here to help you
+              with any inquiries about our services.
             </p>
 
             {/* Contact Cards */}
@@ -185,8 +193,12 @@ const ContactUsForm: React.FC = () => {
                     <item.icon className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">{item.label}</p>
-                    <p className="text-sm font-medium text-white">{item.value}</p>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+                      {item.label}
+                    </p>
+                    <p className="text-sm font-medium text-white">
+                      {item.value}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -194,7 +206,7 @@ const ContactUsForm: React.FC = () => {
           </motion.div>
 
           {/* RIGHT SIDE FORM */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -305,7 +317,7 @@ const ContactUsForm: React.FC = () => {
                       onChange={handleFileChange}
                       disabled={loading}
                     />
-                    
+
                     {selectedFile && (
                       <span className="text-xs text-gray-600 max-w-[100px] truncate bg-gray-100 px-2 py-1 rounded">
                         {selectedFile}
@@ -323,15 +335,13 @@ const ContactUsForm: React.FC = () => {
                   >
                     {loading ? (
                       <>
-                        <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                        <span className="w-4 h-4 border-2  border-black/30 border-t-black rounded-full animate-spin" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
+                      <LuSendHorizontal />
                       </>
                     )}
                   </motion.button>
@@ -339,7 +349,7 @@ const ContactUsForm: React.FC = () => {
 
                 {/* File Preview */}
                 {filePreview && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center gap-3 pt-2"
