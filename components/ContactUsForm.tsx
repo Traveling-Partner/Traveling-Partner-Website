@@ -4,23 +4,40 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from "react";
 import { IoCloudUploadOutline, IoClose } from "react-icons/io5";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
-import axios from "axios";
 import Image from "next/image";
 import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
 import BasicModal from "./Modal";
 import { motion } from "framer-motion";
+import { submitContactForm } from "@/services/contact";
 
 interface SubmissionStatus {
   type: "success" | "error" | null;
   message: string;
 }
 
+interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  phoneNumber: string;
+}
+
+const initialFormData: ContactFormData = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  phoneNumber: "",
+};
+
 const ContactUsForm: React.FC = () => {
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>({
     type: null,
     message: "",
   });
+  const [formData, setFormData] = useState<ContactFormData>(initialFormData);
   const [alertVisible, setAlertVisible] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
@@ -32,67 +49,45 @@ const ContactUsForm: React.FC = () => {
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
 
-  const submitHandler = async (
-    event: FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const submitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setLoading(true);
 
-    const form = event.currentTarget;
-    const formData = new FormData();
-    formData.append(
-      "name",
-      (form.elements.namedItem("Name") as HTMLInputElement).value,
-    );
-    formData.append(
-      "email",
-      (form.elements.namedItem("email") as HTMLInputElement).value,
-    );
-    formData.append(
-      "message",
-      (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-    );
-    formData.append(
-      "subject",
-      (form.elements.namedItem("subject") as HTMLInputElement).value,
-    );
-    formData.append(
-      "phoneNumber",
-      (form.elements.namedItem("phoneNumber") as HTMLInputElement).value,
-    );
-
-    if (file) {
-      formData.append("photo", file);
-    }
-
     try {
-      const response = await axios.post(
-        "https://api.traveling-partner.com/api/contact ",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-      console.log(response);
+      await submitContactForm(formData);
       setSubmissionStatus({
         type: "success",
         message: "Form submitted successfully!",
       });
       setAlertVisible(true);
-      setLoading(false);
-      form.reset();
+      setFormData(initialFormData);
       setSelectedFile("");
       setFile(null);
       setFilePreview(null);
-    } catch (error) {
-      console.error(error);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to submit form. Please try again.";
       setSubmissionStatus({
         type: "error",
-        message: "Failed to submit form. Please try again.",
+        message: errorMessage,
       });
       setAlertVisible(true);
+    } finally {
       setLoading(false);
     }
   };
@@ -217,7 +212,9 @@ const ContactUsForm: React.FC = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      name="Name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="Your Name"
                       required
                       disabled={loading}
@@ -230,6 +227,8 @@ const ContactUsForm: React.FC = () => {
                     <input
                       type="text"
                       name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
                       placeholder="Subject"
                       required
                       disabled={loading}
@@ -245,6 +244,8 @@ const ContactUsForm: React.FC = () => {
                     <input
                       type="email"
                       name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder="Email Address"
                       required
                       disabled={loading}
@@ -257,6 +258,8 @@ const ContactUsForm: React.FC = () => {
                     <input
                       type="text"
                       name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
                       placeholder="Phone Number"
                       inputMode="numeric"
                       pattern="[0-9]*"
@@ -271,6 +274,8 @@ const ContactUsForm: React.FC = () => {
                 <div className="relative">
                   <textarea
                     name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Your Message"
                     required
                     rows={3}
@@ -377,7 +382,12 @@ const ContactUsForm: React.FC = () => {
               </form>
 
               {/* Alerts */}
-              {alertVisible && <FormAlert status={submissionStatus.type} />}
+              {alertVisible && (
+                <FormAlert
+                  status={submissionStatus.type}
+                  message={submissionStatus.message}
+                />
+              )}
 
               {/* Modal */}
               <BasicModal
