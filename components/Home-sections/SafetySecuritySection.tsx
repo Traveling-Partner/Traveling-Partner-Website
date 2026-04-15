@@ -173,7 +173,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         </div>
 
         {/* Female Driver */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center lg:-mt-20">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/30 to-[#fdb813]/30 rounded-3xl transform -rotate-3 scale-95 blur-xl group-hover:-rotate-6 transition-transform duration-500"></div>
             <div className="relative bg-white p-4 rounded-3xl shadow-2xl border-2 border-[#fce001]/20 overflow-hidden">
@@ -212,7 +212,7 @@ export default function SafetySecuritySection(): React.ReactElement {
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-center gap-4 mb-2">
+            <div className="flex items-start gap-4 mb-2 lg:-mt-1">
               <div className="w-14 h-14 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
                 <svg
                   className="w-7 h-7 text-[#1a1a1a]"

@@ -12,8 +12,8 @@ export default function HeroSection(): React.ReactElement {
         backgroundImage: "url('/images/image-95.png')",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
           <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
             {/* <div className="flex justify-center md:justify-start mb-4 md:mb-6">
               <CarAnimation />
@@ -30,7 +30,7 @@ export default function HeroSection(): React.ReactElement {
               safe & secured
             </h2>
 
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] uppercase font-semibold text-black mb-4 md:mb-6">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] uppercase font-semibold text-black mb-3 md:mb-4">
               With{" "}
               <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] px-2 md:px-3 py-1 rounded-lg shadow-md inline-block">
                 TRAVELING PARTNER
@@ -38,7 +38,7 @@ export default function HeroSection(): React.ReactElement {
             </h3>
 
             <div
-              className="mt-10 animate-fade-in-up"
+              className="mt-6 md:mt-8 animate-fade-in-up"
               style={{ animationDelay: "0.3s" }}
             >
               <StoreButtons className="max-md:justify-center" />

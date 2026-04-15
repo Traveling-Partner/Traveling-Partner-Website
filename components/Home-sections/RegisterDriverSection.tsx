@@ -6,13 +6,13 @@ import { FaRegHandshake } from "react-icons/fa6";
 
 export default function RegisterDriverSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-16 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] pt-16 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl"></div>
 
       <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-5">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-2">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white px-4 py-2 rounded-full mb-6">
             <svg
               className="w-4 h-4 text-white"
