@@ -16,7 +16,6 @@ import CircularIndeterminate from "./loader";
 import BasicModal from "./Modal";
 import { motion } from "framer-motion";
 import { LuSendHorizontal } from "react-icons/lu";
-import { submitContactForm, uploadContactDocument } from "@/services/contact";
 
 interface SubmissionStatus {
   type: "success" | "error" | null;
@@ -71,18 +70,7 @@ const ContactUsForm: React.FC = () => {
     setLoading(true);
 
     try {
-      let photoUrl: string | undefined;
-      if (file) {
-        photoUrl = await uploadContactDocument(file);
-      }
-
-      // Omit `photo` when no attachment — sending `photo: null` often causes backend 400 (optional field).
-      const payload = {
-        ...formData,
-        ...(photoUrl ? { photo: photoUrl } : {}),
-      };
-
-      await submitContactForm(payload);
+      await submitContactForm(formData);
       setSubmissionStatus({
         type: "success",
         message: "Form submitted successfully!",
