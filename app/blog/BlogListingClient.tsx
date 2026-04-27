@@ -37,6 +37,15 @@ const extractBlogList = (payload: any): any[] => {
   return [];
 };
 
+const getImageSrc = (value: string): string => {
+  const src = String(value || "").trim();
+  if (!src) return "/mock-images/blog-cover.svg";
+  if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
+    return src;
+  }
+  return "/mock-images/blog-cover.svg";
+};
+
 const Loader = () => (
   <div className="flex items-center justify-center py-20">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fdb813]"></div>
@@ -168,7 +177,7 @@ export default function BlogListingClient() {
                   {/* Image Container */}
                   <div className="relative h-[240px] overflow-hidden">
                     <Image
-                      src={blog.cover_image}
+                      src={getImageSrc(blog.cover_image)}
                       alt={blog.main_title}
                       fill
                       className="object-cover transform group-hover:scale-110 transition-transform duration-700"

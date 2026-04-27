@@ -39,6 +39,15 @@ const extractBlogList = (payload: any): any[] => {
   return [];
 };
 
+const getImageSrc = (value: string): string => {
+  const src = String(value || "").trim();
+  if (!src) return "/mock-images/blog-cover.svg";
+  if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
+    return src;
+  }
+  return "/mock-images/blog-cover.svg";
+};
+
 // Custom Arrow Components
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
@@ -202,7 +211,7 @@ const BlogSlider: React.FC = () => {
               <article className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-full flex flex-col">
                 <div className="w-full h-[220px] relative overflow-hidden flex-shrink-0">
                   <Image
-                    src={blog.cover_image}
+                    src={getImageSrc(blog.cover_image)}
                     alt={blog.main_title}
                     fill
                     className="object-cover transform group-hover:scale-110 transition-transform duration-700"

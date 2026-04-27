@@ -66,6 +66,15 @@ const extractBlogListFromListResponse = (payload: any): any[] => {
 const normalize = (value: unknown): string =>
   String(value ?? "").trim().toLowerCase();
 
+const getImageSrc = (value: string): string => {
+  const src = String(value || "").trim();
+  if (!src) return "/mock-images/blog-cover.svg";
+  if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
+    return src;
+  }
+  return "/mock-images/blog-cover.svg";
+};
+
 const Loader = () => (
   <div className="flex items-center justify-center">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fdb813]"></div>
@@ -218,7 +227,7 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       <div className="relative h-[50vh] min-h-[280px] sm:h-[60vh] sm:min-h-[400px] w-full">
-        <Image src={blog.cover_image} alt={blog.main_title} fill className="object-cover" priority />
+        <Image src={getImageSrc(blog.cover_image)} alt={blog.main_title} fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         
         <Link href="/" className="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 sm:px-4 rounded-full text-white text-sm sm:text-base hover:bg-white/30 transition-colors max-w-[calc(100%-2rem)]">
@@ -255,7 +264,10 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
       <article className="w-[85%] max-md:w-full max-md:px-4 mx-auto max-w-4xl py-12 sm:py-16 min-w-0">
         <p className="text-lg sm:text-xl text-gray-700 leading-relaxed mb-8 font-medium break-words">{blog.description1}</p>
         {blog.description2 && (
-          <div className="text-gray-600 leading-relaxed whitespace-pre-line break-words overflow-x-auto">{blog.description2}</div>
+          <div
+            className="text-gray-600 leading-relaxed break-words overflow-x-auto"
+            dangerouslySetInnerHTML={{ __html: blog.description2 }}
+          />
         )}
         
         <div className="mt-12 pt-8 border-t border-gray-200">
