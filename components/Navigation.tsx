@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,13 +70,16 @@ export default function Navigation() {
             {/* Logo - Smaller and responsive */}
             <Link href="/" className="flex-shrink-0" onClick={handleLinkClick}>
               <Image
-                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png"
+                src={optimizeCloudinaryImage(
+                  "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+                  360,
+                  80
+                )}
                 alt="Traveling Partner"
                 width={180}
                 height={65}
                 className="relative w-[140px] sm:w-[160px] md:w-[180px] h-auto drop-shadow-lg mt-3 sm:mt-5"
                 style={{ height: "auto" }}
-                unoptimized
                 priority
               />
             </Link>
