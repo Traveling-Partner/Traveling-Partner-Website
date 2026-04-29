@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CircularIndeterminate from "./loader";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 
 interface Blog {
   id: string | number;
@@ -43,7 +44,7 @@ const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
   if (!src) return "/mock-images/blog-cover.svg";
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
-    return src;
+    return optimizeCloudinaryImage(src, 900, 72);
   }
   return "/mock-images/blog-cover.svg";
 };
@@ -52,7 +53,7 @@ const getImageSrc = (value: string): string => {
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !left-0 sm:!left-1 xl:!left-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
+    className="!absolute !left-1 sm:!left-2 xl:!left-[-20px] !top-1/2 !-translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/95 border border-black/5 shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
     aria-label="Previous slide"
     style={{ position: "absolute" }}
   >
@@ -75,7 +76,7 @@ const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
 const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !right-0 sm:!right-1 xl:!right-[-60px] !top-1/2 !-translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
+    className="!absolute !right-1 sm:!right-2 xl:!right-[-20px] !top-1/2 !-translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/95 border border-black/5 shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
     aria-label="Next slide"
     style={{ position: "absolute" }}
   >
@@ -140,14 +141,14 @@ const BlogSlider: React.FC = () => {
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 3500,
+    pauseOnHover: false,
+    pauseOnFocus: false,
+    pauseOnDotsHover: false,
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    customPaging: () => (
-      <div className="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors mt-4"></div>
-    ),
     responsive: [
       {
         breakpoint: 1280,
@@ -189,8 +190,33 @@ const BlogSlider: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-full min-w-0 py-5 relative px-3 sm:px-6 md:px-10 lg:px-12 xl:px-16 blog-slider">
+    <div className="w-full max-w-full min-w-0 py-5 relative px-3 sm:px-6 md:px-10 lg:px-12 xl:px-16 blog-slider overflow-hidden">
       <style jsx global>{`
+        .blog-slider {
+          scrollbar-width: none;
+        }
+        .blog-slider::-webkit-scrollbar {
+          display: none;
+        }
+        .blog-slider .slick-slider,
+        .blog-slider .slick-list,
+        .blog-slider .slick-track,
+        .blog-slider .slick-slide,
+        .blog-slider .slick-slide > div {
+          scrollbar-width: none;
+        }
+        .blog-slider .slick-slider::-webkit-scrollbar,
+        .blog-slider .slick-list::-webkit-scrollbar,
+        .blog-slider .slick-track::-webkit-scrollbar,
+        .blog-slider .slick-slide::-webkit-scrollbar,
+        .blog-slider .slick-slide > div::-webkit-scrollbar {
+          display: none;
+        }
+        .blog-slider .slick-list {
+          overflow: hidden !important;
+          padding: 0.25rem 0 0.5rem;
+          margin: 0 -0.15rem;
+        }
         .blog-slider .slick-track {
           display: flex !important;
           align-items: stretch !important;
@@ -198,10 +224,35 @@ const BlogSlider: React.FC = () => {
         .blog-slider .slick-slide {
           height: auto !important;
           display: flex !important;
+          padding-bottom: 0.35rem;
         }
         .blog-slider .slick-slide > div {
           height: 100%;
           width: 100%;
+        }
+        .blog-slider .slick-dots {
+          position: relative;
+          bottom: 0;
+          margin-top: 0.75rem;
+        }
+        .blog-slider .slick-dots li {
+          margin: 0 2px;
+          width: 14px;
+          height: 14px;
+        }
+        .blog-slider .slick-dots li button {
+          width: 14px;
+          height: 14px;
+          padding: 0;
+        }
+        .blog-slider .slick-dots li button::before {
+          font-size: 10px;
+          color: rgba(255, 255, 255, 0.5);
+          opacity: 1;
+        }
+        .blog-slider .slick-dots li.slick-active button::before {
+          color: #ffffff;
+          opacity: 1;
         }
       `}</style>
       <Slider {...settings}>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 
 interface Blog {
   id: string | number;
@@ -70,7 +71,7 @@ const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
   if (!src) return "/mock-images/blog-cover.svg";
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
-    return src;
+    return optimizeCloudinaryImage(src, 1800, 75);
   }
   return "/mock-images/blog-cover.svg";
 };

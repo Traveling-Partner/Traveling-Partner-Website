@@ -14,7 +14,7 @@ const BlogSlider = dynamic(() => import("../BlogSlider"), {
 
 export default function BlogSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 relative overflow-hidden">
+    <div className="w-full bg-gradient-to-b from-[#fce001] via-[#ffd81d] to-[#fdb813] py-14 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
@@ -34,7 +34,7 @@ export default function BlogSection(): React.ReactElement {
             </span>
           </div>
 
-          <h1 className="uppercase text-[50px] font-bold text-black max-md:text-[30px]">
+          <h1 className="uppercase text-[50px] font-bold text-black max-md:text-[30px] tracking-tight">
             Our <span className="text-white drop-shadow-md">Blog</span> And News
           </h1>
           <div className="w-32 h-1.5 bg-white rounded-full mx-auto mt-4"></div>
@@ -46,7 +46,7 @@ export default function BlogSection(): React.ReactElement {
           </p>
         </div>
 
-        <div className="flex justify-center w-full min-w-0 overflow-x-hidden">
+        <div className="flex justify-center w-full min-w-0 overflow-hidden">
           <Suspense
             fallback={<div className="text-center p-4">Loading...</div>}
           >

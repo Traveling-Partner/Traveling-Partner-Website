@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import { FaGooglePlay } from "react-icons/fa";
 import { IoLogoApple } from "react-icons/io5";
+import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 
 const quickLinks = [
   { icon: MdDirectionsCar, label: "Taxi", href: "/taxi-stand", color: "from-[#FCE001] to-[#FDB813]", desc: "City rides" },
@@ -134,14 +135,16 @@ export default function Footer() {
                 whileHover={{ scale: 1.02 }}
                 className="relative"
               >
-                <div className="absolute -inset-4 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
                 <Image
-                  src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png"
+                  src={optimizeCloudinaryImage(
+                    "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+                    360,
+                    80
+                  )}
                   alt="Traveling Partner"
-                  width={260}
-                  height={90}
-                  className="relative w-[220px] h-auto drop-shadow-lg"
-                  unoptimized
+                  width={180}
+                  height={65}
+                  className="relative w-[140px] sm:w-[160px] md:w-[180px] h-auto drop-shadow-lg"
                 />
               </motion.div>
             </Link>
