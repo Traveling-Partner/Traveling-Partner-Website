@@ -1,19 +1,26 @@
 /**
- * URLs for Spring "website" blog APIs.
+ * URLs for Spring "website" APIs.
  *
- * On HTTPS (e.g. Vercel), the browser must NOT call http://… (mixed content).
- * We always use same-origin /website-api/... there, even if NEXT_PUBLIC_API_BASE_URL
- * is still set in env — that var is only used for http pages (localhost).
+ * Preferred env: NEXT_PUBLIC_API_URL=https://api.traveling-partner.com/api
+ * Resulting endpoint example: <base>/website/blog/list
  *
- * Vercel: vercel.json rewrites /website-api → backend.
- * Local: next.config.mjs rewrites /website-api → BACKEND_ORIGIN.
+ * Backward compatibility:
+ * - NEXT_PUBLIC_API_BASE_URL=https://api.traveling-partner.com
+ *   -> <base>/api/website/blog/list
+ *
+ * Fallback:
+ * - /website-api/... proxy path (rewrites in Next/Vercel).
  */
 export function websiteApiUrl(path: string): string {
   const segment = path.startsWith("/") ? path : `/${path}`;
   const proxyPath = `/website-api${segment}`;
-  const base =
+  const baseFromApiUrl =
+    (globalThis as { process?: { env?: Record<string, string | undefined> } })
+      .process?.env?.NEXT_PUBLIC_API_URL?.trim();
+  const legacyBase =
     (globalThis as { process?: { env?: Record<string, string | undefined> } })
       .process?.env?.NEXT_PUBLIC_API_BASE_URL?.trim();
+  const base = baseFromApiUrl || legacyBase;
 
   if (base) {
     const normalizedBase = base.replace(/\/$/, "");
@@ -24,6 +31,9 @@ export function websiteApiUrl(path: string): string {
       normalizedBase.startsWith("http://")
     ) {
       return proxyPath;
+    }
+    if (baseFromApiUrl) {
+      return `${normalizedBase}/website${segment}`;
     }
     return `${normalizedBase}/api/website${segment}`;
   }
