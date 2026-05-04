@@ -128,7 +128,7 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
         }
 
         if (!detailData) {
-          const listResponse = await fetch(websiteApiUrl("/blog/list"), {
+          const listResponse = await fetch("https://api.traveling-partner.com/api/website/blog/list", {
             method: "GET",
           });
           if (!listResponse.ok) {
