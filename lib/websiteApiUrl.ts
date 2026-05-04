@@ -11,6 +11,15 @@
  * Fallback:
  * - /website/... proxy path (rewrites in Next/Vercel).
  */
+function apiBaseIsSameOriginAsPage(normalizedBase: string): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return new URL(normalizedBase).origin === window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
 export function websiteApiUrl(path: string): string {
   const segment = path.startsWith("/") ? path : `/${path}`;
   const proxyPath = `/website${segment}`;
@@ -24,6 +33,11 @@ export function websiteApiUrl(path: string): string {
 
   if (base) {
     const normalizedBase = base.replace(/\/$/, "");
+    // Same tab as the marketing site: always use the /website/* rewrite (like local dev),
+    // not https://www.../website-api/... or double paths from a mis-set NEXT_PUBLIC_API_*.
+    if (typeof window !== "undefined" && apiBaseIsSameOriginAsPage(normalizedBase)) {
+      return proxyPath;
+    }
     // Avoid mixed-content errors on HTTPS pages when env is still http://...
     if (
       typeof window !== "undefined" &&
