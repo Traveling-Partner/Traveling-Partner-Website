@@ -2,7 +2,7 @@ self.__BUILD_MANIFEST = {
   "__rewrites": {
     "afterFiles": [
       {
-        "source": "/website-api/:path*"
+        "source": "/website/:path*"
       }
     ],
     "beforeFiles": [],
