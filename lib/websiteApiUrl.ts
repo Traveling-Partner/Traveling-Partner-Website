@@ -9,11 +9,11 @@
  *   -> <base>/api/website/blog/list
  *
  * Fallback:
- * - /website-api/... proxy path (rewrites in Next/Vercel).
+ * - /website/... proxy path (rewrites in Next/Vercel).
  */
 export function websiteApiUrl(path: string): string {
   const segment = path.startsWith("/") ? path : `/${path}`;
-  const proxyPath = `/website-api${segment}`;
+  const proxyPath = `/website${segment}`;
   const baseFromApiUrl =
     (globalThis as { process?: { env?: Record<string, string | undefined> } })
       .process?.env?.NEXT_PUBLIC_API_URL?.trim();

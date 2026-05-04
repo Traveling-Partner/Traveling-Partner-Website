@@ -14,11 +14,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // Proxy same-origin /website-api → Spring (local dev only; Vercel uses vercel.json)
+  // Proxy same-origin /website → Spring (local dev only; Vercel uses vercel.json)
   async rewrites() {
     return [
       {
-        source: "/website-api/:path*",
+        source: "/website/:path*",
         destination: `${backendOrigin}/api/website/:path*`,
       },
     ];
