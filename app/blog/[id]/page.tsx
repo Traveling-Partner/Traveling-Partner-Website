@@ -20,9 +20,7 @@ export async function generateStaticParams() {
   if (!apiBase) return [];
 
   const normalizedBase = apiBase.replace(/\/$/, "");
-  const listUrl = process.env.NEXT_PUBLIC_API_URL
-    ? `${normalizedBase}/website/blog/list`
-    : `${normalizedBase}/api/website/blog/list`;
+  const listUrl = "https://api.traveling-partner.com/api/website/blog/list"
 
   try {
     const response = await fetch(listUrl, {
