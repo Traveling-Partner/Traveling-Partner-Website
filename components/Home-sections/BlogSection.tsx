@@ -19,7 +19,6 @@ export default function BlogSection(): React.ReactElement {
       {/* Background decorative elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
-      <div className="absolute top-[20%] left-[5%] w-[200px] h-[200px] bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
       <div className="w-full max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         {/* Header */}
@@ -46,7 +45,7 @@ export default function BlogSection(): React.ReactElement {
           <h1 className="uppercase text-[28px] sm:text-[36px] md:text-[44px] lg:text-[50px] font-bold text-black tracking-tight leading-[1.1]">
             Our <span className="text-white drop-shadow-md">Blog</span> And News
           </h1>
-          <div className="w-16 sm:w-24 md:w-32 h-1 bg-white/80 rounded-full mx-auto mt-4 sm:mt-5"></div>
+          <div className="w-16 sm:w-24 md:w-32 h-1.5 bg-white rounded-full mx-auto mt-3 sm:mt-4"></div>
 
           <p className="text-sm sm:text-base text-black/70 mt-4 sm:mt-6 max-w-xl mx-auto leading-relaxed">
             Explore travel tales, tips, and updates from our community. Get
