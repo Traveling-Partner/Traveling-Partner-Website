@@ -1,12 +1,13 @@
 // components/BlogSlider.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
@@ -49,26 +50,21 @@ const getImageSrc = (value: string): string => {
   return "/mock-images/blog-cover.svg";
 };
 
-// Custom Arrow Components
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !left-1 sm:!left-2 xl:!left-[-20px] !top-1/2 !-translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/95 border border-black/5 shadow-lg flex items-center justify-center hover:bg-[#fce001] transition-colors duration-300 group"
+    className="!absolute !top-1/2 !-translate-y-1/2 !left-[-44px] xl:!left-[-56px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
     aria-label="Previous slide"
     style={{ position: "absolute" }}
   >
     <svg
-      className="w-6 h-6 text-gray-800 group-hover:text-black"
+      className="w-[18px] h-[18px] text-gray-600 group-hover:text-black transition-colors duration-200"
       fill="none"
       stroke="currentColor"
+      strokeWidth="2.5"
       viewBox="0 0 24 24"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M15 19l-7-7 7-7"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
   </button>
 );
@@ -76,30 +72,111 @@ const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
 const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !right-1 sm:!right-2 xl:!right-[-20px] !top-1/2 !-translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/95 border border-black/5 shadow-lg flex items-center justify-center hover:bg-gradient-to-r from-[#fce001] to-[#fdb813] transition-colors duration-300 group"
+    className="!absolute !top-1/2 !-translate-y-1/2 !right-[-44px] xl:!right-[-56px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
     aria-label="Next slide"
     style={{ position: "absolute" }}
   >
     <svg
-      className="w-6 h-6 text-gray-800 group-hover:text-white"
+      className="w-[18px] h-[18px] text-gray-600 group-hover:text-black transition-colors duration-200"
       fill="none"
       stroke="currentColor"
+      strokeWidth="2.5"
       viewBox="0 0 24 24"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M9 5l7 7-7 7"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
   </button>
+);
+
+const BlogCard = ({ blog }: { blog: Blog }) => (
+  <Link href={`/blog/${blog.id}`} className="block h-full">
+    <motion.article
+      className="group relative bg-white rounded-[22px] overflow-hidden h-full flex flex-col will-change-transform"
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+      style={{
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06)",
+      }}
+    >
+      {/* Image */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden">
+        <Image
+          src={getImageSrc(blog.cover_image)}
+          alt={blog.main_title}
+          fill
+          className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          sizes="(max-width: 1024px) 85vw, 380px"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+
+        {/* Read time badge */}
+        <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4">
+          <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-md text-[10.5px] sm:text-[11px] font-semibold text-gray-800 pl-2 pr-2.5 py-[5px] rounded-full shadow-sm border border-white/60">
+            <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {blog.readTime}
+          </span>
+        </div>
+
+        {/* Date on image */}
+        <div className="absolute bottom-3.5 left-3.5 sm:bottom-4 sm:left-4">
+          <span className="inline-flex items-center gap-1.5 text-white/95 text-[11px] sm:text-xs font-medium drop-shadow-sm">
+            <svg className="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {blog.date}
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow p-5 sm:p-6">
+        <h3 className="text-[15px] sm:text-base font-bold text-gray-900 leading-[1.4] line-clamp-2 mb-2 sm:mb-2.5 group-hover:text-[#fdb813] transition-colors duration-300">
+          {blog.main_title}
+        </h3>
+
+        <p className="text-[12.5px] sm:text-[13px] text-gray-500 leading-[1.65] line-clamp-2 mb-auto">
+          {blog.description1}
+        </p>
+
+        {/* Read More Button */}
+        <div className="pt-5 mt-5 border-t border-gray-100">
+          <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold text-black shadow-[0_2px_8px_rgba(253,184,19,0.3)] group-hover:shadow-[0_6px_20px_rgba(253,184,19,0.45)] group-hover:scale-[1.03] transition-all duration-300">
+            Read More
+            <svg
+              className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      {/* Border ring */}
+      <div className="absolute inset-0 rounded-[22px] ring-1 ring-inset ring-black/[0.03] group-hover:ring-black/[0.06] transition-all duration-500 pointer-events-none" />
+    </motion.article>
+  </Link>
 );
 
 const BlogSlider: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const sliderRef = useRef<Slider>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -107,7 +184,7 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("https://api.traveling-partner.com/api/website/blog/list", {
+        const response = await fetch(websiteApiUrl("/blog/list"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -139,42 +216,18 @@ const BlogSlider: React.FC = () => {
     dots: true,
     infinite: true,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 3500,
-    pauseOnHover: false,
+    speed: 700,
+    autoplaySpeed: 4500,
+    pauseOnHover: true,
     pauseOnFocus: false,
     pauseOnDotsHover: false,
-    slidesToShow: 3,
+    cssEase: "cubic-bezier(0.45, 0, 0.15, 1)",
+    slidesToShow: isMobile ? 1 : 3,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: !isMobile,
+    swipeToSlide: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          arrows: true,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          arrows: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false,
-        },
-      },
-    ],
   };
 
   if (loading) {
@@ -190,32 +243,15 @@ const BlogSlider: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-full min-w-0 py-5 relative px-3 sm:px-6 md:px-10 lg:px-12 xl:px-16 blog-slider overflow-hidden">
+    <div className="w-full max-w-full min-w-0 relative blog-slider">
       <style jsx global>{`
-        .blog-slider {
-          scrollbar-width: none;
-        }
-        .blog-slider::-webkit-scrollbar {
-          display: none;
-        }
-        .blog-slider .slick-slider,
-        .blog-slider .slick-list,
-        .blog-slider .slick-track,
-        .blog-slider .slick-slide,
-        .blog-slider .slick-slide > div {
-          scrollbar-width: none;
-        }
-        .blog-slider .slick-slider::-webkit-scrollbar,
-        .blog-slider .slick-list::-webkit-scrollbar,
-        .blog-slider .slick-track::-webkit-scrollbar,
-        .blog-slider .slick-slide::-webkit-scrollbar,
-        .blog-slider .slick-slide > div::-webkit-scrollbar {
-          display: none;
+        .blog-slider .slick-slider {
+          overflow: visible;
         }
         .blog-slider .slick-list {
           overflow: hidden !important;
-          padding: 0.25rem 0 0.5rem;
-          margin: 0 -0.15rem;
+          margin: 0 -12px;
+          padding: 12px 0 24px;
         }
         .blog-slider .slick-track {
           display: flex !important;
@@ -224,108 +260,77 @@ const BlogSlider: React.FC = () => {
         .blog-slider .slick-slide {
           height: auto !important;
           display: flex !important;
-          padding-bottom: 0.35rem;
+          padding: 0 12px;
         }
         .blog-slider .slick-slide > div {
           height: 100%;
           width: 100%;
+          display: flex;
         }
         .blog-slider .slick-dots {
           position: relative;
           bottom: 0;
-          margin-top: 0.75rem;
+          margin-top: 2rem;
+          display: flex !important;
+          justify-content: center;
+          align-items: center;
+          gap: 6px;
+          padding: 0;
+          list-style: none;
         }
         .blog-slider .slick-dots li {
-          margin: 0 2px;
-          width: 14px;
-          height: 14px;
+          margin: 0;
+          width: auto;
+          height: auto;
+          display: flex;
+          align-items: center;
         }
         .blog-slider .slick-dots li button {
-          width: 14px;
-          height: 14px;
+          width: 8px;
+          height: 8px;
           padding: 0;
+          border: none;
+          border-radius: 100px;
+          background: rgba(0, 0, 0, 0.12);
+          cursor: pointer;
+          transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .blog-slider .slick-dots li button::before {
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.5);
-          opacity: 1;
+          display: none !important;
         }
-        .blog-slider .slick-dots li.slick-active button::before {
-          color: #ffffff;
-          opacity: 1;
+        .blog-slider .slick-dots li.slick-active button {
+          width: 36px;
+          height: 8px;
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 100px;
+        }
+        @media (max-width: 1024px) {
+          .blog-slider .slick-list {
+            margin: 0 -6px;
+            padding: 8px 0 18px;
+          }
+          .blog-slider .slick-slide {
+            padding: 0 6px;
+          }
+          .blog-slider .slick-dots {
+            margin-top: 1.5rem;
+            gap: 5px;
+          }
+          .blog-slider .slick-dots li button {
+            width: 7px;
+            height: 7px;
+          }
+          .blog-slider .slick-dots li.slick-active button {
+            width: 28px;
+            height: 7px;
+          }
         }
       `}</style>
-      <Slider {...settings}>
+
+      <Slider ref={sliderRef} {...settings}>
         {blogs.map((blog) => (
-          <div className="px-3 h-full" key={blog.id}>
-            <Link href={`/blog/${blog.id}`} className="block h-full">
-              <article className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer h-full flex flex-col">
-                <div className="w-full h-[220px] relative overflow-hidden flex-shrink-0">
-                  <Image
-                    src={getImageSrc(blog.cover_image)}
-                    alt={blog.main_title}
-                    fill
-                    className="object-cover transform group-hover:scale-110 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </div>
-
-                <div className="p-6 relative flex flex-col flex-grow">
-                  <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      {blog.date}
-                    </span>
-                    <span>•</span>
-                    <span>{blog.readTime}</span>
-                  </div>
-
-                  <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300 min-h-[56px]">
-                    {blog.main_title}
-                  </h2>
-
-                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed mb-4 flex-grow">
-                    {blog.description1}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-                    <span className="text-sm font-medium text-gray-900">
-                      {blog.author}
-                    </span>
-                    <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-2 rounded-full text-sm font-semibold text-black hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                      Read More
-                      <svg
-                        className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </article>
-            </Link>
+          <div className="h-full" key={blog.id}>
+            <BlogCard blog={blog} />
           </div>
         ))}
       </Slider>
