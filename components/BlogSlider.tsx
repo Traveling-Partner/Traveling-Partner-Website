@@ -53,7 +53,7 @@ const getImageSrc = (value: string): string => {
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !top-1/2 !-translate-y-1/2 !left-[-44px] xl:!left-[-56px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
+    className="!absolute !top-1/2 !-translate-y-1/2 !left-[-40px] xl:!left-[-54px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_24px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
     aria-label="Previous slide"
     style={{ position: "absolute" }}
   >
@@ -72,7 +72,7 @@ const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
 const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
-    className="!absolute !top-1/2 !-translate-y-1/2 !right-[-44px] xl:!right-[-56px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
+    className="!absolute !top-1/2 !-translate-y-1/2 !right-[-40px] xl:!right-[-54px] z-20 w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white shadow-[0_4px_24px_rgba(0,0,0,0.1)] border border-black/[0.04] flex items-center justify-center hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] hover:scale-105 active:scale-95 transition-all duration-300 group"
     aria-label="Next slide"
     style={{ position: "absolute" }}
   >
@@ -98,7 +98,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
         boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06)",
       }}
     >
-      {/* Image */}
+      {/* Image Section */}
       <div className="relative w-full aspect-[16/10] overflow-hidden">
         <Image
           src={getImageSrc(blog.cover_image)}
@@ -108,9 +108,10 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
           sizes="(max-width: 1024px) 85vw, 380px"
           loading="lazy"
         />
+        {/* Elegant gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
-        {/* Read time badge */}
+        {/* Read time — top right pill */}
         <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4">
           <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-md text-[10.5px] sm:text-[11px] font-semibold text-gray-800 pl-2 pr-2.5 py-[5px] rounded-full shadow-sm border border-white/60">
             <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -120,7 +121,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
           </span>
         </div>
 
-        {/* Date on image */}
+        {/* Date — bottom left on image */}
         <div className="absolute bottom-3.5 left-3.5 sm:bottom-4 sm:left-4">
           <span className="inline-flex items-center gap-1.5 text-white/95 text-[11px] sm:text-xs font-medium drop-shadow-sm">
             <svg className="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -131,17 +132,19 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
         </div>
       </div>
 
-      {/* Content */}
+      {/* Content Section */}
       <div className="flex flex-col flex-grow p-5 sm:p-6">
+        {/* Title */}
         <h3 className="text-[15px] sm:text-base font-bold text-gray-900 leading-[1.4] line-clamp-2 mb-2 sm:mb-2.5 group-hover:text-[#fdb813] transition-colors duration-300">
           {blog.main_title}
         </h3>
 
+        {/* Description */}
         <p className="text-[12.5px] sm:text-[13px] text-gray-500 leading-[1.65] line-clamp-2 mb-auto">
           {blog.description1}
         </p>
 
-        {/* Read More Button */}
+        {/* CTA */}
         <div className="pt-5 mt-5 border-t border-gray-100">
           <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold text-black shadow-[0_2px_8px_rgba(253,184,19,0.3)] group-hover:shadow-[0_6px_20px_rgba(253,184,19,0.45)] group-hover:scale-[1.03] transition-all duration-300">
             Read More
@@ -158,7 +161,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
         </div>
       </div>
 
-      {/* Border ring */}
+      {/* Hover glow effect */}
       <div className="absolute inset-0 rounded-[22px] ring-1 ring-inset ring-black/[0.03] group-hover:ring-black/[0.06] transition-all duration-500 pointer-events-none" />
     </motion.article>
   </Link>
@@ -168,15 +171,7 @@ const BlogSlider: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isMobile, setIsMobile] = useState(false);
   const sliderRef = useRef<Slider>(null);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -210,6 +205,15 @@ const BlogSlider: React.FC = () => {
     };
 
     fetchBlogs();
+  }, []);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const settings = {
@@ -261,6 +265,7 @@ const BlogSlider: React.FC = () => {
           height: auto !important;
           display: flex !important;
           padding: 0 12px;
+          transition: opacity 0.4s ease;
         }
         .blog-slider .slick-slide > div {
           height: 100%;
