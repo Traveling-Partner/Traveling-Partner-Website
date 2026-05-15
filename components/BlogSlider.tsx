@@ -184,7 +184,7 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(websiteApiUrl("/blog/list"), {
+        const response = await fetch("https://api.traveling-partner.com/api/blog/list", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
