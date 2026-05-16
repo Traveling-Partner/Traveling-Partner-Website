@@ -48,7 +48,7 @@ export default function BlogSection(): React.ReactElement {
           <div className="w-16 sm:w-24 md:w-32 h-1.5 bg-white rounded-full mx-auto mt-3 sm:mt-4"></div>
 
           <p className="text-sm sm:text-base text-black/70 mt-4 sm:mt-6 max-w-xl mx-auto leading-relaxed">
-            Explore travel tales, tips, and updates from our community. Get
+            Explore travel tales, tips,  and updates from our community. Get
             inspired and join the journey today! From breathtaking landscapes to
             hidden gems, let&apos;s make memories together.
           </p>
