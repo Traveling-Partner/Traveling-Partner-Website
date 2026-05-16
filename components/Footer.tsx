@@ -310,11 +310,10 @@ export default function Footer() {
               viewport={{ once: true }}
               className="text-gray-500 text-sm"
             >
-<<<<<<< Updated upstream
-              © {new Date().getFullYear()} Traveling Partner. All rights reserved.
-=======
               © {new Date().getFullYear()} Traveling Partner. All rights reserved...123
->>>>>>> Stashed changes
+
+              © {new Date().getFullYear()} Traveling Partner. All rights reserved...
+
             </motion.p>
             
             <div className="flex items-center gap-6">
