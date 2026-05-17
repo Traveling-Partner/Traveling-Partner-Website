@@ -310,7 +310,7 @@ export default function Footer() {
               viewport={{ once: true }}
               className="text-gray-500 text-sm"
             >
-              © {new Date().getFullYear()} Traveling Partner. All rights reserved...abc
+              © {new Date().getFullYear()} Traveling Partner. All rights reserved...112
             </motion.p>
             
             <div className="flex items-center gap-6">
