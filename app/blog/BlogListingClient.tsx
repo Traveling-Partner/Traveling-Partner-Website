@@ -4,17 +4,21 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { websiteApiUrl } from "@/lib/websiteApiUrl";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+import {
+  formatBlogType,
+  getBlogTimeAgo,
+  pickBlogCategoryField,
+  pickBlogDateField,
+} from "@/lib/blogFormat";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 
 interface Blog {
   id: string | number;
   cover_image: string;
   main_title: string;
   description1: string;
-  date?: string;
-  author?: string;
-  readTime?: string;
+  date?: unknown;
   category?: string;
 }
 
@@ -23,10 +27,8 @@ const mapBlog = (item: any): Blog => ({
   cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
   main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
   description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
-  date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
-  author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
-  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
-  category: item?.categoryName ?? item?.category ?? item?.type ?? "General",
+  date: pickBlogDateField(item),
+  category: pickBlogCategoryField(item),
 });
 
 const extractBlogList = (payload: any): any[] => {
@@ -65,7 +67,7 @@ export default function BlogListingClient() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("https://api.traveling-partner.com/api/website/blog/list", {
+        const response = await fetch(websiteApiUrl("/blog/list"), {
           method: "GET",
         });
 
@@ -93,7 +95,11 @@ export default function BlogListingClient() {
   const categories = [
     "All",
     ...Array.from(
-      new Set(blogs.map((blog) => blog.category).filter((cat): cat is string => cat !== undefined))
+      new Set(
+        blogs
+          .map((blog) => blog.category?.trim())
+          .filter((cat): cat is string => Boolean(cat))
+      )
     ),
   ];
   
@@ -155,7 +161,7 @@ export default function BlogListingClient() {
                   : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
               }`}
             >
-              {category}
+              {category === "All" ? "All" : formatBlogType(category)}
             </button>
           ))}
         </div>
@@ -186,26 +192,27 @@ export default function BlogListingClient() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[#fce001] text-black px-3 py-1 rounded-full text-xs font-semibold">
-                        {blog.category}
-                      </span>
-                    </div>
+                    {blog.category && formatBlogType(blog.category) ? (
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-[#fce001] text-black px-3 py-1 rounded-full text-xs font-semibold">
+                          {formatBlogType(blog.category)}
+                        </span>
+                      </div>
+                    ) : null}
                   </div>
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mb-3">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {blog.date}
-                      </span>
-                      <span>•</span>
-                      <span>{blog.readTime}</span>
-                    </div>
+                    {getBlogTimeAgo(blog.date) ? (
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mb-3">
+                        <span className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {getBlogTimeAgo(blog.date)}
+                        </span>
+                      </div>
+                    ) : null}
 
                     <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#fdb813] transition-colors duration-300">
                       {blog.main_title}
@@ -215,14 +222,7 @@ export default function BlogListingClient() {
                       {blog.description1}
                     </p>
 
-                    <div className="flex flex-wrap items-center justify-between gap-y-3 pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#fce001] to-[#fdb813] flex items-center justify-center text-black font-bold text-sm">
-                          {blog.author?.charAt(0)}
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">{blog.author}</span>
-                      </div>
-                      
+                    <div className="flex flex-wrap items-center justify-end gap-y-3 pt-4 border-t border-gray-100">
                       <span className="inline-flex items-center gap-1 text-[#fdb813] font-semibold text-sm group-hover:gap-2 transition-all">
                         Read More
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

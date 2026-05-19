@@ -167,14 +167,14 @@ export default function Footer() {
               </motion.a>
               
               <motion.a 
-                href="tel:+1234567890"
+                href="tel:+923252801261"
                 whileHover={{ x: 5 }}
                 className="flex items-center gap-3 text-gray-600 hover:text-[#FDB813] transition-colors group"
               >
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/20 flex items-center justify-center group-hover:from-[#FCE001] group-hover:to-[#FDB813] transition-all">
                   <MdPhone className="w-5 h-5 text-[#FDB813] group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-sm font-medium">+92 300 1234567</span>
+                <span className="text-sm font-medium">+92 325 2801261</span>
               </motion.a>
             </div>
           </motion.div>
@@ -284,18 +284,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Trust Badge */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="inline-block mt-2"
-            >
-              <div className="bg-gradient-to-r from-[#FCE001] to-[#FDB813] p-[2px] rounded-xl">
-                <div className="bg-white rounded-xl px-4 py-2 flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-xs font-bold text-gray-800">Verified Partner</span>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
