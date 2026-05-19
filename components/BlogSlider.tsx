@@ -11,15 +11,20 @@ import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+import {
+  formatBlogType,
+  getBlogTimeAgo,
+  pickBlogCategoryField,
+  pickBlogDateField,
+} from "@/lib/blogFormat";
 
 interface Blog {
   id: string | number;
   cover_image: string;
   main_title: string;
   description1: string;
-  date?: string;
-  author?: string;
-  readTime?: string;
+  date?: unknown;
+  category?: string;
 }
 
 const mapBlog = (item: any): Blog => ({
@@ -27,9 +32,8 @@ const mapBlog = (item: any): Blog => ({
   cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
   main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
   description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
-  date: item?.date ?? item?.created_at ?? item?.createdAt ?? "",
-  author: item?.author ?? item?.author_name ?? item?.authorName ?? "Admin",
-  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
+  date: pickBlogDateField(item),
+  category: pickBlogCategoryField(item),
 });
 
 const extractBlogList = (payload: any): any[] => {
@@ -88,7 +92,10 @@ const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   </button>
 );
 
-const BlogCard = ({ blog }: { blog: Blog }) => (
+const BlogCard = ({ blog }: { blog: Blog }) => {
+  const timeAgo = getBlogTimeAgo(blog.date);
+
+  return (
   <Link href={`/blog/${blog.id}`} className="block h-full">
     <motion.article
       className="group relative bg-white rounded-[22px] overflow-hidden h-full flex flex-col will-change-transform"
@@ -110,25 +117,24 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
-        {/* Read time badge */}
-        <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4">
-          <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-md text-[10.5px] sm:text-[11px] font-semibold text-gray-800 pl-2 pr-2.5 py-[5px] rounded-full shadow-sm border border-white/60">
-            <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {blog.readTime}
-          </span>
-        </div>
+        {blog.category && formatBlogType(blog.category) ? (
+          <div className="absolute top-3.5 left-3.5 sm:top-4 sm:left-4">
+            <span className="inline-flex bg-[#fce001] text-black text-[10.5px] sm:text-[11px] font-semibold px-2.5 py-[5px] rounded-full shadow-sm">
+              {formatBlogType(blog.category)}
+            </span>
+          </div>
+        ) : null}
 
-        {/* Date on image */}
-        <div className="absolute bottom-3.5 left-3.5 sm:bottom-4 sm:left-4">
-          <span className="inline-flex items-center gap-1.5 text-white/95 text-[11px] sm:text-xs font-medium drop-shadow-sm">
-            <svg className="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            {blog.date}
-          </span>
-        </div>
+        {timeAgo ? (
+          <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4">
+            <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-md text-[10.5px] sm:text-[11px] font-semibold text-gray-800 pl-2 pr-2.5 py-[5px] rounded-full shadow-sm border border-white/60">
+              <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {timeAgo}
+            </span>
+          </div>
+        ) : null}
       </div>
 
       {/* Content */}
@@ -162,7 +168,8 @@ const BlogCard = ({ blog }: { blog: Blog }) => (
       <div className="absolute inset-0 rounded-[22px] ring-1 ring-inset ring-black/[0.03] group-hover:ring-black/[0.06] transition-all duration-500 pointer-events-none" />
     </motion.article>
   </Link>
-);
+  );
+};
 
 const BlogSlider: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);

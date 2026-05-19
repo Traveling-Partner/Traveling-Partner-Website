@@ -128,7 +128,7 @@ const ContactUsForm: React.FC = () => {
   const contactInfo = [
     { icon: MdLocationOn, label: "Address", value: "Islamabad, Pakistan" },
     { icon: MdEmail, label: "Email", value: "info@traveling-partner.com" },
-    { icon: MdPhone, label: "Phone", value: "+92 300 1234567" },
+    { icon: MdPhone, label: "Phone", value: "+92 325 2801261" },
   ];
 
   return (
