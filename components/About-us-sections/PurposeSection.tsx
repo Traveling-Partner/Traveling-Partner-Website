@@ -83,106 +83,95 @@ const PurposeSection: React.FC = () => {
 </div>
 
         {/* Feature Of The App */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-          {/* Image */}
-          <div className="w-full lg:w-1/2 flex justify-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-white/20 rounded-3xl transform -rotate-3 scale-95 blur-xl"></div>
-              <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-4 border border-white/20">
-                <Image
-                  src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253515/tp-Imgs/Taxi-stand-img/Feature_Of_The_App_l6ezv3.png"
-                  alt="Features"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto rounded-2xl shadow-2xl transform group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
+        <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 lg:gap-10">
+          {/* Left: heading + image fills remaining height */}
+          <div className="w-full lg:w-5/12 flex flex-col gap-5 lg:min-h-0">
+            <div className="shrink-0">
+              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full mb-4">
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+                <span className="text-white text-sm font-semibold uppercase tracking-wider">
+                  Key Features
+                </span>
               </div>
+
+              <h2 className="text-[32px] lg:text-[40px] font-bold text-[#1a1a1a] leading-tight mb-4">
+                Feature Of <span className="text-white">The App</span>
+              </h2>
+              <div className="w-24 h-1.5 bg-[#1a1a1a] rounded-full"></div>
+            </div>
+
+            <div className="relative flex-1 min-h-[220px] sm:min-h-[280px] rounded-2xl overflow-hidden shadow-xl ring-2 ring-white/50">
+              <Image
+                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253515/tp-Imgs/Taxi-stand-img/Feature_Of_The_App_l6ezv3.png"
+                alt="Features"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover object-center"
+                loading="lazy"
+              />
             </div>
           </div>
 
-          {/* Content */}
-          <div className="w-full lg:w-1/2">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full mb-6">
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-              </svg>
-              <span className="text-white text-sm font-semibold uppercase tracking-wider">
-                Key Features
-              </span>
-            </div>
-
-            <h2 className="text-[32px] lg:text-[42px] font-bold text-[#1a1a1a] leading-tight mb-6">
-              Feature Of <span className="text-white">The App</span>
-            </h2>
-            <div className="w-24 h-1.5 bg-[#1a1a1a] rounded-full mb-6"></div>
-            
+          {/* Right: feature cards only */}
+          <div className="w-full lg:w-7/12 lg:min-w-0 flex flex-col justify-center">
             <FeatureList />
           </div>
         </div>
 
         {/* Aim Of Travel Partner */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-          {/* Content Card */}
-          <div className="w-full lg:w-2/5">
-            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 relative overflow-hidden group hover:shadow-3xl transition-shadow duration-300">
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#fce001]/20 to-transparent rounded-full blur-2xl transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700"></div>
-              
-              <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 px-4 py-2 rounded-full mb-6">
-                <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">
-                  Our Goals
-                </span>
-              </div>
-
-              <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1a1a1a] leading-tight mb-4">
-                Aim Of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Travel Partner</span>
-              </h2>
-              <div className="w-20 h-1.5 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-full mb-6"></div>
-              
-              <p className="text-base text-gray-600 leading-relaxed mb-6">
-                At Traveling Partner, we aim to redefine how people connect,
-                collaborate, and move within Pakistan by providing,
-              </p>
-              
-              <ul className="space-y-3">
-                {[
-                  "Commission-Free Environment",
-                  "Transform the Transportation Landscape",
-                  "Facilitate Collaboration and Connectivity",
-                  "User-Driven Flexibility"
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 text-[#1a1a1a] font-semibold">
-                    <div className="w-6 h-6 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-full flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3.5 h-3.5 text-[#1a1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-white/80">
+          {/* Content */}
+          <div className="w-full lg:w-[45%] p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 px-4 py-2 rounded-full mb-5 w-fit">
+              <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">
+                Our Goals
+              </span>
             </div>
+
+            <h2 className="text-[32px] lg:text-[36px] font-bold text-[#1a1a1a] leading-tight mb-4">
+              Aim Of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Travel Partner</span>
+            </h2>
+            <div className="w-20 h-1.5 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-full mb-5"></div>
+
+            <p className="text-base text-gray-600 leading-relaxed mb-6">
+              At Traveling Partner, we aim to redefine how people connect,
+              collaborate, and move within Pakistan by providing,
+            </p>
+
+            <ul className="space-y-3">
+              {[
+                "Commission-Free Environment",
+                "Transform the Transportation Landscape",
+                "Facilitate Collaboration and Connectivity",
+                "User-Driven Flexibility"
+              ].map((item, index) => (
+                <li key={index} className="flex items-center gap-3 text-[#1a1a1a] font-semibold text-sm sm:text-base">
+                  <div className="w-6 h-6 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-3.5 h-3.5 text-[#1a1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Image */}
-          <div className="w-full lg:w-3/5 flex justify-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/30 to-[#fdb813]/30 rounded-3xl transform rotate-6 scale-95 blur-xl group-hover:rotate-12 transition-transform duration-500"></div>
-              <div className="relative bg-white p-4 rounded-3xl shadow-2xl border-2 border-[#fce001]/20">
-                <Image
-                  src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Aim_yxb4uo.png"
-                  alt="Aim"
-                  width={700}
-                  height={500}
-                  className="w-full h-auto rounded-2xl transform group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-            </div>
+          {/* Image — flush to card edge, no extra white padding */}
+          <div className="w-full lg:w-[55%] relative min-h-[260px] sm:min-h-[320px] lg:min-h-[380px]">
+            <Image
+              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Aim_yxb4uo.png"
+              alt="Aim"
+              fill
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="object-cover object-center"
+              loading="lazy"
+            />
           </div>
         </div>
 
