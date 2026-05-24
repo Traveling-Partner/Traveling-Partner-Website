@@ -16,11 +16,11 @@ import {
 } from "react-icons/md";
 import { 
   FaFacebook, 
-  FaTwitter, 
   FaInstagram, 
   FaLinkedin, 
-  FaYoutube
+  FaReddit
 } from "react-icons/fa";
+import { FaThreads, FaXTwitter } from "react-icons/fa6";
 import { FaGooglePlay } from "react-icons/fa";
 import { IoLogoApple } from "react-icons/io5";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
@@ -49,11 +49,12 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: FaFacebook, href: "#", bg: "bg-[#1877F2]", shadow: "shadow-blue-500/30" },
-  { icon: FaTwitter, href: "#", bg: "bg-[#1DA1F2]", shadow: "shadow-sky-500/30" },
-  { icon: FaInstagram, href: "#", bg: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]", shadow: "shadow-pink-500/30" },
-  { icon: FaLinkedin, href: "#", bg: "bg-[#0A66C2]", shadow: "shadow-blue-600/30" },
-  { icon: FaYoutube, href: "#", bg: "bg-[#FF0000]", shadow: "shadow-red-500/30" },
+  { icon: FaFacebook, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61556082625668", bg: "bg-[#1877F2]", shadow: "shadow-blue-500/30" },
+  { icon: FaXTwitter, label: "X", href: "https://x.com/PartnerP2D", bg: "bg-black", shadow: "shadow-gray-500/30" },
+  { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/travellpartnerr/", bg: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]", shadow: "shadow-pink-500/30" },
+  { icon: FaThreads, label: "Threads", href: "https://www.instagram.com/travellpartnerr/", bg: "bg-black", shadow: "shadow-gray-500/30" },
+  { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/traveling-partner", bg: "bg-[#0A66C2]", shadow: "shadow-blue-600/30" },
+  { icon: FaReddit, label: "Reddit", href: "https://www.reddit.com/user/traveling-partner/", bg: "bg-[#FF4500]", shadow: "shadow-orange-500/30" },
 ];
 
 export default function Footer() {
@@ -268,8 +269,11 @@ export default function Footer() {
               <div className="flex gap-2">
                 {socialLinks.map((social, index) => (
                   <motion.a
-                    key={index}
+                    key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow us on ${social.label}`}
                     whileHover={{ scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.9 }}
                     initial={{ opacity: 0, y: 20 }}
