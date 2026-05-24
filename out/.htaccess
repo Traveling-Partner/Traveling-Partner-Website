@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Blog listing: /blog → blog.html
+  RewriteRule ^blog/?$ blog.html [L]
+
+  # Blog detail: /blog/123 → blog/123.html
+  RewriteRule ^blog/([0-9]+)/?$ blog/$1.html [L]
+</IfModule>
