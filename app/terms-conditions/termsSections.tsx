@@ -1,4 +1,5 @@
 import React from "react";
+import LegalContactInfo from "@/components/legal/LegalContactInfo";
 
 export interface TermsSection {
   id: number;
@@ -244,8 +245,9 @@ export const termsSections: TermsSection[] = [
       <div className="space-y-4">
         <p className={body}>
           For questions, concerns, or inquiries related to these Terms and Conditions,
-          please contact us at (Your Contact Information).
+          please contact us:
         </p>
+        <LegalContactInfo />
         <p className={body}>
           Thank you for choosing Travelling Partner. We are dedicated to streamlining
           transportation, logistics, and trip planning while ensuring a secure and
