@@ -3,8 +3,10 @@ import path from "path";
 import type { Metadata } from "next";
 import BlogDetailClient from "./BlogDetailClient";
 import {
+  extractBlogList,
   fetchAllBlogIds,
   fetchBlogDetailById,
+  getBlogIdFromItem,
   pickBlogMetaFields,
 } from "@/lib/blogApi";
 import {
@@ -18,10 +20,20 @@ const CACHED_BLOG_IDS_PATH = path.join(
   "data",
   "blog-build-ids.json"
 );
+const BLOG_LIST_CACHE_PATH = path.join(
+  process.cwd(),
+  "data",
+  "blog-list-cache.json"
+);
+const PUBLIC_BLOG_LIST_PATH = path.join(
+  process.cwd(),
+  "public",
+  "blog-list.json"
+);
 
-function readCachedBlogIds(): string[] {
+function readIdArrayFile(filePath: string): string[] {
   try {
-    const raw = fs.readFileSync(CACHED_BLOG_IDS_PATH, "utf8");
+    const raw = fs.readFileSync(filePath, "utf8");
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
     return parsed.map(String).filter((id) => id.trim().length > 0);
@@ -30,21 +42,46 @@ function readCachedBlogIds(): string[] {
   }
 }
 
-export async function generateStaticParams() {
-  let ids = await fetchAllBlogIds();
-  if (ids.length === 0) {
-    ids = readCachedBlogIds();
-    if (ids.length > 0) {
-      console.warn(
-        `[blog] build: API returned no IDs — using ${ids.length} cached ID(s) from data/blog-build-ids.json`
-      );
-    }
+function readIdsFromListPayloadFile(filePath: string): string[] {
+  try {
+    const raw = fs.readFileSync(filePath, "utf8");
+    const parsed = JSON.parse(raw) as unknown;
+    return extractBlogList(parsed)
+      .map(getBlogIdFromItem)
+      .filter((id) => id.length > 0);
+  } catch {
+    return [];
   }
-  if (ids.length === 0) {
-    throw new Error(
-      "Blog build failed: could not fetch blog list and no cached IDs in data/blog-build-ids.json."
+}
+
+/** All known blog IDs for static export (API + cache files). */
+function collectAllBlogIdsForBuild(apiIds: string[]): string[] {
+  const merged = new Set<string>([
+    ...apiIds,
+    ...readIdArrayFile(CACHED_BLOG_IDS_PATH),
+    ...readIdsFromListPayloadFile(BLOG_LIST_CACHE_PATH),
+    ...readIdsFromListPayloadFile(PUBLIC_BLOG_LIST_PATH),
+  ]);
+  return [...merged];
+}
+
+export async function generateStaticParams() {
+  const apiIds = await fetchAllBlogIds();
+  const ids = collectAllBlogIdsForBuild(apiIds);
+
+  if (apiIds.length === 0 && ids.length > 0) {
+    console.warn(
+      `[blog] build: API returned no IDs — using ${ids.length} ID(s) from cache files`
     );
   }
+
+  if (ids.length === 0) {
+    throw new Error(
+      "Blog build failed: no blog IDs from API or data/blog-list-cache.json. Run: node scripts/generate-blog-static-data.mjs --public-only"
+    );
+  }
+
+  console.log(`[blog] generateStaticParams: ${ids.join(", ")}`);
   return ids.map((id) => ({ id }));
 }
 

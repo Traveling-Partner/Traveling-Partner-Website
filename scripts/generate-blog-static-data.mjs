@@ -124,6 +124,10 @@ async function main() {
 
   fs.mkdirSync(path.dirname(CACHE_LIST), { recursive: true });
   writeJson(CACHE_LIST, listPayload);
+  writeJson(
+    path.join(process.cwd(), "data", "blog-build-ids.json"),
+    ids
+  );
 
   const targets = hasOut ? "out/ + public/" : "public/";
   console.log(
