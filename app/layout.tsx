@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins, Montserrat } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import { getSiteUrl } from "@/lib/blogShare";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -18,6 +19,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "Traveling Partner",
   description: "Your ultimate travel companion app",
 };

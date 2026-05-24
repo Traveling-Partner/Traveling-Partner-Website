@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_API_BASE_URL: https://api.traveling-partner.com/api
+      NEXT_PUBLIC_SITE_URL: https://traveling-partner.com
 
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +28,8 @@ jobs:
 
       - run: yarn build
 
-      - name: List generated blog pages
-        run: ls -la out/blog/*.html 2>/dev/null || ls -la out/blog/
+      - name: Verify Open Graph tags on blog pages
+        run: grep -l "og:image" out/blog/*.html | head -3
 
       - uses: actions/upload-artifact@v4
         with:

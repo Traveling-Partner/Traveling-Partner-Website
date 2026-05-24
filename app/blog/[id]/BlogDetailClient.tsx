@@ -7,6 +7,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { extractBlogList } from "@/lib/blogApi";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import {
+  buildShareLinks,
+  getBlogCanonicalUrl,
+  toAbsoluteImageUrl,
+} from "@/lib/blogShare";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import {
   formatBlogDate,
@@ -58,62 +63,13 @@ const mapBlogDetail = (item: any): Blog => ({
 });
 
 const SHARE_OPTIONS = [
-  {
-    id: "facebook",
-    label: "Facebook",
-    icon: FaFacebook,
-    className: "bg-[#1877F2] hover:bg-[#166fe0]",
-    getUrl: (url: string) =>
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-  },
-  {
-    id: "twitter",
-    label: "X",
-    icon: FaXTwitter,
-    className: "bg-black hover:bg-gray-800",
-    getUrl: (url: string, title: string) =>
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    icon: FaLinkedin,
-    className: "bg-[#0A66C2] hover:bg-[#0958a8]",
-    getUrl: (url: string) =>
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-  },
-  {
-    id: "whatsapp",
-    label: "WhatsApp",
-    icon: FaWhatsapp,
-    className: "bg-[#25D366] hover:bg-[#20bd5a]",
-    getUrl: (url: string, title: string) =>
-      `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
-  },
-  {
-    id: "telegram",
-    label: "Telegram",
-    icon: FaTelegram,
-    className: "bg-[#0088cc] hover:bg-[#0077b3]",
-    getUrl: (url: string, title: string) =>
-      `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-  },
-  {
-    id: "pinterest",
-    label: "Pinterest",
-    icon: FaPinterest,
-    className: "bg-[#E60023] hover:bg-[#cc001f]",
-    getUrl: (url: string, title: string) =>
-      `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(title)}`,
-  },
-  {
-    id: "email",
-    label: "Email",
-    icon: FaEnvelope,
-    className: "bg-gray-600 hover:bg-gray-700",
-    getUrl: (url: string, title: string) =>
-      `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-  },
+  { id: "facebook", label: "Facebook", icon: FaFacebook, className: "bg-[#1877F2] hover:bg-[#166fe0]" },
+  { id: "twitter", label: "X", icon: FaXTwitter, className: "bg-black hover:bg-gray-800" },
+  { id: "linkedin", label: "LinkedIn", icon: FaLinkedin, className: "bg-[#0A66C2] hover:bg-[#0958a8]" },
+  { id: "whatsapp", label: "WhatsApp", icon: FaWhatsapp, className: "bg-[#25D366] hover:bg-[#20bd5a]" },
+  { id: "telegram", label: "Telegram", icon: FaTelegram, className: "bg-[#0088cc] hover:bg-[#0077b3]" },
+  { id: "pinterest", label: "Pinterest", icon: FaPinterest, className: "bg-[#E60023] hover:bg-[#cc001f]" },
+  { id: "email", label: "Email", icon: FaEnvelope, className: "bg-gray-600 hover:bg-gray-700" },
 ] as const;
 
 const extractBlogDetail = (payload: any): any | null => {
@@ -181,14 +137,7 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sharePageUrl, setSharePageUrl] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setSharePageUrl(window.location.href);
-    }
-  }, [routeId]);
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
@@ -323,30 +272,22 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
   const publishedDate = blog.date ? formatBlogDate(blog.date) : "";
   const timeAgo = getBlogTimeAgo(blog.date);
   const displayTags = (blog.tags ?? []).filter((tag) => String(tag).trim());
+  const shareUrl = getBlogCanonicalUrl(blog.id);
+  const shareImage = toAbsoluteImageUrl(blog.cover_image);
+  const shareLinks = buildShareLinks(shareUrl, blog.main_title, shareImage);
 
   const handleCopyLink = async () => {
-    const url = sharePageUrl || window.location.href;
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(shareUrl);
       setLinkCopied(true);
       window.setTimeout(() => setLinkCopied(false), 2000);
     } catch {
-      window.prompt("Copy this link:", url);
+      window.prompt("Copy this link:", shareUrl);
     }
   };
 
-  const getShareHref = (option: (typeof SHARE_OPTIONS)[number]) => {
-    const needsTitle =
-      option.id === "twitter" ||
-      option.id === "whatsapp" ||
-      option.id === "telegram" ||
-      option.id === "pinterest" ||
-      option.id === "email";
-    if (!sharePageUrl) return "#";
-    return needsTitle
-      ? option.getUrl(sharePageUrl, blog.main_title)
-      : option.getUrl(sharePageUrl);
-  };
+  const getShareHref = (optionId: (typeof SHARE_OPTIONS)[number]["id"]) =>
+    shareLinks[optionId] ?? shareUrl;
 
   const shareSidebarCard = (
     <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] ring-1 ring-gray-200/70">
@@ -362,7 +303,7 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
           return (
             <a
               key={option.id}
-              href={getShareHref(option)}
+              href={getShareHref(option.id)}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Share on ${option.label}`}

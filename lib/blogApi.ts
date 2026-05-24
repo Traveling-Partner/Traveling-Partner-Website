@@ -2,6 +2,53 @@ import { PUBLIC_WEBSITE_API_BASE } from "@/lib/websiteApiUrl";
 
 export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
 
+export const extractBlogDetail = (payload: unknown): Record<string, unknown> | null => {
+  const p = payload as Record<string, unknown>;
+  if (!p) return null;
+  if (p.success === false) return null;
+  const data = p.data as Record<string, unknown> | undefined;
+  if (data?.data && typeof data.data === "object" && !Array.isArray(data.data)) {
+    return data.data as Record<string, unknown>;
+  }
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    return data;
+  }
+  if (p.blog && typeof p.blog === "object") return p.blog as Record<string, unknown>;
+  if (data?.blog && typeof data.blog === "object") return data.blog as Record<string, unknown>;
+  if (typeof p === "object" && !Array.isArray(p)) return p;
+  return null;
+};
+
+export async function fetchBlogDetailById(
+  id: string
+): Promise<Record<string, unknown> | null> {
+  try {
+    const response = await fetch(
+      `${PUBLIC_WEBSITE_API_BASE}/blog/view/${encodeURIComponent(id)}`,
+      { method: "GET", cache: "no-store", headers: { Accept: "application/json" } }
+    );
+    if (!response.ok) return null;
+    const json = await response.json();
+    return extractBlogDetail(json);
+  } catch {
+    return null;
+  }
+}
+
+export function pickBlogMetaFields(item: Record<string, unknown>) {
+  const id = getBlogIdFromItem(item);
+  const title = String(
+    item.mainTitle ?? item.main_title ?? item.title ?? "Traveling Partner Blog"
+  );
+  const description = String(
+    item.description1 ?? item.description ?? item.short_description ?? ""
+  ).trim();
+  const coverImage = String(
+    item.coverImage ?? item.cover_image ?? item.image ?? ""
+  ).trim();
+  return { id, title, description, coverImage };
+}
+
 export const extractBlogList = (payload: unknown): Record<string, unknown>[] => {
   const p = payload as Record<string, unknown>;
   const data = p?.data as Record<string, unknown> | unknown[] | undefined;
