@@ -5,8 +5,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { extractBlogList } from "@/lib/blogApi";
-import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import { fetchBlogDetailClient } from "@/lib/blogClientFetch";
 import {
   buildShareLinks,
   getBlogCanonicalUrl,
@@ -71,24 +70,6 @@ const SHARE_OPTIONS = [
   { id: "pinterest", label: "Pinterest", icon: FaPinterest, className: "bg-[#E60023] hover:bg-[#cc001f]" },
   { id: "email", label: "Email", icon: FaEnvelope, className: "bg-gray-600 hover:bg-gray-700" },
 ] as const;
-
-const extractBlogDetail = (payload: any): any | null => {
-  if (!payload) return null;
-  if (payload?.success === false) return null;
-  if (payload?.data?.data && typeof payload.data.data === "object" && !Array.isArray(payload.data.data)) {
-    return payload.data.data;
-  }
-  if (payload?.data && typeof payload.data === "object" && !Array.isArray(payload.data)) {
-    return payload.data;
-  }
-  if (payload?.blog && typeof payload.blog === "object") return payload.blog;
-  if (payload?.data?.blog && typeof payload.data.blog === "object") return payload.data.blog;
-  if (typeof payload === "object" && !Array.isArray(payload)) return payload;
-  return null;
-};
-
-const normalize = (value: unknown): string =>
-  String(value ?? "").trim().toLowerCase();
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -155,58 +136,8 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
             ].filter((value) => value && value !== "NaN")
           )
         );
-        const normalizedCandidates = idCandidates.map(normalize);
 
-        let detailData: any = null;
-        let detailResponseError = "";
-
-        for (const candidateId of idCandidates) {
-          const response = await fetch(
-            websiteApiUrl(`/blog/view/${encodeURIComponent(candidateId)}`),
-            { method: "GET" }
-          );
-
-          if (!response.ok) {
-            detailResponseError = `Failed to fetch blog detail. Status: ${response.status}`;
-            continue;
-          }
-
-          const json = await response.json();
-          detailData = extractBlogDetail(json);
-          if (detailData) break;
-        }
-
-        if (!detailData) {
-          const listResponse = await fetch(websiteApiUrl("/blog/list"), {
-            method: "GET",
-          });
-          if (!listResponse.ok) {
-            throw new Error(detailResponseError || `Failed to fetch blog detail. Status: ${listResponse.status}`);
-          }
-
-          const listJson = await listResponse.json();
-          const listData = extractBlogList(listJson);
-
-          const foundFromList = listData.find((item: any) => {
-            const possibleValues = [
-              item?.id,
-              item?.blog_id,
-              item?.blogId,
-              item?.website_blog_id,
-              item?.websiteBlogId,
-              item?.slug,
-              item?.title,
-              item?.main_title,
-              item?.mainTitle,
-            ].map(normalize);
-
-            return possibleValues.some((value) => normalizedCandidates.includes(value));
-          });
-
-          if (foundFromList) {
-            detailData = foundFromList;
-          }
-        }
+        const detailData = await fetchBlogDetailClient(routeId, idCandidates);
 
         if (!detailData) {
           setBlog(null);

@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import type { Metadata } from "next";
 import BlogDetailClient from "./BlogDetailClient";
 import {
@@ -11,11 +13,36 @@ import {
   toAbsoluteImageUrl,
 } from "@/lib/blogShare";
 
+const CACHED_BLOG_IDS_PATH = path.join(
+  process.cwd(),
+  "data",
+  "blog-build-ids.json"
+);
+
+function readCachedBlogIds(): string[] {
+  try {
+    const raw = fs.readFileSync(CACHED_BLOG_IDS_PATH, "utf8");
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map(String).filter((id) => id.trim().length > 0);
+  } catch {
+    return [];
+  }
+}
+
 export async function generateStaticParams() {
-  const ids = await fetchAllBlogIds();
+  let ids = await fetchAllBlogIds();
+  if (ids.length === 0) {
+    ids = readCachedBlogIds();
+    if (ids.length > 0) {
+      console.warn(
+        `[blog] build: API returned no IDs — using ${ids.length} cached ID(s) from data/blog-build-ids.json`
+      );
+    }
+  }
   if (ids.length === 0) {
     throw new Error(
-      "Blog build failed: could not fetch blog list for static pages."
+      "Blog build failed: could not fetch blog list and no cached IDs in data/blog-build-ids.json."
     );
   }
   return ids.map((id) => ({ id }));
