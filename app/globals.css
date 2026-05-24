@@ -143,6 +143,24 @@
   background: linear-gradient(180deg, #fdb813 0%, #e5a50f 100%);
 }
 
+/* Help center FAQ answer typography */
+.prose-help p {
+  margin-bottom: 0.75rem;
+}
+
+.prose-help p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-help ul,
+.prose-help ol {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.prose-help li:last-child {
+  margin-bottom: 0;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;

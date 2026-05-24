@@ -29,7 +29,14 @@ jobs:
       - run: yarn build
 
       - name: Verify Open Graph tags on blog pages
-        run: grep -l "og:image" out/blog/*.html | head -3
+        run: |
+          shopt -s nullglob
+          files=(out/blog/*.html)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No blog HTML pages in out/blog — skipping OG verification."
+            exit 0
+          fi
+          grep -l "og:image" "${files[@]}" | head -3
 
       - uses: actions/upload-artifact@v4
         with:

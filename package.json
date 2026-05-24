@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/generate-blog-static-data.mjs --public-only",
     "dev": "next dev --turbo",
-    "build": "next build && node scripts/inject-blog-og-tags.mjs",
+    "prebuild": "node scripts/generate-blog-static-data.mjs --public-only",
+    "build": "next build && node scripts/generate-blog-static-data.mjs && node scripts/inject-blog-og-tags.mjs",
     "start": "npx serve@latest out -l ${PORT:-8080}",
     "lint": "next lint"
   },

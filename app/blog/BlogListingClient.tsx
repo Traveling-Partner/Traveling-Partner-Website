@@ -11,7 +11,8 @@ import {
   pickBlogCategoryField,
   pickBlogDateField,
 } from "@/lib/blogFormat";
-import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import { extractBlogList } from "@/lib/blogApi";
+import { fetchBlogListClient } from "@/lib/blogClientFetch";
 
 interface Blog {
   id: string | number;
@@ -36,15 +37,6 @@ const mapBlog = (item: any): Blog => ({
   date: pickBlogDateField(item),
   category: pickBlogCategoryField(item),
 });
-
-const extractBlogList = (payload: any): any[] => {
-  if (Array.isArray(payload?.data?.content)) return payload.data.content;
-  if (Array.isArray(payload?.data)) return payload.data;
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.data?.data)) return payload.data.data;
-  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
-  return [];
-};
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -73,15 +65,7 @@ export default function BlogListingClient() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(websiteApiUrl("/blog/list"), {
-          method: "GET",
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch blogs. Status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const data = await fetchBlogListClient();
         const rawList = extractBlogList(data);
         const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
         setBlogs(mappedBlogs);

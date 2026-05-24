@@ -9,7 +9,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { BLOG_LIST_URL, extractBlogList } from "@/lib/blogApi";
+import { extractBlogList } from "@/lib/blogApi";
+import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import {
   formatBlogType,
@@ -188,16 +189,7 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(BLOG_LIST_URL, {
-          method: "GET",
-          headers: { Accept: "application/json" },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch blogs. Status: ${response.status}`);
-        }
-
-        const json = await response.json();
+        const json = await fetchBlogListClient();
         console.log("Blog slider API response:", json);
 
         const rawList = extractBlogList(json);

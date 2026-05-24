@@ -2,6 +2,55 @@ import { PUBLIC_WEBSITE_API_BASE } from "@/lib/websiteApiUrl";
 
 export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
 
+/** Same-origin snapshot generated at build time (see scripts/generate-blog-static-data.mjs). */
+export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
+
+export function blogDataStaticPath(id: string): string {
+  return `/blog-data/${encodeURIComponent(id)}.json`;
+}
+
+/** Browser: static JSON on the site. Server/build: live API. */
+export function blogListUrlForRuntime(): string {
+  if (typeof window !== "undefined") {
+    return BLOG_LIST_STATIC_PATH;
+  }
+  return BLOG_LIST_URL;
+}
+
+export function findBlogInListPayload(
+  payload: unknown,
+  routeId: string
+): Record<string, unknown> | null {
+  const normalize = (value: unknown) =>
+    String(value ?? "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+  const candidates = new Set(
+    [routeId, decodeURIComponent(routeId), String(Number(routeId))]
+      .filter((value) => value && value !== "NaN")
+      .map(normalize)
+  );
+
+  return (
+    extractBlogList(payload).find((item) => {
+      const possible = [
+        item.id,
+        item.blog_id,
+        item.blogId,
+        item.website_blog_id,
+        item.websiteBlogId,
+        item.slug,
+        item.title,
+        item.main_title,
+        item.mainTitle,
+      ].map(normalize);
+      return possible.some((value) => candidates.has(value));
+    }) ?? null
+  );
+}
+
 export const extractBlogDetail = (payload: unknown): Record<string, unknown> | null => {
   const p = payload as Record<string, unknown>;
   if (!p) return null;
