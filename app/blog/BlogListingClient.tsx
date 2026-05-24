@@ -23,7 +23,13 @@ interface Blog {
 }
 
 const mapBlog = (item: any): Blog => ({
-  id: item?.id ?? item?.blog_id ?? "",
+  id:
+    item?.id ??
+    item?.blog_id ??
+    item?.blogId ??
+    item?.website_blog_id ??
+    item?.websiteBlogId ??
+    "",
   cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
   main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
   description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
@@ -76,8 +82,6 @@ export default function BlogListingClient() {
         }
 
         const data = await response.json();
-        console.log("Blog list API response:", data);
-
         const rawList = extractBlogList(data);
         const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
         setBlogs(mappedBlogs);

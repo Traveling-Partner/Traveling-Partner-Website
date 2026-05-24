@@ -1,42 +1,14 @@
-// app/blog/[id]/page.tsx
 import BlogDetailClient from "./BlogDetailClient";
+import { fetchAllBlogIds } from "@/lib/blogApi";
 
-const extractBlogList = (payload: any): any[] => {
-  if (Array.isArray(payload?.data?.content)) return payload.data.content;
-  if (Array.isArray(payload?.data)) return payload.data;
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.data?.data)) return payload.data.data;
-  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
-  return [];
-};
-
-// Static params for export: fetch available blog ids from CRM API.
 export async function generateStaticParams() {
-  const apiBase =
-    process.env.NEXT_PUBLIC_API_URL?.trim() ||
-    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
-    "";
-
-  if (!apiBase) return [];
-
-  const normalizedBase = apiBase.replace(/\/$/, "");
-  const listUrl = "https://api.traveling-partner.com/api/website/blog/list"
-
-  try {
-    const response = await fetch(listUrl, {
-      method: "GET",
-      cache: "no-store",
-    });
-    if (!response.ok) return [];
-    const json = await response.json();
-    const list = extractBlogList(json);
-    return list
-      .map((item: any) => String(item?.id ?? item?.blog_id ?? ""))
-      .filter((id: string) => id.length > 0)
-      .map((id: string) => ({ id }));
-  } catch {
-    return [];
+  const ids = await fetchAllBlogIds();
+  if (ids.length === 0) {
+    throw new Error(
+      "Blog build failed: could not fetch blog list for static pages."
+    );
   }
+  return ids.map((id) => ({ id }));
 }
 
 export default async function BlogDetailPage({
