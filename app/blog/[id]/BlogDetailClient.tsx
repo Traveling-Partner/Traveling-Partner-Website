@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { extractBlogList, getBlogListFetchUrl } from "@/lib/blogApi";
 import { websiteApiUrl } from "@/lib/websiteApiUrl";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import {
@@ -131,6 +130,16 @@ const extractBlogDetail = (payload: any): any | null => {
   return null;
 };
 
+/** Same shapes as blog list (e.g. Spring Page → data.content). */
+const extractBlogListFromListResponse = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  return [];
+};
+
 const normalize = (value: unknown): string =>
   String(value ?? "").trim().toLowerCase();
 
@@ -223,21 +232,23 @@ export default function BlogDetailClient({ id: idProp }: { id: string }) {
           }
 
           const json = await response.json();
+          console.log("Blog detail API response:", json);
           detailData = extractBlogDetail(json);
           if (detailData) break;
         }
 
         if (!detailData) {
-          const listResponse = await fetch(getBlogListFetchUrl(), {
+          const listResponse = await fetch(websiteApiUrl("/blog/list"), {
             method: "GET",
-            headers: { Accept: "application/json" },
           });
           if (!listResponse.ok) {
             throw new Error(detailResponseError || `Failed to fetch blog detail. Status: ${listResponse.status}`);
           }
 
           const listJson = await listResponse.json();
-          const listData = extractBlogList(listJson);
+          console.log("Blog list fallback response:", listJson);
+
+          const listData = extractBlogListFromListResponse(listJson);
 
           const foundFromList = listData.find((item: any) => {
             const possibleValues = [

@@ -11,7 +11,7 @@ import {
   pickBlogCategoryField,
   pickBlogDateField,
 } from "@/lib/blogFormat";
-import { extractBlogList, getBlogListFetchUrl } from "@/lib/blogApi";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 
 interface Blog {
   id: string | number;
@@ -23,19 +23,22 @@ interface Blog {
 }
 
 const mapBlog = (item: any): Blog => ({
-  id:
-    item?.id ??
-    item?.blog_id ??
-    item?.blogId ??
-    item?.website_blog_id ??
-    item?.websiteBlogId ??
-    "",
+  id: item?.id ?? item?.blog_id ?? "",
   cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
   main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
   description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
   date: pickBlogDateField(item),
   category: pickBlogCategoryField(item),
 });
+
+const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  return [];
+};
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -64,9 +67,8 @@ export default function BlogListingClient() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(getBlogListFetchUrl(), {
+        const response = await fetch(websiteApiUrl("/blog/list"), {
           method: "GET",
-          headers: { Accept: "application/json" },
         });
 
         if (!response.ok) {
@@ -74,6 +76,8 @@ export default function BlogListingClient() {
         }
 
         const data = await response.json();
+        console.log("Blog list API response:", data);
+
         const rawList = extractBlogList(data);
         const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
         setBlogs(mappedBlogs);

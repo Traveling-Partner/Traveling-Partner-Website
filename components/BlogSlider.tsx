@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { extractBlogList, getBlogListFetchUrl } from "@/lib/blogApi";
+import { websiteApiUrl } from "@/lib/websiteApiUrl";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import {
   formatBlogType,
@@ -28,19 +28,22 @@ interface Blog {
 }
 
 const mapBlog = (item: any): Blog => ({
-  id:
-    item?.id ??
-    item?.blog_id ??
-    item?.blogId ??
-    item?.website_blog_id ??
-    item?.websiteBlogId ??
-    "",
+  id: item?.id ?? item?.blog_id ?? "",
   cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
   main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
   description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
   date: pickBlogDateField(item),
   category: pickBlogCategoryField(item),
 });
+
+const extractBlogList = (payload: any): any[] => {
+  if (Array.isArray(payload?.data?.content)) return payload.data.content;
+  if (Array.isArray(payload?.data)) return payload.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data?.data)) return payload.data.data;
+  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
+  return [];
+};
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -188,10 +191,10 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(getBlogListFetchUrl(), {
+        const response = await fetch("https://api.traveling-partner.com/api/website/blog/list", {
           method: "GET",
           headers: {
-            Accept: "application/json",
+            "Content-Type": "application/json",
           },
         });
 
@@ -200,6 +203,8 @@ const BlogSlider: React.FC = () => {
         }
 
         const json = await response.json();
+        console.log("Blog slider API response:", json);
+
         const rawList = extractBlogList(json);
         const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
         setBlogs(mappedBlogs);
