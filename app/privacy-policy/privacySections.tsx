@@ -9,7 +9,6 @@ import {
   FileText,
   HelpCircle,
 } from "lucide-react";
-import LegalContactInfo from "@/components/legal/LegalContactInfo";
 
 export interface PrivacySection {
   id: number;
@@ -156,9 +155,8 @@ export const privacySections: PrivacySection[] = [
         <p className={body}>Your feedback and questions are invaluable:</p>
         <p className={body}>
           If you have any concerns or inquiries regarding our Privacy Policy or data
-          practices, don&apos;t hesitate to reach out to us:
+          practices, don&apos;t hesitate to reach out to us at (Contact Information).
         </p>
-        <LegalContactInfo />
         <p className={body}>
           At Traveling Partner, we are dedicated to simplifying transportation, ensuring
           it is cost-effective, convenient, and secure for both Drivers and Partners.

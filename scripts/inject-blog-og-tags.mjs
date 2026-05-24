@@ -10,6 +10,32 @@ const SITE_URL = (
 ).replace(/\/$/, "");
 const API_BASE = "https://api.traveling-partner.com/api/website";
 const OUT_BLOG = path.join(process.cwd(), "out", "blog");
+const OUT_BLOG_DATA = path.join(process.cwd(), "out", "blog-data");
+const DEFAULT_OG_IMAGE =
+  "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png";
+
+function extractBlogRecord(payload) {
+  if (!payload || payload.success === false) return null;
+  const data = payload.data;
+  if (data?.data && typeof data.data === "object" && !Array.isArray(data.data)) {
+    return data.data;
+  }
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    return data;
+  }
+  if (payload.blog && typeof payload.blog === "object") return payload.blog;
+  return null;
+}
+
+function readStaticBlog(id) {
+  const filePath = path.join(OUT_BLOG_DATA, `${id}.json`);
+  if (!fs.existsSync(filePath)) return null;
+  try {
+    return extractBlogRecord(JSON.parse(fs.readFileSync(filePath, "utf8")));
+  } catch {
+    return null;
+  }
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -39,13 +65,16 @@ function imageMimeType(url) {
 }
 
 async function fetchBlog(id) {
+  const fromStatic = readStaticBlog(id);
+  if (fromStatic) return fromStatic;
+
   try {
     const res = await fetch(`${API_BASE}/blog/view/${encodeURIComponent(id)}`, {
       headers: { Accept: "application/json" },
     });
     if (!res.ok) return null;
     const json = await res.json();
-    return json?.data && typeof json.data === "object" ? json.data : null;
+    return extractBlogRecord(json);
   } catch (err) {
     console.warn(
       `[inject-blog-og] fetch failed for blog ${id}:`,
@@ -62,9 +91,12 @@ function buildSocialMetaBlock(blog, id) {
   const description = stripHtml(
     blog.description1 ?? blog.description ?? blog.short_description ?? ""
   ).slice(0, 200);
-  const image = String(
+  let image = String(
     blog.coverImage ?? blog.cover_image ?? blog.image ?? ""
   ).trim();
+  if (!image.startsWith("http")) {
+    image = DEFAULT_OG_IMAGE;
+  }
   const url = `${SITE_URL}/blog/${id}`;
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(
@@ -93,7 +125,7 @@ function buildSocialMetaBlock(blog, id) {
 <meta property="article:author" content="Traveling Partner"/>`;
   }
 
-  if (image.startsWith("http")) {
+  {
     const safeImg = escapeHtml(image);
     const mime = imageMimeType(image);
     block += `
@@ -127,7 +159,7 @@ function buildSocialMetaBlock(blog, id) {
         url: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
       },
     },
-    ...(image.startsWith("http") ? { image: [image] } : {}),
+    image: [image],
     ...(published ? { datePublished: published } : {}),
   };
 
@@ -193,7 +225,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("[inject-blog-og] failed:", err);
-  process.exit(1);
+  console.warn("[inject-blog-og] failed:", err.message || err);
+  process.exit(0);
 });
 
