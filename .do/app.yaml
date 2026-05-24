@@ -1,0 +1,44 @@
+# DigitalOcean App Platform — traveling-partner.com
+# Use this if you deploy from GitHub (not manual Spaces upload).
+#
+# - "web" = static site (yarn build → out/)
+# - "api-proxy" = forwards /website/* to your Spring backend (portal stays in sync)
+#
+# In DO Control Panel: Create App → GitHub → select this repo → use this spec.
+
+name: traveling-partner-website
+region: nyc
+
+services:
+  - name: api-proxy
+    dockerfile_path: docker/api-proxy/Dockerfile
+    source_dir: /
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+
+static_sites:
+  - name: web
+    build_command: yarn install --frozen-lockfile && yarn build
+    output_dir: out
+    index_document: index.html
+    catchall_document: index.html
+    environment_slug: node-js
+    envs:
+      - key: NEXT_PUBLIC_API_BASE_URL
+        value: https://api.traveling-partner.com/api
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://traveling-partner.com
+
+ingress:
+  rules:
+    - component:
+        name: api-proxy
+      match:
+        path:
+          prefix: /website
+    - component:
+        name: web
+      match:
+        path:
+          prefix: /

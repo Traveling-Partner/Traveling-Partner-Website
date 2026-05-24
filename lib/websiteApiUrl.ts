@@ -1,17 +1,11 @@
 /**
- * Website API URLs.
- * - Local dev: `/website/*` (Next.js rewrite in next.config.mjs)
- * - Live static host (DigitalOcean): direct https://api.traveling-partner.com/...
+ * Website API URLs — same base as admin portal (NEXT_PUBLIC_API_BASE_URL).
+ * Browser: same-origin /website/* when on HTTPS (needs host proxy on DigitalOcean).
+ * Server/build: direct API URL from env.
  */
 
 export const PUBLIC_WEBSITE_API_BASE =
   "https://api.traveling-partner.com/api/website";
-
-function isLocalDevHost(): boolean {
-  if (typeof window === "undefined") return false;
-  const host = window.location.hostname;
-  return host === "localhost" || host === "127.0.0.1";
-}
 
 function envBaseToWebsiteApiBase(base: string): string {
   const normalized = base.replace(/\/$/, "");
@@ -21,7 +15,8 @@ function envBaseToWebsiteApiBase(base: string): string {
   return `${normalized}/api/website`;
 }
 
-function resolveWebsiteApiBase(): string {
+/** Same resolver the admin portal should use (from NEXT_PUBLIC_API_BASE_URL). */
+export function getWebsiteApiBase(): string {
   const fromEnv =
     (globalThis as { process?: { env?: Record<string, string | undefined> } })
       .process?.env?.NEXT_PUBLIC_API_URL?.trim() ||
@@ -33,10 +28,21 @@ function resolveWebsiteApiBase(): string {
 
 export function websiteApiUrl(path: string): string {
   const segment = path.startsWith("/") ? path : `/${path}`;
+  return `${getWebsiteApiBase()}${segment}`;
+}
 
-  if (typeof window !== "undefined" && isLocalDevHost()) {
-    return `/website${segment}`;
+/**
+ * Browser fetch targets: live API only (portal source of truth).
+ * 1) /website/* — same-origin proxy (local dev + DO App Platform with api-proxy)
+ * 2) Direct env API URL — same endpoint family as admin portal
+ */
+export function websiteApiUrlsForBrowser(path: string): string[] {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  const direct = `${getWebsiteApiBase()}${segment}`;
+
+  if (typeof window === "undefined") {
+    return [direct];
   }
 
-  return `${resolveWebsiteApiBase()}${segment}`;
+  return [`/website${segment}`, direct];
 }

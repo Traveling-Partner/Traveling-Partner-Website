@@ -1,22 +1,11 @@
-import {
-  BLOG_LIST_STATIC_PATH,
-  BLOG_LIST_URL,
-  blogDataStaticPath,
-  extractBlogDetail,
-  findBlogInListPayload,
-} from "@/lib/blogApi";
-import { websiteApiUrl } from "@/lib/websiteApiUrl";
-
-function isLocalDevHost(): boolean {
-  if (typeof window === "undefined") return false;
-  const host = window.location.hostname;
-  return host === "localhost" || host === "127.0.0.1";
-}
+import { extractBlogDetail, findBlogInListPayload } from "@/lib/blogApi";
+import { websiteApiUrlsForBrowser } from "@/lib/websiteApiUrl";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
   const response = await fetch(url, {
     method: "GET",
     headers: { Accept: "application/json" },
+    cache: "no-store",
   });
   if (!response.ok) {
     throw new Error(`${url} → ${response.status}`);
@@ -25,47 +14,44 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
 }
 
 /**
- * Load blog list in the browser: dev proxy → static snapshot → live API.
+ * Blog list — live API only (same backend as admin portal). No static JSON cache.
  */
 export async function fetchBlogListClient(): Promise<unknown> {
-  const urls: string[] = [];
-
-  if (typeof window !== "undefined") {
-    if (isLocalDevHost()) {
-      urls.push(websiteApiUrl("/blog/list"));
-    }
-    urls.push(BLOG_LIST_STATIC_PATH);
-    urls.push(BLOG_LIST_URL);
-  } else {
-    urls.push(BLOG_LIST_URL);
-  }
-
+  const urls = websiteApiUrlsForBrowser("/blog/list");
   const errors: string[] = [];
+
   for (const url of urls) {
     try {
-      return await fetchJsonUrl(url);
+      const data = await fetchJsonUrl(url);
+      return data;
     } catch (err) {
       errors.push(err instanceof Error ? err.message : String(err));
     }
   }
 
-  throw new Error(errors.join("; ") || "Blog list unavailable");
+  throw new Error(
+    `Could not load blogs from live API. ${errors.join("; ")}`
+  );
 }
 
 /**
- * Load one blog post in the browser: static detail → list snapshot → dev/live API.
+ * Blog detail — live API only (view endpoint + list fallback).
  */
 export async function fetchBlogDetailClient(
   routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
   for (const candidateId of idCandidates) {
-    try {
-      const staticJson = await fetchJsonUrl(blogDataStaticPath(candidateId));
-      const detail = extractBlogDetail(staticJson);
-      if (detail) return detail;
-    } catch {
-      /* next source */
+    for (const base of websiteApiUrlsForBrowser(
+      `/blog/view/${encodeURIComponent(candidateId)}`
+    )) {
+      try {
+        const json = await fetchJsonUrl(base);
+        const detail = extractBlogDetail(json);
+        if (detail) return detail;
+      } catch {
+        /* try next URL */
+      }
     }
   }
 
@@ -74,19 +60,7 @@ export async function fetchBlogDetailClient(
     const fromList = findBlogInListPayload(listJson, routeId);
     if (fromList) return fromList;
   } catch {
-    /* next source */
-  }
-
-  for (const candidateId of idCandidates) {
-    try {
-      const json = await fetchJsonUrl(
-        websiteApiUrl(`/blog/view/${encodeURIComponent(candidateId)}`)
-      );
-      const detail = extractBlogDetail(json);
-      if (detail) return detail;
-    } catch {
-      /* next source */
-    }
+    /* list unavailable */
   }
 
   return null;

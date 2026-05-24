@@ -1,20 +1,28 @@
-import { PUBLIC_WEBSITE_API_BASE } from "@/lib/websiteApiUrl";
+import {
+  getWebsiteApiBase,
+  PUBLIC_WEBSITE_API_BASE,
+  websiteApiUrlsForBrowser,
+} from "@/lib/websiteApiUrl";
 
+/** @deprecated Use blogListApiUrl() — kept for backward compatibility. */
 export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
 
-/** Same-origin snapshot generated at build time (see scripts/generate-blog-static-data.mjs). */
+/** Build-time snapshot path only (not used by client UI). */
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
+/** @deprecated Build artifact only — client uses live API via blogClientFetch. */
 export function blogDataStaticPath(id: string): string {
   return `/blog-data/${encodeURIComponent(id)}.json`;
 }
 
-/** Browser: static JSON on the site. Server/build: live API. */
+/** Live list URL from env (same base as admin portal). */
+export function blogListApiUrl(): string {
+  return `${getWebsiteApiBase()}/blog/list`;
+}
+
+/** @deprecated Use websiteApiUrlsForBrowser — kept for backward compatibility. */
 export function blogListUrlForRuntime(): string {
-  if (typeof window !== "undefined") {
-    return BLOG_LIST_STATIC_PATH;
-  }
-  return BLOG_LIST_URL;
+  return websiteApiUrlsForBrowser("/blog/list")[0];
 }
 
 export function findBlogInListPayload(
@@ -73,7 +81,7 @@ export async function fetchBlogDetailById(
 ): Promise<Record<string, unknown> | null> {
   try {
     const response = await fetch(
-      `${PUBLIC_WEBSITE_API_BASE}/blog/view/${encodeURIComponent(id)}`,
+      `${getWebsiteApiBase()}/blog/view/${encodeURIComponent(id)}`,
       { method: "GET", cache: "no-store", headers: { Accept: "application/json" } }
     );
     if (!response.ok) return null;
@@ -126,7 +134,7 @@ export const getBlogIdFromItem = (item: Record<string, unknown>): string => {
 
 export async function fetchAllBlogIds(): Promise<string[]> {
   try {
-    const response = await fetch(BLOG_LIST_URL, {
+    const response = await fetch(blogListApiUrl(), {
       method: "GET",
       cache: "no-store",
       headers: { Accept: "application/json" },
