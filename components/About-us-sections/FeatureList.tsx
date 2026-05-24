@@ -41,11 +41,11 @@ const FeatureList: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {content.map((item, index) => (
         <div 
           key={index} 
-          className="group flex items-start gap-4 p-4 rounded-xl bg-white  transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+          className="group flex items-start gap-3 p-3 sm:p-4 rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md"
         >
           <div className="w-10 h-10 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-full flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
             <span className="text-[#1a1a1a] font-bold text-sm">{index + 1}</span>

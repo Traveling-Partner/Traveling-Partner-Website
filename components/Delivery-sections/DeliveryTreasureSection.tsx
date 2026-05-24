@@ -44,7 +44,7 @@ export default function DeliveryTreasureSection() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
             <svg
-              className="w-4 h-4 text-black"
+              className="w-4 h-4 text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -54,7 +54,7 @@ export default function DeliveryTreasureSection() {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-black text-sm font-bold uppercase tracking-wider">
+            <span className="text-white text-sm font-bold uppercase tracking-wider">
               Delivery Service
             </span>
           </div>
