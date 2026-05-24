@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { websiteApiUrl } from "@/lib/websiteApiUrl";
+import { BLOG_LIST_URL, extractBlogList } from "@/lib/blogApi";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import {
   formatBlogType,
@@ -28,22 +28,19 @@ interface Blog {
 }
 
 const mapBlog = (item: any): Blog => ({
-  id: item?.id ?? item?.blog_id ?? "",
+  id:
+    item?.id ??
+    item?.blog_id ??
+    item?.blogId ??
+    item?.website_blog_id ??
+    item?.websiteBlogId ??
+    "",
   cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
   main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
   description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
   date: pickBlogDateField(item),
   category: pickBlogCategoryField(item),
 });
-
-const extractBlogList = (payload: any): any[] => {
-  if (Array.isArray(payload?.data?.content)) return payload.data.content;
-  if (Array.isArray(payload?.data)) return payload.data;
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.data?.data)) return payload.data.data;
-  if (Array.isArray(payload?.data?.blogs)) return payload.data.blogs;
-  return [];
-};
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -191,11 +188,9 @@ const BlogSlider: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("https://api.traveling-partner.com/api/website/blog/list", {
+        const response = await fetch(BLOG_LIST_URL, {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { Accept: "application/json" },
         });
 
         if (!response.ok) {

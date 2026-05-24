@@ -1,0 +1,37 @@
+# Verifies static export and blog pages on push/PR.
+# DigitalOcean deploys separately — this check must pass before merging.
+
+name: Build static site
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_BASE_URL: https://api.traveling-partner.com/api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn build
+
+      - name: List generated blog pages
+        run: ls -la out/blog/*.html 2>/dev/null || ls -la out/blog/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: static-out
+          path: out/
+          retention-days: 7
