@@ -119,6 +119,41 @@
   background: #555;
 }
 
+.scrollbar-brand {
+  scrollbar-width: thin;
+  scrollbar-color: #fdb813 #f3f4f6;
+}
+
+.scrollbar-brand::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-brand::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 999px;
+}
+
+.scrollbar-brand::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #fce001 0%, #fdb813 100%);
+  border-radius: 999px;
+}
+
+.scrollbar-brand::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fdb813 0%, #e5a50f 100%);
+}
+
+.prose-help {
+  @apply text-gray-600 text-sm sm:text-base leading-relaxed;
+}
+
+.prose-help ul {
+  @apply list-disc pl-6 space-y-2 my-3;
+}
+
+.prose-help p + p {
+  @apply mt-3;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
