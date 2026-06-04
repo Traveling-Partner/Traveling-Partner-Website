@@ -164,7 +164,7 @@ export default function BlogListingClient() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredBlogs.map((blog, index) => (
-              <Link key={blog.id} href={`/blog/${blog.id}`}>
+              <Link key={blog.id} href={`/blog/detail?id=${blog.id}`}>
                 <article 
                   className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col"
                   style={{ animationDelay: `${index * 100}ms` }}

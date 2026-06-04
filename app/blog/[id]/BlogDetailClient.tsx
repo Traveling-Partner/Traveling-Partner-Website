@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { fetchBlogDetailClient } from "@/lib/blogClientFetch";
 import {
   buildShareLinks,
@@ -112,9 +112,14 @@ function StatusCard({
   );
 }
 
-export default function BlogDetailClient({ id: idProp }: { id: string }) {
+export default function BlogDetailClient({ id: idProp }: { id?: string }) {
   const params = useParams();
-  const routeId = (params?.id as string) || idProp || "";
+  const searchParams = useSearchParams();
+  const routeId =
+    idProp ||
+    (params?.id as string | undefined) ||
+    searchParams.get("id") ||
+    "";
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

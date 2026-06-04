@@ -94,7 +94,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
   const timeAgo = getBlogTimeAgo(blog.date);
 
   return (
-  <Link href={`/blog/${blog.id}`} className="block h-full">
+  <Link href={`/blog/detail?id=${blog.id}`} className="block h-full">
     <motion.article
       className="group relative bg-white rounded-[22px] overflow-hidden h-full flex flex-col will-change-transform"
       whileHover={{ y: -6 }}
