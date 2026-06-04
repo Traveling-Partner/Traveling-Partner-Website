@@ -7,7 +7,7 @@ export function getSiteUrl(): string {
 }
 
 export function getBlogCanonicalUrl(id: string | number): string {
-  return `${getSiteUrl()}/blog/${id}`;
+  return `${getSiteUrl()}/blog/detail?id=${encodeURIComponent(String(id))}`;
 }
 
 export function toAbsoluteImageUrl(image: string | undefined): string | undefined {

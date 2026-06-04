@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import BlogDetailClient from "../[id]/BlogDetailClient";
+import BlogDetailClient from "../BlogDetailClient";
 
 function BlogDetailFallback() {
   return (

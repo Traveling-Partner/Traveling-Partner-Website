@@ -1,0 +1,3 @@
+# Netlify / compatible hosts: proxy API + blog detail by id
+/website/*  http://45.55.78.67:8080/api/website/:splat  200
+/blog/:id  /blog/detail.html?id=:id  200
