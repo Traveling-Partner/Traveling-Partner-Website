@@ -9,6 +9,11 @@ import BlogSection from "@/components/Home-sections/BlogSection";
 import SafetySecuritySection from "@/components/Home-sections/SafetySecuritySection";
 import ContactSection from "@/components/Home-sections/ContactSection";
 
+const PARTNER_INTRO_VIDEO_URI =
+  "https://traveling-partner-storage.nyc3.cdn.digitaloceanspaces.com/Introduction%20Videos/Partner%20Introduction-F.mp4";
+const DRIVER_INTRO_VIDEO_URI =
+  "https://traveling-partner-storage.nyc3.cdn.digitaloceanspaces.com/Introduction%20Videos/Driver%20Introduction-F.mp4";
+
 export default function Home(): React.ReactElement {
   return (
     <div>
@@ -18,7 +23,7 @@ export default function Home(): React.ReactElement {
 
       <VideoSection
         title="how to register as a driver"
-        videoSrc="https://traveling-partner-storage.nyc3.cdn.digitaloceanspaces.com/Introduction%20Videos/Partner%20Introduction-F.mp4"
+        videoSrc={DRIVER_INTRO_VIDEO_URI}
         posterSrc="https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239883/How_to_register_as_a_Driver_a01zuj.png"
       />
 
@@ -26,7 +31,7 @@ export default function Home(): React.ReactElement {
 
       <VideoSection
         title="How to register as a Partner"
-        videoSrc="https://res.cloudinary.com/dabxnoxsx/video/upload/v1708419830/Partner_Registration_q0k1fc.mp4"
+        videoSrc={PARTNER_INTRO_VIDEO_URI}
         posterSrc="https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239860/video-sing_yzrcqg.png"
       />
 
