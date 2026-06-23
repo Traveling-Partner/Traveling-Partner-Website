@@ -1,6 +1,0 @@
-# Apache: API proxy + legacy /blog/123 URLs → static detail page
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^website/(.*)$ http://45.55.78.67:8080/api/website/$1 [P,L]
-  RewriteRule ^blog/([0-9]+)/?$ /blog/detail.html?id=$1 [L,QSA]
-</IfModule>
