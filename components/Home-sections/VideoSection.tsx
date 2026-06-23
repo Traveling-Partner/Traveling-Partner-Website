@@ -6,11 +6,12 @@ interface VideoSectionProps {
   title: string;
   videoSrc: string;
   posterSrc: string;
+  id?: string;
 }
 
-export default function VideoSection({ title, videoSrc, posterSrc }: VideoSectionProps): React.ReactElement {
+export default function VideoSection({ title, videoSrc, posterSrc, id }: VideoSectionProps): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
+    <div id={id} className={`w-full bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden${id ? " scroll-mt-28" : ""}`}>
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-[#fce001]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2"></div>

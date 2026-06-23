@@ -85,7 +85,7 @@ const CategoryCard = ({
 
 export default function FeaturedCategoriesSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 relative overflow-hidden">
+    <div id="services" className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 relative overflow-hidden scroll-mt-28">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 

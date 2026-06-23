@@ -22,6 +22,7 @@ export default function Home(): React.ReactElement {
       <FeaturedCategoriesSection />
 
       <VideoSection
+        id="how-it-works"
         title="how to register as a driver"
         videoSrc={DRIVER_INTRO_VIDEO_URI}
         posterSrc="https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239883/How_to_register_as_a_Driver_a01zuj.png"

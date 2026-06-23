@@ -6,7 +6,7 @@ import { FaRegHandshake } from "react-icons/fa6";
 
 export default function RegisterDriverSection(): React.ReactElement {
   return (
-    <div className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] pt-16 relative overflow-hidden">
+    <div id="drivers" className="w-full bg-gradient-to-b from-[#fce001] to-[#fdb813] pt-16 relative overflow-hidden scroll-mt-28">
       {/* Background Decorations */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl"></div>
 
