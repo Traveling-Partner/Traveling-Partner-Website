@@ -1,200 +1,156 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/taxi-stand", label: "Taxi Stand" },
+  { href: "/pool-ride", label: "Pool Ride" },
+  { href: "/delivery", label: "Delivery" },
+  { href: "/logistic", label: "Logistic" },
+  { href: "/trip", label: "Trip" },
+  { href: "/about", label: "About Us" },
+];
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
-  const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-  const APP_STORE_URL = "https://www.apple.com/app-store/";
+  const pathname = usePathname() ?? "";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isOpen]);
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
 
-  const getStoreUrl = () => {
-    if (typeof navigator === "undefined") return PLAY_STORE_URL;
-    const ua = navigator.userAgent || "";
-    const isApple = /iPhone|iPad|iPod|Macintosh|Mac OS X/i.test(ua);
-    const isAndroid = /Android/i.test(ua);
-    const isWindows = /Windows/i.test(ua);
-
-    if (isApple) return APP_STORE_URL;
-    if (isAndroid || isWindows) return PLAY_STORE_URL;
-    return PLAY_STORE_URL;
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const handleGetAppClick = () => {
-    const url = getStoreUrl();
-    window.open(url, "_blank", "noopener,noreferrer");
-    setIsOpen(false);
-  };
+  const navLinkClass = (href: string) =>
+    isActive(href)
+      ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
+      : "text-black hover:text-black/80";
 
-  const links = [
-    { href: "/", label: "Home" },
-    { href: "/taxi-stand", label: "Taxi Stand" },
-    { href: "/pool-ride", label: "Pool Ride" },
-    { href: "/delivery", label: "Delivery" },
-    { href: "/logistic", label: "Logistic" },
-    { href: "/trip", label: "Trip" },
-    { href: "/about", label: "About Us" },
-  ];
+  const contactActive =
+    pathname === "/contact" || pathname.startsWith("/contact/");
 
   return (
-    <>
-      {/* Spacer */}
-      <div className="h-16 sm:h-20"></div>
+    <header className="relative z-50 px-3 py-2.5 sm:px-4 sm:py-4 min-[1100px]:flex min-[1100px]:justify-center">
+      {isOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] min-[1100px]:hidden"
+          aria-label="Close menu"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white shadow-md"
-            : "bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-0">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo - Smaller and responsive */}
-            <Link href="/" className="flex-shrink-0" onClick={handleLinkClick}>
-              <Image
-                src={optimizeCloudinaryImage(
-                  "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
-                  360,
-                  80
-                )}
-                alt="Traveling Partner"
-                width={180}
-                height={65}
-                className="relative w-[140px] sm:w-[160px] md:w-[180px] h-auto drop-shadow-lg mt-3 sm:mt-5"
-                style={{ height: "auto" }}
-                priority
-              />
+      <div className="relative z-50 mx-auto w-full max-w-7xl min-[1100px]:w-auto min-[1100px]:max-w-none">
+        <nav className="flex h-14 w-full items-center justify-between gap-3 rounded-[100px] bg-white px-3 shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] sm:h-16 sm:px-4 min-[1100px]:h-[76px] min-[1100px]:w-fit min-[1100px]:justify-start min-[1100px]:gap-1.5 min-[1100px]:py-2">
+          <Link
+            href="/"
+            className="block h-10 w-[72px] shrink-0 sm:h-12 sm:w-[82px] min-[1100px]:h-[56px] min-[1100px]:w-[95px]"
+            onClick={handleLinkClick}
+          >
+            <Image
+              src="/images/traveling-partner-logo.png"
+              alt="Traveling Partner"
+              width={95}
+              height={56}
+              className="h-full w-full object-cover object-left"
+              priority
+            />
+          </Link>
+
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`hidden min-[1100px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
+            >
+              {link.label}
             </Link>
+          ))}
 
-            {/* Center Navigation - Hidden on mobile, visible on lg+ */}
-            <div
-              className={`hidden lg:flex items-center rounded-full p-1 h-10 sm:h-11 transition-colors ${
-                scrolled ? "bg-gray-100" : "bg-black/5"
-              }`}
-            >
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 xl:px-5 py-2 text-xs xl:text-sm font-medium rounded-full transition-all duration-200 flex items-center h-8 sm:h-9 whitespace-nowrap ${
-                    pathname === link.href
-                      ? scrolled
-                        ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
-                        : "bg-white text-black shadow-sm"
-                      : scrolled
-                        ? "text-gray-600 hover:text-[#FDB813]"
-                        : "text-black/70 hover:text-black"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Right Side - Hidden on mobile */}
-            <div className="hidden lg:flex items-center gap-3 xl:gap-4 h-10 sm:h-11">
-              <button
-                type="button"
-                onClick={handleGetAppClick}
-                className="bg-black text-white px-4 xl:px-5 py-2 rounded-full text-xs xl:text-sm font-semibold hover:bg-black/80 transition-colors flex items-center gap-1.5 xl:gap-2 h-8 sm:h-9 whitespace-nowrap"
-              >
-                Get App
-                <svg
-                  className="w-3.5 h-3.5 xl:w-4 xl:h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-black/10 transition-colors touch-manipulation"
-              aria-label="Toggle menu"
-            >
-              <div className="w-5 sm:w-6 h-4 sm:h-5 flex flex-col justify-between">
-                <span
-                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "rotate-45 translate-y-[7px] sm:translate-y-[9px]" : ""}`}
-                />
-                <span
-                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "opacity-0" : ""}`}
-                />
-                <span
-                  className={`w-full h-0.5 rounded-full transition-all duration-300 bg-black ${isOpen ? "-rotate-45 -translate-y-[7px] sm:-translate-y-[9px]" : ""}`}
-                />
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div
-            className={`lg:hidden border-t absolute left-0 right-0 ${
-              scrolled
-                ? "bg-white border-gray-200"
-                : "bg-gradient-to-b from-[#FCE001] to-[#FDB813] border-black/10"
+          <Link
+            href="/contact"
+            className={`hidden min-[1100px]:inline-flex h-[30px] shrink-0 items-center gap-1 rounded-[100px] px-3 py-1.5 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 ${
+              contactActive
+                ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
+                : "bg-black text-[#FCE001] hover:bg-black/90"
             }`}
           >
-            <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            Contact Us
+            <span className="text-[12px] leading-none" aria-hidden>
+              →
+            </span>
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full hover:bg-black/5 transition-colors min-[1100px]:hidden"
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            <div className="flex h-4 w-5 flex-col justify-between">
+              <span
+                className={`h-0.5 w-full rounded-full bg-black transition-all duration-300 ${isOpen ? "translate-y-[7px] rotate-45" : ""}`}
+              />
+              <span
+                className={`h-0.5 w-full rounded-full bg-black transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`h-0.5 w-full rounded-full bg-black transition-all duration-300 ${isOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+              />
+            </div>
+          </button>
+        </nav>
+
+        <div
+          className={`absolute left-0 right-0 top-[calc(100%+6px)] z-50 overflow-hidden rounded-2xl bg-white shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] transition-all duration-300 min-[1100px]:hidden sm:rounded-3xl ${
+            isOpen
+              ? "visible max-h-[min(70vh,520px)] opacity-100"
+              : "invisible max-h-0 opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="max-h-[min(70vh,520px)] overflow-y-auto overscroll-contain px-3 py-2 sm:px-4 sm:py-3">
+            <div className="space-y-0.5">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={handleLinkClick}
-                  className={`block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-colors ${
-                    pathname === link.href
-                      ? scrolled
-                        ? "bg-gray-100 text-black"
-                        : "bg-white text-black shadow-sm"
-                      : scrolled
-                        ? "text-gray-600 hover:bg-gray-50"
-                        : "text-black/70 hover:bg-black/5"
-                  }`}
+                  className={`block rounded-xl px-3 py-2 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 sm:rounded-[100px] sm:px-4 sm:py-2.5 sm:text-[14px] ${navLinkClass(link.href)}`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-3 sm:pt-4 flex flex-col gap-2">
-                <button
-                  type="button"
-                  onClick={handleGetAppClick}
-                  className="block px-3 sm:px-4 py-2.5 sm:py-3 text-center bg-black text-white rounded-full text-sm font-semibold hover:bg-black/80 transition-colors"
-                >
-                  Get App →
-                </button>
-              </div>
             </div>
+            <Link
+              href="/contact"
+              onClick={handleLinkClick}
+              className={`mt-2 inline-flex h-9 w-full items-center justify-center gap-1 rounded-xl px-3 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 sm:mt-3 sm:h-[30px] sm:rounded-[100px] ${
+                contactActive
+                  ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
+                  : "bg-black text-[#FCE001]"
+              }`}
+            >
+              Contact Us
+              <span aria-hidden>→</span>
+            </Link>
           </div>
-        )}
-      </nav>
-    </>
+        </div>
+      </div>
+    </header>
   );
 }
