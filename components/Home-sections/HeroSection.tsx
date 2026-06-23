@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   HERO_FRAME_HEIGHT,
   HERO_FRAME_WIDTH,
-  HERO_HEADER_OFFSET_PX,
   heroBottomFadeStyle,
 } from "@/lib/heroBackground";
 import { HeroBackgroundRoot } from "@/components/Home-sections/HeroBackground";
@@ -37,20 +36,108 @@ function ViewServicesButton({
   );
 }
 
-/** Mobile — Figma 43:779 (184 × 56) */
-function ViewServicesButtonMobile(): React.ReactElement {
+function ViewServicesButtonCompact(): React.ReactElement {
   return (
     <Link
       href="#services"
-      className="group relative inline-flex h-[56px] items-center gap-3 rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] py-[9px] pl-[27px] pr-[9px] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813]"
+      className="group inline-flex h-[52px] items-center gap-2.5 rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] py-2 pl-6 pr-2 transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] sm:h-[56px] sm:gap-3 sm:pl-[27px] sm:pr-[9px]"
     >
-      <span className="whitespace-nowrap font-poppins text-sm font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]">
+      <span className="whitespace-nowrap font-poppins text-[13px] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b] sm:text-sm">
         View Services
       </span>
-      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[15px] font-bold leading-none text-[#0b0b0b] transition-all duration-400 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001]">
+      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[19px] bg-gradient-to-b from-[#fce001] to-[#fdb813] text-sm font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001] sm:h-[38px] sm:w-[38px] sm:text-[15px]">
         →
       </span>
     </Link>
+  );
+}
+
+function HeroHeadline({
+  className = "",
+  size = "mobile",
+}: {
+  className?: string;
+  size?: "mobile" | "tablet";
+}): React.ReactElement {
+  const mobileSize = "clamp(1.65rem, 7.5vw, 2.35rem)";
+  const tabletSize = "clamp(1.85rem, 4.2vw, 2.75rem)";
+
+  return (
+    <h1
+      className={`font-poppins font-semibold leading-[0.98] tracking-[-0.03em] ${className}`}
+      style={{ fontSize: size === "tablet" ? tabletSize : mobileSize }}
+    >
+      <span className="block text-[#fdb813]">Get to your</span>
+      <span className="block text-[#0b0b0b]">destination,</span>
+      <span className="block text-[#0b0b0b]">safe &amp;</span>
+      <span className="block text-[#0b0b0b]">secure.</span>
+    </h1>
+  );
+}
+
+function HeroSubtext({ className = "" }: { className?: string }): React.ReactElement {
+  return (
+    <div
+      className={`font-poppins text-[14px] leading-[22px] text-[#6f6e68] sm:text-[15px] sm:leading-[23px] ${className}`}
+    >
+      <p className="mb-0">Pakistan&apos;s smarter ride partner. Zero commission,</p>
+      <p className="mb-0">verified drivers, real-time tracking — built for the</p>
+      <p>daily commuter.</p>
+    </div>
+  );
+}
+
+function HeroManWithCard({
+  className = "",
+  maxWidth = "360px",
+}: {
+  className?: string;
+  maxWidth?: string;
+}): React.ReactElement {
+  return (
+    <div
+      className={`relative mx-auto aspect-[585/812] w-full ${className}`}
+      style={{ maxWidth }}
+    >
+      <Image
+        src="/images/hero-man-figma-new.png"
+        alt="Traveling Partner app user"
+        fill
+        priority
+        className="object-cover object-[42%_18%]"
+        sizes="(max-width: 1024px) 45vw, 400px"
+      />
+      <div className="absolute bottom-[6%] left-0 w-[58%] max-w-[220px]">
+        <Image
+          src="/images/hero-active-drivers-card.png"
+          alt="2,847 active drivers, up 12.4 percent"
+          width={378}
+          height={253}
+          className="h-auto w-full drop-shadow-[0_12px_40px_rgba(11,11,11,0.1)]"
+          priority
+        />
+      </div>
+    </div>
+  );
+}
+
+function HeroBottomFade({ className = "" }: { className?: string }): React.ReactElement {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-x-0 bottom-0 h-16 sm:h-20 md:h-24 ${className}`}
+      aria-hidden
+    >
+      <div
+        className="absolute inset-0 backdrop-blur-[11.95px]"
+        style={{
+          ...heroBottomFadeStyle,
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 70%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 70%)",
+        }}
+      />
+    </div>
   );
 }
 
@@ -58,13 +145,12 @@ export default function HeroSection(): React.ReactElement {
   return (
     <HeroBackgroundRoot className="w-full">
       <div className="relative mx-auto w-full max-w-[1920px] overflow-hidden">
-        {/* Figma canvas 1920 × 1136 */}
+        {/* Desktop — Figma canvas (1024px+) */}
         <div
-          className="relative mx-auto hidden w-full overflow-hidden md:block"
+          className="relative mx-auto hidden w-full overflow-hidden lg:block"
           style={{ height: 0, paddingBottom: pct(FH, FW) }}
         >
           <div className="absolute inset-0 overflow-hidden">
-            {/* Man — Figma mask group 124:3566 */}
             <div
               className="absolute overflow-hidden"
               style={{
@@ -91,7 +177,6 @@ export default function HeroSection(): React.ReactElement {
               />
             </div>
 
-            {/* Get to your — Figma 124:3586 */}
             <h1
               className="absolute -translate-y-1/2 font-poppins font-semibold text-[#fdb813]"
               style={{
@@ -106,7 +191,6 @@ export default function HeroSection(): React.ReactElement {
               <span className="block whitespace-nowrap">Get to your</span>
             </h1>
 
-            {/* destination, safe & secure. — Figma 124:3587 */}
             <h1
               className="absolute -translate-y-1/2 font-poppins font-semibold text-[#0b0b0b]"
               style={{
@@ -123,7 +207,6 @@ export default function HeroSection(): React.ReactElement {
               <span className="block whitespace-nowrap">secure.</span>
             </h1>
 
-            {/* Subtext — Figma 124:3570 */}
             <div
               className="absolute -translate-y-1/2 font-poppins text-[#6f6e68]"
               style={{
@@ -139,7 +222,6 @@ export default function HeroSection(): React.ReactElement {
               <p>daily commuter.</p>
             </div>
 
-            {/* Active drivers card — Figma 124:3571 */}
             <div
               className="absolute z-[2]"
               style={{
@@ -158,13 +240,9 @@ export default function HeroSection(): React.ReactElement {
               />
             </div>
 
-            {/* Bottom fade — Figma 124:3569 (cream only, no gray filter bleed) */}
             <div
               className="pointer-events-none absolute inset-x-0 z-[1]"
-              style={{
-                top: pct(980, FH),
-                height: pct(155, FH),
-              }}
+              style={{ top: pct(980, FH), height: pct(155, FH) }}
               aria-hidden
             >
               <div
@@ -179,12 +257,11 @@ export default function HeroSection(): React.ReactElement {
               />
             </div>
 
-            {/* View Services — Figma 124:3588 */}
             <div
               className="absolute z-[2] [container-type:size]"
               style={{
                 right: pct(93.73, FW),
-                bottom: pct(100.0, FH),
+                bottom: pct(100, FH),
                 width: pct(267.09, FW),
                 height: pct(81.45, FH),
               }}
@@ -194,50 +271,33 @@ export default function HeroSection(): React.ReactElement {
           </div>
         </div>
 
-        {/* Mobile */}
-        <div
-          className="flex flex-col gap-5 overflow-x-hidden px-4 pb-10 sm:px-6 md:hidden"
-          style={{ paddingTop: `${HERO_HEADER_OFFSET_PX}px` }}
-        >
-          <h1
-            className="font-poppins font-semibold leading-[0.98] tracking-[-0.035em]"
-            style={{ fontSize: "clamp(2rem, 10vw, 3rem)" }}
-          >
-            <span className="block whitespace-nowrap text-[#fdb813]">Get to your</span>
-            <span className="block text-[#0b0b0b]">destination,</span>
-            <span className="block text-[#0b0b0b]">safe &amp;</span>
-            <span className="block text-[#0b0b0b]">secure.</span>
-          </h1>
-
-          <div className="font-poppins text-[15px] leading-[23px] text-[#6f6e68]">
-            <p className="mb-0">Pakistan&apos;s smarter ride partner. Zero commission,</p>
-            <p className="mb-0">verified drivers, real-time tracking — built for the</p>
-            <p>daily commuter.</p>
-          </div>
-
-          <div className="relative mx-auto aspect-[585/812] w-full max-w-[360px]">
-            <Image
-              src="/images/hero-man-figma-new.png"
-              alt="Traveling Partner app user"
-              fill
-              priority
-              className="object-cover"
-              style={{ objectPosition: "42% 18%" }}
-              sizes="90vw"
-            />
-            <div className="absolute bottom-2 left-0 w-[62%] max-w-[220px]">
-              <Image
-                src="/images/hero-active-drivers-card.png"
-                alt="2,847 active drivers, up 12.4 percent"
-                width={378}
-                height={253}
-                className="h-auto w-full"
-                priority
-              />
+        {/* Tablet — 768px to 1023px (Galaxy Tab, iPad portrait) */}
+        <div className="relative hidden min-h-0 overflow-hidden px-5 pb-8 pt-[92px] md:block lg:hidden sm:px-8 sm:pt-[100px]">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 items-center gap-6 sm:gap-8">
+            <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
+              <HeroHeadline size="tablet" />
+              <HeroSubtext />
+              <ViewServicesButtonCompact />
             </div>
+            <HeroManWithCard maxWidth="100%" className="max-h-[min(52vh,420px)]" />
+          </div>
+          <HeroBottomFade />
+        </div>
+
+        {/* Phone — below 768px */}
+        <div className="relative flex flex-col gap-4 overflow-x-hidden px-4 pb-8 pt-[84px] sm:gap-5 sm:px-6 sm:pb-10 sm:pt-[92px] md:hidden">
+          <div className="mx-auto w-full max-w-md text-center sm:text-left">
+            <HeroHeadline size="mobile" />
+            <HeroSubtext className="mt-3 sm:mt-4" />
           </div>
 
-          <ViewServicesButtonMobile />
+          <HeroManWithCard maxWidth="280px" className="sm:max-w-[320px]" />
+
+          <div className="flex justify-center sm:justify-start">
+            <ViewServicesButtonCompact />
+          </div>
+
+          <HeroBottomFade />
         </div>
       </div>
     </HeroBackgroundRoot>

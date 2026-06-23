@@ -6,8 +6,9 @@ export const heroBackgroundStyle: CSSProperties = {
     "radial-gradient(ellipse 1344px 908px at 100% 50%, rgba(252,224,1,0.18) 0%, rgba(252,224,1,0) 65%), radial-gradient(ellipse 768px 682px at 0% 100%, rgba(253,184,19,0.1) 0%, rgba(253,184,19,0) 70%), linear-gradient(131.83deg, #fffcf2 0%, #faf5e4 60%, #f4f0e0 100%)",
 };
 
-/** Figma nav y=43 + height=87 */
+/** Figma nav y=43 + height=87 (desktop); mobile compact bar */
 export const HERO_HEADER_OFFSET_PX = 130;
+export const HERO_HEADER_OFFSET_MOBILE_PX = 88;
 
 /** Figma hero canvas */
 export const HERO_FRAME_WIDTH = 1920;
