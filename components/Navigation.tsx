@@ -36,9 +36,9 @@ export default function Navigation() {
   };
 
   const navLinkClass = (href: string) =>
-    isActive(href)
-      ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
-      : "text-black hover:bg-black/[0.04]";
+    `text-black transition-all duration-200 hover:bg-[rgba(11,11,11,0.07)] ${
+      isActive(href) ? "bg-[rgba(11,11,11,0.07)]" : ""
+    }`;
 
   const contactActive =
     pathname === "/contact" || pathname.startsWith("/contact/");
@@ -55,11 +55,11 @@ export default function Navigation() {
     >
       <div className="relative mx-auto w-full max-w-4xl min-[1200px]:max-w-[1920px]">
         <nav
-          className={`relative flex h-14 w-full items-center justify-between gap-2 rounded-[100px] bg-white px-3 shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] sm:h-[66px] sm:gap-3 sm:px-5 md:h-[72px] md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[87px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:px-[23px] min-[1200px]:py-[11px]`}
+          className={`relative flex h-14 w-full items-center justify-between gap-2 rounded-[100px] bg-white px-3 shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] sm:h-[66px] sm:gap-3 sm:px-5 md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[66px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:px-5 min-[1200px]:py-2`}
         >
           <Link
             href="/"
-            className="block h-10 w-[72px] shrink-0 sm:h-[52px] sm:w-[92px] md:h-[56px] md:w-[98px] min-[1200px]:h-[65px] min-[1200px]:w-[110px]"
+            className="block h-10 w-[72px] shrink-0 sm:h-[52px] sm:w-[92px] min-[1200px]:h-[52px] min-[1200px]:w-[95px]"
             onClick={handleLinkClick}
           >
             <Image
@@ -76,7 +76,7 @@ export default function Navigation() {
             <Link
               key={link.href}
               href={link.href}
-              className={`hidden min-[1200px]:inline-flex h-[36px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
+              className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
             >
               {link.label}
             </Link>
@@ -84,7 +84,7 @@ export default function Navigation() {
 
           <Link
             href="/contact"
-            className={`hidden min-[1200px]:inline-flex h-[40px] shrink-0 items-center gap-1 rounded-[100px] px-4 py-2 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 ${
+            className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] px-3.5 py-1.5 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 ${
               contactActive
                 ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
                 : "bg-black text-[#FCE001] hover:bg-black/90"
