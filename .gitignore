@@ -3,8 +3,16 @@ __v0_runtime_loader.js
 __v0_devtools.tsx
 __v0_jsx-dev-runtime.ts
 
-# Common ignores
+# Dependencies
 node_modules/
+
+# Next.js
 .next/
+out/
+
+# Environment
 .env*.local
+.env
+
+# OS
 .DS_Store
