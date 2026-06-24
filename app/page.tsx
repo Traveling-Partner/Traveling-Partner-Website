@@ -2,7 +2,7 @@
 import React, { Suspense } from "react";
 import HeroSection from "@/components/Home-sections/HeroSection";
 import RegisterDriverSection from "@/components/Home-sections/RegisterDriverSection";
-import FeaturedCategoriesSection from "@/components/Home-sections/FeaturedCategoriesSection";
+import SixRidesSection from "@/components/Home-sections/SixRidesSection";
 import VideoSection from "@/components/Home-sections/VideoSection";
 import AboutUsSection from "@/components/Home-sections/AboutUsSection";
 import BlogSection from "@/components/Home-sections/BlogSection";
@@ -19,7 +19,7 @@ export default function Home(): React.ReactElement {
     <div>
       <HeroSection />
       <RegisterDriverSection />
-      <FeaturedCategoriesSection />
+      <SixRidesSection />
 
       <VideoSection
         id="how-it-works"
