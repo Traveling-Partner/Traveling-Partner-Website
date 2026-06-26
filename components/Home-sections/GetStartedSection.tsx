@@ -7,13 +7,16 @@ import TutorialVideoPlayer, {
   type TutorialVideoData,
 } from "./TutorialVideoPlayer";
 
+const accentClass =
+  "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
+
 const TUTORIALS: TutorialVideoData[] = [
   {
     id: "driver",
     num: "01",
     badge: "TUTORIAL · DRIVER",
     categoryLabel: "FOR DRIVERS · 3 QUICK STEPS",
-    durationLabel: "03:42",
+    durationLabel: "2:12",
     headerTitle: "How to register as a driver",
     headlineLead: "How to register",
     headlineAccent: "as a driver.",
@@ -32,7 +35,7 @@ const TUTORIALS: TutorialVideoData[] = [
     num: "02",
     badge: "TUTORIAL · PARTNER",
     categoryLabel: "FOR BUSINESS · ONBOARDING FLOW",
-    durationLabel: "05:18",
+    durationLabel: "1:49",
     headerTitle: "How to register as a Partner",
     headlineLead: "How to register",
     headlineAccent: "as a partner.",
@@ -74,19 +77,25 @@ export default function GetStartedSection(): React.ReactElement {
         aria-hidden
       />
 
-      <div className="relative z-[1] mx-auto w-full max-w-[1280px] px-4 sm:px-8 lg:px-12">
-        <div className="mb-12 text-center sm:mb-14">
+      <div className="relative z-[1] mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-10">
+        <div className="mb-8 text-center sm:mb-10 lg:mb-12">
           <h2
             id="get-started-heading"
-            className="font-poppins text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white"
+            className="font-poppins text-[clamp(1.875rem,3.6vw,3rem)] font-bold leading-[1.1] tracking-[-0.03em]"
           >
-            Get started in{" "}
-            <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent">
-              minutes.
+            <span className="block font-bold text-white">
+              Get started in <span className={accentClass}>three</span>
             </span>
+            <span className={`block ${accentClass}`}>minutes.</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-[520px] font-poppins text-[15px] font-normal leading-[1.55] text-white/50">
-            Watch our step-by-step tutorials for drivers and partners.
+          <p className="mx-auto mt-5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.6] text-white sm:text-[14px] lg:mt-6 lg:text-[15px] lg:leading-[1.65]">
+            <span className="block">
+              Whether you&apos;re signing up as a driver or partnering as a business
+            </span>
+            <span className="block">
+              — we&apos;ve got a step-by-step guide that walks you through every
+            </span>
+            <span className="block">detail.</span>
           </p>
         </div>
 
@@ -97,7 +106,7 @@ export default function GetStartedSection(): React.ReactElement {
             onClose={() => setActiveId(null)}
           />
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+          <div className="grid items-stretch gap-5 md:grid-cols-2 md:gap-6 lg:gap-7">
             {TUTORIALS.map((tutorial) => (
               <TutorialPreviewCard
                 key={tutorial.id}

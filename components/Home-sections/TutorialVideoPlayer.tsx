@@ -372,15 +372,15 @@ function PlayRingButton({ onClick }: { onClick: () => void }): React.ReactElemen
     <button
       type="button"
       onClick={onClick}
-      className="relative flex h-[72px] w-[72px] items-center justify-center transition-transform hover:scale-105"
+      className="relative flex h-16 w-16 items-center justify-center transition-transform hover:scale-105 sm:h-[4.5rem] sm:w-[4.5rem]"
       aria-label="Play tutorial"
     >
       <span
-        className="absolute inset-0 rounded-full border-2 border-white/50"
+        className="absolute inset-0 rounded-full border-2 border-white/55"
         aria-hidden
       />
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_28px_rgba(0,0,0,0.25)]">
-        <svg className="ml-0.5" width="18" height="20" viewBox="0 0 18 20" fill="none" aria-hidden>
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:h-[3.25rem] sm:w-[3.25rem]">
+        <svg className="ml-0.5" width="16" height="18" viewBox="0 0 18 20" fill="none" aria-hidden>
           <path d="M2 2L16 10L2 18V2Z" fill="#0b0b0b" />
         </svg>
       </span>
@@ -398,9 +398,9 @@ export function TutorialPreviewCard({
   onPlay,
 }: TutorialPreviewCardProps): React.ReactElement {
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
-      {/* Thumbnail */}
-      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
+    <article className="group/card flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.32)] sm:rounded-[26px]">
+      {/* Thumbnail — taller than white content panel */}
+      <div className="relative h-[250px] w-full shrink-0 overflow-hidden sm:h-[270px] lg:h-[290px]">
         <Image
           src={tutorial.posterSrc}
           alt={tutorial.headerTitle}
@@ -410,12 +410,12 @@ export function TutorialPreviewCard({
         />
         <div className="absolute inset-0 bg-black/35" aria-hidden />
 
-        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3.5 py-1.5 font-poppins text-[10px] font-semibold uppercase tracking-[0.1em] text-white backdrop-blur-sm sm:text-[11px]">
+        <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 font-poppins text-[10px] font-semibold uppercase tracking-[0.1em] text-white backdrop-blur-sm sm:text-[11px]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" aria-hidden />
           {tutorial.badge}
         </span>
 
-        <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/35 px-3 py-1.5 font-poppins text-[11px] font-semibold tabular-nums text-white backdrop-blur-sm">
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 font-poppins text-[11px] font-semibold tabular-nums text-white backdrop-blur-sm">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
             <circle cx="5" cy="5" r="4" stroke="currentColor" strokeWidth="1.25" />
             <path d="M4 3.5L6.5 5L4 6.5V3.5Z" fill="currentColor" />
@@ -428,18 +428,18 @@ export function TutorialPreviewCard({
         </div>
       </div>
 
-      {/* White content */}
-      <div className="flex flex-1 flex-col p-6 sm:p-8">
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-poppins text-[11px] font-bold text-white">
+      {/* White content — compact; height driven by content only */}
+      <div className="flex shrink-0 flex-col p-4 sm:p-5">
+        <div className="flex items-center gap-2">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins text-[10px] font-bold text-[#0b0b0b]">
             {tutorial.num}
           </span>
-          <span className="font-poppins text-[11px] font-semibold uppercase tracking-[0.1em] text-[#9a9890]">
+          <span className="font-poppins text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a9890] sm:text-[10px]">
             {tutorial.categoryLabel}
           </span>
         </div>
 
-        <h3 className="mt-5 font-poppins text-[clamp(1.35rem,2.2vw,1.75rem)] font-bold leading-[1.15] tracking-[-0.02em] text-[#0b0b0b]">
+        <h3 className="mt-2.5 font-poppins text-[clamp(1.35rem,2.25vw,1.875rem)] font-bold leading-[1.15] tracking-[-0.02em] text-[#0b0b0b]">
           {tutorial.headlineLead}{" "}
           <span
             className={`${accentSerif.className} bg-gradient-to-b from-[#f5a623] to-[#fdb813] bg-clip-text font-normal text-transparent`}
@@ -448,21 +448,21 @@ export function TutorialPreviewCard({
           </span>
         </h3>
 
-        <p className="mt-3 flex-1 font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
+        <p className="mt-2 line-clamp-2 font-poppins text-[12px] font-normal leading-[1.5] text-[#6f6e68] sm:text-[13px]">
           {tutorial.description}
         </p>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-          <span className="font-poppins text-[12px] font-normal text-[#9a9890] sm:text-[13px]">
+        <div className="mt-3.5 flex items-center justify-between gap-3">
+          <span className="min-w-0 font-poppins text-[11px] font-normal text-[#0b0b0b] sm:text-[12px]">
             {tutorial.statLabel}
           </span>
           <button
             type="button"
             onClick={onPlay}
-            className="group inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.18)] transition-colors hover:bg-[#1a1a1a] sm:text-[13px]"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] py-0 pl-3.5 pr-1 font-poppins text-[11px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.18)] transition-all duration-300 group-hover/card:bg-gradient-to-r group-hover/card:from-[#fce001] group-hover/card:to-[#fdb813] group-hover/card:text-[#0b0b0b] group-hover/card:shadow-[0_8px_22px_rgba(252,224,1,0.35)] sm:text-[12px]"
           >
             {tutorial.ctaLabel}
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#fdb813] text-[11px] font-bold leading-none text-[#0b0b0b] transition-transform group-hover:-rotate-45">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#fdb813] text-[11px] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover/card:-rotate-45 group-hover/card:bg-[#0b0b0b] group-hover/card:text-[#fdb813]">
               →
             </span>
           </button>
