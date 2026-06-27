@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
@@ -21,13 +21,96 @@ const DESIGN_SCALE = 0.72;
 const ACTIVE_W = Math.round(600*DESIGN_SCALE);
 const ACTIVE_H = Math.round(558 * DESIGN_SCALE);
 const SIDE_W = Math.round(440 * DESIGN_SCALE);
-const CARD_GAP = Math.round(20* DESIGN_SCALE);
+const CARD_GAP = Math.round(25* DESIGN_SCALE);
 const IMAGE_H = Math.round(306 * DESIGN_SCALE);
 const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
 /** Exactly 3 cards: 1 active + gap + 2 side */
 const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
 const AUTOPLAY_MS = 4500;
-const FADE_MS = 0.35;
+const SLIDE_MS = 400;
+
+/** Matches About Us "Read our story" CTA — Figma Component 1 / 124:3695 */
+const STORY_CTA_FIGMA = {
+  padLeft: 22,
+  padRight: 12,
+  padY: 10,
+  gap: 8,
+  labelSize: 16,
+  arrowSize: 36,
+  arrowFont: 15,
+};
+const STORY_CTA_SCALE = 0.85;
+
+function scaleStoryCta(value: number, extraScale = 1): number {
+  return value * STORY_CTA_SCALE * extraScale;
+}
+
+function ViewMoreButton(): React.ReactElement {
+  const s = STORY_CTA_FIGMA;
+  const mobileScale = 0.72;
+
+  return (
+    <>
+      <Link
+        href="/blog"
+        className="group relative hidden w-fit shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)] lg:inline-flex"
+        style={{
+          paddingLeft: scaleStoryCta(s.padLeft),
+          paddingRight: scaleStoryCta(s.padRight),
+          paddingTop: scaleStoryCta(s.padY),
+          paddingBottom: scaleStoryCta(s.padY),
+          gap: scaleStoryCta(s.gap),
+        }}
+      >
+        <span
+          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize) }}
+        >
+          View More
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
+          style={{
+            width: scaleStoryCta(s.arrowSize),
+            height: scaleStoryCta(s.arrowSize),
+            fontSize: scaleStoryCta(s.arrowFont),
+          }}
+        >
+          <span className="block translate-x-px leading-none">→</span>
+        </span>
+      </Link>
+
+      <Link
+        href="/blog"
+        className="group inline-flex w-fit shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 lg:hidden"
+        style={{
+          paddingLeft: scaleStoryCta(s.padLeft, mobileScale),
+          paddingRight: scaleStoryCta(s.padRight, mobileScale),
+          paddingTop: scaleStoryCta(s.padY, mobileScale),
+          paddingBottom: scaleStoryCta(s.padY, mobileScale),
+          gap: scaleStoryCta(s.gap, mobileScale),
+        }}
+      >
+        <span
+          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize, mobileScale) }}
+        >
+          View More
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
+          style={{
+            width: scaleStoryCta(s.arrowSize, mobileScale),
+            height: scaleStoryCta(s.arrowSize, mobileScale),
+            fontSize: scaleStoryCta(s.arrowFont, mobileScale),
+          }}
+        >
+          <span className="block translate-x-px leading-none">→</span>
+        </span>
+      </Link>
+    </>
+  );
+}
 
 interface Blog {
   id: string | number;
@@ -205,12 +288,15 @@ function getVisibleBlogs(blogs: Blog[], activeIndex: number): Blog[] {
 
 export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const blogsRef = useRef<Blog[]>([]);
+  const isHoveredRef = useRef(false);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [frameScale, setFrameScale] = useState(1);
+
+  blogsRef.current = blogs;
 
   const updateFrameScale = useCallback(() => {
     if (!rootRef.current) return;
@@ -239,12 +325,18 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   }, []);
 
   useEffect(() => {
-    if (blogs.length <= 1 || isHovered) return;
-    const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % blogs.length);
-    }, AUTOPLAY_MS);
-    return () => clearInterval(id);
-  }, [blogs.length, isHovered]);
+    if (blogs.length <= 1) return;
+
+    const tick = () => {
+      if (isHoveredRef.current) return;
+      const count = blogsRef.current.length;
+      if (count <= 1) return;
+      setActiveIndex((i) => (i + 1) % count);
+    };
+
+    const id = window.setInterval(tick, AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+  }, [blogs.length]);
 
   const visibleBlogs = useMemo(() => getVisibleBlogs(blogs, activeIndex), [blogs, activeIndex]);
   const scaledW = VIEWPORT_W * frameScale;
@@ -260,48 +352,53 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   if (!blogs.length) return null;
 
   return (
-    <div
-      ref={rootRef}
-      className="w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div ref={rootRef} className="w-full">
       <div className="flex w-full justify-center">
         <div
           className="overflow-hidden"
           style={{ width: scaledW, maxWidth: "100%", height: ACTIVE_H * frameScale }}
+          onMouseEnter={() => {
+            isHoveredRef.current = true;
+          }}
+          onMouseLeave={() => {
+            isHoveredRef.current = false;
+          }}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              className="flex shrink-0 items-stretch"
-              style={{
-                width: VIEWPORT_W,
-                gap: CARD_GAP,
-                transform: `scale(${frameScale})`,
-                transformOrigin: "top left",
-              }}
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -24 }}
-              transition={{ duration: FADE_MS, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {visibleBlogs.map((blog, position) => {
-                const isActive = position === 0;
-                const cardW = isActive ? ACTIVE_W : SIDE_W;
+          <motion.div
+            className="flex shrink-0 items-stretch"
+            style={{
+              width: VIEWPORT_W,
+              gap: CARD_GAP,
+              transform: `scale(${frameScale})`,
+              transformOrigin: "top left",
+            }}
+            animate={{ x: 0, opacity: 1 }}
+            initial={false}
+            transition={{ duration: SLIDE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+            key={activeIndex}
+          >
+            {visibleBlogs.map((blog, position) => {
+              const isActive = position === 0;
+              const cardW = isActive ? ACTIVE_W : SIDE_W;
 
-                return (
-                  <div
-                    key={blog.id}
-                    className="shrink-0 overflow-hidden"
-                    style={{ width: cardW, height: ACTIVE_H }}
-                  >
-                    <BlogCard blog={blog} isActive={isActive} />
-                  </div>
-                );
-              })}
-            </motion.div>
-          </AnimatePresence>
+              return (
+                <motion.div
+                  key={`${activeIndex}-${position}-${blog.id}`}
+                  className="shrink-0 overflow-hidden"
+                  style={{ width: cardW, height: ACTIVE_H }}
+                  initial={{ opacity: 0.4, x: 28 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: SLIDE_MS / 1000,
+                    delay: position * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <BlogCard blog={blog} isActive={isActive} />
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </div>
       </div>
 
@@ -327,17 +424,7 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
           )}
         </div>
 
-        <Link
-          href="/blog"
-          className="inline-flex shrink-0 items-center gap-4 rounded-full bg-[#fce001] py-3.5 pl-7 pr-3 text-[15px] font-semibold text-black shadow-[0_0_40px_rgba(252,224,1,0.22)] hover:bg-[#ffd81d]"
-        >
-          View More
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </span>
-        </Link>
+        <ViewMoreButton />
       </div>
     </div>
   );
