@@ -25,13 +25,6 @@ import { FaGooglePlay } from "react-icons/fa";
 import { IoLogoApple } from "react-icons/io5";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 
-const quickLinks = [
-  { icon: MdDirectionsCar, label: "Taxi", href: "/taxi-stand", color: "from-[#FCE001] to-[#FDB813]", desc: "City rides" },
-  { icon: MdLocalShipping, label: "Pool", href: "/pool-ride", color: "from-[#FDB813] to-[#FFA500]", desc: "Shared trips" },
-  { icon: MdDeliveryDining, label: "Delivery", href: "/delivery", color: "from-[#FCE001] to-[#FFD700]", desc: "Fast delivery" },
-  { icon: MdFlightTakeoff, label: "Logistics", href: "/logistic", color: "from-[#FDB813] to-[#FF8C00]", desc: "Enterprise" },
-  { icon: MdMap, label: "Trip", href: "/trip", color: "from-[#FCE001] to-[#FDB813]", desc: "Plan journey" },
-];
 
 const footerLinks = {
   company: [
@@ -73,52 +66,7 @@ export default function Footer() {
       </div>
 
       {/* Quick Access Cards */}
-      <div className="relative z-10 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8"
-          >
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Our Services</h3>
-            <div className="w-16 h-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] mx-auto rounded-full" />
-          </motion.div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {quickLinks.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link href={item.href}>
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 p-5 shadow-lg hover:shadow-xl transition-all duration-500 h-full"
-                  >
-                    {/* Hover Gradient Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-r ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                    
-                    <div className="relative flex flex-col items-center text-center gap-3">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300`}>
-                        <item.icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-base text-gray-900 group-hover:text-[#FDB813] transition-colors">{item.label}</h3>
-                        <p className="text-xs text-gray-500 mt-1">{item.desc}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+    
 
       {/* Main Footer Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
