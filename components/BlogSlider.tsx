@@ -6,15 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { extractBlogList } from "@/lib/blogApi";
+import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
-import {
-  formatBlogDate,
-  formatBlogType,
-  pickBlogCategoryField,
-  pickBlogDateField,
-} from "@/lib/blogFormat";
+import { formatBlogDate, pickBlogCategoryField } from "@/lib/blogFormat";
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.72;
@@ -124,39 +119,52 @@ interface Blog {
   readTime?: string;
 }
 
-const mapBlog = (item: any): Blog => ({
-  id: item?.id ?? item?.blog_id ?? item?.blogId ?? item?.website_blog_id ?? item?.websiteBlogId ?? "",
-  cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
-  main_title: item?.main_title ?? item?.mainTitle ?? item?.title ?? "Untitled",
-  description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
-  date: pickBlogDateField(item),
+const mapBlog = (item: Record<string, unknown>): Blog => ({
+  id: getBlogIdFromItem(item),
+  cover_image: String(item?.coverImage ?? item?.cover_image ?? item?.image ?? "").trim(),
+  main_title: String(item?.mainTitle ?? item?.main_title ?? item?.title ?? "").trim(),
+  description1: String(item?.description1 ?? item?.description ?? item?.short_description ?? "").trim(),
+  date: item?.date ?? item?.publishedAt ?? item?.published_at ?? "",
   category: pickBlogCategoryField(item),
   author: String(item?.author ?? "").trim(),
   readTime: String(item?.readTime ?? item?.read_time ?? "").trim(),
 });
 
-const getImageSrc = (v: string) => {
+const getImageSrc = (v: string): string | null => {
   const src = String(v || "").trim();
-  if (!src) return "/mock-images/blog-cover.svg";
-  if (src.startsWith("/") || src.startsWith("http")) return optimizeCloudinaryImage(src, 900, 72);
-  return "/mock-images/blog-cover.svg";
+  if (!src) return null;
+  if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
+    return optimizeCloudinaryImage(src, 900, 72);
+  }
+  return null;
 };
 
-const formatAuthor = (a: string) => {
-  const raw = a.trim();
-  if (!raw) return "Admin";
-  return raw.split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+const displayApiDate = (value: unknown): string => {
+  if (value == null || value === "") return "";
+  return formatBlogDate(value);
 };
 
-const formatReadTime = (rt: string) => {
-  const raw = rt.trim();
-  if (!raw) return "5 min read";
-  return /read/i.test(raw) ? raw : `${raw} read`;
+const getAuthorInitials = (author: string): string => {
+  const words = author.trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return "";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
 };
 
 function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
-  const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
-  const focus = isActive ? 1 : 0;
+  const categoryLabel = blog.category ? String(blog.category).trim() : "";
+  const imageSrc = getImageSrc(blog.cover_image);
+  const dateLabel = displayApiDate(blog.date);
+  const authorLabel = blog.author?.trim() ?? "";
+  const authorInitials = getAuthorInitials(authorLabel);
+  const readTimeLabel = blog.readTime?.trim() ?? "";
+  const imageH = isActive ? Math.round(IMAGE_H * 0.86) : Math.round(IMAGE_H * 0.8);
+  const textPad = isActive ? "16px 20px 18px" : "14px 16px 16px";
+  const titleSize = isActive ? 20 : 15;
+  const bodySize = isActive ? 14 : 13;
+  const metaSize = isActive ? 12 : 11;
+  const contentGap = isActive ? 6 : 6;
+  const titleLineHeight = 1.35;
 
   return (
     <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full">
@@ -170,104 +178,116 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
             ? "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 28px 56px rgba(0,0,0,0.48), 0 12px 28px rgba(0,0,0,0.24)"
             : "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.32)",
           opacity: isActive ? 1 : 0.9,
-          ["--focus" as string]: focus,
         }}
       >
-        <div className="relative shrink-0 overflow-hidden" style={{ height: IMAGE_H }}>
-          <Image
-            src={getImageSrc(blog.cover_image)}
-            alt={blog.main_title}
-            fill
-            className="object-cover"
-            sizes="(max-width:768px) 90vw, 642px"
-          />
+        <div className="relative shrink-0 overflow-hidden bg-[#1a1a1a]" style={{ height: imageH }}>
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt={blog.main_title}
+              fill
+              className="object-cover"
+              sizes="(max-width:768px) 90vw, 642px"
+            />
+          ) : null}
           <div
             className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(to top, #161616 0%, transparent 52%)" }}
+            style={{ background: "linear-gradient(to top, #161616 0%, transparent 45%)" }}
           />
           {categoryLabel ? (
             <span
               className="absolute left-[18px] top-[18px] rounded-[6px] bg-[#fce001] font-bold uppercase tracking-[0.06em] text-black"
               style={{
-                fontSize: "calc(10px + 1px * var(--focus, 0))",
-                padding: "calc(5px + 1px * var(--focus, 0)) calc(9px + 2px * var(--focus, 0))",
+                fontSize: isActive ? 11 : 9,
+                padding: isActive ? "6px 11px" : "4px 8px",
               }}
             >
-              {categoryLabel}
+              {categoryLabel.toUpperCase()}
             </span>
           ) : null}
         </div>
 
         <div
-          className="flex flex-1 flex-col justify-between"
-          style={{
-            padding:
-              "calc(16px + 6px * var(--focus, 0)) calc(18px + 8px * var(--focus, 0)) calc(18px + 8px * var(--focus, 0))",
-          }}
+          className="relative z-10 flex min-h-0 flex-1 flex-col bg-[#161616]"
+          style={{ padding: textPad }}
         >
-          <div>
+          <div className="min-h-0 flex-1 overflow-hidden" style={{ display: "flex", flexDirection: "column", gap: contentGap }}>
             <h3
-              className="line-clamp-2 font-bold leading-[1.35] text-white"
+              className="line-clamp-2 font-bold text-white"
               style={{
-                fontSize: "calc(16px + 5px * var(--focus, 0))",
-                marginBottom: "calc(10px + 4px * var(--focus, 0))",
+                fontSize: titleSize,
+                lineHeight: titleLineHeight,
               }}
             >
               {blog.main_title}
             </h3>
-            <p
-              className="line-clamp-2 leading-[1.6] text-white/60"
-              style={{ fontSize: "calc(13px + 3px * var(--focus, 0))" }}
-            >
-              {blog.description1}
-            </p>
+            {blog.description1 ? (
+              <p
+                className="line-clamp-2 leading-[1.5] text-white/60"
+                style={{ fontSize: bodySize, margin: 0 }}
+              >
+                {blog.description1}
+              </p>
+            ) : null}
           </div>
 
           <div
-            className="flex flex-wrap items-center gap-x-2 text-white/50"
-            style={{ fontSize: "calc(11px + 2px * var(--focus, 0))" }}
+            className={`flex shrink-0 flex-wrap items-center gap-x-2 gap-y-1 text-white/50 ${isActive ? "pt-3" : "mt-auto pt-2"}`}
+            style={{ fontSize: metaSize }}
           >
-            <span className="inline-flex items-center gap-1.5">
-              <span
-                className="flex items-center justify-center rounded-full bg-[#fce001] font-bold text-black"
-                style={{
-                  width: "calc(22px + 4px * var(--focus, 0))",
-                  height: "calc(22px + 4px * var(--focus, 0))",
-                  fontSize: "calc(8px + 2px * var(--focus, 0))",
-                }}
-              >
-                TP
+            {authorLabel ? (
+              <span className="inline-flex min-w-0 items-center gap-1.5">
+                {authorInitials ? (
+                  <span
+                    className="flex shrink-0 items-center justify-center rounded-full bg-[#fce001] font-bold text-black"
+                    style={{
+                      width: isActive ? 24 : 20,
+                      height: isActive ? 24 : 20,
+                      fontSize: isActive ? 9 : 8,
+                    }}
+                  >
+                    {authorInitials}
+                  </span>
+                ) : null}
+                <span className="truncate text-white/70">{authorLabel}</span>
               </span>
-              <span className="text-white/70">{formatAuthor(blog.author ?? "")}</span>
-            </span>
-            <span className="h-[3px] w-[3px] rounded-full bg-white/30" />
-            <span className="inline-flex items-center gap-1">
-              <svg
-                style={{ width: "calc(12px + 2px * var(--focus, 0))", height: "calc(12px + 2px * var(--focus, 0))" }}
-                className="opacity-50"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {formatBlogDate(blog.date)}
-            </span>
-            <span className="h-[3px] w-[3px] rounded-full bg-white/30" />
-            <span className="inline-flex items-center gap-1">
-              <svg
-                style={{ width: "calc(12px + 2px * var(--focus, 0))", height: "calc(12px + 2px * var(--focus, 0))" }}
-                className="opacity-50"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {formatReadTime(blog.readTime ?? "")}
-            </span>
+            ) : null}
+            {authorLabel && dateLabel ? (
+              <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
+            ) : null}
+            {dateLabel ? (
+              <span className="inline-flex shrink-0 items-center gap-1">
+                <svg
+                  style={{ width: isActive ? 14 : 11, height: isActive ? 14 : 11 }}
+                  className="opacity-50"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {dateLabel}
+              </span>
+            ) : null}
+            {dateLabel && readTimeLabel ? (
+              <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
+            ) : null}
+            {readTimeLabel ? (
+              <span className="inline-flex shrink-0 items-center gap-1">
+                <svg
+                  style={{ width: isActive ? 14 : 11, height: isActive ? 14 : 11 }}
+                  className="opacity-50"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {readTimeLabel}
+              </span>
+            ) : null}
           </div>
         </div>
       </article>
@@ -340,7 +360,7 @@ export default function BlogSlider() {
       try {
         setLoading(true);
         const json = await fetchBlogListClient();
-        setBlogs(extractBlogList(json).map(mapBlog).filter((b: Blog) => b.id));
+        setBlogs(extractBlogList(json).map(mapBlog).filter((b: Blog) => b.id && b.main_title));
       } catch {
         setError("Unable to load blogs right now.");
       } finally {
@@ -423,7 +443,7 @@ export default function BlogSlider() {
                     key={blog.id}
                     layout
                     className="shrink-0 overflow-hidden"
-                    style={{ height: ACTIVE_H }}
+                    style={{ height: ACTIVE_H, width: cardW }}
                     initial={{ opacity: 0, x: enterX, scale: 0.94, width: SIDE_W }}
                     animate={{
                       opacity: isActive ? 1 : 0.78,
