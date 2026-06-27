@@ -157,13 +157,87 @@ const ORBIT_RINGS: FigmaRect[] = [
 ];
 
 /** Figma decorative dot markers — 124:3971–3979 */
-const ORBIT_DOTS: Array<FigmaRect & { className: string }> = [
-  { x: 422.72705078125, y: -32.8359375, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#fce001]" },
-  { x: 626.9306640625, y: 304.9091796875, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#ff9a3c]" },
-  { x: 108.54523468017578, y: 595.5272827148438, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#4ade80]" },
-  { x: -95.6877212524414, y: 422.7275390625, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#a78bfa]" },
-  { x: 45.70858383178711, y: 147.81845092773438, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#f87171]" },
+type OrbitDot = FigmaRect & {
+  fill: string;
+  core: string;
+};
+
+const ORBIT_DOTS: OrbitDot[] = [
+  {
+    x: 422.72705078125,
+    y: -32.8359375,
+    w: 8.727272987365723,
+    h: 8.727272987365723,
+    fill: "#fff6bf",
+    core: "#fce001",
+  },
+  {
+    x: 626.9306640625,
+    y: 304.9091796875,
+    w: 8.727272987365723,
+    h: 8.727272987365723,
+    fill: "#ffedd5",
+    core: "#ff9a3c",
+  },
+  {
+    x: 108.54523468017578,
+    y: 595.5272827148438,
+    w: 8.727272987365723,
+    h: 8.727272987365723,
+    fill: "#dcfce7",
+    core: "#4ade80",
+  },
+  {
+    x: -95.6877212524414,
+    y: 422.7275390625,
+    w: 8.727272987365723,
+    h: 8.727272987365723,
+    fill: "#ede9fe",
+    core: "#a78bfa",
+  },
+  {
+    x: 45.70858383178711,
+    y: 147.81845092773438,
+    w: 8.727272987365723,
+    h: 8.727272987365723,
+    fill: "#fee2e2",
+    core: "#f87171",
+  },
 ];
+
+/** Scale orbit pointers up from Figma base size */
+const ORBIT_DOT_SCALE = 2.75;
+
+function orbitDotStyle(dot: OrbitDot): React.CSSProperties {
+  const w = dot.w * ORBIT_DOT_SCALE;
+  const h = dot.h * ORBIT_DOT_SCALE;
+  const dx = (w - dot.w) / 2;
+  const dy = (h - dot.h) / 2;
+  return boundStyle({ x: dot.x - dx, y: dot.y - dy, w, h });
+}
+
+function OrbitDotMarker({ dot }: { dot: OrbitDot }): React.ReactElement {
+  return (
+    <span
+      className="pointer-events-none absolute box-border flex items-center justify-center rounded-full"
+      style={{
+        ...orbitDotStyle(dot),
+        backgroundColor: dot.fill,
+        border: `1px solid ${dot.fill}`,
+      }}
+      aria-hidden
+    >
+      <span
+        className="block rounded-full"
+        style={{
+          width: "52%",
+          height: "52%",
+          backgroundColor: dot.core,
+        }}
+      />
+    </span>
+  );
+}
 
 /** DevTools element.style — center-brand.png */
 const CENTER_BRAND_IMG_STYLE: React.CSSProperties = {
@@ -244,12 +318,7 @@ function ServicesOrbit(): React.ReactElement {
       ))}
 
       {ORBIT_DOTS.map((dot, index) => (
-        <span
-          key={index}
-          className={`pointer-events-none absolute rounded-full ${dot.className}`}
-          style={boundStyle(dot)}
-          aria-hidden
-        />
+        <OrbitDotMarker key={index} dot={dot} />
       ))}
 
       <OrbitImage
