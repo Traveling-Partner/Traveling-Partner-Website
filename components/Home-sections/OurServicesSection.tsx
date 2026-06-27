@@ -38,6 +38,7 @@ type FigmaRect = { x: number; y: number; w: number; h: number };
 type ServiceNode = FigmaRect & {
   label: string;
   image: string;
+  href: string;
   imgStyle?: React.CSSProperties;
 };
 
@@ -101,6 +102,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Daily Rides",
     image: "/images/our-services/daily-rides.png",
+    href: "/taxi-stand",
     x: 204.19580078125,
     y: -151.97842407226562,
     w: 131.60726928710938,
@@ -109,6 +111,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Pool Ride",
     image: "/images/our-services/pool-ride.png",
+    href: "/pool-ride",
     imgStyle: POOL_RIDE_IMG_STYLE,
     x: 541.50537109375,
     y: -10.5966796875,
@@ -118,6 +121,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Delivery",
     image: "/images/our-services/delivery.png",
+    href: "/delivery",
     imgStyle: DELIVERY_IMG_STYLE,
     x: 576.8797607421875,
     y: 350.7275390625,
@@ -127,6 +131,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Logistics",
     image: "/images/our-services/logistics.png",
+    href: "/logistic",
     imgStyle: LOGISTICS_IMG_STYLE,
     x: 213.24339294433594,
     y: 554.9306640625,
@@ -136,6 +141,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Trip",
     image: "/images/our-services/trip.png",
+    href: "/trip",
     imgStyle: TRIP_IMG_STYLE,
     x: -137.86953735351562,
     y: 350.7275390625,
@@ -145,6 +151,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Tracking",
     image: "/images/our-services/tracking.png",
+    href: "/taxi-stand",
     imgStyle: TRACKING_IMG_STYLE,
     x: -117.11328125,
     y: -10.5966796875,
@@ -289,6 +296,7 @@ function OrbitImage({
   priority = false,
   imgStyle,
   counterOrbit = false,
+  href,
 }: {
   src: string;
   alt: string;
@@ -297,6 +305,7 @@ function OrbitImage({
   priority?: boolean;
   imgStyle?: React.CSSProperties;
   counterOrbit?: boolean;
+  href?: string;
 }): React.ReactElement {
   const style: React.CSSProperties = imgStyle ?? {
     position: "absolute",
@@ -310,16 +319,32 @@ function OrbitImage({
     style.transformOrigin = "center center";
   }
 
-  return (
+  const image = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
-      alt={alt}
-      style={style}
+      alt={href ? "" : alt}
+      className={href ? "h-full w-full object-contain" : undefined}
+      style={href ? undefined : style}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
     />
   );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="pointer-events-auto transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fdb813]"
+        style={style}
+        aria-label={alt}
+      >
+        {image}
+      </Link>
+    );
+  }
+
+  return image;
 }
 
 function ServicesOrbit(): React.ReactElement {
@@ -327,7 +352,6 @@ function ServicesOrbit(): React.ReactElement {
     <div
       className="relative mx-auto w-full overflow-visible"
       style={{ maxWidth: ORBIT_MAX_W, aspectRatio: `${TOTAL_W} / ${TOTAL_H}` }}
-      aria-hidden
     >
       {ORBIT_RINGS.map((ring, index) => (
         <div
@@ -352,17 +376,19 @@ function ServicesOrbit(): React.ReactElement {
       />
 
       <div
-        className="our-services-planets-orbit pointer-events-none absolute inset-0"
+        className="our-services-planets-orbit absolute inset-0"
         style={{
           transformOrigin: ORBIT_SPIN_ORIGIN,
           animation: `our-services-orbit-rotate ${SERVICES_ORBIT_DURATION_S}s linear infinite`,
         }}
+        aria-label="Service categories"
       >
         {SERVICE_NODES.map((node) => (
           <OrbitImage
             key={node.label}
             src={node.image}
             alt={node.label}
+            href={node.href}
             box={node}
             zIndex={20}
             imgStyle={node.imgStyle}
