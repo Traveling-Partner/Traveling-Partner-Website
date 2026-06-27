@@ -12,7 +12,9 @@ import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { formatBlogDate, pickBlogCategoryField } from "@/lib/blogFormat";
 
 /** Figma 124:3829 — scaled to fit typical section width */
-const DESIGN_SCALE = 0.72;
+const DESIGN_SCALE = 0.76;
+/** Allow cards to grow slightly past design size so they fill the section width */
+const MAX_FRAME_SCALE = 1.1;
 const ACTIVE_W = Math.round(600*DESIGN_SCALE);
 const ACTIVE_H = Math.round(558 * DESIGN_SCALE);
 const SIDE_W = Math.round(440 * DESIGN_SCALE);
@@ -346,7 +348,7 @@ export default function BlogSlider() {
   const updateFrameScale = useCallback(() => {
     if (!rootRef.current) return;
     const available = rootRef.current.clientWidth;
-    setFrameScale(Math.min(1, available / VIEWPORT_W));
+    setFrameScale(Math.min(MAX_FRAME_SCALE, available / VIEWPORT_W));
   }, []);
 
   useEffect(() => {
@@ -404,10 +406,10 @@ export default function BlogSlider() {
 
   return (
     <div ref={rootRef} className="w-full">
-      <div className="flex w-full justify-center">
+      <div className="mx-auto" style={{ width: scaledW, maxWidth: "100%" }}>
         <div
           className="overflow-hidden"
-          style={{ width: scaledW, maxWidth: "100%", height: ACTIVE_H * frameScale }}
+          style={{ height: ACTIVE_H * frameScale }}
           onMouseEnter={() => {
             isHoveredRef.current = true;
           }}
@@ -468,42 +470,42 @@ export default function BlogSlider() {
             </AnimatePresence>
           </motion.div>
         </div>
-      </div>
 
-      <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
-        <div className="max-w-[692px]">
-          {blogs.length > 1 && (
-            <div className="mb-6 flex items-center gap-2">
-              {blogs.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Go to slide ${i + 1}`}
-                  onClick={() => goToIndex(i)}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-          {activeBlog?.description1 ? (
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={activeIndex}
-                className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
-                initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
-                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}
-                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {activeBlog.description1}
-              </motion.p>
-            </AnimatePresence>
-          ) : null}
+        <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-[692px]">
+            {blogs.length > 1 && (
+              <div className="mb-6 flex items-center gap-2">
+                {blogs.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => goToIndex(i)}
+                    className={`rounded-full transition-all duration-300 ${
+                      i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+            {activeBlog?.description1 ? (
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={activeIndex}
+                  className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
+                  initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {activeBlog.description1}
+                </motion.p>
+              </AnimatePresence>
+            ) : null}
+          </div>
+
+          <ViewMoreButton />
         </div>
-
-        <ViewMoreButton />
       </div>
     </div>
   );
