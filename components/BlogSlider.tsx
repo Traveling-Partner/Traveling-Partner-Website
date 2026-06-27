@@ -23,6 +23,7 @@ const IMAGE_H = Math.round(306 * DESIGN_SCALE);
 const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
 /** Exactly 3 cards: 1 active + gap + 2 side */
 const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
+const COMPACT_BREAKPOINT = 768;
 const AUTOPLAY_MS = 4500;
 const SLIDE_SPRING = { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.85 };
 const SLIDE_EXIT_MS = 0.38;
@@ -323,6 +324,7 @@ export default function BlogSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(1);
   const [frameScale, setFrameScale] = useState(1);
+  const [isCompact, setIsCompact] = useState(false);
 
   blogsRef.current = blogs;
 
@@ -348,7 +350,10 @@ export default function BlogSlider() {
   const updateFrameScale = useCallback(() => {
     if (!rootRef.current) return;
     const available = rootRef.current.clientWidth;
-    setFrameScale(Math.min(MAX_FRAME_SCALE, available / VIEWPORT_W));
+    const compact = available < COMPACT_BREAKPOINT;
+    const designW = compact ? ACTIVE_W : VIEWPORT_W;
+    setIsCompact(compact);
+    setFrameScale(Math.min(MAX_FRAME_SCALE, available / designW));
   }, []);
 
   useEffect(() => {
@@ -390,9 +395,14 @@ export default function BlogSlider() {
     return () => window.clearTimeout(unlock);
   }, [activeIndex]);
 
-  const visibleBlogs = useMemo(() => getVisibleBlogs(blogs, activeIndex), [blogs, activeIndex]);
+  const visibleBlogs = useMemo(() => {
+    if (!blogs.length) return [];
+    if (isCompact) return [blogs[activeIndex]];
+    return getVisibleBlogs(blogs, activeIndex);
+  }, [blogs, activeIndex, isCompact]);
   const activeBlog = blogs[activeIndex];
-  const scaledW = VIEWPORT_W * frameScale;
+  const designViewportW = isCompact ? ACTIVE_W : VIEWPORT_W;
+  const scaledW = designViewportW * frameScale;
 
   if (loading) {
     return (
@@ -420,8 +430,8 @@ export default function BlogSlider() {
           <motion.div
             className="flex shrink-0 items-stretch"
             style={{
-              width: VIEWPORT_W,
-              gap: CARD_GAP,
+              width: designViewportW,
+              gap: isCompact ? 0 : CARD_GAP,
               transform: `scale(${frameScale})`,
               transformOrigin: "top left",
             }}
@@ -471,7 +481,7 @@ export default function BlogSlider() {
           </motion.div>
         </div>
 
-        <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+        <div className="mt-8 flex w-full flex-col items-start justify-between gap-6 sm:mt-12 sm:gap-8 lg:flex-row lg:items-end">
           <div className="max-w-[692px]">
             {blogs.length > 1 && (
               <div className="mb-6 flex items-center gap-2">

@@ -310,12 +310,15 @@ function Sidebar({
   onSelect: (index: number) => void;
 }): React.ReactElement {
   return (
-    <nav className="flex h-full min-h-0 flex-col gap-1.5" aria-label="Ride categories">
+    <nav
+      className="flex h-full min-h-0 flex-col gap-1.5 max-lg:max-h-none max-lg:flex-row max-lg:gap-2 max-lg:overflow-x-auto max-lg:pb-1 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
+      aria-label="Ride categories"
+    >
       {SLIDES.map((slide, index) => {
         const active = index === activeIndex;
 
         return (
-          <div key={slide.num} className="relative min-h-0 flex-1">
+          <div key={slide.num} className="relative min-h-0 flex-1 max-lg:h-auto max-lg:min-w-[148px] max-lg:flex-none">
             <div
               className="pointer-events-none absolute inset-0 rounded-[20px]"
               style={{
@@ -346,16 +349,16 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
   const { theme: t } = slide;
 
   return (
-    <div className="flex h-full flex-col p-7 lg:p-9">
-      <div className="flex shrink-0 items-start justify-between gap-4">
+    <div className="flex h-full flex-col p-5 sm:p-7 lg:p-9">
+      <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-4 gap-y-2">
         <span
-          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 font-poppins text-[12px] font-semibold uppercase tracking-[0.1em] ${t.badgeClass}`}
+          className={`inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2 font-poppins text-[11px] font-semibold uppercase tracking-[0.1em] sm:text-[12px] ${t.badgeClass}`}
         >
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ade80]" aria-hidden />
           {slide.badge}
         </span>
         <span
-          className={`shrink-0 font-poppins text-[12px] font-medium uppercase tracking-[0.12em] ${t.indexClass}`}
+          className={`min-w-0 shrink font-poppins text-[10px] font-medium uppercase tracking-[0.12em] sm:text-[12px] ${t.indexClass}`}
         >
           / {slide.num} — {slide.label}
         </span>
@@ -378,22 +381,22 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
           <h3 className={`leading-[1.06] tracking-[-0.025em] ${t.textPrimary}`}>
             {slide.headlineStacked ? (
               <>
-                <span className="block font-poppins text-[60px] font-bold leading-[1.02]">
+                <span className="block font-poppins text-[clamp(2rem,9vw,3.75rem)] font-bold leading-[1.02]">
                   {slide.headlineLead}
                 </span>
                 <span
-                  className={`${accentSerif.className} mt-0.5 block text-[60px] font-normal leading-[1.02]`}
+                  className={`${accentSerif.className} mt-0.5 block text-[clamp(2rem,9vw,3.75rem)] font-normal leading-[1.02]`}
                 >
                   {slide.headlineAccent}
                 </span>
               </>
             ) : (
               <>
-                <span className="font-poppins text-[60px] font-bold leading-[1.02]">
+                <span className="font-poppins text-[clamp(2rem,9vw,3.75rem)] font-bold leading-[1.02]">
                   {slide.headlineLead}
                 </span>{" "}
                 <span
-                  className={`${accentSerif.className} text-[60px] font-normal leading-[1.02]`}
+                  className={`${accentSerif.className} text-[clamp(2rem,9vw,3.75rem)] font-normal leading-[1.02]`}
                 >
                   {slide.headlineAccent}
                 </span>
@@ -406,8 +409,8 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
         </div>
       </div>
 
-      <div className="mt-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 pt-7 sm:gap-x-4">
-        <div className="flex min-w-0 flex-nowrap items-center gap-2">
+      <div className="mt-auto grid w-full grid-cols-1 items-stretch gap-3 pt-7 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-x-4">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           {slide.tags.map((tag) => (
             <span
               key={tag}
@@ -434,7 +437,7 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
 
 function DetailPanel({ activeIndex }: { activeIndex: number }): React.ReactElement {
   return (
-    <div className="relative h-full min-h-[460px] overflow-hidden rounded-[32px] shadow-[0_24px_60px_rgba(11,11,11,0.12)] lg:min-h-0 lg:rounded-[40px]">
+    <div className="relative h-full min-h-[380px] overflow-hidden rounded-[28px] shadow-[0_24px_60px_rgba(11,11,11,0.12)] sm:min-h-[420px] sm:rounded-[32px] lg:min-h-0 lg:rounded-[40px]">
       {SLIDES.map((s, i) => (
         <div
           key={`bg-${s.num}`}
@@ -499,9 +502,11 @@ export default function SixRidesSection(): React.ReactElement {
         </div>
 
         <div className="grid gap-5 lg:h-[560px] lg:grid-cols-[380px_1fr] lg:items-stretch lg:gap-5">
-          <Sidebar activeIndex={activeIndex} onSelect={setActiveIndex} />
+          <div className="min-w-0 max-lg:-mx-1 max-lg:overflow-hidden">
+            <Sidebar activeIndex={activeIndex} onSelect={setActiveIndex} />
+          </div>
 
-          <div className="relative min-h-[460px] lg:min-h-0 lg:h-full">
+          <div className="relative min-h-[380px] sm:min-h-[420px] lg:min-h-0 lg:h-full">
             <DetailPanel activeIndex={activeIndex} />
           </div>
         </div>

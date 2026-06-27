@@ -273,13 +273,13 @@ export default function HeroSection(): React.ReactElement {
 
         {/* Tablet — 768px to 1023px (Galaxy Tab, iPad portrait) */}
         <div className="relative hidden min-h-0 overflow-hidden px-5 pb-8 pt-[92px] md:block lg:hidden sm:px-8 sm:pt-[100px]">
-          <div className="mx-auto grid max-w-4xl grid-cols-2 items-center gap-6 sm:gap-8">
+          <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 sm:gap-8">
             <div className="flex min-w-0 flex-col gap-4 sm:gap-5">
               <HeroHeadline size="tablet" />
               <HeroSubtext />
               <ViewServicesButtonCompact />
             </div>
-            <HeroManWithCard maxWidth="100%" className="max-h-[min(52vh,420px)]" />
+            <HeroManWithCard maxWidth="min(100%,320px)" className="max-h-[min(48vh,380px)]" />
           </div>
           <HeroBottomFade />
         </div>

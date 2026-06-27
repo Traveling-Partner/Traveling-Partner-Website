@@ -373,7 +373,7 @@ export default function RegisterDriverSection(): React.ReactElement {
     >
       {/* Desktop + tablet — Figma 124:3589 (1920 × 1200) */}
       <div
-        className="relative mx-auto hidden w-full max-w-[1920px] sm:block"
+        className="relative mx-auto hidden w-full max-w-[1920px] lg:block"
         style={{ aspectRatio: `${SECTION_W} / ${SECTION_H}` }}
       >
         <Image
@@ -418,7 +418,7 @@ export default function RegisterDriverSection(): React.ReactElement {
       </div>
 
       {/* Mobile — photo + stacked cards */}
-      <div className="sm:hidden">
+      <div className="lg:hidden">
         <div
           className="relative mx-auto w-full max-w-[1920px]"
           style={{ aspectRatio: `${SECTION_W} / ${SECTION_H}` }}
