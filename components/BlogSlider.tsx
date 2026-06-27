@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
@@ -27,7 +27,8 @@ const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
 /** Exactly 3 cards: 1 active + gap + 2 side */
 const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
 const AUTOPLAY_MS = 4500;
-const SLIDE_MS = 400;
+const SLIDE_SPRING = { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.85 };
+const SLIDE_EXIT_MS = 0.38;
 
 /** Matches About Us "Read our story" CTA — Figma Component 1 / 124:3695 */
 const STORY_CTA_FIGMA = {
@@ -282,17 +283,45 @@ function getVisibleBlogs(blogs: Blog[], activeIndex: number): Blog[] {
   return [0, 1, 2].map((offset) => blogs[(activeIndex + offset) % n]);
 }
 
+function getSlideDirection(current: number, next: number, total: number): number {
+  if (total <= 1) return 1;
+  const forward = (next - current + total) % total;
+  const backward = (current - next + total) % total;
+  return forward <= backward ? 1 : -1;
+}
+
 export default function BlogSlider() {
   const rootRef = useRef<HTMLDivElement>(null);
   const blogsRef = useRef<Blog[]>([]);
   const isHoveredRef = useRef(false);
+  const isAnimatingRef = useRef(false);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(1);
   const [frameScale, setFrameScale] = useState(1);
 
   blogsRef.current = blogs;
+
+  const goToIndex = useCallback(
+    (nextIndex: number) => {
+      const count = blogsRef.current.length;
+      if (count <= 1 || nextIndex === activeIndex || isAnimatingRef.current) return;
+      isAnimatingRef.current = true;
+      setSlideDirection(getSlideDirection(activeIndex, nextIndex, count));
+      setActiveIndex(nextIndex);
+    },
+    [activeIndex]
+  );
+
+  const goToNext = useCallback(() => {
+    const count = blogsRef.current.length;
+    if (count <= 1 || isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setSlideDirection(1);
+    setActiveIndex((i) => (i + 1) % count);
+  }, []);
 
   const updateFrameScale = useCallback(() => {
     if (!rootRef.current) return;
@@ -324,15 +353,20 @@ export default function BlogSlider() {
     if (blogs.length <= 1) return;
 
     const tick = () => {
-      if (isHoveredRef.current) return;
-      const count = blogsRef.current.length;
-      if (count <= 1) return;
-      setActiveIndex((i) => (i + 1) % count);
+      if (isHoveredRef.current || isAnimatingRef.current) return;
+      goToNext();
     };
 
     const id = window.setInterval(tick, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [blogs.length]);
+  }, [blogs.length, goToNext]);
+
+  useEffect(() => {
+    const unlock = window.setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 650);
+    return () => window.clearTimeout(unlock);
+  }, [activeIndex]);
 
   const visibleBlogs = useMemo(() => getVisibleBlogs(blogs, activeIndex), [blogs, activeIndex]);
   const activeBlog = blogs[activeIndex];
@@ -369,32 +403,49 @@ export default function BlogSlider() {
               transform: `scale(${frameScale})`,
               transformOrigin: "top left",
             }}
-            animate={{ x: 0, opacity: 1 }}
-            initial={false}
-            transition={{ duration: SLIDE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-            key={activeIndex}
+            layout
           >
-            {visibleBlogs.map((blog, position) => {
-              const isActive = position === 0;
-              const cardW = isActive ? ACTIVE_W : SIDE_W;
+            <AnimatePresence
+              mode="popLayout"
+              initial={false}
+              onExitComplete={() => {
+                isAnimatingRef.current = false;
+              }}
+            >
+              {visibleBlogs.map((blog, position) => {
+                const isActive = position === 0;
+                const cardW = isActive ? ACTIVE_W : SIDE_W;
+                const enterX = slideDirection * 110;
+                const exitX = slideDirection * -130;
 
-              return (
-                <motion.div
-                  key={`${activeIndex}-${position}-${blog.id}`}
-                  className="shrink-0 overflow-hidden"
-                  style={{ width: cardW, height: ACTIVE_H }}
-                  initial={{ opacity: 0.4, x: 28 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    duration: SLIDE_MS / 1000,
-                    delay: position * 0.06,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <BlogCard blog={blog} isActive={isActive} />
-                </motion.div>
-              );
-            })}
+                return (
+                  <motion.div
+                    key={blog.id}
+                    layout
+                    className="shrink-0 overflow-hidden"
+                    style={{ height: ACTIVE_H }}
+                    initial={{ opacity: 0, x: enterX, scale: 0.94, width: SIDE_W }}
+                    animate={{
+                      opacity: isActive ? 1 : 0.78,
+                      x: 0,
+                      scale: isActive ? 1 : 0.97,
+                      width: cardW,
+                      filter: isActive ? "blur(0px)" : "blur(0.4px)",
+                    }}
+                    exit={{
+                      opacity: 0,
+                      x: exitX,
+                      scale: 0.9,
+                      filter: "blur(4px)",
+                      transition: { duration: SLIDE_EXIT_MS, ease: [0.4, 0, 0.2, 1] },
+                    }}
+                    transition={SLIDE_SPRING}
+                  >
+                    <BlogCard blog={blog} isActive={isActive} />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>
@@ -408,7 +459,7 @@ export default function BlogSlider() {
                   key={i}
                   type="button"
                   aria-label={`Go to slide ${i + 1}`}
-                  onClick={() => setActiveIndex(i)}
+                  onClick={() => goToIndex(i)}
                   className={`rounded-full transition-all duration-300 ${
                     i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
                   }`}
@@ -417,15 +468,18 @@ export default function BlogSlider() {
             </div>
           )}
           {activeBlog?.description1 ? (
-            <motion.p
-              key={activeIndex}
-              className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: SLIDE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {activeBlog.description1}
-            </motion.p>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={activeIndex}
+                className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
+                initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}
+                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {activeBlog.description1}
+              </motion.p>
+            </AnimatePresence>
           ) : null}
         </div>
 
