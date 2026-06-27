@@ -8,6 +8,7 @@ import AboutUsSection from "@/components/Home-sections/AboutUsSection";
 import BlogSection from "@/components/Home-sections/BlogSection";
 import SafetySecuritySection from "@/components/Home-sections/SafetySecuritySection";
 import ContactSection from "@/components/Home-sections/ContactSection";
+import OurServicesSection from "@/components/Home-sections/OurServicesSection";
 
 export default function Home(): React.ReactElement {
   return (
@@ -23,6 +24,7 @@ export default function Home(): React.ReactElement {
       <BlogSection />
       <SafetySecuritySection />
       <ContactSection />
+      <OurServicesSection />
     </div>
   );
 }
