@@ -1,10 +1,10 @@
 // components/BlogSlider.tsx
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
@@ -18,20 +18,16 @@ import {
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.72;
-const ACTIVE_W = Math.round(642 * DESIGN_SCALE);
+const ACTIVE_W = Math.round(600*DESIGN_SCALE);
 const ACTIVE_H = Math.round(558 * DESIGN_SCALE);
 const SIDE_W = Math.round(440 * DESIGN_SCALE);
-const CARD_GAP = Math.round(74 * DESIGN_SCALE);
+const CARD_GAP = Math.round(20* DESIGN_SCALE);
 const IMAGE_H = Math.round(306 * DESIGN_SCALE);
 const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
-/** Embla stride — fixed per slide so loop math stays stable */
-const SLIDE_STRIDE = SIDE_W + CARD_GAP;
-/** Visible row: 1 active + gap + 2 side cards */
+/** Exactly 3 cards: 1 active + gap + 2 side */
 const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
-const ACTIVE_OVERFLOW = ACTIVE_W - SIDE_W;
-const FOCUS_RANGE = SLIDE_STRIDE * 0.82;
-const WIDTH_MS = 280;
 const AUTOPLAY_MS = 4500;
+const FADE_MS = 0.35;
 
 interface Blog {
   id: string | number;
@@ -66,9 +62,6 @@ const getImageSrc = (v: string) => {
   return "/mock-images/blog-cover.svg";
 };
 
-const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
-const smooth = (t: number) => t * t * (3 - 2 * t);
-
 const formatAuthor = (a: string) => {
   const raw = a.trim();
   if (!raw) return "Admin";
@@ -81,8 +74,9 @@ const formatReadTime = (rt: string) => {
   return /read/i.test(raw) ? raw : `${raw} read`;
 };
 
-function BlogCard({ blog }: { blog: Blog }) {
+function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
+  const focus = isActive ? 1 : 0;
 
   return (
     <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full">
@@ -92,8 +86,11 @@ function BlogCard({ blog }: { blog: Blog }) {
           height: ACTIVE_H,
           borderRadius: CARD_RADIUS,
           background: "linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.03)), #161616",
-          boxShadow: "inset 0 0 0 1.27px rgba(255,255,255,0.06)",
-          opacity: "calc(0.88 + 0.12 * var(--focus, 0))",
+          boxShadow: isActive
+            ? "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 28px 56px rgba(0,0,0,0.48), 0 12px 28px rgba(0,0,0,0.24)"
+            : "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.32)",
+          opacity: isActive ? 1 : 0.9,
+          ["--focus" as string]: focus,
         }}
       >
         <div className="relative shrink-0 overflow-hidden" style={{ height: IMAGE_H }}>
@@ -198,252 +195,12 @@ function BlogCard({ blog }: { blog: Blog }) {
   );
 }
 
-function BlogCarouselTrack({
-  blogs,
-  sectionCopy,
-  viewportW,
-  frameScale,
-}: {
-  blogs: Blog[];
-  sectionCopy?: string;
-  viewportW: number;
-  frameScale: number;
-}) {
-  const focusRafRef = useRef<number | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: blogs.length > 1,
-    align: "start",
-    duration: 28,
-    containScroll: false,
-    skipSnaps: false,
-  });
-
-  /** Position-based layout — works with loop clones (index-based logic breaks). */
-  const applySlideLayout = useCallback(
-    (animate = false) => {
-      if (!emblaApi) return;
-
-      const rootLeft = emblaApi.rootNode().getBoundingClientRect().left;
-
-      const entries = emblaApi
-        .slideNodes()
-        .map((slide) => {
-          const shell = slide.querySelector<HTMLElement>(".blog-card-shell");
-          if (!shell) return null;
-          return {
-            slide,
-            shell,
-            left: slide.getBoundingClientRect().left - rootLeft,
-          };
-        })
-        .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
-
-      const inViewport = entries.filter(
-        (entry) => entry.left > -ACTIVE_W && entry.left < VIEWPORT_W + SIDE_W
-      );
-
-      const lead =
-        inViewport
-          .filter((entry) => entry.left > -SIDE_W * 0.65)
-          .sort((a, b) => a.left - b.left)[0] ?? null;
-
-      const leadLeft = lead?.left ?? 0;
-
-      const rightSlides = inViewport
-        .filter((entry) => entry.left > leadLeft + SIDE_W * 0.35)
-        .sort((a, b) => a.left - b.left)
-        .slice(0, 2);
-
-      const rightSet = new Set(rightSlides.map((entry) => entry.slide));
-
-      entries.forEach(({ slide, shell, left }) => {
-        const isLead = lead?.slide === slide;
-        const isRightInRow = rightSet.has(slide);
-
-        shell.style.transition = animate
-          ? `width ${WIDTH_MS}ms ease-out, margin ${WIDTH_MS}ms ease-out`
-          : "none";
-        shell.style.position = "relative";
-
-        if (isLead) {
-          shell.style.width = `${ACTIVE_W}px`;
-          shell.style.marginLeft = "0px";
-          shell.style.marginRight = `${-ACTIVE_OVERFLOW}px`;
-          shell.style.zIndex = "3";
-        } else if (isRightInRow) {
-          shell.style.width = `${SIDE_W}px`;
-          shell.style.marginLeft = `${ACTIVE_OVERFLOW}px`;
-          shell.style.marginRight = "0px";
-          shell.style.zIndex = "2";
-        } else {
-          shell.style.width = `${SIDE_W}px`;
-          shell.style.marginLeft = "0px";
-          shell.style.marginRight = "0px";
-          shell.style.zIndex = "1";
-        }
-      });
-    },
-    [emblaApi]
-  );
-
-  const applyFocus = useCallback(() => {
-    if (!emblaApi) return;
-
-    const rootLeft = emblaApi.rootNode().getBoundingClientRect().left;
-
-    emblaApi.slideNodes().forEach((slide) => {
-      const slideLeft = slide.getBoundingClientRect().left - rootLeft;
-      const t = smooth(clamp01(1 - Math.abs(slideLeft) / FOCUS_RANGE));
-
-      slide.style.setProperty("--focus", t.toFixed(4));
-
-      const article = slide.querySelector<HTMLElement>(".blog-card-article");
-      if (article) {
-        article.style.boxShadow =
-          t > 0.55
-            ? "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 28px 56px rgba(0,0,0,0.48), 0 12px 28px rgba(0,0,0,0.24)"
-            : "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.32)";
-      }
-    });
-  }, [emblaApi]);
-
-  const scheduleFrame = useCallback(() => {
-    if (focusRafRef.current !== null) return;
-    focusRafRef.current = requestAnimationFrame(() => {
-      focusRafRef.current = null;
-      applySlideLayout(false);
-      applyFocus();
-    });
-  }, [applySlideLayout, applyFocus]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    scheduleFrame();
-  }, [emblaApi, scheduleFrame]);
-
-  const onSettle = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    applySlideLayout(true);
-    applyFocus();
-  }, [emblaApi, applySlideLayout, applyFocus]);
-
-  const onReInit = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    applySlideLayout(false);
-    applyFocus();
-  }, [emblaApi, applySlideLayout, applyFocus]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onReInit();
-    emblaApi.on("reInit", onReInit);
-    emblaApi.on("select", onSelect);
-    emblaApi.on("scroll", scheduleFrame);
-    emblaApi.on("settle", onSettle);
-    emblaApi.on("resize", onReInit);
-    return () => {
-      emblaApi.off("reInit", onReInit);
-      emblaApi.off("select", onSelect);
-      emblaApi.off("scroll", scheduleFrame);
-      emblaApi.off("settle", onSettle);
-      emblaApi.off("resize", onReInit);
-      if (focusRafRef.current !== null) {
-        cancelAnimationFrame(focusRafRef.current);
-        focusRafRef.current = null;
-      }
-    };
-  }, [emblaApi, onReInit, onSelect, onSettle, scheduleFrame]);
-
-  useEffect(() => {
-    if (!emblaApi || isHovered || blogs.length <= 1) return;
-    const id = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_MS);
-    return () => clearInterval(id);
-  }, [emblaApi, isHovered, blogs.length]);
-
-  const scaledW = viewportW * frameScale;
-
-  return (
-    <div className="w-full" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <div className="flex w-full justify-center">
-        <div
-          className="overflow-hidden"
-          style={{ width: scaledW, maxWidth: "100%", height: ACTIVE_H * frameScale }}
-        >
-          <div
-            style={{
-              width: viewportW,
-              transform: `scale(${frameScale})`,
-              transformOrigin: "top left",
-            }}
-          >
-            <div className="overflow-hidden" ref={emblaRef} style={{ width: viewportW }}>
-              <div className="flex items-stretch">
-                {blogs.map((blog, index) => (
-                  <div
-                    key={blog.id}
-                    data-slide-index={index}
-                    className="blog-embla-slide shrink-0 grow-0 overflow-visible"
-                    style={{
-                      flex: `0 0 ${SIDE_W}px`,
-                      width: SIDE_W,
-                      minWidth: SIDE_W,
-                      marginRight: CARD_GAP,
-                      height: ACTIVE_H,
-                    }}
-                  >
-                    <div className="blog-card-shell overflow-hidden" style={{ width: SIDE_W, height: ACTIVE_H }}>
-                      <BlogCard blog={blog} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
-          <div className="max-w-[692px]">
-            {blogs.length > 1 && (
-              <div className="mb-6 flex items-center gap-2">
-                {blogs.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`Go to slide ${i + 1}`}
-                    onClick={() => emblaApi?.scrollTo(i)}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === selectedIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-            {sectionCopy && (
-              <p className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]">{sectionCopy}</p>
-            )}
-          </div>
-
-          <Link
-            href="/blog"
-            className="inline-flex shrink-0 items-center gap-4 rounded-full bg-[#fce001] py-3.5 pl-7 pr-3 text-[15px] font-semibold text-black shadow-[0_0_40px_rgba(252,224,1,0.22)] hover:bg-[#ffd81d]"
-          >
-            View More
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
-      </div>
-    </div>
-  );
+function getVisibleBlogs(blogs: Blog[], activeIndex: number): Blog[] {
+  const n = blogs.length;
+  if (n === 0) return [];
+  if (n === 1) return [blogs[0]];
+  if (n === 2) return [blogs[activeIndex % 2], blogs[(activeIndex + 1) % 2]];
+  return [0, 1, 2].map((offset) => blogs[(activeIndex + offset) % n]);
 }
 
 export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
@@ -451,15 +208,15 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const [frameScale, setFrameScale] = useState(1);
-
-  const viewportW = VIEWPORT_W;
 
   const updateFrameScale = useCallback(() => {
     if (!rootRef.current) return;
     const available = rootRef.current.clientWidth;
-    setFrameScale(Math.min(1, available / viewportW));
-  }, [viewportW]);
+    setFrameScale(Math.min(1, available / VIEWPORT_W));
+  }, []);
 
   useEffect(() => {
     updateFrameScale();
@@ -481,6 +238,17 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
     })();
   }, []);
 
+  useEffect(() => {
+    if (blogs.length <= 1 || isHovered) return;
+    const id = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % blogs.length);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(id);
+  }, [blogs.length, isHovered]);
+
+  const visibleBlogs = useMemo(() => getVisibleBlogs(blogs, activeIndex), [blogs, activeIndex]);
+  const scaledW = VIEWPORT_W * frameScale;
+
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -491,18 +259,86 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   if (error) return <p className="py-4 text-center text-red-400">{error}</p>;
   if (!blogs.length) return null;
 
-  const carouselKey = blogs.map((b) => b.id).join("-");
-
   return (
-    <div ref={rootRef} className="w-full">
-      <BlogCarouselTrack
-        key={carouselKey}
-        blogs={blogs}
-        sectionCopy={sectionCopy}
-        viewportW={viewportW}
-        frameScale={frameScale}
-      />
+    <div
+      ref={rootRef}
+      className="w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex w-full justify-center">
+        <div
+          className="overflow-hidden"
+          style={{ width: scaledW, maxWidth: "100%", height: ACTIVE_H * frameScale }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              className="flex shrink-0 items-stretch"
+              style={{
+                width: VIEWPORT_W,
+                gap: CARD_GAP,
+                transform: `scale(${frameScale})`,
+                transformOrigin: "top left",
+              }}
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 }}
+              transition={{ duration: FADE_MS, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {visibleBlogs.map((blog, position) => {
+                const isActive = position === 0;
+                const cardW = isActive ? ACTIVE_W : SIDE_W;
+
+                return (
+                  <div
+                    key={blog.id}
+                    className="shrink-0 overflow-hidden"
+                    style={{ width: cardW, height: ACTIVE_H }}
+                  >
+                    <BlogCard blog={blog} isActive={isActive} />
+                  </div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+        <div className="max-w-[692px]">
+          {blogs.length > 1 && (
+            <div className="mb-6 flex items-center gap-2">
+              {blogs.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => setActiveIndex(i)}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+          {sectionCopy && (
+            <p className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]">{sectionCopy}</p>
+          )}
+        </div>
+
+        <Link
+          href="/blog"
+          className="inline-flex shrink-0 items-center gap-4 rounded-full bg-[#fce001] py-3.5 pl-7 pr-3 text-[15px] font-semibold text-black shadow-[0_0_40px_rgba(252,224,1,0.22)] hover:bg-[#ffd81d]"
+        >
+          View More
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        </Link>
+      </div>
     </div>
   );
 }
-
