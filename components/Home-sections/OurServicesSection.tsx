@@ -34,7 +34,62 @@ type FigmaRect = { x: number; y: number; w: number; h: number };
 type ServiceNode = FigmaRect & {
   label: string;
   image: string;
-  imageClassName?: string;
+  imgStyle?: React.CSSProperties;
+};
+
+/** DevTools element.style — pool-ride.png */
+const POOL_RIDE_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "79.48949%",
+  top: "18.446585%",
+  width: "15.17652%",
+  height: "20.766381%",
+  zIndex: 20,
+  objectFit: "contain",
+};
+
+/** DevTools element.style — delivery.png */
+const DELIVERY_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "81.7846%",
+  top: "57.4785%",
+  width: "16.2158%",
+  height: "17.7664%",
+  zIndex: 20,
+  objectFit: "contain",
+};
+
+/** DevTools element.style — tracking.png */
+const TRACKING_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "2.52022%",
+  top: "21.4466%",
+  width: "16.8922%",
+  height: "17.7664%",
+  zIndex: 20,
+  objectFit: "contain",
+};
+
+/** DevTools element.style — trip.png */
+const TRIP_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "1%",
+  top: "58.4785%",
+  width: "16.3031%",
+  height: "17.7664%",
+  zIndex: 20,
+  objectFit: "contain",
+};
+
+/** DevTools element.style — logistics.png */
+const LOGISTICS_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "42.632%",
+  top: "82.233%",
+  width: "16.7809%",
+  height: "17.7664%",
+  zIndex: 20,
+  objectFit: "contain",
 };
 
 /** Figma Component 2 instances — icon + white pill label composites */
@@ -50,7 +105,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Pool Ride",
     image: "/images/our-services/pool-ride.png",
-    imageClassName: "mix-blend-screen object-contain object-center",
+    imgStyle: POOL_RIDE_IMG_STYLE,
     x: 541.50537109375,
     y: -10.5966796875,
     w: 116.75635528564453,
@@ -59,6 +114,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Delivery",
     image: "/images/our-services/delivery.png",
+    imgStyle: DELIVERY_IMG_STYLE,
     x: 576.8797607421875,
     y: 350.7275390625,
     w: 108.84363555908203,
@@ -67,6 +123,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Logistics",
     image: "/images/our-services/logistics.png",
+    imgStyle: LOGISTICS_IMG_STYLE,
     x: 213.24339294433594,
     y: 554.9306640625,
     w: 113.49817657470703,
@@ -75,6 +132,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Trip",
     image: "/images/our-services/trip.png",
+    imgStyle: TRIP_IMG_STYLE,
     x: -137.86953735351562,
     y: 350.7275390625,
     w: 93.09090423583984,
@@ -83,6 +141,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Tracking",
     image: "/images/our-services/tracking.png",
+    imgStyle: TRACKING_IMG_STYLE,
     x: -117.11328125,
     y: -10.5966796875,
     w: 114.41454315185547,
@@ -105,6 +164,17 @@ const ORBIT_DOTS: Array<FigmaRect & { className: string }> = [
   { x: -95.6877212524414, y: 422.7275390625, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#a78bfa]" },
   { x: 45.70858383178711, y: 147.81845092773438, w: 8.727272987365723, h: 8.727272987365723, className: "bg-[#f87171]" },
 ];
+
+/** DevTools element.style — center-brand.png */
+const CENTER_BRAND_IMG_STYLE: React.CSSProperties = {
+  position: "absolute",
+  left: "34.0461%",
+  top: "36.9659%",
+  width: "30.9546%",
+  height: "30.2435%",
+  zIndex: 10,
+  objectFit: "contain",
+};
 
 /** Figma center TP brand mark — 124:3987 */
 const CENTER_BRAND: FigmaRect = {
@@ -129,33 +199,31 @@ function OrbitImage({
   box,
   zIndex,
   priority = false,
-  imageClassName = "mix-blend-screen object-contain object-center",
+  imgStyle,
 }: {
   src: string;
   alt: string;
   box: FigmaRect;
   zIndex: number;
   priority?: boolean;
-  imageClassName?: string;
+  imgStyle?: React.CSSProperties;
 }): React.ReactElement {
-  const position = boundStyle(box);
+  const style: React.CSSProperties = imgStyle ?? {
+    position: "absolute",
+    ...boundStyle(box),
+    zIndex,
+    objectFit: "contain",
+  };
 
   return (
-    <div className="absolute" style={{ ...position, zIndex }}>
-      <img
-        src={src}
-        alt={alt}
-        className={imageClassName}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-      />
-    </div>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      style={style}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+    />
   );
 }
 
@@ -189,6 +257,7 @@ function ServicesOrbit(): React.ReactElement {
         alt="Traveling Partner"
         box={CENTER_BRAND}
         zIndex={10}
+        imgStyle={CENTER_BRAND_IMG_STYLE}
         priority
       />
 
@@ -199,7 +268,7 @@ function ServicesOrbit(): React.ReactElement {
           alt={node.label}
           box={node}
           zIndex={20}
-          imageClassName={node.imageClassName}
+          imgStyle={node.imgStyle}
         />
       ))}
     </div>
