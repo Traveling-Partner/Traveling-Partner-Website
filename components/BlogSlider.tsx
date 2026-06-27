@@ -16,20 +16,22 @@ import {
   pickBlogDateField,
 } from "@/lib/blogFormat";
 
-/** Figma 124:3829 */
-const ACTIVE_W = 642;
-const ACTIVE_H = 558;
-const SIDE_W = 440;
-const CARD_GAP = 20;
-const IMAGE_H = 306;
-const CARD_RADIUS = 25.43;
-const SIDE_STRIDE = SIDE_W + CARD_GAP;
-const ACTIVE_STRIDE = ACTIVE_W + CARD_GAP;
-const FOCUS_RANGE = ACTIVE_STRIDE * 0.82;
-const STRIDE_MS = 280;
+/** Figma 124:3829 — scaled to fit typical section width */
+const DESIGN_SCALE = 0.72;
+const ACTIVE_W = Math.round(642 * DESIGN_SCALE);
+const ACTIVE_H = Math.round(558 * DESIGN_SCALE);
+const SIDE_W = Math.round(440 * DESIGN_SCALE);
+const CARD_GAP = Math.round(74 * DESIGN_SCALE);
+const IMAGE_H = Math.round(306 * DESIGN_SCALE);
+const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
+/** Embla stride — fixed per slide so loop math stays stable */
+const SLIDE_STRIDE = SIDE_W + CARD_GAP;
+/** Visible row: 1 active + gap + 2 side cards */
+const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
+const ACTIVE_OVERFLOW = ACTIVE_W - SIDE_W;
+const FOCUS_RANGE = SLIDE_STRIDE * 0.82;
+const WIDTH_MS = 280;
 const AUTOPLAY_MS = 4500;
-
-const cardWidthExpr = `calc(${SIDE_W}px + (${ACTIVE_W} - ${SIDE_W}) * var(--focus, 0))`;
 
 interface Blog {
   id: string | number;
@@ -83,11 +85,10 @@ function BlogCard({ blog }: { blog: Blog }) {
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
 
   return (
-    <Link href={`/blog/detail?id=${blog.id}`} className="block" style={{ width: cardWidthExpr }}>
+    <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full">
       <article
-        className="blog-card-article flex flex-col overflow-hidden"
+        className="blog-card-article flex h-full w-full flex-col overflow-hidden"
         style={{
-          width: cardWidthExpr,
           height: ACTIVE_H,
           borderRadius: CARD_RADIUS,
           background: "linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.03)), #161616",
@@ -197,49 +198,96 @@ function BlogCard({ blog }: { blog: Blog }) {
   );
 }
 
-export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
+function BlogCarouselTrack({
+  blogs,
+  sectionCopy,
+  viewportW,
+  frameScale,
+}: {
+  blogs: Blog[];
+  sectionCopy?: string;
+  viewportW: number;
+  frameScale: number;
+}) {
   const focusRafRef = useRef<number | null>(null);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [frameScale, setFrameScale] = useState(1);
-
-  const rowWidth = ACTIVE_STRIDE + SIDE_STRIDE * 2;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
+    loop: blogs.length > 1,
     align: "start",
     duration: 28,
+    containScroll: false,
+    skipSnaps: false,
   });
 
-  const updateFrameScale = useCallback(() => {
-    if (!rootRef.current) return;
-    setFrameScale(Math.min(1, rootRef.current.clientWidth / rowWidth));
-  }, [rowWidth]);
+  /** Position-based layout — works with loop clones (index-based logic breaks). */
+  const applySlideLayout = useCallback(
+    (animate = false) => {
+      if (!emblaApi) return;
 
-  useEffect(() => {
-    updateFrameScale();
-    window.addEventListener("resize", updateFrameScale);
-    return () => window.removeEventListener("resize", updateFrameScale);
-  }, [updateFrameScale]);
+      const rootLeft = emblaApi.rootNode().getBoundingClientRect().left;
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const json = await fetchBlogListClient();
-        setBlogs(extractBlogList(json).map(mapBlog).filter((b: Blog) => b.id));
-      } catch {
-        setError("Unable to load blogs right now.");
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+      const entries = emblaApi
+        .slideNodes()
+        .map((slide) => {
+          const shell = slide.querySelector<HTMLElement>(".blog-card-shell");
+          if (!shell) return null;
+          return {
+            slide,
+            shell,
+            left: slide.getBoundingClientRect().left - rootLeft,
+          };
+        })
+        .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+
+      const inViewport = entries.filter(
+        (entry) => entry.left > -ACTIVE_W && entry.left < VIEWPORT_W + SIDE_W
+      );
+
+      const lead =
+        inViewport
+          .filter((entry) => entry.left > -SIDE_W * 0.65)
+          .sort((a, b) => a.left - b.left)[0] ?? null;
+
+      const leadLeft = lead?.left ?? 0;
+
+      const rightSlides = inViewport
+        .filter((entry) => entry.left > leadLeft + SIDE_W * 0.35)
+        .sort((a, b) => a.left - b.left)
+        .slice(0, 2);
+
+      const rightSet = new Set(rightSlides.map((entry) => entry.slide));
+
+      entries.forEach(({ slide, shell, left }) => {
+        const isLead = lead?.slide === slide;
+        const isRightInRow = rightSet.has(slide);
+
+        shell.style.transition = animate
+          ? `width ${WIDTH_MS}ms ease-out, margin ${WIDTH_MS}ms ease-out`
+          : "none";
+        shell.style.position = "relative";
+
+        if (isLead) {
+          shell.style.width = `${ACTIVE_W}px`;
+          shell.style.marginLeft = "0px";
+          shell.style.marginRight = `${-ACTIVE_OVERFLOW}px`;
+          shell.style.zIndex = "3";
+        } else if (isRightInRow) {
+          shell.style.width = `${SIDE_W}px`;
+          shell.style.marginLeft = `${ACTIVE_OVERFLOW}px`;
+          shell.style.marginRight = "0px";
+          shell.style.zIndex = "2";
+        } else {
+          shell.style.width = `${SIDE_W}px`;
+          shell.style.marginLeft = "0px";
+          shell.style.marginRight = "0px";
+          shell.style.zIndex = "1";
+        }
+      });
+    },
+    [emblaApi]
+  );
 
   const applyFocus = useCallback(() => {
     if (!emblaApi) return;
@@ -262,46 +310,47 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
     });
   }, [emblaApi]);
 
-  const scheduleFocus = useCallback(() => {
+  const scheduleFrame = useCallback(() => {
     if (focusRafRef.current !== null) return;
     focusRafRef.current = requestAnimationFrame(() => {
       focusRafRef.current = null;
+      applySlideLayout(false);
       applyFocus();
     });
-  }, [applyFocus]);
+  }, [applySlideLayout, applyFocus]);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
-    scheduleFocus();
-  }, [emblaApi, scheduleFocus]);
+    scheduleFrame();
+  }, [emblaApi, scheduleFrame]);
 
   const onSettle = useCallback(() => {
     if (!emblaApi) return;
-    const idx = emblaApi.selectedScrollSnap();
-    setActiveIndex(idx);
-    setSelectedIndex(idx);
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    applySlideLayout(true);
     applyFocus();
-  }, [emblaApi, applyFocus]);
+  }, [emblaApi, applySlideLayout, applyFocus]);
 
   const onReInit = useCallback(() => {
     if (!emblaApi) return;
-    onSettle();
-    updateFrameScale();
-  }, [emblaApi, onSettle, updateFrameScale]);
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    applySlideLayout(false);
+    applyFocus();
+  }, [emblaApi, applySlideLayout, applyFocus]);
 
   useEffect(() => {
     if (!emblaApi) return;
     onReInit();
     emblaApi.on("reInit", onReInit);
     emblaApi.on("select", onSelect);
-    emblaApi.on("scroll", scheduleFocus);
+    emblaApi.on("scroll", scheduleFrame);
     emblaApi.on("settle", onSettle);
     emblaApi.on("resize", onReInit);
     return () => {
       emblaApi.off("reInit", onReInit);
       emblaApi.off("select", onSelect);
-      emblaApi.off("scroll", scheduleFocus);
+      emblaApi.off("scroll", scheduleFrame);
       emblaApi.off("settle", onSettle);
       emblaApi.off("resize", onReInit);
       if (focusRafRef.current !== null) {
@@ -309,19 +358,128 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
         focusRafRef.current = null;
       }
     };
-  }, [emblaApi, onReInit, onSelect, onSettle, scheduleFocus]);
-
-  useEffect(() => {
-    if (!emblaApi || !blogs.length) return;
-    emblaApi.reInit({ loop: blogs.length > 1 });
-    onSettle();
-  }, [emblaApi, blogs, onSettle]);
+  }, [emblaApi, onReInit, onSelect, onSettle, scheduleFrame]);
 
   useEffect(() => {
     if (!emblaApi || isHovered || blogs.length <= 1) return;
     const id = setInterval(() => emblaApi.scrollNext(), AUTOPLAY_MS);
     return () => clearInterval(id);
   }, [emblaApi, isHovered, blogs.length]);
+
+  const scaledW = viewportW * frameScale;
+
+  return (
+    <div className="w-full" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div className="flex w-full justify-center">
+        <div
+          className="overflow-hidden"
+          style={{ width: scaledW, maxWidth: "100%", height: ACTIVE_H * frameScale }}
+        >
+          <div
+            style={{
+              width: viewportW,
+              transform: `scale(${frameScale})`,
+              transformOrigin: "top left",
+            }}
+          >
+            <div className="overflow-hidden" ref={emblaRef} style={{ width: viewportW }}>
+              <div className="flex items-stretch">
+                {blogs.map((blog, index) => (
+                  <div
+                    key={blog.id}
+                    data-slide-index={index}
+                    className="blog-embla-slide shrink-0 grow-0 overflow-visible"
+                    style={{
+                      flex: `0 0 ${SIDE_W}px`,
+                      width: SIDE_W,
+                      minWidth: SIDE_W,
+                      marginRight: CARD_GAP,
+                      height: ACTIVE_H,
+                    }}
+                  >
+                    <div className="blog-card-shell overflow-hidden" style={{ width: SIDE_W, height: ACTIVE_H }}>
+                      <BlogCard blog={blog} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 flex w-full flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-[692px]">
+            {blogs.length > 1 && (
+              <div className="mb-6 flex items-center gap-2">
+                {blogs.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => emblaApi?.scrollTo(i)}
+                    className={`rounded-full transition-all duration-300 ${
+                      i === selectedIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+            {sectionCopy && (
+              <p className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]">{sectionCopy}</p>
+            )}
+          </div>
+
+          <Link
+            href="/blog"
+            className="inline-flex shrink-0 items-center gap-4 rounded-full bg-[#fce001] py-3.5 pl-7 pr-3 text-[15px] font-semibold text-black shadow-[0_0_40px_rgba(252,224,1,0.22)] hover:bg-[#ffd81d]"
+          >
+            View More
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </Link>
+      </div>
+    </div>
+  );
+}
+
+export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [frameScale, setFrameScale] = useState(1);
+
+  const viewportW = VIEWPORT_W;
+
+  const updateFrameScale = useCallback(() => {
+    if (!rootRef.current) return;
+    const available = rootRef.current.clientWidth;
+    setFrameScale(Math.min(1, available / viewportW));
+  }, [viewportW]);
+
+  useEffect(() => {
+    updateFrameScale();
+    window.addEventListener("resize", updateFrameScale);
+    return () => window.removeEventListener("resize", updateFrameScale);
+  }, [updateFrameScale]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const json = await fetchBlogListClient();
+        setBlogs(extractBlogList(json).map(mapBlog).filter((b: Blog) => b.id));
+      } catch {
+        setError("Unable to load blogs right now.");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   if (loading) {
     return (
@@ -333,83 +491,18 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   if (error) return <p className="py-4 text-center text-red-400">{error}</p>;
   if (!blogs.length) return null;
 
-  const scaledW = rowWidth * frameScale;
-  const scaledH = (ACTIVE_H + 200) * frameScale;
+  const carouselKey = blogs.map((b) => b.id).join("-");
 
   return (
-    <div ref={rootRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <div className="-mx-5 overflow-visible sm:-mx-8 lg:-mx-12 xl:-mx-[106px]">
-        <div className="flex w-full justify-center overflow-visible">
-          <div style={{ width: scaledW, minHeight: scaledH }}>
-            <div
-              style={{
-                width: rowWidth,
-                transform: `scale(${frameScale})`,
-                transformOrigin: "top left",
-              }}
-            >
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex items-stretch">
-                  {blogs.map((blog, index) => {
-                    const isActive = index === activeIndex;
-                    const stride = isActive ? ACTIVE_STRIDE : SIDE_STRIDE;
-
-                    return (
-                      <div
-                        key={blog.id}
-                        className="blog-embla-slide flex shrink-0 grow-0 items-stretch justify-start overflow-hidden"
-                        style={{
-                          flex: `0 0 ${stride}px`,
-                          width: stride,
-                          height: ACTIVE_H,
-                          transition: `flex-basis ${STRIDE_MS}ms ease-out, width ${STRIDE_MS}ms ease-out`,
-                        }}
-                      >
-                        <BlogCard blog={blog} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-12 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
-                <div className="max-w-[692px]">
-                  {blogs.length > 1 && (
-                    <div className="mb-6 flex items-center gap-2">
-                      {blogs.map((_, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          aria-label={`Go to slide ${i + 1}`}
-                          onClick={() => emblaApi?.scrollTo(i)}
-                          className={`rounded-full transition-all duration-300 ${
-                            i === selectedIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  {sectionCopy && (
-                    <p className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]">{sectionCopy}</p>
-                  )}
-                </div>
-
-                <Link
-                  href="/blog"
-                  className="inline-flex shrink-0 items-center gap-4 rounded-full bg-[#fce001] py-3.5 pl-7 pr-3 text-[15px] font-semibold text-black shadow-[0_0_40px_rgba(252,224,1,0.22)] hover:bg-[#ffd81d]"
-                >
-                  View More
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div ref={rootRef} className="w-full">
+      <BlogCarouselTrack
+        key={carouselKey}
+        blogs={blogs}
+        sectionCopy={sectionCopy}
+        viewportW={viewportW}
+        frameScale={frameScale}
+      />
     </div>
   );
 }
+
