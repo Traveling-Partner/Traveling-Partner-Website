@@ -68,7 +68,7 @@ export default function BlogSection(): React.ReactElement {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
           <Suspense fallback={<div className="text-center p-4 text-white/70">Loading...</div>}>
-            <BlogSlider sectionCopy={SECTION_COPY} />
+            <BlogSlider />
           </Suspense>
         </motion.div>
       </div>

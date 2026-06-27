@@ -123,10 +123,6 @@ interface Blog {
   readTime?: string;
 }
 
-interface BlogSliderProps {
-  sectionCopy?: string;
-}
-
 const mapBlog = (item: any): Blog => ({
   id: item?.id ?? item?.blog_id ?? item?.blogId ?? item?.website_blog_id ?? item?.websiteBlogId ?? "",
   cover_image: item?.cover_image ?? item?.coverImage ?? item?.image ?? "",
@@ -286,7 +282,7 @@ function getVisibleBlogs(blogs: Blog[], activeIndex: number): Blog[] {
   return [0, 1, 2].map((offset) => blogs[(activeIndex + offset) % n]);
 }
 
-export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
+export default function BlogSlider() {
   const rootRef = useRef<HTMLDivElement>(null);
   const blogsRef = useRef<Blog[]>([]);
   const isHoveredRef = useRef(false);
@@ -339,6 +335,7 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
   }, [blogs.length]);
 
   const visibleBlogs = useMemo(() => getVisibleBlogs(blogs, activeIndex), [blogs, activeIndex]);
+  const activeBlog = blogs[activeIndex];
   const scaledW = VIEWPORT_W * frameScale;
 
   if (loading) {
@@ -419,9 +416,17 @@ export default function BlogSlider({ sectionCopy }: BlogSliderProps) {
               ))}
             </div>
           )}
-          {sectionCopy && (
-            <p className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]">{sectionCopy}</p>
-          )}
+          {activeBlog?.description1 ? (
+            <motion.p
+              key={activeIndex}
+              className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: SLIDE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {activeBlog.description1}
+            </motion.p>
+          ) : null}
         </div>
 
         <ViewMoreButton />
