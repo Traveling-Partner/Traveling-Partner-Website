@@ -15,7 +15,6 @@ const BODY_MAX = 692;
 /** Figma RIGHT composed visual — 124:3696 */
 const CANVAS_W = 966.6965942382812;
 const CANVAS_H = 952.181640625;
-const VISUAL_ASSET_SCALE = 1.08;
 
 /** Figma Read our story CTA — Component 1 / 124:3695 */
 const STORY_CTA_FIGMA = {
@@ -256,13 +255,10 @@ function AboutVisual(): React.ReactElement {
 
   return (
     <div
-      className="relative w-full overflow-visible"
+      className="relative w-full overflow-hidden"
       style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}`, maxWidth: CANVAS_W }}
     >
-      <div
-        className="absolute inset-0 origin-top-left"
-        style={{ transform: `scale(${VISUAL_ASSET_SCALE})` }}
-      >
+      <div className="absolute inset-0 origin-top-left max-lg:scale-100 lg:scale-[1.08]">
       {/* Decorative curve — bg-line.png */}
       <div
         className="pointer-events-none absolute z-[1]"
@@ -392,12 +388,12 @@ export default function AboutUsSection(): React.ReactElement {
   return (
     <section
       id="about"
-      className="relative w-full scroll-mt-28 overflow-visible py-16 sm:py-20 lg:py-[118px]"
+      className="relative w-full scroll-mt-28 overflow-x-hidden py-16 sm:py-20 lg:py-[118px]"
       style={heroBackgroundStyle}
       aria-labelledby="about-us-heading"
     >
       <div
-        className="relative z-[1] mx-auto w-full overflow-visible px-4 sm:px-8 lg:px-[106px]"
+        className="relative z-[1] mx-auto w-full overflow-x-hidden px-4 sm:px-8 lg:px-[106px]"
         style={{ maxWidth: CONTAINER_MAX }}
       >
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,787.58px)_minmax(0,966.7px)] lg:gap-4">
@@ -433,7 +429,7 @@ export default function AboutUsSection(): React.ReactElement {
             </div>
           </div>
 
-          <div className="relative z-[1] min-w-0 overflow-visible lg:mt-[5.18px]" style={{ maxWidth: RIGHT_COL_W }}>
+          <div className="relative z-[1] min-w-0 overflow-x-hidden lg:mt-[5.18px]" style={{ maxWidth: RIGHT_COL_W }}>
             <AboutVisual />
           </div>
         </div>

@@ -61,7 +61,7 @@ export default function BlogSection(): React.ReactElement {
         </motion.div>
 
         <motion.div
-          className="w-[calc(100%+1.5rem)] -mx-3 min-w-0 overflow-visible sm:w-[calc(100%+2.5rem)] sm:-mx-5 lg:w-[calc(100%+4rem)] lg:-mx-8 xl:w-[calc(100%+5rem)] xl:-mx-10"
+          className="w-full min-w-0 overflow-hidden sm:w-[calc(100%+2.5rem)] sm:-mx-5 lg:w-[calc(100%+4rem)] lg:-mx-8 xl:w-[calc(100%+5rem)] xl:-mx-10"
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}

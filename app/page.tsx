@@ -11,7 +11,7 @@ import ContactSection from "@/components/Home-sections/ContactSection";
 
 export default function Home(): React.ReactElement {
   return (
-    <div>
+    <div className="min-w-0 overflow-x-hidden">
       <HeroSection />
       <RegisterDriverSection />
       <SixRidesSection />
