@@ -1,68 +1,174 @@
-// app/components/ContactUsForm.tsx
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  ChangeEvent,
-  FormEvent,
-  useRef,
-} from "react";
-import { IoCloudUploadOutline, IoClose } from "react-icons/io5";
-import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
+import React, { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
-import BasicModal from "./Modal";
-import { motion } from "framer-motion";
-import { LuSendHorizontal } from "react-icons/lu";
+import { submitContactForm } from "@/services/contact";
+
+/** Figma Contact — node 124:3877 */
+const CONTAINER_MAX = 1708;
+const PHONE_DISPLAY = "+92 325 280 1261";
+const PHONE_HREF = "tel:+923252801261";
+
+const accentItalicClass =
+  "font-poppins font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
+
+/** Matches Blog section View More CTA — Figma Component 1 / 124:3695 */
+const STORY_CTA_FIGMA = {
+  padLeft: 22,
+  padRight: 12,
+  padY: 10,
+  gap: 8,
+  labelSize: 16,
+  arrowSize: 36,
+};
+const STORY_CTA_SCALE = 0.85;
+
+function scaleStoryCta(value: number, extraScale = 1): number {
+  return value * STORY_CTA_SCALE * extraScale;
+}
+
+const storyCtaClass =
+  "group relative inline-flex w-fit max-w-full shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)]";
+
+function PhoneIcon({ size = 16 }: { size?: number }): React.ReactElement {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M6.6 3.8h2.2l1.4 3.3-1.7 1.2a11.5 11.5 0 005.6 5.6l1.2-1.7 3.3 1.4v2.2c0 .9-.7 1.6-1.6 1.7C10.9 18.1 5.9 13.1 5.1 5.6 5 4.7 5.7 3.9 6.6 3.8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function PhoneCtaButton(): React.ReactElement {
+  const s = STORY_CTA_FIGMA;
+  const mobileScale = 0.72;
+
+  return (
+    <>
+      <a
+        href={PHONE_HREF}
+        className={`${storyCtaClass} mt-8 hidden sm:mt-10 lg:inline-flex`}
+        style={{
+          paddingLeft: scaleStoryCta(s.padLeft),
+          paddingRight: scaleStoryCta(s.padRight),
+          paddingTop: scaleStoryCta(s.padY),
+          paddingBottom: scaleStoryCta(s.padY),
+          gap: scaleStoryCta(s.gap),
+        }}
+      >
+        <span
+          className="flex min-w-0 items-center truncate font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize) }}
+        >
+          {PHONE_DISPLAY}
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
+          style={{
+            width: scaleStoryCta(s.arrowSize),
+            height: scaleStoryCta(s.arrowSize),
+          }}
+        >
+          <PhoneIcon size={scaleStoryCta(15)} />
+        </span>
+      </a>
+
+      <a
+        href={PHONE_HREF}
+        className={`${storyCtaClass} mt-8 sm:mt-10 lg:hidden`}
+        style={{
+          paddingLeft: scaleStoryCta(s.padLeft, mobileScale),
+          paddingRight: scaleStoryCta(s.padRight, mobileScale),
+          paddingTop: scaleStoryCta(s.padY, mobileScale),
+          paddingBottom: scaleStoryCta(s.padY, mobileScale),
+          gap: scaleStoryCta(s.gap, mobileScale),
+        }}
+      >
+        <span
+          className="flex min-w-0 items-center truncate font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize, mobileScale) }}
+        >
+          {PHONE_DISPLAY}
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
+          style={{
+            width: scaleStoryCta(s.arrowSize, mobileScale),
+            height: scaleStoryCta(s.arrowSize, mobileScale),
+          }}
+        >
+          <PhoneIcon size={scaleStoryCta(15, mobileScale)} />
+        </span>
+      </a>
+    </>
+  );
+}
+
+const TABS = ["General", "Drivers", "Business"] as const;
+type ContactTab = (typeof TABS)[number];
+
+const SOCIAL_AVATARS = [
+  { initials: "AM", className: "bg-[#fce001] text-[#0b0b0b]" },
+  { initials: "UA", className: "bg-[#4f8cff] text-white" },
+  { initials: "FS", className: "bg-[#22c55e] text-white" },
+];
 
 interface SubmissionStatus {
   type: "success" | "error" | null;
   message: string;
 }
 
-interface ContactFormData {
-  name: string;
+interface ContactFormFields {
+  firstName: string;
+  lastName: string;
   email: string;
-  subject: string;
   message: string;
-  phoneNumber: string;
 }
 
-const initialFormData: ContactFormData = {
-  name: "",
+const initialFormData: ContactFormFields = {
+  firstName: "",
+  lastName: "",
   email: "",
-  subject: "",
   message: "",
-  phoneNumber: "",
 };
 
-const ContactUsForm: React.FC = () => {
+const fieldClass =
+  "w-full rounded-[12px] border border-transparent bg-[#f5f0e6] px-3.5 py-2.5 font-poppins text-[13px] text-[#0b0b0b] placeholder:text-[#8a877f] outline-none transition-colors focus:border-[#fdb813]/40 focus:bg-[#faf6ee] disabled:opacity-50 sm:px-4 sm:py-3 sm:text-[14px]";
+
+function PencilIcon(): React.ReactElement {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 20h4l10.5-10.5a2.1 2.1 0 10-3-3L5 17v3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M13.5 6.5l4 4" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
+export default function ContactUsForm(): React.ReactElement {
+  const [activeTab, setActiveTab] = useState<ContactTab>("General");
+  const [formData, setFormData] = useState<ContactFormFields>(initialFormData);
+  const [loading, setLoading] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>({
     type: null,
     message: "",
   });
-  const [formData, setFormData] = useState<ContactFormData>(initialFormData);
-  const [alertVisible, setAlertVisible] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<string>("");
-  const [file, setFile] = useState<File | null>(null);
-  const [filePreview, setFilePreview] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleOpen = (): void => setOpen(true);
-  const handleClose = (): void => setOpen(false);
 
   const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = event.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -70,28 +176,25 @@ const ContactUsForm: React.FC = () => {
     setLoading(true);
 
     try {
-      await submitContactForm(formData);
+      await submitContactForm({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        subject: activeTab,
+        message: formData.message,
+        phoneNumber: "",
+      });
       setSubmissionStatus({
         type: "success",
-        message: "Form submitted successfully!",
+        message: "Message sent successfully!",
       });
       setAlertVisible(true);
       setFormData(initialFormData);
-      setSelectedFile("");
-      setFile(null);
-      setFilePreview(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Failed to submit form. Please try again.";
-      setSubmissionStatus({
-        type: "error",
-        message: errorMessage,
-      });
+      setSubmissionStatus({ type: "error", message: errorMessage });
       setAlertVisible(true);
     } finally {
       setLoading(false);
@@ -99,317 +202,186 @@ const ContactUsForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (alertVisible) {
-      const timer = setTimeout(() => {
-        setAlertVisible(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
+    if (!alertVisible) return;
+    const timer = window.setTimeout(() => setAlertVisible(false), 3000);
+    return () => window.clearTimeout(timer);
   }, [alertVisible]);
 
-  const handleUploadClick = (): void => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setSelectedFile(selectedFile.name);
-      setFile(selectedFile);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFilePreview(reader.result as string);
-      };
-      reader.readAsDataURL(selectedFile);
-    }
-  };
-
-  const contactInfo = [
-    { icon: MdLocationOn, label: "Address", value: "Islamabad, Pakistan" },
-    { icon: MdEmail, label: "Email", value: "info@traveling-partner.com" },
-    { icon: MdPhone, label: "Phone", value: "+92 325 2801261" },
-  ];
-
   return (
-    <div
-      className="relative w-full bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage:
-          "url('https://res.cloudinary.com/duubabjk7/image/upload/v1770875922/tp-Imgs/map_v8tji2.png')",
-      }}
+    <section
+      className="relative w-full overflow-hidden py-14 sm:py-20 lg:py-24"
+      aria-labelledby="contact-section-heading"
     >
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/70"></div>
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <Image
+          src="/images/contact-section-bg.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority={false}
+        />
+        <div className="absolute inset-0 bg-[#0b0b0b]/72" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0b0b]/55 via-[#0b0b0b]/35 to-[#0b0b0b]/65" />
+      </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 py-16">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
-          <span className="inline-block px-4 py-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-full text-xs font-bold text-black uppercase tracking-wider mb-4">
-            Get In Touch
-          </span>
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-3">
-            Contact <span className="text-[#FCE001]">Us</span>
-          </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-[#FCE001] to-[#FDB813] mx-auto rounded-full" />
-        </motion.div>
-
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start max-lg:max-w-xl max-lg:mx-auto">
-          {/* LEFT SIDE - Contact Info */}
+      <div
+        className="relative z-10 mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-[106px]"
+        style={{ maxWidth: CONTAINER_MAX }}
+      >
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.88fr)] lg:gap-10 xl:gap-14">
+          {/* Left — headline + phone */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
+            className="max-w-[560px] lg:py-6"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-gray-300 text-sm leading-relaxed max-w-sm">
-              Have questions or need assistance? Our team is here to help you
-              with any inquiries about our services.
+            <h2
+              id="contact-section-heading"
+              className="font-poppins text-[clamp(2.25rem,5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white"
+            >
+              <span className="block">Smart, safe</span>
+              <span className="block">
+                and{" "}
+                <span className={accentItalicClass}>always on call.</span>
+              </span>
+            </h2>
+
+            <p className="mt-5 max-w-[500px] font-poppins text-[14px] font-normal leading-[1.65] text-white sm:mt-6 sm:text-[15px] lg:text-[16px]">
+              Save your time, drive on your own schedule, and enjoy fair commission-free
+              rides. Trusted, transparent mobility for every Pakistani commuter.
             </p>
 
-            {/* Contact Cards */}
-            <div className="space-y-3">
-              {contactInfo.map((item, index) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-all duration-300 group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#FCE001] to-[#FDB813] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <item.icon className="w-5 h-5 text-black" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
-                      {item.label}
-                    </p>
-                    <p className="text-sm font-medium text-white">
-                      {item.value}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <PhoneCtaButton />
           </motion.div>
 
-          {/* RIGHT SIDE FORM */}
+          {/* Right — form card */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            className="mx-auto w-full max-w-[460px] lg:ml-auto lg:max-w-[440px] xl:max-w-[460px]"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="relative bg-white rounded-2xl shadow-2xl p-6 lg:p-8">
-              {/* Decorative Corner */}
-              <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-[#FCE001] to-[#FDB813] rounded-xl -z-10 opacity-30 blur-lg" />
-
-              {/* Loader Overlay */}
-              {loading && (
-                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-2xl">
+            <div className="relative overflow-hidden rounded-[22px] bg-white p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.32)] sm:rounded-[24px] sm:p-4">
+              {loading ? (
+                <div className="absolute inset-0 z-20 flex items-center justify-center rounded-[22px] bg-white/90 backdrop-blur-sm sm:rounded-[24px]">
                   <CircularIndeterminate />
                 </div>
-              )}
+              ) : null}
 
-              <form onSubmit={submitHandler} className="space-y-4 relative">
-                {/* Two Column Layout */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  {/* Name */}
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your Name"
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
-                    />
-                  </div>
-
-                  {/* Subject */}
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="Subject"
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
-                    />
-                  </div>
+              {/* Tabs */}
+              <div className="rounded-full bg-[#f5f0e6] p-1">
+                <div className="grid grid-cols-3 gap-0.5">
+                  {TABS.map((tab) => {
+                    const active = tab === activeTab;
+                    return (
+                      <button
+                        key={tab}
+                        type="button"
+                        onClick={() => setActiveTab(tab)}
+                        className={`rounded-full px-2 py-2 font-poppins text-[11px] font-semibold transition-all sm:px-3 sm:py-2.5 sm:text-[13px] ${
+                          active
+                            ? "bg-white text-[#0b0b0b] shadow-sm"
+                            : "text-[#6f6e68] hover:text-[#0b0b0b]"
+                        }`}
+                      >
+                        {tab}
+                      </button>
+                    );
+                  })}
                 </div>
+              </div>
 
-                {/* Two Column Layout */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  {/* Email */}
-                  <div className="relative">
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Email Address"
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      placeholder="Phone Number"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 disabled:opacity-50"
-                    />
-                  </div>
+              {/* Social proof */}
+              <div className="mt-3 flex items-center gap-2.5 rounded-[12px] bg-[#f5f0e6] px-3 py-2.5 sm:mt-3.5 sm:gap-3 sm:px-3.5 sm:py-3">
+                <div className="flex shrink-0 items-center">
+                  {SOCIAL_AVATARS.map((avatar, index) => (
+                    <span
+                      key={avatar.initials}
+                      className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#f5f0e6] font-poppins text-[9px] font-bold sm:h-8 sm:w-8 sm:text-[10px] ${avatar.className} ${index > 0 ? "-ml-2" : ""}`}
+                    >
+                      {avatar.initials}
+                    </span>
+                  ))}
                 </div>
+                <p className="font-poppins text-[11px] leading-snug text-[#0b0b0b] sm:text-[12px]">
+                  <span className="font-bold">+10K people</span> have already reached out to us
+                </p>
+              </div>
 
-                {/* Message */}
-                <div className="relative">
-                  <textarea
-                    name="message"
-                    value={formData.message}
+              <form onSubmit={submitHandler} className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3">
+                <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Your Message"
+                    placeholder="First Name"
                     required
-                    rows={3}
                     disabled={loading}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-[#FDB813] focus:ring-2 focus:ring-[#FDB813]/20 resize-none disabled:opacity-50"
+                    className={fieldClass}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Last Name"
+                    required
+                    disabled={loading}
+                    className={fieldClass}
                   />
                 </div>
 
-                {/* Upload & Submit Row */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-                  {/* Upload Section */}
-                  <div className="flex items-center gap-3">
-                    <motion.button
-                      type="button"
-                      onClick={handleUploadClick}
-                      disabled={loading}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-dashed border-gray-300 text-sm font-medium text-gray-600 hover:border-[#FDB813] hover:text-[#FDB813] hover:bg-[#FDB813]/5 transition-all duration-300 disabled:opacity-50"
-                    >
-                      <IoCloudUploadOutline className="text-lg" />
-                      Attach File
-                    </motion.button>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email address"
+                  required
+                  disabled={loading}
+                  className={fieldClass}
+                />
 
-                    <input
-                      ref={fileInputRef}
-                      className="hidden"
-                      type="file"
-                      id="photo"
-                      name="photo"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      disabled={loading}
-                    />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="How can we help?"
+                  required
+                  rows={3}
+                  disabled={loading}
+                  className={`${fieldClass} min-h-[88px] resize-none sm:min-h-[96px]`}
+                />
 
-                    {selectedFile && (
-                      <span className="text-xs text-gray-600 max-w-[100px] truncate bg-gray-100 px-2 py-1 rounded">
-                        {selectedFile}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Submit Button */}
-                  <motion.button
-                    type="submit"
-                    disabled={loading}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FCE001] to-[#FDB813] text-black font-bold text-sm shadow-lg shadow-[#FDB813]/30 hover:shadow-xl hover:shadow-[#FDB813]/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {loading ? (
-                      <>
-                        <span className="w-4 h-4 border-2  border-black/30 border-t-black rounded-full animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                      <LuSendHorizontal />
-                      </>
-                    )}
-                  </motion.button>
-                </div>
-
-                {/* File Preview */}
-                {filePreview && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-3 pt-2"
-                  >
-                    <div
-                      className="relative h-14 w-14 cursor-pointer overflow-hidden rounded-lg border-2 border-gray-200 hover:border-[#FDB813] transition-colors"
-                      onClick={handleOpen}
-                    >
-                      <Image
-                        src={filePreview}
-                        alt="Preview"
-                        fill
-                        className="object-cover"
-                        sizes="56px"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setFile(null);
-                        setFilePreview(null);
-                        setSelectedFile("");
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
-                      className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 font-medium transition-colors"
-                      disabled={loading}
-                    >
-                      <IoClose className="w-4 h-4" />
-                      Remove
-                    </button>
-                  </motion.div>
-                )}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group flex w-full items-center justify-between rounded-full bg-[#0b0b0b] px-4 py-2.5 font-poppins text-[13px] font-semibold text-[#fce001] transition-colors hover:bg-[#1a1a1a] disabled:cursor-not-allowed disabled:opacity-60 sm:px-5 sm:py-3 sm:text-[14px]"
+                >
+                  <span>{loading ? "Sending..." : "Send Message"}</span>
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[#0b0b0b] transition-transform group-hover:scale-105 sm:h-9 sm:w-9">
+                    <PencilIcon />
+                  </span>
+                </button>
               </form>
 
-              {/* Alerts */}
-              {alertVisible && (
-                <FormAlert
-                  status={submissionStatus.type}
-                  message={submissionStatus.message}
-                />
-              )}
-
-              {/* Modal */}
-              <BasicModal
-                imgSrc={filePreview}
-                open={open}
-                handleClose={handleClose}
-              />
+              {alertVisible ? (
+                <div className="mt-4">
+                  <FormAlert
+                    status={submissionStatus.type}
+                    message={submissionStatus.message}
+                  />
+                </div>
+              ) : null}
             </div>
           </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default ContactUsForm;
+}
