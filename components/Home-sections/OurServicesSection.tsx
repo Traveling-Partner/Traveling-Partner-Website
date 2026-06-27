@@ -17,6 +17,10 @@ const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 const accentYellowClass =
   "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
+/** Orbit spin — six services rotate around center brand (sun) */
+const ORBIT_SPIN_ORIGIN = "49.52% 49.09%";
+const SERVICES_ORBIT_DURATION_S = 88;
+
 /** Orbit diagram — scaled down slightly from Figma 824px canvas */
 const ORBIT_MAX_W = 700;
 
@@ -188,8 +192,8 @@ const ORBIT_DOTS: OrbitDot[] = [
     core: "#4ade80",
   },
   {
-    x: -95.6877212524414,
-    y: 422.7275390625,
+    x: 465,
+    y: 165,
     w: 8.727272987365723,
     h: 8.727272987365723,
     fill: "#ede9fe",
@@ -206,7 +210,11 @@ const ORBIT_DOTS: OrbitDot[] = [
 ];
 
 /** Scale orbit pointers up from Figma base size */
-const ORBIT_DOT_SCALE = 2.75;
+const ORBIT_DOT_SCALE = 2.45;
+
+/** Stagger blink around the orbit — seconds between each dot */
+const ORBIT_DOT_BLINK_STAGGER_S = 0.55;
+const ORBIT_DOT_BLINK_DURATION_S = 2.5;
 
 function orbitDotStyle(dot: OrbitDot): React.CSSProperties {
   const w = dot.w * ORBIT_DOT_SCALE;
@@ -216,23 +224,29 @@ function orbitDotStyle(dot: OrbitDot): React.CSSProperties {
   return boundStyle({ x: dot.x - dx, y: dot.y - dy, w, h });
 }
 
-function OrbitDotMarker({ dot }: { dot: OrbitDot }): React.ReactElement {
+function OrbitDotMarker({ dot, index }: { dot: OrbitDot; index: number }): React.ReactElement {
+  const delay = index * ORBIT_DOT_BLINK_STAGGER_S;
+
   return (
     <span
-      className="pointer-events-none absolute box-border flex items-center justify-center rounded-full"
+      className="our-services-orbit-dot pointer-events-none absolute box-border flex items-center justify-center rounded-full"
       style={{
         ...orbitDotStyle(dot),
         backgroundColor: dot.fill,
         border: `1px solid ${dot.fill}`,
+        ["--orbit-dot-glow" as string]: `${dot.core}73`,
+        animation: `our-services-orbit-dot-blink ${ORBIT_DOT_BLINK_DURATION_S}s ease-in-out ${delay}s infinite`,
       }}
       aria-hidden
     >
       <span
-        className="block rounded-full"
+        className="our-services-orbit-dot-core block rounded-full"
         style={{
           width: "52%",
           height: "52%",
           backgroundColor: dot.core,
+          ["--orbit-dot-glow" as string]: `${dot.core}a6`,
+          animation: `our-services-orbit-dot-core-blink ${ORBIT_DOT_BLINK_DURATION_S}s ease-in-out ${delay + 0.1}s infinite`,
         }}
       />
     </span>
@@ -274,6 +288,7 @@ function OrbitImage({
   zIndex,
   priority = false,
   imgStyle,
+  counterOrbit = false,
 }: {
   src: string;
   alt: string;
@@ -281,6 +296,7 @@ function OrbitImage({
   zIndex: number;
   priority?: boolean;
   imgStyle?: React.CSSProperties;
+  counterOrbit?: boolean;
 }): React.ReactElement {
   const style: React.CSSProperties = imgStyle ?? {
     position: "absolute",
@@ -288,6 +304,11 @@ function OrbitImage({
     zIndex,
     objectFit: "contain",
   };
+
+  if (counterOrbit) {
+    style.animation = `our-services-orbit-rotate-reverse ${SERVICES_ORBIT_DURATION_S}s linear infinite`;
+    style.transformOrigin = "center center";
+  }
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -318,7 +339,7 @@ function ServicesOrbit(): React.ReactElement {
       ))}
 
       {ORBIT_DOTS.map((dot, index) => (
-        <OrbitDotMarker key={index} dot={dot} />
+        <OrbitDotMarker key={index} dot={dot} index={index} />
       ))}
 
       <OrbitImage
@@ -330,16 +351,25 @@ function ServicesOrbit(): React.ReactElement {
         priority
       />
 
-      {SERVICE_NODES.map((node) => (
-        <OrbitImage
-          key={node.label}
-          src={node.image}
-          alt={node.label}
-          box={node}
-          zIndex={20}
-          imgStyle={node.imgStyle}
-        />
-      ))}
+      <div
+        className="our-services-planets-orbit pointer-events-none absolute inset-0"
+        style={{
+          transformOrigin: ORBIT_SPIN_ORIGIN,
+          animation: `our-services-orbit-rotate ${SERVICES_ORBIT_DURATION_S}s linear infinite`,
+        }}
+      >
+        {SERVICE_NODES.map((node) => (
+          <OrbitImage
+            key={node.label}
+            src={node.image}
+            alt={node.label}
+            box={node}
+            zIndex={20}
+            imgStyle={node.imgStyle}
+            counterOrbit
+          />
+        ))}
+      </div>
     </div>
   );
 }

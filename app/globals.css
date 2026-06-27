@@ -382,3 +382,66 @@ img {
 .blog-detail-content-wide {
   @apply max-w-none;
 }
+
+/* Our Services — orbit pointer blink wave */
+@keyframes our-services-orbit-dot-blink {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px 2px var(--orbit-dot-glow, rgba(252, 224, 1, 0.35));
+  }
+}
+
+@keyframes our-services-orbit-dot-core-blink {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(0.88);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+    box-shadow: 0 0 6px 2px var(--orbit-dot-glow, rgba(252, 224, 1, 0.45));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .our-services-orbit-dot,
+  .our-services-orbit-dot-core {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .our-services-planets-orbit,
+  .our-services-planets-orbit img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes our-services-orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes our-services-orbit-rotate-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
