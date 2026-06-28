@@ -15,9 +15,13 @@ const accentSerif = Instrument_Serif({
 const EASE = "cubic-bezier(0.33, 0, 0.2, 1)";
 const BLEND_MS = 1650;
 
-/** Body copy — small type, ~3 lines across all detail cards */
+/** Body copy — scales on card; tighter on mobile */
 const DESCRIPTION_CLASS =
-  "mt-4 max-w-[360px] font-poppins text-[14px] font-normal leading-[1.5]";
+  "mt-3 font-poppins text-[13px] font-normal leading-[1.5] sm:mt-4 sm:text-[14px]";
+
+const HEADLINE_LEAD_CLASS =
+  "font-poppins text-[clamp(1.65rem,6.5vw,3.75rem)] font-bold leading-[1.05]";
+const HEADLINE_ACCENT_CLASS = `${accentSerif.className} text-[clamp(1.65rem,6.5vw,3.75rem)] font-normal leading-[1.05]`;
 
 const blendStyle = (visible: boolean): React.CSSProperties => ({
   opacity: visible ? 1 : 0,
@@ -349,84 +353,70 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
   const { theme: t } = slide;
 
   return (
-    <div className="flex h-full flex-col p-5 sm:p-7 lg:p-9">
-      <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-4 gap-y-2">
+    <div className="flex min-h-0 flex-col px-4 pt-4 pb-4 sm:p-7 lg:h-full lg:p-9">
+      <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-3 gap-y-2">
         <span
-          className={`inline-flex max-w-full items-center gap-2 rounded-full px-4 py-2 font-poppins text-[11px] font-semibold uppercase tracking-[0.1em] sm:text-[12px] ${t.badgeClass}`}
+          className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-3 py-1.5 font-poppins text-[10px] font-semibold uppercase tracking-[0.08em] sm:gap-2 sm:px-4 sm:py-2 sm:text-[12px] ${t.badgeClass}`}
         >
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ade80]" aria-hidden />
-          {slide.badge}
+          <span className="truncate">{slide.badge}</span>
         </span>
         <span
-          className={`min-w-0 shrink font-poppins text-[10px] font-medium uppercase tracking-[0.12em] sm:text-[12px] ${t.indexClass}`}
+          className={`shrink-0 font-poppins text-[9px] font-medium uppercase tracking-[0.1em] sm:text-[12px] ${t.indexClass}`}
         >
           / {slide.num} — {slide.label}
         </span>
       </div>
 
-      <div className="mt-7 flex min-h-0 flex-1 flex-col">
-        <div className="relative size-[156px] shrink-0 overflow-hidden rounded-[22px]">
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            className="object-contain"
-            style={slideImageStyle(slide.imageScale)}
-            sizes="156px"
-            priority={slide.num === "01"}
-          />
-        </div>
-
-        <div className="mt-7 max-w-[540px]">
-          <h3 className={`leading-[1.06] tracking-[-0.025em] ${t.textPrimary}`}>
-            {slide.headlineStacked ? (
-              <>
-                <span className="block font-poppins text-[clamp(2rem,9vw,3.75rem)] font-bold leading-[1.02]">
-                  {slide.headlineLead}
-                </span>
-                <span
-                  className={`${accentSerif.className} mt-0.5 block text-[clamp(2rem,9vw,3.75rem)] font-normal leading-[1.02]`}
-                >
-                  {slide.headlineAccent}
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="font-poppins text-[clamp(2rem,9vw,3.75rem)] font-bold leading-[1.02]">
-                  {slide.headlineLead}
-                </span>{" "}
-                <span
-                  className={`${accentSerif.className} text-[clamp(2rem,9vw,3.75rem)] font-normal leading-[1.02]`}
-                >
-                  {slide.headlineAccent}
-                </span>
-              </>
-            )}
-          </h3>
-          <p className={`${DESCRIPTION_CLASS} ${t.textMuted}`}>
-            {slide.description}
-          </p>
-        </div>
+      <div className="relative mt-4 h-[108px] w-[108px] shrink-0 overflow-hidden rounded-[18px] sm:mt-6 sm:h-[156px] sm:w-[156px] sm:rounded-[22px]">
+        <Image
+          src={slide.image}
+          alt={slide.title}
+          fill
+          className="object-contain"
+          style={slideImageStyle(slide.imageScale)}
+          sizes="(max-width: 640px) 108px, 156px"
+          priority={slide.num === "01"}
+        />
       </div>
 
-      <div className="mt-auto grid w-full grid-cols-1 items-stretch gap-3 pt-7 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-x-4">
-        <div className="flex min-w-0 flex-wrap items-center gap-2">
-          {slide.tags.map((tag) => (
-            <span
-              key={tag}
-              className={`inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-2.5 font-poppins text-[10px] font-medium leading-none sm:px-3 sm:text-[11px] ${t.tagClass}`}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+      <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
+        {slide.tags.map((tag) => (
+          <span
+            key={tag}
+            className={`inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-full px-2.5 font-poppins text-[9px] font-medium leading-none sm:h-9 sm:px-3 sm:text-[11px] ${t.tagClass}`}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
 
+      <div className="mt-3 min-w-0 sm:mt-4">
+        <h3 className={`tracking-[-0.025em] ${t.textPrimary}`}>
+          {slide.headlineStacked ? (
+            <>
+              <span className={`block ${HEADLINE_LEAD_CLASS}`}>{slide.headlineLead}</span>
+              <span className={`mt-0.5 block ${HEADLINE_ACCENT_CLASS}`}>{slide.headlineAccent}</span>
+            </>
+          ) : (
+            <>
+              <span className={HEADLINE_LEAD_CLASS}>{slide.headlineLead}</span>{" "}
+              <span className={HEADLINE_ACCENT_CLASS}>{slide.headlineAccent}</span>
+            </>
+          )}
+        </h3>
+        <p className={`${DESCRIPTION_CLASS} max-w-[360px] ${t.textMuted}`}>
+          {slide.description}
+        </p>
+      </div>
+
+      <div className="mt-3 shrink-0 sm:mt-4 lg:mt-auto lg:pt-6">
         <Link
           href={slide.href}
-          className="group relative z-10 inline-flex h-9 shrink-0 items-center gap-1 rounded-full bg-[#0b0b0b] py-0 pl-3 pr-1 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-colors duration-500 hover:bg-[#1a1a1a] sm:pl-3.5 sm:text-[13px]"
+          className="group relative z-10 flex h-11 w-full items-center justify-between rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1.5 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-colors duration-500 hover:bg-[#1a1a1a] sm:inline-flex sm:h-9 sm:w-auto sm:justify-start sm:gap-1 sm:pl-3.5 sm:pr-1 sm:text-[13px]"
         >
-          {slide.cta}
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#fdb813] text-[10px] font-bold leading-none text-[#0b0b0b] transition-transform duration-500 group-hover:-rotate-45 sm:h-7 sm:w-7 sm:text-[11px]">
+          <span className="truncate">{slide.cta}</span>
+          <span className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fdb813] text-[10px] font-bold leading-none text-[#0b0b0b] transition-transform duration-500 group-hover:-rotate-45 sm:ml-0 sm:h-7 sm:w-7 sm:text-[11px]">
             →
           </span>
         </Link>
@@ -437,11 +427,11 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
 
 function DetailPanel({ activeIndex }: { activeIndex: number }): React.ReactElement {
   return (
-    <div className="relative h-full min-h-[380px] overflow-hidden rounded-[28px] shadow-[0_24px_60px_rgba(11,11,11,0.12)] sm:min-h-[420px] sm:rounded-[32px] lg:min-h-0 lg:rounded-[40px]">
+    <div className="relative overflow-hidden rounded-[24px] shadow-[0_24px_60px_rgba(11,11,11,0.12)] sm:rounded-[32px] lg:h-full lg:rounded-[40px]">
       {SLIDES.map((s, i) => (
         <div
           key={`bg-${s.num}`}
-          className={`absolute inset-0 ${s.theme.panelClass} ${s.theme.topGlow ?? ""} ${s.theme.bottomGlow ?? ""}`}
+          className={`absolute inset-0 ${s.theme.panelClass} ${s.theme.topGlow ?? ""} ${s.theme.bottomGlow ?? ""} ${i !== activeIndex ? "max-lg:hidden" : ""}`}
           style={{
             ...blendStyle(i === activeIndex),
             zIndex: i === activeIndex ? 2 : 1,
@@ -451,14 +441,18 @@ function DetailPanel({ activeIndex }: { activeIndex: number }): React.ReactEleme
         />
       ))}
 
-      <div className="relative z-[3] h-full">
+      <div className="relative z-[3] lg:absolute lg:inset-0 lg:h-full">
         {SLIDES.map((slide, i) => {
           const active = i === activeIndex;
 
           return (
             <div
               key={`content-${slide.num}`}
-              className="absolute inset-0"
+              className={
+                active
+                  ? "relative max-lg:block lg:absolute lg:inset-0"
+                  : "hidden lg:absolute lg:inset-0 lg:block"
+              }
               style={{
                 ...blendStyle(active),
                 zIndex: active ? 2 : 1,
@@ -506,7 +500,7 @@ export default function SixRidesSection(): React.ReactElement {
             <Sidebar activeIndex={activeIndex} onSelect={setActiveIndex} />
           </div>
 
-          <div className="relative min-h-[380px] sm:min-h-[420px] lg:min-h-0 lg:h-full">
+          <div className="relative lg:h-full">
             <DetailPanel activeIndex={activeIndex} />
           </div>
         </div>
