@@ -3,6 +3,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  HOME_ACCENT_TEXT,
+  HOME_SECTION_BODY,
+  HOME_SECTION_HEADING,
+  HOME_SECTION_HEADER_WRAP,
+  HOME_SECTION_SUBTEXT_WRAP,
+} from "@/lib/homeSectionStyles";
+import { HomeSecondaryButton } from "./HomeCtaButtons";
 import { Instrument_Serif } from "next/font/google";
 
 const accentSerif = Instrument_Serif({
@@ -16,8 +24,7 @@ const EASE = "cubic-bezier(0.33, 0, 0.2, 1)";
 const BLEND_MS = 1650;
 
 /** Body copy — scales on card; tighter on mobile */
-const DESCRIPTION_CLASS =
-  "mt-3 font-poppins text-[13px] font-normal leading-[1.5] sm:mt-4 sm:text-[14px]";
+const DESCRIPTION_CLASS = "mt-3 font-poppins text-[14px] font-normal leading-[1.5] sm:mt-4 sm:text-[15px]";
 
 const HEADLINE_LEAD_CLASS =
   "font-poppins text-[clamp(1.65rem,6.5vw,3.75rem)] font-bold leading-[1.05]";
@@ -411,15 +418,9 @@ function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement 
       </div>
 
       <div className="mt-3 shrink-0 sm:mt-4 lg:mt-auto lg:pt-6">
-        <Link
-          href={slide.href}
-          className="group relative z-10 flex h-11 w-full items-center justify-between rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1.5 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-colors duration-500 hover:bg-[#1a1a1a] sm:inline-flex sm:h-9 sm:w-auto sm:justify-start sm:gap-1 sm:pl-3.5 sm:pr-1 sm:text-[13px]"
-        >
-          <span className="truncate">{slide.cta}</span>
-          <span className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fdb813] text-[10px] font-bold leading-none text-[#0b0b0b] transition-transform duration-500 group-hover:-rotate-45 sm:ml-0 sm:h-7 sm:w-7 sm:text-[11px]">
-            →
-          </span>
-        </Link>
+        <HomeSecondaryButton href={slide.href} fullWidth className="sm:w-auto">
+          {slide.cta}
+        </HomeSecondaryButton>
       </div>
     </div>
   );
@@ -479,17 +480,15 @@ export default function SixRidesSection(): React.ReactElement {
       aria-labelledby="six-rides-heading"
     >
       <div className="relative z-[1] mx-auto w-full max-w-[1690px] px-4 sm:px-8 lg:px-[114px]">
-        <div className="mx-auto mb-10 max-w-[760px] text-center sm:mb-12 lg:mb-14">
+        <div className={`${HOME_SECTION_HEADER_WRAP} max-w-[760px]`}>
           <h2
             id="six-rides-heading"
-            className="font-poppins text-[clamp(2rem,4.17vw,5rem)] font-bold leading-[1.02] tracking-[-0.03em]"
+            className={`${HOME_SECTION_HEADING}`}
           >
             <span className="text-[#0b0b0b]">Six rides.</span>{" "}
-            <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent">
-              One promise.
-            </span>
+            <span className={HOME_ACCENT_TEXT}>One promise.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-[540px] font-poppins text-[17px] font-normal leading-[1.55] text-[#6f6e68]">
+          <p className={`${HOME_SECTION_SUBTEXT_WRAP} max-w-[540px] ${HOME_SECTION_BODY}`}>
             From daily commutes to enterprise logistics — every category, zero commission,
             real-time tracking, every time.
           </p>

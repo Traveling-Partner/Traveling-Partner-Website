@@ -10,6 +10,8 @@ import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { formatBlogDate, pickBlogCategoryField } from "@/lib/blogFormat";
+import { HomePrimaryButton } from "@/components/Home-sections/HomeCtaButtons";
+import { HOME_SECTION_SUBTEXT } from "@/lib/homeSectionStyles";
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.76;
@@ -28,85 +30,15 @@ const AUTOPLAY_MS = 4500;
 const SLIDE_SPRING = { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.85 };
 const SLIDE_EXIT_MS = 0.38;
 
-/** Matches About Us "Read our story" CTA — Figma Component 1 / 124:3695 */
-const STORY_CTA_FIGMA = {
-  padLeft: 22,
-  padRight: 12,
-  padY: 10,
-  gap: 8,
-  labelSize: 16,
-  arrowSize: 36,
-  arrowFont: 15,
-};
-const STORY_CTA_SCALE = 0.85;
-
-function scaleStoryCta(value: number, extraScale = 1): number {
-  return value * STORY_CTA_SCALE * extraScale;
-}
-
 function ViewMoreButton(): React.ReactElement {
-  const s = STORY_CTA_FIGMA;
-  const mobileScale = 0.72;
-
   return (
     <>
-      <Link
-        href="/blog"
-        className="group relative hidden w-fit shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)] lg:inline-flex"
-        style={{
-          paddingLeft: scaleStoryCta(s.padLeft),
-          paddingRight: scaleStoryCta(s.padRight),
-          paddingTop: scaleStoryCta(s.padY),
-          paddingBottom: scaleStoryCta(s.padY),
-          gap: scaleStoryCta(s.gap),
-        }}
-      >
-        <span
-          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize) }}
-        >
-          View More
-        </span>
-        <span
-          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
-          style={{
-            width: scaleStoryCta(s.arrowSize),
-            height: scaleStoryCta(s.arrowSize),
-            fontSize: scaleStoryCta(s.arrowFont),
-          }}
-        >
-          <span className="block translate-x-px leading-none">→</span>
-        </span>
-      </Link>
-
-      <Link
-        href="/blog"
-        className="group inline-flex w-fit shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 lg:hidden"
-        style={{
-          paddingLeft: scaleStoryCta(s.padLeft, mobileScale),
-          paddingRight: scaleStoryCta(s.padRight, mobileScale),
-          paddingTop: scaleStoryCta(s.padY, mobileScale),
-          paddingBottom: scaleStoryCta(s.padY, mobileScale),
-          gap: scaleStoryCta(s.gap, mobileScale),
-        }}
-      >
-        <span
-          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize, mobileScale) }}
-        >
-          View More
-        </span>
-        <span
-          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
-          style={{
-            width: scaleStoryCta(s.arrowSize, mobileScale),
-            height: scaleStoryCta(s.arrowSize, mobileScale),
-            fontSize: scaleStoryCta(s.arrowFont, mobileScale),
-          }}
-        >
-          <span className="block translate-x-px leading-none">→</span>
-        </span>
-      </Link>
+      <HomePrimaryButton href="/blog" className="hidden shrink-0 lg:inline-flex">
+        View More
+      </HomePrimaryButton>
+      <HomePrimaryButton href="/blog" className="shrink-0 lg:hidden">
+        View More
+      </HomePrimaryButton>
     </>
   );
 }
@@ -477,7 +409,7 @@ export default function BlogSlider() {
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={activeIndex}
-              className="w-full min-w-0 break-words font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
+                  className={`w-full min-w-0 break-words ${HOME_SECTION_SUBTEXT} text-white/65`}
               initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}

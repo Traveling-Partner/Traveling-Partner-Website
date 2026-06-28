@@ -3,6 +3,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Instrument_Serif } from "next/font/google";
+import { HomeSecondaryButton } from "./HomeCtaButtons";
+import { HOME_SECTION_BODY } from "@/lib/homeSectionStyles";
 
 const accentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -354,7 +356,7 @@ export default function TutorialVideoPlayer({
           <button
             type="button"
             onClick={() => void handleShare()}
-            className="group inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.35)] transition-colors hover:bg-[#1a1a1a] sm:text-[13px]"
+            className="group inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1 font-poppins text-[13px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.35)] transition-colors hover:bg-[#1a1a1a] sm:text-[14px]"
           >
             Share
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#fdb813] text-[11px] font-bold leading-none text-[#0b0b0b] transition-transform group-hover:-rotate-45">
@@ -448,7 +450,7 @@ export function TutorialPreviewCard({
           </span>
         </h3>
 
-        <p className="mt-2 line-clamp-2 font-poppins text-[12px] font-normal leading-[1.5] text-[#6f6e68] sm:text-[13px]">
+        <p className={`mt-2 line-clamp-2 ${HOME_SECTION_BODY}`}>
           {tutorial.description}
         </p>
 
@@ -456,16 +458,9 @@ export function TutorialPreviewCard({
           <span className="min-w-0 font-poppins text-[11px] font-normal text-[#0b0b0b] sm:text-[12px]">
             {tutorial.statLabel}
           </span>
-          <button
-            type="button"
-            onClick={onPlay}
-            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] py-0 pl-3.5 pr-1 font-poppins text-[11px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.18)] transition-all duration-300 group-hover/card:bg-gradient-to-r group-hover/card:from-[#fce001] group-hover/card:to-[#fdb813] group-hover/card:text-[#0b0b0b] group-hover/card:shadow-[0_8px_22px_rgba(252,224,1,0.35)] sm:text-[12px]"
-          >
+          <HomeSecondaryButton onClick={onPlay} className="shrink-0">
             {tutorial.ctaLabel}
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#fdb813] text-[11px] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover/card:-rotate-45 group-hover/card:bg-[#0b0b0b] group-hover/card:text-[#fdb813]">
-              →
-            </span>
-          </button>
+          </HomeSecondaryButton>
         </div>
       </div>
     </article>

@@ -6,32 +6,20 @@ import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
 import { submitContactForm } from "@/services/contact";
+import {
+  HOME_ACCENT_TEXT,
+  HOME_SECTION_BODY,
+  HOME_SECTION_HEADING,
+  HOME_SECTION_SUBTEXT,
+} from "@/lib/homeSectionStyles";
+import { HomePrimaryButton } from "@/components/Home-sections/HomeCtaButtons";
 
 /** Figma Contact — node 124:3877 */
 const CONTAINER_MAX = 1708;
 const PHONE_DISPLAY = "+92 325 280 1261";
 const PHONE_HREF = "tel:+923252801261";
 
-const accentItalicClass =
-  "font-poppins font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
-
-/** Matches Blog section View More CTA — Figma Component 1 / 124:3695 */
-const STORY_CTA_FIGMA = {
-  padLeft: 22,
-  padRight: 12,
-  padY: 10,
-  gap: 8,
-  labelSize: 16,
-  arrowSize: 36,
-};
-const STORY_CTA_SCALE = 0.85;
-
-function scaleStoryCta(value: number, extraScale = 1): number {
-  return value * STORY_CTA_SCALE * extraScale;
-}
-
-const storyCtaClass =
-  "group relative inline-flex w-fit max-w-full shrink-0 items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)]";
+const accentItalicClass = HOME_ACCENT_TEXT;
 
 function PhoneIcon({ size = 16 }: { size?: number }): React.ReactElement {
   return (
@@ -45,67 +33,15 @@ function PhoneIcon({ size = 16 }: { size?: number }): React.ReactElement {
 }
 
 function PhoneCtaButton(): React.ReactElement {
-  const s = STORY_CTA_FIGMA;
-  const mobileScale = 0.72;
-
   return (
-    <>
-      <a
-        href={PHONE_HREF}
-        className={`${storyCtaClass} mt-8 hidden sm:mt-10 lg:inline-flex`}
-        style={{
-          paddingLeft: scaleStoryCta(s.padLeft),
-          paddingRight: scaleStoryCta(s.padRight),
-          paddingTop: scaleStoryCta(s.padY),
-          paddingBottom: scaleStoryCta(s.padY),
-          gap: scaleStoryCta(s.gap),
-        }}
-      >
-        <span
-          className="flex min-w-0 items-center truncate font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize) }}
-        >
-          {PHONE_DISPLAY}
-        </span>
-        <span
-          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
-          style={{
-            width: scaleStoryCta(s.arrowSize),
-            height: scaleStoryCta(s.arrowSize),
-          }}
-        >
-          <PhoneIcon size={scaleStoryCta(15)} />
-        </span>
-      </a>
-
-      <a
-        href={PHONE_HREF}
-        className={`${storyCtaClass} mt-8 sm:mt-10 lg:hidden`}
-        style={{
-          paddingLeft: scaleStoryCta(s.padLeft, mobileScale),
-          paddingRight: scaleStoryCta(s.padRight, mobileScale),
-          paddingTop: scaleStoryCta(s.padY, mobileScale),
-          paddingBottom: scaleStoryCta(s.padY, mobileScale),
-          gap: scaleStoryCta(s.gap, mobileScale),
-        }}
-      >
-        <span
-          className="flex min-w-0 items-center truncate font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize, mobileScale) }}
-        >
-          {PHONE_DISPLAY}
-        </span>
-        <span
-          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
-          style={{
-            width: scaleStoryCta(s.arrowSize, mobileScale),
-            height: scaleStoryCta(s.arrowSize, mobileScale),
-          }}
-        >
-          <PhoneIcon size={scaleStoryCta(15, mobileScale)} />
-        </span>
-      </a>
-    </>
+    <HomePrimaryButton
+      href={PHONE_HREF}
+      external
+      icon={<PhoneIcon size={15} />}
+      className="mt-8 sm:mt-10"
+    >
+      {PHONE_DISPLAY}
+    </HomePrimaryButton>
   );
 }
 
@@ -240,7 +176,7 @@ export default function ContactUsForm(): React.ReactElement {
           >
             <h2
               id="contact-section-heading"
-              className="font-poppins text-[clamp(2.25rem,5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em] text-white"
+              className={`${HOME_SECTION_HEADING} text-white`}
             >
               <span className="block">Smart, safe</span>
               <span className="block">
@@ -249,7 +185,7 @@ export default function ContactUsForm(): React.ReactElement {
               </span>
             </h2>
 
-            <p className="mt-5 max-w-[500px] font-poppins text-[14px] font-normal leading-[1.65] text-white sm:mt-6 sm:text-[15px] lg:text-[16px]">
+            <p className={`mt-5 max-w-[500px] ${HOME_SECTION_SUBTEXT} text-white sm:mt-6`}>
               Save your time, drive on your own schedule, and enjoy fair commission-free
               rides. Trusted, transparent mobility for every Pakistani commuter.
             </p>
