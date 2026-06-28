@@ -154,28 +154,46 @@ const getAuthorInitials = (author: string): string => {
   return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
 };
 
-function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
+function BlogCard({
+  blog,
+  isActive,
+  isCompact = false,
+}: {
+  blog: Blog;
+  isActive: boolean;
+  isCompact?: boolean;
+}) {
   const categoryLabel = blog.category ? String(blog.category).trim() : "";
   const imageSrc = getImageSrc(blog.cover_image);
   const dateLabel = displayApiDate(blog.date);
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
   const readTimeLabel = blog.readTime?.trim() ?? "";
-  const imageH = isActive ? Math.round(IMAGE_H * 0.86) : Math.round(IMAGE_H * 0.8);
-  const textPad = isActive ? "16px 20px 18px" : "14px 16px 16px";
-  const titleSize = isActive ? 20 : 15;
-  const bodySize = isActive ? 14 : 13;
-  const metaSize = isActive ? 12 : 11;
+  const imageH = isCompact
+    ? undefined
+    : isActive
+      ? Math.round(IMAGE_H * 0.86)
+      : Math.round(IMAGE_H * 0.8);
+  const textPad = isCompact
+    ? "14px 16px 16px"
+    : isActive
+      ? "16px 20px 18px"
+      : "14px 16px 16px";
+  const titleSize = isCompact ? 18 : isActive ? 20 : 15;
+  const bodySize = isCompact ? 13 : isActive ? 14 : 13;
+  const metaSize = isCompact ? 11 : isActive ? 12 : 11;
   const contentGap = isActive ? 6 : 6;
   const titleLineHeight = 1.35;
 
   return (
-    <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full">
+    <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full min-w-0 max-w-full">
       <article
-        className="blog-card-article flex h-full w-full flex-col overflow-hidden"
+        className={`blog-card-article flex w-full min-w-0 max-w-full flex-col ${
+          isCompact ? "overflow-hidden" : "h-full overflow-hidden"
+        }`}
         style={{
-          height: ACTIVE_H,
-          borderRadius: CARD_RADIUS,
+          height: isCompact ? "auto" : ACTIVE_H,
+          borderRadius: isCompact ? Math.max(18, CARD_RADIUS * 0.92) : CARD_RADIUS,
           background: "linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.03)), #161616",
           boxShadow: isActive
             ? "inset 0 0 0 1.27px rgba(255,255,255,0.06), 0 28px 56px rgba(0,0,0,0.48), 0 12px 28px rgba(0,0,0,0.24)"
@@ -183,7 +201,10 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
           opacity: isActive ? 1 : 0.9,
         }}
       >
-        <div className="relative shrink-0 overflow-hidden bg-[#1a1a1a]" style={{ height: imageH }}>
+        <div
+          className={`relative shrink-0 overflow-hidden bg-[#1a1a1a] ${isCompact ? "aspect-[5/3] w-full" : ""}`}
+          style={imageH != null ? { height: imageH } : undefined}
+        >
           {imageSrc ? (
             <Image
               src={imageSrc}
@@ -211,23 +232,33 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
         </div>
 
         <div
-          className="relative z-10 flex min-h-0 flex-1 flex-col bg-[#161616]"
+          className={`relative z-10 flex w-full min-w-0 max-w-full flex-col bg-[#161616] ${
+            isCompact ? "" : "min-h-0 flex-1"
+          }`}
           style={{ padding: textPad }}
         >
-          <div className="min-h-0 flex-1 overflow-hidden" style={{ display: "flex", flexDirection: "column", gap: contentGap }}>
+          <div
+            className={`w-full min-w-0 max-w-full ${isCompact ? "" : "min-h-0 flex-1 overflow-hidden"}`}
+            style={{ display: "flex", flexDirection: "column", gap: contentGap }}
+          >
             <h3
-              className="line-clamp-2 font-bold text-white"
+              className={`w-full min-w-0 max-w-full break-words font-bold text-white ${
+                isCompact ? "line-clamp-3" : "line-clamp-2"
+              }`}
               style={{
                 fontSize: titleSize,
                 lineHeight: titleLineHeight,
+                overflowWrap: "anywhere",
               }}
             >
               {blog.main_title}
             </h3>
             {blog.description1 ? (
               <p
-                className="line-clamp-2 leading-[1.5] text-white/60"
-                style={{ fontSize: bodySize, margin: 0 }}
+                className={`w-full min-w-0 max-w-full break-words leading-[1.5] text-white/60 ${
+                  isCompact ? "line-clamp-3" : "line-clamp-2"
+                }`}
+                style={{ fontSize: bodySize, margin: 0, overflowWrap: "anywhere" }}
               >
                 {blog.description1}
               </p>
@@ -235,11 +266,13 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
           </div>
 
           <div
-            className={`flex shrink-0 flex-wrap items-center gap-x-2 gap-y-1 text-white/50 ${isActive ? "pt-3" : "mt-auto pt-2"}`}
+            className={`flex w-full min-w-0 max-w-full shrink-0 flex-wrap items-center gap-x-2 gap-y-1.5 text-white/50 ${
+              isActive ? "pt-3" : "mt-auto pt-2"
+            }`}
             style={{ fontSize: metaSize }}
           >
             {authorLabel ? (
-              <span className="inline-flex min-w-0 items-center gap-1.5">
+              <span className="inline-flex min-w-0 max-w-full items-center gap-1.5">
                 {authorInitials ? (
                   <span
                     className="flex shrink-0 items-center justify-center rounded-full bg-[#fce001] font-bold text-black"
@@ -259,7 +292,7 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
               <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
             ) : null}
             {dateLabel ? (
-              <span className="inline-flex shrink-0 items-center gap-1">
+              <span className="inline-flex min-w-0 items-center gap-1">
                 <svg
                   style={{ width: isActive ? 14 : 11, height: isActive ? 14 : 11 }}
                   className="opacity-50"
@@ -277,7 +310,7 @@ function BlogCard({ blog, isActive }: { blog: Blog; isActive: boolean }) {
               <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
             ) : null}
             {readTimeLabel ? (
-              <span className="inline-flex shrink-0 items-center gap-1">
+              <span className="inline-flex min-w-0 items-center gap-1">
                 <svg
                   style={{ width: isActive ? 14 : 11, height: isActive ? 14 : 11 }}
                   className="opacity-50"
@@ -351,9 +384,9 @@ export default function BlogSlider() {
     if (!rootRef.current) return;
     const available = rootRef.current.clientWidth;
     const compact = available < COMPACT_BREAKPOINT;
-    const designW = compact ? ACTIVE_W : VIEWPORT_W;
+    const designW = compact ? available : VIEWPORT_W;
     setIsCompact(compact);
-    setFrameScale(Math.min(MAX_FRAME_SCALE, available / designW));
+    setFrameScale(compact ? 1 : Math.min(MAX_FRAME_SCALE, available / designW));
   }, []);
 
   useEffect(() => {
@@ -401,8 +434,7 @@ export default function BlogSlider() {
     return getVisibleBlogs(blogs, activeIndex);
   }, [blogs, activeIndex, isCompact]);
   const activeBlog = blogs[activeIndex];
-  const designViewportW = isCompact ? ACTIVE_W : VIEWPORT_W;
-  const scaledW = designViewportW * frameScale;
+  const scaledW = isCompact ? "100%" : VIEWPORT_W * frameScale;
 
   if (loading) {
     return (
@@ -414,108 +446,139 @@ export default function BlogSlider() {
   if (error) return <p className="py-4 text-center text-red-400">{error}</p>;
   if (!blogs.length) return null;
 
+  const carouselHoverHandlers = {
+    onMouseEnter: () => {
+      isHoveredRef.current = true;
+    },
+    onMouseLeave: () => {
+      isHoveredRef.current = false;
+    },
+  };
+
+  const dotsAndCopy = (
+    <div className="mt-8 flex w-full min-w-0 flex-col items-start justify-between gap-6 sm:mt-12 sm:gap-8 lg:flex-row lg:items-end">
+      <div className="w-full min-w-0 max-w-[692px]">
+        {blogs.length > 1 && (
+          <div className="mb-6 flex items-center gap-2">
+            {blogs.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => goToIndex(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+        {activeBlog?.description1 ? (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.p
+              key={activeIndex}
+              className="w-full min-w-0 break-words font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
+              initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {activeBlog.description1}
+            </motion.p>
+          </AnimatePresence>
+        ) : null}
+      </div>
+
+      <ViewMoreButton />
+    </div>
+  );
+
   return (
-    <div ref={rootRef} className="w-full">
-      <div className="mx-auto" style={{ width: scaledW, maxWidth: "100%" }}>
-        <div
-          className="overflow-hidden"
-          style={{ height: ACTIVE_H * frameScale }}
-          onMouseEnter={() => {
-            isHoveredRef.current = true;
-          }}
-          onMouseLeave={() => {
-            isHoveredRef.current = false;
-          }}
-        >
-          <motion.div
-            className="flex shrink-0 items-stretch"
-            style={{
-              width: designViewportW,
-              gap: isCompact ? 0 : CARD_GAP,
-              transform: `scale(${frameScale})`,
-              transformOrigin: "top left",
-            }}
-            layout
-          >
+    <div ref={rootRef} className="w-full min-w-0">
+      <div className="mx-auto w-full max-w-full" style={{ width: scaledW }}>
+        {isCompact && activeBlog ? (
+          <div className="w-full min-w-0 overflow-visible pb-4" {...carouselHoverHandlers}>
             <AnimatePresence
-              mode="popLayout"
+              mode="wait"
               initial={false}
               onExitComplete={() => {
                 isAnimatingRef.current = false;
               }}
             >
-              {visibleBlogs.map((blog, position) => {
-                const isActive = position === 0;
-                const cardW = isActive ? ACTIVE_W : SIDE_W;
-                const enterX = slideDirection * 110;
-                const exitX = slideDirection * -130;
-
-                return (
-                  <motion.div
-                    key={blog.id}
-                    layout
-                    className="shrink-0 overflow-hidden"
-                    style={{ height: ACTIVE_H, width: cardW }}
-                    initial={{ opacity: 0, x: enterX, scale: 0.94, width: SIDE_W }}
-                    animate={{
-                      opacity: isActive ? 1 : 0.78,
-                      x: 0,
-                      scale: isActive ? 1 : 0.97,
-                      width: cardW,
-                      filter: isActive ? "blur(0px)" : "blur(0.4px)",
-                    }}
-                    exit={{
-                      opacity: 0,
-                      x: exitX,
-                      scale: 0.9,
-                      filter: "blur(4px)",
-                      transition: { duration: SLIDE_EXIT_MS, ease: [0.4, 0, 0.2, 1] },
-                    }}
-                    transition={SLIDE_SPRING}
-                  >
-                    <BlogCard blog={blog} isActive={isActive} />
-                  </motion.div>
-                );
-              })}
+              <motion.div
+                key={activeBlog.id}
+                className="w-full min-w-0 max-w-full"
+                initial={{ opacity: 0, x: slideDirection * 28 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: slideDirection * -28 }}
+                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <BlogCard blog={activeBlog} isActive isCompact />
+              </motion.div>
             </AnimatePresence>
-          </motion.div>
-        </div>
-
-        <div className="mt-8 flex w-full flex-col items-start justify-between gap-6 sm:mt-12 sm:gap-8 lg:flex-row lg:items-end">
-          <div className="max-w-[692px]">
-            {blogs.length > 1 && (
-              <div className="mb-6 flex items-center gap-2">
-                {blogs.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`Go to slide ${i + 1}`}
-                    onClick={() => goToIndex(i)}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-            {activeBlog?.description1 ? (
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.p
-                  key={activeIndex}
-                  className="font-poppins text-[14px] leading-[1.65] text-white/65 lg:text-[15px]"
-                  initial={{ opacity: 0, x: slideDirection * 18, filter: "blur(6px)" }}
-                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: slideDirection * -18, filter: "blur(6px)" }}
-                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {activeBlog.description1}
-                </motion.p>
-              </AnimatePresence>
-            ) : null}
           </div>
+        ) : (
+          <div
+            className="overflow-hidden"
+            style={{ height: ACTIVE_H * frameScale }}
+            {...carouselHoverHandlers}
+          >
+            <motion.div
+              className="flex shrink-0 items-stretch"
+              style={{
+                width: VIEWPORT_W,
+                gap: CARD_GAP,
+                transform: `scale(${frameScale})`,
+                transformOrigin: "top left",
+              }}
+              layout
+            >
+              <AnimatePresence
+                mode="popLayout"
+                initial={false}
+                onExitComplete={() => {
+                  isAnimatingRef.current = false;
+                }}
+              >
+                {visibleBlogs.map((blog, position) => {
+                  const isActive = position === 0;
+                  const cardW = isActive ? ACTIVE_W : SIDE_W;
+                  const enterX = slideDirection * 110;
+                  const exitX = slideDirection * -130;
 
-          <ViewMoreButton />
-        </div>
+                  return (
+                    <motion.div
+                      key={blog.id}
+                      layout
+                      className="shrink-0 overflow-hidden"
+                      style={{ height: ACTIVE_H, width: cardW }}
+                      initial={{ opacity: 0, x: enterX, scale: 0.94, width: SIDE_W }}
+                      animate={{
+                        opacity: isActive ? 1 : 0.78,
+                        x: 0,
+                        scale: isActive ? 1 : 0.97,
+                        width: cardW,
+                        filter: isActive ? "blur(0px)" : "blur(0.4px)",
+                      }}
+                      exit={{
+                        opacity: 0,
+                        x: exitX,
+                        scale: 0.9,
+                        filter: "blur(4px)",
+                        transition: { duration: SLIDE_EXIT_MS, ease: [0.4, 0, 0.2, 1] },
+                      }}
+                      transition={SLIDE_SPRING}
+                    >
+                      <BlogCard blog={blog} isActive={isActive} />
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+
+        {dotsAndCopy}
       </div>
     </div>
   );
