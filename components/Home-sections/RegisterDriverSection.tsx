@@ -21,8 +21,9 @@ const SUBTEXT_W = 720;
 const TEXT_TOP_SECTION = 60.345;
 const HEADLINE_SUBTEXT_GAP = 17.3;
 
-const CTA_W = 492.93;
-const CTA_H = 125.65;
+const CTA_SCALE = 1.12;
+const CTA_W = 492.93 * CTA_SCALE;
+const CTA_H = 125.65 * CTA_SCALE;
 
 const DRIVER_CTA = {
   left: 271,
@@ -256,13 +257,15 @@ function CtaSlot({
       }}
     >
       <div
-        className="h-full w-full [container-type:size]"
+        className="h-full w-full"
         style={{
           transform: `rotate(${box.rotate}deg)`,
           transformOrigin: "center center",
         }}
       >
-        {children}
+        <div className="h-full w-full origin-center [container-type:size] max-md:scale-[1.25]">
+          {children}
+        </div>
       </div>
     </div>
   );

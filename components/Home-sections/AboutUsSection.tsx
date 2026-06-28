@@ -28,6 +28,9 @@ const STORY_CTA_FIGMA = {
 };
 
 const STORY_CTA_SCALE = 0.85;
+/** Extra horizontal padding so the pill reads wider */
+const STORY_CTA_EXTRA_PAD_X = 24;
+const STORY_CTA_EXTRA_PAD_Y = 8;
 
 function scaleStoryCta(value: number, extraScale = 1): number {
   return value * STORY_CTA_SCALE * extraScale;
@@ -55,6 +58,14 @@ const COMMUNITY_PILL_POSITION = {
   height: "10.2464%",
 };
 
+/** Keep pill fully inside canvas on narrow screens */
+const COMMUNITY_PILL_POSITION_MOBILE = {
+  left: "0.5%",
+  top: "20.1821%",
+  width: "46.5%",
+  height: "10.2464%",
+};
+
 const TOTAL_RIDES_POSITION = {
   left: "1.000004%",
   top: "72.469817%",
@@ -76,11 +87,39 @@ const CHAT_BUBBLE_POSITION = {
   height: "20.92857%",
 };
 
-function CommunityInsightsButton(): React.ReactElement {
+/** Pull chat bubble inside canvas on mobile */
+const CHAT_BUBBLE_POSITION_MOBILE = {
+  left: "79.5%",
+  top: "0.75%",
+  width: "17.5%",
+  height: "18.5%",
+};
+
+const BG_LINE_POSITION = {
+  left: "-5.198368%",
+  top: "10.702998562101424%",
+  width: "44.9839115256715%",
+  height: "63.59375032050164%",
+};
+
+const BG_LINE_POSITION_MOBILE = {
+  left: "0%",
+  top: "10.702998562101424%",
+  width: "42%",
+  height: "63.59375032050164%",
+};
+
+function CommunityInsightsButton({
+  position,
+  className = "",
+}: {
+  position: typeof COMMUNITY_PILL_POSITION;
+  className?: string;
+}): React.ReactElement {
   return (
     <div
-      className="absolute z-[25] [container-type:size]"
-      style={COMMUNITY_PILL_POSITION}
+      className={`absolute z-[25] [container-type:size] ${className}`}
+      style={position}
     >
       <button
         type="button"
@@ -143,33 +182,39 @@ function canvasStyle({ x, y, w, h }: FigmaRect, zIndex: number): React.CSSProper
 
 function LearnMoreButton(): React.ReactElement {
   const s = STORY_CTA_FIGMA;
-  const mobileScale = 0.72;
+  const mobileScale = 1.08;
+  const padX = (side: "left" | "right", scale: number) =>
+    scaleStoryCta((side === "left" ? s.padLeft : s.padRight) + STORY_CTA_EXTRA_PAD_X, scale);
+  const padY = (scale: number) => scaleStoryCta(s.padY + STORY_CTA_EXTRA_PAD_Y, scale);
+
+  const sharedClass =
+    "group relative flex w-full items-center justify-between overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)]";
 
   return (
     <>
       <Link
         href="/about"
-        className="group relative hidden w-fit items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)] lg:inline-flex"
+        className={`${sharedClass} hidden lg:inline-flex`}
         style={{
-          paddingLeft: scaleStoryCta(s.padLeft),
-          paddingRight: scaleStoryCta(s.padRight),
-          paddingTop: scaleStoryCta(s.padY),
-          paddingBottom: scaleStoryCta(s.padY),
+          paddingLeft: padX("left", 1),
+          paddingRight: padX("right", 1),
+          paddingTop: padY(1),
+          paddingBottom: padY(1),
           gap: scaleStoryCta(s.gap),
         }}
       >
         <span
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize) }}
+          style={{ fontSize: scaleStoryCta(s.labelSize + 2) }}
         >
           Read our story
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
           style={{
-            width: scaleStoryCta(s.arrowSize),
-            height: scaleStoryCta(s.arrowSize),
-            fontSize: scaleStoryCta(s.arrowFont),
+            width: scaleStoryCta(s.arrowSize + 4),
+            height: scaleStoryCta(s.arrowSize + 4),
+            fontSize: scaleStoryCta(s.arrowFont + 1),
           }}
         >
           <span className="block translate-x-px leading-none">→</span>
@@ -178,27 +223,27 @@ function LearnMoreButton(): React.ReactElement {
 
       <Link
         href="/about"
-        className="group inline-flex w-fit items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 lg:hidden"
+        className={`${sharedClass} lg:hidden`}
         style={{
-          paddingLeft: scaleStoryCta(s.padLeft, mobileScale),
-          paddingRight: scaleStoryCta(s.padRight, mobileScale),
-          paddingTop: scaleStoryCta(s.padY, mobileScale),
-          paddingBottom: scaleStoryCta(s.padY, mobileScale),
+          paddingLeft: padX("left", mobileScale),
+          paddingRight: padX("right", mobileScale),
+          paddingTop: padY(mobileScale),
+          paddingBottom: padY(mobileScale),
           gap: scaleStoryCta(s.gap, mobileScale),
         }}
       >
         <span
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize, mobileScale) }}
+          style={{ fontSize: scaleStoryCta(s.labelSize + 3, mobileScale) }}
         >
           Read our story
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
           style={{
-            width: scaleStoryCta(s.arrowSize, mobileScale),
-            height: scaleStoryCta(s.arrowSize, mobileScale),
-            fontSize: scaleStoryCta(s.arrowFont, mobileScale),
+            width: scaleStoryCta(s.arrowSize + 6, mobileScale),
+            height: scaleStoryCta(s.arrowSize + 6, mobileScale),
+            fontSize: scaleStoryCta(s.arrowFont + 2, mobileScale),
           }}
         >
           <span className="block translate-x-px leading-none">→</span>
@@ -208,6 +253,35 @@ function LearnMoreButton(): React.ReactElement {
   );
 }
 
+function PositionedImage({
+  src,
+  alt,
+  position,
+  zIndex,
+  className = "object-contain object-left-top",
+  sizes,
+  classNameWrapper = "",
+}: {
+  src: string;
+  alt: string;
+  position: React.CSSProperties;
+  zIndex: number;
+  className?: string;
+  sizes: string;
+  classNameWrapper?: string;
+}): React.ReactElement {
+  return (
+    <div
+      className={`pointer-events-none absolute ${classNameWrapper}`}
+      style={{ ...position, zIndex }}
+      aria-hidden={alt === ""}
+    >
+      <div className="relative h-full w-full">
+        <Image src={src} alt={alt} fill className={className} sizes={sizes} />
+      </div>
+    </div>
+  );
+}
 function FigmaLayer({
   src,
   alt,
@@ -255,33 +329,26 @@ function AboutVisual(): React.ReactElement {
 
   return (
     <div
-      className="relative w-full overflow-visible"
+      className="relative mx-auto w-full max-w-full overflow-visible max-lg:max-w-[min(100%,400px)] max-lg:pb-6"
       style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}`, maxWidth: CANVAS_W }}
     >
-      <div className="absolute inset-0 origin-top-left overflow-visible max-lg:scale-100 lg:scale-[1.08]">
-      {/* Decorative curve — bg-line.png */}
-      <div
-        className="pointer-events-none absolute z-[1]"
-        style={{
-          left: "-5.198368%",
-          top: "10.702998562101424%",
-          width: "44.9839115256715%",
-          height: "63.59375032050164%",
-        }}
-        aria-hidden
-      >
-        <div className="relative h-full w-full">
-          <Image
-            src="/images/about-us/bg-line.png"
-            alt=""
-            fill
-            className="object-contain object-left-top brightness-0"
-            sizes="(max-width: 1024px) 45vw, 435px"
-          />
-        </div>
-      </div>
-
-      {/* Profile grid — exports mapped to visual positions (Amna TL, Usman TR, Faisal BL, Sara BR) */}
+      <div className="absolute inset-0 origin-[48%_12%] overflow-visible max-lg:scale-[0.94] lg:origin-top-left lg:scale-[1.08]">
+      <PositionedImage
+        src="/images/about-us/bg-line.png"
+        alt=""
+        position={BG_LINE_POSITION_MOBILE}
+        zIndex={1}
+        className="object-contain object-left-top brightness-0 lg:hidden"
+        sizes="(max-width: 1024px) 45vw, 435px"
+      />
+      <PositionedImage
+        src="/images/about-us/bg-line.png"
+        alt=""
+        position={BG_LINE_POSITION}
+        zIndex={1}
+        className="hidden object-contain object-left-top brightness-0 lg:block"
+        sizes="(max-width: 1024px) 45vw, 435px"
+      />
       <FigmaLayer
         src="/images/about-us/profile-top-right.png"
         alt="Amna, rider"
@@ -313,7 +380,8 @@ function AboutVisual(): React.ReactElement {
         className="object-contain"
       />
 
-      <CommunityInsightsButton />
+      <CommunityInsightsButton position={COMMUNITY_PILL_POSITION_MOBILE} className="lg:hidden" />
+      <CommunityInsightsButton position={COMMUNITY_PILL_POSITION} className="hidden lg:block" />
 
       {/* Active drivers card — Figma 124:3727 */}
       <FigmaLayer
@@ -363,22 +431,22 @@ function AboutVisual(): React.ReactElement {
         </div>
       </div>
 
-      {/* Chat bubble — chat-bubble.png */}
-      <div
-        className="pointer-events-none absolute z-[25]"
-        style={CHAT_BUBBLE_POSITION}
-        aria-hidden
-      >
-        <div className="relative h-full w-full">
-          <Image
-            src="/images/about-us/chat-bubble.png"
-            alt=""
-            fill
-            className="object-contain object-left-top"
-            sizes="(max-width: 1024px) 20vw, 85px"
-          />
-        </div>
-      </div>
+      <PositionedImage
+        src="/images/about-us/chat-bubble.png"
+        alt=""
+        position={CHAT_BUBBLE_POSITION_MOBILE}
+        zIndex={25}
+        className="object-contain object-left-top lg:hidden"
+        sizes="(max-width: 1024px) 20vw, 85px"
+      />
+      <PositionedImage
+        src="/images/about-us/chat-bubble.png"
+        alt=""
+        position={CHAT_BUBBLE_POSITION}
+        zIndex={25}
+        className="hidden object-contain object-left-top lg:block"
+        sizes="(max-width: 1024px) 20vw, 85px"
+      />
       </div>
     </div>
   );
@@ -429,7 +497,7 @@ export default function AboutUsSection(): React.ReactElement {
             </div>
           </div>
 
-          <div className="relative z-[1] min-w-0 overflow-visible lg:mt-[5.18px]" style={{ maxWidth: RIGHT_COL_W }}>
+          <div className="relative z-[1] min-w-0 overflow-visible max-lg:flex max-lg:justify-center max-lg:px-1 max-lg:pt-2 lg:mt-[5.18px]" style={{ maxWidth: RIGHT_COL_W }}>
             <AboutVisual />
           </div>
         </div>
