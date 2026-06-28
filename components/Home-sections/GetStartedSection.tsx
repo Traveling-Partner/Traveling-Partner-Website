@@ -7,8 +7,15 @@ import TutorialVideoPlayer, {
   type TutorialVideoData,
 } from "./TutorialVideoPlayer";
 
-const accentClass =
-  "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
+import {
+  HOME_ACCENT_TEXT,
+  HOME_SECTION_HEADING,
+  HOME_SECTION_HEADER_WRAP,
+  HOME_SECTION_SUBTEXT,
+  HOME_SECTION_SUBTEXT_WRAP,
+} from "@/lib/homeSectionStyles";
+
+const accentClass = HOME_ACCENT_TEXT;
 
 const TUTORIALS: TutorialVideoData[] = [
   {
@@ -78,17 +85,17 @@ export default function GetStartedSection(): React.ReactElement {
       />
 
       <div className="relative z-[1] mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-10">
-        <div className="mb-8 text-center sm:mb-10 lg:mb-12">
+        <div className={HOME_SECTION_HEADER_WRAP}>
           <h2
             id="get-started-heading"
-            className="font-poppins text-[clamp(1.875rem,3.6vw,3rem)] font-bold leading-[1.1] tracking-[-0.03em]"
+            className={`${HOME_SECTION_HEADING}`}
           >
             <span className="block font-bold text-white">
               Get started in <span className={accentClass}>three</span>
             </span>
             <span className={`block ${accentClass}`}>minutes.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.6] text-white sm:text-[14px] lg:mt-6 lg:text-[15px] lg:leading-[1.65]">
+          <p className={`${HOME_SECTION_SUBTEXT_WRAP} max-w-[640px] ${HOME_SECTION_SUBTEXT} text-white`}>
             <span className="md:hidden">
               <span className="block whitespace-nowrap">
                 Whether you&apos;re signing up as a driver

@@ -10,8 +10,14 @@ const CONTAINER_MAX = 1708;
 const ICON_SIZE = 40;
 const ICON_CLASS = "h-10 w-10 object-contain sm:h-11 sm:w-11";
 
-const accentItalicClass =
-  "font-poppins font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
+import {
+  HOME_ACCENT_TEXT,
+  HOME_SECTION_HEADING,
+  HOME_SECTION_HEADER_WRAP,
+  HOME_SECTION_SUBTEXT,
+  HOME_SECTION_SUBTEXT_WRAP,
+} from "@/lib/homeSectionStyles";
+import { HomePrimaryButton } from "./HomeCtaButtons";
 
 function SafetyFeatureIcon({ src }: { src: string }): React.ReactElement {
   return (
@@ -185,7 +191,7 @@ function SafetyTextCard({
         }`}
       >
         {item.titleBold}{" "}
-        <span className={isMobile ? accentItalicClass : "font-normal italic"}>
+        <span className={isMobile ? HOME_ACCENT_TEXT : "font-normal italic"}>
           {item.titleItalic}
         </span>
       </h3>
@@ -200,21 +206,15 @@ function SafetyTextCard({
         {item.description}
       </p>
 
+      <HomePrimaryButton href={item.href} fullWidth className="mt-5 lg:hidden">
+        More information
+      </HomePrimaryButton>
       <Link
         href={item.href}
-        className={
-          isMobile
-            ? "group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] px-5 py-3.5 font-poppins text-[14px] font-semibold text-[#0b0b0b] shadow-[0_6px_20px_rgba(252,224,1,0.28)] transition-all hover:shadow-[0_8px_26px_rgba(252,224,1,0.38)]"
-            : "group mt-3 inline-flex w-fit shrink-0 items-center gap-1.5 font-poppins text-[clamp(11px,1.05vw,13px)] font-semibold text-[#0b0b0b] underline decoration-[#0b0b0b]/25 underline-offset-[5px] transition-colors hover:decoration-[#0b0b0b] sm:text-[13px]"
-        }
+        className="group mt-3 hidden w-fit shrink-0 items-center gap-1.5 font-poppins text-[13px] font-semibold text-[#0b0b0b] underline decoration-[#0b0b0b]/25 underline-offset-[5px] transition-colors hover:decoration-[#0b0b0b] lg:inline-flex sm:text-[14px]"
       >
         More information
-        <span
-          className={`flex h-7 w-7 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold leading-none text-white transition-transform ${
-            isMobile ? "group-hover:-rotate-45" : "group-hover:translate-x-0.5"
-          }`}
-          aria-hidden
-        >
+        <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
           →
         </span>
       </Link>
@@ -307,7 +307,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         style={{ maxWidth: CONTAINER_MAX }}
       >
         <motion.header
-          className="mx-auto mb-10 max-w-[820px] text-center sm:mb-14 lg:mb-16"
+          className={`${HOME_SECTION_HEADER_WRAP} max-w-[820px]`}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -315,13 +315,13 @@ export default function SafetySecuritySection(): React.ReactElement {
         >
           <h2
             id="safety-section-heading"
-            className="font-poppins text-[clamp(1.875rem,4.2vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]"
+            className={`${HOME_SECTION_HEADING} text-[#0b0b0b]`}
           >
             <span className="block sm:inline">Your safety is</span>{" "}
-            <span className={`block sm:inline ${accentItalicClass}`}>non-negotiable.</span>
+            <span className={`block sm:inline ${HOME_ACCENT_TEXT}`}>non-negotiable.</span>
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[692px] font-poppins text-[14px] font-normal leading-[1.65] text-[#5c5c5c] sm:mt-5 sm:text-[14px] lg:mt-6 lg:text-[15px]">
+          <p className={`${HOME_SECTION_SUBTEXT_WRAP} ${HOME_SECTION_SUBTEXT} text-[#5c5c5c]`}>
             <span className="block sm:inline">
               Four safety features engineered into every ride, delivery, and trip —
             </span>{" "}
