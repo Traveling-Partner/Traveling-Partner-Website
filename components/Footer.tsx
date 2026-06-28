@@ -9,6 +9,7 @@ import { FaXTwitter } from "react-icons/fa6";
 const CONTAINER_MAX = 1730.909;
 
 const FOOTER_LINKS = {
+  /** Interleaved for 2-column mobile: col1 = even indices, col2 = odd */
   company: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
@@ -58,7 +59,57 @@ const FOOTER_IMAGES = {
   appStore: "/images/footer/app-store-badge.png",
 } as const;
 
-function TrustAndAppsColumn(): React.ReactElement {
+function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.ReactElement {
+  if (mobile) {
+    return (
+      <div className="flex items-center gap-5 sm:gap-6">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={FOOTER_IMAGES.duns}
+          alt="Dun & Bradstreet D-U-N-S Registered"
+          width={192}
+          height={149}
+          className="block h-auto w-[132px] shrink-0 sm:w-[148px]"
+          decoding="async"
+        />
+        <div className="flex flex-col gap-2.5">
+          <a
+            href={PLAY_STORE_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block leading-none transition-opacity hover:opacity-90"
+            aria-label="Get it on Google Play"
+          >
+            <Image
+              src={FOOTER_IMAGES.googlePlay}
+              alt=""
+              width={120}
+              height={36}
+              unoptimized
+              className="block h-[32px] w-auto sm:h-[34px]"
+            />
+          </a>
+          <a
+            href={APP_STORE_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block leading-none transition-opacity hover:opacity-90"
+            aria-label="Download on the App Store"
+          >
+            <Image
+              src={FOOTER_IMAGES.appStore}
+              alt=""
+              width={120}
+              height={36}
+              unoptimized
+              className="block h-[32px] w-auto sm:h-[34px]"
+            />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-fit max-w-none shrink-0 overflow-visible">
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -70,7 +121,6 @@ function TrustAndAppsColumn(): React.ReactElement {
         className="block h-auto w-[192px] max-w-none"
         decoding="async"
       />
-
       <div className="mt-3 flex flex-row flex-nowrap items-center gap-2">
         <a
           href={PLAY_STORE_HREF}
@@ -112,27 +162,57 @@ function TrustAndAppsColumn(): React.ReactElement {
 function FooterLinkColumn({
   title,
   links,
+  splitColumns = false,
 }: {
   title: string;
   links: readonly { label: string; href: string }[];
+  splitColumns?: boolean;
 }): React.ReactElement {
+  const colLeft = links.filter((_, index) => index % 2 === 0);
+  const colRight = links.filter((_, index) => index % 2 === 1);
+
+  const linkClass =
+    "font-poppins text-[13px] font-normal leading-snug text-[#6f6e68] transition-colors hover:text-[#0b0b0b] sm:text-[14px]";
+
   return (
     <div className="min-w-0">
       <h3 className="font-poppins text-[11px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[12px]">
         {title}
       </h3>
-      <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="font-poppins text-[13px] font-normal leading-snug text-[#6f6e68] transition-colors hover:text-[#0b0b0b] sm:text-[14px]"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="mt-2.5 h-px w-full bg-[#ddd8cb]" aria-hidden />
+
+      {splitColumns ? (
+        <div className="mt-3 grid grid-cols-2 gap-x-6 sm:gap-x-10">
+          <ul className="space-y-2.5">
+            {colLeft.map((link) => (
+              <li key={link.label}>
+                <Link href={link.href} className={linkClass}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className="space-y-2.5">
+            {colRight.map((link) => (
+              <li key={link.label}>
+                <Link href={link.href} className={linkClass}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
+          {links.map((link) => (
+            <li key={link.label}>
+              <Link href={link.href} className={linkClass}>
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -147,7 +227,7 @@ function NewsletterBanner(): React.ReactElement {
 
   return (
     <div className="rounded-[24px] bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-6 sm:rounded-[28px] sm:px-8 sm:py-7 lg:px-10 lg:py-8">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="min-w-0 shrink-0">
           <h2 className="font-poppins text-[22px] font-bold leading-tight text-[#0b0b0b] sm:text-[26px] lg:text-[28px]">
             Stay in the loop
@@ -159,7 +239,7 @@ function NewsletterBanner(): React.ReactElement {
 
         <form
           onSubmit={handleSubmit}
-          className="flex w-full min-w-0 max-w-[560px] items-center rounded-full bg-white p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:shrink-0"
+          className="flex w-full min-w-0 max-w-[560px] items-center rounded-full bg-white p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:mt-0 lg:shrink-0"
         >
           <label htmlFor="footer-newsletter-email" className="sr-only">
             Email address
@@ -171,7 +251,7 @@ function NewsletterBanner(): React.ReactElement {
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Enter your email"
             required
-            className="min-w-0 flex-1 bg-transparent px-4 py-2.5 font-poppins text-[13px] text-[#0b0b0b] outline-none placeholder:text-[#a8a59d] sm:px-5 sm:text-[14px]"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2.5 font-poppins text-[13px] text-[#0b0b0b] outline-none placeholder:text-[#a8a59d] sm:px-5 sm:text-[14px]"
           />
           <button
             type="submit"
@@ -189,17 +269,42 @@ export default function Footer(): React.ReactElement {
   return (
     <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
       <div
-        className="mx-auto w-full px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12 md:px-8 lg:px-[95px] lg:pb-12 lg:pt-14"
+        className="mx-auto w-full px-5 pb-10 pt-10 sm:px-6 sm:pb-10 sm:pt-12 md:px-8 lg:px-[95px] lg:pb-12 lg:pt-14"
         style={{ maxWidth: CONTAINER_MAX }}
       >
         <NewsletterBanner />
 
-        <div className="mt-12 grid grid-cols-1 gap-10 sm:mt-14 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-16 lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] lg:gap-x-10 xl:gap-x-14">
-          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
-            <Link
-              href="/"
-              className="inline-block h-[52px] w-[95px] shrink-0 sm:h-[56px] sm:w-[102px]"
-            >
+        {/* Mobile — stacked sections like reference */}
+        <div className="mt-10 lg:hidden">
+          <Link href="/" className="inline-block h-[52px] w-[95px] shrink-0">
+            <Image
+              src="/images/traveling-partner-logo.png"
+              alt="Traveling Partner"
+              width={110}
+              height={65}
+              className="h-full w-full object-contain object-left"
+            />
+          </Link>
+          <p className="mt-4 font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68]">
+            Your ultimate travel companion. Commission-free rides, logistics, and trip
+            planning across Pakistan.
+          </p>
+
+          <div className="mt-9 space-y-7">
+            <FooterLinkColumn title="Company" links={FOOTER_LINKS.company} splitColumns />
+            <FooterLinkColumn title="Services" links={FOOTER_LINKS.services} splitColumns />
+            <FooterLinkColumn title="Support" links={FOOTER_LINKS.support} splitColumns />
+          </div>
+
+          <div className="mt-9">
+            <TrustAndAppsBlock mobile />
+          </div>
+        </div>
+
+        {/* Desktop */}
+        <div className="mt-12 hidden gap-x-10 lg:mt-16 lg:grid lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] xl:gap-x-14">
+          <div className="min-w-0 lg:col-span-1">
+            <Link href="/" className="inline-block h-[56px] w-[102px] shrink-0">
               <Image
                 src="/images/traveling-partner-logo.png"
                 alt="Traveling Partner"
@@ -208,7 +313,7 @@ export default function Footer(): React.ReactElement {
                 className="h-full w-full object-contain object-left"
               />
             </Link>
-            <p className="mt-4 max-w-[300px] font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68] sm:mt-5 sm:text-[14px]">
+            <p className="mt-5 max-w-[300px] font-poppins text-[14px] font-normal leading-[1.65] text-[#6f6e68]">
               Your ultimate travel companion. Commission-free rides, logistics, and trip
               planning across Pakistan.
             </p>
@@ -219,16 +324,16 @@ export default function Footer(): React.ReactElement {
           <FooterLinkColumn title="Support" links={FOOTER_LINKS.support} />
 
           <div className="w-fit shrink-0 overflow-visible">
-            <TrustAndAppsColumn />
+            <TrustAndAppsBlock />
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-5 border-t border-[#ddd8cb] pt-6 sm:mt-14 sm:flex-row sm:pt-7">
+        <div className="mt-10 border-t border-[#ddd8cb] pt-6 sm:mt-14 sm:pt-7">
           <p className="font-poppins text-[12px] font-normal text-[#8a877f] sm:text-[13px]">
             © {new Date().getFullYear()} Traveling Partner. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="mt-4 flex items-center gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
