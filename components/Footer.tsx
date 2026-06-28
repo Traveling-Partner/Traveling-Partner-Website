@@ -196,13 +196,16 @@ export default function Footer(): React.ReactElement {
 
         <div className="mt-12 grid grid-cols-1 gap-10 sm:mt-14 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-16 lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] lg:gap-x-10 xl:gap-x-14">
           <div className="min-w-0 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2.5">
+            <Link
+              href="/"
+              className="inline-block h-[52px] w-[95px] shrink-0 sm:h-[56px] sm:w-[102px]"
+            >
               <Image
                 src="/images/traveling-partner-logo.png"
                 alt="Traveling Partner"
-                width={220}
-                height={52}
-                className="h-[42px] w-auto sm:h-[48px]"
+                width={110}
+                height={65}
+                className="h-full w-full object-contain object-left"
               />
             </Link>
             <p className="mt-4 max-w-[300px] font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68] sm:mt-5 sm:text-[14px]">
