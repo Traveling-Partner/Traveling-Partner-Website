@@ -1,277 +1,246 @@
-// components/Footer.jsx
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { 
-  MdEmail, 
-  MdPhone, 
-  MdArrowForward,
-  MdDirectionsCar,
-  MdLocalShipping,
-  MdFlightTakeoff,
-  MdDeliveryDining,
-  MdMap
-} from "react-icons/md";
-import { 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
-  FaReddit
-} from "react-icons/fa";
-import { FaThreads, FaXTwitter } from "react-icons/fa6";
-import { FaGooglePlay } from "react-icons/fa";
-import { IoLogoApple } from "react-icons/io5";
-import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
+const CONTAINER_MAX = 1730.909;
 
-const footerLinks = {
+const FOOTER_LINKS = {
   company: [
+    { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
-    // { label: "Careers", href: "/careers" },
-    // { label: "Press", href: "/press" },
+    { label: "Careers", href: "/about" },
     { label: "Blog", href: "/blog" },
+  ],
+  services: [
+    { label: "Taxi Stand", href: "/taxi-stand" },
+    { label: "Pool Ride", href: "/pool-ride" },
+    { label: "Delivery", href: "/delivery" },
+    { label: "Logistics", href: "/logistic" },
+    { label: "Trip", href: "/trip" },
   ],
   support: [
     { label: "Help Center", href: "/help" },
-    // { label: "Safety", href: "/safety" },
-    { label: "Terms", href: "/terms-conditions" },
-    { label: "Privacy", href: "/privacy-policy" },
+    { label: "Safety Guidelines", href: "/help#safety-and-security" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms of Service", href: "/terms-conditions" },
   ],
-};
+} as const;
 
-const socialLinks = [
-  { icon: FaFacebook, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61556082625668", bg: "bg-[#1877F2]", shadow: "shadow-blue-500/30" },
-  { icon: FaXTwitter, label: "X", href: "https://x.com/PartnerP2D", bg: "bg-black", shadow: "shadow-gray-500/30" },
-  { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/travellpartnerr/", bg: "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]", shadow: "shadow-pink-500/30" },
-  { icon: FaThreads, label: "Threads", href: "https://www.instagram.com/travellpartnerr/", bg: "bg-black", shadow: "shadow-gray-500/30" },
-  { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/traveling-partner", bg: "bg-[#0A66C2]", shadow: "shadow-blue-600/30" },
-  { icon: FaReddit, label: "Reddit", href: "https://www.reddit.com/user/traveling-partner/", bg: "bg-[#FF4500]", shadow: "shadow-orange-500/30" },
-];
+const SOCIAL_LINKS = [
+  {
+    icon: FaFacebook,
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61556082625668",
+  },
+  {
+    icon: FaInstagram,
+    label: "Instagram",
+    href: "https://www.instagram.com/travellpartnerr/",
+  },
+  { icon: FaXTwitter, label: "X", href: "https://x.com/PartnerP2D" },
+  {
+    icon: FaLinkedin,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/traveling-partner",
+  },
+] as const;
 
-export default function Footer() {
+const PLAY_STORE_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
+const APP_STORE_HREF = "https://www.apple.com/app-store/";
+
+const FOOTER_IMAGES = {
+  duns: "/images/footer/duns-badge.png",
+  googlePlay: "/images/footer/google-play-badge.png",
+  appStore: "/images/footer/app-store-badge.png",
+} as const;
+
+function TrustAndAppsColumn(): React.ReactElement {
   return (
-    <footer className="relative w-full bg-white text-gray-800 overflow-hidden">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #FDB813 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-        
-        {/* Decorative Yellow Gradients */}
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/10 rounded-full blur-[100px]" />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-[#FDB813]/15 to-[#FCE001]/5 rounded-full blur-[100px]" />
+    <div className="w-fit max-w-none shrink-0 overflow-visible">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={FOOTER_IMAGES.duns}
+        alt="Dun & Bradstreet D-U-N-S Registered"
+        width={192}
+        height={149}
+        className="block h-auto w-[192px] max-w-none"
+        decoding="async"
+      />
+
+      <div className="mt-3 flex flex-row flex-nowrap items-center gap-2">
+        <a
+          href={PLAY_STORE_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block shrink-0 leading-none transition-opacity hover:opacity-90"
+          aria-label="Get it on Google Play"
+        >
+          <Image
+            src={FOOTER_IMAGES.googlePlay}
+            alt=""
+            width={92}
+            height={31}
+            unoptimized
+            className="block h-[34px] w-auto"
+          />
+        </a>
+        <a
+          href={APP_STORE_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block shrink-0 leading-none transition-opacity hover:opacity-90"
+          aria-label="Download on the App Store"
+        >
+          <Image
+            src={FOOTER_IMAGES.appStore}
+            alt=""
+            width={92}
+            height={31}
+            unoptimized
+            className="block h-[34px] w-auto"
+          />
+        </a>
       </div>
+    </div>
+  );
+}
 
-      {/* Quick Access Cards */}
-    
-
-      {/* Main Footer Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-          
-          {/* Brand Column */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-5 space-y-6"
-          >
-            <Link href="/" className="inline-block group">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="relative"
-              >
-                <Image
-                  src={optimizeCloudinaryImage(
-                    "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
-                    360,
-                    80
-                  )}
-                  alt="Traveling Partner"
-                  width={180}
-                  height={65}
-                  className="relative w-[140px] sm:w-[160px] md:w-[180px] h-auto drop-shadow-lg"
-                />
-              </motion.div>
+function FooterLinkColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: readonly { label: string; href: string }[];
+}): React.ReactElement {
+  return (
+    <div className="min-w-0">
+      <h3 className="font-poppins text-[11px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[12px]">
+        {title}
+      </h3>
+      <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              href={link.href}
+              className="font-poppins text-[13px] font-normal leading-snug text-[#6f6e68] transition-colors hover:text-[#0b0b0b] sm:text-[14px]"
+            >
+              {link.label}
             </Link>
-            
-            <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
-              Revolutionizing urban mobility across Pakistan. Fast, safe, and reliable rides at your fingertips with zero commission.
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function NewsletterBanner(): React.ReactElement {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setEmail("");
+  };
+
+  return (
+    <div className="rounded-[24px] bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-6 sm:rounded-[28px] sm:px-8 sm:py-7 lg:px-10 lg:py-8">
+      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+        <div className="min-w-0 shrink-0">
+          <h2 className="font-poppins text-[22px] font-bold leading-tight text-[#0b0b0b] sm:text-[26px] lg:text-[28px]">
+            Stay in the loop
+          </h2>
+          <p className="mt-1.5 font-poppins text-[13px] font-normal leading-snug text-[#0b0b0b]/85 sm:text-[14px] lg:text-[15px]">
+            Get travel tips, safety updates, and exclusive offers.
+          </p>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full min-w-0 max-w-[560px] items-center rounded-full bg-white p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:shrink-0"
+        >
+          <label htmlFor="footer-newsletter-email" className="sr-only">
+            Email address
+          </label>
+          <input
+            id="footer-newsletter-email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Enter your email"
+            required
+            className="min-w-0 flex-1 bg-transparent px-4 py-2.5 font-poppins text-[13px] text-[#0b0b0b] outline-none placeholder:text-[#a8a59d] sm:px-5 sm:text-[14px]"
+          />
+          <button
+            type="submit"
+            className="shrink-0 rounded-full bg-[#0b0b0b] px-5 py-2.5 font-poppins text-[13px] font-semibold text-white transition-colors hover:bg-[#1a1a1a] sm:px-6 sm:py-3 sm:text-[14px]"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default function Footer(): React.ReactElement {
+  return (
+    <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
+      <div
+        className="mx-auto w-full px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12 md:px-8 lg:px-[95px] lg:pb-12 lg:pt-14"
+        style={{ maxWidth: CONTAINER_MAX }}
+      >
+        <NewsletterBanner />
+
+        <div className="mt-12 grid grid-cols-1 gap-10 sm:mt-14 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-16 lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] lg:gap-x-10 xl:gap-x-14">
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+            <Link
+              href="/"
+              className="inline-block h-[52px] w-[95px] shrink-0 sm:h-[56px] sm:w-[102px]"
+            >
+              <Image
+                src="/images/traveling-partner-logo.png"
+                alt="Traveling Partner"
+                width={110}
+                height={65}
+                className="h-full w-full object-contain object-left"
+              />
+            </Link>
+            <p className="mt-4 max-w-[300px] font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68] sm:mt-5 sm:text-[14px]">
+              Your ultimate travel companion. Commission-free rides, logistics, and trip
+              planning across Pakistan.
             </p>
-
-            {/* Contact Info */}
-            <div className="space-y-3 pt-2">
-              <motion.a 
-                href="mailto:info@traveling-partner.com"
-                whileHover={{ x: 5 }}
-                className="flex items-center gap-3 text-gray-600 hover:text-[#FDB813] transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/20 flex items-center justify-center group-hover:from-[#FCE001] group-hover:to-[#FDB813] transition-all">
-                  <MdEmail className="w-5 h-5 text-[#FDB813] group-hover:text-white transition-colors" />
-                </div>
-                <span className="text-sm font-medium">info@traveling-partner.com</span>
-              </motion.a>
-              
-              <motion.a 
-                href="tel:+923252801261"
-                whileHover={{ x: 5 }}
-                className="flex items-center gap-3 text-gray-600 hover:text-[#FDB813] transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FCE001]/20 to-[#FDB813]/20 flex items-center justify-center group-hover:from-[#FCE001] group-hover:to-[#FDB813] transition-all">
-                  <MdPhone className="w-5 h-5 text-[#FDB813] group-hover:text-white transition-colors" />
-                </div>
-                <span className="text-sm font-medium">+92 325 2801261</span>
-              </motion.a>
-            </div>
-          </motion.div>
-
-          {/* Links Columns - Only Company and Support */}
-          <div className="lg:col-span-4 grid grid-cols-2 gap-8">
-            {Object.entries(footerLinks).map(([category, links], catIndex) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 + catIndex * 0.1 }}
-              >
-                <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 bg-gradient-to-r from-[#FCE001] to-[#FDB813] rounded-full" />
-                  {category}
-                </h4>
-                <ul className="space-y-3">
-                  {links.map((link, index) => (
-                    <motion.li 
-                      key={link.href}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + index * 0.05 }}
-                    >
-                      <Link 
-                        href={link.href}
-                        className="text-gray-500 hover:text-[#FDB813] hover:translate-x-1 transition-all duration-300 text-sm inline-flex items-center gap-2 group"
-                      >
-                        <span className="w-0 group-hover:w-2 h-[2px] bg-[#FDB813] transition-all duration-300" />
-                        {link.label}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
           </div>
 
-          {/* Download & Social Column */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-3 space-y-6"
-          >
-            <div>
-              <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-4">
-                Get the app
-              </h4>
-              <div className="space-y-3">
-                <motion.a
-                  href="https://play.google.com/store"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 transition-all group shadow-lg hover:shadow-xl"
-                >
-                  <FaGooglePlay className="w-8 h-8 text-black" />
-                  <div>
-                    <p className="text-[10px] text-black font-bold uppercase tracking-wider">Get it on</p>
-                    <p className="text-sm font-bold text-black">Google Play</p>
-                  </div>
-                </motion.a>
-                
-                <motion.a
-                  href="https://www.apple.com/app-store/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 transition-all group shadow-lg hover:shadow-xl"
-                >
-                  <IoLogoApple className="w-8 h-8 text-black" />
-                  <div>
-                    <p className="text-[10px] text-black font-bold uppercase tracking-wider">Download on</p>
-                    <p className="text-sm font-bold text-black">App Store</p>
-                  </div>
-                </motion.a>
-              </div>
-            </div>
+          <FooterLinkColumn title="Company" links={FOOTER_LINKS.company} />
+          <FooterLinkColumn title="Services" links={FOOTER_LINKS.services} />
+          <FooterLinkColumn title="Support" links={FOOTER_LINKS.support} />
 
-            {/* Social Icons */}
-            <div>
-              <h4 className="text-gray-900 font-bold uppercase tracking-wider text-sm mb-3">
-                Follow us
-              </h4>
-              <div className="flex gap-2">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Follow us on ${social.label}`}
-                    whileHover={{ scale: 1.1, y: -3 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                    className={`w-9 h-9 rounded-full ${social.bg} flex items-center justify-center text-white shadow-md ${social.shadow} hover:shadow-lg transition-all duration-300`}
-                  >
-                    <social.icon className="w-4 h-4" />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-          </motion.div>
+          <div className="w-fit shrink-0 overflow-visible">
+            <TrustAndAppsColumn />
+          </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="relative z-10 border-t border-gray-100 bg-gradient-to-r from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-            <motion.p 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-gray-500 text-sm"
-            >
-              © {new Date().getFullYear()} Traveling Partner. All rights reserved.
-            </motion.p>
-            
-            <div className="flex items-center gap-6">
-              {[""].map((item, index) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link 
-                    href={`/${item.toLowerCase()}`}
-                    className="text-gray-500 hover:text-[#FDB813] text-sm transition-colors relative group font-medium"
-                  >
-                    {item}
-                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#FCE001] to-[#FDB813] group-hover:w-full transition-all duration-300" />
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+        <div className="mt-12 flex flex-col items-center justify-between gap-5 border-t border-[#ddd8cb] pt-6 sm:mt-14 sm:flex-row sm:pt-7">
+          <p className="font-poppins text-[12px] font-normal text-[#8a877f] sm:text-[13px]">
+            © {new Date().getFullYear()} Traveling Partner. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-3">
+            {SOCIAL_LINKS.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Follow us on ${social.label}`}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e8e4d9] text-[#6f6e68] transition-colors hover:bg-[#ddd8cb] hover:text-[#0b0b0b]"
+              >
+                <social.icon className="h-3.5 w-3.5" aria-hidden />
+              </a>
+            ))}
           </div>
         </div>
       </div>

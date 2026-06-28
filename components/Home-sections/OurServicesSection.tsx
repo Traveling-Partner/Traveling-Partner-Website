@@ -350,7 +350,7 @@ function OrbitImage({
 function ServicesOrbit(): React.ReactElement {
   return (
     <div
-      className="relative mx-auto w-full overflow-visible"
+      className="relative mx-auto w-full overflow-hidden"
       style={{ maxWidth: ORBIT_MAX_W, aspectRatio: `${TOTAL_W} / ${TOTAL_H}` }}
     >
       {ORBIT_RINGS.map((ring, index) => (
@@ -421,19 +421,19 @@ export default function OurServicesSection(): React.ReactElement {
   return (
     <section
       id="our-services"
-      className="relative w-full scroll-mt-28 overflow-x-clip overflow-y-visible bg-[#fffcf2] py-12 sm:py-16 lg:py-[95px]"
+      className="relative w-full scroll-mt-28 overflow-hidden bg-[#fffcf2] py-12 sm:py-16 lg:py-[95px]"
       aria-labelledby="our-services-heading"
     >
       <div
-        className="relative z-[1] mx-auto w-full overflow-visible px-4 sm:px-6 md:px-8 lg:px-[95px]"
+        className="relative z-[1] mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-[95px]"
         style={{ maxWidth: CONTAINER_MAX }}
       >
         <div className="grid items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-8 xl:gap-12">
-          <div className="relative order-2 min-w-0 overflow-visible lg:order-1 lg:pt-[4%] xl:pt-[6%]">
+          <div className="relative order-2 min-w-0 overflow-hidden lg:order-1 lg:pt-[4%] xl:pt-[6%]">
             <ServicesOrbit />
           </div>
 
-          <div className="order-1 min-w-0 overflow-visible lg:order-2 lg:pl-[2.84%]">
+          <div className="order-1 min-w-0 lg:order-2 lg:pl-[2.84%]">
             <h2
               id="our-services-heading"
               className="font-poppins tracking-[-2.8px]"
