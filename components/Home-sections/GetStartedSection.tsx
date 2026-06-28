@@ -89,13 +89,25 @@ export default function GetStartedSection(): React.ReactElement {
             <span className={`block ${accentClass}`}>minutes.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.6] text-white sm:text-[14px] lg:mt-6 lg:text-[15px] lg:leading-[1.65]">
-            <span className="block">
-              Whether you&apos;re signing up as a driver or partnering as a business
+            <span className="md:hidden">
+              <span className="block whitespace-nowrap">
+                Whether you&apos;re signing up as a driver
+              </span>
+              <span className="block whitespace-nowrap">or partnering as a business —</span>
+              <span className="block whitespace-nowrap">
+                we&apos;ve got a step-by-step guide that walks
+              </span>
+              <span className="block whitespace-nowrap">you through every detail.</span>
             </span>
-            <span className="block">
-              — we&apos;ve got a step-by-step guide that walks you through every
+            <span className="hidden md:contents">
+              <span className="block">
+                Whether you&apos;re signing up as a driver or partnering as a business
+              </span>
+              <span className="block">
+                — we&apos;ve got a step-by-step guide that walks you through every
+              </span>
+              <span className="block">detail.</span>
             </span>
-            <span className="block">detail.</span>
           </p>
         </div>
 

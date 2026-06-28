@@ -113,7 +113,7 @@ function StatusCard({
 
 export default function BlogDetailClient(): React.ReactElement {
   const searchParams = useSearchParams();
-  const routeId = searchParams.get("id") ?? "";
+  const routeId = searchParams?.get("id") ?? "";
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
