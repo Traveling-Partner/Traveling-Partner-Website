@@ -4,12 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { heroBackgroundStyle } from "@/lib/heroBackground";
-import {
-  HOME_ACCENT_TEXT,
-  HOME_SECTION_BODY,
-  HOME_SECTION_HEADING,
-} from "@/lib/homeSectionStyles";
-import { HomePrimaryButton } from "./HomeCtaButtons";
 
 /** Figma About Us — section 124:3686 (1920 × 1198) */
 const CONTAINER_MAX = 1707.6363525390625;
@@ -21,6 +15,26 @@ const BODY_MAX = 692;
 /** Figma RIGHT composed visual — 124:3696 */
 const CANVAS_W = 966.6965942382812;
 const CANVAS_H = 952.181640625;
+
+/** Figma Read our story CTA — Component 1 / 124:3695 */
+const STORY_CTA_FIGMA = {
+  padLeft: 22,
+  padRight: 12,
+  padY: 10,
+  gap: 8,
+  labelSize: 16,
+  arrowSize: 36,
+  arrowFont: 15,
+};
+
+const STORY_CTA_SCALE = 0.85;
+/** Extra horizontal padding so the pill reads wider */
+const STORY_CTA_EXTRA_PAD_X = 24;
+const STORY_CTA_EXTRA_PAD_Y = 8;
+
+function scaleStoryCta(value: number, extraScale = 1): number {
+  return value * STORY_CTA_SCALE * extraScale;
+}
 
 const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 
@@ -140,7 +154,8 @@ function CommunityInsightsButton({
   );
 }
 
-const accentYellowClass = HOME_ACCENT_TEXT;
+const accentYellowClass =
+  "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
 const ABOUT_BODY_P1 =
   "At Traveling Partner, our purpose is to revolutionize the landscape of mobility, creating a space where users can effortlessly connect and collaborate. By fostering a community-centric environment, our platform eliminates the financial burdens of additional fees, providing a dynamic hub for individuals to share rides, make deliveries, and plan trips collaboratively.";
@@ -166,14 +181,74 @@ function canvasStyle({ x, y, w, h }: FigmaRect, zIndex: number): React.CSSProper
 }
 
 function LearnMoreButton(): React.ReactElement {
+  const s = STORY_CTA_FIGMA;
+  const mobileScale = 1.08;
+  const padX = (side: "left" | "right", scale: number) =>
+    scaleStoryCta((side === "left" ? s.padLeft : s.padRight) + STORY_CTA_EXTRA_PAD_X, scale);
+  const padY = (scale: number) => scaleStoryCta(s.padY + STORY_CTA_EXTRA_PAD_Y, scale);
+
+  const sharedClass =
+    "group relative flex w-full items-center justify-between overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)]";
+
   return (
     <>
-      <HomePrimaryButton href="/about" className="hidden lg:inline-flex">
-        Read our story
-      </HomePrimaryButton>
-      <HomePrimaryButton href="/about" fullWidth className="lg:hidden">
-        Read our story
-      </HomePrimaryButton>
+      <Link
+        href="/about"
+        className={`${sharedClass} hidden lg:inline-flex`}
+        style={{
+          paddingLeft: padX("left", 1),
+          paddingRight: padX("right", 1),
+          paddingTop: padY(1),
+          paddingBottom: padY(1),
+          gap: scaleStoryCta(s.gap),
+        }}
+      >
+        <span
+          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize + 2) }}
+        >
+          Read our story
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
+          style={{
+            width: scaleStoryCta(s.arrowSize + 4),
+            height: scaleStoryCta(s.arrowSize + 4),
+            fontSize: scaleStoryCta(s.arrowFont + 1),
+          }}
+        >
+          <span className="block translate-x-px leading-none">→</span>
+        </span>
+      </Link>
+
+      <Link
+        href="/about"
+        className={`${sharedClass} lg:hidden`}
+        style={{
+          paddingLeft: padX("left", mobileScale),
+          paddingRight: padX("right", mobileScale),
+          paddingTop: padY(mobileScale),
+          paddingBottom: padY(mobileScale),
+          gap: scaleStoryCta(s.gap, mobileScale),
+        }}
+      >
+        <span
+          className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
+          style={{ fontSize: scaleStoryCta(s.labelSize + 3, mobileScale) }}
+        >
+          Read our story
+        </span>
+        <span
+          className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
+          style={{
+            width: scaleStoryCta(s.arrowSize + 6, mobileScale),
+            height: scaleStoryCta(s.arrowSize + 6, mobileScale),
+            fontSize: scaleStoryCta(s.arrowFont + 2, mobileScale),
+          }}
+        >
+          <span className="block translate-x-px leading-none">→</span>
+        </span>
+      </Link>
     </>
   );
 }
@@ -396,14 +471,21 @@ export default function AboutUsSection(): React.ReactElement {
           >
             <h2
               id="about-us-heading"
-              className={`${HOME_SECTION_HEADING} tracking-[-0.03em]`}
+              className="font-poppins tracking-[-2.8px]"
+              style={{ maxWidth: HEAD_W }}
             >
-              <span className="block font-bold text-[#0b0b0b]">About</span>
-              <span className={`block ${accentYellowClass}`}>Us.</span>
+              <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
+                About
+              </span>
+              <span
+                className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}
+              >
+                Us.
+              </span>
             </h2>
 
             <div
-              className={`mt-8 space-y-5 ${HOME_SECTION_BODY} sm:mt-9 lg:mt-[35px] lg:max-w-[672px]`}
+              className="mt-8 space-y-5 font-poppins text-[15px] font-normal leading-[1.55] text-[#6f6e68] sm:mt-9 sm:text-[16px] lg:mt-[35px] lg:max-w-[672px] lg:text-[17px]"
               style={{ maxWidth: BODY_MAX }}
             >
               <p>{ABOUT_BODY_P1}</p>
