@@ -28,9 +28,9 @@ const STORY_CTA_FIGMA = {
 };
 
 const STORY_CTA_SCALE = 0.85;
-/** Extra horizontal padding so the pill reads wider */
-const STORY_CTA_EXTRA_PAD_X = 24;
-const STORY_CTA_EXTRA_PAD_Y = 8;
+/** Extra padding on mobile so the full-width pill reads balanced */
+const STORY_CTA_MOBILE_EXTRA_PAD_X = 24;
+const STORY_CTA_MOBILE_EXTRA_PAD_Y = 8;
 
 function scaleStoryCta(value: number, extraScale = 1): number {
   return value * STORY_CTA_SCALE * extraScale;
@@ -183,38 +183,39 @@ function canvasStyle({ x, y, w, h }: FigmaRect, zIndex: number): React.CSSProper
 function LearnMoreButton(): React.ReactElement {
   const s = STORY_CTA_FIGMA;
   const mobileScale = 1.08;
-  const padX = (side: "left" | "right", scale: number) =>
-    scaleStoryCta((side === "left" ? s.padLeft : s.padRight) + STORY_CTA_EXTRA_PAD_X, scale);
-  const padY = (scale: number) => scaleStoryCta(s.padY + STORY_CTA_EXTRA_PAD_Y, scale);
-
-  const sharedClass =
-    "group relative flex w-full items-center justify-between overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)]";
+  const mobilePadX = (side: "left" | "right") =>
+    scaleStoryCta(
+      (side === "left" ? s.padLeft : s.padRight) + STORY_CTA_MOBILE_EXTRA_PAD_X,
+      mobileScale,
+    );
+  const mobilePadY = () =>
+    scaleStoryCta(s.padY + STORY_CTA_MOBILE_EXTRA_PAD_Y, mobileScale);
 
   return (
     <>
       <Link
         href="/about"
-        className={`${sharedClass} hidden lg:inline-flex`}
+        className="group relative hidden w-fit items-center justify-start overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)] lg:inline-flex"
         style={{
-          paddingLeft: padX("left", 1),
-          paddingRight: padX("right", 1),
-          paddingTop: padY(1),
-          paddingBottom: padY(1),
+          paddingLeft: scaleStoryCta(s.padLeft),
+          paddingRight: scaleStoryCta(s.padRight),
+          paddingTop: scaleStoryCta(s.padY),
+          paddingBottom: scaleStoryCta(s.padY),
           gap: scaleStoryCta(s.gap),
         }}
       >
         <span
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: scaleStoryCta(s.labelSize + 2) }}
+          style={{ fontSize: scaleStoryCta(s.labelSize) }}
         >
           Read our story
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
           style={{
-            width: scaleStoryCta(s.arrowSize + 4),
-            height: scaleStoryCta(s.arrowSize + 4),
-            fontSize: scaleStoryCta(s.arrowFont + 1),
+            width: scaleStoryCta(s.arrowSize),
+            height: scaleStoryCta(s.arrowSize),
+            fontSize: scaleStoryCta(s.arrowFont),
           }}
         >
           <span className="block translate-x-px leading-none">→</span>
@@ -223,12 +224,12 @@ function LearnMoreButton(): React.ReactElement {
 
       <Link
         href="/about"
-        className={`${sharedClass} lg:hidden`}
+        className="group relative flex w-full items-center justify-between overflow-hidden rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins shadow-[0_5px_16px_rgba(252,224,1,0.2)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(252,224,1,0.28)] lg:hidden"
         style={{
-          paddingLeft: padX("left", mobileScale),
-          paddingRight: padX("right", mobileScale),
-          paddingTop: padY(mobileScale),
-          paddingBottom: padY(mobileScale),
+          paddingLeft: mobilePadX("left"),
+          paddingRight: mobilePadX("right"),
+          paddingTop: mobilePadY(),
+          paddingBottom: mobilePadY(),
           gap: scaleStoryCta(s.gap, mobileScale),
         }}
       >
