@@ -2,12 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-  HOME_ACCENT_TEXT,
-  HOME_SECTION_BODY,
-  HOME_SECTION_HEADING,
-} from "@/lib/homeSectionStyles";
-import { HomeSecondaryButton } from "./HomeCtaButtons";
 
 /** Figma Our Services — 124:3939 / parent 124:3931 (1920 × 974.545) */
 const CONTAINER_MAX = 1730.9090576171875;
@@ -20,7 +14,8 @@ const TOTAL_H = 859.641953125;
 
 const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 
-const accentYellowClass = HOME_ACCENT_TEXT;
+const accentYellowClass =
+  "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
 /** Orbit spin — six services rotate around center brand (sun) */
 const ORBIT_SPIN_ORIGIN = "49.52% 49.09%";
@@ -405,8 +400,21 @@ function ServicesOrbit(): React.ReactElement {
   );
 }
 
+/** Figma Component 2 CTA — 124:3966 */
 function LearnMoreButton(): React.ReactElement {
-  return <HomeSecondaryButton href="/about">Learn More</HomeSecondaryButton>;
+  return (
+    <Link
+      href="/about"
+      className="group inline-flex w-fit max-w-full items-center gap-3 rounded-full bg-[#0b0b0b] py-[10px] pl-5 pr-[10px] font-poppins shadow-[0_10px_28px_rgba(0,0,0,0.22)] transition-colors hover:bg-[#1a1a1a] sm:gap-4 sm:pl-7 sm:pr-3"
+    >
+      <span className="text-[14px] font-semibold leading-none text-white sm:text-[16px]">
+        Learn More
+      </span>
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[14px] font-bold leading-none text-[#0b0b0b] transition-transform group-hover:scale-105 sm:h-10 sm:w-10 sm:text-[15px]">
+        →
+      </span>
+    </Link>
+  );
 }
 
 export default function OurServicesSection(): React.ReactElement {
@@ -428,13 +436,19 @@ export default function OurServicesSection(): React.ReactElement {
           <div className="order-1 min-w-0 lg:order-2 lg:pl-[2.84%]">
             <h2
               id="our-services-heading"
-              className={HOME_SECTION_HEADING}
+              className="font-poppins tracking-[-2.8px]"
             >
-              <span className="block font-bold text-[#0b0b0b]">Six rides.</span>
-              <span className={`block ${accentYellowClass}`}>One platform.</span>
+              <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
+                Six rides.
+              </span>
+              <span
+                className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}
+              >
+                One platform.
+              </span>
             </h2>
 
-            <p className={`mt-5 max-w-[677px] ${HOME_SECTION_BODY} sm:mt-6 lg:mt-8`}>
+            <p className="mt-5 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#6f6e68] sm:mt-6 sm:text-[15px] md:text-[16px] lg:mt-8 lg:text-[17px]">
               {BODY_COPY}
             </p>
 

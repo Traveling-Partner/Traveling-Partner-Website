@@ -4,19 +4,13 @@ import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  HOME_ACCENT_TEXT,
-  HOME_SECTION_HEADING,
-  HOME_SECTION_HEADER_WRAP,
-  HOME_SECTION_SUBTEXT,
-  HOME_SECTION_SUBTEXT_WRAP,
-} from "@/lib/homeSectionStyles";
 
 /** Figma blog section — node 124:3829 */
 const SECTION_COPY =
   "Discover a journal of success stories and insightful case studies that illuminate the journey of Pakistan's mobility revolution.";
 
-const accentClass = HOME_ACCENT_TEXT;
+const accentClass =
+  "font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
 
 const BlogSlider = dynamic(() => import("../BlogSlider"), {
   ssr: false,
@@ -48,7 +42,7 @@ export default function BlogSection(): React.ReactElement {
 
       <div className="relative z-10 mx-auto w-full max-w-[1708px] px-5 sm:px-8 lg:px-12 xl:px-[106px]">
         <motion.div
-          className={HOME_SECTION_HEADER_WRAP.replace("mb-10", "mb-[48px]").replace("sm:mb-12", "sm:mb-[56px]").replace("lg:mb-14", "lg:mb-[64px]")}
+          className="mb-[48px] text-center sm:mb-[56px] lg:mb-[64px]"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -56,12 +50,12 @@ export default function BlogSection(): React.ReactElement {
         >
           <h2
             id="blog-section-heading"
-            className={`${HOME_SECTION_HEADING} text-white`}
+            className="font-poppins text-[clamp(2rem,4.2vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.03em] text-white"
           >
-            Our blogs and <span className={HOME_ACCENT_TEXT}>news.</span>
+            Our blogs and <span className={accentClass}>news.</span>
           </h2>
 
-          <p className={`${HOME_SECTION_SUBTEXT_WRAP} ${HOME_SECTION_SUBTEXT} text-white/80`}>
+          <p className="mx-auto mt-5 max-w-[692px] font-poppins text-[13px] font-normal leading-[1.65] text-white/80 sm:text-[14px] lg:mt-6 lg:text-[15px]">
             {SECTION_COPY}
           </p>
         </motion.div>
