@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
+import { useInViewVideo } from "@/hooks/useInViewVideo";
 
 type MobileCardVideoProps = {
   src: string;
@@ -30,7 +31,7 @@ export default function MobileCardVideo({
   title,
   subtitle,
 }: MobileCardVideoProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useInViewVideo(src);
 
   const maskStyle: CSSProperties = {
     WebkitMaskImage: `url(${mask})`,
@@ -44,18 +45,6 @@ export default function MobileCardVideo({
     maskMode: "alpha",
   };
 
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.muted = true;
-    const play = () => {
-      void el.play().catch(() => {});
-    };
-    play();
-    el.addEventListener("loadeddata", play);
-    return () => el.removeEventListener("loadeddata", play);
-  }, [src]);
-
   return (
     <>
       <div
@@ -66,16 +55,15 @@ export default function MobileCardVideo({
         <video
           ref={videoRef}
           src={src}
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-center [transform:translateZ(0)]"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
       </div>
-      {/* Match screenshot label placement */}
       <div
         className="pointer-events-none absolute z-[6] flex items-center gap-2 pl-[8%] pt-[8%]"
         style={{ left, top, width, height }}

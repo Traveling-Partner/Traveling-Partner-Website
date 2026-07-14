@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useRef, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import PoolRideCard from "./PoolRideCard";
 import MobileCardVideo from "@/components/services/MobileCardVideo";
+import { useInViewVideo } from "@/hooks/useInViewVideo";
 
 /** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
@@ -85,7 +86,7 @@ function DesktopPhotoCard({
   video,
   mask,
 }: DesktopPhotoCardProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useInViewVideo(video);
   const maskUrl = mask ?? image;
 
   const maskStyle: CSSProperties | undefined = video
@@ -101,18 +102,6 @@ function DesktopPhotoCard({
         maskMode: "alpha",
       }
     : undefined;
-
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el || !video) return;
-    el.muted = true;
-    const play = () => {
-      void el.play().catch(() => {});
-    };
-    play();
-    el.addEventListener("loadeddata", play);
-    return () => el.removeEventListener("loadeddata", play);
-  }, [video]);
 
   return (
     <motion.div
@@ -139,12 +128,12 @@ function DesktopPhotoCard({
               <video
                 ref={videoRef}
                 src={video}
-                className="h-full w-full object-cover object-center"
+                className="h-full w-full object-cover object-center [transform:translateZ(0)]"
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="none"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
             </div>
