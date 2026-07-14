@@ -144,7 +144,7 @@ export default function OurServicesSection() {
             <TaxiStandCard />
           </div>
 
-          <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-x-0.5 gap-y-0.5">
+          <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-x-0.5 gap-y-2">
             <ServicePhotoCard
               href="/pool-ride"
               image="/images/taxi-stand/services/card-pool.png"
@@ -174,6 +174,7 @@ export default function OurServicesSection() {
               subtitle="Enterprise"
               delay={0.18}
               fill
+              className="mt-1 ml-2"
               contentClassName="left-[20%] top-[14%]"
             />
             <ServicePhotoCard
