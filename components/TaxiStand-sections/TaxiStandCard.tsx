@@ -41,12 +41,127 @@ function CheckIcon() {
 
 type TaxiStandCardProps = {
   className?: string;
+  /** Desktop: right-pointing shape asset. Mobile: downward V via SVG. */
+  variant?: "desktop" | "mobile";
 };
 
+function CardContent({ compact = false }: { compact?: boolean }) {
+  return (
+    <>
+      <div className={`flex items-center gap-2.5 ${compact ? "mb-3" : "mb-[5%] gap-3"}`}>
+        <Image
+          src="/images/taxi-stand/services/icon-taxi.png"
+          alt=""
+          width={72}
+          height={72}
+          className={
+            compact
+              ? "h-12 w-12 shrink-0 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.2)]"
+              : "h-[60px] w-[60px] shrink-0 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.2)] sm:h-[64px] sm:w-[64px]"
+          }
+          priority
+        />
+
+        <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5 shadow-[0_3px_10px_rgba(0,0,0,0.16)] sm:h-8 sm:px-3">
+          <SparkleIcon />
+          <span className="text-[8px] font-semibold uppercase tracking-[0.14em] text-white sm:text-[10px]">
+            You Are Here
+          </span>
+        </div>
+      </div>
+
+      <h3
+        className={`font-extrabold leading-[1.02] tracking-[-0.03em] text-black ${
+          compact
+            ? "mb-1.5 text-[28px]"
+            : "mb-[2%] text-[clamp(28px,3.8vw,40px)]"
+        }`}
+      >
+        Taxi Stand.
+      </h3>
+
+      <p
+        className={`font-medium leading-[1.45] text-[#3d3d3d] ${
+          compact
+            ? "mb-4 max-w-[240px] text-[13px]"
+            : "mb-[7%] max-w-[210px] text-[clamp(13px,1.4vw,15px)]"
+        }`}
+      >
+        Commission-free city rides across Pakistan.
+      </p>
+
+      <ul
+        className={`mt-auto flex w-full flex-col ${
+          compact ? "max-w-[230px] gap-2 pb-1" : "max-w-[220px] gap-2.5 pb-[2%]"
+        }`}
+      >
+        {FEATURES.map((feature) => (
+          <li
+            key={feature}
+            className={`flex w-full items-center gap-2.5 rounded-full bg-black shadow-[0_4px_14px_rgba(0,0,0,0.18)] ${
+              compact ? "h-9 pl-1.5 pr-3" : "h-[40px] pl-2 pr-4"
+            }`}
+          >
+            <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
+              <CheckIcon />
+            </span>
+            <span className="text-[12px] font-semibold leading-none text-white sm:text-[13px]">
+              {feature}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 /**
- * Taxi Stand featured card — Figma yellow shape asset as exact silhouette.
+ * Taxi Stand featured card.
+ * - desktop: Figma right-pointing yellow shape PNG
+ * - mobile: downward-V shape matching mobile Figma
  */
-export default function TaxiStandCard({ className = "" }: TaxiStandCardProps) {
+export default function TaxiStandCard({
+  className = "",
+  variant = "desktop",
+}: TaxiStandCardProps) {
+  if (variant === "mobile") {
+    return (
+      <motion.article
+        initial={{ opacity: 0, y: -10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className={`relative isolate w-full font-poppins ${className}`}
+      >
+        <div className="relative w-full" style={{ aspectRatio: "390 / 430" }}>
+          <svg
+            className="absolute inset-0 h-full w-full drop-shadow-[0_12px_28px_rgba(0,0,0,0.12)]"
+            viewBox="0 0 390 430"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="taxiMobileGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FFEE5C" />
+                <stop offset="45%" stopColor="#FCE001" />
+                <stop offset="100%" stopColor="#F7C600" />
+              </linearGradient>
+            </defs>
+            {/* Rounded top + downward chevron bottom */}
+            <path
+              fill="url(#taxiMobileGrad)"
+              d="M36 0H354C373.9 0 390 16.1 390 36V292C390 300 386 307.5 379.5 312.5L214 418C203.5 425 186.5 425 176 418L10.5 312.5C4 307.5 0 300 0 292V36C0 16.1 16.1 0 36 0Z"
+            />
+          </svg>
+
+          <div className="absolute inset-0 flex flex-col px-[7%] pb-[22%] pt-[7%]">
+            <CardContent compact />
+          </div>
+        </div>
+      </motion.article>
+    );
+  }
+
   return (
     <motion.article
       initial={{ opacity: 0, x: -12 }}
@@ -67,47 +182,7 @@ export default function TaxiStandCard({ className = "" }: TaxiStandCardProps) {
         />
 
         <div className="absolute inset-0 flex flex-col pl-[11%] pr-[22%] pt-[9%] pb-[10%]">
-          <div className="mb-[5%] flex items-center gap-3">
-            <Image
-              src="/images/taxi-stand/services/icon-taxi.png"
-              alt=""
-              width={72}
-              height={72}
-              className="h-[60px] w-[60px] shrink-0 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.2)] sm:h-[64px] sm:w-[64px]"
-              priority
-            />
-
-            <div className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black px-3 shadow-[0_3px_10px_rgba(0,0,0,0.16)]">
-              <SparkleIcon />
-              <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white sm:text-[10px]">
-                You Are Here
-              </span>
-            </div>
-          </div>
-
-          <h3 className="mb-[2%] text-[clamp(28px,3.8vw,40px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-black">
-            Taxi Stand.
-          </h3>
-
-          <p className="mb-[7%] max-w-[210px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
-            Commission-free city rides across Pakistan.
-          </p>
-
-          <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
-            {FEATURES.map((feature) => (
-              <li
-                key={feature}
-                className="flex h-[40px] w-full items-center gap-2.5 rounded-full bg-black pl-2 pr-4 shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
-              >
-                <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
-                  <CheckIcon />
-                </span>
-                <span className="text-[13px] font-semibold leading-none text-white sm:text-[14px]">
-                  {feature}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <CardContent />
         </div>
       </div>
     </motion.article>
