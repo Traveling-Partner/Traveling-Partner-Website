@@ -3,7 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
 import PoolRideCard from "./PoolRideCard";
+import MobileCardVideo from "@/components/services/MobileCardVideo";
+import { useInViewVideo } from "@/hooks/useInViewVideo";
+
+/** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
+const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
+const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
+const TRIP_VIDEO = "/videos/trip-bg.mp4";
+const TRIP_MASK = "/images/taxi-stand/services/card-trip-mask.png";
+const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
+const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
+const TAXI_VIDEO = "/videos/taxi-stand-bg.mp4";
+const TAXI_MASK = "/images/taxi-stand/services/card-taxi-mask.png";
+
+const MOBILE_TRIP_MASK =
+  "/images/taxi-stand/services/mobile/mask-trip-crop.png";
+const MOBILE_DELIVERY_MASK =
+  "/images/taxi-stand/services/mobile/mask-delivery-crop.png";
+const MOBILE_LOGISTICS_MASK =
+  "/images/taxi-stand/services/mobile/mask-logistics-crop.png";
 
 const FEATURES = [
   "Verified drivers",
@@ -50,6 +70,8 @@ type DesktopPhotoCardProps = {
   delay?: number;
   className?: string;
   contentClassName?: string;
+  video?: string;
+  mask?: string;
 };
 
 function DesktopPhotoCard({
@@ -61,7 +83,26 @@ function DesktopPhotoCard({
   delay = 0,
   className = "",
   contentClassName = "left-5 top-5",
+  video,
+  mask,
 }: DesktopPhotoCardProps) {
+  const videoRef = useInViewVideo(video);
+  const maskUrl = mask ?? image;
+
+  const maskStyle: CSSProperties | undefined = video
+    ? {
+        WebkitMaskImage: `url(${maskUrl})`,
+        maskImage: `url(${maskUrl})`,
+        WebkitMaskSize: "100% 100%",
+        maskSize: "100% 100%",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "left center",
+        maskPosition: "left center",
+        maskMode: "alpha",
+      }
+    : undefined;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -72,15 +113,42 @@ function DesktopPhotoCard({
       className={`relative h-full min-h-0 w-full ${className}`}
     >
       <Link href={href} className="group relative block h-full w-full">
-        <Image
-          src={image}
-          alt={title}
-          width={640}
-          height={340}
-          className="h-full w-full object-fill object-left"
-          sizes="30vw"
-          priority
-        />
+        {video ? (
+          <div className="relative h-full w-full">
+            <Image
+              src={image}
+              alt={title}
+              width={640}
+              height={340}
+              className="h-full w-full object-fill object-left"
+              sizes="30vw"
+              priority
+            />
+            <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
+              <video
+                ref={videoRef}
+                src={video}
+                className="h-full w-full object-cover object-center [transform:translateZ(0)]"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={image}
+            alt={title}
+            width={640}
+            height={340}
+            className="h-full w-full object-fill object-left"
+            sizes="30vw"
+            priority
+          />
+        )}
         <div
           className={`absolute z-10 flex max-w-[70%] items-center gap-2.5 sm:gap-3 ${contentClassName}`}
         >
@@ -147,6 +215,41 @@ export default function OurServicesSection() {
             sizes="(max-width: 1024px) 100vw, 0px"
             priority
             unoptimized
+          />
+
+          {/* Videos clipped to screenshot card shapes — layout unchanged */}
+          <MobileCardVideo
+            src={LOGISTICS_VIDEO}
+            mask={MOBILE_LOGISTICS_MASK}
+            left="3.543%"
+            top="29.987%"
+            width="44.525%"
+            height="36.269%"
+            icon="/images/taxi-stand/services/icon-logistics.png"
+            title="Logistics"
+            subtitle="Enterprise"
+          />
+          <MobileCardVideo
+            src={TRIP_VIDEO}
+            mask={MOBILE_TRIP_MASK}
+            left="3.14%"
+            top="64.552%"
+            width="48.953%"
+            height="33.681%"
+            icon="/images/taxi-stand/services/icon-trip.png"
+            title="Trip"
+            subtitle="Plan journey"
+          />
+          <MobileCardVideo
+            src={DELIVERY_VIDEO}
+            mask={MOBILE_DELIVERY_MASK}
+            left="54.75%"
+            top="64.646%"
+            width="44.122%"
+            height="33.239%"
+            icon="/images/taxi-stand/services/icon-delivery.png"
+            title="Delivery"
+            subtitle="Fast delivery"
           />
 
           {/* Pool Ride content only — sits on solid yellow, does not cut cards */}
@@ -240,6 +343,8 @@ export default function OurServicesSection() {
               subtitle="City rides"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
+              video={TAXI_VIDEO}
+              mask={TAXI_MASK}
             />
             <DesktopPhotoCard
               href="/delivery"
@@ -250,6 +355,8 @@ export default function OurServicesSection() {
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
+              video={DELIVERY_VIDEO}
+              mask={DELIVERY_MASK}
             />
             <DesktopPhotoCard
               href="/logistic"
@@ -259,6 +366,8 @@ export default function OurServicesSection() {
               subtitle="Enterprise"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
+              video={LOGISTICS_VIDEO}
+              mask={LOGISTICS_MASK}
             />
             <DesktopPhotoCard
               href="/trip"
@@ -268,6 +377,8 @@ export default function OurServicesSection() {
               subtitle="Plan journey"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
+              video={TRIP_VIDEO}
+              mask={TRIP_MASK}
             />
           </div>
         </div>

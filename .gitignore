@@ -6,6 +6,9 @@ __v0_jsx-dev-runtime.ts
 # Dependencies
 node_modules/
 
+# Local tooling (ffmpeg, etc.)
+.tools/
+
 # Next.js
 .next/
 out/
