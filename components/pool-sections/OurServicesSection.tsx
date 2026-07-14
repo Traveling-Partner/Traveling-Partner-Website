@@ -3,7 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect, useRef, type CSSProperties } from "react";
 import PoolRideCard from "./PoolRideCard";
+
+/** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
+const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
+const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
+const TRIP_VIDEO = "/videos/trip-bg.mp4";
+const TRIP_MASK = "/images/taxi-stand/services/card-trip-mask.png";
 
 const FEATURES = [
   "Verified drivers",
@@ -50,6 +57,8 @@ type DesktopPhotoCardProps = {
   delay?: number;
   className?: string;
   contentClassName?: string;
+  video?: string;
+  mask?: string;
 };
 
 function DesktopPhotoCard({
@@ -61,7 +70,38 @@ function DesktopPhotoCard({
   delay = 0,
   className = "",
   contentClassName = "left-5 top-5",
+  video,
+  mask,
 }: DesktopPhotoCardProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const maskUrl = mask ?? image;
+
+  const maskStyle: CSSProperties | undefined = video
+    ? {
+        WebkitMaskImage: `url(${maskUrl})`,
+        maskImage: `url(${maskUrl})`,
+        WebkitMaskSize: "100% 100%",
+        maskSize: "100% 100%",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "left center",
+        maskPosition: "left center",
+        maskMode: "alpha",
+      }
+    : undefined;
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !video) return;
+    el.muted = true;
+    const play = () => {
+      void el.play().catch(() => {});
+    };
+    play();
+    el.addEventListener("loadeddata", play);
+    return () => el.removeEventListener("loadeddata", play);
+  }, [video]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -72,15 +112,42 @@ function DesktopPhotoCard({
       className={`relative h-full min-h-0 w-full ${className}`}
     >
       <Link href={href} className="group relative block h-full w-full">
-        <Image
-          src={image}
-          alt={title}
-          width={640}
-          height={340}
-          className="h-full w-full object-fill object-left"
-          sizes="30vw"
-          priority
-        />
+        {video ? (
+          <div className="relative h-full w-full">
+            <Image
+              src={image}
+              alt={title}
+              width={640}
+              height={340}
+              className="h-full w-full object-fill object-left"
+              sizes="30vw"
+              priority
+            />
+            <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
+              <video
+                ref={videoRef}
+                src={video}
+                className="h-full w-full object-cover object-center"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={image}
+            alt={title}
+            width={640}
+            height={340}
+            className="h-full w-full object-fill object-left"
+            sizes="30vw"
+            priority
+          />
+        )}
         <div
           className={`absolute z-10 flex max-w-[70%] items-center gap-2.5 sm:gap-3 ${contentClassName}`}
         >
@@ -250,6 +317,8 @@ export default function OurServicesSection() {
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
+              video={DELIVERY_VIDEO}
+              mask={DELIVERY_MASK}
             />
             <DesktopPhotoCard
               href="/logistic"
@@ -268,6 +337,8 @@ export default function OurServicesSection() {
               subtitle="Plan journey"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
+              video={TRIP_VIDEO}
+              mask={TRIP_MASK}
             />
           </div>
         </div>
