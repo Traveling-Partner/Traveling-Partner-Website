@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import MobileInfiniteCarousel from "./MobileInfiniteCarousel";
 
 type PartnerStep = {
   step: string;
@@ -69,17 +70,25 @@ function CheckIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function PartnerCard({ step, index }: { step: PartnerStep; index: number }) {
+function PartnerCard({
+  step,
+  index,
+  animate = true,
+}: {
+  step: PartnerStep;
+  index: number;
+  animate?: boolean;
+}) {
   const featured = Boolean(step.featured);
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
+      initial={animate ? { opacity: 0, y: 28 } : false}
+      whileInView={animate ? { opacity: 1, y: 0 } : undefined}
+      viewport={animate ? { once: true, amount: 0.25 } : undefined}
       transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[28px] p-5 sm:p-6 ${
+      className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[24px] p-4 max-[360px]:rounded-[22px] max-[360px]:p-3.5 sm:rounded-[28px] sm:p-6 ${
         featured
           ? "border border-black shadow-[0_18px_50px_rgba(253,184,19,0.35)]"
           : "border border-transparent bg-white shadow-[0_14px_40px_rgba(0,0,0,0.06)]"
@@ -210,18 +219,31 @@ export default function ForPartnersSection() {
             </span>
           </div>
 
-          <h2 className="mb-4 text-[28px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h2 className="mb-4 text-[clamp(24px,7vw,40px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
             Explore the{" "}
             <span className="font-medium text-[#FCE001]">Awesomeness!</span>
           </h2>
 
-          <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">
+          <p className="mx-auto max-w-xl px-1 text-[14px] leading-relaxed text-[#5c5b55] sm:text-base">
             Join our community of riders in three easy steps and unlock a world
             of convenient, affordable travel.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6">
+        {/* Mobile infinite carousel */}
+        <MobileInfiniteCarousel>
+          {partnerSteps.map((step, index) => (
+            <PartnerCard
+              key={step.step}
+              step={step}
+              index={index}
+              animate={false}
+            />
+          ))}
+        </MobileInfiniteCarousel>
+
+        {/* Desktop / tablet grid */}
+        <div className="hidden items-stretch gap-6 md:grid md:grid-cols-3 md:gap-5 lg:gap-6">
           {partnerSteps.map((step, index) => (
             <div key={step.step} className="h-full w-full min-w-0">
               <PartnerCard step={step} index={index} />

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import MobileInfiniteCarousel from "./MobileInfiniteCarousel";
 
 type DriverStep = {
   step: string;
@@ -69,17 +70,25 @@ function CheckIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function DriverCard({ step, index }: { step: DriverStep; index: number }) {
+function DriverCard({
+  step,
+  index,
+  animate = true,
+}: {
+  step: DriverStep;
+  index: number;
+  animate?: boolean;
+}) {
   const featured = Boolean(step.featured);
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
+      initial={animate ? { opacity: 0, y: 28 } : false}
+      whileInView={animate ? { opacity: 1, y: 0 } : undefined}
+      viewport={animate ? { once: true, amount: 0.25 } : undefined}
       transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[28px] p-5 sm:p-6 ${
+      className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[24px] p-4 max-[360px]:rounded-[22px] max-[360px]:p-3.5 sm:rounded-[28px] sm:p-6 ${
         featured
           ? "border border-black shadow-[0_18px_50px_rgba(253,184,19,0.35)]"
           : "border border-transparent bg-white shadow-[0_14px_40px_rgba(0,0,0,0.06)]"
@@ -217,19 +226,31 @@ export default function ForDriversSection() {
             </span>
           </div>
 
-          <h2 className="mb-4 text-[32px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h2 className="mb-4 text-[clamp(26px,7.5vw,40px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl lg:text-[52px]">
             Ready to Earn{" "}
             <em className="font-medium italic text-[#FDB813]">with Us?</em>
           </h2>
 
-          <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">
+          <p className="mx-auto max-w-lg px-1 text-[14px] leading-relaxed text-[#5c5b55] sm:text-base">
             Three simple steps to start driving and earning with the Traveling
             Partner platform.
           </p>
         </motion.div>
 
-        {/* Cards — equal width & height */}
-        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6">
+        {/* Mobile infinite carousel */}
+        <MobileInfiniteCarousel>
+          {driverSteps.map((step, index) => (
+            <DriverCard
+              key={step.step}
+              step={step}
+              index={index}
+              animate={false}
+            />
+          ))}
+        </MobileInfiniteCarousel>
+
+        {/* Desktop / tablet grid */}
+        <div className="hidden items-stretch gap-6 md:grid md:grid-cols-3 md:gap-5 lg:gap-6">
           {driverSteps.map((step, index) => (
             <div key={step.step} className="h-full w-full min-w-0">
               <DriverCard step={step} index={index} />
