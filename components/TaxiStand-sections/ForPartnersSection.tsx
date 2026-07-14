@@ -221,7 +221,12 @@ export default function ForPartnersSection() {
 
           <h2 className="mb-4 text-[clamp(24px,7vw,40px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
             Explore the{" "}
-            <span className="font-medium text-[#FCE001]">Awesomeness!</span>
+            <em
+              className="font-medium italic text-[#FCE001]"
+              style={{ fontStyle: "italic" }}
+            >
+              Awesomeness!
+            </em>
           </h2>
 
           <p className="mx-auto max-w-xl px-1 text-[14px] leading-relaxed text-[#5c5b55] sm:text-base">

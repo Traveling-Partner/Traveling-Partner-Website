@@ -65,7 +65,7 @@ export default function BenefitsSection() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
           {/* Left: content */}
-          <div className="order-1 flex flex-col">
+          <div className="order-1 flex flex-col items-start">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -129,12 +129,13 @@ export default function BenefitsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.45 }}
+              className="w-auto"
             >
               <Link
                 href="https://play.google.com/store/apps?hl=en&gl=US"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
+                className="group inline-flex w-fit max-w-fit shrink-0 self-start items-center justify-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] max-sm:flex max-sm:w-full max-sm:max-w-none sm:px-7 sm:py-4"
               >
                 <span className="text-[15px] font-bold text-black sm:text-base">
                   Download the app
