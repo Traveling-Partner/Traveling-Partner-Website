@@ -1,150 +1,242 @@
-// app/TaxiStand/components/ForDriversSection.tsx
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-const driverSteps = [
+import Image from "next/image";
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+
+type DriverStep = {
+  step: string;
+  stepLabel: string;
+  watermark: string;
+  title: ReactNode;
+  description: string;
+  footer: string;
+  imageSrc: string;
+  featured?: boolean;
+};
+
+const driverSteps: DriverStep[] = [
   {
-    number: "01",
-    title: "Download",
-    description: "Begin your journey by downloading the Traveling Partner App from your app store. Gain instant access to a world of convenient transportation and collaboration.",
-    imageSrc: "/Assist/Taxi-stand-img/download-file.png",
+    step: "1",
+    stepLabel: "STEP - ONE",
+    watermark: "01",
+    title: (
+      <>
+        Download <em className="font-medium italic text-[#FDB813]">the app</em>
+      </>
+    ),
+    description:
+      "Begin your journey by downloading the Traveling Partner App from your app store. Gain instant access to a world of convenient transportation and collaboration.",
+    footer: "AVAILABLE ON IOS & ANDROID",
+    imageSrc: "/images/taxi-stand/driver-icon-1.png",
   },
   {
-    number: "02",
-    title: "Register",
-    description: "Register now! by verifying your mobile number to unlock exclusive benefits. Experience a smooth registration process for a secure and verified driver account.",
-    imageSrc: "/Assist/Taxi-stand-img/Register-file.png",
+    step: "2",
+    stepLabel: "STEP - TWO",
+    watermark: "02",
+    title: <>Register your account</>,
+    description:
+      "Register now! by verifying your mobile number to unlock exclusive benefits. Experience a smooth registration process for a secure and verified driver account.",
+    footer: "VERIFIED & SECURE PROCESS",
+    imageSrc: "/images/taxi-stand/driver-icon-2.png",
+    featured: true,
   },
   {
-    number: "03",
-    title: "Activate",
-    description: "Complete your profile with your personal details and required documents. Enhance trust and visibility within the community while enjoying personalized features designed just for you.",
-    imageSrc: "/Assist/Taxi-stand-img/Activate-file.png",
+    step: "3",
+    stepLabel: "STEP - THREE",
+    watermark: "03",
+    title: (
+      <>
+        Activate & <em className="font-medium italic text-[#FDB813]">drive</em>
+      </>
+    ),
+    description:
+      "Complete your profile with your personal details and required documents. Enhance trust and visibility within the community while enjoying personalized features designed just for you.",
+    footer: "START EARNING RIGHT AWAY",
+    imageSrc: "/images/taxi-stand/driver-icon-3.png",
   },
 ];
 
+function CheckIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function DriverCard({ step, index }: { step: DriverStep; index: number }) {
+  const featured = Boolean(step.featured);
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[28px] p-5 sm:p-6 ${
+        featured
+          ? "border border-black shadow-[0_18px_50px_rgba(253,184,19,0.35)]"
+          : "border border-transparent bg-white shadow-[0_14px_40px_rgba(0,0,0,0.06)]"
+      }`}
+      style={
+        featured
+          ? {
+              backgroundImage:
+                "linear-gradient(180deg, #FFEE5C 0%, #FCE001 55%, #FDB813 100%)",
+            }
+          : undefined
+      }
+    >
+      {/* Watermark number */}
+      <span
+        className={`pointer-events-none absolute right-4 top-2 select-none text-[48px] font-black leading-none sm:right-5 sm:text-[56px] ${
+          featured ? "text-black/10" : "text-[#FCE001]"
+        }`}
+        aria-hidden="true"
+      >
+        {step.watermark}
+      </span>
+
+      {/* Decorative rings */}
+      <div
+        className={`pointer-events-none absolute rounded-full border border-dashed ${
+          featured
+            ? "-right-5 -top-3 h-28 w-28 border-black/35"
+            : "-right-10 top-6 h-32 w-32 border-[#FDB813]/20"
+        }`}
+        aria-hidden="true"
+      />
+      <div
+        className={`pointer-events-none absolute rounded-full border border-dashed ${
+          featured
+            ? "-left-9 top-14 h-24 w-24 border-black/25"
+            : "-left-12 bottom-10 h-24 w-24 border-[#FDB813]/12"
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Step badge */}
+      <div className="relative z-10 mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-[#0b0b0b] py-1.5 pl-1.5 pr-3.5">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FDB813] text-[12px] font-bold text-black">
+          {step.step}
+        </span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
+          {step.stepLabel}
+        </span>
+      </div>
+
+      {/* Icon */}
+      <div className="relative z-10 mb-3 flex justify-start">
+        <div
+          className={`relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[18px] sm:h-[80px] sm:w-[80px] ${
+            featured ? "bg-[#0b0b0b]" : "bg-transparent"
+          }`}
+        >
+          <Image
+            src={step.imageSrc}
+            alt=""
+            fill
+            sizes="80px"
+            className="object-contain p-1"
+          />
+        </div>
+      </div>
+
+      {/* Title + description */}
+      <h3 className="relative z-10 mb-2 text-[18px] font-extrabold leading-tight tracking-tight text-[#0b0b0b] sm:text-[20px]">
+        {step.title}
+      </h3>
+      <p
+        className={`relative z-10 mb-3 flex-1 text-[13px] leading-relaxed ${
+          featured ? "text-black/80" : "text-[#6f6e68]"
+        }`}
+      >
+        {step.description}
+      </p>
+
+      {/* Divider */}
+      <div
+        className={`relative z-10 mb-3 border-t border-dashed ${
+          featured ? "border-black/25" : "border-black/10"
+        }`}
+      />
+
+      {/* Footer */}
+      <div className="relative z-10 mt-auto flex items-center gap-2.5">
+        <span
+          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+            featured ? "bg-black text-[#FDB813]" : "bg-[#FDB813] text-black"
+          }`}
+        >
+          <CheckIcon className="h-3 w-3" />
+        </span>
+        <span
+          className={`text-[10px] font-bold uppercase tracking-[0.12em] sm:text-[11px] ${
+            featured ? "text-black" : "text-[#8a897f]"
+          }`}
+        >
+          {step.footer}
+        </span>
+      </div>
+    </motion.article>
+  );
+}
+
 export default function ForDriversSection() {
   return (
-    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 px-4 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-white/20 to-transparent rounded-full blur-2xl"></div>
-      </div>
+    <section className="relative overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-24">
+      {/* Soft yellow glow — top right */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 50% 45% at 88% 8%, rgba(253,184,19,0.28), transparent 70%)",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-[#1a1a1a] text-4xl lg:text-6xl font-black uppercase tracking-tight mb-4 drop-shadow-sm">
-            For <span className="text-white">Drivers</span> 
-          </h2>
-          <p className="text-[#1a1a1a]/90 text-2xl lg:text-3xl font-light uppercase tracking-wide">
-            Ready to Earn with Us?
-          </p>
-          {/* <div className="flex items-center justify-center gap-2 mt-6">
-            <div className="w-12 h-1 bg-[#1a1a1a]/30 rounded-full"></div>
-            <div className="w-3 h-3 bg-[#1a1a1a] rounded-full rotate-45"></div>
-            <div className="w-12 h-1 bg-[#1a1a1a]/30 rounded-full"></div>
-          </div> */}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="mx-auto mb-12 max-w-2xl text-center sm:mb-14"
+        >
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#FCE001] px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-black" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
+              For Drivers
+            </span>
+          </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mb-10 perspective-1000">
+          <h2 className="mb-4 text-[32px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl lg:text-[52px]">
+            Ready to Earn{" "}
+            <em className="font-medium italic text-[#FDB813]">with Us?</em>
+          </h2>
+
+          <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">
+            Three simple steps to start driving and earning with the Traveling
+            Partner platform.
+          </p>
+        </motion.div>
+
+        {/* Cards — equal width & height */}
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6">
           {driverSteps.map((step, index) => (
-            <DriverCard key={step.number} step={step} index={index} />
+            <div key={step.step} className="h-full w-full min-w-0">
+              <DriverCard step={step} index={index} />
+            </div>
           ))}
         </div>
-
-        {/* App Store Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-          <AppStoreButton
-            href="https://play.google.com/store/apps?hl=en&gl=US"
-            icon="google"
-            label="Get it on"
-            store="Google Play"
-          />
-          <AppStoreButton
-            href="https://www.apple.com/app-store/"
-            icon="apple"
-            label="Download on the"
-            store="App Store"
-          />
-        </div>
       </div>
-    </div>
-  );
-}
-
-function DriverCard({ step, index }: { step: typeof driverSteps[0]; index: number }) {
-  const rotations = ["rotate-2", "-rotate-1", "-rotate-2"];
-  const hoverRotations = ["rotate-1", "-rotate-1", "rotate-1"];
-  const borderColors = ["border-white/50", "border-[#fce001]", "border-white/50"];
-
-  return (
-    <div className={`group relative ${index === 1 ? "md:-mt-8" : ""}`}>
-      <div className={`absolute inset-0 rounded-3xl transform ${rotations[index]} scale-[1.02] opacity-0 group-hover:opacity-100 transition-all duration-500`}></div>
-      <div className={`relative bg-white rounded-3xl p-8 lg:p-10 shadow-2xl transform transition-all duration-500 group-hover:-translate-y-3 group-hover:${hoverRotations[index]} border-4 ${borderColors[index]} overflow-hidden`}>
-        {/* Shine Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-
-        {/* Number Badge */}
-        <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform duration-300">
-          <span className="text-2xl font-black text-[#1a1a1a]">{step.number}</span>
-        </div>
-
-        {/* Icon/Image */}
-        <div className="relative mb-8">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl blur-lg opacity-50 group-hover:opacity-80 transition-opacity duration-300"></div>
-          <div className="relative bg-gradient-to-br from-[#fce001] to-[#fdb813] w-24 h-24 rounded-2xl flex items-center justify-center mx-auto shadow-xl transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden">
-            <Image
-              src={step.imageSrc}
-              alt={step.title}
-              width={48}
-              height={48}
-              className="w-12 h-12 object-contain drop-shadow-sm"
-            />
-          </div>
-        </div>
-
-        <h3 className="text-[#1a1a1a] text-2xl font-black text-center mb-4 uppercase tracking-wide">
-          {step.title}
-        </h3>
-        <p className="text-gray-600 text-center leading-relaxed text-sm lg:text-base">
-          {step.description}
-        </p>
-
-        {/* Bottom Accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#fce001] to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-      </div>
-    </div>
-  );
-}
-
-function AppStoreButton({ href, icon, label, store }: { href: string; icon: "google" | "apple"; label: string; store: string }) {
-  return (
-    <Link
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative overflow-hidden w-full sm:w-[240px] h-[72px] flex items-center gap-4 bg-white text-[#1a1a1a] px-6 rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200"
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-[#fce001] to-[#fdb813] transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-0"></div>
-      <div className="relative z-10 flex items-center gap-4">
-        {icon === "google" ? (
-          <svg className="w-10 h-10 group-hover:text-[#1a1a1a] transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
-          </svg>
-        ) : (
-          <svg className="w-10 h-10 group-hover:text-[#1a1a1a] transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.37 12.36,4.26 13,3.5Z" />
-          </svg>
-        )}
-        <div className="text-left group-hover:text-[#1a1a1a] transition-colors duration-300">
-          <div className="text-[11px] uppercase tracking-wider opacity-60 font-semibold">{label}</div>
-          <div className="text-lg font-black leading-tight">{store}</div>
-        </div>
-      </div>
-    </Link>
+    </section>
   );
 }
