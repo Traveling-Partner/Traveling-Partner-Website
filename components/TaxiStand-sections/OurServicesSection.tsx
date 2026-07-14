@@ -5,12 +5,27 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useRef, type CSSProperties } from "react";
 import TaxiStandCard from "./TaxiStandCard";
+import MobileCardVideo from "@/components/services/MobileCardVideo";
 
 /** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
 const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
 const TRIP_VIDEO = "/videos/trip-bg.mp4";
 const TRIP_MASK = "/images/taxi-stand/services/card-trip-mask.png";
+const POOL_VIDEO = "/videos/pool-bg.mp4";
+const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
+const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
+const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
+
+/** Exact silhouettes cropped from the mobile screenshot */
+const MOBILE_TRIP_MASK =
+  "/images/taxi-stand/services/mobile/mask-trip-crop.png";
+const MOBILE_DELIVERY_MASK =
+  "/images/taxi-stand/services/mobile/mask-delivery-crop.png";
+const MOBILE_POOL_MASK =
+  "/images/taxi-stand/services/mobile/mask-pool-crop.png";
+const MOBILE_LOGISTICS_MASK =
+  "/images/taxi-stand/services/mobile/mask-logistics-crop.png";
 
 type DesktopPhotoCardProps = {
   href: string;
@@ -182,6 +197,52 @@ export default function OurServicesSection() {
             unoptimized
           />
 
+          {/* Videos clipped to screenshot card shapes — layout unchanged */}
+          <MobileCardVideo
+            src={LOGISTICS_VIDEO}
+            mask={MOBILE_LOGISTICS_MASK}
+            left="3.543%"
+            top="29.987%"
+            width="44.525%"
+            height="36.269%"
+            icon="/images/taxi-stand/services/icon-logistics.png"
+            title="Logistics"
+            subtitle="Enterprise"
+          />
+          <MobileCardVideo
+            src={POOL_VIDEO}
+            mask={MOBILE_POOL_MASK}
+            left="44.767%"
+            top="29.261%"
+            width="54.106%"
+            height="35.669%"
+            icon="/images/taxi-stand/services/icon-pool.png"
+            title="Pool"
+            subtitle="Shared trips"
+          />
+          <MobileCardVideo
+            src={TRIP_VIDEO}
+            mask={MOBILE_TRIP_MASK}
+            left="3.14%"
+            top="64.552%"
+            width="48.953%"
+            height="33.681%"
+            icon="/images/taxi-stand/services/icon-trip.png"
+            title="Trip"
+            subtitle="Plan journey"
+          />
+          <MobileCardVideo
+            src={DELIVERY_VIDEO}
+            mask={MOBILE_DELIVERY_MASK}
+            left="54.75%"
+            top="64.646%"
+            width="44.122%"
+            height="33.239%"
+            icon="/images/taxi-stand/services/icon-delivery.png"
+            title="Delivery"
+            subtitle="Fast delivery"
+          />
+
           {/* Hotspots — percentages mapped to screenshot regions */}
           <Link
             href="/taxi-stand"
@@ -225,6 +286,8 @@ export default function OurServicesSection() {
               subtitle="Shared trips"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
+              video={POOL_VIDEO}
+              mask={POOL_MASK}
             />
             <DesktopPhotoCard
               href="/delivery"
@@ -246,6 +309,8 @@ export default function OurServicesSection() {
               subtitle="Enterprise"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
+              video={LOGISTICS_VIDEO}
+              mask={LOGISTICS_MASK}
             />
             <DesktopPhotoCard
               href="/trip"

@@ -5,12 +5,24 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useRef, type CSSProperties } from "react";
 import PoolRideCard from "./PoolRideCard";
+import MobileCardVideo from "@/components/services/MobileCardVideo";
 
 /** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
 const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
 const TRIP_VIDEO = "/videos/trip-bg.mp4";
 const TRIP_MASK = "/images/taxi-stand/services/card-trip-mask.png";
+const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
+const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
+const TAXI_VIDEO = "/videos/taxi-stand-bg.mp4";
+const TAXI_MASK = "/images/taxi-stand/services/card-taxi-mask.png";
+
+const MOBILE_TRIP_MASK =
+  "/images/taxi-stand/services/mobile/mask-trip-crop.png";
+const MOBILE_DELIVERY_MASK =
+  "/images/taxi-stand/services/mobile/mask-delivery-crop.png";
+const MOBILE_LOGISTICS_MASK =
+  "/images/taxi-stand/services/mobile/mask-logistics-crop.png";
 
 const FEATURES = [
   "Verified drivers",
@@ -216,6 +228,41 @@ export default function OurServicesSection() {
             unoptimized
           />
 
+          {/* Videos clipped to screenshot card shapes — layout unchanged */}
+          <MobileCardVideo
+            src={LOGISTICS_VIDEO}
+            mask={MOBILE_LOGISTICS_MASK}
+            left="3.543%"
+            top="29.987%"
+            width="44.525%"
+            height="36.269%"
+            icon="/images/taxi-stand/services/icon-logistics.png"
+            title="Logistics"
+            subtitle="Enterprise"
+          />
+          <MobileCardVideo
+            src={TRIP_VIDEO}
+            mask={MOBILE_TRIP_MASK}
+            left="3.14%"
+            top="64.552%"
+            width="48.953%"
+            height="33.681%"
+            icon="/images/taxi-stand/services/icon-trip.png"
+            title="Trip"
+            subtitle="Plan journey"
+          />
+          <MobileCardVideo
+            src={DELIVERY_VIDEO}
+            mask={MOBILE_DELIVERY_MASK}
+            left="54.75%"
+            top="64.646%"
+            width="44.122%"
+            height="33.239%"
+            icon="/images/taxi-stand/services/icon-delivery.png"
+            title="Delivery"
+            subtitle="Fast delivery"
+          />
+
           {/* Pool Ride content only — sits on solid yellow, does not cut cards */}
           <div
             className="pointer-events-none absolute left-0 top-0 z-20 flex w-full flex-col items-center px-[9%] pt-[7%] text-center font-poppins"
@@ -307,6 +354,8 @@ export default function OurServicesSection() {
               subtitle="City rides"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
+              video={TAXI_VIDEO}
+              mask={TAXI_MASK}
             />
             <DesktopPhotoCard
               href="/delivery"
@@ -328,6 +377,8 @@ export default function OurServicesSection() {
               subtitle="Enterprise"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
+              video={LOGISTICS_VIDEO}
+              mask={LOGISTICS_MASK}
             />
             <DesktopPhotoCard
               href="/trip"
