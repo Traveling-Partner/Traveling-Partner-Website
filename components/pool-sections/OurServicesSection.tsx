@@ -3,7 +3,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import TaxiStandCard from "./TaxiStandCard";
+import PoolRideCard from "./PoolRideCard";
+
+const FEATURES = [
+  "Verified drivers",
+  "Fixed fares",
+  "0% commission",
+] as const;
+
+function SparkleIcon() {
+  return (
+    <svg
+      className="h-2.5 w-2.5 shrink-0 text-[#FCE001]"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M8 0.5 9.2 5.6 14.5 6.8 9.2 8 8 13.5 6.8 8 1.5 6.8 6.8 5.6Z" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      className="h-2.5 w-2.5 text-black"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4.5 10.5 8 14l7.5-8" />
+    </svg>
+  );
+}
 
 type DesktopPhotoCardProps = {
   href: string;
@@ -70,8 +106,9 @@ function DesktopPhotoCard({
 }
 
 /**
- * Mobile = exact Figma screenshot (pixel-perfect).
- * Links sit as invisible hotspots over each card.
+ * Mobile matches Taxi Stand exactly:
+ * same full interlocking screenshot, yellow area wiped solid,
+ * Pool Ride text overlaid on top (no second shape cutting the cards).
  */
 export default function OurServicesSection() {
   return (
@@ -93,7 +130,7 @@ export default function OurServicesSection() {
           </p>
         </motion.div>
 
-        {/* Mobile — 100% screenshot replica */}
+        {/* Mobile — same full composition as Taxi Stand */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -102,8 +139,8 @@ export default function OurServicesSection() {
           className="relative -mx-1 w-[calc(100%+0.5rem)] max-w-none sm:mx-auto sm:w-full sm:max-w-[420px] lg:hidden"
         >
           <Image
-            src="/images/taxi-stand/services/mobile/services-mobile-full.png"
-            alt="Our services — Taxi Stand, Logistics, Pool, Trip, Delivery"
+            src="/images/taxi-stand/services/mobile/services-mobile-pool.png?v=7"
+            alt="Our services — Pool Ride, Logistics, Pool, Trip, Delivery"
             width={1242}
             height={3168}
             className="h-auto w-full select-none"
@@ -112,11 +149,59 @@ export default function OurServicesSection() {
             unoptimized
           />
 
-          {/* Hotspots — percentages mapped to screenshot regions */}
+          {/* Pool Ride content only — sits on solid yellow, does not cut cards */}
+          <div
+            className="pointer-events-none absolute left-0 top-0 z-20 flex w-full flex-col items-center px-[9%] pt-[7%] text-center font-poppins"
+            style={{ height: "38%" }}
+          >
+            <div className="mb-2.5 flex items-center justify-center gap-2">
+              <Image
+                src="/images/taxi-stand/services/icon-pool.png"
+                alt=""
+                width={48}
+                height={48}
+                className="h-11 w-11 shrink-0 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)]"
+                priority
+              />
+              <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5">
+                <SparkleIcon />
+                <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#FCE001]">
+                  You Are Here
+                </span>
+              </div>
+            </div>
+
+            <h3 className="mb-1 text-[28px] font-extrabold leading-none tracking-[-0.03em] text-black sm:text-[30px]">
+              Pool Ride.
+            </h3>
+
+            <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
+              Share your ride with others going the same way.
+              <br />
+              Split costs and travel greener.
+            </p>
+
+            <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-[18%]">
+              {FEATURES.map((feature) => (
+                <li
+                  key={feature}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black pl-1.5 pr-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.16)]"
+                >
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
+                    <CheckIcon />
+                  </span>
+                  <span className="text-[11px] font-semibold leading-none text-white">
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <Link
-            href="/taxi-stand"
-            aria-label="Taxi Stand"
-            className="absolute left-[3%] top-[2%] z-10 h-[36%] w-[94%]"
+            href="/pool-ride"
+            aria-label="Pool Ride"
+            className="absolute left-[3%] top-[2%] z-30 h-[36%] w-[94%]"
           />
           <Link
             href="/logistic"
@@ -140,19 +225,19 @@ export default function OurServicesSection() {
           />
         </motion.div>
 
-        {/* Desktop unchanged */}
+        {/* Desktop */}
         <div className="mx-auto hidden w-full max-w-[1220px] items-stretch lg:flex">
           <div className="relative z-10 w-[38%] max-w-[480px] shrink-0 -mr-20 xl:max-w-[520px] xl:-mr-24">
-            <TaxiStandCard variant="desktop" />
+            <PoolRideCard variant="desktop" />
           </div>
 
           <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-x-0.5 gap-y-0.5">
             <DesktopPhotoCard
-              href="/pool-ride"
-              image="/images/taxi-stand/services/card-pool.png"
-              icon="/images/taxi-stand/services/icon-pool.png"
-              title="Pool"
-              subtitle="Shared trips"
+              href="/taxi-stand"
+              image="/images/taxi-stand/services/card-taxi.png"
+              icon="/images/taxi-stand/services/icon-taxi.png"
+              title="Taxi Stand"
+              subtitle="City rides"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
             />

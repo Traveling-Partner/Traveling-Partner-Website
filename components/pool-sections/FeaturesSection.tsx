@@ -1,60 +1,186 @@
-import FeatureCard from "./FeatureCard";
+"use client";
 
-const features = [
+import Image from "next/image";
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+
+type Feature = {
+  tag: string;
+  image: string;
+  imageAlt: string;
+  title: ReactNode;
+  description: string;
+  featured?: boolean;
+  /** Light tag = white pill + black text (side cards); dark = black pill + white */
+  tagLight?: boolean;
+};
+
+const features: Feature[] = [
   {
-    icon: "city",
-    title: "In & out of city",
-    description: "Enjoy the convenience of Traveling Partner's pool ride service for both city and inter-city travel. Connect with users traveling in and out of the city for seamless and cost-effective rides.",
-    imageSrc: "/Assist/Taxi-stand-img/In-city.png",
+    tag: "In-City · Inter-City",
+    image: "/images/pool-ride/features/card-city.png",
+    imageAlt: "Pool ride in and out of the city",
+    title: (
+      <>
+        In & out of{" "}
+        <em className="font-medium italic text-[#FDB813]">city</em>
+      </>
+    ),
+    description:
+      "Enjoy the convenience of Traveling Partner’s pool ride service for both city and inter-city travel. Connect with users traveling in and out of the city for seamless and cost-effective rides.",
+    tagLight: true,
   },
   {
-    icon: "users",
-    title: "Female-Only",
-    description: "Choose our dedicated female-only option for secure and comfortable rides, with the ability to select female drivers or pool with other female passengers.",
-    imageSrc: "/Assist/Taxi-stand-img/Carpool.png",
+    tag: "Safe · Comfort",
+    image: "/images/pool-ride/features/card-female.png",
+    imageAlt: "Female-only pool ride",
+    title: (
+      <>
+        Female -<em className="font-medium italic">Only</em>
+      </>
+    ),
+    description:
+      "Choose our dedicated female-only option for secure and comfortable rides, with the ability to select female drivers or pool with other female passengers.",
+    featured: true,
   },
   {
-    icon: "location",
-    title: "Live tracking",
-    description: "Stay informed in real-time with live tracking features. Whether you're in the city or on an inter-city journey, experience hassle-free tracking without additional charges.",
-    imageSrc: "/Assist/Taxi-stand-img/Map Marker.png",
+    tag: "Real-Time",
+    image: "/images/pool-ride/features/card-tracking.png",
+    imageAlt: "Live tracking on your phone",
+    title: (
+      <>
+        Live{" "}
+        <em className="font-medium italic text-[#FDB813]">tracking</em>
+      </>
+    ),
+    description:
+      "Stay informed in real-time with live tracking features. Whether you're in the city or on an inter-city journey, experience hassle-free tracking without additional charges.",
+    tagLight: true,
   },
 ];
 
+function FeatureCard({
+  feature,
+  index,
+}: {
+  feature: Feature;
+  index: number;
+}) {
+  const featured = Boolean(feature.featured);
+  const tagLight = Boolean(feature.tagLight);
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, delay: index * 0.08 }}
+      whileHover={{ y: -4, transition: { duration: 0.25 } }}
+      className="flex h-full w-full flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_16px_44px_rgba(0,0,0,0.22)]"
+    >
+      {/* Image — flush against content, no color strip under photo */}
+      <div className="relative aspect-[2/1.08] w-full shrink-0 overflow-hidden">
+        <Image
+          src={feature.image}
+          alt={feature.imageAlt}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="scale-[1.02] object-cover object-center"
+          priority
+        />
+
+        <div
+          className={`absolute left-3.5 top-3.5 z-10 inline-flex items-center gap-2 rounded-full px-3 py-1.5 backdrop-blur-[2px] ${
+            tagLight ? "bg-white/95" : "bg-black/75"
+          }`}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+          <span
+            className={`text-[9px] font-bold uppercase tracking-[0.14em] sm:text-[10px] ${
+              tagLight ? "text-black" : "text-white"
+            }`}
+          >
+            {feature.tag}
+          </span>
+        </div>
+      </div>
+
+      {/* Text — yellow only on featured card body (not behind image) */}
+      <div
+        className="relative z-[1] -mt-px flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-5 sm:pb-6 sm:pt-5"
+        style={
+          featured
+            ? {
+                backgroundImage:
+                  "linear-gradient(180deg, #FFEE5C 0%, #FCE001 55%, #FDB813 100%)",
+              }
+            : { backgroundColor: "#ffffff" }
+        }
+      >
+        <h3 className="mb-2.5 text-[20px] font-extrabold leading-tight tracking-tight text-[#0b0b0b] sm:text-[22px]">
+          {feature.title}
+        </h3>
+        <p className="text-[12px] leading-relaxed text-[#2a2a2a] sm:text-[13px]">
+          {feature.description}
+        </p>
+      </div>
+    </motion.article>
+  );
+}
+
 export default function FeaturesSection() {
   return (
-    <div className="relative w-full bg-white overflow-hidden py-12 px-4">
-      {/* Subtle Decorative Elements */}
-      <div className="absolute top-20 right-20 w-64 h-64 bg-[#fce001]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-80 h-80 bg-[#fdb813]/10 rounded-full blur-3xl"></div>
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-        backgroundSize: '30px 30px'
-      }}></div>
+    <section className="relative w-full overflow-hidden py-14 sm:py-16 lg:py-20">
+      {/* Night road background */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/pool-ride/features/features-bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-[center_40%]"
+          aria-hidden="true"
+          priority={false}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 rounded-full px-4 py-2 mb-6">
-            <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
-            </svg>
-            <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">Features</span>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="mx-auto mb-10 max-w-3xl text-center sm:mb-12"
+        >
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#FCE001] px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-black" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
+              Features
+            </span>
           </div>
-          <h2 className="text-[32px] lg:text-[48px] font-black text-[#1a1a1a] leading-tight">
-            Best Things Of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Travel partner</span>
-          </h2>
-        </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+          <h2 className="mb-3 text-[clamp(28px,5.5vw,48px)] font-extrabold leading-[1.15] tracking-tight text-white">
+            Best Things Of{" "}
+            <em className="font-medium italic text-[#FCE001]">
+              Travel Partner
+            </em>
+          </h2>
+
+          <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-white/85 sm:text-[15px]">
+            Every Pool Ride comes packed with features designed for convenience,
+            safety, and peace of mind.
+          </p>
+        </motion.div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-5 lg:gap-6">
           {features.map((feature, index) => (
-            <FeatureCard key={index} feature={feature} index={index} />
+            <FeatureCard key={feature.tag} feature={feature} index={index} />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
