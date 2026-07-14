@@ -114,21 +114,21 @@ export default function OurServicesSection() {
           </p>
         </motion.div>
 
-        {/* Mobile + small tablet — 100% Figma screenshot replica */}
+        {/* Mobile + small tablet — 100% Figma screenshot replica (full-bleed, no side borders) */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
-          className="relative mx-auto w-full max-w-[420px] md:max-w-[480px] lg:hidden"
+          className="relative -mx-4 w-[calc(100%+2rem)] max-w-none sm:-mx-6 sm:w-[calc(100%+3rem)] md:mx-auto md:w-full md:max-w-[480px] lg:hidden"
         >
           <Image
             src="/images/taxi-stand/services/mobile/services-mobile-full.png"
             alt="Our services — Taxi Stand, Logistics, Pool, Trip, Delivery"
-            width={724}
+            width={715}
             height={1828}
             className="h-auto w-full"
-            sizes="(max-width: 1024px) 480px, 0px"
+            sizes="(max-width: 1024px) 100vw, 0px"
             priority
           />
 
