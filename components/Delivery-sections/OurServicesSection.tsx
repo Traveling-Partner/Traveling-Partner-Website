@@ -10,14 +10,15 @@ import MobileServicesLayout, {
 } from "@/components/services/MobileServicesLayout";
 import { useInViewVideo } from "@/hooks/useInViewVideo";
 
-const SAME_DAY_VIDEO = "/videos/delivery-bg.mp4";
-const SAME_DAY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
-const EXPRESS_VIDEO = "/videos/trip-bg.mp4";
-const EXPRESS_MASK = "/images/taxi-stand/services/card-trip-mask.png";
-const SCHEDULED_VIDEO = "/videos/pool-bg.mp4";
-const SCHEDULED_MASK = "/images/taxi-stand/services/card-pool-mask.png";
-const BUSINESS_VIDEO = "/videos/logistics-bg.mp4";
-const BUSINESS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
+/** Same service videos / masks as Taxi Stand & Pool Ride — shapes unchanged */
+const POOL_VIDEO = "/videos/pool-bg.mp4";
+const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
+const TRIP_VIDEO = "/videos/trip-bg.mp4";
+const TRIP_MASK = "/images/taxi-stand/services/card-trip-mask.png";
+const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
+const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
+const TAXI_VIDEO = "/videos/taxi-stand-bg.mp4";
+const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
 
 type DesktopPhotoCardProps = {
   href: string;
@@ -131,37 +132,38 @@ function DesktopPhotoCard({
   );
 }
 
+/** Same Our Services naming as Taxi Stand / Pool Ride */
 const MOBILE_CARDS = [
   {
-    href: "/delivery",
-    icon: "/images/delivery/treasure/icon-moneybag.png",
-    title: "Business",
-    subtitle: "Bulk & B2B",
-    video: BUSINESS_VIDEO,
+    href: "/logistic",
+    icon: "/images/taxi-stand/services/icon-logistics.png",
+    title: "Logistics",
+    subtitle: "Enterprise",
+    video: LOGISTICS_VIDEO,
     ...CLEAN_MOBILE_CARDS.logistics,
   },
   {
-    href: "/delivery",
-    icon: "/images/delivery/treasure/icon-pin.png",
-    title: "Scheduled",
-    subtitle: "Pick a slot",
-    video: SCHEDULED_VIDEO,
+    href: "/pool-ride",
+    icon: "/images/taxi-stand/services/icon-pool.png",
+    title: "Pool",
+    subtitle: "Shared trips",
+    video: POOL_VIDEO,
     ...CLEAN_MOBILE_CARDS.pool,
   },
   {
-    href: "/delivery",
-    icon: "/images/delivery/treasure/icon-box.png",
-    title: "Express",
-    subtitle: "Priority run",
-    video: EXPRESS_VIDEO,
+    href: "/trip",
+    icon: "/images/taxi-stand/services/icon-trip.png",
+    title: "Trip",
+    subtitle: "Plan journey",
+    video: TRIP_VIDEO,
     ...CLEAN_MOBILE_CARDS.trip,
   },
   {
-    href: "/delivery",
-    icon: "/images/taxi-stand/services/icon-delivery.png",
-    title: "Same Day",
-    subtitle: "Today delivery",
-    video: SAME_DAY_VIDEO,
+    href: "/taxi-stand",
+    icon: "/images/taxi-stand/services/icon-taxi.png",
+    title: "Taxi Stand",
+    subtitle: "City rides",
+    video: TAXI_VIDEO,
     ...CLEAN_MOBILE_CARDS.delivery,
   },
 ];
@@ -181,7 +183,7 @@ export default function OurServicesSection() {
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
           <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            Four ways to send. One app. Built for every kind of delivery across
+            Five services. One app. Built for every kind of journey across
             Pakistan.
           </p>
         </motion.div>
@@ -191,7 +193,7 @@ export default function OurServicesSection() {
           cards={MOBILE_CARDS}
         />
 
-        {/* Desktop unchanged */}
+        {/* Desktop — same service names as Taxi Stand / Pool Ride */}
         <div className="mx-auto hidden w-full max-w-[1220px] items-stretch lg:flex">
           <div className="relative z-10 w-[38%] max-w-[480px] shrink-0 -mr-20 xl:max-w-[520px] xl:-mr-24">
             <DeliveryCard variant="desktop" />
@@ -199,49 +201,49 @@ export default function OurServicesSection() {
 
           <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-x-0.5 gap-y-0.5">
             <DesktopPhotoCard
-              href="/delivery"
+              href="/pool-ride"
               image="/images/taxi-stand/services/card-pool.png"
-              icon="/images/delivery/treasure/icon-pin.png"
-              title="Scheduled"
-              subtitle="Pick a slot"
+              icon="/images/taxi-stand/services/icon-pool.png"
+              title="Pool"
+              subtitle="Shared trips"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
-              video={SCHEDULED_VIDEO}
-              mask={SCHEDULED_MASK}
+              video={POOL_VIDEO}
+              mask={POOL_MASK}
             />
             <DesktopPhotoCard
-              href="/delivery"
+              href="/taxi-stand"
               image="/images/taxi-stand/services/card-delivery.png"
-              icon="/images/taxi-stand/services/icon-delivery.png"
-              title="Same Day"
-              subtitle="Today delivery"
+              icon="/images/taxi-stand/services/icon-taxi.png"
+              title="Taxi Stand"
+              subtitle="City rides"
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
-              video={SAME_DAY_VIDEO}
-              mask={SAME_DAY_MASK}
+              video={TAXI_VIDEO}
+              mask={DELIVERY_MASK}
             />
             <DesktopPhotoCard
-              href="/delivery"
+              href="/logistic"
               image="/images/taxi-stand/services/card-logistics.png"
-              icon="/images/delivery/treasure/icon-moneybag.png"
-              title="Business"
-              subtitle="Bulk & B2B"
+              icon="/images/taxi-stand/services/icon-logistics.png"
+              title="Logistics"
+              subtitle="Enterprise"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
-              video={BUSINESS_VIDEO}
-              mask={BUSINESS_MASK}
+              video={LOGISTICS_VIDEO}
+              mask={LOGISTICS_MASK}
             />
             <DesktopPhotoCard
-              href="/delivery"
+              href="/trip"
               image="/images/taxi-stand/services/card-trip.png"
-              icon="/images/delivery/treasure/icon-box.png"
-              title="Express"
-              subtitle="Priority run"
+              icon="/images/taxi-stand/services/icon-trip.png"
+              title="Trip"
+              subtitle="Plan journey"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
-              video={EXPRESS_VIDEO}
-              mask={EXPRESS_MASK}
+              video={TRIP_VIDEO}
+              mask={TRIP_MASK}
             />
           </div>
         </div>
