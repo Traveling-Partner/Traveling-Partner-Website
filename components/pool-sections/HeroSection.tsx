@@ -107,7 +107,7 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 py-14 sm:px-6 md:py-16 lg:flex-row lg:items-center lg:gap-8 lg:px-8 lg:py-20 xl:gap-12 xl:py-24">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-center lg:gap-8 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-12 xl:pb-24 xl:pt-[140px]">
         {/* Left content */}
         <div className="w-full max-w-xl lg:w-[48%] lg:max-w-none">
           <div
