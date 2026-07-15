@@ -215,14 +215,14 @@ export default function TripHero() {
               aria-hidden="true"
             />
 
-            <div className="relative aspect-square w-full sm:aspect-[5/4]">
+            <div className="relative aspect-[5/4] w-full sm:aspect-[3/2] lg:aspect-[8/5]">
               <Image
                 src="/images/trip/hero-suv.png"
                 alt="Traveling Partner trip SUV"
                 fill
                 priority
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 620px"
-                className="object-contain object-center drop-shadow-[0_28px_40px_rgba(0,0,0,0.16)]"
+                className="object-contain object-center scale-[0.92] drop-shadow-[0_28px_40px_rgba(0,0,0,0.16)]"
               />
             </div>
 
