@@ -1,158 +1,339 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
+import type { CSSProperties, ReactNode } from "react";
 
-const treasureContent = [
-  {
-    title: "Hassle-Free Sending",
-    description:
-      "Say goodbye to the complexities of traditional delivery services. Traveling Partner makes sending your items a breeze.",
-  },
-  {
-    title: "Reliable Couriers",
-    description:
-      "Our platform connects you with trusted couriers who will handle your treasures with care and professionalism.",
-  },
-  {
-    title: "Cost-Effective",
-    description:
-      "Traveling Partner's commission-free approach means you don't have to worry about extra charges eating into your budget.",
-  },
-  {
-    title: "Track Your Package",
-    description:
-      "Real-time tracking allows you to monitor your package's journey, providing peace of mind and transparency.",
-  },
-  {
-    title: "Community-Centric",
-    description:
-      "We foster a community of support, allowing you to connect with reliable couriers and fellow users.",
-  },
-];
+function AccentTitle({
+  lead,
+  accent,
+  leadClassName = "text-[#0b0b0b]",
+  accentClassName = "font-medium italic text-[#FDB813]",
+}: {
+  lead: string;
+  accent: string;
+  leadClassName?: string;
+  accentClassName?: string;
+}) {
+  return (
+    <>
+      <span className={`font-extrabold ${leadClassName}`}>{lead}</span>{" "}
+      <em className={accentClassName}>{accent}</em>
+    </>
+  );
+}
+
+/** Single dashed orbit ring — darker gold to match section screenshot */
+function DashedOrbit({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute rounded-full border border-dashed border-[#C4A84A]/70 ${className}`}
+      aria-hidden="true"
+    />
+  );
+}
+
+function FeatureCardShell({
+  children,
+  className = "",
+  delay = 0,
+  style,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  style?: CSSProperties;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.4, delay }}
+      whileHover={{ y: -2, transition: { duration: 0.2 } }}
+      className={className}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function DeliveryTreasureSection() {
   return (
-    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-12 px-4 relative overflow-hidden">
-      {/* Background Decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
+    <section className="relative overflow-hidden bg-[#FCFAF2] py-16 sm:py-20 lg:py-24">
+      {/* Soft yellow glows */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            radial-gradient(ellipse 48% 42% at 12% 18%, rgba(252,224,1,0.22), transparent 68%),
+            radial-gradient(ellipse 42% 38% at 88% 12%, rgba(253,184,19,0.18), transparent 65%),
+            radial-gradient(ellipse 50% 40% at 70% 78%, rgba(252,224,1,0.1), transparent 70%)
+          `,
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
-            <svg
-              className="w-4 h-4 text-white"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="text-white text-sm font-bold uppercase tracking-wider">
+      {/* Dashed orbit behind hero — smaller, right of image, raised so it isn’t hidden under the photo */}
+      <div
+        className="pointer-events-none absolute left-[28%] top-[24%] z-[1] hidden h-[240px] w-[240px] rounded-full border border-dashed border-[#C4A84A]/80 lg:block"
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+        {/* Header — matches reference */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mb-10 text-center sm:mb-12 lg:mb-14"
+        >
+          <div className="mb-5 inline-flex items-center rounded-full bg-[#FCE001] px-4 py-1.5">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[11px]">
               Delivery Service
             </span>
           </div>
-          <h2 className="text-[#1a1a1a] text-4xl lg:text-5xl xl:text-6xl font-black uppercase tracking-tight mb-3">
-            Deliver your{" "}
-            <span className="text-white drop-shadow-md">Treasure</span>
-          </h2>
-          <p className="text-[#1a1a1a]/80 text-lg lg:text-xl font-medium uppercase tracking-widest">
-            With the Best Service
-          </p>
-          {/* <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/20 rounded-full"></div>
-            <div className="w-2 h-2 bg-[#1a1a1a] rounded-full rotate-45"></div>
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/20 rounded-full"></div>
-          </div> */}
-        </div>
 
-        {/* Content Grid */}
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-12 lg:gap-16">
-          {/* Image */}
-          <div className="w-full lg:w-[45%] relative group">
-            <div className="absolute inset-0 bg-white/20 rounded-3xl blur-xl transform scale-95 group-hover:scale-100 transition-transform duration-500"></div>
-            <Image
-              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253516/tp-Imgs/Taxi-stand-img/Treasure_tafup9.png"
-              alt="Treasure Delivery"
-              width={600}
-              height={400}
-              className="w-full h-auto lg:h-[400px] object-cover rounded-3xl shadow-2xl relative z-10"
-              loading="lazy"
-            />
-            {/* Floating Badge */}
-            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4 z-20 border border-gray-100 transform group-hover:-translate-y-2 transition-transform duration-500">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-xl flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-black"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-[#1a1a1a]">Safe</div>
-                  <div className="text-sm text-gray-500 font-medium">
-                    Delivery
-                  </div>
-                </div>
+          <h2 className="mb-3 text-[34px] font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] sm:text-5xl lg:text-[52px]">
+            Deliver Your{" "}
+            <em className="font-semibold italic text-[#FDB813]">Treasure.</em>
+          </h2>
+
+          <p className="mx-auto max-w-[540px] text-[14px] leading-[1.65] text-[#6F6E68] sm:text-[15px]">
+            With the best service in Pakistan — reliable, transparent, and
+            always fee-free from your door to their doorstep.
+          </p>
+        </motion.div>
+
+        {/*
+          3-column desktop grid:
+          [ Image ] [ Hassle ] [ Couriers ]
+          [ Image ] [     Cost-Effective   ]
+          [ Track ] [   Community-Centric  ]
+          Image + Track share column 1 → identical left/right edges
+        */}
+        <div
+          className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)_minmax(0,1fr)] lg:grid-rows-[auto_auto_auto] lg:gap-5"
+        >
+          {/* Hero image — photo fills card; no white/colored box behind */}
+          <FeatureCardShell
+            delay={0.04}
+            className="relative h-full min-h-[360px] w-full overflow-visible rounded-[28px] bg-transparent sm:min-h-[420px] lg:col-start-1 lg:row-start-1 lg:row-end-3 lg:min-h-0 lg:self-stretch"
+          >
+            <div className="absolute inset-0 overflow-hidden rounded-[28px] shadow-[0_12px_36px_rgba(0,0,0,0.08)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/delivery/treasure/hero-delivery.png"
+                alt="Courier delivering a package to a customer"
+                className="absolute inset-0 h-full w-full max-w-none scale-[1.42] object-cover object-center"
+              />
+
+              {/* TP · DELIVERY badge */}
+              <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full border border-[#FCE001]/70 bg-[#0b0b0b] px-3 py-1.5 sm:left-5 sm:top-5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[10px]">
+                  TP · Delivery
+                </span>
               </div>
             </div>
-          </div>
 
-          {/* Content Cards */}
-          <div className="w-full lg:w-[45%] space-y-4">
-            {treasureContent.map((item, index) => (
-              <div
-                key={index}
-                className="group bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-l-4 border-transparent hover:border-[#fce001]"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="relative flex-shrink-0 w-8 h-8 mt-0.5">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-full transform group-hover:scale-110 transition-transform duration-300"></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <svg
-                        className="w-4 h-4 text-black"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-[#1a1a1a] text-base font-bold uppercase tracking-wide mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#000000] group-hover:to-[#000000] transition-all duration-300">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
+            {/* Safe Delivery — bottom-right, slightly outside the image */}
+            <div className="absolute -bottom-3 -right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
+              <Image
+                src="/images/delivery/treasure/icon-box.png"
+                alt=""
+                width={42}
+                height={42}
+                className="h-10 w-10 shrink-0 object-contain"
+              />
+              <div className="leading-none">
+                <p className="text-[15px] font-extrabold text-[#0b0b0b]">Safe</p>
+                <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#8A8983]">
+                  Delivery
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          </FeatureCardShell>
+
+          {/* Hassle-Free */}
+          <FeatureCardShell
+            delay={0.08}
+            className="relative overflow-hidden rounded-[28px] bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.06)] sm:p-6 lg:col-start-2 lg:row-start-1"
+          >
+            <div className="mb-5 flex items-start justify-between gap-3">
+              <Image
+                src="/images/delivery/treasure/icon-envelope.png"
+                alt=""
+                width={52}
+                height={52}
+                className="h-[48px] w-[48px] object-contain sm:h-[52px] sm:w-[52px]"
+              />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F1EFE8] text-[12px] font-bold text-[#7A796F]">
+                01
+              </span>
+            </div>
+            <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
+              <AccentTitle lead="Hassle-Free" accent="Sending." />
+            </h3>
+            <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+              Say goodbye to complexities of traditional delivery. Sending items
+              has never been this easy.
+            </p>
+          </FeatureCardShell>
+
+          {/* Reliable Couriers */}
+          <FeatureCardShell
+            delay={0.12}
+            className="relative overflow-hidden rounded-[28px] p-5 shadow-[0_10px_30px_rgba(253,184,19,0.28)] sm:p-6 lg:col-start-3 lg:row-start-1"
+            style={{
+              backgroundImage:
+                "linear-gradient(145deg, #FFE94D 0%, #FCE001 48%, #F5B800 100%)",
+            }}
+          >
+            <DashedOrbit className="-bottom-14 -right-14 h-48 w-48" />
+            <div className="relative z-[1] mb-5 flex items-start justify-between gap-3">
+              <Image
+                src="/images/delivery/treasure/icon-medal.png"
+                alt=""
+                width={52}
+                height={52}
+                className="h-[48px] w-[48px] object-contain sm:h-[52px] sm:w-[52px]"
+              />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold text-white">
+                02
+              </span>
+            </div>
+            <h3 className="relative z-[1] mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
+              <AccentTitle
+                lead="Reliable"
+                accent="Couriers."
+                leadClassName="text-[#0b0b0b]"
+                accentClassName="font-medium italic text-[#0b0b0b]"
+              />
+            </h3>
+            <p className="relative z-[1] text-[13px] leading-[1.6] text-[#2A2A2A] sm:text-[14px]">
+              Vetted couriers handle your treasures with care and genuine
+              professionalism, every trip.
+            </p>
+          </FeatureCardShell>
+
+          {/* Cost-Effective */}
+          <FeatureCardShell
+            delay={0.16}
+            className="relative overflow-hidden rounded-[28px] p-5 shadow-[0_14px_36px_rgba(0,0,0,0.22)] sm:p-6 lg:col-start-2 lg:col-end-4 lg:row-start-2"
+            style={{
+              backgroundImage:
+                "linear-gradient(160deg, #2A2A2A 0%, #141414 55%, #0B0B0B 100%)",
+            }}
+          >
+            <div className="relative z-[1] flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+              <Image
+                src="/images/delivery/treasure/icon-moneybag.png"
+                alt=""
+                width={84}
+                height={84}
+                className="h-[76px] w-[76px] shrink-0 object-contain drop-shadow-[0_0_26px_rgba(252,224,1,0.5)] sm:h-[84px] sm:w-[84px]"
+              />
+              <div className="min-w-0">
+                <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#FCE001] px-2.5 py-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#0b0b0b]" />
+                  <span className="text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[10px]">
+                    Zero Commission
+                  </span>
+                </div>
+                <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
+                  <span className="font-extrabold text-white">Cost-</span>
+                  <em className="font-medium italic text-[#FCE001]">
+                    Effective.
+                  </em>
+                </h3>
+                <p className="text-[13px] leading-[1.6] text-[#C8C7C1] sm:text-[14px]">
+                  Our commission-free approach means no hidden fees eating into
+                  your budget. Negotiate directly, pay only what you agreed.
+                </p>
+              </div>
+            </div>
+          </FeatureCardShell>
+
+          {/* Track — same column as image */}
+          <FeatureCardShell
+            delay={0.2}
+            className="relative overflow-hidden rounded-[28px] bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.06)] sm:p-6 lg:col-start-1 lg:row-start-3"
+          >
+            <div className="mb-5 flex items-start justify-between gap-3">
+              <Image
+                src="/images/delivery/treasure/icon-pin.png"
+                alt=""
+                width={52}
+                height={52}
+                className="h-[48px] w-[48px] object-contain sm:h-[52px] sm:w-[52px]"
+              />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF7EE] px-2.5 py-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#0b0b0b]">
+                  Live
+                </span>
+              </span>
+            </div>
+            <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
+              <AccentTitle lead="Track Your" accent="Package." />
+            </h3>
+            <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+              Real-time GPS tracking gives you peace of mind at every step.
+            </p>
+          </FeatureCardShell>
+
+          {/* Community */}
+          <FeatureCardShell
+            delay={0.24}
+            className="relative flex h-full min-h-[140px] items-center overflow-hidden rounded-[28px] bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.06)] sm:p-6 lg:col-start-2 lg:col-end-4 lg:row-start-3"
+          >
+            <div className="relative z-[1] flex w-full items-center gap-3 sm:gap-4">
+              <div className="flex shrink-0 items-center">
+                {[
+                  "/images/delivery/treasure/avatar-1.png",
+                  "/images/delivery/treasure/avatar-2.png",
+                  "/images/delivery/treasure/avatar-3.png",
+                  "/images/delivery/treasure/avatar-plus.png",
+                ].map((src, i) => (
+                  <div
+                    key={src}
+                    className="relative h-16 w-16 shrink-0 sm:h-[68px] sm:w-[68px]"
+                    style={{
+                      marginLeft: i === 0 ? 0 : -28,
+                      zIndex: i + 1,
+                    }}
+                  >
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="68px"
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="min-w-0">
+                <h3 className="mb-1.5 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
+                  <span className="font-extrabold text-[#0b0b0b]">
+                    Community-
+                  </span>
+                  <em className="font-medium italic text-[#FDB813]">
+                    Centric.
+                  </em>
+                </h3>
+                <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+                  Join a supportive community connecting reliable couriers with
+                  fellow senders across Pakistan — trust, built together.
+                </p>
+              </div>
+            </div>
+          </FeatureCardShell>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
