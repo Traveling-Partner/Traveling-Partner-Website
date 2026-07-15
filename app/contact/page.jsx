@@ -1,13 +1,13 @@
 "use client";
 
 import ContactHero from "@/components/Contact-sections/ContactHero";
-import ContactUsForm from "@/components/ContactUsForm";
+import ContactFormSection from "@/components/Contact-sections/ContactFormSection";
 
 export default function ContactPage() {
   return (
     <div className="w-full">
       <ContactHero />
-      <ContactUsForm />
+      <ContactFormSection />
     </div>
   );
 }
