@@ -3,6 +3,7 @@
 import ContactHero from "@/components/Contact-sections/ContactHero";
 import ContactFormSection from "@/components/Contact-sections/ContactFormSection";
 import OurLocationSection from "@/components/Contact-sections/OurLocationSection";
+import ExploreOurServices from "@/components/About-us-sections/ExploreOurServices";
 
 export default function ContactPage() {
   return (
@@ -10,6 +11,7 @@ export default function ContactPage() {
       <ContactHero />
       <ContactFormSection />
       <OurLocationSection />
+      <ExploreOurServices />
     </div>
   );
 }
