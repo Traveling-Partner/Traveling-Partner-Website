@@ -70,7 +70,7 @@ export default function DriveWithUsSection() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="overflow-hidden rounded-[28px] bg-[#111111] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.45)] sm:rounded-[36px] sm:p-7 lg:rounded-[48px] lg:p-10 xl:p-12"
         >
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-6 xl:gap-8">
             {/* Left: badge + media */}
             <div className="order-2 flex flex-col gap-5 lg:order-1 lg:gap-6">
               <motion.div

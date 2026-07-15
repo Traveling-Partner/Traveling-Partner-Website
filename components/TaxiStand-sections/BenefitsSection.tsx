@@ -63,7 +63,7 @@ export default function BenefitsSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-6 xl:gap-8">
           {/* Left: content */}
           <div className="order-1 flex flex-col">
             <motion.div

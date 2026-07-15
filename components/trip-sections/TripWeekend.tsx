@@ -41,14 +41,14 @@ export default function TripWeekend() {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 sm:px-6 lg:flex-row lg:items-center lg:gap-8 lg:px-8 xl:gap-12">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 sm:px-6 lg:flex-row lg:items-center lg:gap-6 lg:px-8 xl:gap-8">
           {/* Left: photo + trusted badge */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.5 }}
-            className="relative w-full max-w-[480px] lg:w-[48%] lg:max-w-none"
+            className="relative w-full max-w-[480px] lg:max-w-[460px] lg:shrink-0"
           >
             <div className="relative aspect-[764/788] w-full overflow-hidden rounded-[28px] sm:rounded-[32px] lg:rounded-[36px]">
               <Image
@@ -80,7 +80,7 @@ export default function TripWeekend() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="flex w-full max-w-xl flex-col lg:w-[52%] lg:max-w-none"
+            className="flex w-full max-w-xl flex-col lg:min-w-0 lg:flex-1 lg:max-w-none"
           >
             <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">

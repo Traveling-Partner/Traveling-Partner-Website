@@ -229,7 +229,7 @@ export default function ContactUsForm(): React.ReactElement {
         className="relative z-10 mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-[106px]"
         style={{ maxWidth: CONTAINER_MAX }}
       >
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.88fr)] lg:gap-10 xl:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.88fr)] lg:gap-6 xl:gap-8">
           {/* Left — headline + phone */}
           <motion.div
             className="max-w-[560px] lg:py-6"
