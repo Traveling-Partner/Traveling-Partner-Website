@@ -107,9 +107,9 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-center lg:gap-8 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-12 xl:pb-24 xl:pt-[140px]">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-center lg:gap-6 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-8 xl:pb-24 xl:pt-[140px]">
         {/* Left content */}
-        <div className="w-full max-w-xl lg:w-[48%] lg:max-w-none">
+        <div className="w-full max-w-xl lg:max-w-[420px] lg:shrink-0">
           <div
             className="pool-hero-fade mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5"
             style={{ animationDelay: "0ms" }}
@@ -181,7 +181,7 @@ export default function HeroSection() {
 
         {/* Right visual */}
         <div
-          className="pool-hero-image relative flex w-full justify-center lg:w-[52%] lg:justify-end"
+          className="pool-hero-image relative flex w-full justify-center lg:min-w-0 lg:flex-1 lg:justify-start"
           style={{ animationDelay: "200ms" }}
         >
           <div className="relative w-full max-w-[560px] lg:max-w-none">

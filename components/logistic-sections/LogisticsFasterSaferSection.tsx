@@ -68,7 +68,7 @@ export default function LogisticsFasterSaferSection() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="rounded-[28px] bg-[#1a1a1a] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.5)] sm:rounded-[36px] sm:p-7 lg:rounded-[44px] lg:p-9 xl:p-11"
         >
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-6 xl:gap-8">
             {/* Left: badge + truck */}
             <div className="order-2 flex flex-col gap-5 lg:order-1 lg:gap-6">
               <motion.div
