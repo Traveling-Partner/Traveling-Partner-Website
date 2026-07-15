@@ -5,10 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
 import TaxiStandCard from "./TaxiStandCard";
-import MobileCardVideo from "@/components/services/MobileCardVideo";
+import MobileServicesLayout, {
+  CLEAN_MOBILE_CARDS,
+} from "@/components/services/MobileServicesLayout";
 import { useInViewVideo } from "@/hooks/useInViewVideo";
 
-/** Local files — remote Pixabay download URLs are Cloudflare-blocked (403) in the browser */
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
 const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
 const TRIP_VIDEO = "/videos/trip-bg.mp4";
@@ -17,16 +18,6 @@ const POOL_VIDEO = "/videos/pool-bg.mp4";
 const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
 const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
 const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
-
-/** Exact silhouettes cropped from the mobile screenshot */
-const MOBILE_TRIP_MASK =
-  "/images/taxi-stand/services/mobile/mask-trip-crop.png";
-const MOBILE_DELIVERY_MASK =
-  "/images/taxi-stand/services/mobile/mask-delivery-crop.png";
-const MOBILE_POOL_MASK =
-  "/images/taxi-stand/services/mobile/mask-pool-crop.png";
-const MOBILE_LOGISTICS_MASK =
-  "/images/taxi-stand/services/mobile/mask-logistics-crop.png";
 
 type DesktopPhotoCardProps = {
   href: string;
@@ -37,7 +28,6 @@ type DesktopPhotoCardProps = {
   delay?: number;
   className?: string;
   contentClassName?: string;
-  /** Optional looping background video (masked to same card shape as `image`) */
   video?: string;
   mask?: string;
 };
@@ -142,10 +132,41 @@ function DesktopPhotoCard({
   );
 }
 
-/**
- * Mobile = exact Figma screenshot (pixel-perfect).
- * Links sit as invisible hotspots over each card.
- */
+const MOBILE_CARDS = [
+  {
+    href: "/logistic",
+    icon: "/images/taxi-stand/services/icon-logistics.png",
+    title: "Logistics",
+    subtitle: "Enterprise",
+    video: LOGISTICS_VIDEO,
+    ...CLEAN_MOBILE_CARDS.logistics,
+  },
+  {
+    href: "/pool-ride",
+    icon: "/images/taxi-stand/services/icon-pool.png",
+    title: "Pool",
+    subtitle: "Shared trips",
+    video: POOL_VIDEO,
+    ...CLEAN_MOBILE_CARDS.pool,
+  },
+  {
+    href: "/trip",
+    icon: "/images/taxi-stand/services/icon-trip.png",
+    title: "Trip",
+    subtitle: "Plan journey",
+    video: TRIP_VIDEO,
+    ...CLEAN_MOBILE_CARDS.trip,
+  },
+  {
+    href: "/delivery",
+    icon: "/images/taxi-stand/services/icon-delivery.png",
+    title: "Delivery",
+    subtitle: "Fast delivery",
+    video: DELIVERY_VIDEO,
+    ...CLEAN_MOBILE_CARDS.delivery,
+  },
+];
+
 export default function OurServicesSection() {
   return (
     <section className="relative overflow-hidden bg-[#FEFBF6] py-14 sm:py-20 lg:py-24">
@@ -166,98 +187,10 @@ export default function OurServicesSection() {
           </p>
         </motion.div>
 
-        {/* Mobile — 100% screenshot replica */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="relative -mx-1 w-[calc(100%+0.5rem)] max-w-none sm:mx-auto sm:w-full sm:max-w-[420px] lg:hidden"
-        >
-          <Image
-            src="/images/taxi-stand/services/mobile/services-mobile-full.png"
-            alt="Our services — Taxi Stand, Logistics, Pool, Trip, Delivery"
-            width={1242}
-            height={3168}
-            className="h-auto w-full select-none"
-            sizes="(max-width: 1024px) 100vw, 0px"
-            priority
-            unoptimized
-          />
-
-          {/* Videos clipped to screenshot card shapes — layout unchanged */}
-          <MobileCardVideo
-            src={LOGISTICS_VIDEO}
-            mask={MOBILE_LOGISTICS_MASK}
-            left="3.543%"
-            top="29.987%"
-            width="44.525%"
-            height="36.269%"
-            icon="/images/taxi-stand/services/icon-logistics.png"
-            title="Logistics"
-            subtitle="Enterprise"
-          />
-          <MobileCardVideo
-            src={POOL_VIDEO}
-            mask={MOBILE_POOL_MASK}
-            left="44.767%"
-            top="29.261%"
-            width="54.106%"
-            height="35.669%"
-            icon="/images/taxi-stand/services/icon-pool.png"
-            title="Pool"
-            subtitle="Shared trips"
-          />
-          <MobileCardVideo
-            src={TRIP_VIDEO}
-            mask={MOBILE_TRIP_MASK}
-            left="3.14%"
-            top="64.552%"
-            width="48.953%"
-            height="33.681%"
-            icon="/images/taxi-stand/services/icon-trip.png"
-            title="Trip"
-            subtitle="Plan journey"
-          />
-          <MobileCardVideo
-            src={DELIVERY_VIDEO}
-            mask={MOBILE_DELIVERY_MASK}
-            left="54.75%"
-            top="64.646%"
-            width="44.122%"
-            height="33.239%"
-            icon="/images/taxi-stand/services/icon-delivery.png"
-            title="Delivery"
-            subtitle="Fast delivery"
-          />
-
-          {/* Hotspots — percentages mapped to screenshot regions */}
-          <Link
-            href="/taxi-stand"
-            aria-label="Taxi Stand"
-            className="absolute left-[3%] top-[2%] z-10 h-[36%] w-[94%]"
-          />
-          <Link
-            href="/logistic"
-            aria-label="Logistics"
-            className="absolute left-[2%] top-[39%] z-10 h-[25%] w-[47%]"
-          />
-          <Link
-            href="/pool-ride"
-            aria-label="Pool"
-            className="absolute left-[51%] top-[39%] z-10 h-[25%] w-[47%]"
-          />
-          <Link
-            href="/trip"
-            aria-label="Trip"
-            className="absolute left-[2%] top-[65%] z-10 h-[32%] w-[47%]"
-          />
-          <Link
-            href="/delivery"
-            aria-label="Delivery"
-            className="absolute left-[51%] top-[65%] z-10 h-[32%] w-[47%]"
-          />
-        </motion.div>
+        <MobileServicesLayout
+          featured={<TaxiStandCard variant="mobile" />}
+          cards={MOBILE_CARDS}
+        />
 
         {/* Desktop unchanged */}
         <div className="mx-auto hidden w-full max-w-[1220px] items-stretch lg:flex">
