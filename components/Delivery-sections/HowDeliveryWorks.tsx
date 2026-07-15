@@ -2,137 +2,171 @@
 
 import Image from "next/image";
 
-const steps = [
+const STEPS = [
   {
-    number: "01",
-    title: "Download the app",
-    description: "Get started with our easy-to-use mobile application",
+    step: "01",
+    title: "Download the App",
+    description:
+      "Get started with our easy-to-use mobile application in under 60 seconds.",
+    icon: "/images/delivery/how-works/icon-01-phone.png",
+    featured: true,
   },
   {
-    number: "02",
-    title: "Provide delivery details",
-    description: "Date, time, items, pickup & drop-off locations, contact number",
+    step: "02",
+    title: "Add Details",
+    description:
+      "Date, time, items, pickup & drop-off addresses, contact number.",
+    icon: "/images/delivery/how-works/icon-02-clipboard.png",
+    featured: false,
   },
   {
-    number: "03",
-    title: "Choose your rider",
-    description: "Select preferred gender (Male or Female)",
+    step: "03",
+    title: "Choose Rider",
+    description:
+      "Select preferred gender (Male or Female) and courier of your choice.",
+    icon: "/images/delivery/how-works/icon-03-people.png",
+    featured: false,
   },
   {
-    number: "04",
-    title: "Confirm rider",
-    description: "Review and confirm your selected delivery partner",
+    step: "04",
+    title: "Confirm Rider",
+    description:
+      "Review and confirm your selected delivery partner and negotiated fare.",
+    icon: "/images/delivery/how-works/icon-04-shield.png",
+    featured: false,
   },
   {
-    number: "05",
-    title: "Track your delivery",
-    description: "Driver will reach your pickup location at the scheduled time",
+    step: "05",
+    title: "Track Delivery",
+    description:
+      "Driver reaches pickup location on time. Watch every step, live.",
+    icon: "/images/delivery/how-works/icon-05-pin.png",
+    featured: false,
   },
 ];
 
+const cardBase =
+  "group relative flex flex-col rounded-[18px] border border-white/[0.06] bg-[#141414] transition-all duration-300 " +
+  "hover:border-[#FCE001] hover:bg-[#FCE001] hover:shadow-[0_0_22px_rgba(252,224,1,0.35)]";
+
+function StepCard({
+  item,
+  className = "",
+}: {
+  item: (typeof STEPS)[number];
+  className?: string;
+}) {
+  return (
+    <article
+      className={[
+        cardBase,
+        item.featured
+          ? "min-h-[320px] border-[#FCE001] shadow-[0_0_0_1px_rgba(252,224,1,0.35),0_0_22px_rgba(252,224,1,0.32)]"
+          : "min-h-[230px]",
+        className,
+      ].join(" ")}
+    >
+      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-2 py-0.5 transition-colors duration-300 group-hover:bg-[#0b0b0b]">
+        <span className="text-[8px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] transition-colors duration-300 group-hover:text-[#FCE001]">
+          {item.step} Step
+        </span>
+      </div>
+
+      <div className="mb-3.5 h-[64px] w-[64px] overflow-hidden rounded-[14px]">
+        <Image
+          src={item.icon}
+          alt=""
+          width={64}
+          height={64}
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <h3 className="mb-1.5 text-[16px] font-extrabold leading-tight tracking-tight text-white transition-colors duration-300 group-hover:text-[#0b0b0b]">
+        {item.title}
+      </h3>
+
+      <p className="text-[12px] leading-[1.5] text-[#9A9A9A] transition-colors duration-300 group-hover:text-[#2A2A2A]">
+        {item.description}
+      </p>
+    </article>
+  );
+}
+
 export default function HowDeliveryWorks() {
   return (
-    <div className="relative w-full bg-white overflow-hidden py-12 px-4">
-      {/* Background Decorations */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#fce001]/5 to-transparent"></div>
-      <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#fdb813]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#fce001]/10 rounded-full blur-3xl"></div>
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-        backgroundSize: '40px 40px'
-      }}></div>
+    <section className="relative overflow-hidden bg-[#0A0A0A] py-12 sm:py-14 lg:py-16">
+      <Image
+        src="/images/delivery/how-works/bg-section.png"
+        alt=""
+        fill
+        priority={false}
+        sizes="100vw"
+        className="pointer-events-none object-cover object-center"
+        aria-hidden="true"
+      />
 
-      <div className="relative max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 rounded-full px-4 py-2 mb-6">
-            <span className="w-2 h-2 bg-[#fdb813] rounded-full animate-pulse"></span>
-            <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">Simple Process</span>
+      <div className="relative z-10 mx-auto w-full max-w-[1080px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center sm:mb-9 lg:mb-10">
+          <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1">
+            <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[10px]">
+              Simple Process
+            </span>
           </div>
-          <h2 className="text-[32px] lg:text-[48px] font-black text-[#1a1a1a] leading-tight">
-            How <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Delivery</span> Works
+
+          <h2 className="mb-2.5 text-[28px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[42px]">
+            How Delivery <span className="text-[#FCE001]">Works.</span>
           </h2>
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/10 rounded-full"></div>
-            <div className="w-2 h-2 bg-[#fce001] rounded-full rotate-45"></div>
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/10 rounded-full"></div>
-          </div>
+
+          <p className="mx-auto max-w-[480px] text-[13px] leading-[1.6] text-[#A8A8A8] sm:text-[14px]">
+            Five simple steps between you and a delivered parcel — from booking
+            to doorstep.
+          </p>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          
-          {/* Image */}
-          <div className="w-full lg:w-[45%] relative group order-2 lg:order-1">
-            <div className="absolute inset-0  rounded-3xl blur-xl transform scale-95 group-hover:scale-100 transition-transform duration-500"></div>
-            <Image
-              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253508/tp-Imgs/Taxi-stand-img/home-page-b-img_l1ekvj.png"
-              alt="How Delivery Works"
-              width={600}
-              height={500}
-              className="w-full h-auto lg:h-[450px] object-contain drop-shadow-2xl relative z-10"
-              loading="lazy"
+        {/* Desktop */}
+        <div className="hidden lg:grid lg:grid-cols-5 lg:items-end lg:gap-2.5 xl:gap-3">
+          <div className="relative col-span-5 mb-0 h-9">
+            <div
+              className="absolute top-[9px] h-[2px] bg-[#FCE001]"
+              style={{ left: "calc(10% + 0px)", right: "calc(10% - 5px)" }}
             />
-            {/* Floating Badge */}
-            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4 z-20 border border-gray-100 transform group-hover:-translate-y-2 transition-transform duration-500">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-xl flex items-center justify-center">
-                  <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-[#1a1a1a]">Fast</div>
-                  <div className="text-sm text-gray-500 font-medium">Delivery</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Steps */}
-          <div className="w-full lg:w-[50%] order-1 lg:order-2">
-            <div className="space-y-4">
-              {steps.map((step, index) => (
-                <div 
-                  key={index} 
-                  className="group flex items-start gap-4 bg-white rounded-2xl p-5 shadow-lg border border-gray-100 hover:border-[#fce001]/50 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            <div
+              className="absolute top-[5px] h-[10px] w-[10px] rounded-full bg-[#FCE001]"
+              style={{ right: "calc(10% - 10px)" }}
+            />
+            <div className="grid h-full grid-cols-5 gap-2.5 xl:gap-3">
+              {STEPS.map((s) => (
+                <div
+                  key={`t-${s.step}`}
+                  className="relative flex justify-center"
                 >
-                  {/* Number Badge */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                      <span className="text-xl font-black text-[#1a1a1a]">{step.number}</span>
-                    </div>
-                    {/* Connector Line (except last item) */}
-                    {index !== steps.length - 1 && (
-                      <div className="absolute top-14 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gradient-to-b from-[#fce001] to-transparent"></div>
-                    )}
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="flex-1 pt-1">
-                    <h3 className="text-[#1a1a1a] text-lg font-bold uppercase tracking-wide mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#000000] group-hover:to-[#000000] transition-all duration-300">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                  
-                  {/* Arrow */}
-                  <div className="flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                    <svg className="w-5 h-5 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  <span className="absolute top-[5px] z-[1] h-[10px] w-[10px] rounded-full border-[2px] border-[#FCE001] bg-[#0A0A0A]" />
+                  <span className="absolute top-[15px] h-[21px] w-[2px] bg-[#FCE001]" />
                 </div>
               ))}
             </div>
           </div>
 
+          {STEPS.map((item) => (
+            <StepCard key={item.step} item={item} className="p-4" />
+          ))}
+        </div>
+
+        {/* Mobile */}
+        <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {STEPS.map((item) => (
+            <StepCard
+              key={`m-${item.step}`}
+              item={item}
+              className={[
+                "w-[min(78vw,230px)] shrink-0 snap-center p-3.5 sm:w-[210px] sm:p-4",
+                item.featured ? "!min-h-[300px]" : "!min-h-[210px]",
+              ].join(" ")}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
