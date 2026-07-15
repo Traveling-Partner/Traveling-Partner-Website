@@ -12,7 +12,7 @@ export default function TripHero() {
         backgroundImage: "url('/images/image-95.png')",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 pb-8 pt-[100px] sm:px-6 md:pb-12 md:pt-[120px] lg:px-8 lg:pt-[130px]">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
           <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-tight font-black text-black mb-2 md:mb-3">

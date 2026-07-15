@@ -38,25 +38,6 @@ function AppleIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function PackageIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M12 2.5 3.5 7v10L12 21.5 20.5 17V7L12 2.5Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 12 3.5 7M12 12l8.5-5M12 12v9.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function StoreButton({
   href,
   label,
@@ -118,7 +99,7 @@ export default function DeliveryHero() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 py-14 sm:px-6 md:py-16 lg:flex-row lg:items-center lg:gap-8 lg:px-8 lg:py-20 xl:gap-12 xl:py-24">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-center lg:gap-8 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-12 xl:pb-24 xl:pt-[140px]">
         {/* Left content */}
         <div className="w-full max-w-xl lg:w-[48%] lg:max-w-none">
           <div
@@ -184,7 +165,13 @@ export default function DeliveryHero() {
             className="delivery-hero-fade inline-flex items-center gap-2 rounded-full border border-dashed border-[#d4d0c6] bg-white px-3.5 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.04)]"
             style={{ animationDelay: "360ms" }}
           >
-            <PackageIcon className="h-4 w-4 text-[#fdb813]" />
+            <Image
+              src="/images/delivery/icon-package.png"
+              alt=""
+              width={18}
+              height={18}
+              className="h-4 w-4 shrink-0 object-contain"
+            />
             <span className="text-[13px] text-[#4a4a45]">
               <span className="font-normal text-[#6f6e68]">
                 Real-Time Tracking ·

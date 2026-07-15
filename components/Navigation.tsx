@@ -45,10 +45,24 @@ export default function Navigation() {
 
   const isHome = pathname === "/";
 
+  /** Pages where the header floats over the hero (same as home) */
+  const overlayHeroPaths = [
+    "/taxi-stand",
+    "/pool-ride",
+    "/delivery",
+    "/logistic",
+    "/trip",
+  ];
+  const isOverlayHeroPage =
+    isHome ||
+    overlayHeroPaths.some(
+      (p) => pathname === p || pathname.startsWith(`${p}/`)
+    );
+
   return (
     <header
       className={`z-50 w-full px-3 sm:px-4 ${
-        isHome
+        isOverlayHeroPage
           ? "absolute inset-x-0 top-0 bg-transparent pt-3 sm:pt-5 md:pt-[43px]"
           : "relative bg-white py-3 sm:py-4"
       }`}
