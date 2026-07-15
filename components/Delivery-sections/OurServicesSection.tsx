@@ -5,10 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
 import DeliveryCard from "./DeliveryCard";
-import MobileCardVideo from "@/components/services/MobileCardVideo";
+import MobileServicesLayout, {
+  CLEAN_MOBILE_CARDS,
+} from "@/components/services/MobileServicesLayout";
 import { useInViewVideo } from "@/hooks/useInViewVideo";
 
-/** Local videos + card frames (same design system as Taxi Stand / Pool Ride) */
 const SAME_DAY_VIDEO = "/videos/delivery-bg.mp4";
 const SAME_DAY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
 const EXPRESS_VIDEO = "/videos/trip-bg.mp4";
@@ -17,51 +18,6 @@ const SCHEDULED_VIDEO = "/videos/pool-bg.mp4";
 const SCHEDULED_MASK = "/images/taxi-stand/services/card-pool-mask.png";
 const BUSINESS_VIDEO = "/videos/logistics-bg.mp4";
 const BUSINESS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
-
-const MOBILE_SAME_DAY_MASK =
-  "/images/taxi-stand/services/mobile/mask-delivery-crop.png";
-const MOBILE_EXPRESS_MASK =
-  "/images/taxi-stand/services/mobile/mask-trip-crop.png";
-const MOBILE_SCHEDULED_MASK =
-  "/images/taxi-stand/services/mobile/mask-pool-crop.png";
-const MOBILE_BUSINESS_MASK =
-  "/images/taxi-stand/services/mobile/mask-logistics-crop.png";
-
-const FEATURES = [
-  "Door to door",
-  "Live tracking",
-  "0% commission",
-] as const;
-
-function SparkleIcon() {
-  return (
-    <svg
-      className="h-2.5 w-2.5 shrink-0 text-[#FCE001]"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M8 0.5 9.2 5.6 14.5 6.8 9.2 8 8 13.5 6.8 8 1.5 6.8 6.8 5.6Z" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      className="h-2.5 w-2.5 text-black"
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M4.5 10.5 8 14l7.5-8" />
-    </svg>
-  );
-}
 
 type DesktopPhotoCardProps = {
   href: string;
@@ -175,11 +131,41 @@ function DesktopPhotoCard({
   );
 }
 
-/**
- * Delivery page — Our Services.
- * Same layout / motion / card system as Taxi Stand & Pool Ride,
- * with Delivery-only service content.
- */
+const MOBILE_CARDS = [
+  {
+    href: "/delivery",
+    icon: "/images/delivery/treasure/icon-moneybag.png",
+    title: "Business",
+    subtitle: "Bulk & B2B",
+    video: BUSINESS_VIDEO,
+    ...CLEAN_MOBILE_CARDS.logistics,
+  },
+  {
+    href: "/delivery",
+    icon: "/images/delivery/treasure/icon-pin.png",
+    title: "Scheduled",
+    subtitle: "Pick a slot",
+    video: SCHEDULED_VIDEO,
+    ...CLEAN_MOBILE_CARDS.pool,
+  },
+  {
+    href: "/delivery",
+    icon: "/images/delivery/treasure/icon-box.png",
+    title: "Express",
+    subtitle: "Priority run",
+    video: EXPRESS_VIDEO,
+    ...CLEAN_MOBILE_CARDS.trip,
+  },
+  {
+    href: "/delivery",
+    icon: "/images/taxi-stand/services/icon-delivery.png",
+    title: "Same Day",
+    subtitle: "Today delivery",
+    video: SAME_DAY_VIDEO,
+    ...CLEAN_MOBILE_CARDS.delivery,
+  },
+];
+
 export default function OurServicesSection() {
   return (
     <section className="relative overflow-hidden bg-[#FEFBF6] py-14 sm:py-20 lg:py-24">
@@ -200,147 +186,12 @@ export default function OurServicesSection() {
           </p>
         </motion.div>
 
-        {/* Mobile — same composition shell as Pool Ride, Delivery content only */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="relative -mx-1 w-[calc(100%+0.5rem)] max-w-none sm:mx-auto sm:w-full sm:max-w-[420px] lg:hidden"
-        >
-          <Image
-            src="/images/taxi-stand/services/mobile/services-mobile-pool.png?v=7"
-            alt="Our delivery services — Same Day, Express, Scheduled, Business"
-            width={1242}
-            height={3168}
-            className="h-auto w-full select-none"
-            sizes="(max-width: 1024px) 100vw, 0px"
-            priority
-            unoptimized
-          />
+        <MobileServicesLayout
+          featured={<DeliveryCard variant="mobile" />}
+          cards={MOBILE_CARDS}
+        />
 
-          <MobileCardVideo
-            src={BUSINESS_VIDEO}
-            mask={MOBILE_BUSINESS_MASK}
-            left="3.543%"
-            top="29.987%"
-            width="44.525%"
-            height="36.269%"
-            icon="/images/delivery/treasure/icon-moneybag.png"
-            title="Business"
-            subtitle="Bulk & B2B"
-          />
-          <MobileCardVideo
-            src={SCHEDULED_VIDEO}
-            mask={MOBILE_SCHEDULED_MASK}
-            left="44.767%"
-            top="29.261%"
-            width="54.106%"
-            height="35.669%"
-            icon="/images/delivery/treasure/icon-pin.png"
-            title="Scheduled"
-            subtitle="Pick a slot"
-          />
-          <MobileCardVideo
-            src={EXPRESS_VIDEO}
-            mask={MOBILE_EXPRESS_MASK}
-            left="3.14%"
-            top="64.552%"
-            width="48.953%"
-            height="33.681%"
-            icon="/images/delivery/treasure/icon-box.png"
-            title="Express"
-            subtitle="Priority run"
-          />
-          <MobileCardVideo
-            src={SAME_DAY_VIDEO}
-            mask={MOBILE_SAME_DAY_MASK}
-            left="54.75%"
-            top="64.646%"
-            width="44.122%"
-            height="33.239%"
-            icon="/images/taxi-stand/services/icon-delivery.png"
-            title="Same Day"
-            subtitle="Today delivery"
-          />
-
-          {/* Delivery featured content on yellow shield */}
-          <div
-            className="pointer-events-none absolute left-0 top-0 z-20 flex w-full flex-col items-center px-[9%] pt-[7%] text-center font-poppins"
-            style={{ height: "38%" }}
-          >
-            <div className="mb-2.5 flex items-center justify-center gap-2">
-              <Image
-                src="/images/taxi-stand/services/icon-delivery.png"
-                alt=""
-                width={48}
-                height={48}
-                className="h-11 w-11 shrink-0 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)]"
-                priority
-              />
-              <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5">
-                <SparkleIcon />
-                <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#FCE001]">
-                  You Are Here
-                </span>
-              </div>
-            </div>
-
-            <h3 className="mb-1 text-[28px] font-extrabold leading-none tracking-[-0.03em] text-black sm:text-[30px]">
-              Delivery.
-            </h3>
-
-            <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
-              Fee-free parcel delivery from your door to theirs.
-              <br />
-              Track every step, live.
-            </p>
-
-            <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-[18%]">
-              {FEATURES.map((feature) => (
-                <li
-                  key={feature}
-                  className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black pl-1.5 pr-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.16)]"
-                >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
-                    <CheckIcon />
-                  </span>
-                  <span className="text-[11px] font-semibold leading-none text-white">
-                    {feature}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <Link
-            href="/delivery"
-            aria-label="Delivery"
-            className="absolute left-[3%] top-[2%] z-30 h-[36%] w-[94%]"
-          />
-          <Link
-            href="/delivery"
-            aria-label="Business Delivery"
-            className="absolute left-[2%] top-[39%] z-10 h-[25%] w-[47%]"
-          />
-          <Link
-            href="/delivery"
-            aria-label="Scheduled Delivery"
-            className="absolute left-[51%] top-[39%] z-10 h-[25%] w-[47%]"
-          />
-          <Link
-            href="/delivery"
-            aria-label="Express Delivery"
-            className="absolute left-[2%] top-[65%] z-10 h-[32%] w-[47%]"
-          />
-          <Link
-            href="/delivery"
-            aria-label="Same Day Delivery"
-            className="absolute left-[51%] top-[65%] z-10 h-[32%] w-[47%]"
-          />
-        </motion.div>
-
-        {/* Desktop */}
+        {/* Desktop unchanged */}
         <div className="mx-auto hidden w-full max-w-[1220px] items-stretch lg:flex">
           <div className="relative z-10 w-[38%] max-w-[480px] shrink-0 -mr-20 xl:max-w-[520px] xl:-mr-24">
             <DeliveryCard variant="desktop" />
