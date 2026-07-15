@@ -23,11 +23,11 @@ function AccentTitle({
   );
 }
 
-/** Single dashed orbit ring — matches reference (not multi solid rings) */
+/** Single dashed orbit ring — darker gold to match section screenshot */
 function DashedOrbit({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`pointer-events-none absolute rounded-full border border-dashed opacity-[0.22] ${className}`}
+      className={`pointer-events-none absolute rounded-full border border-dashed border-[#C4A84A]/70 ${className}`}
       aria-hidden="true"
     />
   );
@@ -75,13 +75,9 @@ export default function DeliveryTreasureSection() {
         }}
       />
 
-      {/* Dashed orbit behind hero — smaller, on the right side of the image */}
+      {/* Dashed orbit behind hero — smaller, right of image, raised so it isn’t hidden under the photo */}
       <div
-        className="pointer-events-none absolute left-[30%] top-[32%] hidden h-[240px] w-[240px] rounded-full border border-dashed border-[#E8D48A]/50 lg:block"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute -right-[4%] top-[42%] hidden h-[320px] w-[320px] rounded-full border border-dashed border-[#E8D48A]/40 lg:block"
+        className="pointer-events-none absolute left-[28%] top-[24%] z-[1] hidden h-[240px] w-[240px] rounded-full border border-dashed border-[#C4A84A]/80 lg:block"
         aria-hidden="true"
       />
 
@@ -194,7 +190,7 @@ export default function DeliveryTreasureSection() {
                 "linear-gradient(145deg, #FFE94D 0%, #FCE001 48%, #F5B800 100%)",
             }}
           >
-            <DashedOrbit className="-bottom-14 -right-14 h-48 w-48 border-[#0b0b0b]/25" />
+            <DashedOrbit className="-bottom-14 -right-14 h-48 w-48" />
             <div className="relative z-[1] mb-5 flex items-start justify-between gap-3">
               <Image
                 src="/images/delivery/treasure/icon-medal.png"
@@ -230,7 +226,6 @@ export default function DeliveryTreasureSection() {
                 "linear-gradient(160deg, #2A2A2A 0%, #141414 55%, #0B0B0B 100%)",
             }}
           >
-            <DashedOrbit className="-right-16 -top-16 h-52 w-52 border-white/25" />
             <div className="relative z-[1] flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
               <Image
                 src="/images/delivery/treasure/icon-moneybag.png"
@@ -293,7 +288,6 @@ export default function DeliveryTreasureSection() {
             delay={0.24}
             className="relative flex h-full min-h-[140px] items-center overflow-hidden rounded-[28px] bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.06)] sm:p-6 lg:col-start-2 lg:col-end-4 lg:row-start-3"
           >
-            <DashedOrbit className="-right-14 -top-14 h-48 w-48 border-[#0b0b0b]/18" />
             <div className="relative z-[1] flex w-full items-center gap-3 sm:gap-4">
               <div className="flex shrink-0 items-center">
                 {[
@@ -304,9 +298,9 @@ export default function DeliveryTreasureSection() {
                 ].map((src, i) => (
                   <div
                     key={src}
-                    className="relative h-[52px] w-[52px] shrink-0 sm:h-14 sm:w-14"
+                    className="relative h-16 w-16 shrink-0 sm:h-[68px] sm:w-[68px]"
                     style={{
-                      marginLeft: i === 0 ? 0 : -20,
+                      marginLeft: i === 0 ? 0 : -28,
                       zIndex: i + 1,
                     }}
                   >
@@ -314,7 +308,7 @@ export default function DeliveryTreasureSection() {
                       src={src}
                       alt=""
                       fill
-                      sizes="56px"
+                      sizes="68px"
                       className="object-contain"
                     />
                   </div>
