@@ -430,8 +430,8 @@ export default function ContactFormSection() {
             <div className="flex max-w-md flex-col gap-2.5 sm:gap-3">
               <ContactInfoCard
                 label="Address"
-                value="Islamabad, Pakistan"
-                href="https://maps.google.com/?q=Islamabad,+Pakistan"
+                value="Eagle Plaza, Blue Area, Islamabad"
+                href="https://www.google.com/maps/search/?api=1&query=Eagle%20Plaza%2C%20G%207%2F3%20Blue%20Area%2C%20Islamabad%2C%2046000%2C%20Pakistan"
                 icon={<PinIcon />}
               />
               <ContactInfoCard
