@@ -1,104 +1,172 @@
-// TripWeekend.jsx
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
+
+const features = [
+  "Go on a long trip with your friends and family.",
+  "Get a taxi that is just made for road trips.",
+  "Freedom from car servicing hassles.",
+  "Optimize travelling time.",
+];
+
+function CheckIcon() {
+  return (
+    <svg
+      className="h-3 w-3 text-black"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4.5 10.5 8 14l7.5-8" />
+    </svg>
+  );
+}
 
 export default function TripWeekend() {
   return (
-    <div className="bg-gradient-to-b from-[#fce001] to-[#fdb813] py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          
-          {/* Text Content */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
-            {/* Section Label */}
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2 mb-6">
-              <span className="w-2 h-2 bg-[#1a1a1a] rounded-full animate-pulse"></span>
-              <span className="text-white text-sm font-bold uppercase tracking-wider">Weekend Special</span>
-            </div>
+    <section className="relative w-full overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-24">
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            radial-gradient(ellipse 45% 40% at 92% 8%, rgba(252,224,1,0.22), transparent 65%),
+            radial-gradient(ellipse 40% 35% at 8% 90%, rgba(253,184,19,0.12), transparent 70%)
+          `,
+        }}
+      />
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-black text-[#1a1a1a] leading-tight mb-4">
-              Enjoy your weekend <br /><span className="text-white" >with</span> <br />
-              <span className="relative inline-block">
-                <span className="relative z-10">Travel partner</span>
-                <svg className="absolute -bottom-1 left-0 w-full h-2.5 text-white/60 -z-0" viewBox="0 0 100 8" preserveAspectRatio="none">
-                  <path d="M0 4 Q 50 8 100 4" stroke="currentColor" strokeWidth="6" fill="none" />
-                </svg>
-              </span>
-            </h2>
-            
-            <p className="text-[#1a1a1a]/80 text-base sm:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
-              Go on a long trip with your friends and family Get a Taxi That is Just
-              Made for Road Trips Freedom from Car Servicing Hassles Optimize Travelling Time
-            </p>
-
-            {/* Decorative Stats */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-8">
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                <div className="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#fce001]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-white font-bold text-sm">Group Trips</div>
-                  <div className="text-[#1a1a1a] text-xs">Perfect for friends</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                <div className="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-[#fce001]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-white font-bold text-sm">24/7 Service</div>
-                  <div className="text-[#1a1a1a] text-xs">Anytime, anywhere</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Image with decorative elements */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end relative group order-1 lg:order-2">
-            {/* Decorative background elements */}
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-            <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
-            
-            {/* Rotating decorative ring
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="absolute w-[90%] h-[90%] border-2 border-dashed border-white/30 rounded-full animate-spin" style={{ animationDuration: '20s' }}></div>
-              <div className="absolute w-[85%] h-[85%] border border-white/20 rounded-full" style={{ animation: 'spin 15s linear infinite reverse' }}></div>
-            </div> */}
-
-            <div className="relative transform transition-all duration-500 hover:scale-[1.02]">
-              <Image 
-                src="https://res.cloudinary.com/duubabjk7/image/upload/v1771314285/image_81_1_sqeawd.png" 
-                alt="Enjoy Weekend" 
-                width={600} 
-                height={400}
-                className="w-full h-auto max-w-lg drop-shadow-2xl relative z-10 rounded-2xl"
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 sm:px-6 lg:flex-row lg:items-center lg:gap-8 lg:px-8 xl:gap-12">
+          {/* Left: photo + trusted badge */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.5 }}
+            className="relative w-full max-w-[480px] lg:w-[48%] lg:max-w-none"
+          >
+            <div className="relative aspect-[764/788] w-full overflow-hidden rounded-[28px] sm:rounded-[32px] lg:rounded-[36px]">
+              <Image
+                src="/images/trip/weekend/weekend-photo.png"
+                alt="Friends enjoying a weekend road trip with Traveling Partner"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-center"
+                priority
               />
-              
-              {/* Floating badge */}
-              <div className="absolute -bottom-4 -right-4 bg-white rounded-xl p-3 shadow-xl border border-gray-100 z-20 hidden sm:block">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-[#1a1a1a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-gray-500 leading-none">Trusted by</div>
-                    <div className="text-xs font-bold text-[#1a1a1a] leading-none">10k+ Travelers</div>
-                  </div>
+            </div>
+
+            <div
+              className="absolute -left-3 -top-2 z-10 rounded-2xl bg-[#0b0b0b] px-4 py-3 shadow-[0_14px_36px_rgba(0,0,0,0.28)] sm:-left-4 sm:-top-3 sm:px-5 sm:py-3.5 lg:-left-5 lg:-top-4"
+              style={{ transform: "rotate(-3deg)" }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[11px]">
+                Trusted By
+              </p>
+              <p className="text-[16px] font-extrabold leading-tight text-white sm:text-[18px]">
+                10K + Travelers
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right: content */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="flex w-full max-w-xl flex-col lg:w-[52%] lg:max-w-none"
+          >
+            <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
+                Weekend Special
+              </span>
+            </div>
+
+            <h2 className="mb-6 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-7">
+              Enjoy Your{" "}
+              <span className="font-medium italic text-[#FCE001]">Weekend</span>{" "}
+              with Traveling Partner
+            </h2>
+
+            <div
+              className="mb-6 border-t border-dashed border-black/15 sm:mb-7"
+              aria-hidden="true"
+            />
+
+            <ul className="mb-6 flex flex-col gap-3.5 sm:mb-7 sm:gap-4">
+              {features.map((text, index) => (
+                <motion.li
+                  key={text}
+                  initial={{ opacity: 0, x: 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: 0.12 + index * 0.05 }}
+                  className="flex items-start gap-3"
+                >
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                    <CheckIcon />
+                  </span>
+                  <span className="text-[14px] leading-snug text-[#0b0b0b] sm:text-[15px]">
+                    {text}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
+
+            <div
+              className="mb-6 border-t border-dashed border-black/15 sm:mb-7"
+              aria-hidden="true"
+            />
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+              <div className="flex items-center gap-3 rounded-2xl border border-black bg-[#FCE001] px-3.5 py-3.5 shadow-[0_10px_28px_rgba(253,184,19,0.25)] sm:px-4 sm:py-4">
+                <div className="relative h-11 w-11 shrink-0 sm:h-12 sm:w-12">
+                  <Image
+                    src="/images/trip/weekend/icon-group.png"
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+                    Group Trips
+                  </p>
+                  <p className="text-[12px] text-[#0b0b0b]/75 sm:text-[13px]">
+                    Perfect for friends
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-2xl bg-white px-3.5 py-3.5 shadow-[0_10px_28px_rgba(11,11,11,0.06)] sm:px-4 sm:py-4">
+                <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl sm:h-12 sm:w-12">
+                  <Image
+                    src="/images/trip/weekend/icon-clock.png"
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+                    24/7 Service
+                  </p>
+                  <p className="text-[12px] text-[#5c5b55] sm:text-[13px]">
+                    Anytime, anywhere
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
