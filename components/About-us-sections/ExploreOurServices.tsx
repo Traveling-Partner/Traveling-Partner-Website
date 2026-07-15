@@ -2,7 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Service = {
   number: string;
@@ -12,21 +28,12 @@ type Service = {
   image: string;
   icon: string;
   href: string;
-  /** Exact Figma fan tilt */
   rotate: number;
-  /** Drop from peak (center = 0) — outer cards sit lower */
   drop: number;
   z: number;
-  /** Negative = tight overlap like Figma */
   pull: number;
 };
 
-/**
- * Positions measured from original Figma screenshot:
- * - Arc: center highest, outer lowest
- * - Angles: ~±10° outer, ~±5° inner, 0° center
- * - Tight overlap between cards
- */
 const services: Service[] = [
   {
     number: "01",
@@ -116,27 +123,49 @@ function ArrowIcon() {
 
 function ServiceCard({
   service,
-  index,
   compact,
+  cardRef,
 }: {
   service: Service;
-  index: number;
   compact?: boolean;
+  cardRef?: (el: HTMLDivElement | null) => void;
 }) {
   const rotate = compact ? service.rotate * 0.55 : service.rotate;
   const drop = compact ? 0 : service.drop;
+  const cardInnerRef = useRef<HTMLAnchorElement>(null);
+
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const springX = useSpring(mx, { stiffness: 220, damping: 22, mass: 0.4 });
+  const springY = useSpring(my, { stiffness: 220, damping: 22, mass: 0.4 });
+  const lift = useSpring(0, { stiffness: 280, damping: 24 });
+  const glowX = useTransform(springX, [-0.5, 0.5], [0, 100]);
+  const glowY = useTransform(springY, [-0.5, 0.5], [0, 100]);
+  const glowBg = useMotionTemplate`radial-gradient(420px circle at ${glowX}% ${glowY}%, rgba(252,224,1,0.18), transparent 55%)`;
+  const tiltX = useTransform(springY, [-0.5, 0.5], [5, -5]);
+  const tiltY = useTransform(springX, [-0.5, 0.5], [-6, 6]);
+  const imgX = useTransform(springX, [-0.5, 0.5], [-8, 8]);
+  const imgY = useTransform(springY, [-0.5, 0.5], [-6, 6]);
+
+  const onMove = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (compact) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    mx.set((e.clientX - rect.left) / rect.width - 0.5);
+    my.set((e.clientY - rect.top) / rect.height - 0.5);
+    lift.set(-14);
+  };
+
+  const onLeave = () => {
+    mx.set(0);
+    my.set(0);
+    lift.set(0);
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 56 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.65,
-        delay: 0.08 + index * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={`relative shrink-0 ${
+    <div
+      ref={cardRef}
+      data-service-card
+      className={`relative shrink-0 will-change-transform ${
         compact ? "w-[210px]" : "w-[176px] lg:w-[192px] xl:w-[208px]"
       }`}
       style={{
@@ -145,59 +174,76 @@ function ServiceCard({
         marginTop: drop,
       }}
     >
-      {/* Settle animation is relative — ends at 0 so final tilt = Figma angle on Link */}
       <motion.div
-        initial={{ rotate: -10 }}
-        whileInView={{ rotate: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{
-          duration: 0.75,
-          delay: 0.08 + index * 0.1,
-          ease: [0.22, 1, 0.36, 1],
+        style={{
+          y: lift,
+          rotateX: compact ? 0 : tiltX,
+          rotateY: compact ? 0 : tiltY,
+          transformPerspective: 900,
+          transformOrigin: "50% 100%",
         }}
-        style={{ transformOrigin: "50% 100%" }}
       >
         <Link
+          ref={cardInnerRef}
           href={service.href}
-          className="group relative block h-[292px] overflow-hidden rounded-[26px] shadow-[0_18px_42px_rgba(0,0,0,0.24)] lg:h-[312px] lg:rounded-[28px] xl:h-[330px]"
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          className="group relative block h-[292px] overflow-hidden rounded-[26px] shadow-[0_18px_42px_rgba(0,0,0,0.24)] transition-[box-shadow] duration-500 hover:shadow-[0_32px_64px_rgba(0,0,0,0.35)] lg:h-[312px] lg:rounded-[28px] xl:h-[330px]"
           style={{
             transform: `rotate(${rotate}deg)`,
             transformOrigin: "50% 100%",
           }}
         >
-          <Image
-            src={service.image}
-            alt=""
-            fill
-            sizes="208px"
-            className="object-cover object-center scale-[1.35]"
-            priority
-          />
+          <motion.div
+            className="absolute inset-0"
+            style={{ x: compact ? 0 : imgX, y: compact ? 0 : imgY }}
+          >
+            <Image
+              src={service.image}
+              alt=""
+              fill
+              sizes="208px"
+              className="object-cover object-center scale-[1.42] transition-transform duration-700 ease-out group-hover:scale-[1.5]"
+              priority
+            />
+          </motion.div>
 
           <div
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.22)_38%,rgba(0,0,0,0.78)_64%,#000_100%)]"
             aria-hidden="true"
           />
 
+          {!compact && (
+            <motion.div
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{ background: glowBg }}
+              aria-hidden="true"
+            />
+          )}
+
           <div className="relative z-10 flex h-full flex-col px-4 pb-4 pt-5 sm:px-[17px] sm:pb-[18px] sm:pt-5">
             <span
+              data-card-el="number"
               className="text-[32px] italic leading-none text-white lg:text-[36px]"
               style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif" }}
             >
               {service.number}
             </span>
 
-            <div className="mt-2.5 flex h-[42px] w-[42px] items-center justify-center overflow-hidden rounded-[11px] bg-[#FEFBF6] lg:mt-3 lg:h-[46px] lg:w-[46px] lg:rounded-[12px]">
+            <div
+              data-card-el="icon"
+              className="mt-2.5 flex h-[42px] w-[42px] items-center justify-center overflow-hidden rounded-[11px] bg-[#FEFBF6] lg:mt-3 lg:h-[46px] lg:w-[46px] lg:rounded-[12px]"
+            >
               <Image
                 src={service.icon}
                 alt=""
                 width={46}
                 height={46}
-                className="h-[130%] w-[130%] max-w-none object-cover"
+                className="h-[130%] w-[130%] max-w-none object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]"
               />
             </div>
 
-            <div className="mt-auto">
+            <div className="mt-auto" data-card-el="copy">
               <h3 className="font-poppins text-[16px] font-bold leading-none text-white lg:text-[17px]">
                 {service.title}
               </h3>
@@ -210,26 +256,114 @@ function ServiceCard({
                 {service.description}
               </p>
 
-              <span className="mt-3.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c1c] text-white ring-1 ring-white/20 transition-colors group-hover:bg-[#FCE001] group-hover:text-black">
+              <span
+                data-card-el="cta"
+                className="mt-3.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c1c] text-white ring-1 ring-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FCE001] group-hover:text-black"
+              >
                 <ArrowIcon />
               </span>
             </div>
           </div>
         </Link>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
+/**
+ * Explore Our Services — Figma fan + award-style GSAP unfold.
+ */
 export default function ExploreOurServices() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const fanRef = useRef<HTMLDivElement>(null);
+  const cardEls = useRef<(HTMLDivElement | null)[]>([]);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const cards = cardEls.current.filter(Boolean) as HTMLDivElement[];
+    if (!cards.length || !fanRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Center-out fan unfold — cards deal from a stacked blur into final Figma poses
+      gsap.set(cards, {
+        opacity: 0,
+        y: 90,
+        scale: 0.72,
+        rotate: (i) => (i - 2) * -18,
+        filter: "blur(18px)",
+        transformOrigin: "50% 100%",
+      });
+
+      cards.forEach((card) => {
+        gsap.set(card.querySelectorAll("[data-card-el]"), {
+          opacity: 0,
+          y: 18,
+        });
+      });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out" },
+        scrollTrigger: {
+          trigger: fanRef.current,
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      tl.to(cards, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotate: 0,
+        filter: "blur(0px)",
+        duration: 1.45,
+        stagger: {
+          each: 0.11,
+          from: "center",
+        },
+        ease: "elastic.out(1, 0.72)",
+      });
+
+      // Inner content cascade after each card lands
+      cards.forEach((card, i) => {
+        const els = card.querySelectorAll("[data-card-el]");
+        tl.to(
+          els,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.06,
+            ease: "power3.out",
+          },
+          0.35 + Math.abs(i - 2) * 0.11
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [reducedMotion]);
+
   return (
-    <section className="relative w-full overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-[100px]">
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-[100px]"
+    >
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 18, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 lg:mb-14"
         >
           <div className="mb-5 inline-flex items-center rounded-full bg-[#ECE7DB] px-4 py-1.5 sm:mb-6">
@@ -249,23 +383,28 @@ export default function ExploreOurServices() {
           </p>
         </motion.div>
 
-        {/* Desktop fan — Figma arc (center peak, outer lower) */}
+        {/* Desktop fan */}
         <div className="relative mx-auto hidden justify-center overflow-visible pt-2 md:flex lg:pt-4">
-          <div className="flex items-start justify-center pb-6 pl-10 pr-6 lg:pb-8 lg:pl-12">
+          <div
+            ref={fanRef}
+            className="flex items-start justify-center pb-6 pl-10 pr-6 [perspective:1200px] lg:pb-8 lg:pl-12"
+          >
             {services.map((service, i) => (
-              <ServiceCard key={service.number} service={service} index={i} />
+              <ServiceCard
+                key={service.number}
+                service={service}
+                cardRef={(el) => {
+                  cardEls.current[i] = el;
+                }}
+              />
             ))}
           </div>
         </div>
 
+        {/* Mobile */}
         <div className="-mx-4 flex items-end gap-3 overflow-x-auto px-4 pb-4 pt-2 [-ms-overflow-style:none] [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
-          {services.map((service, i) => (
-            <ServiceCard
-              key={service.number}
-              service={service}
-              index={i}
-              compact
-            />
+          {services.map((service) => (
+            <ServiceCard key={service.number} service={service} compact />
           ))}
         </div>
       </div>
