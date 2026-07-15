@@ -126,7 +126,7 @@ export default function TripHero() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-center lg:gap-6 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-8 xl:pb-24 xl:pt-[140px]">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-14 pt-[100px] sm:px-6 md:pb-16 md:pt-[120px] lg:flex-row lg:items-start lg:gap-6 lg:px-8 lg:pb-20 lg:pt-[130px] xl:gap-8 xl:pb-24 xl:pt-[140px]">
         {/* Left content */}
         <div className="w-full max-w-xl lg:max-w-[420px] lg:shrink-0">
           <div
@@ -215,14 +215,14 @@ export default function TripHero() {
               aria-hidden="true"
             />
 
-            <div className="relative aspect-[5/4] w-full sm:aspect-[3/2] lg:aspect-[8/5]">
+            <div className="relative aspect-square w-full sm:aspect-[5/4]">
               <Image
                 src="/images/trip/hero-suv.png"
                 alt="Traveling Partner trip SUV"
                 fill
                 priority
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 620px"
-                className="object-contain object-center scale-[0.92] drop-shadow-[0_28px_40px_rgba(0,0,0,0.16)]"
+                className="object-contain object-center drop-shadow-[0_28px_40px_rgba(0,0,0,0.16)]"
               />
             </div>
 
