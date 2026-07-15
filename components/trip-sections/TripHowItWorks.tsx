@@ -1,95 +1,173 @@
-// TripHowItWorks.jsx
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
-interface Step {
-  icon: string;
-  title: string;
+type Step = {
+  number: string;
+  image: string;
+  imageAlt: string;
+  title: ReactNode;
   description: string;
-}
-
-interface StepCardProps {
-  title: string;
-  icon: string;
-  description: string;
-  index: number;
-}
+  featured?: boolean;
+};
 
 const steps: Step[] = [
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Carpool_edmkbm.png",
-    title: "Book a Ride",
-    description: "Initiate your journey by booking a ride through Traveling Partner. Whether it's a family outing, a trip with friends, or a school excursion, easily connect with reliable trip drivers on our platform."
+    number: "01",
+    image: "/images/trip/how-it-works/step-book.png",
+    imageAlt: "Woman booking a trip on her phone",
+    title: (
+      <>
+        Book a{" "}
+        <span className="font-medium italic text-[#FCE001]">Ride.</span>
+      </>
+    ),
+    description:
+      "Initiate your journey by booking a ride through Traveling Partner. Connect with reliable trip drivers in a few taps.",
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253511/tp-Imgs/Taxi-stand-img/Track_your_cab_aixhyc.png",
-    title: "Track Your Vehicle",
-    description: "Enjoy peace of mind during your trip with real-time vehicle tracking. Our user-friendly app allows you to monitor your vehicle's location, ensuring transparency and security throughout the journey."
+    number: "02",
+    image: "/images/trip/how-it-works/step-track.png",
+    imageAlt: "Traveler tracking vehicle on phone",
+    title: (
+      <>
+        Track Your{" "}
+        <span className="font-medium italic">Vehicle.</span>
+      </>
+    ),
+    description:
+      "Enjoy peace of mind with real-time vehicle tracking. Monitor your ride’s location for full transparency.",
+    featured: true,
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314258/Arrive_safely_wp1cvl.png",
-    title: "Arrive safely",
-    description: "With Traveling Partner, safety is a shared responsibility. Arrive at your destination with the flexibility of self-negotiable arrangements, as our commission-free app empowers users to manage their travel experience independently."
-  }
+    number: "03",
+    image: "/images/trip/how-it-works/step-arrive.png",
+    imageAlt: "Friends arriving safely on a mountain road trip",
+    title: (
+      <>
+        Arrive{" "}
+        <span className="font-medium italic text-[#FCE001]">Safely.</span>
+      </>
+    ),
+    description:
+      "Arrive at your destination with confidence — flexible, commission-free travel managed on your terms.",
+  },
 ];
 
-const StepCard = ({ title, icon, description, index }: StepCardProps) => (
-  <div className="group relative w-full p-5 justify-center shadow-[0_4px_8px_0_rgba(0,0,0,0.2),0_6px_20px_0_rgba(0,0,0,0.19)] min-h-[300px] flex flex-col items-center hover:shadow-[0_8px_16px_0_rgba(0,0,0,0.3)] transition-all duration-500 bg-white rounded-2xl border border-gray-100 overflow-hidden max-md:w-[90%] max-md:p-10 max-md:min-h-0">
-    <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/5 to-[#fdb813]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    <div className={`absolute ${index % 2 === 0 ? 'top-0 right-0' : 'bottom-0 left-0'} w-32 h-32 bg-gradient-to-br from-[#fce001]/10 to-transparent rounded-full blur-2xl transform ${index % 2 === 0 ? 'translate-x-16 -translate-y-16' : '-translate-x-16 translate-y-16'} group-hover:scale-150 transition-transform duration-700`}></div>
+function StepBadge({ number, dark }: { number: string; dark?: boolean }) {
+  return (
+    <div className="absolute left-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-white py-0.5 pl-0.5 pr-2 shadow-[0_6px_16px_rgba(0,0,0,0.12)] sm:left-3.5 sm:top-3.5 sm:gap-1.5 sm:pr-2.5">
+      <span
+        className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-extrabold sm:h-[22px] sm:w-[22px] sm:text-[11px] ${
+          dark ? "bg-[#0b0b0b] text-[#FCE001]" : "bg-[#FCE001] text-[#0b0b0b]"
+        }`}
+      >
+        {number}
+      </span>
+      <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#0b0b0b] sm:text-[10px]">
+        Step
+      </span>
+    </div>
+  );
+}
 
-    <div className="relative z-10 flex flex-col items-center text-center">
-      <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+function StepCard({ step, delay }: { step: Step; delay: number }) {
+  const featured = Boolean(step.featured);
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, delay }}
+      className={`flex h-full flex-col overflow-hidden rounded-[28px] sm:rounded-[32px] ${
+        featured
+          ? "border border-black/10 bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_18px_40px_rgba(253,184,19,0.28)]"
+          : "bg-white shadow-[0_14px_36px_rgba(11,11,11,0.07)]"
+      }`}
+    >
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden sm:aspect-[5/3]">
         <Image
-          src={icon}
-          alt={title}
-          width={60}
-          height={60}
-          className="w-12 h-12 object-contain drop-shadow-sm"
+          src={step.image}
+          alt={step.imageAlt}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-cover object-center"
         />
+        <StepBadge number={step.number} dark={featured} />
       </div>
 
-      <span className="text-xl font-semibold text-black uppercase tracking-wide mb-2">{title}</span>
-      <p className="text-base font-normal text-black leading-relaxed">{description}</p>
-      <div className="mt-4 w-full h-1 bg-gradient-to-r from-transparent via-[#fce001] to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-    </div>
-  </div>
-);
+      <div className="flex flex-1 flex-col px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-5 lg:px-7 lg:pb-8">
+        <h3
+          className={`mb-2.5 font-poppins text-[20px] font-extrabold leading-tight tracking-tight sm:mb-3 sm:text-[22px] lg:text-[24px] ${
+            featured ? "text-[#0b0b0b]" : "text-[#0b0b0b]"
+          }`}
+        >
+          {step.title}
+        </h3>
+        <p
+          className={`text-[13px] leading-[1.55] sm:text-[14px] sm:leading-[1.6] ${
+            featured ? "text-[#0b0b0b]/75" : "text-[#5c5b55]"
+          }`}
+        >
+          {step.description}
+        </p>
+      </div>
+    </motion.article>
+  );
+}
 
 export default function TripHowItWorks() {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    <section className="relative w-full overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-24">
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            radial-gradient(ellipse 45% 40% at 50% 0%, rgba(252,224,1,0.18), transparent 65%),
+            radial-gradient(ellipse 35% 30% at 92% 80%, rgba(253,184,19,0.10), transparent 70%)
+          `,
+        }}
+      />
 
-      <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-0">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
-            <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" />
-            </svg>
-            <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">Easy Process</span>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 lg:mb-14"
+        >
+          <div className="mb-5 inline-flex items-center rounded-full bg-[#F3EBD2] px-4 py-1.5 sm:mb-6">
+            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
+              Easy Process
+            </span>
           </div>
 
-          <h1 className="uppercase text-[50px] font-bold text-[#1a1a1a] max-md:text-[30px] max-md:p-4">
-            How its <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">work</span>
-          </h1>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-full mx-auto mt-4"></div>
-        </div>
+          <h2 className="mb-4 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
+            How It{" "}
+            <span className="font-medium italic text-[#FCE001]">Works.</span>
+          </h2>
 
-        <div className="w-[90%] flex justify-center gap-10 mx-auto max-md:flex-col max-md:w-[95%] max-md:gap-10">
-          <div className="w-[30%] flex flex-col gap-10 items-center max-md:w-full max-md:gap-10">
-            <StepCard {...steps[0]} index={0} />
-          </div>
-          <div className="w-[30%] flex flex-col gap-10 items-center mt-10 max-md:w-full max-md:mt-0 max-md:gap-10">
-            <StepCard {...steps[1]} index={1} />
-          </div>
-          <div className="w-[30%] flex flex-col gap-10 items-center max-md:w-full max-md:gap-10">
-            <StepCard {...steps[2]} index={2} />
-          </div>
+          <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">
+            Three simple steps between planning your trip and arriving at your
+            destination — no hassle, no commission.
+          </p>
+        </motion.div>
+
+        <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3 lg:gap-6">
+          {steps.map((step, index) => (
+            <StepCard
+              key={step.number}
+              step={step}
+              delay={0.08 + index * 0.07}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
