@@ -120,25 +120,27 @@ export default function DeliveryTreasureSection() {
           {/* Hero image — photo fills card; no white/colored box behind */}
           <FeatureCardShell
             delay={0.04}
-            className="relative h-full min-h-[360px] w-full overflow-hidden rounded-[28px] bg-transparent shadow-[0_12px_36px_rgba(0,0,0,0.08)] sm:min-h-[420px] lg:col-start-1 lg:row-start-1 lg:row-end-3 lg:min-h-0 lg:self-stretch"
+            className="relative h-full min-h-[360px] w-full overflow-visible rounded-[28px] bg-transparent sm:min-h-[420px] lg:col-start-1 lg:row-start-1 lg:row-end-3 lg:min-h-0 lg:self-stretch"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/delivery/treasure/hero-delivery.png"
-              alt="Courier delivering a package to a customer"
-              className="absolute inset-0 h-full w-full max-w-none scale-[1.42] object-cover object-center"
-            />
+            <div className="absolute inset-0 overflow-hidden rounded-[28px] shadow-[0_12px_36px_rgba(0,0,0,0.08)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/delivery/treasure/hero-delivery.png"
+                alt="Courier delivering a package to a customer"
+                className="absolute inset-0 h-full w-full max-w-none scale-[1.42] object-cover object-center"
+              />
 
-            {/* TP · DELIVERY badge */}
-            <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full border border-[#FCE001]/70 bg-[#0b0b0b] px-3 py-1.5 sm:left-5 sm:top-5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[10px]">
-                TP · Delivery
-              </span>
+              {/* TP · DELIVERY badge */}
+              <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full border border-[#FCE001]/70 bg-[#0b0b0b] px-3 py-1.5 sm:left-5 sm:top-5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[10px]">
+                  TP · Delivery
+                </span>
+              </div>
             </div>
 
-            {/* Safe Delivery float */}
-            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:bottom-5 sm:right-5 sm:px-3.5 sm:py-3">
+            {/* Safe Delivery — bottom-right, slightly outside the image */}
+            <div className="absolute -bottom-3 -right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
               <Image
                 src="/images/delivery/treasure/icon-box.png"
                 alt=""
