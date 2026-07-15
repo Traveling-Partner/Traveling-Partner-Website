@@ -53,6 +53,7 @@ export default function Navigation() {
     "/logistic",
     "/trip",
     "/about",
+    "/contact",
   ];
   const isOverlayHeroPage =
     isHome ||
