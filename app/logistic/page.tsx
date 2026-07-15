@@ -9,10 +9,10 @@ export default function Logistics() {
   return (
     <div>
       <LogisticsHero />
-      <OurServicesSection />
       <LogisticsBenefitsSection />
       <LogisticsFasterSaferSection />
       <LogisticsServices />
+      <OurServicesSection />
     </div>
   );
 }
