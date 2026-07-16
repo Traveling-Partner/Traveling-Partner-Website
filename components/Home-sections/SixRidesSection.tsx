@@ -163,23 +163,14 @@ function WaveDivider() {
   );
 }
 
-function FeaturePill({ label, index }: { label: string; index: number }) {
+function FeaturePill({ label }: { label: string }) {
   return (
-    <motion.span
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: DURATION,
-        ease: EASE_OUT,
-        delay: 0.08 + index * 0.05,
-      }}
-      className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold text-white sm:px-4 sm:py-3 sm:text-[13px]"
-    >
+    <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold text-white sm:px-4 sm:py-3 sm:text-[13px]">
       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
       </span>
       {label}
-    </motion.span>
+    </span>
   );
 }
 
@@ -188,68 +179,48 @@ function DetailPanel({ ride }: { ride: RideItem }) {
     <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:p-8">
       <WaveDivider />
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={ride.id}
-          className="relative z-[1] flex flex-1 flex-col"
-          initial={{ opacity: 0, y: 14, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: -10, filter: "blur(3px)" }}
-          transition={{ duration: DURATION_SLOW, ease: EASE_IO }}
-        >
+      {/* Stacked crossfade — Figma Smart Animate style (opacity only, in place) */}
+      <div className="relative z-[1] grid flex-1">
+        <AnimatePresence initial={false}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.04 }}
+            key={ride.id}
+            className="col-start-1 row-start-1 flex h-full flex-col"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE_IO }}
           >
             <Link
               href={ride.href}
               className="mb-5 inline-flex h-20 w-20 items-center justify-center overflow-hidden rounded-[20px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] sm:mb-6 sm:h-24 sm:w-24 sm:rounded-[24px] lg:h-28 lg:w-28 lg:rounded-[28px]"
               aria-label={`Go to ${ride.title}`}
             >
-              <motion.span
-                className="flex h-full w-full items-center justify-center"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ duration: DURATION_FAST, ease: EASE_OUT }}
-              >
-                <Image
-                  src={ride.panelIcon}
-                  alt=""
-                  width={112}
-                  height={112}
-                  className="h-[70%] w-[70%] object-contain"
-                  unoptimized
-                />
-              </motion.span>
+              <Image
+                src={ride.panelIcon}
+                alt=""
+                width={112}
+                height={112}
+                className="h-[70%] w-[70%] object-contain"
+                unoptimized
+              />
             </Link>
+
+            <h3 className="font-poppins text-[32px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b] sm:text-[40px] lg:text-[48px]">
+              {ride.titleWithPeriod}
+            </h3>
+
+            <p className="mt-3 max-w-[380px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3.5 sm:text-[15px] lg:text-[16px]">
+              {ride.panelDescription}
+            </p>
+
+            <div className="mt-5 flex flex-col items-start gap-2.5 sm:mt-6 sm:gap-3 lg:mt-auto lg:justify-end lg:gap-3.5 lg:pt-6">
+              {ride.features.map((feature) => (
+                <FeaturePill key={feature} label={feature} />
+              ))}
+            </div>
           </motion.div>
-
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.06 }}
-            className="font-poppins text-[32px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b] sm:text-[40px] lg:text-[48px]"
-          >
-            {ride.titleWithPeriod}
-          </motion.h3>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.1 }}
-            className="mt-3 max-w-[380px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3.5 sm:text-[15px] lg:text-[16px]"
-          >
-            {ride.panelDescription}
-          </motion.p>
-
-          <div className="mt-5 flex flex-col items-start gap-2.5 sm:mt-6 sm:gap-3 lg:mt-auto lg:justify-end lg:gap-3.5 lg:pt-6">
-            {ride.features.map((feature, i) => (
-              <FeaturePill key={feature} label={feature} index={i} />
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
