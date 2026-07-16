@@ -4,11 +4,13 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { FaFacebook, FaLinkedin, FaLink } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import BlogCard, { type BlogCardData } from "@/components/Blog-sections/BlogCard";
-import BlogDetailSidebar, {
+import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
+import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
+import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
+import {
   extractHeadingsFromHtml,
-  injectContentHeadingIds,
-} from "@/components/Blog-sections/BlogDetailSidebar";
+  normalizeBlogContentHtml,
+} from "@/lib/blogDetailContent";
 
 type ShareLinks = Record<string, string>;
 
@@ -65,27 +67,6 @@ function VerticalShareButton({
   );
 }
 
-function enhanceContentHtml(html: string): string {
-  if (!html) return html;
-
-  const accentPattern = /(travell?ing partner|TP driver|\bTP\b)/gi;
-
-  const withHeadingAccents = html.replace(
-    /<(h[23])([^>]*)>([\s\S]*?)<\/\1>/gi,
-    (_match, tag: string, attrs: string, inner: string) => {
-      const stripped = inner.replace(/<[^>]+>/g, "");
-      const enhanced = stripped.replace(
-        accentPattern,
-        '<em class="blog-accent">$1</em>'
-      );
-      if (enhanced === stripped) return `<${tag}${attrs}>${inner}</${tag}>`;
-      return `<${tag}${attrs}>${enhanced}</${tag}>`;
-    }
-  );
-
-  return withHeadingAccents;
-}
-
 export default function BlogDetailBody({
   coverImage,
   title,
@@ -103,10 +84,9 @@ export default function BlogDetailBody({
   readersCount,
   getImageSrc,
 }: BlogDetailBodyProps) {
-  const tocItems = extractHeadingsFromHtml(description2 ?? "");
-  const contentHtml = enhanceContentHtml(
-    injectContentHeadingIds(description2 ?? "", tocItems)
-  );
+  const normalizedHtml = normalizeBlogContentHtml(description2 ?? "");
+  const tocItems = extractHeadingsFromHtml(normalizedHtml);
+  const contentHtml = normalizedHtml;
 
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-4 sm:pb-16">
@@ -237,19 +217,7 @@ export default function BlogDetailBody({
           />
         </div>
 
-        {relatedBlogs.length > 0 ? (
-          <div className="mt-16 sm:mt-20">
-            <h2 className="mb-8 font-poppins text-[clamp(24px,3vw,32px)] font-extrabold text-[#0b0b0b] sm:mb-10">
-              Related{" "}
-              <span className="font-medium italic text-[#FCE001]">stories.</span>
-            </h2>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-              {relatedBlogs.map((blog) => (
-                <BlogCard key={blog.id} blog={blog} getImageSrc={getImageSrc} />
-              ))}
-            </div>
-          </div>
-        ) : null}
+        <RelatedStoriesSection blogs={relatedBlogs} getImageSrc={getImageSrc} />
       </div>
     </section>
   );
