@@ -1,30 +1,33 @@
 import React from "react";
-import {
-  BookOpen,
-  Database,
-  Sparkles,
-  Lock,
-  Share2,
-  Settings,
-  FileText,
-  HelpCircle,
-} from "lucide-react";
 
 export interface PrivacySection {
   id: number;
   slug: string;
-  icon: React.ElementType;
   title: string;
   content: React.ReactNode;
 }
 
-const body = "text-gray-600 text-sm sm:text-base leading-relaxed";
+const body = "text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+
+function CalloutCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+      <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">{label}</p>
+      <p className={body}>{children}</p>
+    </div>
+  );
+}
 
 export const privacySections: PrivacySection[] = [
   {
     id: 1,
     slug: "introduction",
-    icon: BookOpen,
     title: "Introduction",
     content: (
       <p className={body}>
@@ -40,51 +43,48 @@ export const privacySections: PrivacySection[] = [
   {
     id: 2,
     slug: "information-we-collect",
-    icon: Database,
     title: "Information We Collect",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <p className={body}>
           To deliver a personalized and efficient experience, we collect various types
           of information:
         </p>
-        <p className={body}>
-          Personal Information: This encompasses your name, contact details, and, if
-          required, identification documents to comply with local regulations.
-        </p>
-        <p className={body}>
-          Location Data: We rely on your location to match you swiftly with nearby ride
-          requests, facilitating convenience for Partners and helping Drivers optimize
-          routes. You have the option to disable location tracking but bear in mind
-          that this may affect certain functionalities.
-        </p>
+        <CalloutCard label="Personal Information">
+          This encompasses your name, contact details, and, if required, identification
+          documents to comply with local regulations.
+        </CalloutCard>
+        <CalloutCard label="Location Data">
+          We rely on your location to match you swiftly with nearby ride requests,
+          facilitating convenience for Partners and helping Drivers optimize routes. You
+          have the option to disable location tracking but bear in mind that this may
+          affect certain functionalities.
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 3,
     slug: "how-we-use",
-    icon: Sparkles,
     title: "How We Use Your Information",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <p className={body}>
           Your data plays a pivotal role in enhancing your Traveling Partner
           experience:
         </p>
-        <p className={body}>
-          Connecting Individuals, Empowering Collaboration: Our aim is to gather people
-          of the same destination, Therefore, they may lend a hand to each other. As
-          the app is commission-free, users may operate with more courage, fostering
-          collaboration and mutual support among our community of travelers.
-        </p>
+        <CalloutCard label="Connecting Individuals, Empowering Collaboration">
+          Our aim is to gather people of the same destination, Therefore, they may lend
+          a hand to each other. As the app is commission-free, users may operate with
+          more courage, fostering collaboration and mutual support among our community
+          of travelers.
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 4,
     slug: "data-security",
-    icon: Lock,
     title: "Data Security",
     content: (
       <p className={body}>
@@ -98,43 +98,39 @@ export const privacySections: PrivacySection[] = [
   {
     id: 5,
     slug: "data-sharing",
-    icon: Share2,
     title: "Data Sharing",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <p className={body}>
           To provide you with a seamless experience, we may share your information with
           specific parties:
         </p>
-        <p className={body}>
-          Fostering Connectivity: Our platform encourages sharing information between
-          users, fostering collaboration and support among the community, keeping in
-          line with our aim to unite people of the same destination.
-        </p>
+        <CalloutCard label="Fostering Connectivity">
+          Our platform encourages sharing information between users, fostering
+          collaboration and support among the community, keeping in line with our aim to
+          unite people of the same destination.
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 6,
     slug: "your-choices",
-    icon: Settings,
     title: "Your Choices",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <p className={body}>Your control is paramount:</p>
-        <p className={body}>
-          Empowering Decisions: Users have the power to manage their personal
-          information and enable or disable location tracking as per their
-          preferences, encouraging a collaborative and supportive environment among
-          travelers.
-        </p>
+        <CalloutCard label="Empowering Decisions">
+          Users have the power to manage their personal information and enable or
+          disable location tracking as per their preferences, encouraging a
+          collaborative and supportive environment among travelers.
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 7,
     slug: "changes",
-    icon: FileText,
     title: "Changes to this Policy",
     content: (
       <p className={body}>
@@ -148,26 +144,63 @@ export const privacySections: PrivacySection[] = [
   {
     id: 8,
     slug: "contact-us",
-    icon: HelpCircle,
     title: "Contact Us",
-    content: (
-      <div className="space-y-4">
-        <p className={body}>Your feedback and questions are invaluable:</p>
-        <p className={body}>
-          If you have any concerns or inquiries regarding our Privacy Policy or data
-          practices, don&apos;t hesitate to reach out to us at (Contact Information).
-        </p>
-        <p className={body}>
-          At Traveling Partner, we are dedicated to simplifying transportation, ensuring
-          it is cost-effective, convenient, and secure for both Drivers and Partners.
-          We appreciate your choice to make us your preferred travel companion. What
-          sets us apart are two key features: First, our app operates on a
-          commission-free model, giving users more independence and courage in their
-          engagements. Second, Traveling Partner aims to foster a collaborative
-          environment where individuals can support and collaborate for mutual
-          benefit.
-        </p>
-      </div>
-    ),
+    content: null,
   },
 ];
+
+export const privacyNavItems = [
+  { slug: "introduction", label: "Introduction", id: 1 },
+  { slug: "information-we-collect", label: "Information We Collect", id: 2 },
+  { slug: "how-we-use", label: "How We Use Your Information", id: 3 },
+  { slug: "data-security", label: "Data Security", id: 4 },
+  { slug: "data-sharing", label: "Data Sharing", id: 5 },
+  { slug: "your-choices", label: "Your Choices", id: 6 },
+  { slug: "changes", label: "Changes to this Policy", id: 7 },
+  { slug: "contact-us", label: "Contact Us", id: 8 },
+] as const;
+
+export const privacyOverviewCards = [
+  {
+    icon: "/images/privacy/icon-overview-data.png",
+    title: "Data we collect",
+    description: "Personal details and location data used to power your trips.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-people.png",
+    title: "How we use your data",
+    description: "Connecting travelers and improving the Traveling Partner experience.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-security.png",
+    title: "Data security",
+    description: "Industry-standard measures to keep your information protected.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-mailbox.png",
+    title: "Changes to this Policy",
+    description: "We notify you when our privacy practices are updated.",
+  },
+] as const;
+
+export const privacyClosingCard = {
+  paragraph1: (
+    <>
+      At <strong className="font-bold text-[#0b0b0b]">Traveling Partner</strong>, we
+      are dedicated to simplifying transportation, ensuring it is cost-effective,
+      convenient, and secure for both Drivers and Partners. We appreciate your choice
+      to make us your preferred travel companion.
+    </>
+  ),
+  paragraph2: (
+    <>
+      <strong className="font-bold text-[#0b0b0b]">What sets us apart</strong> are two
+      key features: our app operates on a{" "}
+      <strong className="font-bold text-[#0b0b0b]">commission-free model</strong>,
+      giving users more independence and courage in their engagements. And Traveling
+      Partner aims to foster a{" "}
+      <strong className="font-bold text-[#0b0b0b]">collaborative environment</strong>{" "}
+      where individuals can support and collaborate for mutual benefit.
+    </>
+  ),
+};

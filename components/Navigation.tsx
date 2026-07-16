@@ -56,6 +56,7 @@ export default function Navigation() {
     "/contact",
     "/help",
     "/terms-conditions",
+    "/privacy-policy",
   ];
   const isOverlayHeroPage =
     isHome ||
