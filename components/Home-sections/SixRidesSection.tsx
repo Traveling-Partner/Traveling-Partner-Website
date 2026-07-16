@@ -341,15 +341,8 @@ export default function SixRidesSection(): React.ReactElement {
             id="six-rides-heading"
             className="font-poppins text-[clamp(28px,4.2vw,48px)] font-bold leading-[1.08] tracking-[-0.03em]"
           >
-<<<<<<< Updated upstream
-            <span className="text-[#0b0b0b]">five rides.</span>{" "}
-            <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent">
-              One promise.
-            </span>
-=======
             <span className="text-[#6f6e68]">Five rides.</span>{" "}
             <span className="text-[#FCE001]">One promise.</span>
->>>>>>> Stashed changes
           </h2>
           <p className="mx-auto mt-4 max-w-[560px] font-poppins text-[14px] font-normal leading-[1.6] text-[#9a968c] sm:text-[15px]">
             From daily commutes to enterprise logistics — every category, zero
