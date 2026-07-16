@@ -141,25 +141,56 @@ function PlusIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function WaveDivider() {
+function PanelBackground() {
   return (
-    <svg
-      className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[18%] lg:block"
-      viewBox="0 0 120 560"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M48 0C72 70 18 140 48 210C78 280 18 350 48 420C78 490 40 530 48 560L120 560L120 0Z"
-        fill="#111111"
-      />
-      <path
-        d="M48 0C72 70 18 140 48 210C78 280 18 350 48 420C78 490 40 530 48 560"
-        fill="none"
-        stroke="rgba(255,255,255,0.06)"
-        strokeWidth="1.5"
-      />
-    </svg>
+    <>
+      {/* Mobile: solid split handled by panel fills. Desktop: unified curved shape. */}
+      <svg
+        className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full lg:block"
+        viewBox="0 0 1000 640"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {/* Yellow left — double-scallop B-curve with sharp center cusp (ref screenshot) */}
+        <path
+          d="M0 0
+             H415
+             C470 0 510 55 505 145
+             C500 210 430 265 405 320
+             C430 375 500 430 505 495
+             C510 585 470 640 415 640
+             H0
+             Z"
+          fill="#FCE001"
+        />
+        {/* Soft depth on yellow (screenshot lighting) */}
+        <path
+          d="M0 0
+             H415
+             C470 0 510 55 505 145
+             C500 210 430 265 405 320
+             C430 375 500 430 505 495
+             C510 585 470 640 415 640
+             H0
+             Z"
+          fill="url(#five-rides-yellow-glow)"
+        />
+        <defs>
+          <radialGradient
+            id="five-rides-yellow-glow"
+            cx="18%"
+            cy="22%"
+            r="70%"
+            fx="12%"
+            fy="12%"
+          >
+            <stop offset="0%" stopColor="#fff6a8" stopOpacity="0.45" />
+            <stop offset="55%" stopColor="#FCE001" stopOpacity="0" />
+            <stop offset="100%" stopColor="#FDB813" stopOpacity="0.18" />
+          </radialGradient>
+        </defs>
+      </svg>
+    </>
   );
 }
 
@@ -176,9 +207,7 @@ function FeaturePill({ label }: { label: string }) {
 
 function DetailPanel({ ride }: { ride: RideItem }) {
   return (
-    <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:p-8">
-      <WaveDivider />
-
+    <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:bg-transparent lg:p-8">
       {/* Stacked crossfade — Figma Smart Animate style (opacity only, in place) */}
       <div className="relative z-[1] grid flex-1">
         <AnimatePresence initial={false}>
@@ -372,7 +401,7 @@ function RideList({
 }) {
   return (
     <nav
-      className="relative flex h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:rounded-r-[40px] lg:px-5 lg:py-6"
+      className="relative z-[1] flex h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:rounded-r-[40px] lg:bg-[#0b0b0b] lg:px-5 lg:py-6"
       aria-label="Ride categories"
     >
       <div
@@ -432,13 +461,14 @@ export default function SixRidesSection(): React.ReactElement {
         </motion.div>
 
         <motion.div
-          className="overflow-hidden rounded-[28px] border border-[#eceae4] shadow-[0_16px_48px_rgba(11,11,11,0.08)] sm:rounded-[32px] lg:rounded-[40px]"
+          className="relative overflow-hidden rounded-[28px] border border-[#eceae4] bg-[#0b0b0b] shadow-[0_16px_48px_rgba(11,11,11,0.08)] sm:rounded-[32px] lg:rounded-[40px]"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+          <PanelBackground />
+          <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <DetailPanel ride={activeRide} />
             <RideList activeIndex={activeIndex} onSelect={setActiveIndex} />
           </div>
