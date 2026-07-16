@@ -90,11 +90,14 @@ export default function BlogHero({
         </h1>
 
         {/* Subtitle */}
-        <p className="mb-8 max-w-[620px] text-[15px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-base sm:leading-[1.7] md:mb-12">
-          Stories, guides, and updates from Pakistan&apos;s commission-free
-          mobility movement.
-          <br />
-          Everything you need to travel smarter, safer, and together.
+        <p className="mb-8 max-w-[720px] text-[15px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-base sm:leading-[1.7] md:mb-12">
+          <span className="block">
+            Stories, guides, and updates from Pakistan&apos;s commission-free{" "}
+            <span className="whitespace-nowrap">mobility movement.</span>
+          </span>
+          <span className="block">
+            Everything you need to travel smarter, safer, and together.
+          </span>
         </p>
 
         {/* Search bar */}
