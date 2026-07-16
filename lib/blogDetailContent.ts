@@ -52,6 +52,67 @@ function toSectionHeading(text: string): string {
   return `<h3 class="blog-section-heading" id="${id}">${applyAccent(clean)}</h3>`;
 }
 
+function isInsightCallout(text: string): boolean {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (cleaned.length < 70 || cleaned.length > 340) return false;
+  if (/^Q:/i.test(cleaned) || /^A:/i.test(cleaned)) return false;
+  if (/^\d+\s/.test(cleaned)) return false;
+  if (/^(download|available on|learn more|register as|ready to)/i.test(cleaned)) {
+    return false;
+  }
+  return true;
+}
+
+/** Wrap key bold paragraphs in the brand gradient callout (Figma insight blocks). */
+function applyInsightCards(html: string): string {
+  let result = html;
+
+  result = result.replace(
+    /<p([^>]*)>\s*<strong>([\s\S]*?)<\/strong>\s*<\/p>/gi,
+    (match, attrs: string, inner: string) => {
+      const plain = stripHtml(inner);
+      if (!isInsightCallout(plain)) return match;
+      return `<div class="blog-insight-card"><p${attrs}><strong>${inner}</strong></p></div>`;
+    }
+  );
+
+  result = result.replace(
+    /<p([^>]*)>\s*<strong>([\s\S]*?)<\/strong>\s*([^<][\s\S]*?)<\/p>/gi,
+    (match, attrs: string, strong: string, rest: string) => {
+      if (/<br/i.test(match)) return match;
+      const plainStrong = stripHtml(strong);
+      const plainRest = stripHtml(rest).trim();
+      const total = `${plainStrong} ${plainRest}`.replace(/\s+/g, " ").trim();
+      if (!isInsightCallout(total)) return match;
+      if (isSectionHeading(plainStrong)) return match;
+      return `<div class="blog-insight-card"><p${attrs}><strong>${strong}</strong>${rest}</p></div>`;
+    }
+  );
+
+  return result;
+}
+
+/** Add gradient callouts to the first paragraph after section headings (up to max total). */
+function applySectionLeadCallouts(html: string, maxTotal = 4): string {
+  let count = (html.match(/blog-insight-card/g) || []).length;
+  if (count >= maxTotal) return html;
+
+  return html.replace(
+    /(<h3 class="blog-section-heading"[^>]*>[\s\S]*?<\/h3>)\s*(<p([^>]*)>([\s\S]*?)<\/p>)/gi,
+    (match, heading: string, _fullP: string, attrs: string, inner: string) => {
+      if (count >= maxTotal) return match;
+      const plain = stripHtml(inner);
+      if (plain.length < 60 || plain.length > 280) return match;
+      if (/^Q:/i.test(plain) || /^A:/i.test(plain)) return match;
+      if (/^(download|available on|learn more|register as|ready to)/i.test(plain)) {
+        return match;
+      }
+      count += 1;
+      return `${heading}<div class="blog-insight-card"><p${attrs}>${inner}</p></div>`;
+    }
+  );
+}
+
 /**
  * Unify h2/h3/h4 and strong-only paragraphs into one heading style (blog 68 parity).
  */
@@ -77,6 +138,9 @@ export function normalizeBlogContentHtml(html: string): string {
       return toSectionHeading(clean);
     }
   );
+
+  result = applyInsightCards(result);
+  result = applySectionLeadCallouts(result);
 
   return result;
 }
