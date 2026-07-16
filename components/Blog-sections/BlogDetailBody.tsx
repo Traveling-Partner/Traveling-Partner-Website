@@ -7,7 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import BlogCard, { type BlogCardData } from "@/components/Blog-sections/BlogCard";
 import BlogDetailSidebar, {
   extractHeadingsFromHtml,
-  type TocItem,
+  injectContentHeadingIds,
 } from "@/components/Blog-sections/BlogDetailSidebar";
 
 type ShareLinks = Record<string, string>;
@@ -65,19 +65,6 @@ function VerticalShareButton({
   );
 }
 
-function injectHeadingIds(html: string, tocItems: TocItem[]): string {
-  if (!html || !tocItems.length) return html;
-  let index = 0;
-  return html.replace(/<h2([^>]*)>/gi, (match, attrs) => {
-    const item = tocItems[index];
-    index += 1;
-    if (!item) return match;
-    if (/id\s*=/.test(attrs)) return match;
-    return `<h2${attrs} id="${item.id}">`;
-  });
-}
-
-/** Highlight brand terms + em/strong inside headings — Figma yellow italic */
 function enhanceContentHtml(html: string): string {
   if (!html) return html;
 
@@ -118,7 +105,7 @@ export default function BlogDetailBody({
 }: BlogDetailBodyProps) {
   const tocItems = extractHeadingsFromHtml(description2 ?? "");
   const contentHtml = enhanceContentHtml(
-    injectHeadingIds(description2 ?? "", tocItems)
+    injectContentHeadingIds(description2 ?? "", tocItems)
   );
 
   return (
