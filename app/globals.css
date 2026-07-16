@@ -383,6 +383,117 @@ img {
   @apply max-w-none;
 }
 
+/* Blog detail — Figma rich text */
+.blog-detail-figma {
+  @apply font-poppins text-[15px] leading-[1.85] text-[#4a4a45] sm:text-[16px];
+}
+
+.blog-detail-figma > *:first-child {
+  @apply mt-0;
+}
+
+.blog-detail-figma p {
+  @apply mb-5 last:mb-0;
+}
+
+.blog-detail-figma h1,
+.blog-detail-figma h2,
+.blog-detail-figma h3,
+.blog-detail-figma h4 {
+  @apply font-extrabold tracking-tight text-[#0b0b0b];
+}
+
+.blog-detail-figma h2 {
+  @apply mb-4 mt-10 text-[clamp(22px,2.8vw,32px)] leading-[1.2];
+}
+
+.blog-detail-figma h3 {
+  @apply mb-3 mt-8 text-[clamp(18px,2.2vw,24px)] leading-[1.25];
+}
+
+.blog-detail-figma h4 {
+  @apply mb-3 mt-6 text-lg leading-[1.3];
+}
+
+.blog-detail-figma ul,
+.blog-detail-figma ol {
+  @apply my-6 space-y-3 pl-0;
+}
+
+.blog-detail-figma ul {
+  @apply list-none;
+}
+
+.blog-detail-figma ul > li {
+  @apply relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:h-2 before:w-2 before:rotate-45 before:rounded-[1px] before:bg-[#FCE001] before:content-[''];
+}
+
+.blog-detail-figma ol {
+  @apply list-decimal pl-6;
+}
+
+.blog-detail-figma ol > li::marker {
+  @apply font-bold text-[#FCE001];
+}
+
+.blog-detail-figma li {
+  @apply text-[#4a4a45];
+}
+
+.blog-detail-figma a {
+  @apply font-semibold text-[#0b0b0b] underline decoration-[#FCE001] decoration-2 underline-offset-2 transition-colors hover:text-[#c99200];
+}
+
+.blog-detail-figma strong {
+  @apply font-bold text-[#0b0b0b];
+}
+
+.blog-detail-figma em {
+  @apply italic text-[#5c5b55];
+}
+
+.blog-detail-figma blockquote {
+  @apply relative my-8 overflow-hidden rounded-[20px] border-l-[5px] border-[#FDB813] bg-gradient-to-r from-[#fff8e1] to-[#fffdf5] px-5 py-5 pl-6 text-[15px] italic leading-[1.75] text-[#0b0b0b] sm:px-6 sm:py-6;
+}
+
+.blog-detail-figma blockquote::before {
+  content: "\201C";
+  @apply pointer-events-none absolute left-4 top-2 text-5xl font-serif leading-none text-[#FCE001]/40;
+}
+
+.blog-detail-figma img {
+  @apply my-8 h-auto w-full rounded-[24px] object-cover shadow-[0_12px_32px_rgba(0,0,0,0.08)];
+}
+
+.blog-detail-figma hr {
+  @apply my-10 border-0 border-t border-dashed border-[#e8e4da];
+}
+
+.blog-detail-figma table {
+  @apply my-8 w-full overflow-hidden rounded-[16px] border border-[#eceae4] text-sm;
+}
+
+.blog-detail-figma th,
+.blog-detail-figma td {
+  @apply border border-[#eceae4] px-4 py-3 text-left;
+}
+
+.blog-detail-figma th {
+  @apply bg-[#fff8e1] font-bold text-[#0b0b0b];
+}
+
+.blog-detail-figma code {
+  @apply rounded-md bg-[#f3f2ee] px-1.5 py-0.5 text-[13px] text-[#0b0b0b];
+}
+
+.blog-detail-figma pre {
+  @apply my-8 overflow-x-auto rounded-[16px] bg-[#0b0b0b] p-5 text-sm text-[#FCE001];
+}
+
+.blog-detail-figma pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
 /* Our Services — orbit pointer blink wave */
 @keyframes our-services-orbit-dot-blink {
   0%,

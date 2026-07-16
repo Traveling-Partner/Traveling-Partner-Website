@@ -58,6 +58,7 @@ export default function Navigation() {
   const isOverlayHeroPage =
     isHome ||
     pathname === "/blog" ||
+    pathname === "/blog/detail" ||
     overlayHeroPaths.some(
       (p) => pathname === p || pathname.startsWith(`${p}/`)
     );
