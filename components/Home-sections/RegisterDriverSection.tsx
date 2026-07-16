@@ -101,8 +101,8 @@ function RegisterSubtext(): React.ReactElement {
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(HEADLINE_SUBTEXT_GAP),
-        fontSize: cqw(30),
-        lineHeight: 1.45,
+        fontSize: cqw(18),
+        lineHeight: 1.5,
       }}
     >
       <span className="block whitespace-nowrap">
