@@ -1,14 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { privacyOverviewCards } from "@/app/privacy-policy/privacySections";
-import { PRIVACY_OVERVIEW_ICONS } from "@/lib/privacyOverviewIcons";
-
-const ICON_BY_TITLE: Record<string, keyof typeof PRIVACY_OVERVIEW_ICONS> = {
-  "Data we collect": "data",
-  "How we use your data": "people",
-  "Data security": "security",
-  "Changes to this Policy": "mailbox",
-};
 
 export default function PrivacyHero() {
   return (
@@ -49,32 +42,27 @@ export default function PrivacyHero() {
         </p>
 
         <div className="grid w-full max-w-[900px] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-          {privacyOverviewCards.map((card) => {
-            const iconKey = ICON_BY_TITLE[card.title] ?? "mailbox";
-            const iconSrc = PRIVACY_OVERVIEW_ICONS[iconKey];
-
-            return (
-              <div
-                key={card.title}
-                className="rounded-[18px] border border-[#eceae4] bg-white p-4 text-left shadow-[0_4px_14px_rgba(0,0,0,0.04)] sm:p-4"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={iconSrc}
-                  alt=""
-                  width={48}
-                  height={48}
-                  className="mb-3 h-12 w-12 object-contain"
-                />
-                <p className="mb-1 text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
-                  {card.title}
-                </p>
-                <p className="text-[12px] leading-snug text-[#6b6960] sm:text-[13px]">
-                  {card.description}
-                </p>
-              </div>
-            );
-          })}
+          {privacyOverviewCards.map((card) => (
+            <div
+              key={card.title}
+              className="rounded-[18px] border border-[#eceae4] bg-white p-4 text-left shadow-[0_4px_14px_rgba(0,0,0,0.04)] sm:p-4"
+            >
+              <Image
+                src={card.icon}
+                alt=""
+                width={48}
+                height={48}
+                unoptimized
+                className="mb-3 h-12 w-12 object-contain"
+              />
+              <p className="mb-1 text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
+                {card.title}
+              </p>
+              <p className="text-[12px] leading-snug text-[#6b6960] sm:text-[13px]">
+                {card.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
