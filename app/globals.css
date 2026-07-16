@@ -537,6 +537,20 @@ img {
   background: linear-gradient(180deg, #fce001 0%, #fdb813 100%);
 }
 
+/* Brand gradient callout blocks for key highlight paragraphs */
+.blog-detail-figma .blog-insight-card {
+  @apply my-8 overflow-hidden rounded-[22px] border border-[#0b0b0b]/25 px-6 py-5 text-[#0b0b0b] shadow-[0_8px_24px_rgba(252,224,1,0.2)] sm:px-7 sm:py-6;
+  background: linear-gradient(135deg, #fce001 0%, #fdb813 100%);
+}
+
+.blog-detail-figma .blog-insight-card p {
+  @apply mb-0 text-[15px] font-semibold leading-[1.72] text-[#0b0b0b] sm:text-[16px];
+}
+
+.blog-detail-figma .blog-insight-card strong {
+  @apply font-extrabold text-[#0b0b0b];
+}
+
 .blog-detail-figma img {
   @apply my-8 h-auto w-full rounded-[22px] object-cover shadow-[0_8px_24px_rgba(0,0,0,0.06)];
 }
