@@ -3,505 +3,364 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Instrument_Serif } from "next/font/google";
 
-const accentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: "italic",
-});
-
-/** Single dissolve curve — backgrounds blend; content swaps at mid-blend */
-const EASE = "cubic-bezier(0.33, 0, 0.2, 1)";
-const BLEND_MS = 1650;
-
-/** Body copy — scales on card; tighter on mobile */
-const DESCRIPTION_CLASS =
-  "mt-3 font-poppins text-[13px] font-normal leading-[1.5] sm:mt-4 sm:text-[14px]";
-
-const HEADLINE_LEAD_CLASS =
-  "font-poppins text-[clamp(1.65rem,6.5vw,3.75rem)] font-bold leading-[1.05]";
-const HEADLINE_ACCENT_CLASS = `${accentSerif.className} text-[clamp(1.65rem,6.5vw,3.75rem)] font-normal leading-[1.05]`;
-
-const blendStyle = (visible: boolean): React.CSSProperties => ({
-  opacity: visible ? 1 : 0,
-  transition: `opacity ${BLEND_MS}ms ${EASE}`,
-  willChange: "opacity",
-  backfaceVisibility: "hidden",
-  transform: "translateZ(0)",
-});
-
-type SlideTheme = {
-  panelClass: string;
-  textPrimary: string;
-  textMuted: string;
-  indexClass: string;
-  badgeClass: string;
-  tagClass: string;
-  bottomGlow?: string;
-  topGlow?: string;
-};
-
-type RideSlide = {
-  num: string;
+type RideItem = {
+  id: string;
   title: string;
-  tagline: string;
-  label: string;
-  image: string;
-  headlineLead: string;
-  headlineAccent: string;
-  /** Figma: accent on its own line below lead (Delivery card) */
-  headlineStacked?: boolean;
-  description: string;
-  tags: string[];
-  cta: string;
+  titleWithPeriod: string;
+  subtitle: string;
+  listDescription: string;
+  panelDescription: string;
+  features: string[];
+  icon: string;
   href: string;
-  badge: string;
-  theme: SlideTheme;
-  /** Compensates for extra padding in source PNG (e.g. daily-rides is 110px vs 77px) */
-  imageScale?: number;
 };
 
-const SLIDES: RideSlide[] = [
+const RIDES: RideItem[] = [
   {
-    num: "01",
-    title: "Daily Rides",
-    tagline: "City taxis · verified drivers",
-    label: "DAILY RIDES",
-    image: "/images/six-rides/daily-rides.png",
-    imageScale: 1.55,
-    headlineLead: "Book your",
-    headlineAccent: "city ride.",
-    description:
-      "A taxi-stand platform connecting you with verified drivers and transparent fares. No surge pricing. No hidden commission. No surprises.",
-    tags: ["Zero commission", "Verified drivers", "Live tracking", "Cash or card"],
-    cta: "Explore Taxi Stand",
+    id: "taxi",
+    title: "Taxi Stand",
+    titleWithPeriod: "Taxi Stand.",
+    subtitle: "City rides",
+    listDescription:
+      "Book verified city rides in seconds. Fair pricing, no surge, no hidden charges.",
+    panelDescription:
+      "Commission-free city rides across Pakistan. Connect directly with verified drivers — no middlemen, no surprises.",
+    features: ["Verified drivers", "Fixed fares", "0% commission"],
+    icon: "/images/five-rides/icon-taxi.png",
     href: "/taxi-stand",
-    badge: "AVAILABLE NOW · 12 CITIES",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#fce001] via-[#ffd81d] to-[#fdb813]",
-      textPrimary: "text-[#0b0b0b]",
-      textMuted: "text-[#0b0b0b]/75",
-      indexClass: "text-[#0b0b0b]/45",
-      badgeClass: "bg-[#0b0b0b]/88 text-white",
-      tagClass: "border border-[#0b0b0b]/12 bg-white/35 text-[#0b0b0b]/80",
-    },
   },
   {
-    num: "02",
+    id: "pool",
     title: "Pool Ride",
-    tagline: "Shared rides · split fares",
-    label: "POOL RIDE",
-    image: "/images/six-rides/pool-ride.png",
-    headlineLead: "Share &",
-    headlineAccent: "save.",
-    description:
-      "Affordable shared rides with verified co-passengers. Your wallet wins, the city wins. Split the fare, not the experience.",
-    tags: ["40% cheaper", "Female-only pool", "Verified co-riders"],
-    cta: "Explore Pool Ride",
+    titleWithPeriod: "Pool Ride.",
+    subtitle: "Shared trips",
+    listDescription:
+      "Share your ride with others going the same way. Split costs and travel greener.",
+    panelDescription:
+      "Affordable shared rides with verified co-passengers. Split the fare, not the experience — greener travel for everyone.",
+    features: ["Split fares", "Verified riders", "Eco-friendly"],
+    icon: "/images/five-rides/icon-pool.png",
     href: "/pool-ride",
-    badge: "SAVE UP TO 40%",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#ff9a3c] via-[#ffb84d] to-[#ffd81d]",
-      textPrimary: "text-white",
-      textMuted: "text-white/80",
-      indexClass: "text-white/50",
-      badgeClass: "bg-white/20 text-white backdrop-blur-sm",
-      tagClass: "border border-white/35 bg-white/15 text-white",
-    },
   },
   {
-    num: "03",
+    id: "delivery",
     title: "Delivery",
-    tagline: "Parcels · live-tracked",
-    label: "DELIVERY",
-    image: "/images/six-rides/delivery.png",
-    headlineLead: "Send anywhere,",
-    headlineAccent: "tracked live.",
-    headlineStacked: true,
-    description:
+    titleWithPeriod: "Delivery.",
+    subtitle: "Fast delivery",
+    listDescription:
+      "Send packages across the city in minutes with real-time tracking and verified couriers.",
+    panelDescription:
       "Connect with vetted delivery partners across the city. Documents, food, parcels — same-day, transparent, commission-free.",
-    tags: ["Same-day", "Live GPS", "Proof of delivery"],
-    cta: "Explore Delivery",
+    features: ["Same-day", "Live GPS", "Verified couriers"],
+    icon: "/images/five-rides/icon-delivery.png",
     href: "/delivery",
-    badge: "FAST · CITY-WIDE",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#0a0a0a] via-[#1a1810] to-[#2f2c1a]",
-      textPrimary: "text-white",
-      textMuted: "text-white/90",
-      indexClass: "text-white/40",
-      badgeClass: "bg-black/35 text-white border border-white/20 backdrop-blur-sm",
-      tagClass: "border border-white/25 bg-white/8 text-white/90",
-      topGlow:
-        "before:pointer-events-none before:absolute before:inset-0 before:content-[''] before:bg-[radial-gradient(ellipse_70%_55%_at_18%_22%,rgba(252,224,1,0.14),transparent_58%)]",
-    },
   },
   {
-    num: "04",
+    id: "logistics",
     title: "Logistics",
-    tagline: "Bulk freight · for business",
-    label: "LOGISTICS",
-    image: "/images/six-rides/logistics.png",
-    headlineLead: "Move",
-    headlineAccent: "bigger.",
-    description:
-      "Enterprise loads with zero commission. Bulk logistics solutions for warehousing, distribution, and B2B fulfilment at scale.",
-    tags: ["Account manager", "Volume pricing", "Live dashboard"],
-    cta: "Explore Logistics",
+    titleWithPeriod: "Logistics.",
+    subtitle: "Enterprise",
+    listDescription:
+      "Custom logistics solutions for businesses. Scale operations with reliable enterprise support.",
+    panelDescription:
+      "Enterprise loads with zero commission. Bulk logistics for warehousing, distribution, and B2B fulfilment at scale.",
+    features: ["Volume pricing", "Account manager", "Live dashboard"],
+    icon: "/images/five-rides/icon-logistics.png",
     href: "/logistic",
-    badge: "FOR BUSINESS",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#4c1d95] via-[#5b21b6] to-[#6366f1]",
-      textPrimary: "text-white",
-      textMuted: "text-white",
-      indexClass: "text-white/50",
-      badgeClass: "bg-white/15 text-white border border-white/20",
-      tagClass: "border border-white/30 bg-white/10 text-white",
-    },
   },
   {
-    num: "05",
+    id: "trip",
     title: "Trip",
-    tagline: "Long-distance · pre-planned",
-    label: "TRIP",
-    image: "/images/six-rides/trip.png",
-    headlineLead: "Plan your",
-    headlineAccent: "escape.",
-    description:
-      "Long-distance bookings with pre-planned routes, trusted drivers, and collaborative trip planning — from Hunza to Karachi, no fees attached.",
-    tags: ["Pre-planned routes", "Group bookings", "Verified drivers"],
-    cta: "Explore Trip",
+    titleWithPeriod: "Trip.",
+    subtitle: "Plan journey",
+    listDescription:
+      "Plan and book intercity journeys with ease. Explore Pakistan your way, on your schedule.",
+    panelDescription:
+      "Long-distance bookings with pre-planned routes and trusted drivers — from Hunza to Karachi, no fees attached.",
+    features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
+    icon: "/images/five-rides/icon-trip.png",
     href: "/trip",
-    badge: "LONG-DISTANCE READY",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#1b3d2f] via-[#234a38] to-[#2e5a42]",
-      textPrimary: "text-white",
-      textMuted: "text-white",
-      indexClass: "text-white/45",
-      badgeClass: "bg-[#4ade80]/20 text-white border border-[#4ade80]/30",
-      tagClass: "border border-white/28 bg-white/10 text-white",
-    },
-  },
-  {
-    num: "06",
-    title: "Tracking",
-    tagline: "Real-time · family-shared",
-    label: "TRACKING",
-    image: "/images/six-rides/tracking.png",
-    headlineLead: "Always",
-    headlineAccent: "in view.",
-    description:
-      "Real-time location sharing on every ride, delivery, and trip. Private by default, family-shared when you want it — privacy and safety, balanced.",
-    tags: ["Live GPS", "Family-share", "Auto-stop on arrival"],
-    cta: "Explore Tracking",
-    href: "/taxi-stand",
-    badge: "ALWAYS ON",
-    theme: {
-      panelClass: "bg-gradient-to-br from-[#0f1412] via-[#152420] to-[#1a3028]",
-      textPrimary: "text-white",
-      textMuted: "text-white/75",
-      indexClass: "text-white/40",
-      badgeClass: "bg-white/10 text-white border border-white/15",
-      tagClass: "border border-white/25 bg-white/8 text-white/90",
-      bottomGlow:
-        "after:absolute after:inset-x-8 after:bottom-0 after:h-[3px] after:rounded-full after:bg-gradient-to-r after:from-transparent after:via-[#fdb813] after:to-transparent",
-    },
   },
 ];
 
-function slideImageStyle(scale = 1): React.CSSProperties | undefined {
-  if (scale === 1) return undefined;
-  return { transform: `scale(${scale})`, transformOrigin: "center center" };
+function CheckIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3.5 8.5 6.5 11.5 12.5 4.5"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
-function SidebarArrowIcon({ active }: { active: boolean }): React.ReactElement {
+function PlusIcon({ className = "" }: { className?: string }) {
   return (
-    <span
-      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border"
-      style={{
-        backgroundColor: active ? "#fdb813" : "#ffffff",
-        color: active ? "#0b0b0b" : "#9a9890",
-        borderColor: active ? "transparent" : "#e8e6df",
-        transition: `background-color ${BLEND_MS}ms ${EASE}, border-color ${BLEND_MS}ms ${EASE}, color ${BLEND_MS}ms ${EASE}`,
-      }}
+    <svg
+      className={className}
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 14 14"
+      <path
+        d="M8 3.5v9M3.5 8h9"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function WaveDivider() {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[18%] lg:block"
+      viewBox="0 0 120 560"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M48 0C72 70 18 140 48 210C78 280 18 350 48 420C78 490 40 530 48 560L120 560L120 0Z"
+        fill="#111111"
+      />
+      <path
+        d="M48 0C72 70 18 140 48 210C78 280 18 350 48 420C78 490 40 530 48 560"
         fill="none"
-        className="block shrink-0"
-        aria-hidden
-      >
-        <path
-          d="M2.5 11.5L11.5 2.5M11.5 2.5H4.75M11.5 2.5V9.25"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+        stroke="rgba(255,255,255,0.06)"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
+function FeaturePill({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold text-white sm:px-4 sm:text-[13px]">
+      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
+        <CheckIcon className="h-2.5 w-2.5" />
+      </span>
+      {label}
     </span>
   );
 }
-function SidebarItem({
-  slide,
+
+function DetailPanel({ ride }: { ride: RideItem }) {
+  return (
+    <div className="relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-6 sm:min-h-[400px] sm:rounded-[32px] sm:p-8 lg:min-h-[520px] lg:rounded-[40px] lg:rounded-r-none lg:p-10">
+      {/* Concentric circle pattern */}
+      <div
+        className="pointer-events-none absolute -left-16 -top-20 h-[420px] w-[420px] rounded-full border border-[#0b0b0b]/[0.06] sm:h-[520px] sm:w-[520px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -left-4 -top-8 h-[280px] w-[280px] rounded-full border border-[#0b0b0b]/[0.07] sm:h-[360px] sm:w-[360px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute left-8 top-12 h-[160px] w-[160px] rounded-full border border-[#0b0b0b]/[0.08] sm:h-[200px] sm:w-[200px]"
+        aria-hidden
+      />
+
+      <WaveDivider />
+
+      <div
+        key={ride.id}
+        className="relative z-[1] flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-2 duration-500"
+      >
+        <Link
+          href={ride.href}
+          className="mb-5 inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-[16px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] transition-transform duration-300 hover:scale-[1.03] sm:mb-6 sm:h-16 sm:w-16 sm:rounded-[18px]"
+          aria-label={`Go to ${ride.title}`}
+        >
+          <Image
+            src={ride.icon}
+            alt=""
+            width={56}
+            height={56}
+            className="h-11 w-11 object-contain sm:h-12 sm:w-12"
+            unoptimized
+          />
+        </Link>
+
+        <h3 className="font-poppins text-[28px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#0b0b0b] sm:text-[34px] lg:text-[40px]">
+          {ride.titleWithPeriod}
+        </h3>
+
+        <p className="mt-3 max-w-[340px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-4 sm:text-[15px]">
+          {ride.panelDescription}
+        </p>
+
+        <div className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5 lg:mt-auto lg:pt-8">
+          {ride.features.map((feature) => (
+            <FeaturePill key={feature} label={feature} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RideListItem({
+  ride,
   active,
   onSelect,
 }: {
-  slide: RideSlide;
+  ride: RideItem;
   active: boolean;
   onSelect: () => void;
-}): React.ReactElement {
+}) {
   return (
     <button
       type="button"
       onClick={onSelect}
-      className="relative z-[1] flex h-full min-h-[52px] w-full items-center gap-3 rounded-[20px] px-4 py-3 text-left"
+      className={`group relative z-[1] flex w-full items-center gap-3 rounded-[20px] px-3 py-3 text-left transition-colors duration-300 sm:gap-4 sm:rounded-[24px] sm:px-4 sm:py-3.5 ${
+        active
+          ? "bg-[#1a1a1a] shadow-[0_0_0_1px_rgba(252,224,1,0.12),0_12px_32px_rgba(0,0,0,0.35)]"
+          : "bg-transparent hover:bg-white/[0.03]"
+      }`}
+      aria-pressed={active}
     >
+      {/* Active glow dot on dashed rail */}
       <span
-        className="w-8 shrink-0 font-poppins text-[14px] font-semibold leading-none"
-        style={{
-          color: active ? "#fdb813" : "#c8c6be",
-          transition: `color ${BLEND_MS}ms ${EASE}`,
-        }}
-      >
-        {slide.num}
-      </span>
+        className={`absolute -left-[5px] top-1/2 z-[2] h-2.5 w-2.5 -translate-y-1/2 rounded-full transition-all duration-300 sm:-left-[6px] ${
+          active
+            ? "bg-[#FCE001] shadow-[0_0_10px_3px_rgba(252,224,1,0.55)] opacity-100 scale-100"
+            : "bg-transparent opacity-0 scale-75"
+        }`}
+        aria-hidden
+      />
 
-      <span className="relative size-12 shrink-0 overflow-hidden rounded-[14px]">
+      <span
+        className={`relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[14px] sm:h-12 sm:w-12 sm:rounded-[16px] ${
+          active
+            ? "bg-[#FCE001] shadow-[0_0_22px_rgba(252,224,1,0.45)]"
+            : "bg-[#f4f1ea]"
+        }`}
+      >
         <Image
-          src={slide.image}
+          src={ride.icon}
           alt=""
-          fill
-          className="object-contain"
-          style={slideImageStyle(slide.imageScale)}
-          sizes="48px"
+          width={48}
+          height={48}
+          className="h-full w-full object-contain"
+          unoptimized
         />
       </span>
 
       <span className="min-w-0 flex-1">
         <span
-          className="block font-poppins text-[15px] font-semibold leading-tight"
-          style={{
-            color: active ? "#ffffff" : "#0b0b0b",
-            transition: `color ${BLEND_MS}ms ${EASE}`,
-          }}
+          className={`block font-poppins text-[15px] font-bold leading-tight sm:text-[16px] ${
+            active ? "text-[#FCE001]" : "text-white"
+          }`}
         >
-          {slide.title}
+          {ride.title}
         </span>
         <span
-          className="mt-0.5 block truncate font-poppins text-[12px] font-normal leading-snug"
-          style={{
-            color: active ? "rgba(255,255,255,0.5)" : "#6f6e68",
-            transition: `color ${BLEND_MS}ms ${EASE}`,
-          }}
+          className={`mt-0.5 block font-poppins text-[12px] font-medium italic leading-snug sm:text-[13px] ${
+            active ? "text-[#FCE001]/80" : "text-[#FCE001]"
+          }`}
         >
-          {slide.tagline}
+          {ride.subtitle}
+        </span>
+        <span className="mt-1 block font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]">
+          {ride.listDescription}
         </span>
       </span>
 
-      <SidebarArrowIcon active={active} />
+      <span
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 sm:h-10 sm:w-10 ${
+          active
+            ? "bg-[#FCE001] text-[#0b0b0b]"
+            : "border border-[#FCE001]/55 bg-transparent text-[#FCE001] group-hover:border-[#FCE001] group-hover:bg-[#FCE001]/10"
+        }`}
+        aria-hidden
+      >
+        {active ? (
+          <CheckIcon className="h-4 w-4" />
+        ) : (
+          <PlusIcon className="h-4 w-4" />
+        )}
+      </span>
     </button>
   );
 }
 
-function Sidebar({
+function RideList({
   activeIndex,
   onSelect,
 }: {
   activeIndex: number;
   onSelect: (index: number) => void;
-}): React.ReactElement {
+}) {
   return (
     <nav
-      className="flex h-full min-h-0 flex-col gap-1.5 max-lg:max-h-none max-lg:flex-row max-lg:gap-2 max-lg:overflow-x-auto max-lg:pb-1 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden"
+      className="relative flex h-full flex-col justify-center gap-1.5 bg-[#111111] px-4 py-5 sm:gap-2 sm:px-5 sm:py-6 lg:rounded-r-[40px] lg:px-6 lg:py-8"
       aria-label="Ride categories"
     >
-      {SLIDES.map((slide, index) => {
-        const active = index === activeIndex;
+      {/* Dashed vertical connector */}
+      <div
+        className="pointer-events-none absolute bottom-10 left-[34px] top-10 w-px border-l border-dashed border-white/20 sm:left-[38px] lg:left-[42px]"
+        aria-hidden
+      />
 
-        return (
-          <div key={slide.num} className="relative min-h-0 flex-1 max-lg:h-auto max-lg:min-w-[148px] max-lg:flex-none">
-            <div
-              className="pointer-events-none absolute inset-0 rounded-[20px]"
-              style={{
-                backgroundColor: active ? "#0b0b0b" : "#ffffff",
-                boxShadow: active
-                  ? "0 12px 32px rgba(11,11,11,0.16)"
-                  : "0 2px 12px rgba(11,11,11,0.04)",
-                transition: `background-color ${BLEND_MS}ms ${EASE}, box-shadow ${BLEND_MS}ms ${EASE}`,
-              }}
-              aria-hidden
-            />
-
-            <span
-              className="pointer-events-none absolute inset-y-3 left-0 z-[2] w-[3px] rounded-full bg-[#fdb813]"
-              style={blendStyle(active)}
-              aria-hidden
-            />
-
-            <SidebarItem slide={slide} active={active} onSelect={() => onSelect(index)} />
-          </div>
-        );
-      })}
-    </nav>
-  );
-}
-
-function SlidePanelContent({ slide }: { slide: RideSlide }): React.ReactElement {
-  const { theme: t } = slide;
-
-  return (
-    <div className="flex min-h-0 flex-col px-4 pt-4 pb-4 sm:p-7 lg:h-full lg:p-9">
-      <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-3 gap-y-2">
-        <span
-          className={`inline-flex max-w-full items-center gap-1.5 rounded-full px-3 py-1.5 font-poppins text-[10px] font-semibold uppercase tracking-[0.08em] sm:gap-2 sm:px-4 sm:py-2 sm:text-[12px] ${t.badgeClass}`}
-        >
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ade80]" aria-hidden />
-          <span className="truncate">{slide.badge}</span>
-        </span>
-        <span
-          className={`shrink-0 font-poppins text-[9px] font-medium uppercase tracking-[0.1em] sm:text-[12px] ${t.indexClass}`}
-        >
-          / {slide.num} — {slide.label}
-        </span>
-      </div>
-
-      <div className="relative mt-4 h-[108px] w-[108px] shrink-0 overflow-hidden rounded-[18px] sm:mt-6 sm:h-[156px] sm:w-[156px] sm:rounded-[22px]">
-        <Image
-          src={slide.image}
-          alt={slide.title}
-          fill
-          className="object-contain"
-          style={slideImageStyle(slide.imageScale)}
-          sizes="(max-width: 640px) 108px, 156px"
-          priority={slide.num === "01"}
-        />
-      </div>
-
-      <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
-        {slide.tags.map((tag) => (
-          <span
-            key={tag}
-            className={`inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-full px-2.5 font-poppins text-[9px] font-medium leading-none sm:h-9 sm:px-3 sm:text-[11px] ${t.tagClass}`}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="mt-3 min-w-0 sm:mt-4">
-        <h3 className={`tracking-[-0.025em] ${t.textPrimary}`}>
-          {slide.headlineStacked ? (
-            <>
-              <span className={`block ${HEADLINE_LEAD_CLASS}`}>{slide.headlineLead}</span>
-              <span className={`mt-0.5 block ${HEADLINE_ACCENT_CLASS}`}>{slide.headlineAccent}</span>
-            </>
-          ) : (
-            <>
-              <span className={HEADLINE_LEAD_CLASS}>{slide.headlineLead}</span>{" "}
-              <span className={HEADLINE_ACCENT_CLASS}>{slide.headlineAccent}</span>
-            </>
-          )}
-        </h3>
-        <p className={`${DESCRIPTION_CLASS} max-w-[360px] ${t.textMuted}`}>
-          {slide.description}
-        </p>
-      </div>
-
-      <div className="mt-3 shrink-0 sm:mt-4 lg:mt-auto lg:pt-6">
-        <Link
-          href={slide.href}
-          className="group relative z-10 flex h-11 w-full items-center justify-between rounded-full bg-[#0b0b0b] py-0 pl-4 pr-1.5 font-poppins text-[12px] font-semibold leading-none text-white shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-colors duration-500 hover:bg-[#1a1a1a] sm:inline-flex sm:h-9 sm:w-auto sm:justify-start sm:gap-1 sm:pl-3.5 sm:pr-1 sm:text-[13px]"
-        >
-          <span className="truncate">{slide.cta}</span>
-          <span className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fdb813] text-[10px] font-bold leading-none text-[#0b0b0b] transition-transform duration-500 group-hover:-rotate-45 sm:ml-0 sm:h-7 sm:w-7 sm:text-[11px]">
-            →
-          </span>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function DetailPanel({ activeIndex }: { activeIndex: number }): React.ReactElement {
-  return (
-    <div className="relative overflow-hidden rounded-[24px] shadow-[0_24px_60px_rgba(11,11,11,0.12)] sm:rounded-[32px] lg:h-full lg:rounded-[40px]">
-      {SLIDES.map((s, i) => (
-        <div
-          key={`bg-${s.num}`}
-          className={`absolute inset-0 ${s.theme.panelClass} ${s.theme.topGlow ?? ""} ${s.theme.bottomGlow ?? ""} ${i !== activeIndex ? "max-lg:hidden" : ""}`}
-          style={{
-            ...blendStyle(i === activeIndex),
-            zIndex: i === activeIndex ? 2 : 1,
-            pointerEvents: "none",
-          }}
-          aria-hidden={i !== activeIndex}
+      {RIDES.map((ride, index) => (
+        <RideListItem
+          key={ride.id}
+          ride={ride}
+          active={index === activeIndex}
+          onSelect={() => onSelect(index)}
         />
       ))}
-
-      <div className="relative z-[3] lg:absolute lg:inset-0 lg:h-full">
-        {SLIDES.map((slide, i) => {
-          const active = i === activeIndex;
-
-          return (
-            <div
-              key={`content-${slide.num}`}
-              className={
-                active
-                  ? "relative max-lg:block lg:absolute lg:inset-0"
-                  : "hidden lg:absolute lg:inset-0 lg:block"
-              }
-              style={{
-                ...blendStyle(active),
-                zIndex: active ? 2 : 1,
-                pointerEvents: active ? "auto" : "none",
-              }}
-              aria-hidden={!active}
-            >
-              <SlidePanelContent slide={slide} />
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </nav>
   );
 }
 
 export default function SixRidesSection(): React.ReactElement {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeRide = RIDES[activeIndex];
 
   return (
     <section
       id="services"
-      className="relative w-full scroll-mt-28 overflow-hidden bg-[#fffcf2] py-12 sm:py-16 lg:py-20"
+      className="relative w-full scroll-mt-28 overflow-hidden bg-[#0b0b0b] py-14 sm:py-16 lg:py-20"
       aria-labelledby="six-rides-heading"
     >
-      <div className="relative z-[1] mx-auto w-full max-w-[1690px] px-4 sm:px-8 lg:px-[114px]">
-        <div className="mx-auto mb-10 max-w-[760px] text-center sm:mb-12 lg:mb-14">
+      <div className="relative z-[1] mx-auto w-[92%] max-w-[1200px]">
+        <div className="mx-auto mb-8 max-w-[720px] text-center sm:mb-10 lg:mb-12">
           <h2
             id="six-rides-heading"
-            className="font-poppins text-[clamp(2rem,4.17vw,5rem)] font-bold leading-[1.02] tracking-[-0.03em]"
+            className="font-poppins text-[clamp(28px,4.2vw,48px)] font-bold leading-[1.08] tracking-[-0.03em]"
           >
+<<<<<<< Updated upstream
             <span className="text-[#0b0b0b]">five rides.</span>{" "}
             <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent">
               One promise.
             </span>
+=======
+            <span className="text-[#6f6e68]">Five rides.</span>{" "}
+            <span className="text-[#FCE001]">One promise.</span>
+>>>>>>> Stashed changes
           </h2>
-          <p className="mx-auto mt-5 max-w-[540px] font-poppins text-[17px] font-normal leading-[1.55] text-[#6f6e68]">
-            From daily commutes to enterprise logistics — every category, zero commission,
-            real-time tracking, every time.
+          <p className="mx-auto mt-4 max-w-[560px] font-poppins text-[14px] font-normal leading-[1.6] text-[#9a968c] sm:text-[15px]">
+            From daily commutes to enterprise logistics — every category, zero
+            commission, real-time tracking, every time.
           </p>
         </div>
 
-        <div className="grid gap-5 lg:h-[560px] lg:grid-cols-[380px_1fr] lg:items-stretch lg:gap-5">
-          <div className="min-w-0 max-lg:-mx-1 max-lg:overflow-hidden">
-            <Sidebar activeIndex={activeIndex} onSelect={setActiveIndex} />
-          </div>
-
-          <div className="relative lg:h-full">
-            <DetailPanel activeIndex={activeIndex} />
+        <div className="overflow-hidden rounded-[28px] border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:rounded-[32px] lg:rounded-[40px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+            <DetailPanel ride={activeRide} />
+            <RideList activeIndex={activeIndex} onSelect={setActiveIndex} />
           </div>
         </div>
       </div>
