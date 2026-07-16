@@ -14,6 +14,7 @@ import {
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import BlogHero from "@/components/Blog-sections/BlogHero";
+import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 
 interface Blog {
   id: string | number;
@@ -22,6 +23,8 @@ interface Blog {
   description1: string;
   date?: unknown;
   category?: string;
+  author?: string;
+  readTime?: string;
 }
 
 const mapBlog = (item: any): Blog => ({
@@ -37,6 +40,8 @@ const mapBlog = (item: any): Blog => ({
   description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
   date: pickBlogDateField(item),
   category: pickBlogCategoryField(item),
+  author: String(item?.author ?? "").trim(),
+  readTime: String(item?.readTime ?? item?.read_time ?? "").trim(),
 });
 
 const getImageSrc = (value: string): string => {
@@ -103,8 +108,11 @@ export default function BlogListingClient() {
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
+    const featuredId = blogs[0]?.id;
 
     return blogs.filter((blog) => {
+      if (featuredId != null && blog.id === featuredId) return false;
+
       const matchesCategory =
         selectedCategory === "All" || blog.category === selectedCategory;
 
@@ -124,6 +132,8 @@ export default function BlogListingClient() {
     });
   }, [blogs, selectedCategory, searchQuery]);
 
+  const featuredBlog = blogs[0] ?? null;
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogHero
@@ -133,6 +143,10 @@ export default function BlogListingClient() {
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
       />
+
+      {!loading && !error && featuredBlog ? (
+        <FeaturedBlogSection blog={featuredBlog} getImageSrc={getImageSrc} />
+      ) : null}
 
       {/* Blog Grid */}
       <div className="mx-auto w-[85%] max-w-7xl px-0 pb-10 pt-8 max-md:w-full max-md:px-4">
