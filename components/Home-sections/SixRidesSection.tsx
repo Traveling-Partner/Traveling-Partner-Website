@@ -142,8 +142,8 @@ function PlusIcon({ className = "" }: { className?: string }) {
 }
 
 function PanelBackground() {
-  // Milder center + slightly reduced lobes.
-  const yellowPath =
+  // Desktop-only B-scallop on the right edge of the yellow panel.
+  const desktopPath =
     "M0 0 H920 C950 0 975 40 980 110 C985 175 978 235 965 285 C948 308 920 314 900 320 C920 326 948 332 965 355 C978 405 985 465 980 530 C975 600 950 640 920 640 H0 Z";
 
   return (
@@ -153,8 +153,8 @@ function PanelBackground() {
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      <path d={yellowPath} fill="#FCE001" />
-      <path d={yellowPath} fill="url(#five-rides-yellow-glow)" />
+      <path d={desktopPath} fill="#FCE001" />
+      <path d={desktopPath} fill="url(#five-rides-yellow-glow)" />
       <defs>
         <radialGradient
           id="five-rides-yellow-glow"
@@ -184,51 +184,254 @@ function FeaturePill({ label }: { label: string }) {
   );
 }
 
-function DetailPanel({ ride }: { ride: RideItem }) {
+function DetailPanel({
+  ride,
+  activeIndex,
+}: {
+  ride: RideItem;
+  activeIndex: number;
+}) {
+  const step = String(activeIndex + 1).padStart(2, "0");
+  const total = String(RIDES.length).padStart(2, "0");
+
   return (
-    <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:bg-transparent lg:p-8">
-      <PanelBackground />
-      {/* Stacked crossfade — Figma Smart Animate style (opacity only, in place) */}
-      <div className="relative z-[1] grid flex-1">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={ride.id}
-            className="col-start-1 row-start-1 flex h-full flex-col"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE_IO }}
-          >
-            <Link
-              href={ride.href}
-              className="mb-5 inline-flex h-20 w-20 items-center justify-center overflow-hidden rounded-[20px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] sm:mb-6 sm:h-24 sm:w-24 sm:rounded-[24px] lg:h-28 lg:w-28 lg:rounded-[28px]"
-              aria-label={`Go to ${ride.title}`}
+    <div className="relative flex h-full flex-col lg:min-h-[420px] lg:rounded-l-[40px]">
+      {/* ——— Mobile spotlight panel ——— */}
+      <div className="relative overflow-hidden lg:hidden">
+        <div className="relative overflow-hidden rounded-b-[32px] bg-[#FCE001] px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-6">
+          {/* Atmosphere */}
+          <div
+            className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full border border-[#0b0b0b]/[0.07]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute -right-4 -top-8 h-36 w-36 rounded-full border border-[#0b0b0b]/[0.08]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute -left-20 bottom-8 h-48 w-48 rounded-full bg-[#fff6a8]/40 blur-2xl"
+            aria-hidden
+          />
+
+          <div className="relative z-[1] mb-4 flex items-center justify-between">
+            <span className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0b0b0b]/55">
+              Service {step} / {total}
+            </span>
+            <span className="rounded-full bg-[#0b0b0b] px-3 py-1 font-poppins text-[11px] font-semibold italic text-[#FCE001]">
+              {ride.subtitle}
+            </span>
+          </div>
+
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              key={ride.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: EASE_IO }}
             >
-              <Image
-                src={ride.panelIcon}
-                alt=""
-                width={112}
-                height={112}
-                className="h-[70%] w-[70%] object-contain"
-                unoptimized
-              />
-            </Link>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.35, ease: EASE_OUT }}
+              >
+                <Link
+                  href={ride.href}
+                  className="mb-5 inline-flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-[22px] bg-[#0b0b0b] shadow-[0_16px_40px_rgba(11,11,11,0.35)]"
+                  aria-label={`Go to ${ride.title}`}
+                >
+                  <Image
+                    src={ride.panelIcon}
+                    alt=""
+                    width={64}
+                    height={64}
+                    className="h-[72%] w-[72%] object-contain"
+                    unoptimized
+                  />
+                </Link>
+              </motion.div>
 
-            <h3 className="font-poppins text-[32px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b] sm:text-[40px] lg:text-[48px]">
-              {ride.titleWithPeriod}
-            </h3>
+              <h3 className="max-w-[16ch] font-poppins text-[clamp(30px,8.5vw,40px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
+                {ride.titleWithPeriod}
+              </h3>
 
-            <p className="mt-3 max-w-[380px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3.5 sm:text-[15px] lg:text-[16px]">
-              {ride.panelDescription}
-            </p>
+              <p className="mt-3 max-w-[34ch] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/75">
+                {ride.panelDescription}
+              </p>
 
-            <div className="mt-5 flex flex-col items-start gap-2.5 sm:mt-6 sm:gap-3 lg:mt-auto lg:justify-end lg:gap-3.5 lg:pt-6">
-              {ride.features.map((feature) => (
-                <FeaturePill key={feature} label={feature} />
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+              <div className="mt-5 flex flex-col items-start gap-2.5">
+                {ride.features.map((feature, i) => (
+                  <motion.div
+                    key={feature}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      duration: 0.28,
+                      ease: EASE_OUT,
+                      delay: 0.06 + i * 0.05,
+                    }}
+                  >
+                    <FeaturePill label={feature} />
+                  </motion.div>
+                ))}
+              </div>
+
+              <Link
+                href={ride.href}
+                className="mt-6 flex w-full items-center justify-between rounded-[18px] bg-[#0b0b0b] px-5 py-3.5 font-poppins text-[14px] font-semibold text-[#FCE001] shadow-[0_12px_28px_rgba(11,11,11,0.25)]"
+              >
+                <span>Explore {ride.title}</span>
+                <span
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[15px] font-bold text-[#0b0b0b]"
+                  aria-hidden
+                >
+                  →
+                </span>
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* ——— Desktop curved panel ——— */}
+      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-8 lg:flex">
+        <PanelBackground />
+        <div className="relative z-[1] grid flex-1">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={ride.id}
+              className="col-start-1 row-start-1 flex h-full flex-col"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: EASE_IO }}
+            >
+              <Link
+                href={ride.href}
+                className="mb-6 inline-flex h-28 w-28 items-center justify-center overflow-hidden rounded-[28px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)]"
+                aria-label={`Go to ${ride.title}`}
+              >
+                <Image
+                  src={ride.panelIcon}
+                  alt=""
+                  width={112}
+                  height={112}
+                  className="h-[70%] w-[70%] object-contain"
+                  unoptimized
+                />
+              </Link>
+              <h3 className="font-poppins text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]">
+                {ride.titleWithPeriod}
+              </h3>
+              <p className="mt-3 max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80">
+                {ride.panelDescription}
+              </p>
+              <div className="mt-auto flex flex-col items-start gap-3.5 pt-6">
+                {ride.features.map((feature) => (
+                  <FeaturePill key={feature} label={feature} />
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileRideChips({
+  activeIndex,
+  onSelect,
+}: {
+  activeIndex: number;
+  onSelect: (index: number) => void;
+}) {
+  return (
+    <div className="relative bg-[#0b0b0b] px-4 pb-6 pt-5 lg:hidden">
+      <div className="mb-4 flex items-end justify-between gap-3">
+        <div>
+          <p className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
+            All services
+          </p>
+          <p className="mt-1 font-poppins text-[15px] font-semibold text-white">
+            Tap to switch rides
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5" aria-hidden>
+          {RIDES.map((ride, index) => (
+            <span
+              key={ride.id}
+              className={`h-1.5 rounded-full transition-all ${
+                index === activeIndex
+                  ? "w-5 bg-[#FCE001]"
+                  : "w-1.5 bg-white/25"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        role="tablist"
+        aria-label="Ride categories"
+      >
+        {RIDES.map((ride, index) => {
+          const active = index === activeIndex;
+          return (
+            <motion.button
+              key={ride.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => onSelect(index)}
+              whileTap={{ scale: 0.97 }}
+              className={`relative flex w-[148px] shrink-0 snap-start flex-col overflow-hidden rounded-[22px] border p-3.5 text-left transition-colors ${
+                active
+                  ? "border-[#FCE001]/50 bg-[#1a1a1a] shadow-[0_0_28px_rgba(252,224,1,0.22)]"
+                  : "border-white/10 bg-[#141414]"
+              }`}
+            >
+              {active ? (
+                <motion.span
+                  layoutId="mobile-ride-glow"
+                  className="pointer-events-none absolute inset-0 rounded-[22px] ring-1 ring-[#FCE001]/35"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              ) : null}
+
+              <span
+                className={`relative mb-3 flex h-12 w-12 items-center justify-center overflow-hidden rounded-[14px] ${
+                  active ? "bg-[#FCE001]" : "bg-[#f4f1ea]"
+                }`}
+              >
+                <Image
+                  src={ride.icon}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-[88%] w-[88%] object-contain"
+                  unoptimized
+                />
+              </span>
+
+              <span
+                className={`relative font-poppins text-[14px] font-bold leading-tight ${
+                  active ? "text-[#FCE001]" : "text-white"
+                }`}
+              >
+                {ride.title}
+              </span>
+              <span
+                className={`relative mt-1 font-poppins text-[11px] font-medium italic ${
+                  active ? "text-[#FCE001]/75" : "text-[#9a968c]"
+                }`}
+              >
+                {ride.subtitle}
+              </span>
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );
@@ -381,7 +584,7 @@ function RideList({
 }) {
   return (
     <nav
-      className="relative z-[1] flex h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:rounded-r-[40px] lg:bg-[#0b0b0b] lg:px-5 lg:py-6"
+      className="relative z-[1] hidden h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:flex lg:rounded-r-[40px] lg:bg-[#0b0b0b] lg:px-5 lg:py-6"
       aria-label="Ride categories"
     >
       <div
@@ -448,7 +651,11 @@ export default function SixRidesSection(): React.ReactElement {
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
           <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-            <DetailPanel ride={activeRide} />
+            <DetailPanel ride={activeRide} activeIndex={activeIndex} />
+            <MobileRideChips
+              activeIndex={activeIndex}
+              onSelect={setActiveIndex}
+            />
             <RideList activeIndex={activeIndex} onSelect={setActiveIndex} />
           </div>
         </motion.div>
