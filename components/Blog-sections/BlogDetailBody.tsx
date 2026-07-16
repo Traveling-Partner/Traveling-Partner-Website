@@ -77,6 +77,28 @@ function injectHeadingIds(html: string, tocItems: TocItem[]): string {
   });
 }
 
+/** Highlight brand terms + em/strong inside headings — Figma yellow italic */
+function enhanceContentHtml(html: string): string {
+  if (!html) return html;
+
+  const accentPattern = /(travell?ing partner|TP driver|\bTP\b)/gi;
+
+  const withHeadingAccents = html.replace(
+    /<(h[23])([^>]*)>([\s\S]*?)<\/\1>/gi,
+    (_match, tag: string, attrs: string, inner: string) => {
+      const stripped = inner.replace(/<[^>]+>/g, "");
+      const enhanced = stripped.replace(
+        accentPattern,
+        '<em class="blog-accent">$1</em>'
+      );
+      if (enhanced === stripped) return `<${tag}${attrs}>${inner}</${tag}>`;
+      return `<${tag}${attrs}>${enhanced}</${tag}>`;
+    }
+  );
+
+  return withHeadingAccents;
+}
+
 export default function BlogDetailBody({
   coverImage,
   title,
@@ -95,21 +117,23 @@ export default function BlogDetailBody({
   getImageSrc,
 }: BlogDetailBodyProps) {
   const tocItems = extractHeadingsFromHtml(description2 ?? "");
-  const contentHtml = injectHeadingIds(description2 ?? "", tocItems);
+  const contentHtml = enhanceContentHtml(
+    injectHeadingIds(description2 ?? "", tocItems)
+  );
 
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-4 sm:pb-16">
       <div className="mx-auto w-[92%] max-w-[1100px] px-0 sm:px-2">
-        {/* Featured image — smaller */}
-        <div className="mx-auto mb-8 max-w-[820px] rounded-[24px] border border-dashed border-[#c4c0b6]/60 p-2.5 sm:mb-10 sm:rounded-[28px] sm:p-3">
-          <div className="relative aspect-[16/9] max-h-[340px] overflow-hidden rounded-[18px] sm:max-h-[380px] sm:rounded-[22px]">
+        {/* Featured image — clean, no border */}
+        <div className="mx-auto mb-8 max-w-[720px] sm:mb-10">
+          <div className="relative aspect-[2/1] w-full overflow-hidden rounded-[22px] sm:rounded-[26px]">
             <Image
               src={getImageSrc(coverImage)}
               alt={title}
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
-              sizes="(max-width: 820px) 92vw, 820px"
+              sizes="(max-width: 720px) 92vw, 720px"
             />
           </div>
         </div>
