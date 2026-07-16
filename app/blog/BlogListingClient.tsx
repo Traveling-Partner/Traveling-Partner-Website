@@ -106,13 +106,10 @@ export default function BlogListingClient() {
     ];
   }, [blogs]);
 
-  const filteredBlogs = useMemo(() => {
+  const carouselBlogs = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    const featuredId = blogs[0]?.id;
 
     return blogs.filter((blog) => {
-      if (featuredId != null && blog.id === featuredId) return false;
-
       const matchesCategory =
         selectedCategory === "All" || blog.category === selectedCategory;
 
@@ -132,8 +129,6 @@ export default function BlogListingClient() {
     });
   }, [blogs, selectedCategory, searchQuery]);
 
-  const featuredBlog = blogs[0] ?? null;
-
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogHero
@@ -144,29 +139,28 @@ export default function BlogListingClient() {
         onCategoryChange={setSelectedCategory}
       />
 
-      {!loading && !error && featuredBlog ? (
-        <FeaturedBlogSection blog={featuredBlog} getImageSrc={getImageSrc} />
-      ) : null}
+      {loading ? (
+        <div className="mx-auto w-[85%] max-w-7xl px-0 max-md:w-full max-md:px-4">
+          <Loader />
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center px-4 py-20">
+          <p className="text-center text-red-600">{error}</p>
+        </div>
+      ) : (
+        <FeaturedBlogSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+      )}
 
       {/* Blog Grid */}
       <div className="mx-auto w-[85%] max-w-7xl px-0 pb-10 pt-8 max-md:w-full max-md:px-4">
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <div className="flex items-center justify-center px-4 py-20">
-            <p className="text-center text-red-600">{error}</p>
-          </div>
-        ) : filteredBlogs.length === 0 ? (
-          <div className="py-12 text-center text-gray-600">No blogs found.</div>
-        ) : (
+        {!loading && !error && carouselBlogs.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filteredBlogs.map((blog, index) => (
+            {carouselBlogs.map((blog, index) => (
               <Link key={blog.id} href={`/blog/detail?id=${blog.id}`}>
                 <article
                   className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {/* Image Container */}
                   <div className="relative h-[240px] overflow-hidden">
                     <Image
                       src={getImageSrc(blog.cover_image)}
@@ -186,7 +180,6 @@ export default function BlogListingClient() {
                     ) : null}
                   </div>
 
-                  {/* Content */}
                   <div className="flex flex-grow flex-col p-6">
                     {getBlogTimeAgo(blog.date) ? (
                       <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
@@ -240,9 +233,11 @@ export default function BlogListingClient() {
               </Link>
             ))}
           </div>
-        )}
+        ) : !loading && !error ? (
+          <div className="py-12 text-center text-gray-600">No blogs found.</div>
+        ) : null}
 
-        {/* Newsletter Section */}
+        {/* Newsletter */}
         <div className="relative mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-[#fce001] to-[#fdb813] p-8 text-center lg:p-12">
           <div className="absolute right-0 top-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-white/20 blur-3xl"></div>
           <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-white/20 blur-3xl"></div>
