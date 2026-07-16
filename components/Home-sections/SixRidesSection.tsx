@@ -187,102 +187,132 @@ function FeaturePill({ label }: { label: string }) {
 function DetailPanel({
   ride,
   activeIndex,
+  onSelect,
 }: {
   ride: RideItem;
   activeIndex: number;
+  onSelect?: (index: number) => void;
 }) {
   const step = String(activeIndex + 1).padStart(2, "0");
   const total = String(RIDES.length).padStart(2, "0");
+  const canPrev = activeIndex > 0;
+  const canNext = activeIndex < RIDES.length - 1;
 
   return (
     <div className="relative flex h-full flex-col lg:min-h-[420px] lg:rounded-l-[40px]">
       {/* ——— Mobile spotlight panel ——— */}
       <div className="relative overflow-hidden lg:hidden">
-        <div className="relative overflow-hidden rounded-b-[32px] bg-[#FCE001] px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-6">
+        <div className="relative overflow-hidden bg-[#FCE001] px-5 pb-8 pt-5 sm:px-6 sm:pb-9 sm:pt-6">
+          {/* Soft bottom wave into black — light, not the desktop B-curve */}
+          <svg
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-10 w-full text-[#0b0b0b]"
+            viewBox="0 0 400 40"
+            preserveAspectRatio="none"
+            aria-hidden
+          >
+            <path
+              d="M0 18 C70 34 130 40 200 40 C270 40 330 34 400 18 V40 H0 Z"
+              fill="currentColor"
+            />
+          </svg>
+
           {/* Atmosphere */}
           <div
-            className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full border border-[#0b0b0b]/[0.07]"
+            className="pointer-events-none absolute -right-14 -top-16 h-52 w-52 rounded-full border border-[#0b0b0b]/[0.08]"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute -right-4 -top-8 h-36 w-36 rounded-full border border-[#0b0b0b]/[0.08]"
+            className="pointer-events-none absolute -right-2 -top-4 h-32 w-32 rounded-full border border-[#0b0b0b]/[0.1]"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute -left-20 bottom-8 h-48 w-48 rounded-full bg-[#fff6a8]/40 blur-2xl"
+            className="pointer-events-none absolute -left-16 bottom-16 h-40 w-40 rounded-full bg-white/35 blur-3xl"
             aria-hidden
           />
+          <span
+            className="pointer-events-none absolute right-3 top-2 select-none font-poppins text-[88px] font-black leading-none text-[#0b0b0b]/[0.06]"
+            aria-hidden
+          >
+            {step}
+          </span>
 
-          <div className="relative z-[1] mb-4 flex items-center justify-between">
+          <div className="relative z-[1] mb-5 flex items-center justify-between gap-3">
             <span className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0b0b0b]/55">
-              Service {step} / {total}
+              {step} / {total}
             </span>
-            <span className="rounded-full bg-[#0b0b0b] px-3 py-1 font-poppins text-[11px] font-semibold italic text-[#FCE001]">
-              {ride.subtitle}
-            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                aria-label="Previous ride"
+                disabled={!canPrev || !onSelect}
+                onClick={() => onSelect?.(activeIndex - 1)}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#0b0b0b]/20 bg-[#0b0b0b]/[0.06] text-[#0b0b0b] disabled:opacity-30"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                aria-label="Next ride"
+                disabled={!canNext || !onSelect}
+                onClick={() => onSelect?.(activeIndex + 1)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0b0b0b] text-[#FCE001] disabled:opacity-30"
+              >
+                →
+              </button>
+            </div>
           </div>
 
           <AnimatePresence initial={false} mode="wait">
             <motion.div
               key={ride.id}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: EASE_IO }}
+              className="relative z-[1]"
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.35, ease: EASE_OUT }}
-              >
+              <div className="flex items-start gap-4">
                 <Link
                   href={ride.href}
-                  className="mb-5 inline-flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-[22px] bg-[#0b0b0b] shadow-[0_16px_40px_rgba(11,11,11,0.35)]"
+                  className="inline-flex h-[68px] w-[68px] shrink-0 items-center justify-center overflow-hidden rounded-[20px] bg-[#0b0b0b] shadow-[0_14px_32px_rgba(11,11,11,0.32)]"
                   aria-label={`Go to ${ride.title}`}
                 >
                   <Image
                     src={ride.panelIcon}
                     alt=""
-                    width={64}
-                    height={64}
+                    width={56}
+                    height={56}
                     className="h-[72%] w-[72%] object-contain"
                     unoptimized
                   />
                 </Link>
-              </motion.div>
+                <div className="min-w-0 flex-1 pt-0.5">
+                  <p className="font-poppins text-[12px] font-semibold italic text-[#0b0b0b]/65">
+                    {ride.subtitle}
+                  </p>
+                  <h3 className="mt-1 font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
+                    {ride.titleWithPeriod}
+                  </h3>
+                </div>
+              </div>
 
-              <h3 className="max-w-[16ch] font-poppins text-[clamp(30px,8.5vw,40px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
-                {ride.titleWithPeriod}
-              </h3>
-
-              <p className="mt-3 max-w-[34ch] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/75">
+              <p className="mt-4 font-poppins text-[13.5px] font-normal leading-[1.55] text-[#0b0b0b]/78">
                 {ride.panelDescription}
               </p>
 
-              <div className="mt-5 flex flex-col items-start gap-2.5">
-                {ride.features.map((feature, i) => (
-                  <motion.div
-                    key={feature}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      duration: 0.28,
-                      ease: EASE_OUT,
-                      delay: 0.06 + i * 0.05,
-                    }}
-                  >
-                    <FeaturePill label={feature} />
-                  </motion.div>
+              <div className="mt-4 flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {ride.features.map((feature) => (
+                  <FeaturePill key={feature} label={feature} />
                 ))}
               </div>
 
               <Link
                 href={ride.href}
-                className="mt-6 flex w-full items-center justify-between rounded-[18px] bg-[#0b0b0b] px-5 py-3.5 font-poppins text-[14px] font-semibold text-[#FCE001] shadow-[0_12px_28px_rgba(11,11,11,0.25)]"
+                className="mt-5 flex w-full items-center justify-between rounded-[16px] bg-[#0b0b0b] px-4 py-3.5 font-poppins text-[14px] font-semibold text-[#FCE001]"
               >
                 <span>Explore {ride.title}</span>
                 <span
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[15px] font-bold text-[#0b0b0b]"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b]"
                   aria-hidden
                 >
                   →
@@ -346,21 +376,42 @@ function MobileRideChips({
   activeIndex: number;
   onSelect: (index: number) => void;
 }) {
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const root = scrollerRef.current;
+    if (!root) return;
+    const card = root.querySelector<HTMLElement>(`[data-ride-index="${activeIndex}"]`);
+    card?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [activeIndex]);
+
   return (
-    <div className="relative bg-[#0b0b0b] px-4 pb-6 pt-5 lg:hidden">
-      <div className="mb-4 flex items-end justify-between gap-3">
-        <div>
-          <p className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
-            All services
-          </p>
-          <p className="mt-1 font-poppins text-[15px] font-semibold text-white">
-            Tap to switch rides
-          </p>
-        </div>
+    <div className="relative bg-[#0b0b0b] px-4 pb-6 pt-4 lg:hidden">
+      {/* Edge fades */}
+      <div
+        className="pointer-events-none absolute bottom-6 left-0 top-14 z-[2] w-8 bg-gradient-to-r from-[#0b0b0b] to-transparent"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-6 right-0 top-14 z-[2] w-8 bg-gradient-to-l from-[#0b0b0b] to-transparent"
+        aria-hidden
+      />
+
+      <div className="mb-3.5 flex items-center justify-between gap-3">
+        <p className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
+          Browse services
+        </p>
         <div className="flex items-center gap-1.5" aria-hidden>
           {RIDES.map((ride, index) => (
-            <span
+            <button
               key={ride.id}
+              type="button"
+              aria-label={`Go to ${ride.title}`}
+              onClick={() => onSelect(index)}
               className={`h-1.5 rounded-full transition-all ${
                 index === activeIndex
                   ? "w-5 bg-[#FCE001]"
@@ -372,6 +423,7 @@ function MobileRideChips({
       </div>
 
       <div
+        ref={scrollerRef}
         className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
         aria-label="Ride categories"
@@ -383,37 +435,47 @@ function MobileRideChips({
               key={ride.id}
               type="button"
               role="tab"
+              data-ride-index={index}
               aria-selected={active}
               onClick={() => onSelect(index)}
               whileTap={{ scale: 0.97 }}
-              className={`relative flex w-[148px] shrink-0 snap-start flex-col overflow-hidden rounded-[22px] border p-3.5 text-left transition-colors ${
+              className={`relative flex w-[156px] shrink-0 snap-center flex-col overflow-hidden rounded-[20px] border p-3.5 text-left transition-colors ${
                 active
-                  ? "border-[#FCE001]/50 bg-[#1a1a1a] shadow-[0_0_28px_rgba(252,224,1,0.22)]"
+                  ? "border-[#FCE001]/55 bg-gradient-to-b from-[#222] to-[#141414] shadow-[0_0_32px_rgba(252,224,1,0.2)]"
                   : "border-white/10 bg-[#141414]"
               }`}
             >
               {active ? (
                 <motion.span
                   layoutId="mobile-ride-glow"
-                  className="pointer-events-none absolute inset-0 rounded-[22px] ring-1 ring-[#FCE001]/35"
+                  className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-[#FCE001]/40"
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
               ) : null}
 
-              <span
-                className={`relative mb-3 flex h-12 w-12 items-center justify-center overflow-hidden rounded-[14px] ${
-                  active ? "bg-[#FCE001]" : "bg-[#f4f1ea]"
-                }`}
-              >
-                <Image
-                  src={ride.icon}
-                  alt=""
-                  width={40}
-                  height={40}
-                  className="h-[88%] w-[88%] object-contain"
-                  unoptimized
-                />
-              </span>
+              <div className="relative mb-3 flex items-center justify-between">
+                <span
+                  className={`flex h-11 w-11 items-center justify-center overflow-hidden rounded-[13px] ${
+                    active ? "bg-[#FCE001]" : "bg-[#f4f1ea]"
+                  }`}
+                >
+                  <Image
+                    src={ride.icon}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="h-[88%] w-[88%] object-contain"
+                    unoptimized
+                  />
+                </span>
+                <span
+                  className={`font-poppins text-[10px] font-bold tracking-wide ${
+                    active ? "text-[#FCE001]" : "text-white/30"
+                  }`}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
 
               <span
                 className={`relative font-poppins text-[14px] font-bold leading-tight ${
@@ -651,7 +713,11 @@ export default function SixRidesSection(): React.ReactElement {
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
           <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-            <DetailPanel ride={activeRide} activeIndex={activeIndex} />
+            <DetailPanel
+              ride={activeRide}
+              activeIndex={activeIndex}
+              onSelect={setActiveIndex}
+            />
             <MobileRideChips
               activeIndex={activeIndex}
               onSelect={setActiveIndex}
