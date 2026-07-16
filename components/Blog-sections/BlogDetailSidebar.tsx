@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import Link from "next/link";
 import { formatBlogType } from "@/lib/blogFormat";
 
@@ -34,27 +35,32 @@ function formatReaders(count?: number): string {
   return String(count);
 }
 
-export default function BlogDetailSidebar({
-  author,
-  category,
-  description1,
-  storiesCount,
-  readersCount,
-  tocItems,
-}: BlogDetailSidebarProps) {
-  const authorLabel = author?.trim() || "Traveling Partner";
-  const authorInitials = getAuthorInitials(authorLabel);
-  const firstName = getFirstName(authorLabel);
-  const categoryLabel = category ? formatBlogType(category).toLowerCase() : "community";
-  const readersLabel = formatReaders(readersCount);
+const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
+  function BlogDetailSidebar(
+    {
+      author,
+      category,
+      description1,
+      storiesCount,
+      readersCount,
+      tocItems,
+    },
+    ref
+  ) {
+    const authorLabel = author?.trim() || "Traveling Partner";
+    const authorInitials = getAuthorInitials(authorLabel);
+    const firstName = getFirstName(authorLabel);
+    const categoryLabel = category
+      ? formatBlogType(category).toLowerCase()
+      : "community";
+    const readersLabel = formatReaders(readersCount);
 
-  const bio =
-    description1?.trim() ||
-    `Editor at TP Journal. Covers ${categoryLabel} stories, driver profiles, and the human side of mobility across Pakistan.`;
+    const bio =
+      description1?.trim() ||
+      `Editor at TP Journal. Covers ${categoryLabel} stories, driver profiles, and the human side of mobility across Pakistan.`;
 
-  return (
-    <aside className="space-y-5 lg:pt-2">
-      <div className="sticky top-28 space-y-5">
+    return (
+      <aside ref={ref} className="space-y-5">
         <div className="rounded-[28px] border border-[#eceae4] bg-white p-5 shadow-[0_8px_28px_rgba(0,0,0,0.06)] sm:rounded-[32px] sm:p-6">
           <div className="mb-4 flex items-center gap-3.5">
             <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#fce001] to-[#fdb813] text-[15px] font-bold text-[#0b0b0b] shadow-[0_0_0_6px_rgba(252,224,1,0.25)]">
@@ -64,7 +70,7 @@ export default function BlogDetailSidebar({
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#FCE001] sm:text-[11px]">
                 Written by
               </p>
-              <p className="text-[16px] font-bold leading-tight text-[#0b0b0b] sm:text-[17px]">
+              <p className="text-[16px] font-bold uppercase leading-tight text-[#0b0b0b] sm:text-[17px]">
                 {authorLabel}
               </p>
             </div>
@@ -82,7 +88,7 @@ export default function BlogDetailSidebar({
                     <p className="text-[18px] font-extrabold leading-none text-[#0b0b0b]">
                       {storiesCount}
                     </p>
-                    <p className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#9a968c]">
+                    <p className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001]">
                       Stories
                     </p>
                   </div>
@@ -92,7 +98,7 @@ export default function BlogDetailSidebar({
                     <p className="text-[18px] font-extrabold leading-none text-[#0b0b0b]">
                       {readersLabel}
                     </p>
-                    <p className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#9a968c]">
+                    <p className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001]">
                       Readers
                     </p>
                   </div>
@@ -130,7 +136,9 @@ export default function BlogDetailSidebar({
             </ul>
           </div>
         ) : null}
-      </div>
-    </aside>
-  );
-}
+      </aside>
+    );
+  }
+);
+
+export default BlogDetailSidebar;
