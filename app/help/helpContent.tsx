@@ -1,6 +1,5 @@
 import React from "react";
-import type { LucideIcon } from "lucide-react";
-import { Car, Package, CreditCard, Shield } from "lucide-react";
+import { HELP_ICONS } from "@/lib/helpAssets";
 
 export interface HelpItem {
   id: number;
@@ -11,18 +10,34 @@ export interface HelpItem {
 export interface HelpCategory {
   id: string;
   title: string;
-  icon: LucideIcon;
+  iconSrc: string;
+  browseDescription: string;
   items: HelpItem[];
 }
 
-const body = "text-gray-600 text-sm sm:text-base leading-relaxed";
-const bullet = "list-disc pl-6 space-y-2 text-gray-600 text-sm sm:text-base leading-relaxed";
+const body = "text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+const bullet =
+  "list-none space-y-3 text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+
+function BulletItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="relative pl-6">
+      <span
+        className="absolute left-0 top-[0.55em] h-2 w-2 rounded-full bg-[#FCE001]"
+        aria-hidden="true"
+      />
+      {children}
+    </li>
+  );
+}
 
 export const helpCategories: HelpCategory[] = [
   {
     id: "vehicle",
     title: "Vehicle",
-    icon: Car,
+    iconSrc: HELP_ICONS.vehicle,
+    browseDescription:
+      "Everything about rides, vehicle registration, and driver requirements.",
     items: [
       {
         id: 1,
@@ -36,22 +51,22 @@ export const helpCategories: HelpCategory[] = [
               Essential requirements typically include:
             </p>
             <ul className={bullet}>
-              <li>
+              <BulletItem>
                 Vehicle Suitability: Your vehicle should meet specific suitability
                 criteria based on the services offered, ensuring quality experiences.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Vehicle Condition: Maintaining a well-kept vehicle that passes safety
                 inspections is crucial.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Document Submission: Essential documents such as driver&apos;s license,
                 car registration, and insurance are necessary.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Variety of Vehicle Types: Partner vehicles vary to suit the different
                 service types provided.
-              </li>
+              </BulletItem>
             </ul>
           </div>
         ),
@@ -99,24 +114,24 @@ export const helpCategories: HelpCategory[] = [
               distinct features:
             </p>
             <ul className={bullet}>
-              <li>
+              <BulletItem>
                 Delivery Vehicles: Optimized for secure and efficient delivery services,
                 including vans, bikes, and compact cars suitable for various package
                 sizes and types.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Logistics Trucks: Designed for larger-scale logistics operations,
                 providing ample space and reliability for transporting bulk items and
                 cargo.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Standard Commuter Cars: Ideal for everyday travel and general
                 transportation services for the community.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Premium Executive Cars: Offering luxurious and comfortable travel
                 experiences for a higher-end user experience.
-              </li>
+              </BulletItem>
             </ul>
             <p className={body}>
               These vehicle categories are well-suited for the various services provided
@@ -179,7 +194,9 @@ export const helpCategories: HelpCategory[] = [
   {
     id: "delivery",
     title: "Delivery",
-    icon: Package,
+    iconSrc: HELP_ICONS.delivery,
+    browseDescription:
+      "Package delivery, tracking, and logistics support for every shipment.",
     items: [
       {
         id: 8,
@@ -275,15 +292,15 @@ export const helpCategories: HelpCategory[] = [
           <div className="space-y-4">
             <p className={body}>Logistics Delivery:</p>
             <ul className={bullet}>
-              <li>Large packages, bulky goods, and specialized equipment.</li>
-              <li>Support for commercial and business deliveries.</li>
-              <li>&quot;Share Delivery&quot; option for cost-effective logistics.</li>
+              <BulletItem>Large packages, bulky goods, and specialized equipment.</BulletItem>
+              <BulletItem>Support for commercial and business deliveries.</BulletItem>
+              <BulletItem>&quot;Share Delivery&quot; option for cost-effective logistics.</BulletItem>
             </ul>
             <p className={body}>Regular Delivery:</p>
             <ul className={bullet}>
-              <li>Documents, letters, small packages.</li>
-              <li>Food, groceries, retail orders, gifts, and flowers.</li>
-              <li>Everyday items for community convenience.</li>
+              <BulletItem>Documents, letters, small packages.</BulletItem>
+              <BulletItem>Food, groceries, retail orders, gifts, and flowers.</BulletItem>
+              <BulletItem>Everyday items for community convenience.</BulletItem>
             </ul>
             <p className={body}>
               Specific guidelines may apply based on your location and local regulations,
@@ -334,7 +351,9 @@ export const helpCategories: HelpCategory[] = [
   {
     id: "payment-processing",
     title: "Payment Processing",
-    icon: CreditCard,
+    iconSrc: HELP_ICONS.payment,
+    browseDescription:
+      "Payment methods, fares, and commission-free billing explained clearly.",
     items: [
       {
         id: 14,
@@ -390,8 +409,10 @@ export const helpCategories: HelpCategory[] = [
   },
   {
     id: "safety-and-security",
-    title: "Safety and Security",
-    icon: Shield,
+    title: "Safety & Security",
+    iconSrc: HELP_ICONS.safety,
+    browseDescription:
+      "Safety features, reporting incidents, and security tips for every trip.",
     items: [
       {
         id: 15,
@@ -462,17 +483,17 @@ export const helpCategories: HelpCategory[] = [
           <div className="space-y-4">
             <p className={body}>For any safety-related incidents in Pakistan:</p>
             <ul className={bullet}>
-              <li>Go to your ride or delivery history within the Travel Partner app.</li>
-              <li>Select the specific ride or delivery where the incident occurred.</li>
-              <li>
+              <BulletItem>Go to your ride or delivery history within the Travel Partner app.</BulletItem>
+              <BulletItem>Select the specific ride or delivery where the incident occurred.</BulletItem>
+              <BulletItem>
                 Use the &quot;Report an Issue&quot; option to provide details about the
                 incident.
-              </li>
-              <li>
+              </BulletItem>
+              <BulletItem>
                 Ensure your safety by being cautious, verifying the vehicle, sharing your
                 trip details, and utilizing any basic safety features available within the
                 app.
-              </li>
+              </BulletItem>
             </ul>
             <p className={body}>
               Travel Partner in Pakistan aims to create a supportive environment while
