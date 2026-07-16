@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import PrivacyHero from "@/components/Privacy-sections/PrivacyHero";
+import PrivacyHero from "@/components/privacy-sections/PrivacyHero";
 import {
   privacyClosingCard,
   privacyNavItems,
@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
         if (visible[0]?.target.id) {
-          setActiveSlug(visible[0].target.id);
+          setActiveSlug(visible[0]?.target.id);
         }
       },
       { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.25, 0.5] }
