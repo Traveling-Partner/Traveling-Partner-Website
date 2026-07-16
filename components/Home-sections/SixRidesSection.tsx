@@ -484,7 +484,7 @@ export default function SixRidesSection(): React.ReactElement {
             id="six-rides-heading"
             className="font-poppins text-[clamp(2rem,4.17vw,5rem)] font-bold leading-[1.02] tracking-[-0.03em]"
           >
-            <span className="text-[#0b0b0b]">Six rides.</span>{" "}
+            <span className="text-[#0b0b0b]">five rides.</span>{" "}
             <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent">
               One promise.
             </span>
