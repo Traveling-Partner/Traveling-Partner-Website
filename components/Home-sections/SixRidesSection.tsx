@@ -292,7 +292,7 @@ function RideListItem({
             alt=""
             width={48}
             height={48}
-            className="h-[72%] w-[72%] object-contain"
+            className="h-[88%] w-[88%] object-contain"
             unoptimized
           />
         </motion.span>
