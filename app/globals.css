@@ -411,6 +411,8 @@ img {
 .blog-detail-figma h2 strong,
 .blog-detail-figma h3 em,
 .blog-detail-figma h3 strong,
+.blog-detail-figma .blog-section-heading em,
+.blog-detail-figma .blog-section-heading strong,
 .blog-detail-figma .blog-accent {
   @apply font-semibold not-italic text-[#F5A800];
   font-style: italic;
@@ -517,9 +519,22 @@ img {
   @apply text-[#e67e22] not-italic font-semibold;
 }
 
-/* Yellow insight / callout blocks from API headings */
-.blog-detail-figma h3:has(+ p) {
-  @apply text-[#0b0b0b];
+/* Unified section headings — same look on every blog detail page */
+.blog-detail-figma .blog-section-heading {
+  @apply relative mb-4 mt-10 pl-4 font-extrabold tracking-tight text-[#0b0b0b];
+  font-size: clamp(22px, 2.8vw, 32px);
+  line-height: 1.2;
+}
+
+.blog-detail-figma .blog-section-heading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 4px;
+  height: 1.05em;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #fce001 0%, #fdb813 100%);
 }
 
 .blog-detail-figma img {

@@ -106,10 +106,10 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
       />
 
       <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex w-full justify-center sm:mb-10">
+        <div className="mb-8 flex w-full flex-col items-stretch justify-between gap-3 sm:mb-10 sm:flex-row sm:items-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
+            className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
           >
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
               <BackArrowIcon className="h-3.5 w-3.5" />
@@ -118,66 +118,66 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
               Back to Blog
             </span>
           </Link>
+
+          {(categoryLabel || dateLabel || readTimeLabel) && (
+            <div className="inline-flex w-fit flex-wrap items-center gap-2 self-end rounded-full border border-[#eceae4] bg-white px-3 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-2.5 sm:px-4 sm:py-2.5 sm:self-auto">
+              {categoryLabel ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
+                    {categoryLabel}
+                  </span>
+                </span>
+              ) : null}
+              {dateLabel ? (
+                <span className="text-[12px] font-medium text-[#6b6960] sm:text-[13px]">
+                  {dateLabel}
+                </span>
+              ) : null}
+              {dateLabel && readTimeLabel ? (
+                <span className="text-[#c4c0b6]" aria-hidden="true">
+                  •
+                </span>
+              ) : null}
+              {readTimeLabel ? (
+                <span className="text-[12px] font-semibold text-[#FCE001] sm:text-[13px]">
+                  {readTimeLabel}
+                </span>
+              ) : null}
+            </div>
+          )}
         </div>
 
         <div className="text-center">
-        {(categoryLabel || dateLabel || readTimeLabel) && (
-          <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[#eceae4] bg-white px-3 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:mb-8 sm:gap-2.5 sm:px-4 sm:py-2.5">
-            {categoryLabel ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
-                  {categoryLabel}
+          <h1 className="mb-5 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-6">
+            {renderHeroTitle(blog.main_title)}
+          </h1>
+
+          {blog.description1 ? (
+            <p className="mx-auto mb-8 max-w-[640px] text-[15px] leading-[1.75] text-[#5c5b55] sm:mb-10 sm:text-base sm:leading-[1.8]">
+              {blog.description1}
+            </p>
+          ) : null}
+
+          {(authorLabel || authorInitials) && (
+            <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
+              {authorInitials ? (
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[13px] font-bold text-[#0b0b0b]">
+                  {authorInitials}
                 </span>
-              </span>
-            ) : null}
-            {dateLabel ? (
-              <span className="text-[12px] font-medium text-[#6b6960] sm:text-[13px]">
-                {dateLabel}
-              </span>
-            ) : null}
-            {dateLabel && readTimeLabel ? (
-              <span className="text-[#c4c0b6]" aria-hidden="true">
-                •
-              </span>
-            ) : null}
-            {readTimeLabel ? (
-              <span className="text-[12px] font-semibold text-[#FCE001] sm:text-[13px]">
-                {readTimeLabel}
-              </span>
-            ) : null}
-          </div>
-        )}
-
-        <h1 className="mb-5 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-6">
-          {renderHeroTitle(blog.main_title)}
-        </h1>
-
-        {blog.description1 ? (
-          <p className="mx-auto mb-8 max-w-[640px] text-[15px] leading-[1.75] text-[#5c5b55] sm:mb-10 sm:text-base sm:leading-[1.8]">
-            {blog.description1}
-          </p>
-        ) : null}
-
-        {(authorLabel || authorInitials) && (
-          <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
-            {authorInitials ? (
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[13px] font-bold text-[#0b0b0b]">
-                {authorInitials}
-              </span>
-            ) : null}
-            <div className="text-left">
-              {authorLabel ? (
-                <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                  {authorLabel}
-                </p>
               ) : null}
-              <p className="text-[12px] font-medium text-[#9a968c] sm:text-[13px]">
-                {authorRole}
-              </p>
+              <div className="text-left">
+                {authorLabel ? (
+                  <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+                    {authorLabel}
+                  </p>
+                ) : null}
+                <p className="text-[12px] font-medium text-[#9a968c] sm:text-[13px]">
+                  {authorRole}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </section>
