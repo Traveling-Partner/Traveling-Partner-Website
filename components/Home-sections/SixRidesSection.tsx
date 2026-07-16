@@ -27,6 +27,7 @@ type RideItem = {
   panelDescription: string;
   features: string[];
   icon: string;
+  panelIcon: string;
   href: string;
 };
 
@@ -42,6 +43,7 @@ const RIDES: RideItem[] = [
       "Commission-free city rides across Pakistan. Connect directly with verified drivers — no middlemen, no surprises.",
     features: ["Verified drivers", "Fixed fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
+    panelIcon: "/images/five-rides/panel-taxi.png",
     href: "/taxi-stand",
   },
   {
@@ -55,6 +57,7 @@ const RIDES: RideItem[] = [
       "Affordable shared rides with verified co-passengers. Split the fare, not the experience — greener travel for everyone.",
     features: ["Split fares", "Verified riders", "Eco-friendly"],
     icon: "/images/five-rides/icon-pool.png",
+    panelIcon: "/images/five-rides/panel-pool.png",
     href: "/pool-ride",
   },
   {
@@ -68,6 +71,7 @@ const RIDES: RideItem[] = [
       "Connect with vetted delivery partners across the city. Documents, food, parcels — same-day, transparent, commission-free.",
     features: ["Same-day", "Live GPS", "Verified couriers"],
     icon: "/images/five-rides/icon-delivery.png",
+    panelIcon: "/images/five-rides/panel-delivery.png",
     href: "/delivery",
   },
   {
@@ -81,6 +85,7 @@ const RIDES: RideItem[] = [
       "Enterprise loads with zero commission. Bulk logistics for warehousing, distribution, and B2B fulfilment at scale.",
     features: ["Volume pricing", "Account manager", "Live dashboard"],
     icon: "/images/five-rides/icon-logistics.png",
+    panelIcon: "/images/five-rides/panel-logistics.png",
     href: "/logistic",
   },
   {
@@ -94,6 +99,7 @@ const RIDES: RideItem[] = [
       "Long-distance bookings with pre-planned routes and trusted drivers — from Hunza to Karachi, no fees attached.",
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
+    panelIcon: "/images/five-rides/panel-trip.png",
     href: "/trip",
   },
 ];
@@ -167,7 +173,7 @@ function FeaturePill({ label, index }: { label: string; index: number }) {
         ease: EASE_OUT,
         delay: 0.08 + index * 0.05,
       }}
-      className="inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold text-white sm:px-4 sm:text-[13px]"
+      className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold text-white sm:px-4 sm:py-3 sm:text-[13px]"
     >
       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
@@ -198,21 +204,21 @@ function DetailPanel({ ride }: { ride: RideItem }) {
           >
             <Link
               href={ride.href}
-              className="mb-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-[14px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] sm:mb-5 sm:h-14 sm:w-14 sm:rounded-[16px]"
+              className="mb-5 inline-flex h-20 w-20 items-center justify-center overflow-hidden rounded-[20px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] sm:mb-6 sm:h-24 sm:w-24 sm:rounded-[24px] lg:h-28 lg:w-28 lg:rounded-[28px]"
               aria-label={`Go to ${ride.title}`}
             >
               <motion.span
                 className="flex h-full w-full items-center justify-center"
-                whileHover={{ scale: 1.06 }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: DURATION_FAST, ease: EASE_OUT }}
               >
                 <Image
-                  src={ride.icon}
+                  src={ride.panelIcon}
                   alt=""
-                  width={48}
-                  height={48}
-                  className="h-9 w-9 object-contain sm:h-10 sm:w-10"
+                  width={112}
+                  height={112}
+                  className="h-[70%] w-[70%] object-contain"
                   unoptimized
                 />
               </motion.span>
@@ -223,7 +229,7 @@ function DetailPanel({ ride }: { ride: RideItem }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.06 }}
-            className="font-poppins text-[24px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#0b0b0b] sm:text-[28px] lg:text-[34px]"
+            className="font-poppins text-[32px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b] sm:text-[40px] lg:text-[48px]"
           >
             {ride.titleWithPeriod}
           </motion.h3>
@@ -232,12 +238,12 @@ function DetailPanel({ ride }: { ride: RideItem }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.1 }}
-            className="mt-2.5 max-w-[340px] font-poppins text-[13px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3 sm:text-[14px]"
+            className="mt-3 max-w-[380px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3.5 sm:text-[15px] lg:text-[16px]"
           >
             {ride.panelDescription}
           </motion.p>
 
-          <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-2.5 lg:mt-auto lg:pt-6">
+          <div className="mt-5 flex flex-col items-start gap-2.5 sm:mt-6 sm:gap-3 lg:mt-auto lg:justify-end lg:gap-3.5 lg:pt-6">
             {ride.features.map((feature, i) => (
               <FeaturePill key={feature} label={feature} index={i} />
             ))}
@@ -315,7 +321,7 @@ function RideListItem({
             alt=""
             width={48}
             height={48}
-            className="h-full w-full object-contain"
+            className="h-[72%] w-[72%] object-contain"
             unoptimized
           />
         </motion.span>
