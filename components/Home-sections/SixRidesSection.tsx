@@ -142,55 +142,34 @@ function PlusIcon({ className = "" }: { className?: string }) {
 }
 
 function PanelBackground() {
+  // Mild double-scallop on the right edge of the left panel only.
+  const yellowPath =
+    "M0 0 H900 C945 0 980 50 985 130 C990 200 980 260 955 300 C930 325 900 318 880 320 C900 322 930 315 955 340 C980 380 990 440 985 510 C980 590 945 640 900 640 H0 Z";
+
   return (
-    <>
-      {/* Mobile: solid split handled by panel fills. Desktop: unified curved shape. */}
-      <svg
-        className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full lg:block"
-        viewBox="0 0 1000 640"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        {/* Yellow left — double-scallop B-curve with sharp center cusp (ref screenshot) */}
-        <path
-          d="M0 0
-             H415
-             C470 0 510 55 505 145
-             C500 210 430 265 405 320
-             C430 375 500 430 505 495
-             C510 585 470 640 415 640
-             H0
-             Z"
-          fill="#FCE001"
-        />
-        {/* Soft depth on yellow (screenshot lighting) */}
-        <path
-          d="M0 0
-             H415
-             C470 0 510 55 505 145
-             C500 210 430 265 405 320
-             C430 375 500 430 505 495
-             C510 585 470 640 415 640
-             H0
-             Z"
-          fill="url(#five-rides-yellow-glow)"
-        />
-        <defs>
-          <radialGradient
-            id="five-rides-yellow-glow"
-            cx="18%"
-            cy="22%"
-            r="70%"
-            fx="12%"
-            fy="12%"
-          >
-            <stop offset="0%" stopColor="#fff6a8" stopOpacity="0.45" />
-            <stop offset="55%" stopColor="#FCE001" stopOpacity="0" />
-            <stop offset="100%" stopColor="#FDB813" stopOpacity="0.18" />
-          </radialGradient>
-        </defs>
-      </svg>
-    </>
+    <svg
+      className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full lg:block"
+      viewBox="0 0 1000 640"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path d={yellowPath} fill="#FCE001" />
+      <path d={yellowPath} fill="url(#five-rides-yellow-glow)" />
+      <defs>
+        <radialGradient
+          id="five-rides-yellow-glow"
+          cx="18%"
+          cy="22%"
+          r="70%"
+          fx="12%"
+          fy="12%"
+        >
+          <stop offset="0%" stopColor="#fff6a8" stopOpacity="0.45" />
+          <stop offset="55%" stopColor="#FCE001" stopOpacity="0" />
+          <stop offset="100%" stopColor="#FDB813" stopOpacity="0.18" />
+        </radialGradient>
+      </defs>
+    </svg>
   );
 }
 
@@ -208,6 +187,7 @@ function FeaturePill({ label }: { label: string }) {
 function DetailPanel({ ride }: { ride: RideItem }) {
   return (
     <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:bg-transparent lg:p-8">
+      <PanelBackground />
       {/* Stacked crossfade — Figma Smart Animate style (opacity only, in place) */}
       <div className="relative z-[1] grid flex-1">
         <AnimatePresence initial={false}>
@@ -467,7 +447,6 @@ export default function SixRidesSection(): React.ReactElement {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
-          <PanelBackground />
           <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <DetailPanel ride={activeRide} />
             <RideList activeIndex={activeIndex} onSelect={setActiveIndex} />
