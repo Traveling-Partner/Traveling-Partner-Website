@@ -142,9 +142,9 @@ function PlusIcon({ className = "" }: { className?: string }) {
 }
 
 function PanelBackground() {
-  // Mild double-scallop on the right edge of the left panel only.
+  // Milder center + slightly reduced lobes.
   const yellowPath =
-    "M0 0 H900 C945 0 980 50 985 130 C990 200 980 260 955 300 C930 325 900 318 880 320 C900 322 930 315 955 340 C980 380 990 440 985 510 C980 590 945 640 900 640 H0 Z";
+    "M0 0 H920 C950 0 975 40 980 110 C985 175 978 235 965 285 C948 308 920 314 900 320 C920 326 948 332 965 355 C978 405 985 465 980 530 C975 600 950 640 920 640 H0 Z";
 
   return (
     <svg
