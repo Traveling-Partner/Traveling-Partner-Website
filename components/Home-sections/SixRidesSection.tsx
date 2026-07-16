@@ -3,6 +3,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+
+/**
+ * Figma Smart Animate–style curves for Five Rides prototype.
+ * Durations ≈ 300–360ms (prototype feel); ease-in-out cubic-bezier.
+ */
+const EASE_IO: [number, number, number, number] = [0.42, 0, 0.58, 1];
+const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const DURATION = 0.32;
+const DURATION_FAST = 0.24;
+const DURATION_SLOW = 0.4;
+
+const accentYellowClass =
+  "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
 type RideItem = {
   id: string;
@@ -143,69 +157,93 @@ function WaveDivider() {
   );
 }
 
-function FeaturePill({ label }: { label: string }) {
+function FeaturePill({ label, index }: { label: string; index: number }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold text-white sm:px-4 sm:text-[13px]">
+    <motion.span
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: DURATION,
+        ease: EASE_OUT,
+        delay: 0.08 + index * 0.05,
+      }}
+      className="inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold text-white sm:px-4 sm:text-[13px]"
+    >
       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
       </span>
       {label}
-    </span>
+    </motion.span>
   );
 }
 
 function DetailPanel({ ride }: { ride: RideItem }) {
   return (
-    <div className="relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-6 sm:min-h-[400px] sm:rounded-[32px] sm:p-8 lg:min-h-[520px] lg:rounded-[40px] lg:rounded-r-none lg:p-10">
-      {/* Concentric circle pattern */}
-      <div
-        className="pointer-events-none absolute -left-16 -top-20 h-[420px] w-[420px] rounded-full border border-[#0b0b0b]/[0.06] sm:h-[520px] sm:w-[520px]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -left-4 -top-8 h-[280px] w-[280px] rounded-full border border-[#0b0b0b]/[0.07] sm:h-[360px] sm:w-[360px]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute left-8 top-12 h-[160px] w-[160px] rounded-full border border-[#0b0b0b]/[0.08] sm:h-[200px] sm:w-[200px]"
-        aria-hidden
-      />
-
+    <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[28px] bg-[#FCE001] p-5 sm:min-h-[340px] sm:rounded-[32px] sm:p-6 lg:min-h-[420px] lg:rounded-[40px] lg:rounded-r-none lg:p-8">
       <WaveDivider />
 
-      <div
-        key={ride.id}
-        className="relative z-[1] flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-2 duration-500"
-      >
-        <Link
-          href={ride.href}
-          className="mb-5 inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-[16px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] transition-transform duration-300 hover:scale-[1.03] sm:mb-6 sm:h-16 sm:w-16 sm:rounded-[18px]"
-          aria-label={`Go to ${ride.title}`}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={ride.id}
+          className="relative z-[1] flex flex-1 flex-col"
+          initial={{ opacity: 0, y: 14, filter: "blur(4px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -10, filter: "blur(3px)" }}
+          transition={{ duration: DURATION_SLOW, ease: EASE_IO }}
         >
-          <Image
-            src={ride.icon}
-            alt=""
-            width={56}
-            height={56}
-            className="h-11 w-11 object-contain sm:h-12 sm:w-12"
-            unoptimized
-          />
-        </Link>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.04 }}
+          >
+            <Link
+              href={ride.href}
+              className="mb-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-[14px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] sm:mb-5 sm:h-14 sm:w-14 sm:rounded-[16px]"
+              aria-label={`Go to ${ride.title}`}
+            >
+              <motion.span
+                className="flex h-full w-full items-center justify-center"
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: DURATION_FAST, ease: EASE_OUT }}
+              >
+                <Image
+                  src={ride.icon}
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="h-9 w-9 object-contain sm:h-10 sm:w-10"
+                  unoptimized
+                />
+              </motion.span>
+            </Link>
+          </motion.div>
 
-        <h3 className="font-poppins text-[28px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#0b0b0b] sm:text-[34px] lg:text-[40px]">
-          {ride.titleWithPeriod}
-        </h3>
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.06 }}
+            className="font-poppins text-[24px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#0b0b0b] sm:text-[28px] lg:text-[34px]"
+          >
+            {ride.titleWithPeriod}
+          </motion.h3>
 
-        <p className="mt-3 max-w-[340px] font-poppins text-[14px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-4 sm:text-[15px]">
-          {ride.panelDescription}
-        </p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.1 }}
+            className="mt-2.5 max-w-[340px] font-poppins text-[13px] font-normal leading-[1.55] text-[#0b0b0b]/80 sm:mt-3 sm:text-[14px]"
+          >
+            {ride.panelDescription}
+          </motion.p>
 
-        <div className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5 lg:mt-auto lg:pt-8">
-          {ride.features.map((feature) => (
-            <FeaturePill key={feature} label={feature} />
-          ))}
-        </div>
-      </div>
+          <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-2.5 lg:mt-auto lg:pt-6">
+            {ride.features.map((feature, i) => (
+              <FeaturePill key={feature} label={feature} index={i} />
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -220,78 +258,131 @@ function RideListItem({
   onSelect: () => void;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onSelect}
-      className={`group relative z-[1] flex w-full items-center gap-3 rounded-[20px] px-3 py-3 text-left transition-colors duration-300 sm:gap-4 sm:rounded-[24px] sm:px-4 sm:py-3.5 ${
-        active
-          ? "bg-[#1a1a1a] shadow-[0_0_0_1px_rgba(252,224,1,0.12),0_12px_32px_rgba(0,0,0,0.35)]"
-          : "bg-transparent hover:bg-white/[0.03]"
-      }`}
+      layout
+      className="group relative z-[1] flex w-full items-center gap-3 rounded-[18px] px-3 py-2.5 text-left sm:gap-3.5 sm:rounded-[20px] sm:px-3.5 sm:py-3"
       aria-pressed={active}
+      whileHover={!active ? { backgroundColor: "rgba(255,255,255,0.03)" } : undefined}
+      transition={{ duration: DURATION_FAST, ease: EASE_IO }}
     >
-      {/* Active glow dot on dashed rail */}
-      <span
-        className={`absolute -left-[5px] top-1/2 z-[2] h-2.5 w-2.5 -translate-y-1/2 rounded-full transition-all duration-300 sm:-left-[6px] ${
-          active
-            ? "bg-[#FCE001] shadow-[0_0_10px_3px_rgba(252,224,1,0.55)] opacity-100 scale-100"
-            : "bg-transparent opacity-0 scale-75"
-        }`}
+      {/* Sliding active highlight */}
+      {active ? (
+        <motion.span
+          layoutId="five-rides-active-row"
+          className="pointer-events-none absolute inset-0 rounded-[20px] bg-[#1a1a1a] shadow-[0_0_0_1px_rgba(252,224,1,0.12),0_12px_32px_rgba(0,0,0,0.35)] sm:rounded-[24px]"
+          transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.8 }}
+          aria-hidden
+        />
+      ) : null}
+
+      {/* Rail glow dot */}
+      <motion.span
+        className="absolute -left-[5px] top-1/2 z-[2] h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#FCE001] sm:-left-[6px]"
+        initial={false}
+        animate={{
+          opacity: active ? 1 : 0,
+          scale: active ? 1 : 0.5,
+          boxShadow: active
+            ? "0 0 10px 3px rgba(252,224,1,0.55)"
+            : "0 0 0px 0px rgba(252,224,1,0)",
+        }}
+        transition={{ duration: DURATION, ease: EASE_OUT }}
         aria-hidden
       />
 
-      <span
-        className={`relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[14px] sm:h-12 sm:w-12 sm:rounded-[16px] ${
-          active
-            ? "bg-[#FCE001] shadow-[0_0_22px_rgba(252,224,1,0.45)]"
-            : "bg-[#f4f1ea]"
-        }`}
+      <motion.span
+        className="relative z-[1] flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[14px] sm:h-12 sm:w-12 sm:rounded-[16px]"
+        initial={false}
+        animate={{
+          backgroundColor: active ? "#FCE001" : "#f4f1ea",
+          boxShadow: active
+            ? "0 0 22px rgba(252,224,1,0.45)"
+            : "0 0 0px rgba(252,224,1,0)",
+          scale: active ? 1.04 : 1,
+        }}
+        transition={{ duration: DURATION, ease: EASE_IO }}
       >
-        <Image
-          src={ride.icon}
-          alt=""
-          width={48}
-          height={48}
-          className="h-full w-full object-contain"
-          unoptimized
-        />
-      </span>
+        <motion.span
+          className="flex h-full w-full items-center justify-center"
+          initial={false}
+          animate={{ scale: active ? 1 : 0.96 }}
+          transition={{ duration: DURATION, ease: EASE_OUT }}
+        >
+          <Image
+            src={ride.icon}
+            alt=""
+            width={48}
+            height={48}
+            className="h-full w-full object-contain"
+            unoptimized
+          />
+        </motion.span>
+      </motion.span>
 
-      <span className="min-w-0 flex-1">
-        <span
-          className={`block font-poppins text-[15px] font-bold leading-tight sm:text-[16px] ${
-            active ? "text-[#FCE001]" : "text-white"
-          }`}
+      <span className="relative z-[1] min-w-0 flex-1">
+        <motion.span
+          className="block font-poppins text-[15px] font-bold leading-tight sm:text-[16px]"
+          initial={false}
+          animate={{ color: active ? "#FCE001" : "#ffffff" }}
+          transition={{ duration: DURATION_FAST, ease: EASE_IO }}
         >
           {ride.title}
-        </span>
-        <span
-          className={`mt-0.5 block font-poppins text-[12px] font-medium italic leading-snug sm:text-[13px] ${
-            active ? "text-[#FCE001]/80" : "text-[#FCE001]"
-          }`}
+        </motion.span>
+        <motion.span
+          className="mt-0.5 block font-poppins text-[12px] font-medium italic leading-snug sm:text-[13px]"
+          initial={false}
+          animate={{ color: active ? "rgba(252,224,1,0.8)" : "#FCE001" }}
+          transition={{ duration: DURATION_FAST, ease: EASE_IO }}
         >
           {ride.subtitle}
-        </span>
+        </motion.span>
         <span className="mt-1 block font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]">
           {ride.listDescription}
         </span>
       </span>
 
-      <span
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 sm:h-10 sm:w-10 ${
-          active
-            ? "bg-[#FCE001] text-[#0b0b0b]"
-            : "border border-[#FCE001]/55 bg-transparent text-[#FCE001] group-hover:border-[#FCE001] group-hover:bg-[#FCE001]/10"
-        }`}
+      <motion.span
+        className="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10"
+        initial={false}
+        animate={{
+          backgroundColor: active ? "#FCE001" : "rgba(0,0,0,0)",
+          borderColor: active ? "rgba(252,224,1,0)" : "rgba(252,224,1,0.55)",
+          color: active ? "#0b0b0b" : "#FCE001",
+          scale: active ? 1.06 : 1,
+        }}
+        style={{ borderWidth: 1, borderStyle: "solid" }}
+        transition={{ duration: DURATION, ease: EASE_IO }}
         aria-hidden
       >
-        {active ? (
-          <CheckIcon className="h-4 w-4" />
-        ) : (
-          <PlusIcon className="h-4 w-4" />
-        )}
-      </span>
-    </button>
+        <AnimatePresence mode="wait" initial={false}>
+          {active ? (
+            <motion.span
+              key="check"
+              className="flex"
+              initial={{ opacity: 0, scale: 0.6, rotate: -40 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.6, rotate: 40 }}
+              transition={{ duration: DURATION_FAST, ease: EASE_OUT }}
+            >
+              <CheckIcon className="h-4 w-4" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="plus"
+              className="flex"
+              initial={{ opacity: 0, scale: 0.6, rotate: 40 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.6, rotate: -40 }}
+              transition={{ duration: DURATION_FAST, ease: EASE_OUT }}
+            >
+              <PlusIcon className="h-4 w-4" />
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.span>
+    </motion.button>
   );
 }
 
@@ -304,23 +395,24 @@ function RideList({
 }) {
   return (
     <nav
-      className="relative flex h-full flex-col justify-center gap-1.5 bg-[#111111] px-4 py-5 sm:gap-2 sm:px-5 sm:py-6 lg:rounded-r-[40px] lg:px-6 lg:py-8"
+      className="relative flex h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:rounded-r-[40px] lg:px-5 lg:py-6"
       aria-label="Ride categories"
     >
-      {/* Dashed vertical connector */}
       <div
         className="pointer-events-none absolute bottom-10 left-[34px] top-10 w-px border-l border-dashed border-white/20 sm:left-[38px] lg:left-[42px]"
         aria-hidden
       />
 
-      {RIDES.map((ride, index) => (
-        <RideListItem
-          key={ride.id}
-          ride={ride}
-          active={index === activeIndex}
-          onSelect={() => onSelect(index)}
-        />
-      ))}
+      <LayoutGroup id="five-rides-list">
+        {RIDES.map((ride, index) => (
+          <RideListItem
+            key={ride.id}
+            ride={ride}
+            active={index === activeIndex}
+            onSelect={() => onSelect(index)}
+          />
+        ))}
+      </LayoutGroup>
     </nav>
   );
 }
@@ -332,30 +424,48 @@ export default function SixRidesSection(): React.ReactElement {
   return (
     <section
       id="services"
-      className="relative w-full scroll-mt-28 overflow-hidden bg-[#0b0b0b] py-14 sm:py-16 lg:py-20"
+      className="relative w-full scroll-mt-28 overflow-hidden bg-[#FEFBF6] py-10 sm:py-12 lg:py-14"
       aria-labelledby="six-rides-heading"
     >
       <div className="relative z-[1] mx-auto w-[92%] max-w-[1200px]">
-        <div className="mx-auto mb-8 max-w-[720px] text-center sm:mb-10 lg:mb-12">
+        <motion.div
+          className="mx-auto mb-6 max-w-[720px] text-center sm:mb-8 lg:mb-9"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: DURATION_SLOW, ease: EASE_OUT }}
+        >
           <h2
             id="six-rides-heading"
-            className="font-poppins text-[clamp(28px,4.2vw,48px)] font-bold leading-[1.08] tracking-[-0.03em]"
+            className="font-poppins tracking-[-2.8px]"
           >
-            <span className="text-[#6f6e68]">Five rides.</span>{" "}
-            <span className="text-[#FCE001]">One promise.</span>
+            <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
+              Five rides.
+            </span>
+            <span
+              className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}
+            >
+              One promise.
+            </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-[560px] font-poppins text-[14px] font-normal leading-[1.6] text-[#9a968c] sm:text-[15px]">
+          <p className="mx-auto mt-3 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
             From daily commutes to enterprise logistics — every category, zero
             commission, real-time tracking, every time.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="overflow-hidden rounded-[28px] border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:rounded-[32px] lg:rounded-[40px]">
+        <motion.div
+          className="overflow-hidden rounded-[28px] border border-[#eceae4] shadow-[0_16px_48px_rgba(11,11,11,0.08)] sm:rounded-[32px] lg:rounded-[40px]"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
+        >
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <DetailPanel ride={activeRide} />
             <RideList activeIndex={activeIndex} onSelect={setActiveIndex} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
