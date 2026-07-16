@@ -436,7 +436,7 @@ img {
 
 .blog-detail-figma ul,
 .blog-detail-figma ol {
-  @apply my-6 space-y-3 pl-0;
+  @apply my-6 space-y-3.5 pl-0;
 }
 
 .blog-detail-figma ul {
@@ -444,15 +444,39 @@ img {
 }
 
 .blog-detail-figma ul > li {
-  @apply relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:h-2 before:w-2 before:rotate-45 before:rounded-[1px] before:bg-[#FCE001] before:content-[''];
+  @apply relative pl-7;
+}
+
+.blog-detail-figma ul > li::before {
+  content: "";
+  @apply absolute left-0 top-[0.62em] h-2 w-2 rotate-45 rounded-[1px];
+  background: linear-gradient(135deg, #fce001 0%, #fdb813 100%);
 }
 
 .blog-detail-figma ol {
-  @apply list-decimal pl-6;
+  @apply list-none;
+  counter-reset: blog-detail-ol;
 }
 
-.blog-detail-figma ol > li::marker {
-  @apply font-bold text-[#FCE001];
+.blog-detail-figma ol > li {
+  @apply relative pl-8;
+  counter-increment: blog-detail-ol;
+}
+
+.blog-detail-figma ol > li::before {
+  content: counter(blog-detail-ol);
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #fce001 0%, #fdb813 100%);
+  color: #0b0b0b;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25rem;
+  text-align: center;
 }
 
 .blog-detail-figma li {
