@@ -284,11 +284,11 @@ export default function MoveBulkCargoSection() {
               subtitle="Track now"
               icon={
                 <Image
-                  src="/images/taxi-stand/need-a-ride/icon-target.png"
+                  src={`${ASSETS}/icon-live-gps.png`}
                   alt=""
-                  width={19}
-                  height={19}
-                  className="h-[19px] w-[19px] object-contain"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
                 />
               }
             />
@@ -298,7 +298,13 @@ export default function MoveBulkCargoSection() {
               subtitle="Direct deal"
               delay="1.4s"
               icon={
-                <span className="text-[17px] font-extrabold text-black">Rs</span>
+                <Image
+                  src={`${ASSETS}/icon-no-fee.png`}
+                  alt=""
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
+                />
               }
             />
           </div>

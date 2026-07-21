@@ -147,19 +147,19 @@ export default function YourTrustSection() {
   return (
     <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
       {/* Card matches Figma frame 1:1 — the uploaded composite IS the section bg */}
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#F8F1DF] sm:rounded-[32px] lg:aspect-[2/1] lg:rounded-[36px]">
-        {/* Complete section background at natural aspect, anchored right — never cropped.
-            The card bg matches the image's cream left edge so the seam is invisible. */}
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#F8F1DF] sm:rounded-[32px] lg:aspect-[948/533] lg:max-w-[1080px] lg:rounded-[36px]">
+        {/* Card aspect === image aspect, so the composite fills the whole card
+            edge-to-edge with zero cropping — exactly the Figma frame */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[948/533] lg:block"
+          className="pointer-events-none absolute inset-0 hidden lg:block"
           aria-hidden="true"
         >
           <Image
             src={`${ASSETS}/bg-section.png`}
             alt=""
             fill
-            sizes="(max-width: 1280px) 90vw, 1030px"
-            className="object-contain object-right"
+            sizes="(max-width: 1280px) 100vw, 1152px"
+            className="object-cover"
             priority
           />
         </div>
@@ -183,9 +183,12 @@ export default function YourTrustSection() {
               <span className="text-[36px] sm:text-5xl md:text-[56px] lg:text-[64px]">
                 About{" "}
               </span>
-              <span className="text-[36px] text-[#FCE001] sm:text-5xl md:text-[56px] lg:text-[64px]">
+              <em
+                className="text-[36px] font-medium italic text-[#FCE001] sm:text-5xl md:text-[56px] lg:text-[64px]"
+                style={{ fontStyle: "italic" }}
+              >
                 Us
-              </span>
+              </em>
             </h2>
 
             {/* Description */}
@@ -284,11 +287,11 @@ export default function YourTrustSection() {
               subtitle="Track now"
               icon={
                 <Image
-                  src={`${SHARED_ICONS}/icon-target.png`}
+                  src={`${TRIP_ICONS}/icon-live-gps.png`}
                   alt=""
-                  width={19}
-                  height={19}
-                  className="h-[19px] w-[19px] object-contain"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
                 />
               }
             />
@@ -299,11 +302,11 @@ export default function YourTrustSection() {
               delay="0.8s"
               icon={
                 <Image
-                  src={`${TRIP_ICONS}/icon-shield.png`}
+                  src={`${TRIP_ICONS}/icon-safe-shield.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />
@@ -314,11 +317,11 @@ export default function YourTrustSection() {
               delay="1.6s"
               icon={
                 <Image
-                  src={`${TRIP_ICONS}/icon-clock-chip.png`}
+                  src={`${TRIP_ICONS}/icon-on-time.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />
