@@ -268,9 +268,9 @@ export default function YourTrustSection() {
           </div>
 
           {/* ── Right visual (chips over composite; phone/van come from bg) ── */}
-          <div className="relative z-10 mt-8 flex w-full flex-1 items-center justify-center lg:mt-0 lg:min-h-[440px]">
+          <div className="relative z-10 mt-6 flex w-full flex-1 items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[440px]">
             {/* Mobile: show composite inline so layout stays clear when cover is tight */}
-            <div className="relative aspect-[948/533] w-full max-w-[560px] overflow-hidden rounded-[18px] lg:hidden">
+            <div className="relative -mx-4 -mb-5 aspect-[948/533] w-[calc(100%+2rem)] max-w-none sm:-mx-7 sm:-mb-6 sm:w-[calc(100%+3.5rem)] lg:hidden">
               <Image
                 src={`${ASSETS}/bg-section.png`}
                 alt="Traveling Partner app with services and delivery van"
@@ -311,7 +311,7 @@ export default function YourTrustSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[10%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[2%] lg:top-[60%]"
+              className="absolute right-0 top-[56%] sm:right-[2%] lg:top-[60%]"
               title="On-Time Trips"
               subtitle="Always"
               delay="1.6s"

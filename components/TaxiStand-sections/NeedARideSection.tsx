@@ -278,7 +278,7 @@ export default function NeedARideSection() {
           </div>
 
           {/* ── Right visual: phone + floating chips ── */}
-          <div className="relative z-10 mt-8 flex w-full items-center justify-center lg:mt-0 lg:min-h-[370px] lg:flex-1">
+          <div className="relative z-10 mt-6 flex w-full items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[370px] lg:flex-1">
             {/* Dashed connector arc (desktop) */}
             <svg
               className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%] lg:block"
@@ -296,7 +296,7 @@ export default function NeedARideSection() {
             </svg>
 
             {/* Phone */}
-            <div className="nar-phone relative aspect-[375/739] w-[200px] sm:w-[225px] lg:w-[230px] xl:w-[245px]">
+            <div className="nar-phone relative -mb-5 aspect-[375/739] w-[200px] sm:-mb-6 sm:w-[225px] lg:mb-0 lg:w-[230px] xl:w-[245px]">
               {/* Warm glow behind phone */}
               <div
                 className="pointer-events-none absolute left-1/2 top-1/2 h-[110%] w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -331,7 +331,7 @@ export default function NeedARideSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[34%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[10%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Surge"
               subtitle="Fair Pricing"
               delay="1.4s"
