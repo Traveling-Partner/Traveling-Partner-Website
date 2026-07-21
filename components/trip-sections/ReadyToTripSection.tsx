@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
 
-const ASSETS = "/images/taxi-stand/need-a-ride";
+const ASSETS = "/images/trip/ready-to-trip";
 
 function PlayStoreIcon({ className = "" }: { className?: string }) {
   return (
@@ -122,7 +122,7 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`nar-float flex items-center gap-3 rounded-full bg-white py-2 pl-2 pr-6 shadow-[0_16px_40px_rgba(0,0,0,0.35)] ${className}`}
+      className={`rtt-float flex items-center gap-3 rounded-full bg-white py-2 pl-2 pr-6 shadow-[0_16px_40px_rgba(0,0,0,0.35)] ${className}`}
       style={{ animationDelay: delay }}
     >
       <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-[#fce001] sm:h-[48px] sm:w-[48px]">
@@ -140,34 +140,28 @@ function FloatChip({
   );
 }
 
-export default function NeedARideSection() {
+export default function ReadyToTripSection() {
   return (
     <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[32px]">
-        {/* Background: taxi + city skyline */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        {/* Background: phone + car + city (desktop) — natural aspect, never cropped */}
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/579] lg:block"
+          aria-hidden="true"
+        >
           <Image
-            src={`${ASSETS}/bg-taxi-city.png`}
+            src={`${ASSETS}/bg-phone-car.png`}
             alt=""
             fill
-            sizes="100vw"
-            className="object-cover object-[72%_center] opacity-90 lg:object-[center_38%]"
+            sizes="(max-width: 1280px) 60vw, 700px"
+            className="object-contain object-right"
             priority
           />
-          {/* Left fade so text sits on near-black */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.96) 26%, rgba(7,6,4,0.55) 44%, rgba(7,6,4,0) 62%)",
-            }}
-          />
-          {/* Top + bottom subtle vignette */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(7,6,4,0.55) 0%, rgba(7,6,4,0) 22%, rgba(7,6,4,0) 82%, rgba(7,6,4,0.45) 100%)",
+                "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.85) 12%, rgba(7,6,4,0) 34%)",
             }}
           />
         </div>
@@ -182,31 +176,31 @@ export default function NeedARideSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] sm:text-[11px]">
-                Need a ride?
+                Ready to trip?
               </span>
             </div>
 
             {/* Heading */}
             <h2 className="mb-5 font-extrabold leading-[1.1] tracking-tight text-white sm:mb-6">
               <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
-                Tap it,
+                Plan it,
               </span>
               <em
                 className="my-[4px] inline-block rounded-[8px] border border-[#fce001]/45 px-2.5 pb-0.5 text-[32px] font-medium italic text-[#fce001] sm:px-3 sm:text-4xl md:text-5xl lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
-                ride it,
+                track it,
               </em>
               <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
-                arrive.
+                enjoy it.
               </span>
             </h2>
 
             {/* Description */}
-            <p className="mb-6 max-w-[420px] text-[14px] leading-[1.7] text-[#b7b1a4] sm:text-[15px] lg:text-base">
-              Book a taxi in seconds and reach your destination hassle-free.
-              Nearest verified drivers, upfront fares, no surge pricing — the
-              way city rides should be.
+            <p className="mb-6 max-w-[440px] text-[14px] leading-[1.7] text-[#b7b1a4] sm:text-[15px] lg:text-base">
+              Book your trip in advance or on the go with Traveling Partner. Get
+              real-time tracking, secure payments, and a smooth journey to your
+              destination.
             </p>
 
             {/* Store buttons */}
@@ -232,12 +226,12 @@ export default function NeedARideSection() {
                   <Image
                     src={`${ASSETS}/icon-star.png`}
                     alt=""
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 object-contain"
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain"
                   />
                 }
-                value="4.8★"
+                value="4.8+"
                 label="Rating"
               />
               <span
@@ -247,15 +241,15 @@ export default function NeedARideSection() {
               <StatItem
                 icon={
                   <Image
-                    src={`${ASSETS}/icon-car.png`}
+                    src={`${ASSETS}/icon-map.png`}
                     alt=""
-                    width={24}
-                    height={24}
-                    className="h-6 w-6 object-contain"
+                    width={22}
+                    height={22}
+                    className="h-[22px] w-[22px] object-contain"
                   />
                 }
-                value="100K+"
-                label="City Rides"
+                value="50K+"
+                label="Trips Completed"
               />
               <span
                 className="mx-5 hidden h-8 w-px bg-white/12 sm:block"
@@ -264,30 +258,30 @@ export default function NeedARideSection() {
               <StatItem
                 icon={
                   <Image
-                    src={`${ASSETS}/icon-bolt.png`}
+                    src={`${ASSETS}/icon-clock.png`}
                     alt=""
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 object-contain"
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain"
                   />
                 }
-                value="<5 min"
-                label="Pickup Time"
+                value="24/7"
+                label="Support"
               />
             </div>
           </div>
 
-          {/* ── Right visual: phone + floating chips ── */}
+          {/* ── Right visual ── */}
           <div className="relative z-10 mt-8 flex w-full items-center justify-center lg:mt-0 lg:min-h-[370px] lg:flex-1">
             {/* Dashed connector arc (desktop) */}
             <svg
-              className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%] lg:block"
-              viewBox="0 0 340 400"
+              className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[70%] w-[52%] lg:block"
+              viewBox="0 0 340 420"
               fill="none"
               aria-hidden="true"
             >
               <path
-                d="M60 8 C 190 -14, 300 60, 296 132 C 292 210, 180 250, 148 372"
+                d="M 62 26 C 120 -2, 175 25, 188 75 C 205 140, 200 185, 185 225 C 168 270, 145 310, 120 360 C 105 385, 90 400, 78 412"
                 stroke="rgba(255,255,255,0.65)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
@@ -295,34 +289,25 @@ export default function NeedARideSection() {
               />
             </svg>
 
-            {/* Phone */}
-            <div className="nar-phone relative aspect-[375/739] w-[200px] sm:w-[225px] lg:w-[230px] xl:w-[245px]">
-              {/* Warm glow behind phone */}
-              <div
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[110%] w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-                aria-hidden="true"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 50% 50% at 50% 55%, rgba(253,184,19,0.22), transparent 70%)",
-                }}
-              />
+            {/* Composite image inline (mobile / tablet) */}
+            <div className="relative aspect-[1024/579] w-full max-w-[560px] overflow-hidden rounded-[16px] lg:hidden">
               <Image
-                src={`${ASSETS}/phone-cutout.png`}
-                alt="Traveling Partner app showing available rides"
+                src={`${ASSETS}/bg-phone-car.png`}
+                alt="Traveling Partner trip app with car and route map"
                 fill
-                sizes="(max-width: 640px) 240px, (max-width: 1024px) 280px, 340px"
-                className="object-contain drop-shadow-[0_40px_70px_rgba(0,0,0,0.6)]"
+                sizes="(max-width: 640px) 92vw, 560px"
+                className="object-contain"
               />
             </div>
 
-            {/* Floating chips */}
+            {/* Floating chips — three stacked like Figma */}
             <FloatChip
-              className="absolute right-0 top-[4%] sm:right-[2%] sm:top-[6%] lg:right-[1%] lg:top-[10%]"
-              title="Nearest Driver"
-              subtitle="Under 5 min"
+              className="absolute right-0 top-[2%] sm:right-[2%] sm:top-[4%] lg:right-[1%] lg:top-[6%]"
+              title="Live Tracking"
+              subtitle="Track now"
               icon={
                 <Image
-                  src={`${ASSETS}/icon-target.png`}
+                  src="/images/taxi-stand/need-a-ride/icon-target.png"
                   alt=""
                   width={19}
                   height={19}
@@ -331,12 +316,33 @@ export default function NeedARideSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[34%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
-              title="No Surge"
-              subtitle="Fair Pricing"
-              delay="1.4s"
+              className="absolute right-0 top-[28%] sm:right-[2%] lg:right-[1%] lg:top-[28%]"
+              title="Safe & Secure"
+              subtitle="Your safety"
+              delay="0.8s"
               icon={
-                <span className="text-[17px] font-extrabold text-black">Rs</span>
+                <Image
+                  src={`${ASSETS}/icon-shield.png`}
+                  alt=""
+                  width={22}
+                  height={22}
+                  className="h-[22px] w-[22px] object-contain"
+                />
+              }
+            />
+            <FloatChip
+              className="absolute bottom-[6%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[50%]"
+              title="On-Time Trips"
+              subtitle="Always"
+              delay="1.6s"
+              icon={
+                <Image
+                  src={`${ASSETS}/icon-clock-chip.png`}
+                  alt=""
+                  width={22}
+                  height={22}
+                  className="h-[22px] w-[22px] object-contain"
+                />
               }
             />
           </div>
@@ -344,7 +350,7 @@ export default function NeedARideSection() {
       </div>
 
       <style jsx global>{`
-        @keyframes nar-float {
+        @keyframes rtt-float {
           0%,
           100% {
             transform: translateY(0);
@@ -354,12 +360,12 @@ export default function NeedARideSection() {
           }
         }
 
-        .nar-float {
-          animation: nar-float 4.5s ease-in-out infinite;
+        .rtt-float {
+          animation: rtt-float 4.5s ease-in-out infinite;
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .nar-float {
+          .rtt-float {
             animation: none;
           }
         }
