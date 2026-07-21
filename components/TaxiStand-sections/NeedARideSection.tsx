@@ -91,15 +91,15 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/40 bg-[#fce001]/12 sm:h-[46px] sm:w-[46px]">
+    <div className="flex items-center gap-2.5">
+      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[10px] border border-[#fce001]/40 bg-[#fce001]/12 sm:h-[36px] sm:w-[36px]">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-white sm:text-[18px]">
+        <span className="block text-[14px] font-bold text-white sm:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-white/55 sm:text-[13px]">
+        <span className="block text-[11px] text-white/55 sm:text-[12px]">
           {label}
         </span>
       </span>
@@ -142,8 +142,8 @@ function FloatChip({
 
 export default function NeedARideSection() {
   return (
-    <section className="bg-[#FEFBF6] px-2.5 py-2.5 sm:px-3 sm:py-3">
-      <div className="relative mx-auto overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[32px]">
+    <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[32px]">
         {/* Background: taxi + city skyline */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           <Image
@@ -172,7 +172,7 @@ export default function NeedARideSection() {
           />
         </div>
 
-        <div className="relative mx-auto flex max-w-[1440px] flex-col px-5 pb-8 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-8 lg:px-14 lg:py-12 xl:px-16">
+        <div className="relative flex flex-col px-5 pb-6 pt-6 sm:px-7 lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
           {/* ── Left content ── */}
           <div className="relative z-10 w-full max-w-[560px] lg:w-[44%] lg:shrink-0">
             {/* Badge */}
@@ -191,9 +191,12 @@ export default function NeedARideSection() {
               <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
                 Tap it,
               </span>
-              <span className="my-[4px] inline-block rounded-[8px] border border-[#fce001]/45 px-2.5 pb-0.5 text-[32px] italic text-[#fce001] sm:px-3 sm:text-4xl md:text-5xl lg:text-[52px]">
+              <em
+                className="my-[4px] inline-block rounded-[8px] border border-[#fce001]/45 px-2.5 pb-0.5 text-[32px] font-medium italic text-[#fce001] sm:px-3 sm:text-4xl md:text-5xl lg:text-[52px]"
+                style={{ fontStyle: "italic" }}
+              >
                 ride it,
-              </span>
+              </em>
               <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
                 arrive.
               </span>
@@ -223,7 +226,7 @@ export default function NeedARideSection() {
             </div>
 
             {/* Stats bar */}
-            <div className="inline-flex w-full max-w-[540px] flex-col gap-4 rounded-[20px] border border-white/10 bg-[#171410]/80 px-5 py-4 backdrop-blur-sm sm:w-auto sm:flex-row sm:items-center sm:gap-0 sm:px-6 sm:py-4">
+            <div className="inline-flex w-full max-w-[540px] flex-col gap-3 rounded-[16px] border border-white/10 bg-[#171410]/80 px-4 py-2.5 backdrop-blur-sm sm:w-auto sm:flex-row sm:items-center sm:gap-0 sm:px-5 sm:py-3">
               <StatItem
                 icon={
                   <Image
@@ -238,7 +241,7 @@ export default function NeedARideSection() {
                 label="Rating"
               />
               <span
-                className="mx-6 hidden h-9 w-px bg-white/12 sm:block"
+                className="mx-5 hidden h-8 w-px bg-white/12 sm:block"
                 aria-hidden="true"
               />
               <StatItem
@@ -255,7 +258,7 @@ export default function NeedARideSection() {
                 label="City Rides"
               />
               <span
-                className="mx-6 hidden h-9 w-px bg-white/12 sm:block"
+                className="mx-5 hidden h-8 w-px bg-white/12 sm:block"
                 aria-hidden="true"
               />
               <StatItem
@@ -275,7 +278,7 @@ export default function NeedARideSection() {
           </div>
 
           {/* ── Right visual: phone + floating chips ── */}
-          <div className="relative z-10 mt-10 flex w-full items-center justify-center lg:mt-0 lg:min-h-[480px] lg:flex-1">
+          <div className="relative z-10 mt-8 flex w-full items-center justify-center lg:mt-0 lg:min-h-[370px] lg:flex-1">
             {/* Dashed connector arc (desktop) */}
             <svg
               className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%] lg:block"
@@ -293,7 +296,7 @@ export default function NeedARideSection() {
             </svg>
 
             {/* Phone */}
-            <div className="nar-phone relative aspect-[375/739] w-[210px] sm:w-[240px] lg:w-[250px] xl:w-[270px]">
+            <div className="nar-phone relative aspect-[375/739] w-[200px] sm:w-[225px] lg:w-[230px] xl:w-[245px]">
               {/* Warm glow behind phone */}
               <div
                 className="pointer-events-none absolute left-1/2 top-1/2 h-[110%] w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full"
