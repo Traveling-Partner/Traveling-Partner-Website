@@ -64,19 +64,19 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[54px] items-center gap-3 rounded-full pl-2 pr-6 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:h-[58px]"
+      className="group inline-flex h-[46px] w-full items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:h-[58px] sm:w-auto sm:gap-3 sm:pl-2 sm:pr-6"
       style={{
         background: "linear-gradient(90deg, #FCE001 0%, #FDB813 100%)",
       }}
     >
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 sm:h-[42px] sm:w-[42px]">
+      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 sm:h-[42px] sm:w-[42px]">
         {icon}
       </span>
       <span className="text-left leading-tight">
-        <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-black/70 sm:text-[10px]">
+        <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-black/70 sm:text-[10px] sm:tracking-[0.18em]">
           {label}
         </span>
-        <span className="block text-[15px] font-bold text-black sm:text-[16px]">
+        <span className="block whitespace-nowrap text-[12px] font-bold text-black sm:text-[16px]">
           {title}
         </span>
       </span>
@@ -125,17 +125,17 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`ytom-float flex items-center gap-3 rounded-full bg-white py-2 pl-2 pr-6 shadow-[0_16px_40px_rgba(0,0,0,0.18)] ${className}`}
+      className={`ytom-float flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3 shadow-[0_16px_40px_rgba(0,0,0,0.18)] sm:gap-3 sm:py-2 sm:pl-2 sm:pr-6 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-[#fce001] sm:h-[48px] sm:w-[48px]">
+      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#fce001] sm:h-[48px] sm:w-[48px]">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block text-[15px] font-bold text-[#0b0b0b] sm:text-[16px]">
+        <span className="block whitespace-nowrap text-[11px] font-bold text-[#0b0b0b] sm:text-[16px]">
           {title}
         </span>
-        <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-[#f5a81c] sm:text-[11px]">
+        <span className="block whitespace-nowrap text-[7px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] sm:text-[11px] sm:tracking-[0.18em]">
           {subtitle}
         </span>
       </span>
@@ -145,9 +145,9 @@ function FloatChip({
 
 export default function YourTrustSection() {
   return (
-    <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-2 py-6 sm:px-6 sm:py-12 lg:px-8">
       {/* Card matches Figma frame 1:1 — the uploaded composite IS the section bg */}
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#F8F1DF] sm:rounded-[32px] lg:aspect-[948/533] lg:max-w-[1080px] lg:rounded-[36px]">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[20px] bg-[#F8F1DF] sm:rounded-[32px] lg:aspect-[948/533] lg:max-w-[1080px] lg:rounded-[36px]">
         {/* Card aspect === image aspect, so the composite fills the whole card
             edge-to-edge with zero cropping — exactly the Figma frame */}
         <div
@@ -164,22 +164,22 @@ export default function YourTrustSection() {
           />
         </div>
 
-        <div className="relative flex min-h-[420px] flex-col px-5 pb-6 pt-6 sm:min-h-[460px] sm:px-7 lg:h-full lg:min-h-0 lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-8 xl:px-10">
+        <div className="relative flex min-h-[420px] flex-col px-4 pb-5 pt-5 sm:min-h-[460px] sm:px-7 sm:pb-6 sm:pt-6 lg:h-full lg:min-h-0 lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-8 xl:px-10">
           {/* ── Left content ── */}
           <div className="relative z-10 w-full max-w-[560px] lg:w-[46%] lg:shrink-0">
             {/* Badge — solid black pill (Figma) */}
-            <div className="mb-7 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 sm:mb-8">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3 py-1.5 sm:mb-8 sm:gap-2.5 sm:px-4 sm:py-2">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] sm:text-[11px]">
+              <span className="text-[8px] font-bold uppercase tracking-[0.22em] text-[#fce001] sm:text-[11px] sm:tracking-[0.24em]">
                 Your trust, our mission
               </span>
             </div>
 
             {/* Heading — About (black) + Us (yellow), matching Figma */}
-            <h2 className="mb-5 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] sm:mb-6">
+            <h2 className="mb-3 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] sm:mb-6">
               <span className="text-[36px] sm:text-5xl md:text-[56px] lg:text-[64px]">
                 About{" "}
               </span>
@@ -192,7 +192,7 @@ export default function YourTrustSection() {
             </h2>
 
             {/* Description */}
-            <p className="mb-6 max-w-[440px] text-[14px] leading-[1.7] text-[#4a4a45] sm:text-[15px] lg:text-base">
+            <p className="mb-4 max-w-[440px] text-[12px] leading-[1.6] text-[#4a4a45] sm:mb-6 sm:text-[15px] sm:leading-[1.7] lg:text-base">
               At Traveling Partner, we are committed to simplifying transport
               and delivery across Pakistan. Our platform connects thousands of
               users with trusted partners for a seamless, secure, and reliable
@@ -200,7 +200,7 @@ export default function YourTrustSection() {
             </p>
 
             {/* Store buttons */}
-            <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-7 sm:flex sm:items-center sm:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -231,7 +231,7 @@ export default function YourTrustSection() {
                 label="Rating"
               />
               <span
-                className="mx-5 hidden h-8 w-px bg-black/10 sm:block"
+                className="h-px w-full bg-black/10 sm:mx-5 sm:h-8 sm:w-px"
                 aria-hidden="true"
               />
               <StatItem
@@ -248,7 +248,7 @@ export default function YourTrustSection() {
                 label="Trips Completed"
               />
               <span
-                className="mx-5 hidden h-8 w-px bg-black/10 sm:block"
+                className="h-px w-full bg-black/10 sm:mx-5 sm:h-8 sm:w-px"
                 aria-hidden="true"
               />
               <StatItem
@@ -268,9 +268,9 @@ export default function YourTrustSection() {
           </div>
 
           {/* ── Right visual (chips over composite; phone/van come from bg) ── */}
-          <div className="relative z-10 mt-8 flex w-full flex-1 items-center justify-center lg:mt-0 lg:min-h-[440px]">
+          <div className="relative z-10 mt-6 flex w-full flex-1 items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[440px]">
             {/* Mobile: show composite inline so layout stays clear when cover is tight */}
-            <div className="relative aspect-[948/533] w-full max-w-[560px] overflow-hidden rounded-[18px] lg:hidden">
+            <div className="relative -mx-4 -mb-5 aspect-[948/533] w-[calc(100%+2rem)] max-w-none sm:-mx-7 sm:-mb-6 sm:w-[calc(100%+3.5rem)] lg:hidden">
               <Image
                 src={`${ASSETS}/bg-section.png`}
                 alt="Traveling Partner app with services and delivery van"
@@ -311,7 +311,7 @@ export default function YourTrustSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[10%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[2%] lg:top-[60%]"
+              className="absolute right-0 top-[56%] sm:right-[2%] lg:top-[60%]"
               title="On-Time Trips"
               subtitle="Always"
               delay="1.6s"
