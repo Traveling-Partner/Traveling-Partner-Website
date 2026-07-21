@@ -283,10 +283,13 @@ export default function MoveBulkCargoSection() {
               title="Live GPS"
               subtitle="Track now"
               icon={
-                <span className="relative flex h-[24px] w-[24px] items-center justify-center">
-                  <span className="absolute inset-0 rounded-full border-[2.5px] border-black" />
-                  <span className="h-[9px] w-[9px] rounded-full bg-black" />
-                </span>
+                <Image
+                  src="/images/taxi-stand/need-a-ride/icon-target.png"
+                  alt=""
+                  width={19}
+                  height={19}
+                  className="h-[19px] w-[19px] object-contain"
+                />
               }
             />
             <FloatChip
