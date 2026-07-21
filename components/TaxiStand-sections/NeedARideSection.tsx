@@ -321,10 +321,9 @@ export default function NeedARideSection() {
               title="Nearest Driver"
               subtitle="Under 5 min"
               icon={
-                <span className="relative flex h-[22px] w-[22px] items-center justify-center">
+                <span className="relative flex h-[24px] w-[24px] items-center justify-center">
                   <span className="absolute inset-0 rounded-full border-[2.5px] border-black" />
-                  <span className="absolute inset-[5px] rounded-full border-[2px] border-black" />
-                  <span className="h-[5px] w-[5px] rounded-full bg-black" />
+                  <span className="h-[9px] w-[9px] rounded-full bg-black" />
                 </span>
               }
             />
