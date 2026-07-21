@@ -12,10 +12,31 @@ node_modules/
 # Next.js
 .next/
 out/
+.turbo/
+*.tsbuildinfo
+
+# Generated blog data (rebuilt from the API on every dev/build run)
+public/blog-data/
+public/blog-list.json
+data/blog-build-ids.json
+data/blog-list-cache.json
 
 # Environment
 .env*.local
 .env
 
+# Logs / debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Editors / IDE
+.idea/
+.vscode/
+*.swp
+
 # OS
 .DS_Store
+Thumbs.db
+Desktop.ini
