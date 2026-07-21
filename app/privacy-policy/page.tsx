@@ -73,7 +73,7 @@ function getPinStyle(
 }
 
 export default function PrivacyPolicyPage() {
-  const [activeSlug, setActiveSlug] = useState(privacyNavItems[0]?.slug ?? "");
+  const [activeSlug, setActiveSlug] = useState<string>(privacyNavItems[0]?.slug ?? "");
   const [sidebarPin, setSidebarPin] = useState<PinMode>("static");
   const [sidebarCoords, setSidebarCoords] = useState({ left: 0, width: 280 });
 
