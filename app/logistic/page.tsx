@@ -4,6 +4,7 @@ import OurServicesSection from "@/components/logistic-sections/OurServicesSectio
 import LogisticsBenefitsSection from "@/components/logistic-sections/LogisticsBenefitsSection";
 import LogisticsFasterSaferSection from "@/components/logistic-sections/LogisticsFasterSaferSection";
 import LogisticsServices from "@/components/logistic-sections/LogisticsServices";
+import MoveBulkCargoSection from "@/components/logistic-sections/MoveBulkCargoSection";
 
 export default function Logistics() {
   return (
@@ -13,6 +14,7 @@ export default function Logistics() {
       <LogisticsFasterSaferSection />
       <LogisticsServices />
       <OurServicesSection />
+      <MoveBulkCargoSection />
     </div>
   );
 }
