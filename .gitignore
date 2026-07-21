@@ -15,12 +15,6 @@ out/
 .turbo/
 *.tsbuildinfo
 
-# Generated blog data (rebuilt from the API on every dev/build run)
-public/blog-data/
-public/blog-list.json
-data/blog-build-ids.json
-data/blog-list-cache.json
-
 # Environment
 .env*.local
 .env
