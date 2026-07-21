@@ -1,5 +1,6 @@
 // app/TaxiStand/page.tsx
 import HeroSection from "@/components/TaxiStand-sections/HeroSection";
+import NeedARideSection from "@/components/TaxiStand-sections/NeedARideSection";
 import OurServicesSection from "@/components/TaxiStand-sections/OurServicesSection";
 import ForDriversSection from "@/components/TaxiStand-sections/ForDriversSection";
 import DriveWithUsSection from "@/components/TaxiStand-sections/DriveWithUsSection";
@@ -15,6 +16,7 @@ export default function TaxiStand() {
       <ForPartnersSection />
       <BenefitsSection />
       <OurServicesSection />
+      <NeedARideSection />
     </div>
   );
 }
