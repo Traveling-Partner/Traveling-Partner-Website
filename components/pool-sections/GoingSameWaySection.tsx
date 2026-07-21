@@ -162,33 +162,25 @@ export default function GoingSameWaySection() {
   return (
     <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[32px]">
-        {/* Background: phone + van + city skyline (desktop) */}
+        {/* Background: phone + van + city skyline (desktop) — anchored right at natural aspect, never cropped */}
         <div
-          className="pointer-events-none absolute inset-0 hidden lg:block"
+          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/578] lg:block"
           aria-hidden="true"
         >
           <Image
             src={`${ASSETS}/bg-van-phone.png`}
             alt=""
             fill
-            sizes="100vw"
-            className="object-cover object-[68%_30%]"
+            sizes="(max-width: 1280px) 60vw, 700px"
+            className="object-contain object-right"
             priority
           />
-          {/* Left fade so text sits on near-black */}
+          {/* Soft left fade so the image edge blends into the card */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.96) 26%, rgba(7,6,4,0.55) 44%, rgba(7,6,4,0) 62%)",
-            }}
-          />
-          {/* Top + bottom subtle vignette */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(7,6,4,0.55) 0%, rgba(7,6,4,0) 22%, rgba(7,6,4,0) 82%, rgba(7,6,4,0.45) 100%)",
+                "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.85) 12%, rgba(7,6,4,0) 34%)",
             }}
           />
         </div>
@@ -311,7 +303,7 @@ export default function GoingSameWaySection() {
                 alt="Traveling Partner pool ride app with location screen and van"
                 fill
                 sizes="(max-width: 640px) 92vw, 560px"
-                className="object-cover"
+                className="object-contain"
               />
             </div>
 
