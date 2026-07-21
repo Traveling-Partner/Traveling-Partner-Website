@@ -322,11 +322,11 @@ export default function NeedARideSection() {
               subtitle="Under 5 min"
               icon={
                 <Image
-                  src={`${ASSETS}/icon-target.png`}
+                  src={`${ASSETS}/icon-driver.png`}
                   alt=""
-                  width={19}
-                  height={19}
-                  className="h-[19px] w-[19px] object-contain"
+                  width={26}
+                  height={26}
+                  className="h-[26px] w-[26px] object-contain"
                 />
               }
             />
@@ -336,7 +336,13 @@ export default function NeedARideSection() {
               subtitle="Fair Pricing"
               delay="1.4s"
               icon={
-                <span className="text-[17px] font-extrabold text-black">Rs</span>
+                <Image
+                  src={`${ASSETS}/icon-no-surge.png`}
+                  alt=""
+                  width={26}
+                  height={26}
+                  className="h-[26px] w-[26px] object-contain"
+                />
               }
             />
           </div>

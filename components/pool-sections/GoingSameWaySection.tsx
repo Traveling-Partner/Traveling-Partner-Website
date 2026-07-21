@@ -313,7 +313,13 @@ export default function GoingSameWaySection() {
               title="Split Fare"
               subtitle="Save up to 60%"
               icon={
-                <span className="text-[17px] font-extrabold text-black">Rs</span>
+                <Image
+                  src={`${ASSETS}/icon-split-fare.png`}
+                  alt=""
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
+                />
               }
             />
             <FloatChip
@@ -323,11 +329,11 @@ export default function GoingSameWaySection() {
               delay="1.4s"
               icon={
                 <Image
-                  src={`${ASSETS}/icon-route.png`}
+                  src={`${ASSETS}/icon-same-route.png`}
                   alt=""
-                  width={24}
-                  height={24}
-                  className="h-[24px] w-[24px] object-contain"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
                 />
               }
             />

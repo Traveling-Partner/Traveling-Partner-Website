@@ -307,11 +307,11 @@ export default function ReadyToTripSection() {
               subtitle="Track now"
               icon={
                 <Image
-                  src="/images/taxi-stand/need-a-ride/icon-target.png"
+                  src={`${ASSETS}/icon-live-gps.png`}
                   alt=""
-                  width={19}
-                  height={19}
-                  className="h-[19px] w-[19px] object-contain"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
                 />
               }
             />
@@ -322,11 +322,11 @@ export default function ReadyToTripSection() {
               delay="0.8s"
               icon={
                 <Image
-                  src={`${ASSETS}/icon-shield.png`}
+                  src={`${ASSETS}/icon-safe-shield.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />
@@ -337,11 +337,11 @@ export default function ReadyToTripSection() {
               delay="1.6s"
               icon={
                 <Image
-                  src={`${ASSETS}/icon-clock-chip.png`}
+                  src={`${ASSETS}/icon-on-time.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />

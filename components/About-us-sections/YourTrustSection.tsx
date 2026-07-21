@@ -287,11 +287,11 @@ export default function YourTrustSection() {
               subtitle="Track now"
               icon={
                 <Image
-                  src={`${SHARED_ICONS}/icon-target.png`}
+                  src={`${TRIP_ICONS}/icon-live-gps.png`}
                   alt=""
-                  width={19}
-                  height={19}
-                  className="h-[19px] w-[19px] object-contain"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
                 />
               }
             />
@@ -302,11 +302,11 @@ export default function YourTrustSection() {
               delay="0.8s"
               icon={
                 <Image
-                  src={`${TRIP_ICONS}/icon-shield.png`}
+                  src={`${TRIP_ICONS}/icon-safe-shield.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />
@@ -317,11 +317,11 @@ export default function YourTrustSection() {
               delay="1.6s"
               icon={
                 <Image
-                  src={`${TRIP_ICONS}/icon-clock-chip.png`}
+                  src={`${TRIP_ICONS}/icon-on-time.png`}
                   alt=""
-                  width={22}
-                  height={22}
-                  className="h-[22px] w-[22px] object-contain"
+                  width={28}
+                  height={28}
+                  className="h-[28px] w-[28px] object-contain"
                 />
               }
             />
