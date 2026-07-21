@@ -266,9 +266,9 @@ export default function ReadyToSendSection() {
           </div>
 
           {/* ── Right visual ── */}
-          <div className="relative z-10 mt-8 flex w-full items-center justify-center lg:mt-0 lg:min-h-[370px] lg:flex-1">
+          <div className="relative z-10 mt-6 flex w-full items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[370px] lg:flex-1">
             {/* Composite image inline (mobile / tablet only — on desktop it is the card background) */}
-            <div className="relative aspect-[1024/662] w-full max-w-[560px] lg:hidden">
+            <div className="relative -mx-4 -mb-5 aspect-[1024/662] w-[calc(100%+2rem)] max-w-none sm:-mx-7 sm:-mb-6 sm:w-[calc(100%+3.5rem)] lg:hidden">
               <Image
                 src={`${ASSETS}/bg-phone-van-rounded.png`}
                 alt="Traveling Partner delivery app with parcel tracking and van"
@@ -294,7 +294,7 @@ export default function ReadyToSendSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[8%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute right-0 top-[42%] sm:right-[2%] lg:right-[1%] lg:top-[36%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"

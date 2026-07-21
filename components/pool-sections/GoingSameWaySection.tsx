@@ -279,7 +279,7 @@ export default function GoingSameWaySection() {
           </div>
 
           {/* ── Right visual: composite on mobile, chips over background on desktop ── */}
-          <div className="relative z-10 mt-8 flex w-full items-center justify-center lg:mt-0 lg:min-h-[370px] lg:flex-1">
+          <div className="relative z-10 mt-6 flex w-full items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[370px] lg:flex-1">
             {/* Dashed connector arc (desktop) — single C-arc hugging the chips' left side, as in Figma */}
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[64%] w-[52%] lg:block"
@@ -297,7 +297,7 @@ export default function GoingSameWaySection() {
             </svg>
 
             {/* Composite image inline (mobile / tablet only — on desktop it is the card background) */}
-            <div className="relative aspect-[1024/578] w-full max-w-[560px] overflow-hidden rounded-[16px] lg:hidden">
+            <div className="relative -mx-4 -mb-5 aspect-[1024/578] w-[calc(100%+2rem)] max-w-none sm:-mx-7 sm:-mb-6 sm:w-[calc(100%+3.5rem)] lg:hidden">
               <Image
                 src={`${ASSETS}/bg-van-phone.png`}
                 alt="Traveling Partner pool ride app with location screen and van"
@@ -323,7 +323,7 @@ export default function GoingSameWaySection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[8%] right-0 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute right-0 top-[24%] sm:right-[2%] lg:right-[1%] lg:top-[36%]"
               title="Same Route"
               subtitle="Instant Match"
               delay="1.4s"
