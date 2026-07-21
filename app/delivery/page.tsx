@@ -4,6 +4,7 @@ import DeliveryTreasureSection from "@/components/Delivery-sections/DeliveryTrea
 // import WhyChooseUs from "@/components/Delivery-sections/WhyChooseUs";
 import HowDeliveryWorks from "@/components/Delivery-sections/HowDeliveryWorks";
 import OurServicesSection from "@/components/Delivery-sections/OurServicesSection";
+import ReadyToSendSection from "@/components/Delivery-sections/ReadyToSendSection";
 
 export default function Delivery() {
   return (
@@ -13,6 +14,7 @@ export default function Delivery() {
       {/* <WhyChooseUs /> */}
       <HowDeliveryWorks />
       <OurServicesSection />
+      <ReadyToSendSection />
     </div>
   );
 }
