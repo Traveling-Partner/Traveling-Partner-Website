@@ -49,15 +49,15 @@ function AppleIcon({ className = "" }: { className?: string }) {
 function PeopleIcon({ className = "" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="8.5" cy="8" r="3.2" fill="#8fa3bf" />
+      <circle cx="8.5" cy="8" r="3.2" fill="#fce001" />
       <path
         d="M2.8 18.2c0-3.1 2.6-5.2 5.7-5.2s5.7 2.1 5.7 5.2v.8H2.8v-.8z"
-        fill="#8fa3bf"
+        fill="#fce001"
       />
-      <circle cx="16.2" cy="8" r="2.8" fill="#6f83a0" />
+      <circle cx="16.2" cy="8" r="2.8" fill="#fdb813" />
       <path
         d="M14.6 12.9c2.9.2 5.2 2.2 5.2 5.3v.8h-4.4v-.8c0-2-.7-3.8-1.9-5.1.4-.1.7-.2 1.1-.2z"
-        fill="#6f83a0"
+        fill="#fdb813"
       />
     </svg>
   );
@@ -109,15 +109,16 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fce001]/45 bg-[#fce001]/18 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/12">
+    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
+      {/* Mobile: dark rounded tile + yellow icon (Figma). Desktop: soft yellow tile. */}
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[#0c0b09] lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-white lg:text-[15px]">
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[17px] font-bold tracking-tight text-white lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-white/55 lg:text-[12px]">
+        <span className="mt-0.5 block text-[12px] text-white/50 lg:mt-0 lg:text-[12px]">
           {label}
         </span>
       </span>
@@ -250,8 +251,8 @@ export default function GoingSameWaySection() {
               />
             </div>
 
-            {/* Stats — stacked rows + horizontal rules on mobile (Figma) */}
-            <div className="w-full rounded-[20px] border border-white/10 bg-[#171410]/85 px-4 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — same mobile card design as Need a Ride */}
+            <div className="w-full rounded-[18px] border border-white/15 bg-[#161310]/92 px-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-white/10 lg:bg-[#171410]/85 lg:px-5 lg:py-3 lg:shadow-none lg:backdrop-blur-sm">
               <StatItem
                 icon={
                   <Image
@@ -266,7 +267,7 @@ export default function GoingSameWaySection() {
                 label="Rating"
               />
               <span
-                className="block h-px w-full bg-white/12 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
@@ -275,7 +276,7 @@ export default function GoingSameWaySection() {
                 label="Shared Trips"
               />
               <span
-                className="block h-px w-full bg-white/12 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
@@ -316,7 +317,7 @@ export default function GoingSameWaySection() {
 
             {/* Floating chips */}
             <FloatChip
-              className="absolute right-1 top-[8%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[22%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
               title="Split Fare"
               subtitle="Save up to 60%"
               icon={
@@ -330,7 +331,7 @@ export default function GoingSameWaySection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[22%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[40%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="Same Route"
               subtitle="Instant Match"
               delay="1.4s"
