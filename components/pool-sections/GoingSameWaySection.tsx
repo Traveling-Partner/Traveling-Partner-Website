@@ -162,27 +162,37 @@ export default function GoingSameWaySection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
-        {/* Background: phone + van + city skyline (desktop) — anchored right at natural aspect, never cropped */}
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/578] lg:block"
-          aria-hidden="true"
-        >
+        {/* Background */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          {/* Mobile/tablet: Figma cover 417×1024 — full width, natural height, no crop */}
           <Image
-            src={`${ASSETS}/bg-van-phone.png`}
+            src={`${ASSETS}/bg-pool-mobile.png`}
             alt=""
-            fill
-            sizes="(max-width: 1280px) 60vw, 700px"
-            className="object-contain object-right"
+            width={417}
+            height={1024}
+            sizes="100vw"
+            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
+            style={{ width: "100%", height: "auto" }}
             priority
           />
-          {/* Soft left fade so the image edge blends into the card */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.85) 12%, rgba(7,6,4,0) 34%)",
-            }}
-          />
+          {/* Desktop: phone + van + city — anchored right at natural aspect */}
+          <div className="absolute inset-y-0 right-0 hidden aspect-[1024/578] lg:block">
+            <Image
+              src={`${ASSETS}/bg-van-phone.png`}
+              alt=""
+              fill
+              sizes="(max-width: 1280px) 60vw, 700px"
+              className="object-contain object-right"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(90deg, #070604 0%, rgba(7,6,4,0.85) 12%, rgba(7,6,4,0) 34%)",
+              }}
+            />
+          </div>
         </div>
 
         <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
@@ -280,9 +290,9 @@ export default function GoingSameWaySection() {
             </div>
           </div>
 
-          {/* ── Visual: composite + chips ── */}
+          {/* ── Visual: cover bg on mobile (phone+van baked in) + chips ── */}
           <div className="relative z-10 mt-10 flex w-full items-center justify-center px-2 pb-8 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
-            {/* Dashed connector arc (desktop) — single C-arc hugging the chips' left side, as in Figma */}
+            {/* Dashed connector arc (desktop) */}
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[64%] w-[52%] lg:block"
               viewBox="0 0 340 400"
@@ -298,20 +308,15 @@ export default function GoingSameWaySection() {
               />
             </svg>
 
-            {/* Composite image inline (mobile / tablet only — on desktop it is the card background) */}
-            <div className="relative aspect-[1024/578] w-full max-w-full overflow-hidden lg:hidden">
-              <Image
-                src={`${ASSETS}/bg-van-phone.png`}
-                alt="Traveling Partner pool ride app with location screen and van"
-                fill
-                sizes="(max-width: 640px) 100vw, 560px"
-                className="object-contain"
-              />
-            </div>
+            {/* Mobile spacer — cover already includes phone + van; keep room for chips */}
+            <div
+              className="relative min-h-[400px] w-full sm:min-h-[460px] lg:hidden"
+              aria-hidden="true"
+            />
 
             {/* Floating chips */}
             <FloatChip
-              className="absolute right-1 top-[2%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[8%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
               title="Split Fare"
               subtitle="Save up to 60%"
               icon={
@@ -325,7 +330,7 @@ export default function GoingSameWaySection() {
               }
             />
             <FloatChip
-              className="absolute right-1 top-[40%] sm:right-[4%] lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[22%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="Same Route"
               subtitle="Instant Match"
               delay="1.4s"
