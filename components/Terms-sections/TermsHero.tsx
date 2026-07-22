@@ -15,7 +15,7 @@ export default function TermsHero() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-10 pt-[110px] text-center sm:px-6 sm:pb-12 sm:pt-[128px] md:pt-[140px] lg:px-8 lg:pb-14 lg:pt-[150px]">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pb-10 pt-[110px] text-center sm:px-6 sm:pb-12 sm:pt-[128px] md:pt-[140px] lg:px-8 lg:pb-14 lg:pt-[150px]">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">

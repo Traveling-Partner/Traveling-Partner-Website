@@ -168,8 +168,9 @@ function FloatChip({
 
 export default function GoingSameWaySection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {/* Mobile/tablet: Figma cover 417×1024 — full width, natural height, no crop */}
@@ -386,6 +387,7 @@ export default function GoingSameWaySection() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`

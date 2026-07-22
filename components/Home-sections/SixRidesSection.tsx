@@ -691,7 +691,7 @@ export default function SixRidesSection(): React.ReactElement {
       className="relative w-full scroll-mt-28 overflow-hidden bg-[#FEFBF6] py-10 sm:py-12 lg:py-14"
       aria-labelledby="six-rides-heading"
     >
-      <div className="relative z-[1] mx-auto w-[92%] max-w-[1200px]">
+      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto mb-6 max-w-[720px] text-center sm:mb-8 lg:mb-9"
           initial={{ opacity: 0, y: 18 }}

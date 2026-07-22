@@ -105,7 +105,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
         }}
       />
 
-      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex w-full flex-col items-stretch justify-between gap-3 sm:mb-10 sm:flex-row sm:items-center">
           <Link
             href="/blog"

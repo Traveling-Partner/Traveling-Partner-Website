@@ -40,7 +40,7 @@ export default function BlogSection(): React.ReactElement {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_20%,rgba(253,184,19,0.08),transparent_60%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1708px] px-5 sm:px-8 lg:px-12 xl:px-[106px]">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-[48px] text-center sm:mb-[56px] lg:mb-[64px]"
           initial={{ opacity: 0, y: 24 }}

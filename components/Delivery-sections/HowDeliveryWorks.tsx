@@ -116,7 +116,7 @@ export default function HowDeliveryWorks() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1080px] px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center sm:mb-9 lg:mb-10">
           <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1">
             <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[10px]">

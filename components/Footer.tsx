@@ -7,8 +7,6 @@ import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
 
-const CONTAINER_MAX = 1730.909;
-
 const FOOTER_LINKS = {
   /** Interleaved for 2-column mobile: col1 = even indices, col2 = odd */
   company: [
@@ -221,10 +219,7 @@ function FooterLinkColumn({
 export default function Footer(): React.ReactElement {
   return (
     <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
-      <div
-        className="mx-auto w-full px-5 pb-10 pt-10 sm:px-6 sm:pb-10 sm:pt-12 md:px-8 lg:px-[95px] lg:pb-12 lg:pt-14"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
+      <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-10 sm:px-6 sm:pb-10 sm:pt-12 lg:px-8 lg:pb-12 lg:pt-14">
         <NewsletterSection />
 
         {/* Mobile — stacked sections like reference */}

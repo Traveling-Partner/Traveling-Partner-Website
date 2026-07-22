@@ -199,7 +199,7 @@ export default function BlogDetailBody({
 
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-4 sm:pb-16">
-      <div className="mx-auto w-[92%] max-w-[1200px] px-0 sm:px-2">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Featured image — larger width + taller aspect */}
         <div className="mx-auto mb-8 max-w-[900px] sm:mb-10 lg:mb-12">
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[22px] sm:rounded-[28px]">

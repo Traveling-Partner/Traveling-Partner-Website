@@ -208,7 +208,7 @@ export default function PrivacyContent(): React.ReactElement {
   return (
     <main className="w-full bg-gradient-to-b from-gray-50 to-white pb-24">
       {/* Section Header */}
-      <div className="w-[90%] mx-auto max-w-7xl pt-16 pb-12">
+      <div className="mx-auto w-full max-w-7xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <Shield className="w-4 h-4 text-[#fdb813]" />
@@ -231,7 +231,7 @@ export default function PrivacyContent(): React.ReactElement {
       </div>
 
       {/* Content */}
-      <div className="w-[90%] mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           {sections.map((section) => {
             const Icon = section.icon;

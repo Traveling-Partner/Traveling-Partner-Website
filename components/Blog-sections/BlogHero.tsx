@@ -72,7 +72,7 @@ export default function BlogHero({
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-0 pt-[110px] text-center sm:px-6 sm:pt-[128px] md:pt-[140px] lg:px-8 lg:pt-[150px]">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pb-0 pt-[110px] text-center sm:px-6 sm:pt-[128px] md:pt-[140px] lg:px-8 lg:pt-[150px]">
         {/* Badge */}
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
@@ -127,7 +127,7 @@ export default function BlogHero({
 
       {/* Category filters between dashed rules */}
       <div className="relative border-y border-dashed border-[#9ec5ff]/70 py-4 sm:py-5">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap sm:justify-center sm:gap-2.5 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
             {categories.map((cat) => {
               const active = selectedCategory === cat.key;

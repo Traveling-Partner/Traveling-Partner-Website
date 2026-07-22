@@ -150,12 +150,12 @@ function FloatChip({
 
 export default function MoveBulkCargoSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       {/*
         Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
         Cover in flow = full natural height (no crop). Content overlays cream top.
       */}
-      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[32px]">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[32px]">
         {/* Mobile cover IN FLOW — 360×1024, full width, no crop */}
         <Image
           src={`${ASSETS}/bg-logistic-mobile.png`}

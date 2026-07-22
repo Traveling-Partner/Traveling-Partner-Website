@@ -151,12 +151,12 @@ function FloatChip({
 
 export default function ReadyToSendSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       {/*
         Mobile: card height = full cover (278×1024) so image never crops.
         Content overlays the cream area; phone/van stay below the stats — like Figma.
       */}
-      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#FEF3E1] max-lg:max-w-[400px] sm:rounded-[32px]">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FEF3E1] max-lg:max-w-[400px] sm:rounded-[32px]">
         {/* Mobile cover IN FLOW — full natural height, no crop, defines card height */}
         <Image
           src={`${ASSETS}/bg-delivery-mobile.png`}

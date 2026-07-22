@@ -45,7 +45,7 @@ function ChevronRightIcon({ className = "" }: { className?: string }) {
 export default function TalkToHumanSection() {
   return (
     <section className="bg-[#FEFBF6] pb-20 pt-2 sm:pb-24">
-      <div className="mx-auto w-[92%] max-w-[1200px]">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className="overflow-hidden rounded-[28px] border border-[#0b0b0b]/10 px-5 py-8 sm:rounded-[32px] sm:px-8 sm:py-10 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center lg:gap-10 lg:px-10 lg:py-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:gap-12"
           style={{

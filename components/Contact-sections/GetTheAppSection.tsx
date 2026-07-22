@@ -154,7 +154,7 @@ function FeaturePills({ className = "" }: { className?: string }) {
 
 export default function GetTheAppSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-10 sm:px-6 sm:py-14 lg:px-6 lg:py-16 xl:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
       {/* ——— Mobile — Figma bg (black top + phone bottom), same CTA pattern ——— */}
       <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px] lg:hidden">
         {/* Cover IN FLOW — natural height, no crop */}
@@ -223,7 +223,7 @@ export default function GetTheAppSection() {
       </div>
 
       {/* ——— Desktop ——— original layout; content not flush to edges */}
-      <div className="relative mx-auto hidden w-full max-w-[1400px] overflow-hidden rounded-[36px] bg-[#070604] lg:block lg:aspect-[1688/409] xl:rounded-[40px]">
+      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[36px] bg-[#070604] lg:block lg:aspect-[1688/409] xl:rounded-[40px]">
         <Image
           src={`${ASSETS}/bg-desktop.png`}
           alt=""
