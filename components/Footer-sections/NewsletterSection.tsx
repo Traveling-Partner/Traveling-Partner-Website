@@ -5,7 +5,9 @@ import Image from "next/image";
 import { Bell, Gift, Mail, MapPin, ArrowRight } from "lucide-react";
 import "./NewsletterSection.css";
 
-const ILLUSTRATION = "/images/footer/stay-in-the-loop/mailbox-cover.png";
+/** Original full artwork — rings, airplane, clouds, dots, mailbox */
+const SCENE = "/images/footer/stay-in-the-loop/bg-desktop-lg.png";
+
 const AVATARS = [
   "/images/footer/stay-in-the-loop/avatar-1.png",
   "/images/footer/stay-in-the-loop/avatar-2.png",
@@ -41,7 +43,17 @@ export default function NewsletterSection() {
   return (
     <section className="sil" aria-labelledby="sil-heading">
       <div className="sil__inner">
-        <div className="sil__glow" aria-hidden="true" />
+        {/* Full original scene layers (not zoomed) */}
+        <Image
+          src={SCENE}
+          alt=""
+          width={2048}
+          height={1024}
+          className="sil__scene"
+          sizes="(max-width: 900px) 100vw, 1200px"
+          priority
+        />
+        <div className="sil__veil" aria-hidden="true" />
 
         <div className="sil__content">
           <div className="sil__left">
@@ -128,18 +140,6 @@ export default function NewsletterSection() {
               </p>
             </div>
           </div>
-        </div>
-
-        <div className="sil__art" aria-hidden="true">
-          <Image
-            src={ILLUSTRATION}
-            alt=""
-            width={707}
-            height={353}
-            className="sil__illustration"
-            sizes="(max-width: 900px) 100vw, 45vw"
-            priority
-          />
         </div>
       </div>
     </section>
