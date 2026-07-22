@@ -61,19 +61,19 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[46px] w-full items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:h-[58px] sm:w-auto sm:gap-3 sm:pl-2 sm:pr-6"
+      className="group inline-flex h-[54px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-3 sm:pl-2 sm:pr-5 lg:h-[58px] lg:w-auto lg:pr-6"
       style={{
         background: "linear-gradient(90deg, #FCE001 0%, #FDB813 100%)",
       }}
     >
-      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 sm:h-[42px] sm:w-[42px]">
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[42px] lg:w-[42px]">
         {icon}
       </span>
-      <span className="text-left leading-tight">
-        <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-black/70 sm:text-[10px] sm:tracking-[0.18em]">
+      <span className="min-w-0 text-left leading-tight">
+        <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-black/70 lg:text-[10px] lg:tracking-[0.18em]">
           {label}
         </span>
-        <span className="block whitespace-nowrap text-[12px] font-bold text-black sm:text-[16px]">
+        <span className="block truncate text-[14px] font-bold text-black lg:text-[16px]">
           {title}
         </span>
       </span>
@@ -91,17 +91,15 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-2.5">
-      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[10px] border border-[#fce001]/40 bg-[#fce001]/12 sm:h-[36px] sm:w-[36px]">
+    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
+      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fce001]/45 bg-[#fce001]/18 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/12">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block text-[14px] font-bold text-white sm:text-[15px]">
+        <span className="block text-[16px] font-bold text-white lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[11px] text-white/55 sm:text-[12px]">
-          {label}
-        </span>
+        <span className="block text-[12px] text-white/55">{label}</span>
       </span>
     </div>
   );
@@ -122,17 +120,17 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`rtt-float flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)] sm:gap-3 sm:py-2 sm:pl-2 sm:pr-6 ${className}`}
+      className={`rtt-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.35)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-6 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#fce001] sm:h-[48px] sm:w-[48px]">
+      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[48px] lg:w-[48px]">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block whitespace-nowrap text-[11px] font-bold text-[#0b0b0b] sm:text-[16px]">
+        <span className="block text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
           {title}
         </span>
-        <span className="block whitespace-nowrap text-[7px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] sm:text-[11px] sm:tracking-[0.18em]">
+        <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
           {subtitle}
         </span>
       </span>
@@ -142,9 +140,8 @@ function FloatChip({
 
 export default function ReadyToTripSection() {
   return (
-    <section className="bg-[#FEFBF6] px-2 py-6 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[20px] bg-[#070604] sm:rounded-[32px]">
-        {/* Background: phone + car + city (desktop) — natural aspect, never cropped */}
+    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
         <div
           className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/579] lg:block"
           aria-hidden="true"
@@ -166,61 +163,59 @@ export default function ReadyToTripSection() {
           />
         </div>
 
-        <div className="relative flex flex-col px-4 pb-5 pt-5 sm:px-7 sm:pb-6 sm:pt-6 lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
-          {/* ── Left content ── */}
-          <div className="relative z-10 w-full max-w-[560px] lg:w-[44%] lg:shrink-0">
-            {/* Badge */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#fce001]/80 px-3 py-1.5 sm:mb-8 sm:gap-2.5 sm:px-4 sm:py-2">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+          <div className="relative z-10 w-full px-5 pb-2 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
-              <span className="text-[8px] font-bold uppercase tracking-[0.22em] text-[#fce001] sm:text-[11px] sm:tracking-[0.24em]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
                 Ready to trip?
               </span>
             </div>
 
-            {/* Heading */}
-            <h2 className="mb-3 font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6 sm:leading-[1.1]">
-              <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
+            <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-6">
+              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
                 Plan it,
               </span>
               <em
-                className="my-[4px] inline-block rounded-[8px] border border-[#fce001]/45 px-2.5 pb-0.5 text-[32px] font-medium italic text-[#fce001] sm:px-3 sm:text-4xl md:text-5xl lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] font-medium italic text-[#fce001] lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 track it,
               </em>
-              <span className="block text-[32px] sm:text-4xl md:text-5xl lg:text-[52px]">
+              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
                 enjoy it.
               </span>
             </h2>
 
-            {/* Description */}
-            <p className="mb-4 max-w-[440px] text-[12px] leading-[1.6] text-[#b7b1a4] sm:mb-6 sm:text-[15px] sm:leading-[1.7] lg:text-base">
+            <p className="mb-7 max-w-[440px] text-[15px] leading-[1.65] text-white/85 lg:mb-6 lg:text-base lg:text-[#b7b1a4]">
               Book your trip in advance or on the go with Traveling Partner. Get
               real-time tracking, secure payments, and a smooth journey to your
               destination.
             </p>
 
-            {/* Store buttons */}
-            <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-7 sm:flex sm:items-center sm:gap-4">
+            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
                 title="Google Play"
-                icon={<PlayStoreIcon className="h-[22px] w-[22px]" />}
+                icon={
+                  <PlayStoreIcon className="h-[20px] w-[20px] lg:h-[22px] lg:w-[22px]" />
+                }
               />
               <StoreButton
                 href={APP_STORE_URL}
                 label="Download on"
                 title="App Store"
-                icon={<AppleIcon className="h-[24px] w-[24px] text-black" />}
+                icon={
+                  <AppleIcon className="h-[22px] w-[22px] text-black lg:h-[24px] lg:w-[24px]" />
+                }
               />
             </div>
 
-            {/* Stats bar */}
-            <div className="inline-flex w-full max-w-[540px] flex-col gap-3 rounded-[16px] border border-white/10 bg-[#171410]/80 px-4 py-2.5 backdrop-blur-sm sm:w-auto sm:flex-row sm:items-center sm:gap-0 sm:px-5 sm:py-3">
+            <div className="w-full rounded-[20px] border border-white/10 bg-[#171410]/85 px-4 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
               <StatItem
                 icon={
                   <Image
@@ -235,7 +230,7 @@ export default function ReadyToTripSection() {
                 label="Rating"
               />
               <span
-                className="h-px w-full bg-white/12 sm:mx-5 sm:h-8 sm:w-px"
+                className="block h-px w-full bg-white/12 lg:mx-5 lg:h-8 lg:w-px"
                 aria-hidden="true"
               />
               <StatItem
@@ -252,7 +247,7 @@ export default function ReadyToTripSection() {
                 label="Trips Completed"
               />
               <span
-                className="h-px w-full bg-white/12 sm:mx-5 sm:h-8 sm:w-px"
+                className="block h-px w-full bg-white/12 lg:mx-5 lg:h-8 lg:w-px"
                 aria-hidden="true"
               />
               <StatItem
@@ -271,9 +266,7 @@ export default function ReadyToTripSection() {
             </div>
           </div>
 
-          {/* ── Right visual ── */}
-          <div className="relative z-10 mt-6 flex w-full items-center justify-center sm:mt-8 lg:mt-0 lg:min-h-[370px] lg:flex-1">
-            {/* Dashed connector arc (desktop) */}
+          <div className="relative z-10 mt-8 w-full pb-6 lg:mt-0 lg:flex lg:min-h-[370px] lg:flex-1 lg:items-center lg:justify-center lg:pb-0">
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[70%] w-[52%] lg:block"
               viewBox="0 0 340 420"
@@ -289,34 +282,32 @@ export default function ReadyToTripSection() {
               />
             </svg>
 
-            {/* Composite image inline (mobile / tablet) */}
-            <div className="relative -mx-4 -mb-5 aspect-[1024/579] w-[calc(100%+2rem)] max-w-none sm:-mx-7 sm:-mb-6 sm:w-[calc(100%+3.5rem)] lg:hidden">
+            <div className="relative aspect-[1024/579] w-full lg:hidden">
               <Image
                 src={`${ASSETS}/bg-phone-car.png`}
                 alt="Traveling Partner trip app with car and route map"
                 fill
-                sizes="(max-width: 640px) 92vw, 560px"
-                className="object-contain"
+                sizes="100vw"
+                className="object-cover object-right"
               />
             </div>
 
-            {/* Floating chips — three stacked like Figma */}
             <FloatChip
-              className="absolute right-0 top-[2%] sm:right-[2%] sm:top-[4%] lg:right-[1%] lg:top-[6%]"
+              className="absolute right-3 top-[6%] sm:right-5 lg:right-[1%] lg:top-[6%]"
               title="Live Tracking"
               subtitle="Track now"
               icon={
                 <Image
                   src={`${ASSETS}/icon-live-gps.png`}
                   alt=""
-                  width={30}
-                  height={30}
-                  className="h-[30px] w-[30px] object-contain"
+                  width={26}
+                  height={26}
+                  className="h-[26px] w-[26px] object-contain lg:h-[30px] lg:w-[30px]"
                 />
               }
             />
             <FloatChip
-              className="absolute right-0 top-[28%] sm:right-[2%] lg:right-[1%] lg:top-[28%]"
+              className="absolute right-3 top-[28%] sm:right-5 lg:right-[1%] lg:top-[28%]"
               title="Safe & Secure"
               subtitle="Your safety"
               delay="0.8s"
@@ -324,14 +315,14 @@ export default function ReadyToTripSection() {
                 <Image
                   src={`${ASSETS}/icon-safe-shield.png`}
                   alt=""
-                  width={28}
-                  height={28}
-                  className="h-[28px] w-[28px] object-contain"
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
                 />
               }
             />
             <FloatChip
-              className="absolute right-0 top-[54%] sm:right-[2%] lg:right-[1%] lg:top-[50%]"
+              className="absolute bottom-[8%] right-3 sm:right-5 lg:bottom-auto lg:right-[1%] lg:top-[50%]"
               title="On-Time Trips"
               subtitle="Always"
               delay="1.6s"
@@ -339,9 +330,9 @@ export default function ReadyToTripSection() {
                 <Image
                   src={`${ASSETS}/icon-on-time.png`}
                   alt=""
-                  width={28}
-                  height={28}
-                  className="h-[28px] w-[28px] object-contain"
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
                 />
               }
             />
