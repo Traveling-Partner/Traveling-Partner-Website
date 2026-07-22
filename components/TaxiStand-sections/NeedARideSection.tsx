@@ -144,25 +144,29 @@ export default function NeedARideSection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
-        {/* Background: taxi + city skyline */}
+        {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          {/* Mobile/tablet: Figma cover 442×1024 — full width, natural height, no crop */}
+          <Image
+            src={`${ASSETS}/bg-taxi-city-mobile.png`}
+            alt=""
+            width={442}
+            height={1024}
+            sizes="100vw"
+            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
+            style={{ width: "100%", height: "auto" }}
+            priority
+          />
+          {/* Desktop: landscape city/taxi */}
           <Image
             src={`${ASSETS}/bg-taxi-city.png`}
             alt=""
             fill
             sizes="100vw"
-            className="object-cover object-[70%_center] opacity-90 max-lg:object-[75%_85%] lg:object-[center_38%]"
+            className="hidden object-cover object-[center_38%] opacity-90 lg:block"
             priority
           />
-          {/* Mobile: solid black top → city at bottom (Figma) */}
-          <div
-            className="absolute inset-0 lg:hidden"
-            style={{
-              background:
-                "linear-gradient(180deg, #070604 0%, #070604 48%, rgba(7,6,4,0.72) 62%, rgba(7,6,4,0.25) 78%, transparent 100%)",
-            }}
-          />
-          {/* Desktop: left fade */}
+          {/* Desktop fades only — mobile art already includes black top */}
           <div
             className="absolute inset-0 hidden lg:block"
             style={{
