@@ -103,14 +103,21 @@ function StatItem({
   icon,
   value,
   label,
+  boxed = false,
 }: {
   icon: ReactNode;
   value: string;
   label: string;
+  boxed?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
-      {/* Mobile: dark rounded tile + yellow icon (Figma). Desktop: soft yellow tile. */}
+    <div
+      className={
+        boxed
+          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-white/15 bg-[#161310]/92 px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md"
+          : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
+      }
+    >
       <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[#0c0b09] lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
         {icon}
       </span>
@@ -251,8 +258,40 @@ export default function GoingSameWaySection() {
               />
             </div>
 
-            {/* Stats — same mobile card design as Need a Ride */}
-            <div className="w-full rounded-[18px] border border-white/15 bg-[#161310]/92 px-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-white/10 lg:bg-[#171410]/85 lg:px-5 lg:py-3 lg:shadow-none lg:backdrop-blur-sm">
+            {/* Stats — mobile: 3 full-width boxes; desktop: single card */}
+            <div className="flex w-full flex-col gap-2.5 lg:hidden">
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${SHARED_ICONS}/icon-star.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                }
+                value="4.8★"
+                label="Rating"
+              />
+              <StatItem
+                boxed
+                icon={<PeopleIcon className="h-[22px] w-[22px]" />}
+                value="30K+"
+                label="Shared Trips"
+              />
+              <StatItem
+                boxed
+                icon={
+                  <span className="text-[13px] font-extrabold text-[#fce001]">
+                    Rs
+                  </span>
+                }
+                value="Up to 60%"
+                label="Fare Savings"
+              />
+            </div>
+            <div className="hidden w-full rounded-[16px] border border-white/10 bg-[#171410]/85 px-5 py-3 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -267,7 +306,7 @@ export default function GoingSameWaySection() {
                 label="Rating"
               />
               <span
-                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
+                className="mx-5 block h-8 w-px bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
@@ -276,7 +315,7 @@ export default function GoingSameWaySection() {
                 label="Shared Trips"
               />
               <span
-                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
+                className="mx-5 block h-8 w-px bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
