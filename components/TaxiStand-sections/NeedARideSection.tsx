@@ -92,7 +92,7 @@ function StatItem({
 }) {
   return (
     <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fce001]/45 bg-[#fce001]/18 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/12">
+      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001]/22 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/12">
         {icon}
       </span>
       <span className="leading-tight">
@@ -238,8 +238,8 @@ export default function NeedARideSection() {
               />
             </div>
 
-            {/* Stats — stacked rows + horizontal rules on mobile (Figma) */}
-            <div className="w-full rounded-[20px] border border-white/10 bg-[#171410]/85 px-4 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — stacked rows + visible card border on mobile (Figma) */}
+            <div className="w-full rounded-[20px] border border-white/25 bg-[#171410]/85 px-4 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-white/10 lg:px-5 lg:py-3">
               <StatItem
                 icon={
                   <Image
