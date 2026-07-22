@@ -13,6 +13,7 @@ import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import BlogHero from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
+import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 
 interface Blog {
   id: string | number;
@@ -153,33 +154,7 @@ export default function BlogListingClient() {
         <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
       ) : null}
 
-      {/* Newsletter */}
-      <div className="mx-auto w-[85%] max-w-7xl px-0 pb-10 pt-8 max-md:w-full max-md:px-4">
-        <div className="relative mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-[#fce001] to-[#fdb813] p-8 text-center lg:p-12">
-          <div className="absolute right-0 top-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-white/20 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-white/20 blur-3xl"></div>
-
-          <div className="relative z-10 mx-auto max-w-2xl">
-            <h3 className="mb-4 text-2xl font-bold text-black lg:text-3xl">
-              Subscribe to Our Newsletter
-            </h3>
-            <p className="mb-6 text-black/80">
-              Get the latest travel tips and destination guides delivered
-              straight to your inbox.
-            </p>
-            <div className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 rounded-full border-0 px-5 py-3 outline-none focus:ring-2 focus:ring-black/20"
-              />
-              <button className="rounded-full bg-black px-6 py-3 font-semibold text-white transition-colors hover:bg-black/80">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TPJournalSection />
     </div>
   );
 }
