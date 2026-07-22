@@ -130,17 +130,17 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`nar-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.35)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-6 ${className}`}
+      className={`nar-float flex w-[152px] items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)] sm:w-[168px] lg:w-[196px] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-4 ${className}`}
       style={{ animationDelay: delay }}
     >
       <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[48px] lg:w-[48px]">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
+      <span className="min-w-0 flex-1 leading-tight">
+        <span className="block truncate text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
           {title}
         </span>
-        <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
+        <span className="block truncate text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
           {subtitle}
         </span>
       </span>
@@ -150,8 +150,9 @@ function FloatChip({
 
 export default function NeedARideSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {/* Mobile/tablet: Figma cover 442×1024 — full width, natural height, no crop */}
@@ -378,7 +379,7 @@ export default function NeedARideSection() {
             </div>
 
             <FloatChip
-              className="absolute right-1 top-[2%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-0 top-[8%] sm:right-1 sm:top-[8%] lg:right-[1%] lg:top-[10%]"
               title="Nearest Driver"
               subtitle="Under 5 min"
               icon={
@@ -392,7 +393,7 @@ export default function NeedARideSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[18%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute right-0 top-[26%] sm:right-1 sm:top-[28%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Surge"
               subtitle="Fair Pricing"
               delay="1.4s"
@@ -408,6 +409,7 @@ export default function NeedARideSection() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`

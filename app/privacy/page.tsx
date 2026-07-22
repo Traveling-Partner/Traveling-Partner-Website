@@ -1,7 +1,7 @@
 export default function Privacy() {
   return (
     <main className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-12">Privacy Policy</h1>
 
         <div className="prose prose-lg max-w-none text-gray-700 space-y-8">

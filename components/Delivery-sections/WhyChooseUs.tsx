@@ -20,7 +20,7 @@ export default function WhyChooseUs() {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/40"></div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Glass Card */}
         <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-8 lg:p-12 shadow-2xl">
           

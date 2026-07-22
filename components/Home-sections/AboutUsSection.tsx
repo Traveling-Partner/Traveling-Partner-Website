@@ -6,7 +6,6 @@ import Link from "next/link";
 import { heroBackgroundStyle } from "@/lib/heroBackground";
 
 /** Figma About Us — section 124:3686 (1920 × 1198) */
-const CONTAINER_MAX = 1707.6363525390625;
 const LEFT_COL_W = 787.5831909179688;
 const RIGHT_COL_W = 966.6965942382812;
 const HEAD_W = 752.674072265625;
@@ -461,10 +460,7 @@ export default function AboutUsSection(): React.ReactElement {
       style={heroBackgroundStyle}
       aria-labelledby="about-us-heading"
     >
-      <div
-        className="relative z-[1] mx-auto w-full overflow-visible px-4 sm:px-8 lg:px-[106px]"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
+      <div className="relative z-[1] mx-auto w-full max-w-7xl overflow-visible px-4 sm:px-6 lg:px-8">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,787.58px)_minmax(0,966.7px)] lg:gap-4">
           <div
             className="relative z-[2] w-full lg:-mt-[10.66px] lg:pr-4"

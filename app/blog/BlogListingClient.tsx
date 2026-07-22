@@ -139,7 +139,7 @@ export default function BlogListingClient() {
       />
 
       {loading ? (
-        <div className="mx-auto w-[85%] max-w-7xl px-0 max-md:w-full max-md:px-4">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <Loader />
         </div>
       ) : error ? (

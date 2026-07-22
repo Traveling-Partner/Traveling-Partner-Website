@@ -77,7 +77,7 @@ export default function GetStartedSection(): React.ReactElement {
         aria-hidden
       />
 
-      <div className="relative z-[1] mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-10">
+      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center sm:mb-10 lg:mb-12">
           <h2
             id="get-started-heading"

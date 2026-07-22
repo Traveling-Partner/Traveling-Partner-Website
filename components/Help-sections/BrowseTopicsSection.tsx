@@ -65,7 +65,7 @@ export default function BrowseTopicsSection({
 }: BrowseTopicsSectionProps) {
   return (
     <section className="bg-[#FEFBF6] pb-14 pt-2 sm:pb-16">
-      <div className="mx-auto w-[92%] max-w-[1200px]">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center sm:mb-10">
           <h2 className="font-poppins text-[clamp(26px,3.2vw,36px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b]">
             Browse by{" "}

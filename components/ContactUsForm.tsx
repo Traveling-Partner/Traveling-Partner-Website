@@ -8,7 +8,6 @@ import CircularIndeterminate from "./loader";
 import { submitContactForm } from "@/services/contact";
 
 /** Figma Contact — node 124:3877 */
-const CONTAINER_MAX = 1708;
 const PHONE_DISPLAY = "+92 325 280 1261";
 const PHONE_HREF = "tel:+923252801261";
 
@@ -225,10 +224,7 @@ export default function ContactUsForm(): React.ReactElement {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b0b0b]/55 via-[#0b0b0b]/35 to-[#0b0b0b]/65" />
       </div>
 
-      <div
-        className="relative z-10 mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-[106px]"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.88fr)] lg:gap-6 xl:gap-8">
           {/* Left — headline + phone */}
           <motion.div

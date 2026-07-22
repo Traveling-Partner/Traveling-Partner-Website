@@ -198,7 +198,7 @@ function SectionCopy({
  */
 export default function TPJournalSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 pb-12 pt-4 sm:px-6 sm:pb-14 sm:pt-6 lg:px-6 lg:pb-16 lg:pt-8 xl:px-8">
+    <section className="bg-[#FEFBF6] px-4 pb-12 pt-4 sm:px-6 sm:pb-14 sm:pt-6 lg:px-8 lg:pb-16 lg:pt-8">
       {/* ——— Mobile — Figma stacked layout ——— */}
       <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-black sm:rounded-[32px] lg:hidden">
         <div className="relative z-10 px-6 pb-2 pt-10 sm:px-7 sm:pt-11">
@@ -233,7 +233,7 @@ export default function TPJournalSection() {
       </div>
 
       {/* ——— Desktop ——— */}
-      <div className="relative mx-auto hidden w-full max-w-[1280px] overflow-hidden rounded-[28px] bg-black lg:block lg:min-h-[340px] lg:aspect-[1024/280] xl:min-h-[360px] xl:rounded-[32px]">
+      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-black lg:block lg:min-h-[340px] lg:aspect-[1024/280] xl:min-h-[360px] xl:rounded-[32px]">
         <Image
           src={`${ASSETS}/bg-desktop.png`}
           alt=""

@@ -204,7 +204,7 @@ export default function TripReliable() {
         </motion.div>
 
         {/* Feature cards */}
-        <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3 lg:gap-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3 lg:gap-6">
           {cards.map((card, index) => {
             const isFeatured = card.featured;
             return (

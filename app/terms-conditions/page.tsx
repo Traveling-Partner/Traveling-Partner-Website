@@ -261,7 +261,7 @@ export default function TermsConditionsPage() {
       <TermsHero />
 
       <section className="bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4">
-        <div className="mx-auto w-[92%] max-w-[1200px]">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div
             ref={layoutRef}
             className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:gap-12"

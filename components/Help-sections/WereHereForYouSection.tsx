@@ -238,7 +238,7 @@ function StoreButtons({ className = "" }: { className?: string }) {
  */
 export default function WereHereForYouSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 pb-16 pt-4 sm:px-6 sm:pb-20 sm:pt-6 lg:px-6 lg:pb-24 lg:pt-8 xl:px-8">
+    <section className="bg-[#FEFBF6] px-4 pb-16 pt-4 sm:px-6 sm:pb-20 sm:pt-6 lg:px-8 lg:pb-24 lg:pt-8">
       {/* ——— Mobile ——— */}
       <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-[#FFFBF2] sm:rounded-[32px] lg:hidden">
         <div className="relative z-10 px-5 pb-2 pt-9 sm:px-6 sm:pt-10">
@@ -268,7 +268,7 @@ export default function WereHereForYouSection() {
       </div>
 
       {/* ——— Desktop ——— native cover aspect 1024×232 — no zoom ——— */}
-      <div className="relative mx-auto hidden w-full max-w-[1280px] overflow-hidden rounded-[28px] bg-[#FFFBF2] lg:block lg:aspect-[1024/232] xl:rounded-[32px]">
+      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FFFBF2] lg:block lg:aspect-[1024/232] xl:rounded-[32px]">
         <Image
           src={`${ASSETS}/bg-desktop.png`}
           alt=""

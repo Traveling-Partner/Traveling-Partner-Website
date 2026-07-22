@@ -139,7 +139,7 @@ export default function LatestStoriesSection({
           }}
           aria-hidden="true"
         />
-        <div className="relative z-10 mx-auto w-[85%] max-w-7xl px-0 max-md:w-full max-md:px-4">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="py-12 text-center text-[#6b6960]">No blogs found.</div>
         </div>
       </section>
@@ -157,7 +157,7 @@ export default function LatestStoriesSection({
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto w-[85%] max-w-7xl px-0 max-md:w-full max-md:px-4">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
           <h2 className="font-poppins text-[clamp(28px,3.5vw,40px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b]">
             Latest{" "}

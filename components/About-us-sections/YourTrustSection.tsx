@@ -153,13 +153,13 @@ function FloatChip({
 
 export default function YourTrustSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       {/*
         Mobile: card height = full cover so image never crops.
         Content overlays the cream top; phone/van stay below the stats.
         Desktop: unchanged landscape bg.
       */}
-      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#F8F1DF] max-lg:max-w-[400px] sm:rounded-[32px] lg:aspect-[948/533]">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#F8F1DF] max-lg:max-w-[400px] sm:rounded-[32px] lg:aspect-[948/533]">
         {/* Mobile cover IN FLOW */}
         <Image
           src={`${ASSETS}/bg-trust-mobile.png`}

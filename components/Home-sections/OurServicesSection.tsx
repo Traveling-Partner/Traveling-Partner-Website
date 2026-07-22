@@ -4,8 +4,6 @@ import React from "react";
 import Link from "next/link";
 
 /** Figma Our Services — 124:3939 / parent 124:3931 (1920 × 974.545) */
-const CONTAINER_MAX = 1730.9090576171875;
-
 /** Figma LEFT orbital composition — 124:3967 */
 const BOUNDS_OX = 137.86953735351562;
 const BOUNDS_OY = 151.97842407226562;
@@ -424,10 +422,7 @@ export default function OurServicesSection(): React.ReactElement {
       className="relative w-full scroll-mt-28 overflow-hidden bg-[#fffcf2] py-12 sm:py-16 lg:py-[95px]"
       aria-labelledby="our-services-heading"
     >
-      <div
-        className="relative z-[1] mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-[95px]"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
+      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-6 xl:gap-8">
           <div className="relative order-2 min-w-0 overflow-hidden lg:order-1 lg:pt-[4%] xl:pt-[6%]">
             <ServicesOrbit />

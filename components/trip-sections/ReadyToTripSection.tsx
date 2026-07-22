@@ -150,12 +150,12 @@ function FloatChip({
 
 export default function ReadyToTripSection() {
   return (
-    <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       {/*
         Mobile: card height = full cover so image never crops.
         Content overlays the black top; phone/car stay below the stats.
       */}
-      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px]">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px]">
         {/* Mobile cover IN FLOW — defines card height */}
         <Image
           src={`${ASSETS}/bg-trip-mobile.png`}

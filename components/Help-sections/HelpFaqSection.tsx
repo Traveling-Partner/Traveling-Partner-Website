@@ -242,7 +242,7 @@ export default function HelpFaqSection({
 
   return (
     <section className="bg-[#FEFBF6] pb-16 pt-4 sm:pb-20">
-      <div className="mx-auto w-[92%] max-w-[1200px]">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           ref={faqLayoutRef}
           className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-12"

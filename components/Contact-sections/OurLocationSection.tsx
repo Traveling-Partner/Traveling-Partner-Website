@@ -82,7 +82,7 @@ function LocationPin() {
 export default function OurLocationSection() {
   return (
     <section className="relative w-full overflow-hidden bg-[#FEFBF6] py-14 sm:py-16 lg:py-20">
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
           {/* Left */}
           <motion.div

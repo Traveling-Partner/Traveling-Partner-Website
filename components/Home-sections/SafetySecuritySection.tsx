@@ -6,7 +6,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 /** Figma Safety & Security — node 124:3876 */
-const CONTAINER_MAX = 1708;
 const ICON_SIZE = 40;
 const ICON_CLASS = "h-10 w-10 object-contain sm:h-11 sm:w-11";
 
@@ -302,10 +301,7 @@ export default function SafetySecuritySection(): React.ReactElement {
         aria-hidden
       />
 
-      <div
-        className="relative z-[1] mx-auto w-full px-4 sm:px-8 lg:px-12 xl:px-[106px]"
-        style={{ maxWidth: CONTAINER_MAX }}
-      >
+      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.header
           className="mx-auto mb-10 max-w-[820px] text-center sm:mb-14 lg:mb-16"
           initial={{ opacity: 0, y: 24 }}
