@@ -130,7 +130,7 @@ function ServiceCard({
   compact?: boolean;
   cardRef?: (el: HTMLDivElement | null) => void;
 }) {
-  const rotate = compact ? service.rotate * 0.55 : service.rotate;
+  const rotate = compact ? 0 : service.rotate;
   const drop = compact ? 0 : service.drop;
   const cardInnerRef = useRef<HTMLAnchorElement>(null);
 
@@ -166,7 +166,9 @@ function ServiceCard({
       ref={cardRef}
       data-service-card
       className={`relative shrink-0 will-change-transform ${
-        compact ? "w-[210px]" : "w-[176px] lg:w-[192px] xl:w-[208px]"
+        compact
+          ? "w-[min(288px,82vw)] snap-center"
+          : "w-[176px] lg:w-[192px] xl:w-[208px]"
       }`}
       style={{
         zIndex: service.z,
@@ -188,7 +190,11 @@ function ServiceCard({
           href={service.href}
           onMouseMove={onMove}
           onMouseLeave={onLeave}
-          className="group relative block h-[292px] overflow-hidden rounded-[26px] shadow-[0_18px_42px_rgba(0,0,0,0.24)] transition-[box-shadow] duration-500 hover:shadow-[0_32px_64px_rgba(0,0,0,0.35)] lg:h-[312px] lg:rounded-[28px] xl:h-[330px]"
+          className={`group relative block overflow-hidden rounded-[26px] shadow-[0_18px_42px_rgba(0,0,0,0.24)] transition-[box-shadow] duration-500 hover:shadow-[0_32px_64px_rgba(0,0,0,0.35)] ${
+            compact
+              ? "h-[340px] rounded-[24px]"
+              : "h-[292px] lg:h-[312px] lg:rounded-[28px] xl:h-[330px]"
+          }`}
           style={{
             transform: `rotate(${rotate}deg)`,
             transformOrigin: "50% 100%",
@@ -202,8 +208,12 @@ function ServiceCard({
               src={service.image}
               alt=""
               fill
-              sizes="208px"
-              className="object-cover object-center scale-[1.42] transition-transform duration-700 ease-out group-hover:scale-[1.5]"
+              sizes={compact ? "288px" : "208px"}
+              className={`object-cover object-center transition-transform duration-700 ease-out ${
+                compact
+                  ? "scale-[1.5] group-hover:scale-[1.55]"
+                  : "scale-[1.42] group-hover:scale-[1.5]"
+              }`}
               priority
             />
           </motion.div>
@@ -221,10 +231,18 @@ function ServiceCard({
             />
           )}
 
-          <div className="relative z-10 flex h-full flex-col px-4 pb-4 pt-5 sm:px-[17px] sm:pb-[18px] sm:pt-5">
+          <div
+            className={`relative z-10 flex h-full flex-col ${
+              compact
+                ? "px-5 pb-5 pt-5"
+                : "px-4 pb-4 pt-5 sm:px-[17px] sm:pb-[18px] sm:pt-5"
+            }`}
+          >
             <span
               data-card-el="number"
-              className="text-[32px] italic leading-none text-white lg:text-[36px]"
+              className={`italic leading-none text-white ${
+                compact ? "text-[36px]" : "text-[32px] lg:text-[36px]"
+              }`}
               style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif" }}
             >
               {service.number}
@@ -232,7 +250,9 @@ function ServiceCard({
 
             <div
               data-card-el="icon"
-              className="mt-2.5 flex h-[42px] w-[42px] items-center justify-center overflow-hidden rounded-[11px] bg-[#FEFBF6] lg:mt-3 lg:h-[46px] lg:w-[46px] lg:rounded-[12px]"
+              className={`mt-2.5 flex items-center justify-center overflow-hidden rounded-[11px] bg-[#FEFBF6] lg:mt-3 lg:h-[46px] lg:w-[46px] lg:rounded-[12px] ${
+                compact ? "h-[46px] w-[46px] rounded-[12px]" : "h-[42px] w-[42px]"
+              }`}
             >
               <Image
                 src={service.icon}
@@ -244,7 +264,11 @@ function ServiceCard({
             </div>
 
             <div className="mt-auto" data-card-el="copy">
-              <h3 className="font-poppins text-[16px] font-bold leading-none text-white lg:text-[17px]">
+              <h3
+                className={`font-poppins font-bold leading-none text-white ${
+                  compact ? "text-[18px]" : "text-[16px] lg:text-[17px]"
+                }`}
+              >
                 {service.title}
               </h3>
 
@@ -252,7 +276,13 @@ function ServiceCard({
                 {service.label}
               </p>
 
-              <p className="mt-2.5 max-w-[158px] font-poppins text-[11px] leading-[1.45] text-white/85 lg:text-[11.5px]">
+              <p
+                className={`mt-2.5 font-poppins leading-[1.45] text-white/85 ${
+                  compact
+                    ? "max-w-none text-[12.5px]"
+                    : "max-w-[158px] text-[11px] lg:text-[11.5px]"
+                }`}
+              >
                 {service.description}
               </p>
 
@@ -401,11 +431,21 @@ export default function ExploreOurServices() {
           </div>
         </div>
 
-        {/* Mobile */}
-        <div className="-mx-4 flex items-end gap-3 overflow-x-auto px-4 pb-4 pt-2 [-ms-overflow-style:none] [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
-          {services.map((service) => (
-            <ServiceCard key={service.number} service={service} compact />
-          ))}
+        {/* Mobile — upright snap carousel (same card design, no fan tilt) */}
+        <div className="-mx-4 md:hidden">
+          <div
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="list"
+            aria-label="Our services"
+          >
+            {services.map((service) => (
+              <div key={service.number} role="listitem">
+                <ServiceCard service={service} compact />
+              </div>
+            ))}
+            {/* End spacer so last card can snap cleanly */}
+            <div className="w-2 shrink-0" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </section>

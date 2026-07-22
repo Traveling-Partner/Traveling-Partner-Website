@@ -88,21 +88,31 @@ function StatItem({
   icon,
   value,
   label,
+  boxed = false,
 }: {
   icon: ReactNode;
   value: string;
   label: string;
+  boxed?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fdb813]/45 bg-[#fce001]/25 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/20">
+    <div
+      className={
+        boxed
+          ? "flex w-full items-center gap-3 rounded-[16px] border border-black/10 bg-white px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+          : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
+      }
+    >
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-[#0b0b0b] lg:text-[15px]">
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[17px] font-bold tracking-tight text-[#0b0b0b] lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-[#6f6e68]">{label}</span>
+        <span className="mt-0.5 block text-[12px] text-[#6f6e68] lg:mt-0">
+          {label}
+        </span>
       </span>
     </div>
   );
@@ -144,9 +154,27 @@ function FloatChip({
 export default function YourTrustSection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#F8F1DF] sm:rounded-[32px] lg:aspect-[948/533]">
+      {/*
+        Mobile: card height = full cover so image never crops.
+        Content overlays the cream top; phone/van stay below the stats.
+        Desktop: unchanged landscape bg.
+      */}
+      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#F8F1DF] max-lg:max-w-[400px] sm:rounded-[32px] lg:aspect-[948/533]">
+        {/* Mobile cover IN FLOW */}
+        <Image
+          src={`${ASSETS}/bg-trust-mobile.png`}
+          alt=""
+          width={376}
+          height={1024}
+          sizes="400px"
+          className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+
+        {/* Desktop background — unchanged */}
         <div
-          className="pointer-events-none absolute inset-0 hidden lg:block"
+          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
           aria-hidden="true"
         >
           <Image
@@ -159,9 +187,10 @@ export default function YourTrustSection() {
           />
         </div>
 
-        <div className="relative flex flex-col lg:h-full lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
-          <div className="relative z-10 w-full px-5 pb-2 pt-8 sm:px-7 lg:w-[46%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+        {/* Content: overlays cover on mobile; normal flow on desktop */}
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:h-full lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -171,26 +200,26 @@ export default function YourTrustSection() {
               </span>
             </div>
 
-            <h2 className="mb-5 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] lg:mb-6">
-              <span className="text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+            <h2 className="mb-4 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] lg:mb-6">
+              <span className="text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 About{" "}
               </span>
               <em
-                className="text-[clamp(36px,9.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
+                className="text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 Us
               </em>
             </h2>
 
-            <p className="mb-7 max-w-[440px] text-[15px] leading-[1.65] text-[#4a4a45] lg:mb-6 lg:text-base">
+            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
               At Traveling Partner, we are committed to simplifying transport
               and delivery across Pakistan. Our platform connects thousands of
               users with trusted partners for a seamless, secure, and reliable
               experience.
             </p>
 
-            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:flex lg:gap-4">
+            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -209,7 +238,52 @@ export default function YourTrustSection() {
               />
             </div>
 
-            <div className="w-full rounded-[20px] border border-black/5 bg-white px-4 shadow-[0_10px_28px_rgba(0,0,0,0.08)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — mobile: 3 full-width boxes; desktop: single card */}
+            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2 lg:hidden">
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${SHARED_ICONS}/icon-star.png`}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain"
+                  />
+                }
+                value="4.8+"
+                label="Rating"
+              />
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${DELIVERY_ICONS}/icon-box.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                }
+                value="50K+"
+                label="Trips Completed"
+              />
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${TRIP_ICONS}/icon-clock.png`}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain"
+                  />
+                }
+                value="24/7"
+                label="Support"
+              />
+            </div>
+            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -224,7 +298,7 @@ export default function YourTrustSection() {
                 label="Rating"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:h-8 lg:w-px"
+                className="mx-5 block h-8 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -241,7 +315,7 @@ export default function YourTrustSection() {
                 label="Trips Completed"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:h-8 lg:w-px"
+                className="mx-5 block h-8 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -260,61 +334,54 @@ export default function YourTrustSection() {
             </div>
           </div>
 
-          <div className="relative z-10 mt-8 w-full pb-4 lg:mt-0 lg:flex lg:min-h-[440px] lg:flex-1 lg:items-center lg:justify-center lg:pb-0">
-            <div className="relative aspect-[948/533] w-full lg:hidden">
-              <Image
-                src={`${ASSETS}/bg-section.png`}
-                alt="Traveling Partner app with services and delivery van"
-                fill
-                sizes="100vw"
-                className="object-cover object-right"
+          {/* Chips over lower cover (phone / van zone) */}
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[440px] lg:flex-1 lg:px-0 lg:pb-0">
+            <div className="absolute right-1 top-[22%] flex flex-col gap-3 sm:right-[2%] lg:contents">
+              <FloatChip
+                className="relative lg:absolute lg:right-[2%] lg:top-[12%]"
+                title="Live Tracking"
+                subtitle="Track now"
+                icon={
+                  <Image
+                    src={`${TRIP_ICONS}/icon-live-gps.png`}
+                    alt=""
+                    width={26}
+                    height={26}
+                    className="h-[26px] w-[26px] object-contain lg:h-[30px] lg:w-[30px]"
+                  />
+                }
+              />
+              <FloatChip
+                className="relative lg:absolute lg:right-[2%] lg:top-[36%]"
+                title="Safe & Secure"
+                subtitle="Your safety"
+                delay="0.8s"
+                icon={
+                  <Image
+                    src={`${TRIP_ICONS}/icon-safe-shield.png`}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
+                  />
+                }
+              />
+              <FloatChip
+                className="relative lg:absolute lg:right-[2%] lg:top-[60%]"
+                title="On-Time Trips"
+                subtitle="Always"
+                delay="1.6s"
+                icon={
+                  <Image
+                    src={`${TRIP_ICONS}/icon-on-time.png`}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
+                  />
+                }
               />
             </div>
-
-            <FloatChip
-              className="absolute right-3 top-[8%] sm:right-5 lg:right-[2%] lg:top-[12%]"
-              title="Live Tracking"
-              subtitle="Track now"
-              icon={
-                <Image
-                  src={`${TRIP_ICONS}/icon-live-gps.png`}
-                  alt=""
-                  width={26}
-                  height={26}
-                  className="h-[26px] w-[26px] object-contain lg:h-[30px] lg:w-[30px]"
-                />
-              }
-            />
-            <FloatChip
-              className="absolute right-3 top-[34%] sm:right-5 lg:right-[2%] lg:top-[36%]"
-              title="Safe & Secure"
-              subtitle="Your safety"
-              delay="0.8s"
-              icon={
-                <Image
-                  src={`${TRIP_ICONS}/icon-safe-shield.png`}
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
-                />
-              }
-            />
-            <FloatChip
-              className="absolute bottom-[8%] right-3 sm:right-5 lg:bottom-auto lg:right-[2%] lg:top-[60%]"
-              title="On-Time Trips"
-              subtitle="Always"
-              delay="1.6s"
-              icon={
-                <Image
-                  src={`${TRIP_ICONS}/icon-on-time.png`}
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 object-contain lg:h-[28px] lg:w-[28px]"
-                />
-              }
-            />
           </div>
         </div>
       </div>
