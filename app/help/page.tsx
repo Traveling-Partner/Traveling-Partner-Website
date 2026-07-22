@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import BrowseTopicsSection from "@/components/Help-sections/BrowseTopicsSection";
 import HelpFaqSection from "@/components/Help-sections/HelpFaqSection";
 import HelpHero from "@/components/Help-sections/HelpHero";
-import TalkToHumanSection from "@/components/Help-sections/TalkToHumanSection";
 import WereHereForYouSection from "@/components/Help-sections/WereHereForYouSection";
 import { helpCategories } from "./helpContent";
 
@@ -39,7 +38,6 @@ export default function HelpCenterPage() {
       <div id="help-faq">
         <HelpFaqSection categories={categories} searchQuery={searchQuery} />
       </div>
-      <TalkToHumanSection />
       <WereHereForYouSection />
     </div>
   );

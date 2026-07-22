@@ -301,9 +301,15 @@ export default function TermsConditionsPage() {
                           />
                           <h2
                             id={`heading-${section.slug}`}
-                            className="font-poppins text-[20px] font-extrabold text-[#FCE001] sm:text-[22px]"
+                            className="font-poppins text-[20px] font-extrabold text-white sm:text-[22px]"
                           >
-                            Contact Us
+                            Contact{" "}
+                            <em
+                              className="font-medium italic text-[#FCE001]"
+                              style={{ fontStyle: "italic" }}
+                            >
+                              Us
+                            </em>
                           </h2>
                         </div>
                         <div className="mb-5 space-y-3 text-[14px] leading-[1.75] sm:text-[15px] [&_p]:!text-white/75">
@@ -349,7 +355,7 @@ export default function TermsConditionsPage() {
                     aria-labelledby={`heading-${section.slug}`}
                   >
                     <div className="mb-4 flex items-start gap-3 sm:mb-5 sm:gap-3.5">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold text-white sm:h-9 sm:w-9 sm:text-[13px]">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold tabular-nums text-[#FCE001] sm:h-9 sm:w-9 sm:text-[13px]">
                         {section.id}
                       </span>
                       <h2
