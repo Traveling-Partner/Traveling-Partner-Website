@@ -91,15 +91,18 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fdb813]/45 bg-[#fce001]/25 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/20">
+    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
+      {/* Same as Ready to Send — soft yellow tiles with border */}
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-[#0b0b0b] lg:text-[15px]">
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[17px] font-bold tracking-tight text-[#0b0b0b] lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-[#6f6e68]">{label}</span>
+        <span className="mt-0.5 block text-[12px] text-[#6f6e68] lg:mt-0">
+          {label}
+        </span>
       </span>
     </div>
   );
@@ -141,24 +144,44 @@ function FloatChip({
 export default function MoveBulkCargoSection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#FFF8E6] sm:rounded-[32px]">
+      {/*
+        Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
+        Cover in flow = full natural height (no crop). Content overlays cream top.
+      */}
+      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[32px]">
+        {/* Mobile cover IN FLOW — 360×1024, full width, no crop */}
+        <Image
+          src={`${ASSETS}/bg-logistic-mobile.png`}
+          alt=""
+          width={360}
+          height={1024}
+          sizes="420px"
+          className="pointer-events-none relative z-0 block h-auto w-full scale-[1.03] select-none lg:hidden"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+
+        {/* Desktop background */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block"
+          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
           aria-hidden="true"
         >
-          <Image
-            src={`${ASSETS}/bg-phone-map-rounded.png`}
-            alt=""
-            fill
-            sizes="(max-width: 1280px) 60vw, 700px"
-            className="object-contain object-right"
-            priority
-          />
+          <div className="absolute inset-y-0 right-0 aspect-[1024/662]">
+            <Image
+              src={`${ASSETS}/bg-phone-map-rounded.png`}
+              alt=""
+              fill
+              sizes="(max-width: 1280px) 60vw, 700px"
+              className="object-contain object-right"
+              priority
+            />
+          </div>
         </div>
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
-          <div className="relative z-10 w-full px-5 pb-2 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+        {/* Content overlays cover on mobile; side-by-side on desktop */}
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-16 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -168,28 +191,28 @@ export default function MoveBulkCargoSection() {
               </span>
             </div>
 
-            <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+            <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 Load it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 move it,
               </em>
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 delivered.
               </span>
             </h2>
 
-            <p className="mb-7 max-w-[440px] text-[15px] leading-[1.65] text-[#4a4a45] lg:mb-6 lg:text-base">
+            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
               From single pallets to full container loads — Traveling Partner
               handles enterprise logistics across Pakistan with fleet-scale
               capacity and bulk-rate pricing built for business.
             </p>
 
-            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:flex lg:gap-4">
+            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -208,7 +231,8 @@ export default function MoveBulkCargoSection() {
               />
             </div>
 
-            <div className="w-full rounded-[20px] border border-black/5 bg-white px-4 shadow-[0_10px_28px_rgba(0,0,0,0.08)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — same white card + border as Ready to Send */}
+            <div className="relative z-20 h-auto w-full shrink-0 rounded-[20px] border border-black/10 bg-white px-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-black/8 lg:px-5 lg:py-3">
               <StatItem
                 icon={
                   <Image
@@ -223,7 +247,7 @@ export default function MoveBulkCargoSection() {
                 label="Business Clients"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -240,7 +264,7 @@ export default function MoveBulkCargoSection() {
                 label="Tons Delivered"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -259,19 +283,10 @@ export default function MoveBulkCargoSection() {
             </div>
           </div>
 
-          <div className="relative z-10 mt-8 w-full pb-4 lg:mt-0 lg:flex lg:min-h-[370px] lg:flex-1 lg:items-center lg:justify-center lg:pb-0">
-            <div className="relative aspect-[1024/662] w-full lg:hidden">
-              <Image
-                src={`${ASSETS}/bg-phone-map-rounded.png`}
-                alt="Traveling Partner logistics app with Pakistan-wide route map"
-                fill
-                sizes="100vw"
-                className="object-cover object-right"
-              />
-            </div>
-
+          {/* Chips over lower cover (map / phone zone) */}
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
-              className="absolute right-3 top-[8%] sm:right-5 lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[24%] sm:right-[2%] lg:right-[1%] lg:top-[10%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -285,7 +300,7 @@ export default function MoveBulkCargoSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[10%] right-3 sm:right-5 lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[42%] right-1 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
