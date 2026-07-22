@@ -86,14 +86,21 @@ function StatItem({
   icon,
   value,
   label,
+  boxed = false,
 }: {
   icon: ReactNode;
   value: string;
   label: string;
+  boxed?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
-      {/* Figma mobile: soft yellow rounded square. Desktop: same family. */}
+    <div
+      className={
+        boxed
+          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-black/10 bg-white px-3.5 py-3.5 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+          : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
+      }
+    >
       <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
@@ -236,8 +243,52 @@ export default function ReadyToSendSection() {
               />
             </div>
 
-            {/* Stats — Figma white card with visible border + soft yellow icon boxes */}
-            <div className="relative z-20 h-auto w-full shrink-0 rounded-[20px] border border-black/10 bg-white px-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-black/8 lg:px-5 lg:py-3">
+            {/* Stats — mobile: 3 full-width boxes; desktop: single card */}
+            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2.5 lg:hidden">
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${SHARED_ICONS}/icon-star.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                }
+                value="4.8★"
+                label="Rating"
+              />
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${ASSETS}/icon-box.png`}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                }
+                value="50K+"
+                label="Parcels Delivered"
+              />
+              <StatItem
+                boxed
+                icon={
+                  <Image
+                    src={`${ASSETS}/icon-clock.png`}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain"
+                  />
+                }
+                value="24/7"
+                label="Support"
+              />
+            </div>
+            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -252,7 +303,7 @@ export default function ReadyToSendSection() {
                 label="Rating"
               />
               <span
-                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
+                className="mx-5 block h-8 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -269,7 +320,7 @@ export default function ReadyToSendSection() {
                 label="Parcels Delivered"
               />
               <span
-                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
+                className="mx-5 block h-8 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
