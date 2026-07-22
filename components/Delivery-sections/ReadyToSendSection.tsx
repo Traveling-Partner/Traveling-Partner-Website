@@ -92,15 +92,16 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-[#fce001]/45 bg-[#fce001]/18 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/20">
+    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
+      {/* Figma mobile: soft yellow rounded square. Desktop: same family. */}
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] bg-[#fce001]/35 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/25">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-[#0b0b0b] lg:text-[15px]">
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[17px] font-bold tracking-tight text-[#0b0b0b] lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-[#6f6e68]">
+        <span className="mt-0.5 block text-[12px] text-[#6f6e68] lg:mt-0">
           {label}
         </span>
       </span>
@@ -144,27 +145,46 @@ function FloatChip({
 export default function ReadyToSendSection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[28px] bg-[#FEF3E1] sm:rounded-[32px]">
-        {/* Composite anchored right at natural aspect (desktop) — fits the card height, never cropped */}
+      {/*
+        Mobile: card height = full cover (278×1024) so image never crops.
+        Content overlays the cream area; phone/van stay below the stats — like Figma.
+      */}
+      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[28px] bg-[#FEF3E1] max-lg:max-w-[400px] sm:rounded-[32px]">
+        {/* Mobile cover IN FLOW — full natural height, no crop, defines card height */}
+        <Image
+          src={`${ASSETS}/bg-delivery-mobile.png`}
+          alt=""
+          width={278}
+          height={1024}
+          sizes="400px"
+          className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+
+        {/* Desktop background */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block"
+          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
           aria-hidden="true"
         >
-          <Image
-            src={`${ASSETS}/bg-phone-van-rounded.png`}
-            alt=""
-            fill
-            sizes="(max-width: 1280px) 60vw, 700px"
-            className="object-contain object-right"
-            priority
-          />
+          <div className="absolute inset-y-0 right-0 aspect-[1024/662]">
+            <Image
+              src={`${ASSETS}/bg-phone-van-rounded.png`}
+              alt=""
+              fill
+              sizes="(max-width: 1280px) 60vw, 700px"
+              className="object-contain object-right"
+              priority
+            />
+          </div>
         </div>
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
-          {/* ── Left content ── */}
-          <div className="relative z-10 w-full max-w-[560px] px-5 pb-2 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+        {/* Content: overlays full-height cover on mobile; normal flow on desktop */}
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+          {/* ── Content ── */}
+          <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -175,30 +195,29 @@ export default function ReadyToSendSection() {
             </div>
 
             {/* Heading */}
-            <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+            <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 Ship it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 track it,
               </em>
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 done.
               </span>
             </h2>
 
-            {/* Description */}
-            <p className="mb-7 max-w-[440px] text-[15px] leading-[1.65] text-[#4a4a45] lg:mb-6 lg:text-base">
+            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
               Join thousands of senders across Pakistan using Traveling Partner
               for fast, secure, and commission-free delivery. Download the app
               and send your first parcel in minutes.
             </p>
 
             {/* Store buttons */}
-            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:flex lg:gap-4">
+            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -217,23 +236,23 @@ export default function ReadyToSendSection() {
               />
             </div>
 
-            {/* Stats bar */}
-            <div className="w-full rounded-[20px] border border-black/5 bg-white px-4 shadow-[0_10px_28px_rgba(0,0,0,0.08)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — Figma white card; own height; sits on cream, above phone art */}
+            <div className="relative z-20 h-auto w-full shrink-0 rounded-[20px] border border-black/[0.04] bg-white px-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
               <StatItem
                 icon={
                   <Image
                     src={`${SHARED_ICONS}/icon-star.png`}
                     alt=""
-                    width={18}
-                    height={18}
-                    className="h-[18px] w-[18px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="4.8★"
                 label="Rating"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -250,7 +269,7 @@ export default function ReadyToSendSection() {
                 label="Parcels Delivered"
               />
               <span
-                className="block h-px w-full bg-black/10 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-black/8 lg:mx-5 lg:h-8 lg:w-px lg:bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -269,22 +288,10 @@ export default function ReadyToSendSection() {
             </div>
           </div>
 
-          {/* ── Right visual ── */}
-          <div className="relative z-10 mt-10 flex w-full items-center justify-center px-2 pb-8 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
-            {/* Composite image inline (mobile / tablet only — on desktop it is the card background) */}
-            <div className="relative aspect-[1024/662] w-full lg:hidden">
-              <Image
-                src={`${ASSETS}/bg-phone-van-rounded.png`}
-                alt="Traveling Partner delivery app with parcel tracking and van"
-                fill
-                sizes="(max-width: 640px) 100vw, 560px"
-                className="object-contain"
-              />
-            </div>
-
-            {/* Floating chips — positioned to match Figma (right of the phone) */}
+          {/* Chips over lower cover (phone / van zone) */}
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
-              className="absolute right-0 top-[4%] sm:right-[2%] sm:top-[6%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[15%] sm:right-[2%] lg:right-[1%] lg:top-[10%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -298,7 +305,7 @@ export default function ReadyToSendSection() {
               }
             />
             <FloatChip
-              className="absolute right-0 top-[40%] sm:right-[2%] lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[52%] right-1 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
