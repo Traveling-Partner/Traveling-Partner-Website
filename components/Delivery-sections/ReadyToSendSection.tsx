@@ -94,7 +94,7 @@ function StatItem({
   return (
     <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
       {/* Figma mobile: soft yellow rounded square. Desktop: same family. */}
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] bg-[#fce001]/35 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/25">
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
       <span className="min-w-0 leading-tight">
@@ -236,8 +236,8 @@ export default function ReadyToSendSection() {
               />
             </div>
 
-            {/* Stats — Figma white card; own height; sits on cream, above phone art */}
-            <div className="relative z-20 h-auto w-full shrink-0 rounded-[20px] border border-black/[0.04] bg-white px-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:px-5 lg:py-3">
+            {/* Stats — Figma white card with visible border + soft yellow icon boxes */}
+            <div className="relative z-20 h-auto w-full shrink-0 rounded-[20px] border border-black/10 bg-white px-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-black/8 lg:px-5 lg:py-3">
               <StatItem
                 icon={
                   <Image
