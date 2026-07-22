@@ -14,6 +14,7 @@ import { pickBlogCategoryField, pickBlogDateField } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
 import BlogDetailHero from "@/components/Blog-sections/BlogDetailHero";
 import BlogDetailBody from "@/components/Blog-sections/BlogDetailBody";
+import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 
 interface Blog {
@@ -269,6 +270,7 @@ export default function BlogDetailClient(): React.ReactElement {
         readersCount={blog.views}
         getImageSrc={getImageSrc}
       />
+      <TPJournalSection />
     </div>
   );
 }
