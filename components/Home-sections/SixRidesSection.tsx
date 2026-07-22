@@ -175,7 +175,7 @@ function PanelBackground() {
 
 function FeaturePill({ label }: { label: string }) {
   return (
-    <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold text-white sm:px-4 sm:py-3 sm:text-[13px]">
+    <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold leading-none whitespace-nowrap text-white sm:px-4 sm:py-3 sm:text-[13px]">
       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
       </span>
@@ -300,7 +300,7 @@ function DetailPanel({
                 {ride.panelDescription}
               </p>
 
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="mt-4 flex flex-col items-start gap-2.5">
                 {ride.features.map((feature) => (
                   <FeaturePill key={feature} label={feature} />
                 ))}
@@ -381,11 +381,24 @@ function MobileRideChips({
   React.useEffect(() => {
     const root = scrollerRef.current;
     if (!root) return;
-    const card = root.querySelector<HTMLElement>(`[data-ride-index="${activeIndex}"]`);
-    card?.scrollIntoView({
+    const card = root.querySelector<HTMLElement>(
+      `[data-ride-index="${activeIndex}"]`,
+    );
+    if (!card) return;
+
+    // Scroll only inside the chip strip — scrollIntoView({ inline:"center" })
+    // also shifts the page horizontally on the last slide and leaves empty space.
+    const rootRect = root.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const target =
+      root.scrollLeft +
+      (cardRect.left - rootRect.left) -
+      (root.clientWidth - card.offsetWidth) / 2;
+    const max = Math.max(0, root.scrollWidth - root.clientWidth);
+
+    root.scrollTo({
+      left: Math.min(Math.max(0, target), max),
       behavior: "smooth",
-      inline: "center",
-      block: "nearest",
     });
   }, [activeIndex]);
 
