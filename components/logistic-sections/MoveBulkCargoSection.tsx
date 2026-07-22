@@ -286,7 +286,7 @@ export default function MoveBulkCargoSection() {
           {/* Chips over lower cover (map / phone zone) */}
           <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
-              className="absolute right-1 top-[24%] sm:right-[2%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[24%] sm:right-[2%] lg:-right-1 lg:top-[22%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -300,7 +300,7 @@ export default function MoveBulkCargoSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[42%] right-1 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[42%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[48%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
