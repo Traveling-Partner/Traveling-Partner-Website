@@ -155,62 +155,70 @@ function FeaturePills({ className = "" }: { className?: string }) {
 export default function GetTheAppSection() {
   return (
     <section className="bg-[#FEFBF6] px-3 py-10 sm:px-6 sm:py-14 lg:px-6 lg:py-16 xl:px-8">
-      {/* ——— Mobile ——— */}
-      <div className="relative mx-auto w-full max-w-[420px] overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px] lg:hidden">
-        <div className="relative z-20 px-5 pb-2 pt-8 sm:px-6">
-          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 bg-[#0b0b0b] px-4 py-2">
-            <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-              <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
-              <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001]">
-              Get the app
-            </span>
+      {/* ——— Mobile — Figma bg (black top + phone bottom), same CTA pattern ——— */}
+      <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px] lg:hidden">
+        {/* Cover IN FLOW — natural height, no crop */}
+        <Image
+          src={`${ASSETS}/bg-mobile.png`}
+          alt=""
+          width={715}
+          height={1024}
+          sizes="400px"
+          className="pointer-events-none relative z-0 block h-auto w-full select-none"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+
+        {/* Content overlay */}
+        <div className="absolute inset-0 z-10 flex flex-col">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-9 sm:px-6 sm:pt-10">
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-3.5 py-1.5">
+              <span className="relative flex h-[6px] w-[6px] items-center justify-center">
+                <span className="absolute h-[12px] w-[12px] rounded-full bg-[#fce001]/35 blur-[2px]" />
+                <span className="relative h-[6px] w-[6px] rounded-full bg-[#fce001]" />
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-[#fce001]">
+                Get the app
+              </span>
+            </div>
+
+            <h2 className="mb-4 font-extrabold leading-[1.06] tracking-tight">
+              <span className="block text-[34px] text-white sm:text-[36px]">
+                Connect. Book.
+              </span>
+              <em
+                className="mt-0.5 block text-[34px] font-medium italic text-[#FCE001] sm:text-[36px]"
+                style={{ fontStyle: "italic" }}
+              >
+                Travel Smarter.
+              </em>
+            </h2>
+
+            <p className="mb-6 max-w-[320px] text-[13px] leading-[1.65] text-[#c8c2b6]">
+              Download the Traveling Partner app today and experience faster,
+              safer and commission-free rides — anytime, anywhere.
+            </p>
+
+            <div className="grid grid-cols-2 items-center gap-2.5">
+              <StoreButton
+                href={PLAY_STORE_URL}
+                label="Get it on"
+                title="Google Play"
+                icon={<PlayStoreIcon className="h-[18px] w-[18px]" />}
+              />
+              <StoreButton
+                href={APP_STORE_URL}
+                label="Download on"
+                title="App Store"
+                icon={<AppleIcon className="h-[18px] w-[18px] text-black" />}
+              />
+            </div>
           </div>
 
-          <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight">
-            <span className="block text-[clamp(34px,8.5vw,42px)] text-white">
-              Connect. Book.
-            </span>
-            <em
-              className="block text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001]"
-              style={{ fontStyle: "italic" }}
-            >
-              Travel Smarter.
-            </em>
-          </h2>
-
-          <p className="mb-7 max-w-[420px] text-[14px] leading-[1.7] text-white/85">
-            Download the Traveling Partner app today and experience faster,
-            safer and commission-free rides — anytime, anywhere.
-          </p>
-
-          <div className="mb-7 grid grid-cols-2 items-center gap-3">
-            <StoreButton
-              href={PLAY_STORE_URL}
-              label="Get it on"
-              title="Google Play"
-              icon={<PlayStoreIcon className="h-[20px] w-[20px]" />}
-            />
-            <StoreButton
-              href={APP_STORE_URL}
-              label="Download on"
-              title="App Store"
-              icon={<AppleIcon className="h-[20px] w-[20px] text-black" />}
-            />
+          {/* Chips left over phone/glow zone — matches Figma mobile */}
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-4 pb-8">
+            <FeaturePills className="absolute left-4 top-[28%] flex flex-col gap-2.5 sm:left-5" />
           </div>
-        </div>
-
-        <div className="relative min-h-[360px] w-full sm:min-h-[400px]">
-          <Image
-            src={`${ASSETS}/bg-desktop.png`}
-            alt="Traveling Partner app on phone"
-            fill
-            sizes="420px"
-            className="object-cover object-[78%_center]"
-            priority
-          />
-          <FeaturePills className="absolute right-3 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3" />
         </div>
       </div>
 
