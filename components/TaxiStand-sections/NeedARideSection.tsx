@@ -91,15 +91,16 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-3 py-3.5 lg:gap-2.5 lg:py-0">
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001]/22 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:bg-[#fce001]/12">
+    <div className="flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0">
+      {/* Mobile: dark rounded tile + yellow icon (Figma). Desktop: soft yellow tile. */}
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[#0c0b09] lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
         {icon}
       </span>
-      <span className="leading-tight">
-        <span className="block text-[16px] font-bold text-white lg:text-[15px]">
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[17px] font-bold tracking-tight text-white lg:text-[15px]">
           {value}
         </span>
-        <span className="block text-[12px] text-white/55 lg:text-[12px]">
+        <span className="mt-0.5 block text-[12px] text-white/50 lg:mt-0 lg:text-[12px]">
           {label}
         </span>
       </span>
@@ -238,8 +239,8 @@ export default function NeedARideSection() {
               />
             </div>
 
-            {/* Stats — stacked rows + visible card border on mobile (Figma) */}
-            <div className="w-full rounded-[20px] border border-white/25 bg-[#171410]/85 px-4 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-white/10 lg:px-5 lg:py-3">
+            {/* Stats — mobile card matches Figma (dark tiles, inset dividers, soft border) */}
+            <div className="w-full rounded-[18px] border border-white/15 bg-[#161310]/92 px-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center lg:rounded-[16px] lg:border-white/10 lg:bg-[#171410]/85 lg:px-5 lg:py-3 lg:shadow-none lg:backdrop-blur-sm">
               <StatItem
                 icon={
                   <Image
@@ -254,7 +255,7 @@ export default function NeedARideSection() {
                 label="Rating"
               />
               <span
-                className="block h-px w-full bg-white/12 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
@@ -271,7 +272,7 @@ export default function NeedARideSection() {
                 label="City Rides"
               />
               <span
-                className="block h-px w-full bg-white/12 lg:mx-5 lg:block lg:h-8 lg:w-px"
+                className="mx-1 block h-px bg-white/10 lg:mx-5 lg:h-8 lg:w-px lg:bg-white/12"
                 aria-hidden="true"
               />
               <StatItem
