@@ -198,7 +198,7 @@ export default function GoingSameWaySection() {
 
         <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
           {/* ── Content ── */}
-          <div className="relative z-10 w-full px-5 pb-2 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-0 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
@@ -292,7 +292,7 @@ export default function GoingSameWaySection() {
           </div>
 
           {/* ── Visual: cover bg on mobile (phone+van baked in) + chips ── */}
-          <div className="relative z-10 mt-10 flex w-full items-center justify-center px-2 pb-8 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
             {/* Dashed connector arc (desktop) */}
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[64%] w-[52%] lg:block"
@@ -311,7 +311,7 @@ export default function GoingSameWaySection() {
 
             {/* Mobile spacer — cover already includes phone + van; keep room for chips */}
             <div
-              className="relative min-h-[400px] w-full sm:min-h-[460px] lg:hidden"
+              className="relative min-h-[340px] w-full sm:min-h-[400px] lg:hidden"
               aria-hidden="true"
             />
 
