@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
 
 const CONTAINER_MAX = 1730.909;
 
@@ -217,54 +218,6 @@ function FooterLinkColumn({
   );
 }
 
-function NewsletterBanner(): React.ReactElement {
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setEmail("");
-  };
-
-  return (
-    <div className="rounded-[24px] bg-gradient-to-r from-[#fce001] to-[#fdb813] px-5 py-6 sm:rounded-[28px] sm:px-8 sm:py-7 lg:px-10 lg:py-8">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <div className="min-w-0 shrink-0">
-          <h2 className="font-poppins text-[22px] font-bold leading-tight text-[#0b0b0b] sm:text-[26px] lg:text-[28px]">
-            Stay in the loop
-          </h2>
-          <p className="mt-1.5 font-poppins text-[13px] font-normal leading-snug text-[#0b0b0b]/85 sm:text-[14px] lg:text-[15px]">
-            Get travel tips, safety updates, and exclusive offers.
-          </p>
-        </div>
-
-        <form
-          onSubmit={handleSubmit}
-          className="flex w-full min-w-0 max-w-[560px] items-center rounded-full bg-white p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] lg:mt-0 lg:shrink-0"
-        >
-          <label htmlFor="footer-newsletter-email" className="sr-only">
-            Email address
-          </label>
-          <input
-            id="footer-newsletter-email"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="Enter your email"
-            required
-            className="min-w-0 flex-1 bg-transparent px-3 py-2.5 font-poppins text-[13px] text-[#0b0b0b] outline-none placeholder:text-[#a8a59d] sm:px-5 sm:text-[14px]"
-          />
-          <button
-            type="submit"
-            className="shrink-0 rounded-full bg-[#0b0b0b] px-5 py-2.5 font-poppins text-[13px] font-semibold text-white transition-colors hover:bg-[#1a1a1a] sm:px-6 sm:py-3 sm:text-[14px]"
-          >
-            Subscribe
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 export default function Footer(): React.ReactElement {
   return (
     <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
@@ -272,7 +225,7 @@ export default function Footer(): React.ReactElement {
         className="mx-auto w-full px-5 pb-10 pt-10 sm:px-6 sm:pb-10 sm:pt-12 md:px-8 lg:px-[95px] lg:pb-12 lg:pt-14"
         style={{ maxWidth: CONTAINER_MAX }}
       >
-        <NewsletterBanner />
+        <NewsletterSection />
 
         {/* Mobile — stacked sections like reference */}
         <div className="mt-10 lg:hidden">
