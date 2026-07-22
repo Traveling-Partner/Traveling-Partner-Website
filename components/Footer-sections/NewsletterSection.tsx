@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Bell, Gift, Mail, MapPin, ArrowRight } from "lucide-react";
 import "./NewsletterSection.css";
 
-const ILLUSTRATION = "/images/footer/stay-in-the-loop/illustration.png";
+const ILLUSTRATION = "/images/footer/stay-in-the-loop/mailbox-cover.png";
 const AVATARS = [
   "/images/footer/stay-in-the-loop/avatar-1.png",
   "/images/footer/stay-in-the-loop/avatar-2.png",
@@ -41,10 +41,16 @@ export default function NewsletterSection() {
   return (
     <section className="sil" aria-labelledby="sil-heading">
       <div className="sil__inner">
+        <div className="sil__glow" aria-hidden="true" />
+
         <div className="sil__content">
           <div className="sil__left">
             <div className="sil__badge">
-              <Mail className="sil__badge-icon" aria-hidden="true" strokeWidth={2.4} />
+              <Mail
+                className="sil__badge-icon"
+                aria-hidden="true"
+                strokeWidth={2.4}
+              />
               <span>Stay Connected</span>
             </div>
 
@@ -77,7 +83,11 @@ export default function NewsletterSection() {
               <label htmlFor="sil-email" className="sil__sr-only">
                 Email address
               </label>
-              <Mail className="sil__form-mail" aria-hidden="true" strokeWidth={1.8} />
+              <Mail
+                className="sil__form-mail"
+                aria-hidden="true"
+                strokeWidth={1.8}
+              />
               <input
                 id="sil-email"
                 type="email"
@@ -106,8 +116,8 @@ export default function NewsletterSection() {
                     <Image
                       src={src}
                       alt=""
-                      width={36}
-                      height={36}
+                      width={44}
+                      height={44}
                       className="sil__avatar-img"
                     />
                   </span>
@@ -120,15 +130,17 @@ export default function NewsletterSection() {
           </div>
         </div>
 
-        <Image
-          src={ILLUSTRATION}
-          alt=""
-          width={1311}
-          height={1024}
-          className="sil__illustration"
-          sizes="(max-width: 900px) 90vw, 45vw"
-          priority
-        />
+        <div className="sil__art" aria-hidden="true">
+          <Image
+            src={ILLUSTRATION}
+            alt=""
+            width={707}
+            height={353}
+            className="sil__illustration"
+            sizes="(max-width: 900px) 100vw, 45vw"
+            priority
+          />
+        </div>
       </div>
     </section>
   );
