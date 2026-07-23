@@ -151,30 +151,24 @@ function FloatChip({
 
 export default function ReadyToSendSection() {
   return (
-    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-      {/*
-        Mobile: card height = full cover (278×1024) so image never crops.
-        Content overlays the cream area; phone/van stay below the stats — like Figma.
-      */}
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FEF3E1] max-lg:max-w-[400px] sm:rounded-[32px]">
-        {/* Mobile cover IN FLOW — full natural height, no crop, defines card height */}
-        <Image
-          src={`${ASSETS}/bg-delivery-mobile.png`}
-          alt=""
-          width={278}
-          height={1024}
-          sizes="400px"
-          className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
-          style={{ width: "100%", height: "auto" }}
-          priority
-        />
-
-        {/* Desktop background */}
-        <div
-          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-y-0 right-0 aspect-[1024/662]">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative overflow-hidden rounded-[28px] bg-[#FEF3E1] sm:rounded-[32px]">
+        {/* Background — same shell as Going same way / Need a ride */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          {/* Mobile cover: absolute (does not inflate card height) */}
+          <Image
+            src={`${ASSETS}/bg-delivery-mobile.png`}
+            alt=""
+            width={278}
+            height={1024}
+            sizes="100vw"
+            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
+            style={{ width: "100%", height: "auto" }}
+            priority
+          />
+          {/* Desktop background */}
+          <div className="absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block">
             <Image
               src={`${ASSETS}/bg-phone-van-rounded.png`}
               alt=""
@@ -186,10 +180,9 @@ export default function ReadyToSendSection() {
           </div>
         </div>
 
-        {/* Content: overlays full-height cover on mobile; normal flow on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
           {/* ── Content ── */}
-          <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-0 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
             <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
@@ -339,10 +332,15 @@ export default function ReadyToSendSection() {
             </div>
           </div>
 
-          {/* Chips over lower cover (phone / van zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
+          {/* Visual + chips — same height shell as Going same way */}
+          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
+            <div
+              className="relative min-h-[340px] w-full sm:min-h-[400px] lg:hidden"
+              aria-hidden="true"
+            />
+
             <FloatChip
-              className="absolute right-1 top-[15%] sm:right-[2%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[22%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -356,7 +354,7 @@ export default function ReadyToSendSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[52%] right-1 sm:right-[2%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[40%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
@@ -372,6 +370,7 @@ export default function ReadyToSendSection() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`
@@ -398,3 +397,4 @@ export default function ReadyToSendSection() {
     </section>
   );
 }
+
