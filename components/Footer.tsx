@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
@@ -57,6 +58,59 @@ const FOOTER_IMAGES = {
   googlePlay: "/images/footer/google-play-badge.png",
   appStore: "/images/footer/app-store-badge.png",
 } as const;
+
+function getHrefPath(href: string): string {
+  const path = href.split("#")[0] || "/";
+  return path === "" ? "/" : path;
+}
+
+function scrollToHash(hash: string) {
+  const id = hash.replace(/^#/, "");
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function FooterNavLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}): React.ReactElement {
+  const pathname = usePathname();
+  const targetPath = getHrefPath(href);
+  const hashIndex = href.indexOf("#");
+  const hash = hashIndex >= 0 ? href.slice(hashIndex) : "";
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const current = pathname || "/";
+    const isSamePage =
+      current === targetPath ||
+      (targetPath === "/" && current === "/");
+
+    if (!isSamePage) return;
+
+    if (hash) {
+      event.preventDefault();
+      scrollToHash(hash);
+      return;
+    }
+
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <Link href={href} className={className} onClick={handleClick}>
+      {children}
+    </Link>
+  );
+}
 
 function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.ReactElement {
   if (mobile) {
@@ -185,18 +239,18 @@ function FooterLinkColumn({
           <ul className="space-y-2.5">
             {colLeft.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className={linkClass}>
+                <FooterNavLink href={link.href} className={linkClass}>
                   {link.label}
-                </Link>
+                </FooterNavLink>
               </li>
             ))}
           </ul>
           <ul className="space-y-2.5">
             {colRight.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className={linkClass}>
+                <FooterNavLink href={link.href} className={linkClass}>
                   {link.label}
-                </Link>
+                </FooterNavLink>
               </li>
             ))}
           </ul>
@@ -205,9 +259,9 @@ function FooterLinkColumn({
         <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
           {links.map((link) => (
             <li key={link.label}>
-              <Link href={link.href} className={linkClass}>
+              <FooterNavLink href={link.href} className={linkClass}>
                 {link.label}
-              </Link>
+              </FooterNavLink>
             </li>
           ))}
         </ul>
@@ -224,7 +278,7 @@ export default function Footer(): React.ReactElement {
 
         {/* Mobile — stacked sections like reference */}
         <div className="mt-10 lg:hidden">
-          <Link href="/" className="inline-block h-[52px] w-[95px] shrink-0">
+          <FooterNavLink href="/" className="inline-block h-[52px] w-[95px] shrink-0">
             <Image
               src="/images/traveling-partner-logo.png"
               alt="Traveling Partner"
@@ -232,7 +286,7 @@ export default function Footer(): React.ReactElement {
               height={65}
               className="h-full w-full object-contain object-left"
             />
-          </Link>
+          </FooterNavLink>
           <p className="mt-4 font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68]">
             Your ultimate travel companion. Commission-free rides, logistics, and trip
             planning across Pakistan.
@@ -252,7 +306,7 @@ export default function Footer(): React.ReactElement {
         {/* Desktop */}
         <div className="mt-12 hidden gap-x-10 lg:mt-16 lg:grid lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] xl:gap-x-14">
           <div className="min-w-0 lg:col-span-1">
-            <Link href="/" className="inline-block h-[56px] w-[102px] shrink-0">
+            <FooterNavLink href="/" className="inline-block h-[56px] w-[102px] shrink-0">
               <Image
                 src="/images/traveling-partner-logo.png"
                 alt="Traveling Partner"
@@ -260,7 +314,7 @@ export default function Footer(): React.ReactElement {
                 height={65}
                 className="h-full w-full object-contain object-left"
               />
-            </Link>
+            </FooterNavLink>
             <p className="mt-5 max-w-[300px] font-poppins text-[14px] font-normal leading-[1.65] text-[#6f6e68]">
               Your ultimate travel companion. Commission-free rides, logistics, and trip
               planning across Pakistan.
