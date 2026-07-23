@@ -150,12 +150,13 @@ function FloatChip({
 
 export default function MoveBulkCargoSection() {
   return (
-    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
       {/*
         Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
         Cover in flow = full natural height (no crop). Content overlays cream top.
       */}
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[32px]">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full overflow-hidden rounded-[28px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[32px]">
         {/* Mobile cover IN FLOW — 360×1024, full width, no crop */}
         <Image
           src={`${ASSETS}/bg-logistic-mobile.png`}
@@ -186,8 +187,8 @@ export default function MoveBulkCargoSection() {
         </div>
 
         {/* Content overlays cover on mobile; side-by-side on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-16 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-4 lg:px-8 lg:py-4 xl:px-9">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-10 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
             <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
@@ -335,7 +336,7 @@ export default function MoveBulkCargoSection() {
           </div>
 
           {/* Chips over lower cover (map / phone zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[260px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
               className="absolute right-1 top-[24%] sm:right-[2%] lg:-right-1 lg:top-[22%]"
               title="Live GPS"
@@ -367,6 +368,7 @@ export default function MoveBulkCargoSection() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`
