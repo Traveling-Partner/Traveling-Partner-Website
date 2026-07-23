@@ -192,7 +192,7 @@ export default function OurServicesSection() {
         />
 
         {/* Desktop unchanged */}
-        <div className="mx-auto hidden w-full max-w-[1040px] items-stretch lg:flex xl:max-w-[1100px]">
+        <div className="mx-auto hidden w-full items-stretch lg:flex">
           <div className="relative z-10 w-[38%] max-w-[420px] shrink-0 -mr-16 xl:max-w-[460px] xl:-mr-20">
             <PoolRideCard variant="desktop" />
           </div>
