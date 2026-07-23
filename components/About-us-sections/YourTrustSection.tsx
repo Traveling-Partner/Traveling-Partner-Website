@@ -153,13 +153,14 @@ function FloatChip({
 
 export default function YourTrustSection() {
   return (
-    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
       {/*
         Mobile: card height = full cover so image never crops.
         Content overlays the cream top; phone/van stay below the stats.
         Desktop: unchanged landscape bg.
       */}
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#F8F1DF] max-lg:max-w-[400px] sm:rounded-[32px] lg:aspect-[948/533]">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full overflow-hidden rounded-[28px] bg-[#F8F1DF] max-lg:max-w-[400px] sm:rounded-[32px] lg:aspect-[948/490]">
         {/* Mobile cover IN FLOW */}
         <Image
           src={`${ASSETS}/bg-trust-mobile.png`}
@@ -182,15 +183,15 @@ export default function YourTrustSection() {
             alt=""
             fill
             sizes="(max-width: 1280px) 100vw, 1152px"
-            className="object-cover"
+            className="object-cover object-[center_bottom]"
             priority
           />
         </div>
 
         {/* Content: overlays cover on mobile; normal flow on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:h-full lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:h-full lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-5 xl:px-9">
           <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-6">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -335,7 +336,7 @@ export default function YourTrustSection() {
           </div>
 
           {/* Chips over lower cover (phone / van zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[440px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[340px] lg:flex-1 lg:px-0 lg:pb-0">
             <div className="absolute right-1 top-[22%] flex flex-col gap-3 sm:right-[2%] lg:contents">
               <FloatChip
                 className="relative lg:absolute lg:right-[2%] lg:top-[12%]"
@@ -384,6 +385,7 @@ export default function YourTrustSection() {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`
