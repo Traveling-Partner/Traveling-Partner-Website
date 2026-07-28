@@ -266,12 +266,19 @@ function ContactInfoCard({
   href: string;
   icon: ReactNode;
 }) {
+  const isMail = href.startsWith("mailto:");
+  const isHttp = href.startsWith("http");
+  const email = isMail ? href.replace(/^mailto:/i, "").split("?")[0] : "";
+  const mailHref = isMail
+    ? `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent("Inquiry from Traveling Partner website")}`
+    : href;
+
   return (
     <a
-      href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="group flex items-center gap-3 rounded-[14px] border border-white/10 bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm transition-colors hover:border-white/20 hover:bg-white/[0.07] sm:gap-3.5 sm:px-3.5 sm:py-3"
+      href={mailHref}
+      target={isMail || isHttp ? "_blank" : undefined}
+      rel={isMail || isHttp ? "noopener noreferrer" : undefined}
+      className="group relative z-10 flex cursor-pointer items-center gap-3 rounded-[14px] border border-white/10 bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm transition-colors hover:border-white/20 hover:bg-white/[0.07] sm:gap-3.5 sm:px-3.5 sm:py-3"
     >
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-[#141414] shadow-[inset_0_0_0_1px_rgba(252,224,1,0.15),0_0_20px_rgba(252,224,1,0.12)] sm:h-12 sm:w-12">
         {icon}

@@ -313,4 +313,5 @@ export const termsNavItems = [
   { slug: "disclaimers", label: "Disclaimers", id: 10 },
   { slug: "limitation-of-liability", label: "Limitation of Liability", id: 11 },
   { slug: "changes", label: "Changes to Terms", id: 12 },
+  { slug: "contact-us", label: "Contact Us", id: 13 },
 ] as const;

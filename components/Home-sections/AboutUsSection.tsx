@@ -114,12 +114,20 @@ function CommunityInsightsButton({
       */}
       <Link
         href="/blog"
-        className="box-border flex h-full w-full flex-row flex-nowrap items-center gap-[0.4em] overflow-hidden rounded-[100px] bg-[#0b0b0b] pl-[7%] pr-[3%] font-poppins"
+        className="box-border flex h-full w-full flex-row flex-nowrap items-center gap-[0.35em] overflow-hidden rounded-[100px] bg-[#0b0b0b] pl-[7%] pr-[3.2%] font-poppins"
       >
-        <span className="min-w-0 flex-1 truncate whitespace-nowrap text-[clamp(8px,4.2cqi,17px)] font-semibold leading-none text-white">
+        <span className="min-w-0 flex-1 truncate whitespace-nowrap text-[clamp(8px,4.1cqi,17px)] font-semibold leading-none text-white">
           Community insights
         </span>
-        <span className="inline-flex h-[68%] shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white px-[0.7em] text-[clamp(7px,3.6cqi,15px)] font-semibold leading-none text-[#0b0b0b]">
+        {/* Original Figma See chip ~30% × 69% of pill */}
+        <span
+          className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white font-semibold leading-none text-[#0b0b0b]"
+          style={{
+            width: "30%",
+            height: "69%",
+            fontSize: "clamp(8px, 3.7cqi, 16px)",
+          }}
+        >
           See →
         </span>
       </Link>
