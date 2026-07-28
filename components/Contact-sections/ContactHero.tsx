@@ -5,6 +5,9 @@
  * Same cream / glow / typography system as Taxi / Pool / Delivery / Logistics / Trip / About heroes.
  */
 
+const CONTACT_EMAIL = "hello@traveling-partner.com";
+const GMAIL_COMPOSE_HREF = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent("Inquiry from Traveling Partner website")}`;
+
 function MapPinIcon({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -117,12 +120,14 @@ export default function ContactHero() {
           <PlusSep />
 
           <a
-            href="mailto:hello@traveling-partner.com"
-            className="inline-flex items-center justify-center gap-2 transition-opacity hover:opacity-80 sm:justify-start"
+            href={GMAIL_COMPOSE_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 transition-opacity hover:opacity-80 sm:justify-start"
           >
             <MailIcon className="h-4 w-4 shrink-0 text-[#8a8983]" />
             <span className="text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
-              hello@traveling-partner.com
+              {CONTACT_EMAIL}
             </span>
           </a>
 
