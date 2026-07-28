@@ -37,32 +37,20 @@ function scaleStoryCta(value: number, extraScale = 1): number {
 
 const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 
-/** Figma Community pill — 124:3759 (inner layout) */
-const COMMUNITY_PILL_FIGMA = {
-  w: 414.823974609375,
-  h: 87.1106948852539,
-  padLeft: 30.61,
-  padRight: 13.6,
-  padY: 13.6,
-  seeW: 124.211669921875,
-  seeH: 59.90550994873047,
-  labelSize: 17,
-  seeSize: 16,
-};
-
 const COMMUNITY_PILL_POSITION = {
-  left: "-10.89461%",
+  /* Slight inset so pill clears About body copy without looking tiny */
+  left: "-2%",
   top: "20.1821%",
-  width: "48.0609%",
-  height: "10.2464%",
+  width: "45%",
+  height: "10%",
 };
 
 /** Keep pill fully inside canvas on narrow screens */
 const COMMUNITY_PILL_POSITION_MOBILE = {
   left: "0.5%",
   top: "20.1821%",
-  width: "46.5%",
-  height: "10.2464%",
+  width: "48%",
+  height: "10%",
 };
 
 const TOTAL_RIDES_POSITION = {
@@ -117,35 +105,21 @@ function CommunityInsightsButton({
 }): React.ReactElement {
   return (
     <div
-      className={`absolute z-[25] [container-type:size] ${className}`}
+      className={`absolute z-[25] [container-type:inline-size] ${className}`}
       style={position}
     >
+      {/*
+        Do NOT use %-based vertical padding here — in CSS, % padding-y is based on
+        width, which overflows the pill height and forces the label under See →.
+      */}
       <Link
         href="/blog"
-        className="flex h-full w-full items-center justify-between overflow-hidden rounded-[100px] bg-[#0b0b0b] font-poppins"
-        style={{
-          paddingLeft: `${(COMMUNITY_PILL_FIGMA.padLeft / COMMUNITY_PILL_FIGMA.w) * 100}cqw`,
-          paddingRight: `${(COMMUNITY_PILL_FIGMA.padRight / COMMUNITY_PILL_FIGMA.w) * 100}cqw`,
-          paddingTop: `${(COMMUNITY_PILL_FIGMA.padY / COMMUNITY_PILL_FIGMA.h) * 100}cqh`,
-          paddingBottom: `${(COMMUNITY_PILL_FIGMA.padY / COMMUNITY_PILL_FIGMA.h) * 100}cqh`,
-        }}
+        className="box-border flex h-full w-full flex-row flex-nowrap items-center gap-[0.4em] overflow-hidden rounded-[100px] bg-[#0b0b0b] pl-[7%] pr-[3%] font-poppins"
       >
-        <span
-          className="shrink-0 whitespace-nowrap font-semibold leading-none text-white"
-          style={{
-            fontSize: `${(COMMUNITY_PILL_FIGMA.labelSize / COMMUNITY_PILL_FIGMA.h) * 100}cqh`,
-          }}
-        >
+        <span className="min-w-0 flex-1 truncate whitespace-nowrap text-[clamp(8px,4.2cqi,17px)] font-semibold leading-none text-white">
           Community insights
         </span>
-        <span
-          className="flex shrink-0 items-center justify-center rounded-[100px] bg-white font-semibold leading-none text-[#0b0b0b]"
-          style={{
-            width: `${(COMMUNITY_PILL_FIGMA.seeW / COMMUNITY_PILL_FIGMA.w) * 100}cqw`,
-            height: `${(COMMUNITY_PILL_FIGMA.seeH / COMMUNITY_PILL_FIGMA.h) * 100}cqh`,
-            fontSize: `${(COMMUNITY_PILL_FIGMA.seeSize / COMMUNITY_PILL_FIGMA.h) * 100}cqh`,
-          }}
-        >
+        <span className="inline-flex h-[68%] shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white px-[0.7em] text-[clamp(7px,3.6cqi,15px)] font-semibold leading-none text-[#0b0b0b]">
           See →
         </span>
       </Link>
@@ -461,9 +435,9 @@ export default function AboutUsSection(): React.ReactElement {
       aria-labelledby="about-us-heading"
     >
       <div className="relative z-[1] mx-auto w-full max-w-7xl overflow-visible px-4 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,787.58px)_minmax(0,966.7px)] lg:gap-4">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,787.58px)_minmax(0,966.7px)] lg:gap-5 xl:gap-6">
           <div
-            className="relative z-[2] w-full lg:-mt-[10.66px] lg:pr-4"
+            className="relative z-[2] w-full lg:-mt-[10.66px] lg:pr-5"
             style={{ maxWidth: LEFT_COL_W }}
           >
             <h2
@@ -482,7 +456,7 @@ export default function AboutUsSection(): React.ReactElement {
             </h2>
 
             <div
-              className="mt-8 space-y-5 font-poppins text-[15px] font-normal leading-[1.55] text-[#6f6e68] sm:mt-9 sm:text-[16px] lg:mt-[35px] lg:max-w-[672px] lg:text-[17px]"
+              className="mt-8 space-y-5 font-poppins text-[15px] font-normal leading-[1.55] text-[#6f6e68] sm:mt-9 sm:text-[16px] lg:mt-[35px] lg:max-w-[640px] lg:text-[17px]"
               style={{ maxWidth: BODY_MAX }}
             >
               <p>{ABOUT_BODY_P1}</p>
