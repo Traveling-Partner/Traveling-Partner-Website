@@ -15,7 +15,6 @@ import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
-  FaYoutube,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import FormAlert from "@/components/FormAlert";
@@ -50,11 +49,6 @@ const SOCIAL_LINKS = [
     icon: FaLinkedinIn,
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/traveling-partner",
-  },
-  {
-    icon: FaYoutube,
-    label: "YouTube",
-    href: "https://www.youtube.com",
   },
 ] as const;
 

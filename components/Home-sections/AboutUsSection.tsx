@@ -120,8 +120,8 @@ function CommunityInsightsButton({
       className={`absolute z-[25] [container-type:size] ${className}`}
       style={position}
     >
-      <button
-        type="button"
+      <Link
+        href="/blog"
         className="flex h-full w-full items-center justify-between overflow-hidden rounded-[100px] bg-[#0b0b0b] font-poppins"
         style={{
           paddingLeft: `${(COMMUNITY_PILL_FIGMA.padLeft / COMMUNITY_PILL_FIGMA.w) * 100}cqw`,
@@ -148,7 +148,7 @@ function CommunityInsightsButton({
         >
           See →
         </span>
-      </button>
+      </Link>
     </div>
   );
 }

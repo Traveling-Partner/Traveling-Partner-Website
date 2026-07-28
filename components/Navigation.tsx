@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -19,8 +19,17 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname() ?? "";
 
-  const handleLinkClick = () => {
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     setIsOpen(false);
+    const current = pathname || "/";
+    const isSame =
+      href === "/"
+        ? current === "/"
+        : current === href || current.startsWith(`${href}/`);
+    if (isSame) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
@@ -81,7 +90,7 @@ export default function Navigation() {
           <Link
             href="/"
             className="block h-10 w-[72px] shrink-0 sm:h-[52px] sm:w-[92px] min-[1200px]:h-[52px] min-[1200px]:w-[95px]"
-            onClick={handleLinkClick}
+            onClick={(e) => handleNavClick(e, "/")}
           >
             <Image
               src="/images/traveling-partner-logo.png"
@@ -97,6 +106,7 @@ export default function Navigation() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
             >
               {link.label}
@@ -105,6 +115,7 @@ export default function Navigation() {
 
           <Link
             href="/contact"
+            onClick={(e) => handleNavClick(e, "/contact")}
             className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] px-3.5 py-1.5 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 ${
               contactActive
                 ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
@@ -171,7 +182,7 @@ export default function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={handleLinkClick}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
                 >
                   {link.label}
@@ -181,7 +192,7 @@ export default function Navigation() {
 
             <Link
               href="/contact"
-              onClick={handleLinkClick}
+              onClick={(e) => handleNavClick(e, "/contact")}
               className={`mt-3 flex min-h-[48px] w-full items-center justify-center gap-2 rounded-[100px] px-4 py-3 font-montserrat text-[13px] font-bold leading-none transition-all duration-200 ${
                 contactActive
                   ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"

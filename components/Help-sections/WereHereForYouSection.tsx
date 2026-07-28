@@ -19,8 +19,8 @@ const CONTACT_CARDS = [
   {
     icon: HELP_ICONS.phone,
     label: "PHONE SUPPORT",
-    value: "+92 326 2801261",
-    href: "tel:+923262801261",
+    value: "+92 325 2801261",
+    href: "tel:+923252801261",
   },
   {
     icon: HELP_ICONS.chat,
