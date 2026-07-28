@@ -127,6 +127,10 @@ interface ContactFormFields {
   lastName: string;
   email: string;
   message: string;
+  companyName: string;
+  businessType: string;
+  phone: string;
+  city: string;
 }
 
 const initialFormData: ContactFormFields = {
@@ -134,6 +138,10 @@ const initialFormData: ContactFormFields = {
   lastName: "",
   email: "",
   message: "",
+  companyName: "",
+  businessType: "",
+  phone: "",
+  city: "",
 };
 
 const fieldClass =
@@ -175,12 +183,24 @@ export default function ContactUsForm(): React.ReactElement {
     setLoading(true);
 
     try {
+      const isBusiness = activeTab === "Business";
+      const businessDetails = isBusiness
+        ? [
+            `Company: ${formData.companyName}`,
+            `Business type: ${formData.businessType}`,
+            `Phone: ${formData.phone}`,
+            `City: ${formData.city}`,
+            "",
+            formData.message,
+          ].join("\n")
+        : formData.message;
+
       await submitContactForm({
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         email: formData.email,
         subject: activeTab,
-        message: formData.message,
-        phoneNumber: "",
+        message: businessDetails,
+        phoneNumber: isBusiness ? formData.phone : "",
       });
       setSubmissionStatus({
         type: "success",
@@ -342,6 +362,53 @@ export default function ContactUsForm(): React.ReactElement {
                   disabled={loading}
                   className={fieldClass}
                 />
+
+                {activeTab === "Business" ? (
+                  <>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleChange}
+                      placeholder="Company name"
+                      required
+                      disabled={loading}
+                      className={fieldClass}
+                    />
+                    <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+                      <input
+                        type="text"
+                        name="businessType"
+                        value={formData.businessType}
+                        onChange={handleChange}
+                        placeholder="Business type"
+                        required
+                        disabled={loading}
+                        className={fieldClass}
+                      />
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="Business phone"
+                        required
+                        disabled={loading}
+                        className={fieldClass}
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      placeholder="City"
+                      required
+                      disabled={loading}
+                      className={fieldClass}
+                    />
+                  </>
+                ) : null}
 
                 <textarea
                   name="message"
