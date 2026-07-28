@@ -133,6 +133,11 @@ export default function BlogListingClient() {
       <BlogHero
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        onSearchSubmit={() => {
+          document
+            .getElementById("blog-stories")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
         categories={categories}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}

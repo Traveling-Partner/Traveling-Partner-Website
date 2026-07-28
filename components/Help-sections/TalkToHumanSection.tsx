@@ -9,7 +9,7 @@ const SUPPORT_CARDS = [
     icon: HELP_ICONS.phone,
     title: "Talk to support",
     subtitle: "Speak with our team directly",
-    href: "/contact",
+    href: "tel:+923252801261",
   },
   {
     icon: HELP_ICONS.chat,
@@ -21,7 +21,7 @@ const SUPPORT_CARDS = [
     icon: HELP_ICONS.email,
     title: "Email support",
     subtitle: "Send us a message anytime",
-    href: "/contact",
+    href: "mailto:hello@traveling-partner.com",
   },
 ] as const;
 
@@ -75,7 +75,7 @@ export default function TalkToHumanSection() {
 
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/contact"
+                href="mailto:hello@traveling-partner.com"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0b0b0b] shadow-[0_4px_14px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-[14px]"
               >
                 Email support

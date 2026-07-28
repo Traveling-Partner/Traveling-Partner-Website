@@ -306,7 +306,10 @@ export default function FeaturedBlogSection({
 
   if (!blogs.length) {
     return (
-      <section className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14">
+      <section
+      id="blog-stories"
+      className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14"
+    >
         <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="py-12 text-center text-[#6b6960]">No blogs found.</div>
         </div>
@@ -315,7 +318,10 @@ export default function FeaturedBlogSection({
   }
 
   return (
-    <section className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14">
+    <section
+      id="blog-stories"
+      className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14"
+    >
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-4 flex items-center justify-between gap-4 sm:mb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#eceae4] bg-white px-3.5 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">

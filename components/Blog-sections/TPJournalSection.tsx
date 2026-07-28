@@ -213,22 +213,20 @@ export default function TPJournalSection() {
           <FeatureRow className="grid grid-cols-2 gap-x-3 gap-y-5" />
         </div>
 
-        <div className="relative mt-6 w-full overflow-hidden pb-1">
+        <div className="relative mt-2 w-full pl-6 pr-5 pb-5 sm:pl-7 sm:pr-6 sm:pb-6">
           <div
-            className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-12 bg-gradient-to-b from-black to-transparent"
+            className="pointer-events-none absolute left-6 right-5 top-0 z-[1] h-10 bg-gradient-to-b from-black to-transparent sm:left-7 sm:right-6"
             aria-hidden="true"
           />
-          <div className="relative flex w-full justify-center">
-            <Image
-              src={`${ASSETS}/bg-mobile.png`}
-              alt=""
-              width={900}
-              height={320}
-              sizes="520px"
-              className="pointer-events-none relative z-0 block h-auto w-[150%] max-w-none shrink-0 -translate-x-[16%] select-none sm:w-[145%] sm:-translate-x-[14%]"
-              priority
-            />
-          </div>
+          <Image
+            src={`${ASSETS}/bg-mobile-fill.png`}
+            alt=""
+            width={738}
+            height={340}
+            sizes="360px"
+            className="pointer-events-none relative z-0 mx-auto block h-auto w-full max-w-full select-none"
+            priority
+          />
         </div>
       </div>
 

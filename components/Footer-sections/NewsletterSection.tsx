@@ -37,6 +37,14 @@ export default function NewsletterSection() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed) return;
+
+    const subject = encodeURIComponent("Newsletter subscription");
+    const body = encodeURIComponent(
+      `Please subscribe me to the Traveling Partner newsletter.\n\nEmail: ${trimmed}`
+    );
+    window.location.href = `mailto:hello@traveling-partner.com?subject=${subject}&body=${body}`;
     setEmail("");
   };
 
