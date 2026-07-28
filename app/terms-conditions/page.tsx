@@ -86,6 +86,25 @@ export default function TermsConditionsPage() {
   const layoutRef = useRef<HTMLDivElement>(null);
   const sidebarColRef = useRef<HTMLDivElement>(null);
   const sidebarInnerRef = useRef<HTMLElement>(null);
+  const isProgrammaticScroll = useRef(false);
+  const scrollLockTimer = useRef<number | null>(null);
+
+  const updateActiveFromScroll = useCallback(() => {
+    if (isProgrammaticScroll.current) return;
+
+    const probe = NAV_OFFSET + 28;
+    let current = termsNavItems[0]?.slug ?? "";
+
+    for (const item of termsNavItems) {
+      const el = document.getElementById(item.slug);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top <= probe) {
+        current = item.slug;
+      }
+    }
+
+    setActiveSlug((prev) => (prev === current ? prev : current));
+  }, []);
 
   const updateSidebar = useCallback(() => {
     const layout = layoutRef.current;
@@ -118,51 +137,40 @@ export default function TermsConditionsPage() {
   }, []);
 
   useEffect(() => {
-    updateSidebar();
-    const layout = layoutRef.current;
-    if (!layout) return;
+    const onScrollOrResize = () => {
+      updateSidebar();
+      updateActiveFromScroll();
+    };
 
-    const ro = new ResizeObserver(updateSidebar);
-    ro.observe(layout);
-    window.addEventListener("scroll", updateSidebar, { passive: true });
-    window.addEventListener("resize", updateSidebar);
+    onScrollOrResize();
+    const layout = layoutRef.current;
+    const ro = layout ? new ResizeObserver(onScrollOrResize) : null;
+    if (layout && ro) ro.observe(layout);
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
 
     return () => {
-      ro.disconnect();
-      window.removeEventListener("scroll", updateSidebar);
-      window.removeEventListener("resize", updateSidebar);
+      ro?.disconnect();
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+      if (scrollLockTimer.current) window.clearTimeout(scrollLockTimer.current);
     };
-  }, [updateSidebar]);
-
-  useEffect(() => {
-    const headings = termsSections
-      .map((s) => document.getElementById(s.slug))
-      .filter(Boolean) as HTMLElement[];
-
-    if (!headings.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]?.target.id) {
-          setActiveSlug(visible[0].target.id);
-        }
-      },
-      { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.25, 0.5] }
-    );
-
-    headings.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  }, [updateSidebar, updateActiveFromScroll]);
 
   const scrollToSection = (slug: string) => {
     const el = document.getElementById(slug);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveSlug(slug);
-    }
+    if (!el) return;
+
+    isProgrammaticScroll.current = true;
+    setActiveSlug(slug);
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (scrollLockTimer.current) window.clearTimeout(scrollLockTimer.current);
+    scrollLockTimer.current = window.setTimeout(() => {
+      isProgrammaticScroll.current = false;
+      updateActiveFromScroll();
+    }, 900);
   };
 
   const handlePrint = () => {

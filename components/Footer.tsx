@@ -273,7 +273,7 @@ function FooterLinkColumn({
 export default function Footer(): React.ReactElement {
   return (
     <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
-      <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-10 sm:px-6 sm:pb-10 sm:pt-12 lg:px-8 lg:pb-12 lg:pt-14">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-5 pt-10 sm:px-6 sm:pb-6 sm:pt-12 lg:px-8 lg:pb-7 lg:pt-14">
         <NewsletterSection />
 
         {/* Mobile — stacked sections like reference */}
@@ -330,12 +330,12 @@ export default function Footer(): React.ReactElement {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-[#ddd8cb] pt-6 sm:mt-14 sm:pt-7">
+        <div className="mt-8 flex flex-col gap-3 border-t border-[#ddd8cb] pt-4 sm:mt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
           <p className="font-poppins text-[12px] font-normal text-[#8a877f] sm:text-[13px]">
             © {new Date().getFullYear()} Traveling Partner. All rights reserved.
           </p>
 
-          <div className="mt-4 flex items-center gap-3">
+          <div className="flex items-center gap-3 sm:justify-end">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
