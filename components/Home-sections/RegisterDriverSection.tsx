@@ -97,21 +97,38 @@ function RegisterHeadline(): React.ReactElement {
 
 function RegisterSubtext(): React.ReactElement {
   return (
-    <p
-      className="mx-auto text-center font-poppins font-normal text-white"
+    <div
+      className="mx-auto text-center font-poppins text-white"
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(HEADLINE_SUBTEXT_GAP),
-        fontSize: cqw(18),
-        lineHeight: 1.5,
       }}
     >
-      {emphasizePhrases(
-        "More than a ride. More than an app. Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
-        ["zero commission ride app"],
-        "onDark",
-      )}
-    </p>
+      <p
+        className="font-semibold"
+        style={{
+          fontSize: cqw(24),
+          lineHeight: 1.3,
+          letterSpacing: cqw(-0.4),
+        }}
+      >
+        More than a ride. More than an app.
+      </p>
+      <p
+        className="font-normal"
+        style={{
+          marginTop: cqh(12),
+          fontSize: cqw(18),
+          lineHeight: 1.5,
+        }}
+      >
+        {emphasizePhrases(
+          "Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
+          ["zero commission ride app"],
+          "onDark",
+        )}
+      </p>
+    </div>
   );
 }
 

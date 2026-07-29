@@ -292,12 +292,12 @@ function DetailPanel({
                   />
                 </Link>
                 <div className="min-w-0 flex-1 pt-0.5">
-                  <p className="font-poppins text-[12px] font-semibold italic text-[#0b0b0b]/65">
-                    {ride.subtitle}
-                  </p>
-                  <h3 className="mt-1 font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
+                  <h3 className="font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
                     {ride.titleWithPeriod}
                   </h3>
+                  <p className="mt-1.5 font-poppins text-[13.5px] font-semibold italic text-[#0b0b0b]/85 sm:text-[14px]">
+                    {ride.subtitle}
+                  </p>
                 </div>
               </div>
 
@@ -361,6 +361,9 @@ function DetailPanel({
               <h3 className="font-poppins text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]">
                 {ride.titleWithPeriod}
               </h3>
+              <p className="mt-2 max-w-[380px] font-poppins text-[18px] font-semibold italic leading-snug text-[#0b0b0b]">
+                {ride.subtitle}
+              </p>
               <p
                 className="mt-3 line-clamp-2 min-h-[3.1em] max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80"
                 title={ride.panelDescription}
