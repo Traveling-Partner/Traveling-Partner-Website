@@ -137,15 +137,15 @@ const MOBILE_CARDS = [
     href: "/logistic",
     icon: "/images/taxi-stand/services/icon-logistics.png",
     title: "Logistics",
-    subtitle: "Enterprise",
+    subtitle: "Reliable fleet support",
     video: LOGISTICS_VIDEO,
     ...CLEAN_MOBILE_CARDS.logistics,
   },
   {
     href: "/pool-ride",
     icon: "/images/taxi-stand/services/icon-pool.png",
-    title: "Pool",
-    subtitle: "Shared trips",
+    title: "Pool Ride",
+    subtitle: "Share & save",
     video: POOL_VIDEO,
     ...CLEAN_MOBILE_CARDS.pool,
   },
@@ -153,7 +153,7 @@ const MOBILE_CARDS = [
     href: "/trip",
     icon: "/images/taxi-stand/services/icon-trip.png",
     title: "Trip",
-    subtitle: "Plan journey",
+    subtitle: "City to city",
     video: TRIP_VIDEO,
     ...CLEAN_MOBILE_CARDS.trip,
   },
@@ -161,7 +161,7 @@ const MOBILE_CARDS = [
     href: "/delivery",
     icon: "/images/taxi-stand/services/icon-delivery.png",
     title: "Delivery",
-    subtitle: "Fast delivery",
+    subtitle: "Across the city",
     video: DELIVERY_VIDEO,
     ...CLEAN_MOBILE_CARDS.delivery,
   },
@@ -181,9 +181,14 @@ export default function OurServicesSection() {
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
-          <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            Five services. One app. Built for every kind of journey across
-            Pakistan.
+          <p className="mx-auto mb-2 max-w-xl text-[16px] font-semibold leading-snug text-[#0b0b0b] sm:text-[17px]">
+            One app. Different ways to get around.
+          </p>
+          <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
+            {emphasizePhrases(
+              "Whether you need a taxi service, want to share a ride, send a parcel, move business deliveries, or plan an out-of-town trip, Traveling Partner brings everything together in one place.",
+              ["taxi service"],
+            )}
           </p>
         </motion.div>
 
@@ -203,8 +208,8 @@ export default function OurServicesSection() {
               href="/pool-ride"
               image="/images/taxi-stand/services/card-pool.png"
               icon="/images/taxi-stand/services/icon-pool.png"
-              title="Pool"
-              subtitle="Shared trips"
+              title="Pool Ride"
+              subtitle="Share & save"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
               video={POOL_VIDEO}
@@ -215,7 +220,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-delivery.png"
               icon="/images/taxi-stand/services/icon-delivery.png"
               title="Delivery"
-              subtitle="Fast delivery"
+              subtitle="Across the city"
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
@@ -227,7 +232,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-logistics.png"
               icon="/images/taxi-stand/services/icon-logistics.png"
               title="Logistics"
-              subtitle="Enterprise"
+              subtitle="Reliable fleet support"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
               video={LOGISTICS_VIDEO}
@@ -238,7 +243,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-trip.png"
               icon="/images/taxi-stand/services/icon-trip.png"
               title="Trip"
-              subtitle="Plan journey"
+              subtitle="City to city"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
               video={TRIP_VIDEO}

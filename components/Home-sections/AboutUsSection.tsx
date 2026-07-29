@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { heroBackgroundStyle } from "@/lib/heroBackground";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma About Us — section 124:3686 (1920 × 1198) */
 const LEFT_COL_W = 787.5831909179688;
@@ -139,10 +140,16 @@ const accentYellowClass =
   "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
 const ABOUT_BODY_P1 =
-  "At Traveling Partner, our purpose is to revolutionize the landscape of mobility, creating a space where users can effortlessly connect and collaborate. By fostering a community-centric environment, our platform eliminates the financial burdens of additional fees, providing a dynamic hub for individuals to share rides, make deliveries, and plan trips collaboratively.";
+  "Getting around shouldn't be complicated. Some days it's the commute to work. Other times it's a flight to catch, or a parcel that has to move across town before evening. Traveling Partner was built for all of it.";
 
 const ABOUT_BODY_P2 =
-  "Through transparency, user empowerment, and a commitment to a commission-free approach, we aim to redefine the very essence of travel and connectivity in Pakistan. Traveling Partner is not just an app; it's a movement towards a more connected, collaborative, and commission-free future for everyone.";
+  "We call ourselves the best ride booking app in Pakistan, and we back that up with the basics people actually care about: fair prices, verified drivers, quick pickups, and a way to book a ride online without any guesswork. Need a taxi service for the daily grind or an airport transfer service before an early flight? Same app, same standard — safe, comfortable, and easy to book.";
+
+const ABOUT_BODY_P3 =
+  "This isn't just a ride hailing app that gets you from A to B. Drivers get to earn on their own schedule, and riders get a trip that doesn't feel like a gamble. Short hop across the city, an early airport run, or a longer drive out of town — online taxi booking shouldn't be complicated, and with us, it isn't.";
+
+const ABOUT_BODY_P4 =
+  "That's the whole idea: make getting around Pakistan a bit easier, one ride at a time.";
 
 type FigmaRect = {
   x: number;
@@ -189,7 +196,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize) }}
         >
-          Read our story
+          Start our journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
@@ -218,7 +225,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize + 3, mobileScale) }}
         >
-          Read our story
+          Start our journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
@@ -468,7 +475,22 @@ export default function AboutUsSection(): React.ReactElement {
               style={{ maxWidth: BODY_MAX }}
             >
               <p>{ABOUT_BODY_P1}</p>
-              <p>{ABOUT_BODY_P2}</p>
+              <p>
+                {emphasizePhrases(ABOUT_BODY_P2, [
+                  "best ride booking app in Pakistan",
+                  "verified drivers",
+                  "book a ride online",
+                  "taxi service",
+                  "airport transfer service",
+                ])}
+              </p>
+              <p>
+                {emphasizePhrases(ABOUT_BODY_P3, [
+                  "ride hailing app",
+                  "online taxi booking",
+                ])}
+              </p>
+              <p>{ABOUT_BODY_P4}</p>
             </div>
 
             <div className="mt-8 sm:mt-10 lg:mt-[52px]">

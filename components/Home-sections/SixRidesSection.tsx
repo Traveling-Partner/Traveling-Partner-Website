@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /**
  * Figma Smart Animate–style curves for Five Rides prototype.
@@ -25,6 +26,7 @@ type RideItem = {
   subtitle: string;
   listDescription: string;
   panelDescription: string;
+  boldPhrases?: readonly string[];
   features: string[];
   icon: string;
   panelIcon: string;
@@ -36,11 +38,12 @@ const RIDES: RideItem[] = [
     id: "taxi",
     title: "Taxi Stand",
     titleWithPeriod: "Taxi Stand.",
-    subtitle: "City rides",
+    subtitle: "Wherever you're going, let's get you there.",
     listDescription:
-      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
+      "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
     panelDescription:
-      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
+      "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
+    boldPhrases: ["verified drivers", "no surge pricing"],
     features: ["Verified drivers", "Fixed fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
@@ -50,11 +53,11 @@ const RIDES: RideItem[] = [
     id: "pool",
     title: "Pool Ride",
     titleWithPeriod: "Pool Ride.",
-    subtitle: "Shared trips",
+    subtitle: "Same route. Lower fare.",
     listDescription:
-      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
+      "Traveling the same direction as someone else? Split the cost. Pool Ride cuts down your travel expenses and keeps more cars off the road, a solid option for students, professionals, and anyone doing the same commute day after day.",
     panelDescription:
-      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
+      "Traveling the same direction as someone else? Split the cost. Pool Ride cuts down your travel expenses and keeps more cars off the road, a solid option for students, professionals, and anyone doing the same commute day after day.",
     features: ["Split fares", "Verified riders", "Eco-friendly"],
     icon: "/images/five-rides/icon-pool.png",
     panelIcon: "/images/five-rides/panel-pool.png",
@@ -64,11 +67,12 @@ const RIDES: RideItem[] = [
     id: "delivery",
     title: "Delivery",
     titleWithPeriod: "Delivery.",
-    subtitle: "Fast delivery",
+    subtitle: "Send it across town, without the wait.",
     listDescription:
-      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
+      "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
     panelDescription:
-      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
+      "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
+    boldPhrases: ["real time"],
     features: ["Same-day", "Live GPS", "Verified couriers"],
     icon: "/images/five-rides/icon-delivery.png",
     panelIcon: "/images/five-rides/panel-delivery.png",
@@ -78,11 +82,11 @@ const RIDES: RideItem[] = [
     id: "logistics",
     title: "Logistics",
     titleWithPeriod: "Logistics.",
-    subtitle: "Enterprise",
+    subtitle: "Reliable transport for growing businesses.",
     listDescription:
-      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
+      "Running a retail store or managing enterprise operations, deliveries pile up fast and someone still has to sort them out. Our logistics solutions give you dedicated fleet support and delivery options built to keep pace as your business grows.",
     panelDescription:
-      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
+      "Running a retail store or managing enterprise operations, deliveries pile up fast and someone still has to sort them out. Our logistics solutions give you dedicated fleet support and delivery options built to keep pace as your business grows.",
     features: ["Volume pricing", "Account manager", "Live dashboard"],
     icon: "/images/five-rides/icon-logistics.png",
     panelIcon: "/images/five-rides/panel-logistics.png",
@@ -92,11 +96,12 @@ const RIDES: RideItem[] = [
     id: "trip",
     title: "Trip",
     titleWithPeriod: "Trip.",
-    subtitle: "Plan journey",
+    subtitle: "Every journey deserves a comfortable ride.",
     listDescription:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
+      "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
     panelDescription:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
+      "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
+    boldPhrases: ["verified driver", "intercity ride"],
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
     panelIcon: "/images/five-rides/panel-trip.png",
@@ -287,12 +292,12 @@ function DetailPanel({
                   />
                 </Link>
                 <div className="min-w-0 flex-1 pt-0.5">
-                  <p className="font-poppins text-[12px] font-semibold italic text-[#0b0b0b]/65">
-                    {ride.subtitle}
-                  </p>
-                  <h3 className="mt-1 font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
+                  <h3 className="font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
                     {ride.titleWithPeriod}
                   </h3>
+                  <p className="mt-1.5 font-poppins text-[13.5px] font-semibold italic text-[#0b0b0b]/85 sm:text-[14px]">
+                    {ride.subtitle}
+                  </p>
                 </div>
               </div>
 
@@ -300,7 +305,7 @@ function DetailPanel({
                 className="mt-4 line-clamp-2 min-h-[2.6em] font-poppins text-[13.5px] font-normal leading-[1.3] text-[#0b0b0b]/78"
                 title={ride.panelDescription}
               >
-                {ride.panelDescription}
+                {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
 
               <div className="mt-4 flex flex-col items-start gap-2.5">
@@ -327,7 +332,7 @@ function DetailPanel({
       </div>
 
       {/* ——— Desktop curved panel ——— */}
-      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-8 lg:flex">
+      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-7 lg:flex xl:p-8">
         <PanelBackground />
         <div className="relative z-[1] grid flex-1">
           <AnimatePresence initial={false}>
@@ -341,7 +346,7 @@ function DetailPanel({
             >
               <Link
                 href={ride.href}
-                className="mb-6 inline-flex h-28 w-28 items-center justify-center overflow-hidden rounded-[28px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)]"
+                className="mb-4 inline-flex h-[100px] w-[100px] items-center justify-center overflow-hidden rounded-[26px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] xl:mb-5 xl:h-28 xl:w-28 xl:rounded-[28px]"
                 aria-label={`Go to ${ride.title}`}
               >
                 <Image
@@ -353,19 +358,39 @@ function DetailPanel({
                   unoptimized
                 />
               </Link>
-              <h3 className="font-poppins text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]">
+
+              <h3 className="max-w-[92%] font-poppins text-[42px] font-extrabold leading-[1.06] tracking-[-0.03em] text-[#0b0b0b] xl:text-[48px]">
                 {ride.titleWithPeriod}
               </h3>
+              <p className="mt-2 max-w-[92%] font-poppins text-[17px] font-semibold italic leading-snug text-[#0b0b0b] xl:text-[18px]">
+                {ride.subtitle}
+              </p>
               <p
-                className="mt-3 line-clamp-2 min-h-[3.1em] max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80"
+                className="mt-3 max-w-[92%] font-poppins text-[15px] font-normal leading-[1.55] text-[#0b0b0b]/85 xl:text-[16px]"
                 title={ride.panelDescription}
               >
-                {ride.panelDescription}
+                {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
-              <div className="mt-auto flex flex-col items-start gap-3.5 pt-6">
-                {ride.features.map((feature) => (
-                  <FeaturePill key={feature} label={feature} />
-                ))}
+
+              <div className="mt-5 flex flex-1 flex-col justify-end gap-4 pb-1">
+                <div className="flex flex-col items-start gap-3">
+                  {ride.features.map((feature) => (
+                    <FeaturePill key={feature} label={feature} />
+                  ))}
+                </div>
+
+                <Link
+                  href={ride.href}
+                  className="group inline-flex w-fit max-w-full items-center gap-3 rounded-full bg-[#0b0b0b] py-2.5 pl-5 pr-2.5 font-poppins text-[14px] font-semibold text-[#FCE001] transition-transform hover:-translate-y-0.5"
+                >
+                  <span>Explore {ride.title}</span>
+                  <span
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
+                    aria-hidden
+                  >
+                    →
+                  </span>
+                </Link>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -612,7 +637,11 @@ function RideListItem({
           className="mt-1 block line-clamp-2 min-h-[2.5em] font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
           title={ride.listDescription}
         >
-          {ride.listDescription}
+          {emphasizePhrases(
+            ride.listDescription,
+            ride.boldPhrases ?? [],
+            "onDark",
+          )}
         </span>
       </span>
 
@@ -722,8 +751,9 @@ export default function SixRidesSection(): React.ReactElement {
             </span>
           </h2>
           <p className="mx-auto mt-3 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
-            From daily commutes to enterprise logistics — every category, zero
-            commission, real-time tracking, every time.
+            However you move, we&apos;ve got a way. Everyday rides, shared trips,
+            deliveries, business logistics, or a trip out of town — each service is
+            built to make getting around Pakistan simpler and less of a headache.
           </p>
         </motion.div>
 
