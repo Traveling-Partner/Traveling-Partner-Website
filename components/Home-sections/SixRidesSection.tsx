@@ -38,9 +38,9 @@ const RIDES: RideItem[] = [
     titleWithPeriod: "Taxi Stand.",
     subtitle: "City rides",
     listDescription:
-      "Book verified city rides in seconds. Fair pricing, no surge, no hidden charges.",
+      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
     panelDescription:
-      "Commission-free city rides across Pakistan. Connect directly with verified drivers — no middlemen, no surprises.",
+      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
     features: ["Verified drivers", "Fixed fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
@@ -52,9 +52,9 @@ const RIDES: RideItem[] = [
     titleWithPeriod: "Pool Ride.",
     subtitle: "Shared trips",
     listDescription:
-      "Share your ride with others going the same way. Split costs and travel greener.",
+      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
     panelDescription:
-      "Affordable shared rides with verified co-passengers. Split the fare, not the experience — greener travel for everyone.",
+      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
     features: ["Split fares", "Verified riders", "Eco-friendly"],
     icon: "/images/five-rides/icon-pool.png",
     panelIcon: "/images/five-rides/panel-pool.png",
@@ -66,9 +66,9 @@ const RIDES: RideItem[] = [
     titleWithPeriod: "Delivery.",
     subtitle: "Fast delivery",
     listDescription:
-      "Send packages across the city in minutes with real-time tracking and verified couriers.",
+      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
     panelDescription:
-      "Connect with vetted delivery partners across the city. Documents, food, parcels — same-day, transparent, commission-free.",
+      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
     features: ["Same-day", "Live GPS", "Verified couriers"],
     icon: "/images/five-rides/icon-delivery.png",
     panelIcon: "/images/five-rides/panel-delivery.png",
@@ -80,9 +80,9 @@ const RIDES: RideItem[] = [
     titleWithPeriod: "Logistics.",
     subtitle: "Enterprise",
     listDescription:
-      "Custom logistics solutions for businesses. Scale operations with reliable enterprise support.",
+      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
     panelDescription:
-      "Enterprise loads with zero commission. Bulk logistics for warehousing, distribution, and B2B fulfilment at scale.",
+      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
     features: ["Volume pricing", "Account manager", "Live dashboard"],
     icon: "/images/five-rides/icon-logistics.png",
     panelIcon: "/images/five-rides/panel-logistics.png",
@@ -94,9 +94,9 @@ const RIDES: RideItem[] = [
     titleWithPeriod: "Trip.",
     subtitle: "Plan journey",
     listDescription:
-      "Plan and book intercity journeys with ease. Explore Pakistan your way, on your schedule.",
+      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
     panelDescription:
-      "Long-distance bookings with pre-planned routes and trusted drivers — from Hunza to Karachi, no fees attached.",
+      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
     panelIcon: "/images/five-rides/panel-trip.png",
@@ -296,7 +296,10 @@ function DetailPanel({
                 </div>
               </div>
 
-              <p className="mt-4 font-poppins text-[13.5px] font-normal leading-[1.55] text-[#0b0b0b]/78">
+              <p
+                className="mt-4 line-clamp-2 min-h-[2.6em] font-poppins text-[13.5px] font-normal leading-[1.3] text-[#0b0b0b]/78"
+                title={ride.panelDescription}
+              >
                 {ride.panelDescription}
               </p>
 
@@ -353,7 +356,10 @@ function DetailPanel({
               <h3 className="font-poppins text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]">
                 {ride.titleWithPeriod}
               </h3>
-              <p className="mt-3 max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80">
+              <p
+                className="mt-3 line-clamp-2 min-h-[3.1em] max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80"
+                title={ride.panelDescription}
+              >
                 {ride.panelDescription}
               </p>
               <div className="mt-auto flex flex-col items-start gap-3.5 pt-6">
@@ -602,7 +608,10 @@ function RideListItem({
         >
           {ride.subtitle}
         </motion.span>
-        <span className="mt-1 block font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]">
+        <span
+          className="mt-1 block line-clamp-2 min-h-[2.5em] font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
+          title={ride.listDescription}
+        >
           {ride.listDescription}
         </span>
       </span>

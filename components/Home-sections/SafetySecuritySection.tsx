@@ -318,10 +318,8 @@ export default function SafetySecuritySection(): React.ReactElement {
           </h2>
 
           <p className="mx-auto mt-4 max-w-[692px] font-poppins text-[14px] font-normal leading-[1.65] text-[#5c5c5c] sm:mt-5 sm:text-[14px] lg:mt-6 lg:text-[15px]">
-            <span className="block sm:inline">
-              Four safety features engineered into every ride, delivery, and trip —
-            </span>{" "}
-            <span className="block sm:inline">designed around how Pakistani riders actually travel.</span>
+            Elevating Your Journey with Traveling Partner with Real-Time Tracking and
+            Reviews for Recognition, with Exclusive Female Options.
           </p>
         </motion.header>
 

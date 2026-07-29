@@ -288,8 +288,8 @@ export default function Footer(): React.ReactElement {
             />
           </FooterNavLink>
           <p className="mt-4 font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68]">
-            Your ultimate travel companion. Commission-free rides, logistics, and trip
-            planning across Pakistan.
+            Revolutionizing urban mobility across Pakistan. Fast, safe, and reliable rides
+            at your fingertips with zero commission.
           </p>
 
           <div className="mt-9 space-y-7">
@@ -316,8 +316,8 @@ export default function Footer(): React.ReactElement {
               />
             </FooterNavLink>
             <p className="mt-5 max-w-[300px] font-poppins text-[14px] font-normal leading-[1.65] text-[#6f6e68]">
-              Your ultimate travel companion. Commission-free rides, logistics, and trip
-              planning across Pakistan.
+              Revolutionizing urban mobility across Pakistan. Fast, safe, and reliable rides
+              at your fingertips with zero commission.
             </p>
           </div>
 
