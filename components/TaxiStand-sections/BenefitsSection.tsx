@@ -3,13 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const benefits = [
-  "Connect with passengers without added fees.",
-  "Independently negotiate and finalize fares.",
-  "Foster a collaborative and transparent environment.",
-  "Receive positive reviews, enhancing your stand's reputation.",
-  "Streamline operations with the app's user-friendly features.",
+  "Connect with passengers without paying commission.",
+  "Choose when you want to drive.",
+  "Keep more of every fare you earn.",
+  "Build your ratings with every completed trip.",
+  "An app that's easy to use, whether you're driving or booking.",
 ];
 
 function CheckIcon() {
@@ -87,7 +88,7 @@ export default function BenefitsSection() {
             >
               Benefits of{" "}
               <em className="font-medium italic text-[#FCE001]">
-                Travelpartner
+                Traveling Partner
               </em>{" "}
               App
             </motion.h2>
@@ -99,8 +100,15 @@ export default function BenefitsSection() {
               transition={{ duration: 0.4, delay: 0.14 }}
               className="mb-6 max-w-md text-[14px] leading-relaxed text-white/85 sm:mb-7 sm:text-[15px]"
             >
-              Experience the future of transportation with our commission-free
-              platform designed for modern travelers.
+              {emphasizePhrases(
+                "Getting from one place to another shouldn't be difficult. Whether you're booking a ride or driving one, Traveling Partner keeps things simple. Book a ride online, travel with verified drivers, or earn more with our zero commission ride app.",
+                [
+                  "Book a ride online",
+                  "verified drivers",
+                  "zero commission ride app",
+                ],
+                "onDark",
+              )}
             </motion.p>
 
             <ul className="mb-8 flex w-full max-w-lg flex-col gap-2.5 sm:mb-9 sm:gap-3">
@@ -137,7 +145,7 @@ export default function BenefitsSection() {
                 className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
               >
                 <span className="text-[15px] font-bold text-black sm:text-base">
-                  Download the app
+                  Download the App
                 </span>
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black transition-transform duration-300 group-hover:translate-x-0.5">
                   <ArrowIcon />

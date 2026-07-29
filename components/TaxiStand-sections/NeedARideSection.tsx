@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -223,11 +224,22 @@ export default function NeedARideSection() {
             </h2>
 
             {/* Description — Figma mobile is near-white */}
-            <p className="mb-7 max-w-[420px] text-[15px] leading-[1.65] text-white/85 lg:mb-6 lg:text-base lg:text-[#b7b1a4]">
-              Book a taxi in seconds and reach your destination hassle-free.
-              Nearest verified drivers, upfront fares, no surge pricing — the
-              way city rides should be.
-            </p>
+            <div className="mb-7 max-w-[420px] space-y-3 text-[15px] leading-[1.65] text-white/85 lg:mb-6 lg:text-base lg:text-[#b7b1a4]">
+              <p>
+                {emphasizePhrases(
+                  "Going somewhere? Open the app, choose your destination, and you're ready to go. You'll see the fare before the ride starts, know who's picking you up, and follow your trip with real-time GPS tracking.",
+                  ["real-time GPS tracking"],
+                  "onDark",
+                )}
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Whether it's your daily commute or an airport transfer service, getting there shouldn't take more effort than opening an app.",
+                  ["airport transfer service"],
+                  "onDark",
+                )}
+              </p>
+            </div>
 
             {/* Store buttons — side-by-side (Figma) */}
             <div className="mb-7 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">

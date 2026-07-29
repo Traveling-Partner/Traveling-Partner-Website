@@ -3,12 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const features = [
-  "No additional fees to join or start earning.",
-  "Work when it suits you best.",
-  "Complete autonomy to decide on fares.",
-  "Effortlessly manage your rides through the app.",
+  { text: "Keep more with 0% commission", bold: ["0% commission"] as const },
+  { text: "Drive whenever it suits your schedule", bold: [] as const },
+  { text: "Accept nearby ride requests", bold: [] as const },
+  { text: "Payments and trip details in one app", bold: [] as const },
 ];
 
 function CheckIcon() {
@@ -116,31 +117,31 @@ export default function DriveWithUsSection() {
                 Drive with
                 <br />
                 <em className="font-medium italic text-[#FCE001]">
-                  Travelpartner
+                  Traveling Partner
                 </em>{" "}
                 &
                 <br />
                 Earn Money
               </motion.h2>
 
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.16 }}
+                className="mb-6 text-[14px] leading-relaxed text-white/90 sm:text-[15px]"
+              >
+                {emphasizePhrases(
+                  "Looking for a flexible way to earn? Traveling Partner is a zero commission ride app, so you keep more of what you earn. Drive full-time, part-time, or only when you're free—it's up to you.",
+                  ["zero commission ride app"],
+                  "onDark",
+                )}
+              </motion.p>
+
               <ul className="mb-8 space-y-3.5 sm:mb-10 sm:space-y-4">
-                <motion.li
-                  initial={{ opacity: 0, x: 12 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: 0.18 }}
-                  className="flex items-start gap-3"
-                >
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
-                    <CheckIcon />
-                  </span>
-                  <span className="text-[14px] leading-relaxed text-white sm:text-[15px]">
-                    Drive and earn on your terms.
-                  </span>
-                </motion.li>
-                {features.map((text, index) => (
+                {features.map((item, index) => (
                   <motion.li
-                    key={text}
+                    key={item.text}
                     initial={{ opacity: 0, x: 12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -151,7 +152,7 @@ export default function DriveWithUsSection() {
                       <CheckIcon />
                     </span>
                     <span className="text-[14px] leading-relaxed text-white sm:text-[15px]">
-                      {text}
+                      {emphasizePhrases(item.text, item.bold, "onDark")}
                     </span>
                   </motion.li>
                 ))}

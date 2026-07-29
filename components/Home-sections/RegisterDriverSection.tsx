@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma Register section — 124:3589 (1920 × 1200) */
 const SECTION_W = 1920;
@@ -94,24 +95,38 @@ function RegisterHeadline(): React.ReactElement {
   );
 }
 
+function RegisterSubheadline(): React.ReactElement {
+  return (
+    <p
+      className="mx-auto text-center font-poppins font-semibold text-white"
+      style={{
+        maxWidth: cqw(SUBTEXT_W),
+        marginTop: cqh(HEADLINE_SUBTEXT_GAP),
+        fontSize: cqw(28),
+        lineHeight: 1.25,
+      }}
+    >
+      More than a ride. More than an app.
+    </p>
+  );
+}
+
 function RegisterSubtext(): React.ReactElement {
   return (
     <p
       className="mx-auto text-center font-poppins font-normal text-white"
       style={{
         maxWidth: cqw(SUBTEXT_W),
-        marginTop: cqh(HEADLINE_SUBTEXT_GAP),
+        marginTop: cqh(12),
         fontSize: cqw(18),
         lineHeight: 1.5,
       }}
     >
-      <span className="block whitespace-nowrap">
-        Two networks, one mission — keep more of what you earn.
-      </span>
-      <span className="block whitespace-nowrap">
-        Whether you&apos;re behind the wheel or running the business,
-      </span>
-      <span className="block whitespace-nowrap">Traveling Partner is built around you.</span>
+      {emphasizePhrases(
+        "Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
+        ["zero commission ride app"],
+        "onDark",
+      )}
     </p>
   );
 }
@@ -128,6 +143,7 @@ function TextOverlay(): React.ReactElement {
     >
       <div className="w-full" style={{ maxWidth: cqw(HEAD_W) }}>
         <RegisterHeadline />
+        <RegisterSubheadline />
         <RegisterSubtext />
       </div>
     </div>
@@ -303,7 +319,7 @@ function RegisterSectionCanvas(): React.ReactElement {
           <RegisterCard
             href={DRIVER_HREF}
             eyebrow="FOR DRIVERS"
-            title="Register as a Driver"
+            title="Become a Driver"
             variant="driver"
           />
         </CtaSlot>
@@ -311,7 +327,7 @@ function RegisterSectionCanvas(): React.ReactElement {
           <RegisterCard
             href={PARTNER_HREF}
             eyebrow="FOR PARTNER"
-            title="Register as a Partner"
+            title="Partner With Us"
             variant="partner"
           />
         </CtaSlot>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -137,19 +138,18 @@ export default function HeroSection() {
             className="taxi-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.18em] text-[#fdb813] sm:text-sm sm:tracking-[0.22em]"
             style={{ animationDelay: "140ms" }}
           >
-            Connect and commute · Commission-free
+            Connect and commute—your way.
           </p>
 
           <p
             className="taxi-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            Traveling Partner presents a modern platform connecting users to
-            diverse taxi stands across Pakistan. Say goodbye to added fees when
-            you access this hassle-free, commission-free service. Our platform
-            ensures an affordable, direct connection with various taxi stands,
-            allowing you to negotiate fares at your convenience and make your
-            commuting experience both smooth and cost-effective.
+            {emphasizePhrases(
+              "Need to get somewhere? Open the app, enter your destination, and we'll connect you with a verified driver nearby. You'll know the fare before your trip begins, and booking only takes a few taps. With our zero commission model for drivers, everyone gets a better experience when they ride with a Traveling Partner.",
+              ["Need to get somewhere?", "verified driver", "zero commission"],
+              "onLight",
+            )}
           </p>
 
           <div
