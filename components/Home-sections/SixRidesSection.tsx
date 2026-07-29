@@ -332,7 +332,7 @@ function DetailPanel({
       </div>
 
       {/* ——— Desktop curved panel ——— */}
-      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-8 lg:flex">
+      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-7 lg:flex xl:p-8">
         <PanelBackground />
         <div className="relative z-[1] grid flex-1">
           <AnimatePresence initial={false}>
@@ -346,7 +346,7 @@ function DetailPanel({
             >
               <Link
                 href={ride.href}
-                className="mb-6 inline-flex h-28 w-28 items-center justify-center overflow-hidden rounded-[28px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)]"
+                className="mb-4 inline-flex h-[100px] w-[100px] items-center justify-center overflow-hidden rounded-[26px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] xl:mb-5 xl:h-28 xl:w-28 xl:rounded-[28px]"
                 aria-label={`Go to ${ride.title}`}
               >
                 <Image
@@ -358,22 +358,39 @@ function DetailPanel({
                   unoptimized
                 />
               </Link>
-              <h3 className="font-poppins text-[48px] font-extrabold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]">
+
+              <h3 className="max-w-[92%] font-poppins text-[42px] font-extrabold leading-[1.06] tracking-[-0.03em] text-[#0b0b0b] xl:text-[48px]">
                 {ride.titleWithPeriod}
               </h3>
-              <p className="mt-2 max-w-[380px] font-poppins text-[18px] font-semibold italic leading-snug text-[#0b0b0b]">
+              <p className="mt-2 max-w-[92%] font-poppins text-[17px] font-semibold italic leading-snug text-[#0b0b0b] xl:text-[18px]">
                 {ride.subtitle}
               </p>
               <p
-                className="mt-3 line-clamp-2 min-h-[3.1em] max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80"
+                className="mt-3 max-w-[92%] font-poppins text-[15px] font-normal leading-[1.55] text-[#0b0b0b]/85 xl:text-[16px]"
                 title={ride.panelDescription}
               >
                 {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
-              <div className="mt-auto flex flex-col items-start gap-3.5 pt-6">
-                {ride.features.map((feature) => (
-                  <FeaturePill key={feature} label={feature} />
-                ))}
+
+              <div className="mt-5 flex flex-1 flex-col justify-end gap-4 pb-1">
+                <div className="flex flex-col items-start gap-3">
+                  {ride.features.map((feature) => (
+                    <FeaturePill key={feature} label={feature} />
+                  ))}
+                </div>
+
+                <Link
+                  href={ride.href}
+                  className="group inline-flex w-fit max-w-full items-center gap-3 rounded-full bg-[#0b0b0b] py-2.5 pl-5 pr-2.5 font-poppins text-[14px] font-semibold text-[#FCE001] transition-transform hover:-translate-y-0.5"
+                >
+                  <span>Explore {ride.title}</span>
+                  <span
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
+                    aria-hidden
+                  >
+                    →
+                  </span>
+                </Link>
               </div>
             </motion.div>
           </AnimatePresence>
