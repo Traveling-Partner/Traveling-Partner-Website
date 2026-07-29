@@ -63,12 +63,12 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[54px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-3 sm:pl-2 sm:pr-5 lg:h-[58px] lg:w-auto lg:pr-6"
+      className="group inline-flex h-[52px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-3 sm:pl-2 sm:pr-5 lg:h-[54px] lg:w-auto lg:pr-6"
       style={{
         background: "linear-gradient(90deg, #FCE001 0%, #FDB813 100%)",
       }}
     >
-      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[42px] lg:w-[42px]">
+      <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[40px] lg:w-[40px]">
         {icon}
       </span>
       <span className="min-w-0 text-left leading-tight">
@@ -98,11 +98,11 @@ function StatItem({
     <div
       className={
         boxed
-          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-black/10 bg-white px-3.5 py-3.5 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
-          : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
+          ? "flex w-full items-center gap-3 rounded-[14px] border border-black/10 bg-white px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+          : "flex items-center gap-3 px-1 py-2.5 lg:gap-2.5 lg:px-0 lg:py-0"
       }
     >
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[11px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[34px] lg:w-[34px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
       <span className="min-w-0 leading-tight">
@@ -132,17 +132,17 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`rts-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-6 ${className}`}
+      className={`rts-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-5 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[48px] lg:w-[48px]">
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[44px] lg:w-[44px]">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
+        <span className="block text-[14px] font-bold text-[#0b0b0b] lg:text-[15px]">
           {title}
         </span>
-        <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
+        <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[10px] lg:tracking-[0.18em]">
           {subtitle}
         </span>
       </span>
@@ -152,7 +152,7 @@ function FloatChip({
 
 export default function ReadyToSendSection() {
   return (
-    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+    <section className="bg-[#FEFBF6] py-6 sm:py-8">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-[28px] bg-[#FEF3E1] sm:rounded-[32px]">
         {/* Background — same shell as Going same way / Need a ride */}
@@ -181,11 +181,11 @@ export default function ReadyToSendSection() {
           </div>
         </div>
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-5 xl:px-10">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-5 lg:px-9 lg:py-5 xl:px-10">
           {/* ── Content ── */}
-          <div className="relative z-10 w-full px-5 pb-0 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-0 pt-6 sm:px-7 lg:w-[46%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+            <div className="mb-3.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-4">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -196,22 +196,22 @@ export default function ReadyToSendSection() {
             </div>
 
             {/* Heading */}
-            <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
-              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
+            <h2 className="mb-3 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-3.5">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[50px]">
                 Ship it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[50px]"
                 style={{ fontStyle: "italic" }}
               >
                 track it,
               </em>
-              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[50px]">
                 done.
               </span>
             </h2>
 
-            <div className="mb-5 max-w-[440px] space-y-2.5 text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
+            <div className="mb-4 max-w-[460px] space-y-2 text-[14px] leading-[1.5] text-[#4a4a45] lg:mb-5 lg:text-[15px] lg:leading-[1.55]">
               <p className="font-bold text-[#0b0b0b]">
                 Sending a parcel really doesn&apos;t need to be complicated.
               </p>
@@ -233,7 +233,7 @@ export default function ReadyToSendSection() {
             </div>
 
             {/* Store buttons */}
-            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
+            <div className="mb-4 grid grid-cols-2 gap-2.5 lg:mb-5 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -253,7 +253,7 @@ export default function ReadyToSendSection() {
             </div>
 
             {/* Stats — mobile: 3 full-width boxes; desktop: single card */}
-            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2.5 lg:hidden">
+            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2 lg:hidden">
               <StatItem
                 boxed
                 icon={
@@ -297,7 +297,7 @@ export default function ReadyToSendSection() {
                 label="Support"
               />
             </div>
-            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
+            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -312,7 +312,7 @@ export default function ReadyToSendSection() {
                 label="Rating"
               />
               <span
-                className="mx-5 block h-8 w-px bg-black/10"
+                className="mx-4 block h-7 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -329,7 +329,7 @@ export default function ReadyToSendSection() {
                 label="Parcels Delivered"
               />
               <span
-                className="mx-5 block h-8 w-px bg-black/10"
+                className="mx-4 block h-7 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -349,9 +349,9 @@ export default function ReadyToSendSection() {
           </div>
 
           {/* Visual + chips — same height shell as Going same way */}
-          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[350px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-5 lg:mt-0 lg:min-h-[310px] lg:flex-1 lg:px-0 lg:pb-0">
             <div
-              className="relative min-h-[320px] w-full sm:min-h-[380px] lg:hidden"
+              className="relative min-h-[240px] w-full sm:min-h-[280px] lg:hidden"
               aria-hidden="true"
             />
 
