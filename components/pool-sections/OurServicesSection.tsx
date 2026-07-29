@@ -136,7 +136,7 @@ const MOBILE_CARDS = [
     href: "/logistic",
     icon: "/images/taxi-stand/services/icon-logistics.png",
     title: "Logistics",
-    subtitle: "Enterprise",
+    subtitle: "Fleet support",
     video: LOGISTICS_VIDEO,
     ...CLEAN_MOBILE_CARDS.logistics,
   },
@@ -152,7 +152,7 @@ const MOBILE_CARDS = [
     href: "/trip",
     icon: "/images/taxi-stand/services/icon-trip.png",
     title: "Trip",
-    subtitle: "Plan journey",
+    subtitle: "City to city",
     video: TRIP_VIDEO,
     ...CLEAN_MOBILE_CARDS.trip,
   },
@@ -160,7 +160,7 @@ const MOBILE_CARDS = [
     href: "/delivery",
     icon: "/images/taxi-stand/services/icon-delivery.png",
     title: "Delivery",
-    subtitle: "Fast delivery",
+    subtitle: "Live tracking",
     video: DELIVERY_VIDEO,
     ...CLEAN_MOBILE_CARDS.delivery,
   },
@@ -180,10 +180,16 @@ export default function OurServicesSection() {
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
-          <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            Five services. One app. Built for every kind of journey across
-            Pakistan.
-          </p>
+          <div className="mx-auto max-w-lg space-y-2 text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
+            <p className="font-semibold text-[#0b0b0b]">
+              One app. Five ways to get where you need to go.
+            </p>
+            <p>
+              Whether you&apos;re commuting every day, sending a parcel,
+              planning a road trip, or managing business deliveries, Traveling
+              Partner brings everything together in one easy-to-use platform.
+            </p>
+          </div>
         </motion.div>
 
         <MobileServicesLayout
@@ -214,7 +220,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-delivery.png"
               icon="/images/taxi-stand/services/icon-delivery.png"
               title="Delivery"
-              subtitle="Fast delivery"
+              subtitle="Live tracking"
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
@@ -226,7 +232,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-logistics.png"
               icon="/images/taxi-stand/services/icon-logistics.png"
               title="Logistics"
-              subtitle="Enterprise"
+              subtitle="Fleet support"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
               video={LOGISTICS_VIDEO}
@@ -237,7 +243,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-trip.png"
               icon="/images/taxi-stand/services/icon-trip.png"
               title="Trip"
-              subtitle="Plan journey"
+              subtitle="City to city"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
               video={TRIP_VIDEO}

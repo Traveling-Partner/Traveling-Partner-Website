@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -116,7 +117,7 @@ export default function HeroSection() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
-              Share your ride · Save together
+              Eco-Friendly Travel
             </span>
           </div>
 
@@ -137,17 +138,29 @@ export default function HeroSection() {
             className="pool-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.18em] text-[#fdb813] sm:text-sm sm:tracking-[0.22em]"
             style={{ animationDelay: "140ms" }}
           >
-            Ride sharing · Free of extra fees
+            Ride together. Spend less.
           </p>
 
-          <p
-            className="pool-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+          <div
+            className="pool-hero-fade mb-8 max-w-md space-y-3 text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            Share your ride with others going the same way.
-            <br />
-            Split costs and travel greener.
-          </p>
+            <p>Some trips don&apos;t need an entire car to yourself.</p>
+            <p>
+              {emphasizePhrases(
+                "Share your trip with others heading in the same direction, split the fare and enjoy a smarter way to commute with Pool Ride. Going to work, university or home? An easy way to save money without compromising on comfort or safety.",
+                ["Pool Ride"],
+                "onLight",
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "We're a shared ride booking service that connects riders traveling similar routes to make daily commutes more affordable and take unnecessary cars off our roads.",
+                ["shared ride booking service"],
+                "onLight",
+              )}
+            </p>
+          </div>
 
           <div
             className="pool-hero-fade mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
@@ -173,8 +186,11 @@ export default function HeroSection() {
           >
             <LeafIcon className="h-4 w-4 text-[#2e7d32]" />
             <span className="text-[13px] text-[#4a4a45]">
-              <span className="font-normal text-[#6f6e68]">Eco-Friendly Travel ·</span>{" "}
-              <strong className="font-bold text-[#0b0b0b]">Commission-Free</strong>
+              {emphasizePhrases(
+                "Eco-Friendly Travel · Convenient · Fair Fares",
+                ["Eco-Friendly Travel", "Convenient", "Fair Fares"],
+                "onLight",
+              )}
             </span>
           </div>
         </div>

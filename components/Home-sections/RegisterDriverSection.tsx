@@ -127,7 +127,7 @@ function RegisterSubtext(): React.ReactElement {
         ["zero commission ride app"],
         "onDark",
       )}
-    </p>
+    </div>
   );
 }
 
