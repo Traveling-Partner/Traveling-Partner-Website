@@ -123,17 +123,21 @@ export default function DriveWithUsSection() {
                 Earn Money
               </motion.h2>
 
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.18 }}
-                className="mb-7 text-[16px] font-light italic text-white/90 sm:text-lg"
-              >
-                Drive and earn on your terms.
-              </motion.p>
-
               <ul className="mb-8 space-y-3.5 sm:mb-10 sm:space-y-4">
+                <motion.li
+                  initial={{ opacity: 0, x: 12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: 0.18 }}
+                  className="flex items-start gap-3"
+                >
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                    <CheckIcon />
+                  </span>
+                  <span className="text-[14px] leading-relaxed text-white sm:text-[15px]">
+                    Drive and earn on your terms.
+                  </span>
+                </motion.li>
                 {features.map((text, index) => (
                   <motion.li
                     key={text}

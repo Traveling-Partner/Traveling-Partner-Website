@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 /** Figma blog section — node 124:3829 */
 const SECTION_COPY =
-  "Discover a journal of success stories and insightful case studies that illuminate the journey of Pakistan's mobility revolution.";
+  "Explore travel tales, tips, and updates from our community. Get inspired and join the journey today! From breathtaking landscapes to hidden gems, let's make memories together.";
 
 const accentClass =
   "font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";

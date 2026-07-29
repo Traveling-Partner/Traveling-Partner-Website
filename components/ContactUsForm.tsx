@@ -266,8 +266,8 @@ export default function ContactUsForm(): React.ReactElement {
             </h2>
 
             <p className="mt-5 max-w-[500px] font-poppins text-[14px] font-normal leading-[1.65] text-white sm:mt-6 sm:text-[15px] lg:text-[16px]">
-              Save your time, drive on your own schedule, and enjoy fair commission-free
-              rides. Trusted, transparent mobility for every Pakistani commuter.
+              Have questions or need assistance? Our team is here to help you with any
+              inquiries about our services.
             </p>
 
             <PhoneCtaButton />
