@@ -113,8 +113,8 @@ function RegisterSubheadline(): React.ReactElement {
 
 function RegisterSubtext(): React.ReactElement {
   return (
-    <p
-      className="mx-auto text-center font-poppins font-normal text-white"
+    <div
+      className="mx-auto text-center font-poppins text-white"
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(12),
