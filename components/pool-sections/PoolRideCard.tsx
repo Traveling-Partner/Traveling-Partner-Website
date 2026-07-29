@@ -9,6 +9,9 @@ const FEATURES = [
   "0% commission",
 ] as const;
 
+const CARD_DESCRIPTION =
+  "Share your ride with people travelling in the same direction, split the fare, and make everyday commuting more affordable.";
+
 function SparkleIcon() {
   return (
     <svg
@@ -69,12 +72,7 @@ function DesktopContent() {
       </h3>
 
       <p className="mb-[7%] -mr-[6%] text-[11px] font-medium leading-[1.35] tracking-[-0.015em] text-[#3d3d3d] sm:text-[12px] lg:text-[13px]">
-        <span className="block whitespace-nowrap">
-          Share your ride with others going the same way.
-        </span>
-        <span className="block whitespace-nowrap">
-          Split costs and travel greener.
-        </span>
+        {CARD_DESCRIPTION}
       </p>
 
       <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
@@ -156,9 +154,7 @@ export default function PoolRideCard({
             </h3>
 
             <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
-              Share your ride with others going the same way.
-              <br />
-              Split costs and travel greener.
+              {CARD_DESCRIPTION}
             </p>
 
             <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-1">

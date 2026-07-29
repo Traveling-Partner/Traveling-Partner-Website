@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 type Feature = {
   tag: string;
@@ -10,6 +11,7 @@ type Feature = {
   imageAlt: string;
   title: ReactNode;
   description: string;
+  descriptionBold?: readonly string[];
   featured?: boolean;
   /** Light tag = white pill + black text (side cards); dark = black pill + white */
   tagLight?: boolean;
@@ -27,7 +29,7 @@ const features: Feature[] = [
       </>
     ),
     description:
-      "Enjoy the convenience of Traveling Partner’s pool ride service for both city and inter-city travel. Connect with users traveling in and out of the city for seamless and cost-effective rides.",
+      "Going to work, university, the airport, or meeting friends? Pool Ride works for both short city trips and longer routes, giving you a simple way to travel while sharing the cost with others heading the same way.",
     tagLight: true,
   },
   {
@@ -40,7 +42,8 @@ const features: Feature[] = [
       </>
     ),
     description:
-      "Choose our dedicated female-only option for secure and comfortable rides, with the ability to select female drivers or pool with other female passengers.",
+      "Travel with added confidence using female-only rides where available. It's a comfortable option for women who prefer to share their journey with female riders and verified female drivers.",
+    descriptionBold: ["female-only rides"],
     featured: true,
   },
   {
@@ -54,7 +57,8 @@ const features: Feature[] = [
       </>
     ),
     description:
-      "Stay informed in real-time with live tracking features. Whether you're in the city or on an inter-city journey, experience hassle-free tracking without additional charges.",
+      "Know exactly where your ride is from the moment it's booked until you arrive. Real-Time GPS Tracking lets you track your journey, share your live location, and travel with more confidence.",
+    descriptionBold: ["Real-Time GPS Tracking"],
     tagLight: true,
   },
 ];
@@ -121,7 +125,11 @@ function FeatureCard({
           {feature.title}
         </h3>
         <p className="text-[12px] leading-relaxed text-[#2a2a2a] sm:text-[13px]">
-          {feature.description}
+          {emphasizePhrases(
+            feature.description,
+            feature.descriptionBold ?? [],
+            "onLight",
+          )}
         </p>
       </div>
     </motion.article>
@@ -162,16 +170,21 @@ export default function FeaturesSection() {
           </div>
 
           <h2 className="mb-3 text-[clamp(28px,5.5vw,48px)] font-extrabold leading-[1.15] tracking-tight text-white">
-            Best Things Of{" "}
-            <em className="font-medium italic text-[#FCE001]">
-              Travel Partner
-            </em>
+            Best Things About{" "}
+            <em className="font-medium italic text-[#FCE001]">Pool Ride</em>
           </h2>
 
-          <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-white/85 sm:text-[15px]">
-            Every Pool Ride comes packed with features designed for convenience,
-            safety, and peace of mind.
-          </p>
+          <div className="mx-auto max-w-xl space-y-2 text-[14px] leading-relaxed text-white/85 sm:text-[15px]">
+            <p className="font-semibold text-white">
+              Everything you need for a better shared ride.
+            </p>
+            <p>
+              Each Pool Ride is designed to be a more affordable, comfortable,
+              and reliable way to get around every day. Whether you&apos;re
+              commuting to work or heading across the city, these features help
+              make every trip a little easier.
+            </p>
+          </div>
         </motion.div>
 
         {/* Cards */}

@@ -3,19 +3,32 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
-const benefitOne = [
-  "Share rides with others, reducing travel expenses.",
-  "Fewer vehicles on the road contribute to a greener environment.",
-  "Meet and interact with fellow travelers.",
-  "Share routes and save time during your commute.",
+type BenefitItem = {
+  text: string;
+  bold?: readonly string[];
+};
+
+const benefitOne: BenefitItem[] = [
+  { text: "Split your fare and lower your travel expenses." },
+  { text: "Meet people travelling in the same direction." },
+  { text: "Make your daily commute more affordable." },
+  { text: "Help reduce traffic congestion across the city." },
+  { text: "Support a greener, more sustainable way to travel." },
 ];
 
-const benefitTwo = [
-  "Option to choose between male or female-only rides for added comfort.",
-  "Fewer cars mean less congestion and smoother journeys.",
-  "Save money and meet new people.",
-  "Enjoy flexible scheduling and route choices.",
+const benefitTwo: BenefitItem[] = [
+  {
+    text: "Female-only ride options available where offered.",
+    bold: ["Female-only ride"],
+  },
+  { text: "Save on everyday travel without giving up comfort." },
+  { text: "Get matched with partners heading your way." },
+  {
+    text: "Track your journey in real time with verified drivers.",
+    bold: ["verified drivers"],
+  },
 ];
 
 function CheckIcon({ className = "" }: { className?: string }) {
@@ -41,7 +54,9 @@ type BenefitCardProps = {
   step: string;
   stepLabel: string;
   title: ReactNode;
-  items: string[];
+  intro?: string;
+  introBold?: readonly string[];
+  items: BenefitItem[];
   featured?: boolean;
   delay?: number;
 };
@@ -52,6 +67,8 @@ function BenefitCard({
   step,
   stepLabel,
   title,
+  intro,
+  introBold = [],
   items,
   featured = false,
   delay = 0,
@@ -115,6 +132,12 @@ function BenefitCard({
           {title}
         </h3>
 
+        {intro ? (
+          <p className="mb-3 text-[12px] leading-relaxed text-[#0b0b0b]/80 sm:text-[13px]">
+            {emphasizePhrases(intro, introBold, "onLight")}
+          </p>
+        ) : null}
+
         <div
           className={`mb-4 border-t border-dashed ${
             featured ? "border-black/30" : "border-black/12"
@@ -122,8 +145,8 @@ function BenefitCard({
         />
 
         <ul className="flex flex-col gap-3 sm:gap-3.5">
-          {items.map((text) => (
-            <li key={text} className="flex items-start gap-2.5 sm:gap-3">
+          {items.map((item) => (
+            <li key={item.text} className="flex items-start gap-2.5 sm:gap-3">
               <span
                 className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
                   featured
@@ -134,7 +157,7 @@ function BenefitCard({
                 <CheckIcon className="h-3 w-3" />
               </span>
               <span className="text-[13px] leading-relaxed text-[#0b0b0b] sm:text-[14px]">
-                {text}
+                {emphasizePhrases(item.text, item.bold ?? [], "onLight")}
               </span>
             </li>
           ))}
@@ -168,10 +191,13 @@ export default function BenefitsSection() {
             <em className="font-medium italic text-[#FDB813]">Pool Ride</em>
           </h2>
 
-          <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px]">
-            Save money, meet new people, and reduce your carbon footprint — all
-            in one simple shared ride.
-          </p>
+          <div className="mx-auto max-w-lg space-y-2 text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px]">
+            <p className="font-semibold text-[#0b0b0b]">One ride. More value.</p>
+            <p>
+              Sharing a ride isn&apos;t just about paying less. It&apos;s all
+              about making everyday travel easier for everyone.
+            </p>
+          </div>
         </motion.div>
 
         {/* Cards */}
@@ -189,6 +215,8 @@ export default function BenefitsSection() {
                 </em>
               </>
             }
+            intro="On a common route, choose Pool Ride and enjoy the benefits of cost-sharing."
+            introBold={["Pool Ride"]}
             items={benefitOne}
             delay={0.08}
           />
