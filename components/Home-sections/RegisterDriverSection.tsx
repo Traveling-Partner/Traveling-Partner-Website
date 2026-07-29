@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma Register section — 124:3589 (1920 × 1200) */
 const SECTION_W = 1920;
@@ -105,12 +106,11 @@ function RegisterSubtext(): React.ReactElement {
         lineHeight: 1.5,
       }}
     >
-      More than a ride. More than an app. Traveling Partner runs on three kinds of
-      people: drivers who want to actually keep what they earn, businesses that need
-      their deliveries handled without the runaround, and riders who just want to get
-      somewhere without overpaying for it. Drivers keep more of every fare with our
-      zero commission ride app. Businesses get flexible transport and delivery support
-      that scales as they grow.
+      {emphasizePhrases(
+        "More than a ride. More than an app. Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
+        ["zero commission ride app"],
+        "onDark",
+      )}
     </p>
   );
 }

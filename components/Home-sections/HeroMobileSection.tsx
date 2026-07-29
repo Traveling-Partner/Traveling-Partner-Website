@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { heroBottomFadeStyle } from "@/lib/heroBackground";
+import { HeroBodyCopy } from "@/lib/homeContentEmphasis";
 
 /** Figma mobile hero reference frame — 390px wide */
 const FW = 390;
@@ -27,26 +28,26 @@ const ACTIVE_DRIVERS_CARD_STYLE: React.CSSProperties = {
   maxWidth: cqw(258),
 };
 
-function ViewServicesButtonMobile(): React.ReactElement {
+function ExploreServicesButtonMobile(): React.ReactElement {
   return (
     <Link
       href="#services"
-      className="group inline-flex items-center justify-between rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] shadow-[0_12px_35px_rgba(11,11,11,0.18),0_4px_12px_rgba(11,11,11,0.12)] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813]"
+      className="group inline-flex items-center justify-between overflow-hidden rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] shadow-[0_12px_35px_rgba(11,11,11,0.18),0_4px_12px_rgba(11,11,11,0.12)] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813]"
       style={{
         height: cqw(52),
         width: cqw(272),
-        gap: cqw(14),
-        paddingLeft: cqw(32),
+        gap: cqw(8),
+        paddingLeft: cqw(24),
         paddingRight: cqw(12),
         paddingTop: cqw(10),
         paddingBottom: cqw(10),
       }}
     >
       <span
-        className="whitespace-nowrap font-poppins font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]"
-        style={{ fontSize: cqw(15) }}
+        className="min-w-0 whitespace-nowrap font-poppins font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]"
+        style={{ fontSize: cqw(13) }}
       >
-        View Services
+        Explore Services
       </span>
       <span
         className="flex shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001]"
@@ -192,16 +193,12 @@ export default function HeroMobileSection(): React.ReactElement {
             }}
           >
             <p>
-              Work in the morning. A pickup from the airport. A parcel that needs to
-              get across town. Or maybe you&apos;re just heading out of the city for
-              the weekend. Traveling Partner is a ride hailing app in Pakistan that
-              puts you in touch with verified drivers, at fair prices you can
-              actually see upfront, with real-time tracking the whole way.
+              <HeroBodyCopy />
             </p>
           </div>
 
           <div style={{ marginTop: cqw(20) }}>
-            <ViewServicesButtonMobile />
+            <ExploreServicesButtonMobile />
           </div>
         </div>
 

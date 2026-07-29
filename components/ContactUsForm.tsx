@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
 import CircularIndeterminate from "./loader";
 import { submitContactForm } from "@/services/contact";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma Contact — node 124:3877 */
 const PHONE_DISPLAY = "+92 333 300 1241";
@@ -266,12 +267,15 @@ export default function ContactUsForm(): React.ReactElement {
             </h2>
 
             <p className="mt-5 max-w-[500px] font-poppins text-[14px] font-normal leading-[1.65] text-white sm:mt-6 sm:text-[15px] lg:text-[16px]">
-              Need a ride to work? Heading to the airport? Sending a parcel across
-              town? Open the app, choose where you&apos;re going, and we&apos;ll take
-              care of the rest. Book a ride online, see your fare before the trip
-              starts, and ride with verified drivers from pickup to drop-off. From
-              city rides and airport transfer service to deliveries and business
-              travel, everything is managed in one simple app.
+              {emphasizePhrases(
+                "Need a ride to work? Heading to the airport? Sending a parcel across town? Open the app, choose where you're going, and we'll take care of the rest. Book a ride online, see your fare before the trip starts, and ride with verified drivers from pickup to drop-off. From city rides and airport transfer service to deliveries and business travel, everything is managed in one simple app.",
+                [
+                  "Book a ride online",
+                  "verified drivers",
+                  "airport transfer service",
+                ],
+                "onDark",
+              )}
             </p>
 
             <PhoneCtaButton />

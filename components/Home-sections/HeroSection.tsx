@@ -8,6 +8,7 @@ import {
   HERO_FRAME_WIDTH,
   heroBottomFadeStyle,
 } from "@/lib/heroBackground";
+import { HeroBodyCopy } from "@/lib/homeContentEmphasis";
 import { HeroBackgroundRoot } from "@/components/Home-sections/HeroBackground";
 import HeroMobileSection from "@/components/Home-sections/HeroMobileSection";
 
@@ -17,7 +18,7 @@ const FH = HERO_FRAME_HEIGHT;
 const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 
 /** Figma Component 2 — 124:3588 (267.09 × 81.45) */
-function ViewServicesButton({
+function ExploreServicesButton({
   className = "",
 }: {
   className?: string;
@@ -25,10 +26,10 @@ function ViewServicesButton({
   return (
     <Link
       href="#services"
-      className={`group relative box-border flex h-full w-full items-center gap-[21.5cqh] rounded-[100px] border-[1.78cqh] border-[#0b0b0b] bg-[#0b0b0b] pl-[14.7cqw] pr-[4.9cqw] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] ${className}`}
+      className={`group relative box-border flex h-full w-full items-center justify-between gap-[8cqh] overflow-hidden rounded-[100px] border-[1.78cqh] border-[#0b0b0b] bg-[#0b0b0b] pl-[11cqw] pr-[4.9cqw] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] ${className}`}
     >
-      <span className="whitespace-nowrap font-poppins text-[25cqh] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]">
-        View Services
+      <span className="min-w-0 whitespace-nowrap font-poppins text-[20cqh] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]">
+        Explore Services
       </span>
       <span className="flex h-[67.9cqh] w-[67.9cqh] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[26.8cqh] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001]">
         →
@@ -37,7 +38,7 @@ function ViewServicesButton({
   );
 }
 
-function ViewServicesButtonCompact({
+function ExploreServicesButtonCompact({
   className = "",
 }: {
   className?: string;
@@ -45,10 +46,10 @@ function ViewServicesButtonCompact({
   return (
     <Link
       href="#services"
-      className={`group inline-flex h-[54px] items-center gap-3 rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] py-2 pl-7 pr-2.5 shadow-[0_8px_24px_rgba(11,11,11,0.18)] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] sm:h-[56px] sm:gap-3 sm:pl-[27px] sm:pr-[9px] ${className}`}
+      className={`group inline-flex h-[54px] w-[220px] items-center justify-between gap-2 overflow-hidden rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] py-2 pl-5 pr-2.5 shadow-[0_8px_24px_rgba(11,11,11,0.18)] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] sm:h-[56px] sm:w-[228px] sm:gap-2.5 sm:pl-[22px] sm:pr-[9px] ${className}`}
     >
-      <span className="whitespace-nowrap font-poppins text-[15px] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b] sm:text-sm">
-        View Services
+      <span className="min-w-0 whitespace-nowrap font-poppins text-[13px] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b] sm:text-[13.5px]">
+        Explore Services
       </span>
       <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[15px] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001] sm:h-[38px] sm:w-[38px] sm:text-[15px]">
         →
@@ -96,11 +97,7 @@ function HeroSubtext({
       className={`font-poppins text-[13px] leading-[1.55] text-[#6f6e68] sm:text-[14px] sm:leading-[1.57] ${alignClass} ${className}`}
     >
       <p>
-        Work in the morning. A pickup from the airport. A parcel that needs to get
-        across town. Or maybe you&apos;re just heading out of the city for the
-        weekend. Traveling Partner is a ride hailing app in Pakistan that puts you
-        in touch with verified drivers, at fair prices you can actually see
-        upfront, with real-time tracking the whole way.
+        <HeroBodyCopy />
       </p>
     </div>
   );
@@ -279,11 +276,7 @@ export default function HeroSection(): React.ReactElement {
               }}
             >
               <p>
-                Work in the morning. A pickup from the airport. A parcel that needs
-                to get across town. Or maybe you&apos;re just heading out of the city
-                for the weekend. Traveling Partner is a ride hailing app in Pakistan
-                that puts you in touch with verified drivers, at fair prices you can
-                actually see upfront, with real-time tracking the whole way.
+                <HeroBodyCopy />
               </p>
             </div>
 
@@ -331,7 +324,7 @@ export default function HeroSection(): React.ReactElement {
                 height: pct(81.45, FH),
               }}
             >
-              <ViewServicesButton />
+              <ExploreServicesButton />
             </div>
           </div>
         </div>
@@ -343,7 +336,7 @@ export default function HeroSection(): React.ReactElement {
               <HeroHeadline size="tablet" align="center" />
               <HeroSubtext className="mt-4 max-w-[318px]" align="center" />
               <div className="mt-5">
-                <ViewServicesButtonCompact />
+                <ExploreServicesButtonCompact />
               </div>
             </div>
             <div className="-mx-6 mt-7 w-[calc(100%+48px)]">

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /**
  * Figma Smart Animate–style curves for Five Rides prototype.
@@ -25,6 +26,7 @@ type RideItem = {
   subtitle: string;
   listDescription: string;
   panelDescription: string;
+  boldPhrases?: readonly string[];
   features: string[];
   icon: string;
   panelIcon: string;
@@ -41,6 +43,7 @@ const RIDES: RideItem[] = [
       "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
     panelDescription:
       "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
+    boldPhrases: ["verified drivers", "no surge pricing"],
     features: ["Verified drivers", "Fixed fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
@@ -69,6 +72,7 @@ const RIDES: RideItem[] = [
       "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
     panelDescription:
       "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
+    boldPhrases: ["real time"],
     features: ["Same-day", "Live GPS", "Verified couriers"],
     icon: "/images/five-rides/icon-delivery.png",
     panelIcon: "/images/five-rides/panel-delivery.png",
@@ -97,6 +101,7 @@ const RIDES: RideItem[] = [
       "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
     panelDescription:
       "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
+    boldPhrases: ["verified driver", "intercity ride"],
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
     panelIcon: "/images/five-rides/panel-trip.png",
@@ -300,7 +305,7 @@ function DetailPanel({
                 className="mt-4 line-clamp-2 min-h-[2.6em] font-poppins text-[13.5px] font-normal leading-[1.3] text-[#0b0b0b]/78"
                 title={ride.panelDescription}
               >
-                {ride.panelDescription}
+                {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
 
               <div className="mt-4 flex flex-col items-start gap-2.5">
@@ -360,7 +365,7 @@ function DetailPanel({
                 className="mt-3 line-clamp-2 min-h-[3.1em] max-w-[380px] font-poppins text-[16px] font-normal leading-[1.55] text-[#0b0b0b]/80"
                 title={ride.panelDescription}
               >
-                {ride.panelDescription}
+                {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
               <div className="mt-auto flex flex-col items-start gap-3.5 pt-6">
                 {ride.features.map((feature) => (
@@ -612,7 +617,11 @@ function RideListItem({
           className="mt-1 block line-clamp-2 min-h-[2.5em] font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
           title={ride.listDescription}
         >
-          {ride.listDescription}
+          {emphasizePhrases(
+            ride.listDescription,
+            ride.boldPhrases ?? [],
+            "onDark",
+          )}
         </span>
       </span>
 
