@@ -183,8 +183,9 @@ export default function OurServicesSection() {
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
           <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            Five services. One app. Built for every kind of journey across
-            Pakistan.
+            Everything you need, all in one app. Traveling Partner pulls
+            together five services to make getting around and getting things
+            delivered a lot easier, wherever you are in Pakistan.
           </p>
         </motion.div>
 

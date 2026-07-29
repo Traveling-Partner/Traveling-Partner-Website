@@ -7,39 +7,39 @@ const STEPS = [
     step: "01",
     title: "Download the App",
     description:
-      "Get started with our easy-to-use mobile application in under 60 seconds.",
+      "Download Traveling Partner and create your account in just a few minutes.",
     icon: "/images/delivery/how-works/icon-01-phone.png",
     featured: true,
   },
   {
     step: "02",
-    title: "Add Details",
+    title: "Add Your Delivery Details",
     description:
-      "Date, time, items, pickup & drop-off addresses, contact number.",
+      "Pop in the pickup spot, where it's headed, who's receiving it, and a few details about the parcel itself.",
     icon: "/images/delivery/how-works/icon-02-clipboard.png",
     featured: false,
   },
   {
     step: "03",
-    title: "Choose Rider",
+    title: "Get Matched with a Rider",
     description:
-      "Select preferred gender (Male or Female) and courier of your choice.",
+      "We'll find you the closest available rider so pickup happens fast.",
     icon: "/images/delivery/how-works/icon-03-people.png",
     featured: false,
   },
   {
     step: "04",
-    title: "Confirm Rider",
+    title: "Confirm and You're Set",
     description:
-      "Review and confirm your selected delivery partner and negotiated fare.",
+      "Give the details and the fare a quick look, then hit confirm.",
     icon: "/images/delivery/how-works/icon-04-shield.png",
     featured: false,
   },
   {
     step: "05",
-    title: "Track Delivery",
+    title: "Track it",
     description:
-      "Driver reaches pickup location on time. Watch every step, live.",
+      "Follow your parcel in real time until it lands safely at its destination.",
     icon: "/images/delivery/how-works/icon-05-pin.png",
     featured: false,
   },
@@ -130,8 +130,7 @@ export default function HowDeliveryWorks() {
           </h2>
 
           <p className="mx-auto max-w-[480px] text-[13px] leading-[1.6] text-[#A8A8A8] sm:text-[14px]">
-            Five simple steps between you and a delivered parcel — from booking
-            to doorstep.
+            Sending a parcel is simple.
           </p>
         </div>
 

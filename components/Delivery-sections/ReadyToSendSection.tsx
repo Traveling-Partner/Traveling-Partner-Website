@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -210,11 +211,26 @@ export default function ReadyToSendSection() {
               </span>
             </h2>
 
-            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
-              Join thousands of senders across Pakistan using Traveling Partner
-              for fast, secure, and commission-free delivery. Download the app
-              and send your first parcel in minutes.
-            </p>
+            <div className="mb-5 max-w-[440px] space-y-2.5 text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
+              <p className="font-bold text-[#0b0b0b]">
+                Sending a parcel really doesn&apos;t need to be complicated.
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Book a rider, set your pickup time, and follow your parcel the whole way, from your doorstep to theirs, all in the same app.",
+                  ["follow your parcel the whole way", "all in the same app"],
+                )}
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Whether it's an important document, an order for a customer, or a gift for someone, Traveling Partner gets it there safely and on time.",
+                  ["safely and on time"],
+                )}
+              </p>
+              <p className="font-bold text-[#0b0b0b]">
+                Download the app and give it a try.
+              </p>
+            </div>
 
             {/* Store buttons */}
             <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
