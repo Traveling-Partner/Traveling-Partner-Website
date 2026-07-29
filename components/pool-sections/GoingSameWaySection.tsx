@@ -235,14 +235,12 @@ export default function GoingSameWaySection() {
               </span>
             </h2>
 
-            {/* Description — same single-block height as original */}
+            {/* Description — kept to ~original 3-line height */}
             <p className="mb-7 max-w-[420px] text-[15px] leading-[1.65] text-white/85 lg:mb-6 lg:text-base lg:text-[#b7b1a4]">
-              <strong className="font-bold text-white">
-                A smarter way to travel starts here.{" "}
-              </strong>
               {emphasizePhrases(
-                "Traveling Partner is your partner in booking a ride, sharing your commute, sending a parcel, or planning your next trip. Get there with less fuss and more value. Built into every journey, it's fair pricing, verified drivers, and real-time tracking from start to finish. Download the app today and travel the way you want.",
+                "A smarter way to travel starts here. Book a ride, share a commute, send a parcel, or plan a trip — fair pricing, verified drivers, and real-time tracking. Download the app today and travel the way you want.",
                 [
+                  "A smarter way to travel starts here.",
                   "verified drivers",
                   "real-time tracking",
                   "Download the app today and travel the way you want.",
