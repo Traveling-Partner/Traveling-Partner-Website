@@ -9,6 +9,7 @@ import MobileServicesLayout, {
   CLEAN_MOBILE_CARDS,
 } from "@/components/services/MobileServicesLayout";
 import { useInViewVideo } from "@/hooks/useInViewVideo";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
 const DELIVERY_MASK = "/images/taxi-stand/services/card-delivery-mask.png";
@@ -181,13 +182,14 @@ export default function OurServicesSection() {
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
-          <p className="mx-auto mb-2 max-w-xl text-[16px] font-semibold leading-snug text-[#0b0b0b] sm:text-[17px]">
+          <p className="mx-auto mb-3 max-w-lg text-[15px] font-semibold leading-relaxed text-[#0b0b0b] sm:text-base">
             One app. Different ways to get around.
           </p>
           <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
             {emphasizePhrases(
               "Whether you need a taxi service, want to share a ride, send a parcel, move business deliveries, or plan an out-of-town trip, Traveling Partner brings everything together in one place.",
               ["taxi service"],
+              "onLight",
             )}
           </p>
         </motion.div>

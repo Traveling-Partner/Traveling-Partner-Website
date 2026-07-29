@@ -26,7 +26,7 @@ const driverSteps: DriverStep[] = [
       </>
     ),
     description:
-      "Begin your journey by downloading the Traveling Partner App from your app store. Gain instant access to a world of convenient transportation and collaboration.",
+      "Install the driver app from the Play Store or App Store.",
     footer: "AVAILABLE ON IOS & ANDROID",
     imageSrc: "/images/taxi-stand/driver-icon-1.png",
   },
@@ -34,9 +34,9 @@ const driverSteps: DriverStep[] = [
     step: "2",
     stepLabel: "STEP - TWO",
     watermark: "02",
-    title: <>Register your account</>,
+    title: <>Submit Your Details</>,
     description:
-      "Register now! by verifying your mobile number to unlock exclusive benefits. Experience a smooth registration process for a secure and verified driver account.",
+      "CNIC, driving licence, vehicle registration all upload once, and you're done.",
     footer: "VERIFIED & SECURE PROCESS",
     imageSrc: "/images/taxi-stand/driver-icon-2.png",
     featured: true,
@@ -47,11 +47,12 @@ const driverSteps: DriverStep[] = [
     watermark: "03",
     title: (
       <>
-        Activate & <em className="font-medium italic text-[#FDB813]">drive</em>
+        Go Online &{" "}
+        <em className="font-medium italic text-[#FDB813]">find your partner</em>
       </>
     ),
     description:
-      "Complete your profile with your personal details and required documents. Enhance trust and visibility within the community while enjoying personalized features designed just for you.",
+      "Verification takes a short while. Once it's through, switch on and start accepting rides.",
     footer: "START EARNING RIGHT AWAY",
     imageSrc: "/images/taxi-stand/driver-icon-3.png",
   },
@@ -223,8 +224,8 @@ export default function ForDriversSection() {
           </h2>
 
           <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">
-            Three simple steps to start driving and earning with the Traveling
-            Partner platform.
+            Driving with a Traveling Partner is simple. Sign up, get verified,
+            and you&apos;re on the road — no long wait, no complicated process.
           </p>
         </motion.div>
 

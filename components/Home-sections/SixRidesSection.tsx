@@ -295,14 +295,14 @@ function DetailPanel({
                   <h3 className="font-poppins text-[clamp(26px,7.2vw,34px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-[#0b0b0b]">
                     {ride.titleWithPeriod}
                   </h3>
-                  <p className="mt-1.5 font-poppins text-[13.5px] font-semibold italic text-[#0b0b0b]/85 sm:text-[14px]">
+                  <p className="mt-1.5 font-poppins text-[12px] font-semibold italic text-[#0b0b0b]/65">
                     {ride.subtitle}
                   </p>
                 </div>
               </div>
 
               <p
-                className="mt-4 line-clamp-2 min-h-[2.6em] font-poppins text-[13.5px] font-normal leading-[1.3] text-[#0b0b0b]/78"
+                className="mt-4 font-poppins text-[13.5px] font-normal leading-[1.45] text-[#0b0b0b]/78"
                 title={ride.panelDescription}
               >
                 {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
@@ -637,11 +637,7 @@ function RideListItem({
           className="mt-1 block line-clamp-2 min-h-[2.5em] font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
           title={ride.listDescription}
         >
-          {emphasizePhrases(
-            ride.listDescription,
-            ride.boldPhrases ?? [],
-            "onDark",
-          )}
+          {emphasizePhrases(ride.listDescription, ride.boldPhrases ?? [], "onDark")}
         </span>
       </span>
 

@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 type PartnerStep = {
   step: string;
   stepLabel: string;
   watermark: string;
   title: ReactNode;
-  description: string;
+  description: ReactNode;
   footer: string;
   imageSrc: string;
   featured?: boolean;
@@ -26,7 +27,7 @@ const partnerSteps: PartnerStep[] = [
       </>
     ),
     description:
-      "Download our app now to seamlessly access a world of convenient and affordable travel. Your next journey is just a tap away!",
+      "Download the Traveling Partner app and create your account.",
     footer: "ONE TAP · ZERO WAIT",
     imageSrc: "/images/taxi-stand/driver-icon-1.png",
   },
@@ -34,9 +35,9 @@ const partnerSteps: PartnerStep[] = [
     step: "2",
     stepLabel: "STEP - TWO",
     watermark: "02",
-    title: <>Register & verify</>,
+    title: <>Register & Verify</>,
     description:
-      "Join the Traveling Partner community swiftly. Register, verify your mobile number, and unlock a world of convenience at your fingertips.",
+      "Add your details and verify your account to get started.",
     footer: "COMMUNITY · TRUST · ACCESS",
     imageSrc: "/images/taxi-stand/driver-icon-2.png",
     featured: true,
@@ -47,11 +48,14 @@ const partnerSteps: PartnerStep[] = [
     watermark: "03",
     title: (
       <>
-        Activate <em className="font-medium italic text-[#FDB813]">& ride</em>
+        Become a <em className="font-medium italic text-[#FDB813]">Partner</em>
       </>
     ),
-    description:
-      "Activate your account by providing your necessary personal details. Enjoy personalized services, enhanced security, and a more connected journey.",
+    description: emphasizePhrases(
+      "Complete your setup, start using the app, and book a ride online whenever you need one.",
+      ["book a ride online"],
+      "onLight",
+    ),
     footer: "YOU'RE ALL SET · RIDE NOW",
     imageSrc: "/images/taxi-stand/driver-icon-3.png",
   },
@@ -211,13 +215,13 @@ export default function ForPartnersSection() {
           </div>
 
           <h2 className="mb-4 text-[28px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
-            Explore the{" "}
-            <span className="font-medium text-[#FCE001]">Awesomeness!</span>
+            Let&apos;s Get You{" "}
+            <span className="font-medium text-[#FCE001]">Moving.</span>
           </h2>
 
           <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">
-            Join our community of riders in three easy steps and unlock a world
-            of convenient, affordable travel.
+            Create your account today and become a part of Traveling Partner in
+            just a few minutes.
           </p>
         </motion.div>
 

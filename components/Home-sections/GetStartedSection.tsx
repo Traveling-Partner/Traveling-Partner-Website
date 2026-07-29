@@ -31,7 +31,7 @@ const TUTORIALS: TutorialVideoData[] = [
       "https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239883/How_to_register_as_a_Driver_a01zuj.png",
   },
   {
-    id: "partner",
+    id: "rider",
     num: "02",
     badge: "TUTORIAL · RIDER",
     categoryLabel: "FOR RIDERS · QUICK SETUP",

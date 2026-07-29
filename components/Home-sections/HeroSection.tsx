@@ -17,7 +17,7 @@ const FH = HERO_FRAME_HEIGHT;
 
 const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 
-/** Figma Component 2 — 124:3588 (267.09 × 81.45) */
+/** Figma Component 2 — 124:3588 (267.09 × 81.45) — fixed outer size, slightly smaller label */
 function ExploreServicesButton({
   className = "",
 }: {
