@@ -61,8 +61,8 @@ function StepCard({
       className={[
         cardBase,
         item.featured
-          ? "flex min-h-[295px] flex-col border-2 border-solid !border-[#FCE001] shadow-[0_0_22px_rgba(252,224,1,0.32)]"
-          : "min-h-[230px] border border-white/[0.06]",
+          ? "flex min-h-[310px] flex-col border-2 border-solid !border-[#FCE001] shadow-[0_0_22px_rgba(252,224,1,0.32)]"
+          : "min-h-[255px] border border-white/[0.06]",
         className,
       ].join(" ")}
       style={
@@ -77,7 +77,7 @@ function StepCard({
         </span>
       </div>
 
-      <div className="mb-3.5 h-[64px] w-[64px] overflow-hidden rounded-[14px]">
+      <div className="mb-3.5 h-[64px] w-[64px] shrink-0 overflow-hidden rounded-[14px]">
         <Image
           src={item.icon}
           alt=""
@@ -145,7 +145,7 @@ export default function HowDeliveryWorks() {
             className="pointer-events-none absolute z-[5] h-[2px] bg-[#FCE001] max-xl:left-[calc((100%-2.5rem)/5-1px)] xl:left-[calc((100%-3rem)/5-1px)]"
             style={{
               right: "calc(10% - 6px)",
-              bottom: "calc(230px + 17px)",
+              bottom: "calc(255px + 17px)",
             }}
             aria-hidden="true"
           />
@@ -153,7 +153,7 @@ export default function HowDeliveryWorks() {
             className="pointer-events-none absolute z-[5] h-[10px] w-[10px] rounded-full bg-[#FCE001]"
             style={{
               right: "calc(10% - 11px)",
-              bottom: "calc(230px + 13px)",
+              bottom: "calc(255px + 13px)",
             }}
             aria-hidden="true"
           />
@@ -189,7 +189,7 @@ export default function HowDeliveryWorks() {
               item={item}
               className={[
                 "w-[min(78vw,230px)] shrink-0 snap-center p-3.5 sm:w-[210px] sm:p-4",
-                item.featured ? "!min-h-[275px]" : "!min-h-[210px]",
+                item.featured ? "!min-h-[290px]" : "!min-h-[240px]",
               ].join(" ")}
             />
           ))}
