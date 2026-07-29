@@ -3,11 +3,27 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
-/** Figma blog section — node 124:3829 */
-const SECTION_COPY =
-  "What actually matters when you're choosing a ride app — we break it down. Pricing, safety, coverage — a straight comparison so you can pick what fits. Where to find a fair price without cutting corners on safety.";
+/** Figma blog section — node 124:3829 · content from revised home doc */
+const FEATURED_POSTS = [
+  {
+    title: "Best Ride Booking App in Pakistan (2026 Guide)",
+    description:
+      "What actually matters when you're choosing a ride app — we break it down.",
+  },
+  {
+    title: "Top 10 Taxi Booking Apps in Pakistan Compared",
+    description:
+      "Pricing, safety, coverage — a straight comparison so you can pick what fits.",
+  },
+  {
+    title: "Cheapest Ride Service in Pakistan",
+    description:
+      "Where to find a fair price without cutting corners on safety.",
+  },
+] as const;
 
 const accentClass =
   "font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
@@ -42,7 +58,7 @@ export default function BlogSection(): React.ReactElement {
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mb-[48px] text-center sm:mb-[56px] lg:mb-[64px]"
+          className="mb-[40px] text-center sm:mb-[48px] lg:mb-[56px]"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -55,9 +71,23 @@ export default function BlogSection(): React.ReactElement {
             Our blogs and <span className={accentClass}>news.</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-[692px] font-poppins text-[13px] font-normal leading-[1.65] text-white/80 sm:text-[14px] lg:mt-6 lg:text-[15px]">
-            {SECTION_COPY}
-          </p>
+          <ul className="mx-auto mt-6 grid max-w-[920px] gap-5 text-left sm:mt-7 sm:grid-cols-3 sm:gap-6 lg:mt-8 lg:gap-8">
+            {FEATURED_POSTS.map((post) => (
+              <li key={post.title}>
+                <Link
+                  href="/blog"
+                  className="group block h-full transition-opacity hover:opacity-90"
+                >
+                  <h3 className="font-poppins text-[15px] font-bold leading-[1.35] text-white sm:text-[16px] lg:text-[17px]">
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 font-poppins text-[13px] font-normal leading-[1.6] text-white/75 sm:text-[14px]">
+                    {post.description}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <motion.div
