@@ -1,101 +1,176 @@
 "use client";
 
-import { FaArrowRightLong } from "react-icons/fa6";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
-const features = [
+const FEATURES = [
   {
-    title: "Trained & Verified Couriers",
+    step: "01",
+    titleBold: "Trained &",
+    titleItalic: "Verified Couriers.",
     description:
-      "Every parcel goes through a trained, verified courier who actually knows how to handle a delivery properly.",
+      "Every parcel goes through a trained, verified courier who actually knows how to handle a delivery properly. Important documents, customer orders, whatever it is, it's treated with care.",
+    bold: ["trained, verified courier", "treated with care"] as const,
+    icon: "/images/delivery/how-works/icon-04-shield.png",
   },
   {
-    title: "Affordable Pricing",
+    step: "02",
+    titleBold: "Affordable",
+    titleItalic: "Pricing.",
     description:
-      "You'll know exactly what a delivery costs before you even book it. No surprise charges.",
+      "You'll know exactly what a delivery costs before you even book it. No surprise charges tacked on later, just a fair price for what you're actually getting.",
+    bold: [
+      "exactly what a delivery costs",
+      "No surprise charges",
+      "fair price",
+    ] as const,
+    icon: "/images/help-center/icon-payment.png",
   },
   {
-    title: "Expert Support",
+    step: "03",
+    titleBold: "Expert",
+    titleItalic: "Support.",
     description:
       "Got a question or something went sideways with a delivery? Our support team's there to sort it out, fast.",
+    bold: ["sort it out, fast"] as const,
+    icon: "/images/help-center/icon-chat.png",
   },
   {
-    title: "Save Time",
+    step: "04",
+    titleBold: "Save",
+    titleItalic: "Time.",
     description:
-      "Book a rider in a couple of minutes and let us take it from there. No extra trips across town.",
+      "Book a rider in a couple of minutes and let us take it from there. No extra trips across town, no standing around waiting.",
+    bold: ["couple of minutes", "No extra trips across town"] as const,
+    icon: "/images/logistic/services/icon-fast.png",
   },
-];
+] as const;
+
+const accentItalicClass =
+  "font-medium italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
 
 export default function WhyChooseUs() {
   return (
-    <div
-      className="relative bg-no-repeat bg-cover bg-center py-12"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D')",
-      }}
+    <section
+      className="relative w-full overflow-hidden bg-[#FDFBF0] py-10 sm:py-12 lg:py-[52px]"
+      aria-labelledby="why-choose-delivery-heading"
     >
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-10%,rgba(253,184,19,0.12),transparent_55%)]"
+        aria-hidden
+      />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Glass Card */}
-        <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-8 lg:p-12 shadow-2xl">
-          {/* Header */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-6">
-              <span className="w-2 h-2 bg-[#fce001] rounded-full animate-pulse"></span>
-              <span className="text-white text-sm font-bold uppercase tracking-wider">
-                Our Promise
-              </span>
-            </div>
-            <h2 className="text-white text-4xl lg:text-5xl font-black uppercase tracking-tight mb-3">
-              Why Choose{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">
-                Us?
-              </span>
-            </h2>
-            <p className="text-white/80 text-xl lg:text-2xl font-medium">
-              Delivery you can count on.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl text-white/70 text-sm lg:text-base leading-relaxed">
-              Every delivery matters to us, whether it&apos;s a personal parcel
-              or a business order. We built this service around one idea: get it
-              there fast, keep you in the loop, and don&apos;t drop the ball
-              between pickup and doorstep.
-            </p>
-            <div className="flex items-center justify-center gap-3 mt-6">
-              <div className="w-12 h-0.5 bg-white/30 rounded-full"></div>
-              <div className="w-2 h-2 bg-[#fce001] rounded-full rotate-45"></div>
-              <div className="w-12 h-0.5 bg-white/30 rounded-full"></div>
-            </div>
-          </div>
+      <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header — same language as Safety */}
+        <motion.header
+          className="mx-auto mb-7 max-w-[720px] text-center sm:mb-8 lg:mb-9"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2
+            id="why-choose-delivery-heading"
+            className="font-poppins text-[clamp(1.75rem,3.8vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.03em] text-[#0b0b0b]"
+          >
+            Why Choose <span className={accentItalicClass}>Us?</span>
+          </h2>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#fce001]/50 rounded-2xl p-4 lg:p-5 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="relative flex-shrink-0 w-12 h-12">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-xl transform group-hover:scale-110 transition-transform duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <FaArrowRightLong className="text-black text-xl transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-white text-lg font-bold uppercase tracking-wide mb-1 group-hover:text-[#000000] transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/60 text-sm group-hover:text-[#000000]">
-                    {feature.description}
-                  </p>
-                </div>
+          <p className="mt-2.5 font-poppins text-[15px] font-semibold text-[#0b0b0b] sm:text-base">
+            Delivery you can count on.
+          </p>
+
+          <p className="mx-auto mt-2.5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.55] text-[#5c5c5c] sm:text-[14px]">
+            {emphasizePhrases(
+              "Every delivery matters to us, whether it's a personal parcel or a business order. We built this service around one idea: get it there fast, keep you in the loop, and don't drop the ball between pickup and doorstep.",
+              ["get it there fast", "keep you in the loop"],
+            )}
+          </p>
+        </motion.header>
+
+        {/* Desktop — one row of 4 (laptop-friendly height) */}
+        <motion.div
+          className="hidden gap-4 lg:grid lg:grid-cols-4 lg:gap-5"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {FEATURES.map((feature) => (
+            <article
+              key={feature.step}
+              className="group flex h-full flex-col rounded-[24px] border border-[#0b0b0b]/[0.05] bg-white p-5 shadow-[0_12px_36px_rgba(11,11,11,0.06)] transition-transform duration-300 hover:-translate-y-1"
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#fce001] to-[#fdb813] p-[3px] shadow-[0_4px_14px_rgba(252,224,1,0.28)] ring-2 ring-white">
+                  <span className="h-full w-full overflow-hidden rounded-[13px]">
+                    <Image
+                      src={feature.icon}
+                      alt=""
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-cover"
+                    />
+                  </span>
+                </span>
+                <span className="font-poppins text-[11px] font-bold tracking-[0.14em] text-[#0b0b0b]/35">
+                  {feature.step}
+                </span>
               </div>
-            ))}
-          </div>
+
+              <h3 className="mb-2 font-poppins text-[clamp(1.05rem,1.4vw,1.25rem)] font-bold leading-[1.15] tracking-[-0.02em] text-[#0b0b0b]">
+                {feature.titleBold}{" "}
+                <span className={accentItalicClass}>{feature.titleItalic}</span>
+              </h3>
+
+              <p className="font-poppins text-[12px] font-normal leading-[1.55] text-[#5c5c5c] xl:text-[13px]">
+                {emphasizePhrases(feature.description, feature.bold)}
+              </p>
+            </article>
+          ))}
+        </motion.div>
+
+        {/* Mobile / tablet — 2×2 */}
+        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4 lg:hidden">
+          {FEATURES.map((feature, index) => (
+            <motion.article
+              key={feature.step}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20px" }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="flex flex-col rounded-[22px] border border-[#0b0b0b]/[0.05] bg-white p-4 shadow-[0_12px_32px_rgba(11,11,11,0.06)] sm:p-5"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[#fce001] to-[#fdb813] p-[2.5px] shadow-[0_4px_12px_rgba(252,224,1,0.25)] ring-2 ring-white">
+                  <span className="h-full w-full overflow-hidden rounded-[10px]">
+                    <Image
+                      src={feature.icon}
+                      alt=""
+                      width={44}
+                      height={44}
+                      className="h-full w-full object-cover"
+                    />
+                  </span>
+                </span>
+                <span className="font-poppins text-[10px] font-bold tracking-[0.14em] text-[#0b0b0b]/35">
+                  {feature.step}
+                </span>
+              </div>
+
+              <h3 className="mb-1.5 font-poppins text-[1.05rem] font-bold leading-[1.15] tracking-[-0.02em] text-[#0b0b0b]">
+                {feature.titleBold}{" "}
+                <span className={accentItalicClass}>{feature.titleItalic}</span>
+              </h3>
+
+              <p className="font-poppins text-[12px] font-normal leading-[1.5] text-[#5c5c5c] sm:text-[13px]">
+                {emphasizePhrases(feature.description, feature.bold)}
+              </p>
+            </motion.article>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
