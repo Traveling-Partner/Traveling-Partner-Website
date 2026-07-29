@@ -54,7 +54,7 @@ const SAFETY_ITEMS: SafetyItem[] = [
     titleBold: "Safe &",
     titleItalic: "Secure.",
     description:
-      "Real-time GPS tracking on every ride, family-shared location, and CNIC-verified drivers — built into every trip, no toggle required.",
+      "Every ride is monitored from pickup to drop-off with real-time tracking. Share your trip, stay updated, and travel knowing someone always knows where you are.",
     href: "/help",
   },
   {
@@ -68,16 +68,16 @@ const SAFETY_ITEMS: SafetyItem[] = [
     titleBold: "Female Driver",
     titleItalic: "Mode.",
     description:
-      "A reassuring option for female riders — paired with verified female drivers, dedicated support, and priority emergency response.",
+      "Need a female driver? Choose Female Driver Mode while booking and enjoy a more comfortable ride whenever available.",
     href: "/help",
   },
   {
     kind: "text",
     icon: <SafetyFeatureIcon src="/images/safety/icon-verified.png" />,
     titleBold: "Verified",
-    titleItalic: "drivers only.",
+    titleItalic: "Drivers Only.",
     description:
-      "Every driver goes through CNIC verification, license checks, and a safety training module — no exceptions, no shortcuts.",
+      "Not everyone can drive with a Traveling Partner. Every driver goes through a verification process before accepting rides, so you know who's picking you up.",
     href: "/help",
   },
   {
@@ -89,9 +89,9 @@ const SAFETY_ITEMS: SafetyItem[] = [
     kind: "text",
     icon: <SafetyFeatureIcon src="/images/safety/icon-sos.png" />,
     titleBold: "SOS &",
-    titleItalic: "24/7 support.",
+    titleItalic: "24/7 Support.",
     description:
-      "One-tap emergency button connected to our live response team, plus 24/7 in-app support that's actually staffed by humans.",
+      "Plans don't always go as expected. If something comes up during your trip, use the SOS button or reach out to our support team. We'll help you as quickly as we can.",
     href: "/help",
   },
   {
@@ -207,7 +207,7 @@ function SafetyTextCard({
             : "group mt-3 inline-flex w-fit shrink-0 items-center gap-1.5 font-poppins text-[clamp(11px,1.05vw,13px)] font-semibold text-[#0b0b0b] underline decoration-[#0b0b0b]/25 underline-offset-[5px] transition-colors hover:decoration-[#0b0b0b] sm:text-[13px]"
         }
       >
-        More information
+        Learn More
         <span
           className={`flex h-7 w-7 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold leading-none text-white transition-transform ${
             isMobile ? "group-hover:-rotate-45" : "group-hover:translate-x-0.5"
@@ -318,8 +318,11 @@ export default function SafetySecuritySection(): React.ReactElement {
           </h2>
 
           <p className="mx-auto mt-4 max-w-[692px] font-poppins text-[14px] font-normal leading-[1.65] text-[#5c5c5c] sm:mt-5 sm:text-[14px] lg:mt-6 lg:text-[15px]">
-            Elevating Your Journey with Traveling Partner with Real-Time Tracking and
-            Reviews for Recognition, with Exclusive Female Options.
+            When you book a ride, you shouldn&apos;t have to wonder who&apos;s actually
+            driving. That&apos;s why we verify every driver on Traveling Partner before
+            they&apos;re allowed to accept a single ride. Add real-time GPS tracking and
+            support that&apos;s there when you need it, and you&apos;ve got a journey that
+            feels straightforward from pickup to drop-off.
           </p>
         </motion.header>
 

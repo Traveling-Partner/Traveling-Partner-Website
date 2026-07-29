@@ -75,10 +75,9 @@ function HeroHeadline({
       className={`font-poppins font-semibold leading-[0.98] tracking-[-0.03em] ${alignClass} ${className}`}
       style={{ fontSize: size === "tablet" ? tabletSize : mobileSize }}
     >
-      <span className="block text-[#fdb813]">Get to your</span>
-      <span className="block text-[#0b0b0b]">destination,</span>
-      <span className="block text-[#0b0b0b]">safe &amp;</span>
-      <span className="block text-[#0b0b0b]">secure.</span>
+      <span className="block text-[#fdb813]">One app,</span>
+      <span className="block text-[#0b0b0b]">Every way</span>
+      <span className="block text-[#0b0b0b]">to move.</span>
     </h1>
   );
 }
@@ -96,9 +95,13 @@ function HeroSubtext({
     <div
       className={`font-poppins text-[13px] leading-[1.55] text-[#6f6e68] sm:text-[14px] sm:leading-[1.57] ${alignClass} ${className}`}
     >
-      <p className="mb-0">Pakistan&apos;s smarter ride partner. Zero commission,</p>
-      <p className="mb-0">verified drivers, real-time tracking — built for the</p>
-      <p>daily commuter.</p>
+      <p>
+        Work in the morning. A pickup from the airport. A parcel that needs to get
+        across town. Or maybe you&apos;re just heading out of the city for the
+        weekend. Traveling Partner is a ride hailing app in Pakistan that puts you
+        in touch with verified drivers, at fair prices you can actually see
+        upfront, with real-time tracking the whole way.
+      </p>
     </div>
   );
 }
@@ -247,7 +250,7 @@ export default function HeroSection(): React.ReactElement {
                 letterSpacing: "-4.68px",
               }}
             >
-              <span className="block whitespace-nowrap">Get to your</span>
+              <span className="block whitespace-nowrap">One app,</span>
             </h1>
 
             <h1
@@ -261,9 +264,8 @@ export default function HeroSection(): React.ReactElement {
                 letterSpacing: "-4.68px",
               }}
             >
-              <span className="block whitespace-nowrap">destination,</span>
-              <span className="block whitespace-nowrap">safe &amp;</span>
-              <span className="block whitespace-nowrap">secure.</span>
+              <span className="block whitespace-nowrap">Every way</span>
+              <span className="block whitespace-nowrap">to move.</span>
             </h1>
 
             <div
@@ -276,9 +278,13 @@ export default function HeroSection(): React.ReactElement {
                 lineHeight: "1.55",
               }}
             >
-              <p className="mb-0">Pakistan&apos;s smarter ride partner. Zero commission,</p>
-              <p className="mb-0">verified drivers, real-time tracking — built for the</p>
-              <p>daily commuter.</p>
+              <p>
+                Work in the morning. A pickup from the airport. A parcel that needs
+                to get across town. Or maybe you&apos;re just heading out of the city
+                for the weekend. Traveling Partner is a ride hailing app in Pakistan
+                that puts you in touch with verified drivers, at fair prices you can
+                actually see upfront, with real-time tracking the whole way.
+              </p>
             </div>
 
             <div

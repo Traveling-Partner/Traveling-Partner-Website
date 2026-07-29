@@ -23,12 +23,12 @@ const SERVICES_ORBIT_DURATION_S = 88;
 const ORBIT_MAX_W = 700;
 
 const BODY_COPY =
-  "Easily move people, parcels, and partners across Pakistan — every category connected through one zero-commission platform. From daily commutes to enterprise logistics, Traveling Partner does the heavy lifting for you.";
+  "One app for every journey. Whether you need a taxi service, Pool Ride, parcel delivery, business logistics, or an out-of-town trip, Traveling Partner makes moving around Pakistan simple. Traveling Partner brings everyday travel, online taxi booking, and business transport under one roof with upfront fares, real-time GPS tracking, and drivers you can actually trust. It's what makes us the best ride booking app in Pakistan.";
 
 const STATS = [
-  { value: "6", suffix: "+", label: "SERVICE CATEGORIES" },
-  { value: "12", suffix: "+", label: "CITIES LIVE NOW" },
-  { value: "10K", suffix: "+", label: "ACTIVE RIDERS" },
+  { value: "5", suffix: "+", label: "SERVICE CATEGORIES" },
+  { value: "12K", suffix: "+", label: "RIDES EVERY MONTH" },
+  { value: "10K", suffix: "+", label: "ACTIVE USERS" },
 ] as const;
 
 type FigmaRect = { x: number; y: number; w: number; h: number };
@@ -434,7 +434,7 @@ export default function OurServicesSection(): React.ReactElement {
               className="font-poppins tracking-[-2.8px]"
             >
               <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
-                Six rides.
+                Five rides.
               </span>
               <span
                 className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}

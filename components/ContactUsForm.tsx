@@ -8,8 +8,8 @@ import CircularIndeterminate from "./loader";
 import { submitContactForm } from "@/services/contact";
 
 /** Figma Contact — node 124:3877 */
-const PHONE_DISPLAY = "+92 325 280 1261";
-const PHONE_HREF = "tel:+923252801261";
+const PHONE_DISPLAY = "+92 333 300 1241";
+const PHONE_HREF = "tel:+923333001241";
 
 const accentItalicClass =
   "font-poppins font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
@@ -266,8 +266,12 @@ export default function ContactUsForm(): React.ReactElement {
             </h2>
 
             <p className="mt-5 max-w-[500px] font-poppins text-[14px] font-normal leading-[1.65] text-white sm:mt-6 sm:text-[15px] lg:text-[16px]">
-              Have questions or need assistance? Our team is here to help you with any
-              inquiries about our services.
+              Need a ride to work? Heading to the airport? Sending a parcel across
+              town? Open the app, choose where you&apos;re going, and we&apos;ll take
+              care of the rest. Book a ride online, see your fare before the trip
+              starts, and ride with verified drivers from pickup to drop-off. From
+              city rides and airport transfer service to deliveries and business
+              travel, everything is managed in one simple app.
             </p>
 
             <PhoneCtaButton />

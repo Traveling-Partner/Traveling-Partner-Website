@@ -36,11 +36,11 @@ const RIDES: RideItem[] = [
     id: "taxi",
     title: "Taxi Stand",
     titleWithPeriod: "Taxi Stand.",
-    subtitle: "City rides",
+    subtitle: "Wherever you're going, let's get you there.",
     listDescription:
-      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
+      "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
     panelDescription:
-      "Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions.",
+      "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
     features: ["Verified drivers", "Fixed fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
@@ -50,11 +50,11 @@ const RIDES: RideItem[] = [
     id: "pool",
     title: "Pool Ride",
     titleWithPeriod: "Pool Ride.",
-    subtitle: "Shared trips",
+    subtitle: "Same route. Lower fare.",
     listDescription:
-      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
+      "Traveling the same direction as someone else? Split the cost. Pool Ride cuts down your travel expenses and keeps more cars off the road, a solid option for students, professionals, and anyone doing the same commute day after day.",
     panelDescription:
-      "Enjoy the benefits of shared rides without extra costs. Traveling Partner connects you with individuals willing to pool their rides at no additional commission fees.",
+      "Traveling the same direction as someone else? Split the cost. Pool Ride cuts down your travel expenses and keeps more cars off the road, a solid option for students, professionals, and anyone doing the same commute day after day.",
     features: ["Split fares", "Verified riders", "Eco-friendly"],
     icon: "/images/five-rides/icon-pool.png",
     panelIcon: "/images/five-rides/panel-pool.png",
@@ -64,11 +64,11 @@ const RIDES: RideItem[] = [
     id: "delivery",
     title: "Delivery",
     titleWithPeriod: "Delivery.",
-    subtitle: "Fast delivery",
+    subtitle: "Send it across town, without the wait.",
     listDescription:
-      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
+      "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
     panelDescription:
-      "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
+      "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
     features: ["Same-day", "Live GPS", "Verified couriers"],
     icon: "/images/five-rides/icon-delivery.png",
     panelIcon: "/images/five-rides/panel-delivery.png",
@@ -78,11 +78,11 @@ const RIDES: RideItem[] = [
     id: "logistics",
     title: "Logistics",
     titleWithPeriod: "Logistics.",
-    subtitle: "Enterprise",
+    subtitle: "Reliable transport for growing businesses.",
     listDescription:
-      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
+      "Running a retail store or managing enterprise operations, deliveries pile up fast and someone still has to sort them out. Our logistics solutions give you dedicated fleet support and delivery options built to keep pace as your business grows.",
     panelDescription:
-      "Traveling Partner serves as a hub to connect logistics services. By facilitating direct connections, users can manage logistics and transportation without additional commission fees.",
+      "Running a retail store or managing enterprise operations, deliveries pile up fast and someone still has to sort them out. Our logistics solutions give you dedicated fleet support and delivery options built to keep pace as your business grows.",
     features: ["Volume pricing", "Account manager", "Live dashboard"],
     icon: "/images/five-rides/icon-logistics.png",
     panelIcon: "/images/five-rides/panel-logistics.png",
@@ -92,11 +92,11 @@ const RIDES: RideItem[] = [
     id: "trip",
     title: "Trip",
     titleWithPeriod: "Trip.",
-    subtitle: "Plan journey",
+    subtitle: "Every journey deserves a comfortable ride.",
     listDescription:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
+      "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
     panelDescription:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions.",
+      "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
     panelIcon: "/images/five-rides/panel-trip.png",
@@ -722,8 +722,9 @@ export default function SixRidesSection(): React.ReactElement {
             </span>
           </h2>
           <p className="mx-auto mt-3 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
-            From daily commutes to enterprise logistics — every category, zero
-            commission, real-time tracking, every time.
+            However you move, we&apos;ve got a way. Everyday rides, shared trips,
+            deliveries, business logistics, or a trip out of town — each service is
+            built to make getting around Pakistan simpler and less of a headache.
           </p>
         </motion.div>
 

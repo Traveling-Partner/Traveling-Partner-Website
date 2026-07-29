@@ -21,7 +21,7 @@ const TUTORIALS: TutorialVideoData[] = [
     headlineLead: "How to register",
     headlineAccent: "as a driver.",
     description:
-      "CNIC verification, safety training, and your first paying ride — walked through end to end. Most drivers are earning within 24 hours.",
+      "Upload your documents, get verified, and you can start accepting rides. No fixed hours — drive when it actually works for you.",
     statLabel: "10K+ drivers already onboarded",
     stepsLabel: "3 STEPS",
     ctaLabel: "Watch Tutorial",
@@ -33,15 +33,15 @@ const TUTORIALS: TutorialVideoData[] = [
   {
     id: "partner",
     num: "02",
-    badge: "TUTORIAL · PARTNER",
-    categoryLabel: "FOR BUSINESS · ONBOARDING FLOW",
+    badge: "TUTORIAL · RIDER",
+    categoryLabel: "FOR RIDERS · QUICK SETUP",
     durationLabel: "1:49",
-    headerTitle: "How to register as a Partner",
+    headerTitle: "How to register as a rider",
     headlineLead: "How to register",
-    headlineAccent: "as a partner.",
+    headlineAccent: "as a rider.",
     description:
-      "Fleet setup, account verification, dashboard tour, and your first payout — designed for restaurants, retailers, and enterprise fleets ready to scale.",
-    statLabel: "50+ business partners onboarded",
+      "A couple of taps and you're set. Pop in your pickup and destination, and a verified driver's on the way, with the price shown upfront and the trip tracked the whole way.",
+    statLabel: "10K+ riders already onboarded",
     stepsLabel: "3 STEPS",
     ctaLabel: "Watch Tutorial",
     videoSrc:
@@ -89,25 +89,9 @@ export default function GetStartedSection(): React.ReactElement {
             <span className={`block ${accentClass}`}>minutes.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.6] text-white sm:text-[14px] lg:mt-6 lg:text-[15px] lg:leading-[1.65]">
-            <span className="md:hidden">
-              <span className="block whitespace-nowrap">
-                Whether you&apos;re signing up as a driver
-              </span>
-              <span className="block whitespace-nowrap">or partnering as a business —</span>
-              <span className="block whitespace-nowrap">
-                we&apos;ve got a step-by-step guide that walks
-              </span>
-              <span className="block whitespace-nowrap">you through every detail.</span>
-            </span>
-            <span className="hidden md:contents">
-              <span className="block">
-                Whether you&apos;re signing up as a driver or partnering as a business
-              </span>
-              <span className="block">
-                — we&apos;ve got a step-by-step guide that walks you through every
-              </span>
-              <span className="block">detail.</span>
-            </span>
+            Getting on the road with a Traveling Partner doesn&apos;t take much. Sign
+            up, verify a few details, and you&apos;re ready, whether you&apos;re
+            booking a ride or driving one.
           </p>
         </div>
 

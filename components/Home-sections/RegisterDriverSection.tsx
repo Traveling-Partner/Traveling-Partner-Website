@@ -105,13 +105,12 @@ function RegisterSubtext(): React.ReactElement {
         lineHeight: 1.5,
       }}
     >
-      <span className="block whitespace-nowrap">
-        Two networks, one mission — keep more of what you earn.
-      </span>
-      <span className="block whitespace-nowrap">
-        Whether you&apos;re behind the wheel or running the business,
-      </span>
-      <span className="block whitespace-nowrap">Traveling Partner is built around you.</span>
+      More than a ride. More than an app. Traveling Partner runs on three kinds of
+      people: drivers who want to actually keep what they earn, businesses that need
+      their deliveries handled without the runaround, and riders who just want to get
+      somewhere without overpaying for it. Drivers keep more of every fare with our
+      zero commission ride app. Businesses get flexible transport and delivery support
+      that scales as they grow.
     </p>
   );
 }
@@ -303,7 +302,7 @@ function RegisterSectionCanvas(): React.ReactElement {
           <RegisterCard
             href={DRIVER_HREF}
             eyebrow="FOR DRIVERS"
-            title="Register as a Driver"
+            title="Become a Driver"
             variant="driver"
           />
         </CtaSlot>
@@ -311,7 +310,7 @@ function RegisterSectionCanvas(): React.ReactElement {
           <RegisterCard
             href={PARTNER_HREF}
             eyebrow="FOR PARTNER"
-            title="Register as a Partner"
+            title="Partner With Us"
             variant="partner"
           />
         </CtaSlot>
