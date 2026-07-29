@@ -3,18 +3,35 @@
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const features = [
-  { title: "Experienced Couriers", description: "Professional handling" },
-  { title: "Affordable", description: "Best rates guaranteed" },
-  { title: "Expert Customer Service", description: "24/7 support" },
-  { title: "Save Time", description: "Quick delivery" },
+  {
+    title: "Trained & Verified Couriers",
+    description:
+      "Every parcel goes through a trained, verified courier who actually knows how to handle a delivery properly.",
+  },
+  {
+    title: "Affordable Pricing",
+    description:
+      "You'll know exactly what a delivery costs before you even book it. No surprise charges.",
+  },
+  {
+    title: "Expert Support",
+    description:
+      "Got a question or something went sideways with a delivery? Our support team's there to sort it out, fast.",
+  },
+  {
+    title: "Save Time",
+    description:
+      "Book a rider in a couple of minutes and let us take it from there. No extra trips across town.",
+  },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <div 
+    <div
       className="relative bg-no-repeat bg-cover bg-center py-12"
       style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D')"
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D')",
       }}
     >
       {/* Dark Overlay */}
@@ -23,18 +40,28 @@ export default function WhyChooseUs() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Glass Card */}
         <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-8 lg:p-12 shadow-2xl">
-          
           {/* Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-6">
               <span className="w-2 h-2 bg-[#fce001] rounded-full animate-pulse"></span>
-              <span className="text-white text-sm font-bold uppercase tracking-wider">Our Promise</span>
+              <span className="text-white text-sm font-bold uppercase tracking-wider">
+                Our Promise
+              </span>
             </div>
             <h2 className="text-white text-4xl lg:text-5xl font-black uppercase tracking-tight mb-3">
-              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Us?</span>
+              Why Choose{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">
+                Us?
+              </span>
             </h2>
             <p className="text-white/80 text-xl lg:text-2xl font-medium">
-              We are Fast, Affordable and Reliable
+              Delivery you can count on.
+            </p>
+            <p className="mx-auto mt-4 max-w-2xl text-white/70 text-sm lg:text-base leading-relaxed">
+              Every delivery matters to us, whether it&apos;s a personal parcel
+              or a business order. We built this service around one idea: get it
+              there fast, keep you in the loop, and don&apos;t drop the ball
+              between pickup and doorstep.
             </p>
             <div className="flex items-center justify-center gap-3 mt-6">
               <div className="w-12 h-0.5 bg-white/30 rounded-full"></div>
@@ -46,7 +73,7 @@ export default function WhyChooseUs() {
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
             {features.map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="group flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#fce001]/50 rounded-2xl p-4 lg:p-5 transition-all duration-300 hover:-translate-y-1"
               >
@@ -60,14 +87,13 @@ export default function WhyChooseUs() {
                   <h3 className="text-white text-lg font-bold uppercase tracking-wide mb-1 group-hover:text-[#000000] transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-white/60 text-sm  group-hover:text-[#000000]">
+                  <p className="text-white/60 text-sm group-hover:text-[#000000]">
                     {feature.description}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </div>

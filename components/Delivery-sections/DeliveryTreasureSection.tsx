@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { CSSProperties, ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 function AccentTitle({
   lead,
@@ -102,8 +103,10 @@ export default function DeliveryTreasureSection() {
           </h2>
 
           <p className="mx-auto max-w-[540px] text-[14px] leading-[1.65] text-[#6F6E68] sm:text-[15px]">
-            With the best service in Pakistan — reliable, transparent, and
-            always fee-free from your door to their doorstep.
+            {emphasizePhrases(
+              "Every delivery matters. We handle every delivery from pickup to your doorstep. Some deliveries are personal. Others keep your business moving. Whatever you're sending, Traveling Partner makes the process simple from pickup to delivery.",
+              ["Every delivery matters.", "from pickup to your doorstep"],
+            )}
           </p>
         </motion.div>
 
@@ -178,8 +181,10 @@ export default function DeliveryTreasureSection() {
               <AccentTitle lead="Hassle-Free" accent="Sending." />
             </h3>
             <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
-              Say goodbye to complexities of traditional delivery. Sending items
-              has never been this easy.
+              {emphasizePhrases(
+                "Sending a parcel should be easy. Book a pickup in minutes, add the delivery details, and we'll take care of the rest. You are going to be updated at every step.",
+                ["Book a pickup in minutes", "updated at every step"],
+              )}
             </p>
           </FeatureCardShell>
 
@@ -214,8 +219,10 @@ export default function DeliveryTreasureSection() {
               />
             </h3>
             <p className="relative z-[1] text-[13px] leading-[1.6] text-[#2A2A2A] sm:text-[14px]">
-              Vetted couriers handle your treasures with care and genuine
-              professionalism, every trip.
+              {emphasizePhrases(
+                "You can trust our dedicated couriers to deliver your goods professionally, safely and on time. Every delivery is treated with the care it deserves.",
+                ["dedicated couriers", "safely and on time"],
+              )}
             </p>
           </FeatureCardShell>
 
@@ -240,18 +247,18 @@ export default function DeliveryTreasureSection() {
                 <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#FCE001] px-2.5 py-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#0b0b0b]" />
                   <span className="text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[10px]">
-                    Zero Commission
+                    Clear Pricing
                   </span>
                 </div>
                 <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
-                  <span className="font-extrabold text-white">Cost-</span>
-                  <em className="font-medium italic text-[#FCE001]">
-                    Effective.
-                  </em>
+                  <span className="font-extrabold text-white">Affordable.</span>
                 </h3>
                 <p className="text-[13px] leading-[1.6] text-[#C8C7C1] sm:text-[14px]">
-                  Our commission-free approach means no hidden fees eating into
-                  your budget. Negotiate directly, pay only what you agreed.
+                  {emphasizePhrases(
+                    "Pay only for what you need. No hidden fees, clear pricing. You'll always know the cost of delivery before confirming your booking.",
+                    ["No hidden fees", "clear pricing", "cost of delivery"],
+                    "onDark",
+                  )}
                 </p>
               </div>
             </div>
@@ -281,7 +288,10 @@ export default function DeliveryTreasureSection() {
               <AccentTitle lead="Track Your" accent="Package." />
             </h3>
             <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
-              Real-time GPS tracking gives you peace of mind at every step.
+              {emphasizePhrases(
+                "See real time delivery tracking from pickup to delivery. Follow your parcel every step of the way and know exactly when it reaches its destination.",
+                ["real time delivery tracking", "from pickup to delivery"],
+              )}
             </p>
           </FeatureCardShell>
 
@@ -326,8 +336,10 @@ export default function DeliveryTreasureSection() {
                   </em>
                 </h3>
                 <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
-                  Join a supportive community connecting reliable couriers with
-                  fellow senders across Pakistan — trust, built together.
+                  {emphasizePhrases(
+                    "Behind every successful delivery is a growing network of dedicated riders helping people and businesses stay connected across Pakistan.",
+                    ["dedicated riders", "across Pakistan"],
+                  )}
                 </p>
               </div>
             </div>

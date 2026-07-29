@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -108,7 +109,7 @@ export default function DeliveryHero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
-              Fast · Secure · Fee-Free
+              Deliver Anything
             </span>
           </div>
 
@@ -129,19 +130,30 @@ export default function DeliveryHero() {
             className="delivery-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.18em] text-[#fdb813] sm:text-sm sm:tracking-[0.22em]"
             style={{ animationDelay: "140ms" }}
           >
-            Connecting senders &amp; couriers · Zero commission
+            Need to send something across town?
           </p>
 
-          <p
-            className="delivery-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+          <div
+            className="delivery-hero-fade mb-8 max-w-md space-y-3 text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            Sending and receiving items has never been easier. Our Delivery
-            service offers a commission-free platform that connects senders
-            directly with trusted couriers. Negotiate your own terms, track
-            every package in real time, and enjoy hassle-free item transfer
-            without hidden fees eating into your budget.
-          </p>
+            <p>
+              It could be paperwork. A customer order. A birthday gift. Or
+              something you forgot at home.
+            </p>
+            <p>
+              {emphasizePhrases(
+                "Open the app, book a rider, and we'll handle the rest. You can follow your parcel from pickup to delivery, so you're never left wondering where it is.",
+                ["follow your parcel from pickup to delivery"],
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "No complicated process. No hidden charges. Just delivery that works.",
+                ["No hidden charges", "Just delivery that works."],
+              )}
+            </p>
+          </div>
 
           <div
             className="delivery-hero-fade mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
@@ -174,10 +186,10 @@ export default function DeliveryHero() {
             />
             <span className="text-[13px] text-[#4a4a45]">
               <span className="font-normal text-[#6f6e68]">
-                Real-Time Tracking ·
+                Pickup to delivery ·
               </span>{" "}
               <strong className="font-bold text-[#0b0b0b]">
-                Zero Hidden Fees
+                No hidden charges
               </strong>
             </span>
           </div>

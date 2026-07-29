@@ -2,11 +2,19 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const FEATURES = [
   "Door to door",
   "Live tracking",
   "0% commission",
+] as const;
+
+const CARD_COPY =
+  "Send documents, parcels, or business orders and track them the whole way, with verified couriers and pricing you know upfront.";
+const CARD_BOLD = [
+  "verified couriers",
+  "pricing you know upfront",
 ] as const;
 
 function SparkleIcon() {
@@ -69,7 +77,7 @@ function DesktopContent() {
       </h3>
 
       <p className="mb-[7%] max-w-[220px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
-        Fee-free parcel delivery from your door to theirs.
+        {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
       <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
@@ -153,9 +161,7 @@ export default function DeliveryCard({
             </h3>
 
             <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
-              Fee-free parcel delivery from your door to theirs.
-              <br />
-              Track every step, live.
+              {emphasizePhrases(CARD_COPY, CARD_BOLD)}
             </p>
 
             <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-1">
