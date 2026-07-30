@@ -133,7 +133,7 @@ function BenefitCard({
         </h3>
 
         {intro ? (
-          <p className="mb-3 text-[12px] leading-relaxed text-[#0b0b0b]/80 sm:text-[13px]">
+          <p className="mb-2 text-[12px] leading-snug text-[#0b0b0b]/80 sm:text-[13px]">
             {emphasizePhrases(intro, introBold, "onLight")}
           </p>
         ) : null}
@@ -144,7 +144,7 @@ function BenefitCard({
           }`}
         />
 
-        <ul className="flex flex-col gap-3 sm:gap-3.5">
+        <ul className="flex flex-col gap-2 sm:gap-2.5">
           {items.map((item) => (
             <li key={item.text} className="flex items-start gap-2.5 sm:gap-3">
               <span
@@ -156,7 +156,7 @@ function BenefitCard({
               >
                 <CheckIcon className="h-3 w-3" />
               </span>
-              <span className="text-[13px] leading-relaxed text-[#0b0b0b] sm:text-[14px]">
+              <span className="text-[13px] leading-snug text-[#0b0b0b] sm:text-[14px]">
                 {emphasizePhrases(item.text, item.bold ?? [], "onLight")}
               </span>
             </li>
@@ -191,7 +191,7 @@ export default function BenefitsSection() {
             <em className="font-medium italic text-[#FDB813]">Pool Ride</em>
           </h2>
 
-          <div className="mx-auto max-w-lg space-y-2 text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px]">
+          <div className="mx-auto max-w-lg space-y-1 text-[14px] leading-snug text-[#5c5b55] sm:text-[15px]">
             <p className="font-semibold text-[#0b0b0b]">One ride. More value.</p>
             <p>
               Sharing a ride isn&apos;t just about paying less. It&apos;s all

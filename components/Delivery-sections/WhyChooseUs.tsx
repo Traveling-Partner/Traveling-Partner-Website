@@ -53,7 +53,7 @@ const accentItalicClass =
 export default function WhyChooseUs() {
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#FDFBF0] py-10 sm:py-12 lg:py-[52px]"
+      className="relative w-full overflow-hidden bg-[#FDFBF0] py-8 sm:py-10 lg:py-10"
       aria-labelledby="why-choose-delivery-heading"
     >
       <div
@@ -64,7 +64,7 @@ export default function WhyChooseUs() {
       <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header — same language as Safety */}
         <motion.header
-          className="mx-auto mb-7 max-w-[720px] text-center sm:mb-8 lg:mb-9"
+          className="mx-auto mb-5 max-w-[720px] text-center sm:mb-6 lg:mb-7"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
@@ -81,7 +81,7 @@ export default function WhyChooseUs() {
             Delivery you can count on.
           </p>
 
-          <p className="mx-auto mt-2.5 max-w-[640px] font-poppins text-[13px] font-normal leading-[1.55] text-[#5c5c5c] sm:text-[14px]">
+          <p className="mx-auto mt-2 max-w-[640px] font-poppins text-[12px] font-normal leading-[1.45] text-[#5c5c5c] sm:text-[13px]">
             {emphasizePhrases(
               "Every delivery matters to us, whether it's a personal parcel or a business order. We built this service around one idea: get it there fast, keep you in the loop, and don't drop the ball between pickup and doorstep.",
               ["get it there fast", "keep you in the loop"],
@@ -100,7 +100,7 @@ export default function WhyChooseUs() {
           {FEATURES.map((feature) => (
             <article
               key={feature.step}
-              className="group flex h-full flex-col rounded-[24px] border border-[#0b0b0b]/[0.05] bg-white p-5 shadow-[0_12px_36px_rgba(11,11,11,0.06)] transition-transform duration-300 hover:-translate-y-1"
+              className="group flex h-full flex-col rounded-[24px] border border-[#0b0b0b]/[0.05] bg-white p-4 shadow-[0_12px_36px_rgba(11,11,11,0.06)] transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="mb-4 flex items-center justify-between">
                 <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#fce001] to-[#fdb813] p-[3px] shadow-[0_4px_14px_rgba(252,224,1,0.28)] ring-2 ring-white">
@@ -124,7 +124,7 @@ export default function WhyChooseUs() {
                 <span className={accentItalicClass}>{feature.titleItalic}</span>
               </h3>
 
-              <p className="font-poppins text-[12px] font-normal leading-[1.55] text-[#5c5c5c] xl:text-[13px]">
+              <p className="font-poppins text-[11px] font-normal leading-[1.4] text-[#5c5c5c] xl:text-[12px]">
                 {emphasizePhrases(feature.description, feature.bold)}
               </p>
             </article>

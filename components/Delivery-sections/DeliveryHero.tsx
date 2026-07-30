@@ -134,7 +134,7 @@ export default function DeliveryHero() {
           </p>
 
           <div
-            className="delivery-hero-fade mb-8 max-w-md space-y-3 text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+            className="delivery-hero-fade mb-6 max-w-md space-y-1.5 text-[14px] leading-[1.45] text-[#4a4a45] sm:text-[15px] sm:leading-[1.55]"
             style={{ animationDelay: "200ms" }}
           >
             <p>

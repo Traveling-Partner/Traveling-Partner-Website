@@ -174,7 +174,7 @@ export default function FeaturesSection() {
             <em className="font-medium italic text-[#FCE001]">Pool Ride</em>
           </h2>
 
-          <div className="mx-auto max-w-xl space-y-2 text-[14px] leading-relaxed text-white/85 sm:text-[15px]">
+          <div className="mx-auto max-w-xl space-y-1 text-[14px] leading-snug text-white/85 sm:text-[15px]">
             <p className="font-semibold text-white">
               Everything you need for a better shared ride.
             </p>
