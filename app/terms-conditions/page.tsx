@@ -13,9 +13,9 @@ type PinMode = "static" | "fixed" | "bottom";
 const CONTACT_ACTIONS = [
   {
     label: "Mail Us",
-    href: "mailto:hello@traveling-partner.com",
+    href: "mailto:support@traveling-partner.com",
     icon: "/images/terms/icon-contact-envelope.png",
-    detail: "hello@traveling-partner.com",
+    detail: "support@traveling-partner.com",
   },
   {
     label: "Call Us",
@@ -344,12 +344,7 @@ export default function TermsConditionsPage() {
                       </div>
 
                       <p className="mt-6 text-center text-[14px] leading-[1.75] text-[#5c5b55] sm:mt-8 sm:text-[15px]">
-                        <strong className="font-bold text-[#0b0b0b]">
-                          Thank you for choosing Travelling Partner.
-                        </strong>{" "}
-                        We are dedicated to streamlining transportation, logistics, and
-                        trip planning while ensuring a secure and efficient experience
-                        for the users.
+                        {termsClosingMessage}
                       </p>
                     </section>
                   );
