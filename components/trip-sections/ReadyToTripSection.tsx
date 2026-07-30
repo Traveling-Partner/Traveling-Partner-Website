@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -201,7 +202,7 @@ export default function ReadyToTripSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
-                Ready to trip?
+                Ready for your next trip?
               </span>
             </div>
 
@@ -221,9 +222,11 @@ export default function ReadyToTripSection() {
             </h2>
 
             <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-white/85 lg:mb-6 lg:text-base lg:leading-[1.65] lg:text-[#b7b1a4]">
-              Book your trip in advance or on the go with Traveling Partner. Get
-              real-time tracking, secure payments, and a smooth journey to your
-              destination.
+              {emphasizePhrases(
+                "Book a driver for travel in minutes and enjoy comfortable intercity travel in Pakistan. Verified intercity drivers, flexible departure times and clear prices from the moment you book.",
+                ["intercity travel in Pakistan", "Verified intercity drivers"],
+                "onDark",
+              )}
             </p>
 
             <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">

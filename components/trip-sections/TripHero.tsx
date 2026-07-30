@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -135,7 +136,7 @@ export default function TripHero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
-              Plan Your Perfect Trip
+              Intercity Travel
             </span>
           </div>
 
@@ -157,17 +158,17 @@ export default function TripHero() {
             className="trip-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.14em] text-[#fdb813] sm:text-sm sm:tracking-[0.18em]"
             style={{ animationDelay: "140ms" }}
           >
-            Organize Trips • No Added Commissions
+            Travel farther. Travel easier.
           </p>
 
           <p
             className="trip-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            Experience stress-free trip planning for family, friends, or school
-            outings with Traveling Partner. Our commission-free, self-negotiation
-            platform lets you pick your trip driver in a few clicks — seamless,
-            community-driven, convenient trip coordination.
+            {emphasizePhrases(
+              "Traveling Partner is the easy way to book intercity travel in Pakistan for people who want a reliable ride without the hassle. Whether you're looking for long-distance ride booking or want to book a driver for travel, you can plan your trip in minutes, travel with drivers you can trust, and know your fare from the moment your journey begins.",
+              ["intercity travel in Pakistan", "long-distance ride booking"],
+            )}
           </p>
 
           <div
@@ -195,10 +196,10 @@ export default function TripHero() {
             <PeopleIcon className="h-4 w-4 shrink-0 text-[#fdb813]" />
             <span className="text-[12px] text-[#4a4a45] sm:text-[13px]">
               <span className="font-normal text-[#6f6e68]">
-                Family • Friends • School Outings •
+                Verified drivers · Clear fares ·
               </span>{" "}
               <strong className="font-bold text-[#0b0b0b]">
-                Zero Commission
+                Book in minutes
               </strong>
             </span>
           </div>
