@@ -2,12 +2,25 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const goals = [
-  "Commission-Free Environment",
-  "Transform the Transportation Landscape",
-  "Facilitate Collaboration and Connectivity",
-  "User-Driven Flexibility",
+  {
+    title: "One App",
+    detail: "rides, delivery, logistics, and trips in one place",
+  },
+  {
+    title: "Fair Pricing",
+    detail: "know your fare before you book",
+  },
+  {
+    title: "Verified Network",
+    detail: "drivers and couriers you can trust",
+  },
+  {
+    title: "Everyday Convenience",
+    detail: "travel, send, or deliver whenever you need",
+  },
 ] as const;
 
 function CheckIcon() {
@@ -65,7 +78,7 @@ export default function AimOfTravelingPartner() {
                 className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6"
               >
                 <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
-                  Our Goals
+                  Our Mission
                 </span>
               </motion.div>
 
@@ -76,22 +89,32 @@ export default function AimOfTravelingPartner() {
                 transition={{ duration: 0.45, delay: 0.1 }}
                 className="mb-4 font-poppins text-[clamp(30px,4vw,48px)] font-extrabold leading-[1.12] tracking-tight text-white"
               >
-                Aim of Traveling{" "}
-                <span className="font-medium italic text-[#FCE001]">
-                  Partner.
-                </span>
+                Built for people who{" "}
+                <span className="font-medium italic text-[#FCE001]">move.</span>
               </motion.h2>
 
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.14 }}
-                className="mb-5 max-w-lg text-[14px] leading-relaxed text-white/70 sm:mb-6 sm:text-[16px] sm:leading-[1.65]"
+                className="mb-5 max-w-lg space-y-3 text-[14px] leading-relaxed text-white/70 sm:mb-6 sm:text-[16px] sm:leading-[1.65]"
               >
-                At Traveling Partner, we aim to redefine how people connect,
-                collaborate, and move within Pakistan by providing:
-              </motion.p>
+                <p>
+                  {emphasizePhrases(
+                    "No two journeys are the same. Some people need a ride across town. Others need to deliver customer orders or keep their business moving.",
+                    ["No two journeys are the same"],
+                    "onDark",
+                  )}
+                </p>
+                <p>
+                  {emphasizePhrases(
+                    "Our mission is simple: make everyday transportation and deliveries easier with services people can rely on.",
+                    ["services people can rely on"],
+                    "onDark",
+                  )}
+                </p>
+              </motion.div>
 
               <div
                 className="mb-5 border-t border-dashed border-white/15 sm:mb-6"
@@ -101,7 +124,7 @@ export default function AimOfTravelingPartner() {
               <ul className="flex flex-col gap-3.5 sm:gap-4">
                 {goals.map((goal, index) => (
                   <motion.li
-                    key={goal}
+                    key={goal.title}
                     initial={{ opacity: 0, x: 10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -114,8 +137,12 @@ export default function AimOfTravelingPartner() {
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
                       <CheckIcon />
                     </span>
-                    <span className="text-[14px] font-semibold text-white sm:text-[15px] md:text-[16px]">
-                      {goal}
+                    <span className="text-[14px] font-normal text-white/80 sm:text-[15px] md:text-[16px]">
+                      <strong className="font-bold text-white">
+                        {goal.title}
+                      </strong>
+                      {" — "}
+                      {goal.detail}
                     </span>
                   </motion.li>
                 ))}

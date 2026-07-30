@@ -20,11 +20,30 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ABOUT_DESCRIPTIONS = {
+  taxi: "Book city rides with verified drivers and upfront pricing.",
+  pool: "Share your journey with others travelling the same route and reduce your travel costs.",
+  delivery:
+    "Send documents, parcels, and business orders with real-time tracking from pickup to delivery.",
+  logistic: "Reliable transport and fleet support for businesses of every size.",
+  trip: "Travel between cities with verified drivers and flexible booking options.",
+} as const;
+
+const CONTACT_DESCRIPTIONS = {
+  taxi: "Book reliable city rides with verified drivers and upfront fares.",
+  pool: "Share your route with others and make everyday travel more affordable.",
+  delivery: "Send parcels with real-time tracking from pickup to destination.",
+  logistic: "Flexible transport and delivery support for businesses.",
+  trip: "Book comfortable intercity rides with verified drivers.",
+} as const;
+
+type ServiceKey = keyof typeof ABOUT_DESCRIPTIONS;
+
 type Service = {
   number: string;
   title: string;
   label: string;
-  description: string;
+  key: ServiceKey;
   image: string;
   icon: string;
   href: string;
@@ -39,8 +58,7 @@ const services: Service[] = [
     number: "01",
     title: "Taxi Stand",
     label: "City rides",
-    description:
-      "Verified city rides in seconds. Fair pricing, no surge, no hidden fees.",
+    key: "taxi",
     image: "/images/about/explore/card-taxi.png",
     icon: "/images/about/explore/icon-taxi.png",
     href: "/taxi-stand",
@@ -53,8 +71,7 @@ const services: Service[] = [
     number: "02",
     title: "Pool Ride",
     label: "Shared trips",
-    description:
-      "Share rides, split fares. Eco-friendly travel with fellow commuters.",
+    key: "pool",
     image: "/images/about/explore/card-pool.png",
     icon: "/images/about/explore/icon-pool.png",
     href: "/pool-ride",
@@ -67,8 +84,7 @@ const services: Service[] = [
     number: "03",
     title: "Delivery",
     label: "Fast delivery",
-    description:
-      "Send parcels city-wide with verified couriers. Live tracking, no fees.",
+    key: "delivery",
     image: "/images/about/explore/card-delivery.png",
     icon: "/images/about/explore/icon-delivery.png",
     href: "/delivery",
@@ -81,8 +97,7 @@ const services: Service[] = [
     number: "04",
     title: "Logistic",
     label: "Enterprise",
-    description:
-      "Business-grade freight & bulk transport. Reliable fleet, pro handling.",
+    key: "logistic",
     image: "/images/about/explore/card-logistic.png",
     icon: "/images/about/explore/icon-logistic.png",
     href: "/logistic",
@@ -95,8 +110,7 @@ const services: Service[] = [
     number: "05",
     title: "Trip",
     label: "Plan journey",
-    description:
-      "Plan multi-city journeys with vetted drivers. Perfect for family vacations.",
+    key: "trip",
     image: "/images/about/explore/card-trip.png",
     icon: "/images/about/explore/icon-trip.png",
     href: "/trip",
@@ -123,10 +137,12 @@ function ArrowIcon() {
 
 function ServiceCard({
   service,
+  description,
   compact,
   cardRef,
 }: {
   service: Service;
+  description: string;
   compact?: boolean;
   cardRef?: (el: HTMLDivElement | null) => void;
 }) {
@@ -283,7 +299,7 @@ function ServiceCard({
                     : "max-w-[158px] text-[11px] lg:text-[11.5px]"
                 }`}
               >
-                {service.description}
+                {description}
               </p>
 
               <span
@@ -303,11 +319,17 @@ function ServiceCard({
 /**
  * Explore Our Services — Figma fan + award-style GSAP unfold.
  */
-export default function ExploreOurServices() {
+export default function ExploreOurServices({
+  variant = "about",
+}: {
+  variant?: "about" | "contact";
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const fanRef = useRef<HTMLDivElement>(null);
   const cardEls = useRef<(HTMLDivElement | null)[]>([]);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const copy =
+    variant === "contact" ? CONTACT_DESCRIPTIONS : ABOUT_DESCRIPTIONS;
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -423,6 +445,7 @@ export default function ExploreOurServices() {
               <ServiceCard
                 key={service.number}
                 service={service}
+                description={copy[service.key]}
                 cardRef={(el) => {
                   cardEls.current[i] = el;
                 }}
@@ -440,7 +463,11 @@ export default function ExploreOurServices() {
           >
             {services.map((service) => (
               <div key={service.number} role="listitem">
-                <ServiceCard service={service} compact />
+                <ServiceCard
+                  service={service}
+                  description={copy[service.key]}
+                  compact
+                />
               </div>
             ))}
             {/* End spacer so last card can snap cleanly */}

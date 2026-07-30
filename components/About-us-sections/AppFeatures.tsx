@@ -19,56 +19,56 @@ const features: Feature[] = [
   {
     number: "01",
     icon: "/images/about/features/icon-handshake.png",
-    iconAlt: "Handshake — empowering connections",
-    title: "Empowering Connections",
+    iconAlt: "Real-time tracking",
+    title: "Real-Time Tracking",
     description:
-      "Join a community where passengers, drivers, couriers, and travelers collaborate without extra fees.",
+      "Keep an eye on your ride or parcel while it's on the move. Check its progress anytime until it reaches its destination.",
     variant: "white",
   },
   {
     number: "02",
     icon: "/images/about/features/icon-rocket.png",
-    iconAlt: "Rocket — revolutionizing mobility",
-    title: "Revolutionizing Mobility",
+    iconAlt: "Transparent pricing",
+    title: "Transparent Pricing",
     description:
-      "Experience a commission-free environment for taxis, shared rides, deliveries, logistics, and trip planning.",
+      "Know the price before you book. What you see is exactly what you pay.",
     variant: "yellow",
     rings: true,
   },
   {
     number: "03",
     icon: "/images/about/features/icon-globe.png",
-    iconAlt: "Globe network — community collaboration",
-    title: "Community-Driven Collaboration",
+    iconAlt: "Verified drivers",
+    title: "Verified Drivers",
     description:
-      "Be part of a platform connecting users with taxi stands, ride pools, couriers, logistics, and trip planners.",
+      "Every driver completes our verification process before joining the platform.",
     variant: "white",
   },
   {
     number: "04",
     icon: "/images/about/features/icon-search.png",
-    iconAlt: "Magnifying glass — transparent and empowering",
-    title: "Transparent & Empowering",
+    iconAlt: "Multiple services",
+    title: "Multiple Services",
     description:
-      "Benefit from transparent transactions, allowing users to negotiate and manage dealings independently.",
+      "Book a ride today, send a parcel tomorrow, or manage business logistics—all from the same app.",
     variant: "white",
   },
   {
     number: "05",
     icon: "/images/about/features/icon-stars.png",
-    iconAlt: "Stars — revamp your mobility",
-    title: "Revamp Your Mobility",
+    iconAlt: "One app for every journey",
+    title: "One App",
     description:
-      "Explore a fresh, commission-free approach to mobility prioritizing convenience, collaboration, and empowerment.",
+      "Ride booking, parcel delivery, business logistics, and intercity travel—all in one place.",
     variant: "dark",
   },
   {
     number: "06",
     icon: "/images/about/features/icon-map.png",
-    iconAlt: "Map pin — accessible nationwide",
-    title: "Accessible Nationwide",
+    iconAlt: "Everyday convenience",
+    title: "Everyday Convenience",
     description:
-      "This app is accessible anywhere in Pakistan where internet services are available.",
+      "Travel, send, or deliver whenever you need to, using one simple platform.",
     variant: "white",
   },
 ];
@@ -215,8 +215,7 @@ export default function AppFeatures() {
           </h2>
 
           <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
-            Six pillars that define how Traveling Partner is reshaping mobility
-            and connections across Pakistan.
+            Everything you need, all in one app.
           </p>
         </motion.div>
 

@@ -178,25 +178,28 @@ export default function GetTheAppSection() {
                 <span className="relative h-[6px] w-[6px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-[#fce001]">
-                Get the app
+                Need Help?
               </span>
             </div>
 
             <h2 className="mb-4 font-extrabold leading-[1.06] tracking-tight">
               <span className="block text-[34px] text-white sm:text-[36px]">
-                Connect. Book.
+                Need Help?
               </span>
               <em
                 className="mt-0.5 block text-[34px] font-medium italic text-[#FCE001] sm:text-[36px]"
                 style={{ fontStyle: "italic" }}
               >
-                Travel Smarter.
+                Get in touch.
               </em>
             </h2>
 
             <p className="mb-6 max-w-[320px] text-[13px] leading-[1.65] text-[#c8c2b6]">
-              Download the Traveling Partner app today and experience faster,
-              safer and commission-free rides — anytime, anywhere.
+              Questions about your account, a booking, a delivery, or our
+              business services? Our support team is here to help.{" "}
+              <strong className="font-bold text-white">
+                Get in touch whenever you need assistance.
+              </strong>
             </p>
 
             <div className="grid grid-cols-2 items-center gap-2.5">
@@ -242,25 +245,28 @@ export default function GetTheAppSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#fce001]">
-                Get the app
+                Need Help?
               </span>
             </div>
 
             <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight">
               <span className="block text-[40px] text-white xl:text-[46px]">
-                Connect. Book.
+                Need Help?
               </span>
               <em
                 className="mt-0.5 block text-[40px] font-medium italic text-[#FCE001] xl:text-[46px]"
                 style={{ fontStyle: "italic" }}
               >
-                Travel Smarter.
+                Get in touch.
               </em>
             </h2>
 
             <p className="max-w-[400px] text-[15px] leading-[1.65] text-[#c8c2b6]">
-              Download the Traveling Partner app today and experience faster,
-              safer and commission-free rides — anytime, anywhere.
+              Questions about your account, a booking, a delivery, or our
+              business services? Our support team is here to help.{" "}
+              <strong className="font-bold text-white">
+                Get in touch whenever you need assistance.
+              </strong>
             </p>
           </div>
 

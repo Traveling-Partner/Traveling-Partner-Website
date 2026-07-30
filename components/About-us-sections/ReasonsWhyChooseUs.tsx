@@ -15,40 +15,40 @@ type Reason = {
 const reasons: Reason[] = [
   {
     image: "/images/about/choose/card-community.png",
-    imageAlt: "Community gathering with Traveling Partner users",
+    imageAlt: "One app for every journey",
     title: (
       <>
-        Community-Centric{" "}
-        <span className="font-medium italic text-[#FCE001]">Approach.</span>
+        One{" "}
+        <span className="font-medium italic text-[#FCE001]">App.</span>
       </>
     ),
     description:
-      "Join a community of collaborative users. Traveling Partner isn't just an app; it's a platform that connects individuals for various services, creating a community-centric environment where everyone can contribute and benefit.",
+      "Ride booking, parcel delivery, business logistics, and intercity travel—all in one place.",
   },
   {
     image: "/images/about/choose/card-commission.png",
-    imageAlt: "Handshake between driver and passenger",
+    imageAlt: "Fair pricing with upfront fares",
     title: (
       <>
-        Commission-Free{" "}
-        <span className="font-medium italic">Transactions.</span>
+        Fair{" "}
+        <span className="font-medium italic">Pricing.</span>
       </>
     ),
     description:
-      "Enjoy the freedom of cost-effective transactions. Traveling Partner operates on a commission-free model, allowing users to save more while connecting for rides, deliveries, and logistics.",
+      "Know your fare before you book. No hidden fees. No unexpected costs.",
     featured: true,
   },
   {
     image: "/images/about/choose/card-empowerment.png",
-    imageAlt: "User booking a ride on Traveling Partner",
+    imageAlt: "Verified drivers and couriers",
     title: (
       <>
-        User{" "}
-        <span className="font-medium italic text-[#FCE001]">Empowerment.</span>
+        Verified{" "}
+        <span className="font-medium italic text-[#FCE001]">Network.</span>
       </>
     ),
     description:
-      "We believe in empowering users. With Traveling Partner, you have the autonomy to negotiate and decide on fares, fostering a flexible and personalized experience tailored to your preferences.",
+      "Every driver and courier completes our verification process before accepting bookings.",
   },
 ];
 
@@ -132,8 +132,8 @@ export default function ReasonsWhyChooseUs() {
           </h2>
 
           <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">
-            Three foundations that make Traveling Partner your ideal companion
-            for every journey.
+            Travel, send, or deliver whenever you need to, using one simple
+            platform.
           </p>
         </motion.div>
 

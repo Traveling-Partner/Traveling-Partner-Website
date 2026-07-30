@@ -11,15 +11,10 @@ import {
   type ReactNode,
 } from "react";
 import { motion } from "framer-motion";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import FormAlert from "@/components/FormAlert";
 import CircularIndeterminate from "@/components/loader";
 import { submitContactForm } from "@/services/contact";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const SUBJECTS = [
   "General Inquiry",
@@ -29,35 +24,15 @@ const SUBJECTS = [
   "Support",
 ] as const;
 
-const SOCIAL_LINKS = [
-  {
-    icon: FaFacebookF,
-    label: "Facebook",
-    href: "https://www.facebook.com/profile.php?id=61556082625668",
-  },
-  {
-    icon: FaXTwitter,
-    label: "X",
-    href: "https://x.com/PartnerP2D",
-  },
-  {
-    icon: FaInstagram,
-    label: "Instagram",
-    href: "https://www.instagram.com/travellpartnerr/",
-  },
-  {
-    icon: FaLinkedinIn,
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/traveling-partner",
-  },
-] as const;
-
 type FormFields = {
   fullName: string;
   email: string;
   phone: string;
   subject: string;
   message: string;
+  companyName: string;
+  businessType: string;
+  city: string;
 };
 
 const initialForm: FormFields = {
@@ -66,6 +41,9 @@ const initialForm: FormFields = {
   phone: "",
   subject: "General Inquiry",
   message: "",
+  companyName: "",
+  businessType: "",
+  city: "",
 };
 
 function PinIcon() {
@@ -338,11 +316,23 @@ export default function ContactFormSection() {
     e.preventDefault();
     setLoading(true);
     try {
+      const isBusiness = form.subject === "Business";
+      const message = isBusiness
+        ? [
+            `Company: ${form.companyName}`,
+            `Business type: ${form.businessType}`,
+            `Phone: ${form.phone}`,
+            `City: ${form.city}`,
+            "",
+            form.message.trim(),
+          ].join("\n")
+        : form.message.trim();
+
       await submitContactForm({
         name: form.fullName.trim(),
         email: form.email.trim(),
         subject: form.subject,
-        message: form.message.trim(),
+        message,
         phoneNumber: form.phone.trim(),
       });
       setStatus({ type: "success", message: "Message sent successfully!" });
@@ -375,6 +365,8 @@ export default function ContactFormSection() {
 
   const labelClass =
     "mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b]";
+
+  const isBusiness = form.subject === "Business";
 
   return (
     <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-12 sm:py-14 lg:py-16">
@@ -411,22 +403,27 @@ export default function ContactFormSection() {
           >
             <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
-                Reach Us
+                Contact Us
               </span>
             </div>
 
             <h2 className="mb-3 font-poppins text-[clamp(30px,4.2vw,44px)] font-extrabold leading-[1.05] tracking-tight text-white">
-              Let&apos;s{" "}
+              Send Us a{" "}
               <span className="font-medium italic text-[#FCE001]">
-                connect.
+                Message.
               </span>
             </h2>
 
-            <p className="mb-6 max-w-md text-[13px] leading-relaxed text-white/65 sm:mb-7 sm:text-[14px] sm:leading-[1.65]">
-              Whether you&apos;re a passenger, driver, courier, or business
-              partner — our team responds fast. Reach out through any channel
-              below, or send us a message using the form.
-            </p>
+            <div className="mb-6 max-w-md space-y-2 text-[13px] leading-relaxed text-white/65 sm:mb-7 sm:text-[14px] sm:leading-[1.65]">
+              <p>
+                Have a question? Need assistance? Want to learn more about
+                Traveling Partner?
+              </p>
+              <p>
+                Send us a message and our team will get back to you as soon as
+                possible.
+              </p>
+            </div>
 
             <div className="flex max-w-md flex-col gap-2.5 sm:gap-3">
               <ContactInfoCard
@@ -500,7 +497,7 @@ export default function ContactFormSection() {
                     Send us a message
                   </h3>
                   <p className="mt-0.5 text-[11px] text-[#6f6e68] sm:text-[12px]">
-                    We&apos;ll get back to you within 24 hours.
+                    Our team will get back to you as soon as possible.
                   </p>
                 </div>
               </div>
@@ -541,15 +538,18 @@ export default function ContactFormSection() {
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>
-                      Phone Number
+                      {isBusiness ? "Business Phone" : "Phone Number"}
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
+                      required={isBusiness}
                       value={form.phone}
                       onChange={onChange}
-                      placeholder="+92 3XX XXXXXXX"
+                      placeholder={
+                        isBusiness ? "Business phone" : "+92 3XX XXXXXXX"
+                      }
                       className={fieldClass}
                       disabled={loading}
                     />
@@ -564,11 +564,74 @@ export default function ContactFormSection() {
                       disabled={loading}
                       fieldClass={fieldClass}
                       onChange={(subject) =>
-                        setForm((prev) => ({ ...prev, subject }))
+                        setForm((prev) => ({
+                          ...prev,
+                          subject,
+                          ...(subject !== "Business"
+                            ? {
+                                companyName: "",
+                                businessType: "",
+                                city: "",
+                              }
+                            : {}),
+                        }))
                       }
                     />
                   </div>
                 </div>
+
+                {isBusiness ? (
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
+                    <div className="sm:col-span-2">
+                      <label htmlFor="companyName" className={labelClass}>
+                        Company Name
+                      </label>
+                      <input
+                        id="companyName"
+                        name="companyName"
+                        type="text"
+                        required
+                        value={form.companyName}
+                        onChange={onChange}
+                        placeholder="Company name"
+                        className={fieldClass}
+                        disabled={loading}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="businessType" className={labelClass}>
+                        Business Type
+                      </label>
+                      <input
+                        id="businessType"
+                        name="businessType"
+                        type="text"
+                        required
+                        value={form.businessType}
+                        onChange={onChange}
+                        placeholder="Business type"
+                        className={fieldClass}
+                        disabled={loading}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="city" className={labelClass}>
+                        City
+                      </label>
+                      <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        required
+                        value={form.city}
+                        onChange={onChange}
+                        placeholder="City"
+                        className={fieldClass}
+                        disabled={loading}
+                      />
+                    </div>
+                  </div>
+                ) : null}
 
                 <div>
                   <label htmlFor="message" className={labelClass}>

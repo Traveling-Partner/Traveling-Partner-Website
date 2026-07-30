@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -12,29 +11,26 @@ const APP_STORE_URL = "https://www.apple.com/app-store/";
 const cards = [
   {
     icon: "/images/trip/reliable/icon-quality.png",
-    iconAlt: "Verified drivers",
-    title: "Verified Drivers",
+    iconAlt: "Gold medal with star — best quality rides",
+    title: "Best Quality Rides",
     description:
-      "Enjoy greater peace of mind from pickup to destination with drivers who have successfully passed our verification process.",
-    bold: ["verification process"] as const,
+      "Experience top-tier comfort and safety with our meticulously maintained fleet and professional drivers.",
     featured: false,
   },
   {
     icon: "/images/trip/reliable/icon-time.png",
-    iconAlt: "Flexible scheduling",
-    title: "Flexible Scheduling",
+    iconAlt: "Stopwatch — faster than ever",
+    title: "Faster Than Ever",
     description:
-      "Choose your date and time. Reserve early or schedule your trip when you are ready.",
-    bold: ["Reserve early"] as const,
+      "Get to your destination quicker with our optimized routes and priority booking system.",
     featured: true,
   },
   {
     icon: "/images/trip/reliable/icon-cash.png",
-    iconAlt: "Transparent pricing",
-    title: "Transparent Pricing",
+    iconAlt: "Cash with prohibition mark — no cash hassle",
+    title: "No Cash Hassle",
     description:
-      "We show your fare BEFORE you confirm your booking, so you always know what you'll pay before the trip starts.",
-    bold: ["BEFORE you confirm your booking"] as const,
+      "Enjoy seamless digital payments. No need to worry about carrying cash or finding change.",
     featured: false,
   },
 ] as const;
@@ -181,11 +177,7 @@ export default function TripReliable() {
           </h2>
 
           <p className="font-poppins text-[15px] italic leading-relaxed text-white/75 sm:text-[17px] sm:leading-[1.55] md:text-[18px]">
-            {emphasizePhrases(
-              "Drivers are dedicated to offering a safe, comfortable and professional service from start to finish, so relax and enjoy the ride.",
-              ["safe, comfortable and professional"],
-              "onDark",
-            )}
+            Your trusted ride for every occasion!
           </p>
         </motion.div>
 
@@ -253,11 +245,7 @@ export default function TripReliable() {
                     isFeatured ? "text-[#0b0b0b]/75" : "text-white/60"
                   }`}
                 >
-                  {emphasizePhrases(
-                    card.description,
-                    card.bold,
-                    isFeatured ? "onLight" : "onDark",
-                  )}
+                  {card.description}
                 </p>
               </motion.article>
             );
