@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -151,18 +152,17 @@ export default function AboutHero() {
             className="about-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.14em] text-[#fdb813] sm:text-sm sm:tracking-[0.18em]"
             style={{ animationDelay: "140ms" }}
           >
-            Redefining Connections - Empowering Journeys
+            More than a ride. A better way to move.
           </p>
 
           <p
             className="about-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            Welcome to Traveling Partner, your revolutionary platform reshaping
-            connections and mobility across the vibrant landscape of Pakistan.
-            Dive into a transformative experience where seamless transport,
-            efficient deliveries, reliable logistics, and collaborative trip
-            planning converge under the banner of a commission-free ecosystem.
+            {emphasizePhrases(
+              "Every day, people need to get somewhere. Some are heading to work. Others are visiting family, sending an important parcel, or keeping their business running. Traveling Partner started with a simple idea to make everyday transportation easier. By bringing rides, deliveries, and logistics into one platform, we help people travel with confidence, drivers earn with flexibility, and businesses keep moving. Everything we build is focused on making every journey and delivery simpler, safer, and more reliable.",
+              ["one platform", "everyday transportation"],
+            )}
           </p>
 
           <div

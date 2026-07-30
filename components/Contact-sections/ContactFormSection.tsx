@@ -11,15 +11,10 @@ import {
   type ReactNode,
 } from "react";
 import { motion } from "framer-motion";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import FormAlert from "@/components/FormAlert";
 import CircularIndeterminate from "@/components/loader";
 import { submitContactForm } from "@/services/contact";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const SUBJECTS = [
   "General Inquiry",
@@ -27,29 +22,6 @@ const SUBJECTS = [
   "Business",
   "Partnership",
   "Support",
-] as const;
-
-const SOCIAL_LINKS = [
-  {
-    icon: FaFacebookF,
-    label: "Facebook",
-    href: "https://www.facebook.com/profile.php?id=61556082625668",
-  },
-  {
-    icon: FaXTwitter,
-    label: "X",
-    href: "https://x.com/PartnerP2D",
-  },
-  {
-    icon: FaInstagram,
-    label: "Instagram",
-    href: "https://www.instagram.com/travellpartnerr/",
-  },
-  {
-    icon: FaLinkedinIn,
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/traveling-partner",
-  },
 ] as const;
 
 type FormFields = {
@@ -411,7 +383,7 @@ export default function ContactFormSection() {
           >
             <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
-                Reach Us
+                Send Us a Message
               </span>
             </div>
 
@@ -423,9 +395,9 @@ export default function ContactFormSection() {
             </h2>
 
             <p className="mb-6 max-w-md text-[13px] leading-relaxed text-white/65 sm:mb-7 sm:text-[14px] sm:leading-[1.65]">
-              Whether you&apos;re a passenger, driver, courier, or business
-              partner — our team responds fast. Reach out through any channel
-              below, or send us a message using the form.
+              Have a question? Need assistance? Want to learn more about
+              Traveling Partner? Send us a message and our team will get back to
+              you as soon as possible.
             </p>
 
             <div className="flex max-w-md flex-col gap-2.5 sm:gap-3">
@@ -500,7 +472,7 @@ export default function ContactFormSection() {
                     Send us a message
                   </h3>
                   <p className="mt-0.5 text-[11px] text-[#6f6e68] sm:text-[12px]">
-                    We&apos;ll get back to you within 24 hours.
+                    Our team will get back to you as soon as possible.
                   </p>
                 </div>
               </div>

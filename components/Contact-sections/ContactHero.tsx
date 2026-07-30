@@ -104,8 +104,8 @@ export default function ContactHero() {
 
         {/* Subtitle — line break matches Figma */}
         <p className="mb-8 max-w-[560px] text-[15px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-base sm:leading-[1.7] md:mb-12">
-          Have questions or need assistance? Our team is here to help you with
-          <br className="hidden sm:inline" /> any inquiries about our services.
+          Have a question? Need assistance? Want to learn more about Traveling
+          Partner?
         </p>
 
         {/* Contact info bar */}

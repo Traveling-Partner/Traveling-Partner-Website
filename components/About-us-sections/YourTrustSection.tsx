@@ -197,27 +197,25 @@ export default function YourTrustSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
-                Your trust, our mission
+                One platform. Every journey.
               </span>
             </div>
 
             <h2 className="mb-4 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] lg:mb-6">
               <span className="text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
-                About{" "}
+                One Platform.{" "}
               </span>
               <em
                 className="text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
-                Us
+                Every Journey.
               </em>
             </h2>
 
             <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
-              At Traveling Partner, we are committed to simplifying transport
-              and delivery across Pakistan. Our platform connects thousands of
-              users with trusted partners for a seamless, secure, and reliable
-              experience.
+              Everything you need to travel, deliver, or move your business is
+              available in one app. Download the app and get started today.
             </p>
 
             <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">

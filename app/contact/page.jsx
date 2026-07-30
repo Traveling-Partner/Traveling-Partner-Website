@@ -12,7 +12,7 @@ export default function ContactPage() {
       <ContactHero />
       <ContactFormSection />
       <OurLocationSection />
-      <ExploreOurServices />
+      <ExploreOurServices variant="contact" />
       <GetTheAppSection />
     </div>
   );

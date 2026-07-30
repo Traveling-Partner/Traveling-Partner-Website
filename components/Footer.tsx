@@ -4,9 +4,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 const FOOTER_LINKS = {
   /** Interleaved for 2-column mobile: col1 = even indices, col2 = odd */
@@ -30,25 +29,6 @@ const FOOTER_LINKS = {
     { label: "Terms of Service", href: "/terms-conditions" },
   ],
 } as const;
-
-const SOCIAL_LINKS = [
-  {
-    icon: FaFacebook,
-    label: "Facebook",
-    href: "https://www.facebook.com/profile.php?id=61556082625668",
-  },
-  {
-    icon: FaInstagram,
-    label: "Instagram",
-    href: "https://www.instagram.com/travellpartnerr/",
-  },
-  { icon: FaXTwitter, label: "X", href: "https://x.com/PartnerP2D" },
-  {
-    icon: FaLinkedin,
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/traveling-partner",
-  },
-] as const;
 
 const PLAY_STORE_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_HREF = "https://www.apple.com/app-store/";
@@ -335,7 +315,7 @@ export default function Footer(): React.ReactElement {
             © {new Date().getFullYear()} Traveling Partner. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-3 sm:justify-end">
+          <div className="flex flex-wrap items-center gap-2.5 sm:justify-end sm:gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}

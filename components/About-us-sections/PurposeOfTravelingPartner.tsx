@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /**
  * Purpose of Traveling Partner — 1:1 Figma dark mission split.
@@ -62,7 +63,7 @@ export default function PurposeOfTravelingPartner() {
         >
           <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
-              Our Mission
+              Our Purpose
             </span>
           </div>
 
@@ -72,7 +73,7 @@ export default function PurposeOfTravelingPartner() {
           </h2>
 
           <p className="mb-5 font-poppins text-[15px] font-medium italic text-[#FCE001] sm:mb-6 sm:text-[16px] md:text-[17px]">
-            With the best service.
+            Built around everyday movement.
           </p>
 
           <div
@@ -80,19 +81,22 @@ export default function PurposeOfTravelingPartner() {
             aria-hidden="true"
           />
 
-          <p className="max-w-xl text-[14px] leading-[1.7] text-white/75 sm:text-[15px] sm:leading-[1.75] md:text-[16px]">
-            At Traveling Partner, our purpose is to revolutionize the landscape
-            of mobility, creating a space where users can effortlessly connect
-            and collaborate. By fostering a community-centric environment, our
-            platform eliminates the financial burdens of additional fees,
-            providing a dynamic hub for individuals to share rides, make
-            deliveries, and plan trips collaboratively. Through transparency,
-            user empowerment, and a commitment to a commission-free approach, we
-            aim to redefine the very essence of travel and connectivity in
-            Pakistan. Traveling Partner is not just an app; it&apos;s a movement
-            towards a more connected, collaborative, and commission-free future
-            for everyone.
-          </p>
+          <div className="max-w-xl space-y-4 text-[14px] leading-[1.7] text-white/75 sm:text-[15px] sm:leading-[1.75] md:text-[16px]">
+            <p>
+              {emphasizePhrases(
+                "Getting from one place to another shouldn't feel complicated. The same goes for sending a parcel or managing deliveries for your business.",
+                ["shouldn't feel complicated"],
+                "onDark",
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "Traveling Partner brings rides, deliveries, and logistics together in one app, helping you spend less time switching between services and more time getting things done.",
+                ["one app"],
+                "onDark",
+              )}
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>
