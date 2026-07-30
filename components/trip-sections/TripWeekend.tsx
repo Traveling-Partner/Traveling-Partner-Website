@@ -2,12 +2,25 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const features = [
-  "Go on a long trip with your friends and family.",
-  "Get a taxi that is just made for road trips.",
-  "Freedom from car servicing hassles.",
-  "Optimize travelling time.",
+  {
+    text: "Verified Drivers — Enjoy greater peace of mind from pickup to destination with drivers who have successfully passed our verification process.",
+    bold: ["Verified Drivers"] as const,
+  },
+  {
+    text: "Flexible Scheduling — Choose your date and time. Reserve early or schedule your trip when you are ready.",
+    bold: ["Flexible Scheduling"] as const,
+  },
+  {
+    text: "Transparent Pricing — We show your fare BEFORE you confirm your booking, so you always know what you'll pay before the trip starts.",
+    bold: ["Transparent Pricing", "BEFORE you confirm"] as const,
+  },
+  {
+    text: "Smooth Ride — Drivers are dedicated to offering a safe, comfortable and professional service from start to finish, so relax and enjoy the ride.",
+    bold: ["Smooth Ride"] as const,
+  },
 ];
 
 function CheckIcon() {
@@ -84,15 +97,21 @@ export default function TripWeekend() {
           >
             <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
-                Weekend Special
+                Why Choose a Trip
               </span>
             </div>
 
-            <h2 className="mb-6 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-7">
-              Enjoy Your{" "}
-              <span className="font-medium italic text-[#FCE001]">Weekend</span>{" "}
-              with Traveling Partner
+            <h2 className="mb-4 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
+              Why Choose a{" "}
+              <span className="font-medium italic text-[#FCE001]">Trip?</span>
             </h2>
+
+            <p className="mb-6 max-w-lg text-[14px] leading-relaxed text-[#5c5b55] sm:mb-7 sm:text-[15px]">
+              {emphasizePhrases(
+                "Some trips are planned days ahead. Others happen without much notice. Our intercity travel booking service gives you the flexibility to travel when it suits you, with verified intercity drivers and a booking process that takes only a few minutes.",
+                ["intercity travel booking service", "verified intercity drivers"],
+              )}
+            </p>
 
             <div
               className="mb-6 border-t border-dashed border-black/15 sm:mb-7"
@@ -100,9 +119,9 @@ export default function TripWeekend() {
             />
 
             <ul className="mb-6 flex flex-col gap-3.5 sm:mb-7 sm:gap-4">
-              {features.map((text, index) => (
+              {features.map((item, index) => (
                 <motion.li
-                  key={text}
+                  key={item.text}
                   initial={{ opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -113,7 +132,7 @@ export default function TripWeekend() {
                     <CheckIcon />
                   </span>
                   <span className="text-[14px] leading-snug text-[#0b0b0b] sm:text-[15px]">
-                    {text}
+                    {emphasizePhrases(item.text, item.bold)}
                   </span>
                 </motion.li>
               ))}
@@ -137,10 +156,10 @@ export default function TripWeekend() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    Group Trips
+                    Flexible Scheduling
                   </p>
                   <p className="text-[12px] text-[#0b0b0b]/75 sm:text-[13px]">
-                    Perfect for friends
+                    Travel when it suits you
                   </p>
                 </div>
               </div>
@@ -157,10 +176,10 @@ export default function TripWeekend() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    24/7 Service
+                    Verified Drivers
                   </p>
                   <p className="text-[12px] text-[#5c5b55] sm:text-[13px]">
-                    Anytime, anywhere
+                    Pickup to destination
                   </p>
                 </div>
               </div>

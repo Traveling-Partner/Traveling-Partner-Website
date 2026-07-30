@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 type Step = {
   number: string;
@@ -10,6 +11,7 @@ type Step = {
   imageAlt: string;
   title: ReactNode;
   description: string;
+  bold: readonly string[];
   featured?: boolean;
 };
 
@@ -25,7 +27,8 @@ const steps: Step[] = [
       </>
     ),
     description:
-      "Initiate your journey by booking a ride through Traveling Partner. Connect with reliable trip drivers in a few taps.",
+      "Enter your pickup point and destination. Your fare is shown before you book. If you're happy with it, complete your long-distance ride booking.",
+    bold: ["long-distance ride booking"],
   },
   {
     number: "02",
@@ -33,12 +36,12 @@ const steps: Step[] = [
     imageAlt: "Traveler tracking vehicle on phone",
     title: (
       <>
-        Track Your{" "}
-        <span className="font-medium italic">Vehicle.</span>
+        Meet Your{" "}
+        <span className="font-medium italic">Driver.</span>
       </>
     ),
-    description:
-      "Enjoy peace of mind with real-time vehicle tracking. Monitor your ride’s location for full transparency.",
+    description: "Meet your verified driver.",
+    bold: ["verified driver"],
     featured: true,
   },
   {
@@ -47,12 +50,13 @@ const steps: Step[] = [
     imageAlt: "Friends arriving safely on a mountain road trip",
     title: (
       <>
-        Arrive{" "}
-        <span className="font-medium italic text-[#FCE001]">Safely.</span>
+        Enjoy the{" "}
+        <span className="font-medium italic text-[#FCE001]">Ride.</span>
       </>
     ),
     description:
-      "Arrive at your destination with confidence — flexible, commission-free travel managed on your terms.",
+      "Relax and enjoy the ride, we'll take care of the road ahead.",
+    bold: ["enjoy the ride"],
   },
 ];
 
@@ -112,7 +116,7 @@ function StepCard({ step, delay }: { step: Step; delay: number }) {
             featured ? "text-[#0b0b0b]/75" : "text-[#5c5b55]"
           }`}
         >
-          {step.description}
+          {emphasizePhrases(step.description, step.bold)}
         </p>
       </div>
     </motion.article>
@@ -153,8 +157,7 @@ export default function TripHowItWorks() {
           </h2>
 
           <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">
-            Three simple steps between planning your trip and arriving at your
-            destination — no hassle, no commission.
+            {emphasizePhrases("Four Steps. One Booking.", ["One Booking."])}
           </p>
         </motion.div>
 

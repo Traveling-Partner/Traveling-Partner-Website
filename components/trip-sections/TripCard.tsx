@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const FEATURES = [
-  "Group trips",
-  "Live tracking",
-  "0% commission",
+  "Verified drivers",
+  "Flexible timing",
+  "Clear prices",
 ] as const;
+
+const CARD_COPY =
+  "Plan long distance trips with confirmed drivers and flexible timing for work, visiting relatives or friends or vacation.";
+const CARD_BOLD = ["confirmed drivers", "flexible timing"] as const;
 
 function SparkleIcon() {
   return (
@@ -69,7 +74,7 @@ function DesktopContent() {
       </h3>
 
       <p className="mb-[7%] max-w-[220px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
-        Plan family, friends, or school trips — commission-free.
+        {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
       <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
@@ -153,9 +158,7 @@ export default function TripCard({
             </h3>
 
             <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
-              Plan family, friends, or school trips —
-              <br />
-              commission-free.
+              {emphasizePhrases(CARD_COPY, CARD_BOLD)}
             </p>
 
             <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-1">
