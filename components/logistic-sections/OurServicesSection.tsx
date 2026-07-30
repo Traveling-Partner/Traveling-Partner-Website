@@ -9,6 +9,7 @@ import MobileServicesLayout, {
   CLEAN_MOBILE_CARDS,
 } from "@/components/services/MobileServicesLayout";
 import { useInViewVideo } from "@/hooks/useInViewVideo";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const POOL_VIDEO = "/videos/pool-bg.mp4";
 const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
@@ -137,15 +138,15 @@ const MOBILE_CARDS = [
     href: "/taxi-stand",
     icon: "/images/taxi-stand/services/icon-taxi.png",
     title: "Taxi Stand",
-    subtitle: "City rides",
+    subtitle: "Upfront fares",
     video: TAXI_VIDEO,
     ...CLEAN_MOBILE_CARDS.logistics,
   },
   {
     href: "/pool-ride",
     icon: "/images/taxi-stand/services/icon-pool.png",
-    title: "Pool",
-    subtitle: "Shared trips",
+    title: "Pool Ride",
+    subtitle: "Split the cost",
     video: POOL_VIDEO,
     ...CLEAN_MOBILE_CARDS.pool,
   },
@@ -153,7 +154,7 @@ const MOBILE_CARDS = [
     href: "/trip",
     icon: "/images/taxi-stand/services/icon-trip.png",
     title: "Trip",
-    subtitle: "Plan journey",
+    subtitle: "Your schedule",
     video: TRIP_VIDEO,
     ...CLEAN_MOBILE_CARDS.trip,
   },
@@ -161,7 +162,7 @@ const MOBILE_CARDS = [
     href: "/delivery",
     icon: "/images/taxi-stand/services/icon-delivery.png",
     title: "Delivery",
-    subtitle: "Fast delivery",
+    subtitle: "Live tracking",
     video: DELIVERY_VIDEO,
     ...CLEAN_MOBILE_CARDS.delivery,
   },
@@ -181,10 +182,17 @@ export default function OurServicesSection() {
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             Explore More <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
-          <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            Five services. One app. Built for every kind of journey across
-            Pakistan.
-          </p>
+          <div className="mx-auto max-w-lg space-y-1.5 text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
+            <p className="font-semibold text-[#0b0b0b]">
+              {emphasizePhrases("More than logistics.", ["More than logistics."])}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "One app can do a lot more than move freight. Need a ride across town? Sending a parcel? Sharing a trip? Planning an intercity journey? It's all there when you need it.",
+                ["move freight", "It's all there when you need it"],
+              )}
+            </p>
+          </div>
         </motion.div>
 
         <MobileServicesLayout
@@ -202,8 +210,8 @@ export default function OurServicesSection() {
               href="/pool-ride"
               image="/images/taxi-stand/services/card-pool.png"
               icon="/images/taxi-stand/services/icon-pool.png"
-              title="Pool"
-              subtitle="Shared trips"
+              title="Pool Ride"
+              subtitle="Split the cost"
               delay={0.1}
               contentClassName="left-[14%] top-[12%]"
               video={POOL_VIDEO}
@@ -214,7 +222,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-delivery.png"
               icon="/images/taxi-stand/services/icon-delivery.png"
               title="Delivery"
-              subtitle="Fast delivery"
+              subtitle="Live tracking"
               delay={0.14}
               className="!h-[88%] self-start"
               contentClassName="left-6 top-[12%]"
@@ -226,7 +234,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-logistics.png"
               icon="/images/taxi-stand/services/icon-taxi.png"
               title="Taxi Stand"
-              subtitle="City rides"
+              subtitle="Upfront fares"
               delay={0.18}
               contentClassName="left-[20%] top-[14%]"
               video={TAXI_VIDEO}
@@ -237,7 +245,7 @@ export default function OurServicesSection() {
               image="/images/taxi-stand/services/card-trip.png"
               icon="/images/taxi-stand/services/icon-trip.png"
               title="Trip"
-              subtitle="Plan journey"
+              subtitle="Your schedule"
               delay={0.22}
               contentClassName="left-6 top-[14%]"
               video={TRIP_VIDEO}

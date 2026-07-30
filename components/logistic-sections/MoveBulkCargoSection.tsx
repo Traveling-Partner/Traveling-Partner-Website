@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -195,7 +196,7 @@ export default function MoveBulkCargoSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
-                Move bulk cargo?
+                Business deliveries
               </span>
             </div>
 
@@ -214,11 +215,42 @@ export default function MoveBulkCargoSection() {
               </span>
             </h2>
 
-            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
-              From single pallets to full container loads — Traveling Partner
-              handles enterprise logistics across Pakistan with fleet-scale
-              capacity and bulk-rate pricing built for business.
-            </p>
+            <div className="mb-5 max-w-[440px] space-y-2 text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
+              <p className="font-semibold text-[#0b0b0b]">
+                {emphasizePhrases(
+                  "Business deliveries without the back and forth.",
+                  ["without the back and forth"],
+                )}
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Some businesses send five deliveries a day. Others send hundreds.",
+                  ["five deliveries a day", "hundreds"],
+                )}
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Whatever your workload looks like, Traveling Partner helps you keep things moving without making logistics another job to manage.",
+                  ["keep things moving", "another job to manage"],
+                )}
+              </p>
+              <p>
+                {emphasizePhrases(
+                  "Track every shipment. Know where your drivers are. Keep your customers updated.",
+                  [
+                    "Track every shipment",
+                    "Know where your drivers are",
+                    "Keep your customers updated",
+                  ],
+                )}
+              </p>
+              <p>The rest is business as usual.</p>
+              <p className="font-semibold text-[#0b0b0b]">
+                {emphasizePhrases("Download the app today.", [
+                  "Download the app today.",
+                ])}
+              </p>
+            </div>
 
             <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
               <StoreButton

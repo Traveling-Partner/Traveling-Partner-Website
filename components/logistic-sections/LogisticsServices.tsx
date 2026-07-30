@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 type Service = {
   icon: string;
   iconAlt: string;
   title: string;
   description: string;
+  bold: readonly string[];
   featured?: boolean;
 };
 
@@ -17,21 +19,24 @@ const services: Service[] = [
     iconAlt: "Simple booking",
     title: "Simple Booking",
     description:
-      "Empower yourself with easy and user-friendly booking procedures.",
+      "Book a pickup in a few clicks. Add the delivery details, choose a vehicle, and you're ready to go.",
+    bold: ["Book a pickup in a few clicks", "ready to go"],
   },
   {
     icon: "/images/logistic/services/icon-pickup.png",
-    iconAlt: "On time pickup",
-    title: "On Time Pickup",
+    iconAlt: "On-time pickup",
+    title: "On-Time Pickup",
     description:
-      "Take control of your logistics schedule with on-time pickups as per your convenience.",
+      "Set a pickup time that works for you. Our riders arrive ready to collect your shipment, so there's no need to chase drivers.",
+    bold: ["pickup time that works for you", "no need to chase drivers"],
   },
   {
     icon: "/images/logistic/services/icon-fast.png",
     iconAlt: "Fast shipments",
     title: "Fast Shipments",
     description:
-      "Swift and efficient handling of your shipments, driven by your priorities.",
+      "Some deliveries can't wait. We help move your goods as quickly as possible while keeping you updated from pickup to delivery.",
+    bold: ["as quickly as possible", "from pickup to delivery"],
     featured: true,
   },
   {
@@ -39,14 +44,20 @@ const services: Service[] = [
     iconAlt: "On-time delivery",
     title: "On-Time Delivery",
     description:
-      "Ensure punctual delivery by actively managing and overseeing the logistics process.",
+      "Your shipment stays on the move until it reaches its destination. Simple updates let you know where it is without making a phone call.",
+    bold: ["stays on the move", "without making a phone call"],
   },
   {
     icon: "/images/logistic/services/icon-save.png",
     iconAlt: "Save time and money",
     title: "Save Time & Money",
     description:
-      "Optimize your logistics operations independently, saving both time and money.",
+      "Less time arranging deliveries. Less money spent on unnecessary transport. More time for the work that matters.",
+    bold: [
+      "Less time arranging deliveries",
+      "unnecessary transport",
+      "work that matters",
+    ],
   },
 ];
 
@@ -90,7 +101,7 @@ function ServiceCard({
           featured ? "text-[#0b0b0b]/80" : "text-[#5c5b55]"
         }`}
       >
-        {service.description}
+        {emphasizePhrases(service.description, service.bold)}
       </p>
     </motion.article>
   );
@@ -125,14 +136,34 @@ export default function LogisticsServices() {
           </div>
 
           <h2 className="mb-4 font-poppins text-[clamp(32px,5.5vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
-            Logistics{" "}
+            Our{" "}
             <span className="font-medium italic text-[#FDB813]">Services.</span>
           </h2>
 
-          <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
-            Everything you need for smooth logistics — booking, pickup,
-            shipping, and delivery, wrapped in one commission-free platform.
-          </p>
+          <div className="mx-auto max-w-2xl space-y-2 text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
+            <p className="font-semibold text-[#0b0b0b]">
+              {emphasizePhrases(
+                "Everything you need to keep deliveries moving.",
+                ["keep deliveries moving"],
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "Running a business means deliveries don't stop. Some are planned. Some come in at the last minute.",
+                ["deliveries don't stop", "last minute"],
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "Traveling Partner brings booking, pickups, tracking, and delivery together in one place, so you spend less time managing logistics and more time running your business.",
+                [
+                  "booking, pickups, tracking, and delivery",
+                  "managing logistics",
+                  "running your business",
+                ],
+              )}
+            </p>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 lg:gap-4 xl:gap-5">
