@@ -1,5 +1,7 @@
 "use client";
 
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
+
 export default function TermsHero() {
   return (
     <section className="relative w-full overflow-hidden bg-[#FEFBF6]">
@@ -31,8 +33,13 @@ export default function TermsHero() {
         </h1>
 
         <p className="max-w-[640px] text-[14px] leading-relaxed text-[#4a4a45] sm:text-[15px] sm:leading-[1.7] md:text-base">
-          Please read these Terms and Conditions carefully. By using Traveling Partner,
-          you agree to be bound by the rules below.
+          {emphasizePhrases(
+            "These Terms & Conditions describe how Traveling Partner operates and the rules for use of our website, mobile application and services. By creating an account, booking a ride, sending a parcel or using any service on the platform, you agree to these Terms.",
+            [
+              "website, mobile application and services",
+              "you agree to these Terms",
+            ],
+          )}
         </p>
       </div>
     </section>
