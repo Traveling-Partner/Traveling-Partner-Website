@@ -98,9 +98,10 @@ export default function OurLocationSection() {
             </div>
 
             <h2 className="mb-4 max-w-md font-poppins text-[clamp(30px,4.2vw,48px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
-              Based in the{" "}
-              <span className="font-medium italic text-[#FCE001]">heart</span> of
-              Pakistan.
+              Serving Across{" "}
+              <span className="font-medium italic text-[#FCE001]">
+                Pakistan.
+              </span>
             </h2>
 
             <p className="mb-7 max-w-md text-[14px] leading-relaxed text-[#5c5b55] sm:mb-8 sm:text-[15px] sm:leading-[1.7]">

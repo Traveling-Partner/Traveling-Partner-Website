@@ -190,14 +190,16 @@ export default function GetTheAppSection() {
                 className="mt-0.5 block text-[34px] font-medium italic text-[#FCE001] sm:text-[36px]"
                 style={{ fontStyle: "italic" }}
               >
-                We&apos;re here.
+                Get in touch.
               </em>
             </h2>
 
             <p className="mb-6 max-w-[320px] text-[13px] leading-[1.65] text-[#c8c2b6]">
               Questions about your account, a booking, a delivery, or our
-              business services? Our support team is here to help. Get in touch
-              whenever you need assistance.
+              business services? Our support team is here to help.{" "}
+              <strong className="font-bold text-white">
+                Get in touch whenever you need assistance.
+              </strong>
             </p>
 
             <div className="grid grid-cols-2 items-center gap-2.5">
@@ -255,14 +257,16 @@ export default function GetTheAppSection() {
                 className="mt-0.5 block text-[40px] font-medium italic text-[#FCE001] xl:text-[46px]"
                 style={{ fontStyle: "italic" }}
               >
-                We&apos;re here.
+                Get in touch.
               </em>
             </h2>
 
             <p className="max-w-[400px] text-[15px] leading-[1.65] text-[#c8c2b6]">
               Questions about your account, a booking, a delivery, or our
-              business services? Our support team is here to help. Get in touch
-              whenever you need assistance.
+              business services? Our support team is here to help.{" "}
+              <strong className="font-bold text-white">
+                Get in touch whenever you need assistance.
+              </strong>
             </p>
           </div>
 
