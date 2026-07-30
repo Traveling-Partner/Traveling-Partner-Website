@@ -6,17 +6,11 @@ import { motion } from "framer-motion";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const highlights = [
-  {
-    text: "Need daily deliveries?",
-    bold: ["daily deliveries"] as const,
-  },
-  {
-    text: "Extra vehicles during busy periods?",
-    bold: ["busy periods"] as const,
-  },
+  { text: "Need daily deliveries?", bold: [] as const },
+  { text: "Extra vehicles during busy periods?", bold: [] as const },
   {
     text: "Support the fleet regularly? We can do that.",
-    bold: ["Support the fleet regularly?", "We can do that."] as const,
+    bold: ["We can do that."] as const,
   },
 ];
 
@@ -141,11 +135,7 @@ export default function LogisticsFasterSaferSection() {
                 className="mb-6 max-w-lg space-y-2.5 text-[14px] leading-[1.65] text-white/80 sm:mb-7 sm:text-[15px] lg:text-[16px]"
               >
                 <p className="font-semibold text-white">
-                  {emphasizePhrases(
-                    "Logistics that work around your business.",
-                    ["work around your business"],
-                    "onDark",
-                  )}
+                  Logistics that work around your business.
                 </p>
                 <p>
                   {emphasizePhrases(
@@ -157,7 +147,7 @@ export default function LogisticsFasterSaferSection() {
                 <p>
                   {emphasizePhrases(
                     "Our aim is simple: help your business do more, while spending less time worrying about logistics.",
-                    ["help your business do more", "worrying about logistics"],
+                    ["help your business do more"],
                     "onDark",
                   )}
                 </p>

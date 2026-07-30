@@ -97,8 +97,8 @@ function StatItem({
     <div
       className={
         boxed
-          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-black/10 bg-white px-3.5 py-3.5 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
-          : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
+          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-black/10 bg-white px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+          : "flex items-center gap-3.5 px-1 py-2.5 lg:gap-2.5 lg:px-0 lg:py-0"
       }
     >
       <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
@@ -151,7 +151,7 @@ function FloatChip({
 
 export default function MoveBulkCargoSection() {
   return (
-    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+    <section className="bg-[#FEFBF6] py-5 sm:py-6">
       {/*
         Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
         Cover in flow = full natural height (no crop). Content overlays cream top.
@@ -188,9 +188,9 @@ export default function MoveBulkCargoSection() {
         </div>
 
         {/* Content overlays cover on mobile; side-by-side on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-4 lg:px-8 lg:py-4 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-10 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-8">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-3 lg:px-8 lg:py-2.5 xl:px-9">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-5 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-2.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-3">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -200,7 +200,7 @@ export default function MoveBulkCargoSection() {
               </span>
             </div>
 
-            <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] lg:mb-6">
+            <h2 className="mb-2 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-2.5">
               <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 Load it,
               </span>
@@ -215,44 +215,33 @@ export default function MoveBulkCargoSection() {
               </span>
             </h2>
 
-            <div className="mb-5 max-w-[440px] space-y-2 text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-6 lg:text-base lg:leading-[1.65]">
+            <div className="mb-2.5 max-w-[440px] space-y-0.5 text-[13px] leading-[1.35] text-[#4a4a45] lg:mb-3 lg:text-[14px] lg:leading-[1.4]">
               <p className="font-semibold text-[#0b0b0b]">
-                {emphasizePhrases(
-                  "Business deliveries without the back and forth.",
-                  ["without the back and forth"],
-                )}
+                Business deliveries without the back and forth.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Some businesses send five deliveries a day. Others send hundreds.",
-                  ["five deliveries a day", "hundreds"],
-                )}
+                Some businesses send five deliveries a day. Others send
+                hundreds.
               </p>
               <p>
                 {emphasizePhrases(
                   "Whatever your workload looks like, Traveling Partner helps you keep things moving without making logistics another job to manage.",
-                  ["keep things moving", "another job to manage"],
+                  ["keep things moving"],
                 )}
               </p>
               <p>
                 {emphasizePhrases(
                   "Track every shipment. Know where your drivers are. Keep your customers updated.",
-                  [
-                    "Track every shipment",
-                    "Know where your drivers are",
-                    "Keep your customers updated",
-                  ],
+                  ["Track every shipment"],
                 )}
               </p>
               <p>The rest is business as usual.</p>
               <p className="font-semibold text-[#0b0b0b]">
-                {emphasizePhrases("Download the app today.", [
-                  "Download the app today.",
-                ])}
+                Download the app today.
               </p>
             </div>
 
-            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
+            <div className="mb-3 grid grid-cols-2 gap-2.5 lg:mb-4 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -272,7 +261,7 @@ export default function MoveBulkCargoSection() {
             </div>
 
             {/* Stats — mobile: 3 full-width boxes; desktop: single card */}
-            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2.5 lg:hidden">
+            <div className="relative z-20 flex w-full shrink-0 flex-col gap-2 lg:hidden">
               <StatItem
                 boxed
                 icon={
@@ -316,7 +305,7 @@ export default function MoveBulkCargoSection() {
                 label="Coverage"
               />
             </div>
-            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
+            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-black/8 bg-white px-5 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.10)] lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -368,9 +357,9 @@ export default function MoveBulkCargoSection() {
           </div>
 
           {/* Chips over lower cover (map / phone zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[260px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-4 lg:mt-0 lg:min-h-[200px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
-              className="absolute right-1 top-[24%] sm:right-[2%] lg:-right-1 lg:top-[22%]"
+              className="absolute right-1 top-[16%] sm:right-[2%] lg:-right-1 lg:top-[12%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -384,7 +373,7 @@ export default function MoveBulkCargoSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[42%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[48%]"
+              className="absolute bottom-[28%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[62%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"

@@ -183,13 +183,11 @@ export default function OurServicesSection() {
             Explore More <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
           <div className="mx-auto max-w-lg space-y-1.5 text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
-            <p className="font-semibold text-[#0b0b0b]">
-              {emphasizePhrases("More than logistics.", ["More than logistics."])}
-            </p>
+            <p className="font-semibold text-[#0b0b0b]">More than logistics.</p>
             <p>
               {emphasizePhrases(
                 "One app can do a lot more than move freight. Need a ride across town? Sending a parcel? Sharing a trip? Planning an intercity journey? It's all there when you need it.",
-                ["move freight", "It's all there when you need it"],
+                ["move freight"],
               )}
             </p>
           </div>

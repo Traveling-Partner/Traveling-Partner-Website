@@ -31,7 +31,7 @@ const benefits: Benefit[] = [
     ),
     description:
       "Grow your business without paying unnecessary commission on every delivery. Spend more on your business, not extra platform costs.",
-    bold: ["unnecessary commission", "Spend more on your business"],
+    bold: ["unnecessary commission"],
     variant: "white",
   },
   {
@@ -41,7 +41,7 @@ const benefits: Benefit[] = [
     title: <>Direct Connections.</>,
     description:
       "Stay connected with one platform to keep your drivers, deliveries and business operations all organized.",
-    bold: ["one platform", "all organized"],
+    bold: ["one platform"],
     variant: "yellow",
     rings: true,
   },
@@ -57,7 +57,7 @@ const benefits: Benefit[] = [
     ),
     description:
       "Want to avoid the hassle of managing your own fleet? Choose vehicles that fit your delivery needs and help you cut your operating costs.",
-    bold: ["managing your own fleet", "cut your operating costs"],
+    bold: ["cut your operating costs"],
     variant: "white",
   },
   {
@@ -71,7 +71,7 @@ const benefits: Benefit[] = [
     ),
     description:
       "Business needs to change daily. No two businesses move the same way. That's why our logistics service is flexible enough to support your day-to-day deliveries and changing business needs.",
-    bold: ["flexible enough", "day-to-day deliveries"],
+    bold: ["day-to-day deliveries"],
     variant: "white",
   },
   {
@@ -86,7 +86,7 @@ const benefits: Benefit[] = [
     ),
     description:
       "Track each shipment from pickup to delivery. Live tracking helps you stay informed and keeps your customers updated too.",
-    bold: ["from pickup to delivery", "Live tracking"],
+    bold: ["from pickup to delivery"],
     variant: "dark",
     rings: true,
   },
@@ -102,7 +102,7 @@ const benefits: Benefit[] = [
     ),
     description:
       "We're more than a delivery platform. We work with businesses to build long-term logistics support that grows with them.",
-    bold: ["long-term logistics support", "grows with them"],
+    bold: ["long-term logistics support"],
     variant: "white",
   },
 ];

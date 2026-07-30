@@ -151,18 +151,13 @@ export default function LogisticsHero() {
             <p>
               {emphasizePhrases(
                 "Every business needs deliveries they can rely on. Whether you're moving stock between sites, sending orders to customers, or managing day-to-day operations, Traveling Partner gives you the tools to keep it all moving.",
-                ["deliveries they can rely on", "keep it all moving"],
+                ["deliveries they can rely on"],
               )}
             </p>
             <p>
               {emphasizePhrases(
                 "Our enterprise logistics solutions are made for the business that relies on dependable transport, flexible fleet support and reliable deliveries every day.",
-                [
-                  "enterprise logistics solutions",
-                  "dependable transport",
-                  "flexible fleet support",
-                  "reliable deliveries",
-                ],
+                ["flexible fleet support"],
               )}
             </p>
           </div>

@@ -12,11 +12,7 @@ const FEATURES = [
 
 const CARD_COPY =
   "Built for businesses that need regular deliveries, fleet support, and transport they can rely on.";
-const CARD_BOLD = [
-  "regular deliveries",
-  "fleet support",
-  "transport they can rely on",
-] as const;
+const CARD_BOLD = ["transport they can rely on"] as const;
 
 function SparkleIcon() {
   return (

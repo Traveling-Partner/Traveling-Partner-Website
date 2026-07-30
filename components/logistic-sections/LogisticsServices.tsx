@@ -20,7 +20,7 @@ const services: Service[] = [
     title: "Simple Booking",
     description:
       "Book a pickup in a few clicks. Add the delivery details, choose a vehicle, and you're ready to go.",
-    bold: ["Book a pickup in a few clicks", "ready to go"],
+    bold: ["Book a pickup in a few clicks"],
   },
   {
     icon: "/images/logistic/services/icon-pickup.png",
@@ -28,7 +28,7 @@ const services: Service[] = [
     title: "On-Time Pickup",
     description:
       "Set a pickup time that works for you. Our riders arrive ready to collect your shipment, so there's no need to chase drivers.",
-    bold: ["pickup time that works for you", "no need to chase drivers"],
+    bold: ["no need to chase drivers"],
   },
   {
     icon: "/images/logistic/services/icon-fast.png",
@@ -36,7 +36,7 @@ const services: Service[] = [
     title: "Fast Shipments",
     description:
       "Some deliveries can't wait. We help move your goods as quickly as possible while keeping you updated from pickup to delivery.",
-    bold: ["as quickly as possible", "from pickup to delivery"],
+    bold: ["from pickup to delivery"],
     featured: true,
   },
   {
@@ -45,7 +45,7 @@ const services: Service[] = [
     title: "On-Time Delivery",
     description:
       "Your shipment stays on the move until it reaches its destination. Simple updates let you know where it is without making a phone call.",
-    bold: ["stays on the move", "without making a phone call"],
+    bold: ["stays on the move"],
   },
   {
     icon: "/images/logistic/services/icon-save.png",
@@ -53,11 +53,7 @@ const services: Service[] = [
     title: "Save Time & Money",
     description:
       "Less time arranging deliveries. Less money spent on unnecessary transport. More time for the work that matters.",
-    bold: [
-      "Less time arranging deliveries",
-      "unnecessary transport",
-      "work that matters",
-    ],
+    bold: ["work that matters"],
   },
 ];
 
@@ -142,25 +138,16 @@ export default function LogisticsServices() {
 
           <div className="mx-auto max-w-2xl space-y-2 text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
             <p className="font-semibold text-[#0b0b0b]">
-              {emphasizePhrases(
-                "Everything you need to keep deliveries moving.",
-                ["keep deliveries moving"],
-              )}
+              Everything you need to keep deliveries moving.
             </p>
             <p>
-              {emphasizePhrases(
-                "Running a business means deliveries don't stop. Some are planned. Some come in at the last minute.",
-                ["deliveries don't stop", "last minute"],
-              )}
+              Running a business means deliveries don&apos;t stop. Some are
+              planned. Some come in at the last minute.
             </p>
             <p>
               {emphasizePhrases(
                 "Traveling Partner brings booking, pickups, tracking, and delivery together in one place, so you spend less time managing logistics and more time running your business.",
-                [
-                  "booking, pickups, tracking, and delivery",
-                  "managing logistics",
-                  "running your business",
-                ],
+                ["booking, pickups, tracking, and delivery"],
               )}
             </p>
           </div>
