@@ -151,7 +151,7 @@ function FloatChip({
 
 export default function NeedARideSection() {
   return (
-    <section className="bg-[#FEFBF6] py-6 sm:py-8">
+    <section className="bg-[#FEFBF6] py-8 sm:py-12">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
         {/* Background */}
@@ -193,11 +193,11 @@ export default function NeedARideSection() {
           />
         </div>
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-5 xl:px-10">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
           {/* ── Content ── */}
-          <div className="relative z-10 w-full px-5 pb-2 pt-6 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-2 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
-            <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-5">
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-8">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -208,7 +208,7 @@ export default function NeedARideSection() {
             </div>
 
             {/* Heading — Figma mobile ~40px */}
-            <h2 className="mb-3 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-4">
+            <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-6">
               <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
                 Tap it,
               </span>
@@ -224,7 +224,7 @@ export default function NeedARideSection() {
             </h2>
 
             {/* Description — Figma mobile is near-white */}
-            <div className="mb-5 max-w-[420px] space-y-2 text-[15px] leading-[1.55] text-white/85 lg:mb-5 lg:text-base lg:text-[#b7b1a4]">
+            <div className="mb-7 max-w-[420px] space-y-1.5 text-[15px] leading-[1.45] text-white/85 lg:mb-6 lg:text-base lg:leading-[1.5] lg:text-[#b7b1a4]">
               <p>
                 {emphasizePhrases(
                   "Going somewhere? Open the app, choose your destination, and you're ready to go. You'll see the fare before the ride starts, know who's picking you up, and follow your trip with real-time GPS tracking.",
@@ -242,7 +242,7 @@ export default function NeedARideSection() {
             </div>
 
             {/* Store buttons — side-by-side (Figma) */}
-            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-5 lg:flex lg:gap-4">
+            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -356,7 +356,7 @@ export default function NeedARideSection() {
           </div>
 
           {/* ── Visual: phone + chips ── */}
-          <div className="relative z-10 mt-8 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[340px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-10 flex w-full items-center justify-center px-2 pb-8 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
             <svg
               className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%] lg:block"
               viewBox="0 0 340 400"

@@ -89,7 +89,7 @@ export default function DeliveryTreasureSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mb-10 text-center sm:mb-12 lg:mb-14"
+          className="mb-8 text-center sm:mb-10 lg:mb-12"
         >
           <div className="mb-5 inline-flex items-center rounded-full bg-[#FCE001] px-4 py-1.5">
             <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[11px]">
@@ -102,7 +102,7 @@ export default function DeliveryTreasureSection() {
             <em className="font-semibold italic text-[#FDB813]">Treasure.</em>
           </h2>
 
-          <p className="mx-auto max-w-[540px] text-[14px] leading-[1.65] text-[#6F6E68] sm:text-[15px]">
+          <p className="mx-auto max-w-[560px] text-[13px] leading-[1.45] text-[#6F6E68] sm:text-[14px] sm:leading-[1.5]">
             {emphasizePhrases(
               "Every delivery matters. We handle every delivery from pickup to your doorstep. Some deliveries are personal. Others keep your business moving. Whatever you're sending, Traveling Partner makes the process simple from pickup to delivery.",
               ["Every delivery matters.", "from pickup to your doorstep"],
@@ -180,7 +180,7 @@ export default function DeliveryTreasureSection() {
             <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
               <AccentTitle lead="Hassle-Free" accent="Sending." />
             </h3>
-            <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+            <p className="text-[12px] leading-[1.45] text-[#6F6E68] sm:text-[13px] sm:leading-[1.5]">
               {emphasizePhrases(
                 "Sending a parcel should be easy. Book a pickup in minutes, add the delivery details, and we'll take care of the rest. You are going to be updated at every step.",
                 ["Book a pickup in minutes", "updated at every step"],
@@ -218,7 +218,7 @@ export default function DeliveryTreasureSection() {
                 accentClassName="font-medium italic text-[#0b0b0b]"
               />
             </h3>
-            <p className="relative z-[1] text-[13px] leading-[1.6] text-[#2A2A2A] sm:text-[14px]">
+            <p className="relative z-[1] text-[12px] leading-[1.45] text-[#2A2A2A] sm:text-[13px] sm:leading-[1.5]">
               {emphasizePhrases(
                 "You can trust our dedicated couriers to deliver your goods professionally, safely and on time. Every delivery is treated with the care it deserves.",
                 ["dedicated couriers", "safely and on time"],
@@ -253,7 +253,7 @@ export default function DeliveryTreasureSection() {
                 <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
                   <span className="font-extrabold text-white">Affordable.</span>
                 </h3>
-                <p className="text-[13px] leading-[1.6] text-[#C8C7C1] sm:text-[14px]">
+                <p className="text-[12px] leading-[1.45] text-[#C8C7C1] sm:text-[13px] sm:leading-[1.5]">
                   {emphasizePhrases(
                     "Pay only for what you need. No hidden fees, clear pricing. You'll always know the cost of delivery before confirming your booking.",
                     ["No hidden fees", "clear pricing", "cost of delivery"],
@@ -287,7 +287,7 @@ export default function DeliveryTreasureSection() {
             <h3 className="mb-2 text-[20px] leading-[1.15] tracking-tight sm:text-[22px]">
               <AccentTitle lead="Track Your" accent="Package." />
             </h3>
-            <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+            <p className="text-[12px] leading-[1.45] text-[#6F6E68] sm:text-[13px] sm:leading-[1.5]">
               {emphasizePhrases(
                 "See real time delivery tracking from pickup to delivery. Follow your parcel every step of the way and know exactly when it reaches its destination.",
                 ["real time delivery tracking", "from pickup to delivery"],
@@ -335,7 +335,7 @@ export default function DeliveryTreasureSection() {
                     Centric.
                   </em>
                 </h3>
-                <p className="text-[13px] leading-[1.6] text-[#6F6E68] sm:text-[14px]">
+                <p className="text-[12px] leading-[1.45] text-[#6F6E68] sm:text-[13px] sm:leading-[1.5]">
                   {emphasizePhrases(
                     "Behind every successful delivery is a growing network of dedicated riders helping people and businesses stay connected across Pakistan.",
                     ["dedicated riders", "across Pakistan"],

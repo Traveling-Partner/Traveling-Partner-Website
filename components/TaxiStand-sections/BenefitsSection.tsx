@@ -98,7 +98,7 @@ export default function BenefitsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.14 }}
-              className="mb-6 max-w-md text-[14px] leading-relaxed text-white/85 sm:mb-7 sm:text-[15px]"
+              className="mb-6 max-w-md text-[14px] leading-snug text-white/85 sm:mb-6 sm:text-[15px]"
             >
               {emphasizePhrases(
                 "Getting from one place to another shouldn't be difficult. Whether you're booking a ride or driving one, Traveling Partner keeps things simple. Book a ride online, travel with verified drivers, or earn more with our zero commission ride app.",

@@ -129,7 +129,7 @@ export default function DriveWithUsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.16 }}
-                className="mb-6 text-[14px] leading-relaxed text-white/90 sm:text-[15px]"
+                className="mb-4 text-[14px] leading-snug text-white/90 sm:text-[15px]"
               >
                 {emphasizePhrases(
                   "Looking for a flexible way to earn? Traveling Partner is a zero commission ride app, so you keep more of what you earn. Drive full-time, part-time, or only when you're free—it's up to you.",

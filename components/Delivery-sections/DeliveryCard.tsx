@@ -76,7 +76,7 @@ function DesktopContent() {
         Delivery.
       </h3>
 
-      <p className="mb-[7%] max-w-[220px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
+      <p className="mb-[5%] max-w-[240px] text-[clamp(11px,1.2vw,13px)] font-medium leading-[1.35] text-[#3d3d3d]">
         {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
@@ -160,7 +160,7 @@ export default function DeliveryCard({
               Delivery.
             </h3>
 
-            <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
+            <p className="mb-2 max-w-[300px] text-[10px] font-medium leading-[1.35] text-[#2f2f2f] sm:text-[11px]">
               {emphasizePhrases(CARD_COPY, CARD_BOLD)}
             </p>
 

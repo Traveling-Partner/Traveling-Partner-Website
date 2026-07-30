@@ -73,7 +73,7 @@ function DesktopContent() {
         Taxi Stand.
       </h3>
 
-      <p className="mb-[7%] max-w-[210px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
+      <p className="mb-[5%] max-w-[220px] text-[clamp(11px,1.2vw,13px)] font-medium leading-[1.35] text-[#3d3d3d]">
         {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
@@ -121,7 +121,7 @@ function MobileContent() {
         Taxi Stand.
       </h3>
 
-      <p className="mb-4 max-w-[260px] text-[13px] font-medium leading-snug text-[#2f2f2f]">
+      <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-[1.35] text-[#2f2f2f]">
         {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 

@@ -142,7 +142,7 @@ export default function HeroSection() {
           </p>
 
           <p
-            className="taxi-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+            className="taxi-hero-fade mb-8 max-w-md text-[14px] leading-[1.5] text-[#4a4a45] sm:text-[15px] sm:leading-[1.55]"
             style={{ animationDelay: "200ms" }}
           >
             {emphasizePhrases(

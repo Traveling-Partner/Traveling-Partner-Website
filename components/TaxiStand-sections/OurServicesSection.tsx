@@ -182,10 +182,10 @@ export default function OurServicesSection() {
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             Our <em className="font-medium italic text-[#FDB813]">Services</em>
           </h2>
-          <p className="mx-auto mb-3 max-w-lg text-[15px] font-semibold leading-relaxed text-[#0b0b0b] sm:text-base">
+          <p className="mx-auto mb-1.5 max-w-lg text-[15px] font-semibold leading-snug text-[#0b0b0b] sm:text-base">
             One app. Different ways to get around.
           </p>
-          <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
+          <p className="mx-auto max-w-lg text-[14px] leading-snug text-[#6b6a64] sm:text-[15px]">
             {emphasizePhrases(
               "Whether you need a taxi service, want to share a ride, send a parcel, move business deliveries, or plan an out-of-town trip, Traveling Partner brings everything together in one place.",
               ["taxi service"],

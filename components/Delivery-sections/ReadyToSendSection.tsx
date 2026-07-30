@@ -211,7 +211,7 @@ export default function ReadyToSendSection() {
               </span>
             </h2>
 
-            <div className="mb-4 max-w-[460px] space-y-2 text-[14px] leading-[1.5] text-[#4a4a45] lg:mb-5 lg:text-[15px] lg:leading-[1.55]">
+            <div className="mb-3 max-w-[440px] space-y-1 text-[13px] leading-[1.4] text-[#4a4a45] lg:mb-3.5 lg:text-[14px] lg:leading-[1.45]">
               <p className="font-bold text-[#0b0b0b]">
                 Sending a parcel really doesn&apos;t need to be complicated.
               </p>
