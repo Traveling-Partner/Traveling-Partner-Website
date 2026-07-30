@@ -138,7 +138,7 @@ function FeaturedStoryCard({
             <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.25)] sm:left-5 sm:top-5 sm:px-3.5 sm:py-2">
               <StarIcon className="h-3 w-3 text-[#FCE001] sm:h-3.5 sm:w-3.5" />
               <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
-                Editor&apos;s Pick
+                Featured Article
               </span>
             </div>
           </div>
@@ -205,7 +205,7 @@ function FeaturedStoryCard({
               className="group inline-flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-85"
             >
               <span className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                Read story
+                Read Article
               </span>
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)] transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10">
                 <ArrowIcon className="h-4 w-4" />
