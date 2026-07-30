@@ -7,6 +7,7 @@ import Link from "next/link";
 import PrivacyHero from "@/components/privacy-sections/PrivacyHero";
 import {
   privacyClosingCard,
+  privacyContactIntro,
   privacyNavItems,
   privacySections,
 } from "./privacySections";
@@ -17,9 +18,9 @@ type PinMode = "static" | "fixed" | "bottom";
 const CONTACT_ACTIONS = [
   {
     label: "Email",
-    href: "mailto:hello@traveling-partner.com",
+    href: "mailto:support@traveling-partner.com",
     icon: "/images/terms/icon-contact-envelope.png",
-    detail: "hello@traveling-partner.com",
+    detail: "support@traveling-partner.com",
   },
   {
     label: "Call",
@@ -80,6 +81,25 @@ export default function PrivacyPolicyPage() {
   const layoutRef = useRef<HTMLDivElement>(null);
   const sidebarColRef = useRef<HTMLDivElement>(null);
   const sidebarInnerRef = useRef<HTMLElement>(null);
+  const isProgrammaticScroll = useRef(false);
+  const scrollLockTimer = useRef<number | null>(null);
+
+  const updateActiveFromScroll = useCallback(() => {
+    if (isProgrammaticScroll.current) return;
+
+    const probe = NAV_OFFSET + 28;
+    let current = privacyNavItems[0]?.slug ?? "";
+
+    for (const item of privacyNavItems) {
+      const el = document.getElementById(item.slug);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top <= probe) {
+        current = item.slug;
+      }
+    }
+
+    setActiveSlug((prev) => (prev === current ? prev : current));
+  }, []);
 
   const updateSidebar = useCallback(() => {
     const layout = layoutRef.current;
@@ -112,51 +132,40 @@ export default function PrivacyPolicyPage() {
   }, []);
 
   useEffect(() => {
-    updateSidebar();
-    const layout = layoutRef.current;
-    if (!layout) return;
+    const onScrollOrResize = () => {
+      updateSidebar();
+      updateActiveFromScroll();
+    };
 
-    const ro = new ResizeObserver(updateSidebar);
-    ro.observe(layout);
-    window.addEventListener("scroll", updateSidebar, { passive: true });
-    window.addEventListener("resize", updateSidebar);
+    onScrollOrResize();
+    const layout = layoutRef.current;
+    const ro = layout ? new ResizeObserver(onScrollOrResize) : null;
+    if (layout && ro) ro.observe(layout);
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
 
     return () => {
-      ro.disconnect();
-      window.removeEventListener("scroll", updateSidebar);
-      window.removeEventListener("resize", updateSidebar);
+      ro?.disconnect();
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+      if (scrollLockTimer.current) window.clearTimeout(scrollLockTimer.current);
     };
-  }, [updateSidebar]);
-
-  useEffect(() => {
-    const headings = privacySections
-      .map((s) => document.getElementById(s.slug))
-      .filter(Boolean) as HTMLElement[];
-
-    if (!headings.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]?.target.id) {
-          setActiveSlug(visible[0]?.target.id);
-        }
-      },
-      { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.25, 0.5] }
-    );
-
-    headings.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  }, [updateSidebar, updateActiveFromScroll]);
 
   const scrollToSection = (slug: string) => {
     const el = document.getElementById(slug);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveSlug(slug);
-    }
+    if (!el) return;
+
+    isProgrammaticScroll.current = true;
+    setActiveSlug(slug);
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (scrollLockTimer.current) window.clearTimeout(scrollLockTimer.current);
+    scrollLockTimer.current = window.setTimeout(() => {
+      isProgrammaticScroll.current = false;
+      updateActiveFromScroll();
+    }, 900);
   };
 
   const sidebarNav = (
@@ -303,8 +312,7 @@ export default function PrivacyPolicyPage() {
                         </div>
 
                         <p className="relative mb-5 max-w-[52ch] text-[14px] leading-[1.7] text-[#9a968c] sm:mb-6 sm:text-[15px] sm:leading-[1.75]">
-                          For privacy-related questions, concerns, or data requests,
-                          reach out through any of the channels below.
+                          {privacyContactIntro}
                         </p>
 
                         <div className="relative flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">

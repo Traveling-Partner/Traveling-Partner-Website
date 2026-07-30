@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 import { privacyOverviewCards } from "@/app/privacy-policy/privacySections";
 
 export default function PrivacyHero() {
@@ -37,8 +38,13 @@ export default function PrivacyHero() {
         </h1>
 
         <p className="mb-8 max-w-[640px] text-[14px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-[15px] sm:leading-[1.7] md:text-base">
-          Your privacy matters. This policy explains how Traveling Partner collects,
-          uses, and protects your personal information.
+          {emphasizePhrases(
+            "Your privacy matters to us. This Privacy Policy explains what information Traveling Partner collects, how it is used, and the choices you have while using our ride booking app in Pakistan, parcel delivery service, logistics platform, and intercity travel services.",
+            [
+              "Your privacy matters to us",
+              "ride booking app in Pakistan",
+            ],
+          )}
         </p>
 
         <div className="grid w-full max-w-[900px] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
