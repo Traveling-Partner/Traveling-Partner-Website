@@ -77,10 +77,10 @@ function StoriesToggleButton({
         type="button"
         onClick={onClick}
         className="inline-flex items-center gap-3 rounded-full bg-[#0b0b0b] px-6 py-3 font-poppins shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-opacity hover:opacity-90 sm:px-8 sm:py-3.5"
-        aria-label={expanded ? "Show less stories" : "Load more stories"}
+        aria-label={expanded ? "Show less articles" : "Load more articles"}
       >
         <span className="text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
-          {expanded ? "Show less stories" : "Load more stories"}
+          {expanded ? "Show Less Articles" : "Load More Articles"}
         </span>
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] sm:h-9 sm:w-9">
           {expanded ? (
@@ -159,10 +159,16 @@ export default function LatestStoriesSection({
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
-          <h2 className="font-poppins text-[clamp(28px,3.5vw,40px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b]">
-            Latest{" "}
-            <span className="font-medium italic text-[#FCE001]">stories.</span>
-          </h2>
+          <div className="max-w-[560px]">
+            <h2 className="font-poppins text-[clamp(28px,3.5vw,40px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b]">
+              Latest{" "}
+              <span className="font-medium italic text-[#FCE001]">Stories.</span>
+            </h2>
+            <p className="mt-2 text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
+              Guides, comparisons, travel advice, and updates from Traveling
+              Partner.
+            </p>
+          </div>
 
           <button
             type="button"

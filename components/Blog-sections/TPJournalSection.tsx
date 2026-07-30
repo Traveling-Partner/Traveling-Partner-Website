@@ -7,18 +7,18 @@ const ASSETS = "/images/blog/tp-journal";
 
 const FEATURES = [
   {
-    title: "Timely Updates",
-    subtitle: "Stay in the Loop",
+    title: "Flexible careers",
+    subtitle: "Drivers building schedules",
     icon: "clock",
   },
   {
-    title: "Helpful Guides",
-    subtitle: "Learn & Grow",
+    title: "Everyday travel",
+    subtitle: "Students & families on the move",
     icon: "book",
   },
   {
-    title: "Community Voices",
-    subtitle: "Stories that Inspire",
+    title: "Business deliveries",
+    subtitle: "Orders that keep moving",
     icon: "users",
   },
 ] as const;
@@ -168,7 +168,7 @@ function SectionCopy({
         <span
           className={`text-[9px] font-bold uppercase tracking-[0.2em] sm:text-[10px] lg:tracking-[0.22em] ${badgeTextClassName}`}
         >
-          TP JOURNAL
+          Traveling Partner Stories
         </span>
       </div>
 
@@ -180,13 +180,15 @@ function SectionCopy({
           className="mt-1 block font-medium italic text-[#FCE001]"
           style={{ fontStyle: "italic" }}
         >
-          Real impact.
+          Real journeys.
         </em>
       </h2>
 
       <p className={`text-[#9CA3AF] ${bodyClassName}`}>
-        Discover helpful tips, company updates, and stories that keep Pakistan
-        moving.
+        Behind every ride is a reason to move. Drivers building flexible
+        careers. Students travelling to class. Families visiting loved ones.
+        Businesses sending orders to customers. Read stories, guides, and
+        everyday experiences from people moving with Traveling Partner.
       </p>
     </div>
   );
@@ -201,7 +203,7 @@ export default function TPJournalSection() {
     <section className="bg-[#FEFBF6] px-4 pb-12 pt-4 sm:px-6 sm:pb-14 sm:pt-6 lg:px-8 lg:pb-16 lg:pt-8">
       {/* ——— Mobile — Figma stacked layout ——— */}
       <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-black sm:rounded-[32px] lg:hidden">
-        <div className="relative z-10 px-6 pb-2 pt-10 sm:px-7 sm:pt-11">
+        <div className="relative z-10 px-6 pb-4 pt-11 sm:px-7 sm:pb-5 sm:pt-12">
           <SectionCopy
             badgeClassName="mb-6"
             badgeTextClassName="text-[#FCE001]"
@@ -231,7 +233,7 @@ export default function TPJournalSection() {
       </div>
 
       {/* ——— Desktop ——— */}
-      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-black lg:block lg:min-h-[340px] lg:aspect-[1024/280] xl:min-h-[360px] xl:rounded-[32px]">
+      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-black lg:block lg:min-h-[440px] lg:aspect-[1024/360] xl:min-h-[480px] xl:rounded-[32px]">
         <Image
           src={`${ASSETS}/bg-desktop.png`}
           alt=""
@@ -241,7 +243,7 @@ export default function TPJournalSection() {
           priority
         />
 
-        <div className="relative z-10 flex h-full items-center px-12 py-10 xl:px-16 xl:py-12">
+        <div className="relative z-10 flex h-full items-center px-12 py-14 xl:px-16 xl:py-16">
           <div className="w-[52%] max-w-[560px] shrink-0 pr-6">
             <SectionCopy
               badgeClassName="mb-5 xl:mb-6"

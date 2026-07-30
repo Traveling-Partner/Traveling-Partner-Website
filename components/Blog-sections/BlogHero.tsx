@@ -77,7 +77,7 @@ export default function BlogHero({
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
-            TP Journal · Stories From The Road
+            The Blog
           </span>
         </div>
 
@@ -92,11 +92,13 @@ export default function BlogHero({
         {/* Subtitle */}
         <p className="mb-8 max-w-[720px] text-[15px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-base sm:leading-[1.7] md:mb-12">
           <span className="block">
-            Stories, guides, and updates from Pakistan&apos;s commission-free{" "}
-            <span className="whitespace-nowrap">mobility movement.</span>
+            Practical guides, travel tips, ride updates, driver information, and
+            useful insights for people who move every day.
           </span>
           <span className="block">
-            Everything you need to travel smarter, safer, and together.
+            From booking a ride to finding driver opportunities, saving on daily
+            travel, or understanding transport services in Pakistan,
+            you&apos;ll find it here.
           </span>
         </p>
 
@@ -111,7 +113,7 @@ export default function BlogHero({
               type="search"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search stories, guides, tips..."
+              placeholder="Search articles, travel tips or driver guides..."
               className="min-w-0 flex-1 bg-transparent py-2 text-[14px] text-[#0b0b0b] outline-none placeholder:text-[#9a968c] sm:text-[15px]"
               aria-label="Search blog posts"
             />
