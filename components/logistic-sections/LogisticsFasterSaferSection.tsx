@@ -3,10 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const highlights = [
-  "Reliable and safe transportation",
-  "Door-to-door delivery service",
+  { text: "Need daily deliveries?", bold: [] as const },
+  { text: "Extra vehicles during busy periods?", bold: [] as const },
+  {
+    text: "Support the fleet regularly? We can do that.",
+    bold: ["We can do that."] as const,
+  },
 ];
 
 function CheckIcon() {
@@ -119,21 +124,34 @@ export default function LogisticsFasterSaferSection() {
                 </em>{" "}
                 Than
                 <br />
-                You Expect!
+                You Expect.
               </motion.h2>
 
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.16 }}
-                className="mb-6 max-w-lg text-[14px] leading-[1.65] text-white/80 sm:mb-7 sm:text-[15px] lg:text-[16px]"
+                className="mb-6 max-w-lg space-y-2.5 text-[14px] leading-[1.65] text-white/80 sm:mb-7 sm:text-[15px] lg:text-[16px]"
               >
-                Our courier, packing and moving services support your goods or
-                documents reach at different locations worldwide. Reliable and
-                safe transportation of products allow for online shopping and
-                delivery to customers doors.
-              </motion.p>
+                <p className="font-semibold text-white">
+                  Logistics that work around your business.
+                </p>
+                <p>
+                  {emphasizePhrases(
+                    "From retail stores and restaurants to wholesalers and growing businesses, Traveling Partner helps you move products quickly and efficiently.",
+                    ["move products quickly and efficiently"],
+                    "onDark",
+                  )}
+                </p>
+                <p>
+                  {emphasizePhrases(
+                    "Our aim is simple: help your business do more, while spending less time worrying about logistics.",
+                    ["help your business do more"],
+                    "onDark",
+                  )}
+                </p>
+              </motion.div>
 
               <div
                 className="mb-5 border-t border-dashed border-white/20 sm:mb-6"
@@ -151,9 +169,9 @@ export default function LogisticsFasterSaferSection() {
               </motion.p>
 
               <ul className="mb-7 flex flex-col gap-3 sm:mb-8 sm:gap-3.5">
-                {highlights.map((text, index) => (
+                {highlights.map((item, index) => (
                   <motion.li
-                    key={text}
+                    key={item.text}
                     initial={{ opacity: 0, x: 10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -164,7 +182,7 @@ export default function LogisticsFasterSaferSection() {
                       <CheckIcon />
                     </span>
                     <span className="text-[14px] leading-snug text-white sm:text-[15px]">
-                      {text}
+                      {emphasizePhrases(item.text, item.bold, "onDark")}
                     </span>
                   </motion.li>
                 ))}
@@ -183,7 +201,7 @@ export default function LogisticsFasterSaferSection() {
                   className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_14px_34px_rgba(252,224,1,0.38)] sm:px-7 sm:py-4"
                 >
                   <span className="text-[15px] font-bold text-black sm:text-base">
-                    Move Freight
+                    Transport Cargo
                   </span>
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black transition-transform duration-300 group-hover:translate-x-0.5">
                     <ArrowIcon />

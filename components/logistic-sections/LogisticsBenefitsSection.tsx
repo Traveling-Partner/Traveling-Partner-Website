@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 type CardVariant = "white" | "yellow" | "dark";
 
@@ -12,6 +13,7 @@ type Benefit = {
   iconAlt: string;
   title: ReactNode;
   description: string;
+  bold: readonly string[];
   variant: CardVariant;
   rings?: boolean;
 };
@@ -28,7 +30,8 @@ const benefits: Benefit[] = [
       </>
     ),
     description:
-      "Enjoy a commission-free model that empowers users with cost-effective and transparent logistics solutions.",
+      "Grow your business without paying unnecessary commission on every delivery. Spend more on your business, not extra platform costs.",
+    bold: ["unnecessary commission"],
     variant: "white",
   },
   {
@@ -37,7 +40,8 @@ const benefits: Benefit[] = [
     iconAlt: "Direct connections chain links",
     title: <>Direct Connections.</>,
     description:
-      "Facilitate seamless collaborations for transporting goods, ensuring a direct and reliable logistics experience.",
+      "Stay connected with one platform to keep your drivers, deliveries and business operations all organized.",
+    bold: ["one platform"],
     variant: "yellow",
     rings: true,
   },
@@ -48,54 +52,57 @@ const benefits: Benefit[] = [
     title: (
       <>
         Shared Vehicle{" "}
-        <span className="font-medium italic text-[#FDB813]">Option.</span>
+        <span className="font-medium italic text-[#FDB813]">Options.</span>
       </>
     ),
     description:
-      "Opt for shared vehicle logistics, allowing users to share transportation space for more sustainable and economical shipping.",
+      "Want to avoid the hassle of managing your own fleet? Choose vehicles that fit your delivery needs and help you cut your operating costs.",
+    bold: ["cut your operating costs"],
     variant: "white",
   },
   {
     number: "04",
     icon: "/images/logistic/benefits/icon-handshake.png",
-    iconAlt: "Flexible negotiations handshake",
+    iconAlt: "Flexible logistics handshake",
     title: (
       <>
-        Flexible{" "}
-        <span className="font-medium italic text-[#FDB813]">Negotiations.</span>
+        <span className="font-medium italic text-[#FDB813]">Flexibility.</span>
       </>
     ),
     description:
-      "Benefit from a user-centric approach that allows for personalized negotiations, ensuring a fair and tailored logistics experience.",
+      "Business needs to change daily. No two businesses move the same way. That's why our logistics service is flexible enough to support your day-to-day deliveries and changing business needs.",
+    bold: ["day-to-day deliveries"],
     variant: "white",
   },
   {
     number: "05",
     icon: "/images/logistic/benefits/icon-tracking.png",
-    iconAlt: "Real-time shipment tracking pin",
+    iconAlt: "Live shipment tracking pin",
     title: (
       <>
-        Real-Time Shipment{" "}
+        Live Shipment{" "}
         <span className="font-medium italic text-[#FCE001]">Tracking.</span>
       </>
     ),
     description:
-      "Experience the convenience of real-time tracking for your shipments, providing visibility and control throughout the transportation process.",
+      "Track each shipment from pickup to delivery. Live tracking helps you stay informed and keeps your customers updated too.",
+    bold: ["from pickup to delivery"],
     variant: "dark",
     rings: true,
   },
   {
     number: "06",
     icon: "/images/logistic/benefits/icon-globe.png",
-    iconAlt: "Community collaboration globe",
+    iconAlt: "Business partnership globe",
     title: (
       <>
-        Community{" "}
-        <span className="font-medium italic text-[#FDB813]">Collaboration.</span>
+        Business{" "}
+        <span className="font-medium italic text-[#FDB813]">Partnership.</span>
       </>
     ),
     description:
-      "Join a community-centric platform that fosters collaboration between users and logistics service providers.",
+      "We're more than a delivery platform. We work with businesses to build long-term logistics support that grows with them.",
+    bold: ["long-term logistics support"],
     variant: "white",
   },
 ];
@@ -183,7 +190,11 @@ function BenefitCard({
           isDark ? "text-white/75" : "text-[#4a4a45]"
         }`}
       >
-        {benefit.description}
+        {emphasizePhrases(
+          benefit.description,
+          benefit.bold,
+          isDark ? "onDark" : "onLight",
+        )}
       </p>
     </motion.article>
   );
@@ -225,9 +236,10 @@ export default function LogisticsBenefitsSection() {
           </h2>
 
           <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
-            Experience the future of logistics with our commission-free platform
-            designed for modern transportation needs — six ways we move you
-            forward.
+            {emphasizePhrases(
+              "Every business works differently. That's why our logistics services are customized to your operation, not the other way around.",
+              ["customized to your operation"],
+            )}
           </p>
         </motion.div>
 

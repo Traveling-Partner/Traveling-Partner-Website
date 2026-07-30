@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -117,7 +118,7 @@ export default function LogisticsHero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
-              Direct &amp; Fast — Logistics
+              Enterprise Logistics
             </span>
           </div>
 
@@ -140,21 +141,26 @@ export default function LogisticsHero() {
             className="logistics-hero-fade mb-5 text-[13px] font-bold uppercase tracking-[0.18em] text-[#fdb813] sm:text-sm sm:tracking-[0.22em]"
             style={{ animationDelay: "140ms" }}
           >
-            Direct logistics without added charges
+            Delivering business, without slowing it down.
           </p>
 
-          <p
-            className="logistics-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+          <div
+            className="logistics-hero-fade mb-8 max-w-md space-y-2.5 text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            The Logistics service empowers users by enabling direct connections
-            to logistic solutions without additional fees. Traveling Partner
-            prioritizes a commission-free approach, allowing users to manage
-            their transportation needs efficiently. Users can also share their
-            vehicles, enhancing flexibility and reducing costs. It puts the
-            power of negotiation and decision-making in your hands, providing a
-            seamless logistics solution without added financial burdens.
-          </p>
+            <p>
+              {emphasizePhrases(
+                "Every business needs deliveries they can rely on. Whether you're moving stock between sites, sending orders to customers, or managing day-to-day operations, Traveling Partner gives you the tools to keep it all moving.",
+                ["deliveries they can rely on"],
+              )}
+            </p>
+            <p>
+              {emphasizePhrases(
+                "Our enterprise logistics solutions are made for the business that relies on dependable transport, flexible fleet support and reliable deliveries every day.",
+                ["flexible fleet support"],
+              )}
+            </p>
+          </div>
 
           <div
             className="logistics-hero-fade mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
@@ -187,10 +193,10 @@ export default function LogisticsHero() {
             />
             <span className="text-[13px] text-[#4a4a45]">
               <span className="font-normal text-[#6f6e68]">
-                Direct Enterprise Freight ·
+                Flexible fleet support ·
               </span>{" "}
               <strong className="font-bold text-[#0b0b0b]">
-                Zero Commission
+                Reliable deliveries
               </strong>
             </span>
           </div>

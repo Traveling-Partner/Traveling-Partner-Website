@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const FEATURES = [
-  "Direct freight",
+  "Fleet support",
   "Live tracking",
-  "0% commission",
+  "Regular deliveries",
 ] as const;
+
+const CARD_COPY =
+  "Built for businesses that need regular deliveries, fleet support, and transport they can rely on.";
+const CARD_BOLD = ["transport they can rely on"] as const;
 
 function SparkleIcon() {
   return (
@@ -69,7 +74,7 @@ function DesktopContent() {
       </h3>
 
       <p className="mb-[7%] max-w-[210px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
-        Commission-free enterprise freight across Pakistan.
+        {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
       <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
@@ -116,7 +121,7 @@ function MobileContent() {
       </h3>
 
       <p className="mb-4 max-w-[260px] text-[13px] font-medium leading-snug text-[#2f2f2f]">
-        Commission-free enterprise freight across Pakistan.
+        {emphasizePhrases(CARD_COPY, CARD_BOLD)}
       </p>
 
       <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-2 pb-1">
