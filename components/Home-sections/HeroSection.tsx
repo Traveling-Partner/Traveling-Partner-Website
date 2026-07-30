@@ -76,7 +76,7 @@ function HeroHeadline({
       className={`font-poppins font-semibold leading-[0.98] tracking-[-0.03em] ${alignClass} ${className}`}
       style={{ fontSize: size === "tablet" ? tabletSize : mobileSize }}
     >
-      <span className="block text-[#fdb813]">One app,</span>
+      <span className="block text-[#fdb813]">One App,</span>
       <span className="block text-[#0b0b0b]">Every way</span>
       <span className="block text-[#0b0b0b]">to move.</span>
     </h1>
@@ -247,7 +247,7 @@ export default function HeroSection(): React.ReactElement {
                 letterSpacing: "-4.68px",
               }}
             >
-              <span className="block whitespace-nowrap">One app,</span>
+              <span className="block whitespace-nowrap">One App,</span>
             </h1>
 
             <h1

@@ -87,9 +87,10 @@ function RegisterHeadline(): React.ReactElement {
       <h2 id="register-section-heading" className="overflow-visible">
         <span className={`block overflow-visible ${headlineBase} font-bold not-italic text-white`}>
           Drive with us.
-          <span className={`${accentClass} inline-block pl-[0.05em] pr-[0.18em]`}> Partner</span>
         </span>
-        <span className={`block overflow-visible ${accentClass}`}>with us.</span>
+        <span className={`block overflow-visible ${accentClass}`}>
+          Partner with us.
+        </span>
       </h2>
     </div>
   );

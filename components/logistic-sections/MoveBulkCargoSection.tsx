@@ -151,7 +151,7 @@ function FloatChip({
 
 export default function MoveBulkCargoSection() {
   return (
-    <section className="bg-[#FEFBF6] py-5 sm:py-6">
+    <section className="bg-[#FEFBF6] py-2 sm:py-3">
       {/*
         Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
         Cover in flow = full natural height (no crop). Content overlays cream top.
@@ -188,9 +188,9 @@ export default function MoveBulkCargoSection() {
         </div>
 
         {/* Content overlays cover on mobile; side-by-side on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-3 lg:px-8 lg:py-2.5 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-5 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-2.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-3">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:min-h-[420px] lg:flex-row lg:items-center lg:gap-5 lg:px-9 lg:py-2 xl:px-10">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-3 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-1.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-2">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -200,7 +200,7 @@ export default function MoveBulkCargoSection() {
               </span>
             </div>
 
-            <h2 className="mb-2 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-2.5">
+            <h2 className="mb-1.5 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-1.5">
               <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
                 Load it,
               </span>
@@ -215,7 +215,7 @@ export default function MoveBulkCargoSection() {
               </span>
             </h2>
 
-            <div className="mb-2.5 max-w-[440px] space-y-0.5 text-[13px] leading-[1.35] text-[#4a4a45] lg:mb-3 lg:text-[14px] lg:leading-[1.4]">
+            <div className="mb-2 max-w-[440px] space-y-0.5 text-[13px] leading-[1.3] text-[#4a4a45] lg:mb-2 lg:text-[14px] lg:leading-[1.35]">
               <p className="font-semibold text-[#0b0b0b]">
                 Business deliveries without the back and forth.
               </p>
@@ -241,7 +241,7 @@ export default function MoveBulkCargoSection() {
               </p>
             </div>
 
-            <div className="mb-3 grid grid-cols-2 gap-2.5 lg:mb-4 lg:flex lg:gap-4">
+            <div className="mb-2 grid grid-cols-2 gap-2.5 lg:mb-2 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -357,9 +357,9 @@ export default function MoveBulkCargoSection() {
           </div>
 
           {/* Chips over lower cover (map / phone zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-4 lg:mt-0 lg:min-h-[200px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-3 lg:mt-0 lg:min-h-[320px] lg:flex-1 lg:px-0 lg:pb-0">
             <FloatChip
-              className="absolute right-1 top-[16%] sm:right-[2%] lg:-right-1 lg:top-[12%]"
+              className="absolute right-1 top-[16%] sm:right-[2%] lg:-right-1 lg:top-[10%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
@@ -373,7 +373,7 @@ export default function MoveBulkCargoSection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[28%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[62%]"
+              className="absolute bottom-[28%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[48%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
