@@ -180,7 +180,7 @@ function PanelBackground() {
 
 function FeaturePill({ label }: { label: string }) {
   return (
-    <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2.5 text-[12px] font-semibold leading-none whitespace-nowrap text-white sm:px-4 sm:py-3 sm:text-[13px]">
+    <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold leading-none whitespace-nowrap text-white sm:px-4 sm:py-2.5 sm:text-[13px]">
       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
       </span>
@@ -204,7 +204,7 @@ function DetailPanel({
   const canNext = activeIndex < RIDES.length - 1;
 
   return (
-    <div className="relative flex h-full flex-col lg:min-h-[420px] lg:rounded-l-[40px]">
+    <div className="relative flex h-full flex-col lg:rounded-l-[40px]">
       {/* ——— Mobile spotlight panel ——— */}
       <div className="relative overflow-hidden lg:hidden">
         <div className="relative overflow-hidden bg-[#FCE001] px-5 pb-8 pt-5 sm:px-6 sm:pb-9 sm:pt-6">
@@ -301,10 +301,7 @@ function DetailPanel({
                 </div>
               </div>
 
-              <p
-                className="mt-4 font-poppins text-[13.5px] font-normal leading-[1.45] text-[#0b0b0b]/78"
-                title={ride.panelDescription}
-              >
+              <p className="mt-4 font-poppins text-[13.5px] font-normal leading-[1.45] text-[#0b0b0b]/78">
                 {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
               </p>
 
@@ -332,68 +329,75 @@ function DetailPanel({
       </div>
 
       {/* ——— Desktop curved panel ——— */}
-      <div className="relative hidden h-full min-h-[420px] flex-col overflow-hidden bg-transparent p-7 lg:flex xl:p-8">
+      {/* All slides stacked in one grid cell so height = tallest ride (no clip, no jump). */}
+      <div className="relative hidden h-full flex-col overflow-hidden bg-transparent p-5 lg:flex xl:p-6">
         <PanelBackground />
         <div className="relative z-[1] grid flex-1">
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={ride.id}
-              className="col-start-1 row-start-1 flex h-full flex-col"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: EASE_IO }}
-            >
-              <Link
-                href={ride.href}
-                className="mb-4 inline-flex h-[100px] w-[100px] items-center justify-center overflow-hidden rounded-[26px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] xl:mb-5 xl:h-28 xl:w-28 xl:rounded-[28px]"
-                aria-label={`Go to ${ride.title}`}
+          {RIDES.map((panelRide, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <div
+                key={panelRide.id}
+                className={`col-start-1 row-start-1 flex flex-col transition-opacity duration-300 ${
+                  isActive
+                    ? "relative z-[1] opacity-100"
+                    : "pointer-events-none invisible opacity-0"
+                }`}
+                aria-hidden={!isActive}
               >
-                <Image
-                  src={ride.panelIcon}
-                  alt=""
-                  width={112}
-                  height={112}
-                  className="h-[70%] w-[70%] object-contain"
-                  unoptimized
-                />
-              </Link>
-
-              <h3 className="max-w-[92%] font-poppins text-[42px] font-extrabold leading-[1.06] tracking-[-0.03em] text-[#0b0b0b] xl:text-[48px]">
-                {ride.titleWithPeriod}
-              </h3>
-              <p className="mt-2 max-w-[92%] font-poppins text-[17px] font-semibold italic leading-snug text-[#0b0b0b] xl:text-[18px]">
-                {ride.subtitle}
-              </p>
-              <p
-                className="mt-3 max-w-[92%] font-poppins text-[15px] font-normal leading-[1.55] text-[#0b0b0b]/85 xl:text-[16px]"
-                title={ride.panelDescription}
-              >
-                {emphasizePhrases(ride.panelDescription, ride.boldPhrases ?? [])}
-              </p>
-
-              <div className="mt-5 flex flex-1 flex-col justify-end gap-4 pb-1">
-                <div className="flex flex-col items-start gap-3">
-                  {ride.features.map((feature) => (
-                    <FeaturePill key={feature} label={feature} />
-                  ))}
-                </div>
-
                 <Link
-                  href={ride.href}
-                  className="group inline-flex w-fit max-w-full items-center gap-3 rounded-full bg-[#0b0b0b] py-2.5 pl-5 pr-2.5 font-poppins text-[14px] font-semibold text-[#FCE001] transition-transform hover:-translate-y-0.5"
+                  href={panelRide.href}
+                  className="mb-2.5 inline-flex h-[88px] w-[88px] shrink-0 items-center justify-center overflow-hidden rounded-[24px] bg-[#0b0b0b] shadow-[0_10px_28px_rgba(11,11,11,0.22)] xl:mb-3 xl:h-[100px] xl:w-[100px] xl:rounded-[26px]"
+                  aria-label={`Go to ${panelRide.title}`}
+                  tabIndex={isActive ? undefined : -1}
                 >
-                  <span>Explore {ride.title}</span>
-                  <span
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
-                    aria-hidden
-                  >
-                    →
-                  </span>
+                  <Image
+                    src={panelRide.panelIcon}
+                    alt=""
+                    width={112}
+                    height={112}
+                    className="h-[70%] w-[70%] object-contain"
+                    unoptimized
+                  />
                 </Link>
+
+                <h3 className="max-w-[92%] shrink-0 font-poppins text-[38px] font-extrabold leading-[1.06] tracking-[-0.03em] text-[#0b0b0b] xl:text-[44px]">
+                  {panelRide.titleWithPeriod}
+                </h3>
+                <p className="mt-1.5 max-w-[92%] shrink-0 font-poppins text-[17px] font-semibold italic leading-snug text-[#0b0b0b] xl:text-[18px]">
+                  {panelRide.subtitle}
+                </p>
+                <p className="mt-2.5 max-w-[92%] shrink-0 font-poppins text-[15px] font-normal leading-[1.55] text-[#0b0b0b]/85 xl:text-[16px]">
+                  {emphasizePhrases(
+                    panelRide.panelDescription,
+                    panelRide.boldPhrases ?? [],
+                  )}
+                </p>
+
+                <div className="mt-4 flex shrink-0 flex-col gap-3 pb-1">
+                  <div className="flex flex-col items-start gap-2.5">
+                    {panelRide.features.map((feature) => (
+                      <FeaturePill key={feature} label={feature} />
+                    ))}
+                  </div>
+
+                  <Link
+                    href={panelRide.href}
+                    tabIndex={isActive ? undefined : -1}
+                    className="group inline-flex w-fit max-w-full items-center gap-3 rounded-full bg-[#0b0b0b] py-2.5 pl-5 pr-2.5 font-poppins text-[14px] font-semibold text-[#FCE001] transition-transform hover:-translate-y-0.5"
+                  >
+                    <span>Explore {panelRide.title}</span>
+                    <span
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
+                      aria-hidden
+                    >
+                      →
+                    </span>
+                  </Link>
+                </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -557,7 +561,7 @@ function RideListItem({
       type="button"
       onClick={onSelect}
       layout
-      className="group relative z-[1] flex w-full items-center gap-3 rounded-[18px] px-3 py-2.5 text-left sm:gap-3.5 sm:rounded-[20px] sm:px-3.5 sm:py-3"
+      className="group relative z-[1] flex w-full items-center gap-3 rounded-[18px] px-3 py-2 text-left sm:gap-3.5 sm:rounded-[20px] sm:px-3.5 sm:py-2"
       aria-pressed={active}
       whileHover={!active ? { backgroundColor: "rgba(255,255,255,0.03)" } : undefined}
       transition={{ duration: DURATION_FAST, ease: EASE_IO }}
@@ -626,15 +630,16 @@ function RideListItem({
           {ride.title}
         </motion.span>
         <motion.span
-          className="mt-0.5 block font-poppins text-[12px] font-medium italic leading-snug sm:text-[13px]"
+          className="mt-0.5 block line-clamp-2 font-poppins text-[12px] font-medium italic leading-snug sm:text-[13px]"
           initial={false}
           animate={{ color: active ? "rgba(252,224,1,0.8)" : "#FCE001" }}
           transition={{ duration: DURATION_FAST, ease: EASE_IO }}
+          title={ride.subtitle}
         >
           {ride.subtitle}
         </motion.span>
         <span
-          className="mt-1 block line-clamp-2 min-h-[2.5em] font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
+          className="mt-1 block line-clamp-2 font-poppins text-[11px] font-normal leading-snug text-[#9a968c] sm:text-[12px]"
           title={ride.listDescription}
         >
           {emphasizePhrases(ride.listDescription, ride.boldPhrases ?? [], "onDark")}
@@ -693,11 +698,11 @@ function RideList({
 }) {
   return (
     <nav
-      className="relative z-[1] hidden h-full flex-col justify-center gap-1 bg-[#111111] px-3.5 py-4 sm:gap-1.5 sm:px-4 sm:py-5 lg:flex lg:rounded-r-[40px] lg:bg-[#0b0b0b] lg:px-5 lg:py-6"
+      className="relative z-[1] hidden h-full min-h-0 flex-col justify-between gap-1 bg-[#111111] px-3.5 py-4 sm:px-4 lg:flex lg:rounded-r-[40px] lg:bg-[#0b0b0b] lg:px-5 lg:py-5"
       aria-label="Ride categories"
     >
       <div
-        className="pointer-events-none absolute bottom-10 left-[34px] top-10 w-px border-l border-dashed border-white/20 sm:left-[38px] lg:left-[42px]"
+        className="pointer-events-none absolute bottom-7 left-[34px] top-7 w-px border-l border-dashed border-white/20 sm:left-[38px] lg:left-[42px]"
         aria-hidden
       />
 
@@ -722,12 +727,12 @@ export default function SixRidesSection(): React.ReactElement {
   return (
     <section
       id="services"
-      className="relative w-full scroll-mt-28 overflow-hidden bg-[#FEFBF6] py-10 sm:py-12 lg:py-14"
+      className="relative w-full scroll-mt-28 overflow-hidden bg-[#FEFBF6] py-8 sm:py-10 lg:py-11"
       aria-labelledby="six-rides-heading"
     >
       <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mx-auto mb-6 max-w-[720px] text-center sm:mb-8 lg:mb-9"
+          className="mx-auto mb-5 max-w-[720px] text-center sm:mb-6 lg:mb-7"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
@@ -746,7 +751,7 @@ export default function SixRidesSection(): React.ReactElement {
               One promise.
             </span>
           </h2>
-          <p className="mx-auto mt-3 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
+          <p className="mx-auto mt-2 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
             However you move, we&apos;ve got a way. Everyday rides, shared trips,
             deliveries, business logistics, or a trip out of town — each service is
             built to make getting around Pakistan simpler and less of a headache.
@@ -760,7 +765,7 @@ export default function SixRidesSection(): React.ReactElement {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
-          <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+          <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch">
             <DetailPanel
               ride={activeRide}
               activeIndex={activeIndex}
