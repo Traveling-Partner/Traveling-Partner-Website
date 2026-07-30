@@ -179,7 +179,7 @@ export default function HeroMobileSection(): React.ReactElement {
               letterSpacing: "-0.03em",
             }}
           >
-            <span className="block text-[#fdb813]">One app,</span>
+            <span className="block text-[#fdb813]">One App,</span>
             <span className="block">Every way</span>
             <span className="block">to move.</span>
           </h1>

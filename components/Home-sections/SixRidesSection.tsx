@@ -743,18 +743,18 @@ export default function SixRidesSection(): React.ReactElement {
             className="font-poppins tracking-[-2.8px]"
           >
             <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
-              Five rides.
+              Your Move.
             </span>
             <span
               className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}
             >
-              One promise.
+              Your Way.
             </span>
           </h2>
           <p className="mx-auto mt-2 max-w-[560px] font-poppins text-[13px] font-normal leading-[1.6] text-[#6f6e68] sm:text-[14px]">
-            However you move, we&apos;ve got a way. Everyday rides, shared trips,
-            deliveries, business logistics, or a trip out of town — each service is
-            built to make getting around Pakistan simpler and less of a headache.
+            However you move, we&apos;ve got a way. From everyday rides and shared
+            travel to deliveries and business support, Traveling Partner brings
+            more ways to move together in one place.
           </p>
         </motion.div>
 

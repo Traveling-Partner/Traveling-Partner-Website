@@ -169,7 +169,7 @@ function FloatChip({
 
 export default function GoingSameWaySection() {
   return (
-    <section className="bg-[#FEFBF6] py-8 sm:py-12">
+    <section className="bg-[#FEFBF6] py-2 sm:py-4">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
         {/* Background */}
@@ -205,11 +205,11 @@ export default function GoingSameWaySection() {
           </div>
         </div>
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-7 xl:px-10">
+        <div className="relative flex flex-col lg:min-h-[500px] lg:flex-row lg:items-center lg:gap-5 lg:px-9 lg:py-2 xl:px-10">
           {/* ── Content ── */}
-          <div className="relative z-10 w-full px-5 pb-0 pt-8 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-0 pt-3 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-8">
+            <div className="mb-1 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-2">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -220,7 +220,7 @@ export default function GoingSameWaySection() {
             </div>
 
             {/* Heading — Figma mobile ~40px */}
-            <h2 className="mb-5 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-6">
+            <h2 className="mb-1 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-1">
               <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
                 Share it,
               </span>
@@ -236,7 +236,7 @@ export default function GoingSameWaySection() {
             </h2>
 
             {/* Description — Figma mobile is near-white */}
-            <div className="mb-7 max-w-[420px] space-y-1.5 text-[15px] leading-[1.45] text-white/85 lg:mb-6 lg:text-base lg:leading-[1.5] lg:text-[#b7b1a4]">
+            <div className="mb-2 max-w-[420px] space-y-0.5 text-[15px] leading-[1.35] text-white/85 lg:mb-2 lg:text-base lg:leading-[1.4] lg:text-[#b7b1a4]">
               <p className="font-bold text-white">
                 A smarter way to travel starts here.
               </p>
@@ -258,7 +258,7 @@ export default function GoingSameWaySection() {
             </div>
 
             {/* Store buttons — side-by-side (Figma) */}
-            <div className="mb-7 grid grid-cols-2 gap-2.5 lg:mb-7 lg:flex lg:gap-4">
+            <div className="mb-2 grid grid-cols-2 gap-2.5 lg:mb-2 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -348,7 +348,7 @@ export default function GoingSameWaySection() {
           </div>
 
           {/* ── Visual: cover bg on mobile (phone+van baked in) + chips ── */}
-          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[370px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-1 flex w-full items-center justify-center px-2 pb-3 lg:mt-0 lg:min-h-[240px] lg:flex-1 lg:px-0 lg:pb-0">
             {/* Dashed connector arc (desktop) */}
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[64%] w-[52%] lg:block"
@@ -367,13 +367,13 @@ export default function GoingSameWaySection() {
 
             {/* Mobile spacer — cover already includes phone + van; keep room for chips */}
             <div
-              className="relative min-h-[340px] w-full sm:min-h-[400px] lg:hidden"
+              className="relative min-h-[220px] w-full sm:min-h-[280px] lg:hidden"
               aria-hidden="true"
             />
 
             {/* Floating chips */}
             <FloatChip
-              className="absolute right-1 top-[22%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
+              className="absolute right-1 top-[18%] sm:right-[4%] lg:right-[1%] lg:top-[8%]"
               title="Split Fare"
               subtitle="Save up to 60%"
               icon={
@@ -387,7 +387,7 @@ export default function GoingSameWaySection() {
               }
             />
             <FloatChip
-              className="absolute bottom-[40%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
+              className="absolute bottom-[28%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[48%]"
               title="Same Route"
               subtitle="Instant Match"
               delay="1.4s"

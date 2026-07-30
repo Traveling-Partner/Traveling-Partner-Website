@@ -153,7 +153,7 @@ function FloatChip({
 
 export default function YourTrustSection() {
   return (
-    <section className="bg-[#FEFBF6] py-6 sm:py-10">
+    <section className="bg-[#FEFBF6] py-5 sm:py-8">
       {/*
         Mobile: card height = full cover so image never crops.
         Content overlays the cream top; phone/van stay below the stats.
@@ -189,9 +189,9 @@ export default function YourTrustSection() {
         </div>
 
         {/* Content: overlays cover on mobile; normal flow on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:h-full lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-4 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-4 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-5">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:h-full lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-3.5 xl:px-9">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-7 sm:px-6 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-3.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-4">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
                 <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
@@ -201,24 +201,24 @@ export default function YourTrustSection() {
               </span>
             </div>
 
-            <h2 className="mb-3 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] lg:mb-4">
-              <span className="text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
-                One Platform.{" "}
+            <h2 className="mb-2.5 font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] lg:mb-3.5">
+              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
+                One Platform.
               </span>
               <em
-                className="text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
+                className="block text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 Every Journey.
               </em>
             </h2>
 
-            <p className="mb-4 max-w-[440px] text-[14px] leading-[1.6] text-[#4a4a45] lg:mb-5 lg:text-base lg:leading-[1.65]">
+            <p className="mb-3.5 max-w-[440px] text-[14px] leading-[1.55] text-[#4a4a45] lg:mb-4 lg:text-base lg:leading-[1.6]">
               Everything you need to travel, deliver, or move your business is
               available in one app. Download the app and get started today.
             </p>
 
-            <div className="mb-4 grid grid-cols-2 gap-2.5 lg:mb-5 lg:flex lg:gap-4">
+            <div className="mb-3.5 grid grid-cols-2 gap-2.5 lg:mb-4 lg:flex lg:gap-4">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -334,7 +334,7 @@ export default function YourTrustSection() {
           </div>
 
           {/* Chips over lower cover (phone / van zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[320px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-5 lg:mt-0 lg:min-h-[320px] lg:flex-1 lg:px-0 lg:pb-0">
             <div className="absolute right-1 top-[22%] flex flex-col gap-3 sm:right-[2%] lg:contents">
               <FloatChip
                 className="relative lg:absolute lg:right-[2%] lg:top-[12%]"
