@@ -72,7 +72,7 @@ export default function BrowseTopicsSection({
             <span className="font-medium italic text-[#FCE001]">topic.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-[560px] text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
-            Find answers to your questions about our services and products.
+            Choose a topic below or search for what you need.
           </p>
         </div>
 
