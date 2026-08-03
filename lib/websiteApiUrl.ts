@@ -1,7 +1,9 @@
 /**
- * Website API URLs — live production API only.
- * Blog/client fetches always use https://api.traveling-partner.com/api/website/*
- * (never same-origin /website proxy on staging hosts).
+ * Website API URLs — production API only.
+ * https://api.traveling-partner.com/api/website/*
+ *
+ * Note: browsers on staging get 403 from the API (CORS). Client fetch
+ * falls back to same-origin /blog-list.json (built from this API).
  */
 
 export const PUBLIC_WEBSITE_API_BASE =
@@ -17,6 +19,25 @@ function envBaseToWebsiteApiBase(base: string): string {
 
 /** Same resolver the admin portal should use (from NEXT_PUBLIC_API_BASE_URL). */
 export function getWebsiteApiBase(): string {
+  // Always prefer live production website API for blog/content endpoints.
+  return PUBLIC_WEBSITE_API_BASE;
+}
+
+export function websiteApiUrl(path: string): string {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return `${PUBLIC_WEBSITE_API_BASE}${segment}`;
+}
+
+/**
+ * Browser fetch targets — production API only (never staging /website proxy).
+ */
+export function websiteApiUrlsForBrowser(path: string): string[] {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return [`${PUBLIC_WEBSITE_API_BASE}${segment}`];
+}
+
+/** Kept for tooling that still reads env (contact, scripts). */
+export function getWebsiteApiBaseFromEnv(): string {
   const fromEnv =
     (globalThis as { process?: { env?: Record<string, string | undefined> } })
       .process?.env?.NEXT_PUBLIC_API_URL?.trim() ||
@@ -24,18 +45,4 @@ export function getWebsiteApiBase(): string {
       .process?.env?.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (fromEnv) return envBaseToWebsiteApiBase(fromEnv);
   return PUBLIC_WEBSITE_API_BASE;
-}
-
-export function websiteApiUrl(path: string): string {
-  const segment = path.startsWith("/") ? path : `/${path}`;
-  return `${getWebsiteApiBase()}${segment}`;
-}
-
-/**
- * Browser fetch targets — production API only.
- * Always https://api.traveling-partner.com/api/website/...
- */
-export function websiteApiUrlsForBrowser(path: string): string[] {
-  const segment = path.startsWith("/") ? path : `/${path}`;
-  return [`${PUBLIC_WEBSITE_API_BASE}${segment}`];
 }
