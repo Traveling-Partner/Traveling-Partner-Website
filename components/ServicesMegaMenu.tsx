@@ -486,14 +486,15 @@ export function ServicesMobileAccordion({
 
   useEffect(() => {
     if (!expanded) return;
-    const chip = chipsRef.current?.querySelector<HTMLElement>(
+    const container = chipsRef.current;
+    const chip = container?.querySelector<HTMLElement>(
       `[data-chip-id="${activeId}"]`,
     );
-    chip?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
-    });
+    if (!container || !chip) return;
+    // Scroll only the chip row — avoid jumping the whole mobile header
+    const left =
+      chip.offsetLeft - (container.clientWidth - chip.clientWidth) / 2;
+    container.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
   }, [activeId, expanded]);
 
   return (

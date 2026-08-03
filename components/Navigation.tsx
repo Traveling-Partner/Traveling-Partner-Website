@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type MouseEvent } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
@@ -11,6 +17,8 @@ import {
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [panelTop, setPanelTop] = useState(72);
+  const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname() ?? "";
 
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -26,10 +34,38 @@ export default function Navigation() {
     }
   };
 
+  // Close mobile menu on route change
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll while mobile menu is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen]);
+
+  // Keep dropdown pinned under the nav pill on mobile
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+
+    const updatePanelTop = () => {
+      const nav = navRef.current;
+      if (!nav) return;
+      const rect = nav.getBoundingClientRect();
+      setPanelTop(Math.round(rect.bottom + 10));
+    };
+
+    updatePanelTop();
+    window.addEventListener("resize", updatePanelTop);
+    window.addEventListener("scroll", updatePanelTop, true);
+    return () => {
+      window.removeEventListener("resize", updatePanelTop);
+      window.removeEventListener("scroll", updatePanelTop, true);
     };
   }, [isOpen]);
 
@@ -66,12 +102,12 @@ export default function Navigation() {
     pathname === "/blog" ||
     pathname === "/blog/detail" ||
     overlayHeroPaths.some(
-      (p) => pathname === p || pathname.startsWith(`${p}/`)
+      (p) => pathname === p || pathname.startsWith(`${p}/`),
     );
 
   return (
     <header
-      className={`z-50 w-full px-3 sm:px-4 ${
+      className={`z-[60] w-full px-3 sm:px-4 ${
         isOverlayHeroPage
           ? "absolute inset-x-0 top-0 bg-transparent pt-3 sm:pt-5 md:pt-[43px]"
           : "relative bg-white py-3 sm:py-4"
@@ -79,7 +115,8 @@ export default function Navigation() {
     >
       <div className="relative mx-auto w-full max-w-4xl min-[1200px]:max-w-[1920px]">
         <nav
-          className={`relative flex h-14 w-full items-center justify-between gap-2 rounded-[100px] bg-white px-3 shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] sm:h-[66px] sm:gap-3 sm:px-5 md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[66px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:px-5 min-[1200px]:py-2`}
+          ref={navRef}
+          className={`relative z-[70] flex h-14 w-full items-center justify-between gap-2 rounded-[100px] bg-white px-3 shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)] sm:h-[66px] sm:gap-3 sm:px-5 md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[66px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:px-5 min-[1200px]:py-2`}
         >
           <Link
             href="/"
@@ -150,7 +187,7 @@ export default function Navigation() {
 
           <button
             type="button"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((v) => !v)}
             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 min-[1200px]:hidden ${
               isOpen
                 ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white"
@@ -177,18 +214,23 @@ export default function Navigation() {
         {isOpen && (
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-[#0b0b0b]/25 backdrop-blur-[2px] min-[1200px]:hidden"
+            className="fixed inset-0 z-[55] bg-[#0b0b0b]/35 backdrop-blur-[2px] min-[1200px]:hidden"
             aria-label="Close menu"
             onClick={() => setIsOpen(false)}
           />
         )}
 
         <div
-          className={`absolute left-0 right-0 top-[calc(100%+10px)] z-50 overflow-hidden rounded-[28px] border border-white/80 bg-white/95 shadow-[0_20px_60px_rgba(11,11,11,0.12),0_8px_24px_rgba(11,11,11,0.08)] backdrop-blur-xl transition-all duration-300 min-[1200px]:hidden ${
+          className={`fixed left-3 right-3 z-[65] overflow-hidden rounded-[24px] border border-white/80 bg-white/95 shadow-[0_20px_60px_rgba(11,11,11,0.14),0_8px_24px_rgba(11,11,11,0.08)] backdrop-blur-xl transition-all duration-300 min-[1200px]:hidden sm:left-4 sm:right-4 ${
             isOpen
               ? "pointer-events-auto translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-2 opacity-0"
           }`}
+          style={{
+            top: panelTop,
+            maxHeight: `calc(100dvh - ${panelTop + 12}px)`,
+          }}
+          aria-hidden={!isOpen}
         >
           <div className="border-b border-[#faf5e4] bg-gradient-to-r from-[#fffcf2] via-white to-[#faf5e4] px-4 py-3 sm:px-5">
             <p className="font-montserrat text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6f6e68]">
@@ -196,7 +238,12 @@ export default function Navigation() {
             </p>
           </div>
 
-          <div className="max-h-[min(70vh,520px)] overflow-y-auto px-3 py-3 sm:px-4">
+          <div
+            className="overflow-y-auto overscroll-contain px-3 py-3 sm:px-4"
+            style={{
+              maxHeight: `calc(100dvh - ${panelTop + 56}px)`,
+            }}
+          >
             <div className="grid gap-1">
               <Link
                 href="/"
