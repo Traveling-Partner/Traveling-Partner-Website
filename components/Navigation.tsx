@@ -12,10 +12,13 @@ import {
 } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ServicesMegaMenuDesktop,
   ServicesMobileAccordion,
 } from "@/components/ServicesMegaMenu";
+
+const easeOut = [0.22, 1, 0.36, 1] as const;
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +27,7 @@ export default function Navigation() {
   const menuBtnRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname() ?? "";
+  const reduceMotion = !!useReducedMotion();
 
   const closeMenu = useCallback((returnFocus = false) => {
     setIsOpen(false);
@@ -300,91 +304,122 @@ export default function Navigation() {
           </div>
         </nav>
 
-        {/* Light dim — no frost / white wash */}
-        {isOpen && (
-          <button
-            type="button"
-            className="fixed inset-0 z-[55] bg-black/25 min-[1200px]:hidden"
-            aria-label="Close menu"
-            onClick={() => closeMenu()}
-          />
-        )}
-
-        <div
-          ref={(el) => {
-            panelRef.current = el;
-          }}
-          id="mobile-nav-sheet"
-          role="dialog"
-          aria-modal={isOpen}
-          aria-label="Site menu"
-          className={`fixed left-3 right-3 z-[65] flex flex-col overflow-hidden rounded-[20px] border border-black/[0.08] bg-white shadow-[0_20px_50px_rgba(11,11,11,0.2)] transition-all duration-300 min-[1200px]:hidden sm:left-4 sm:right-4 ${
-            isOpen
-              ? "pointer-events-auto translate-y-0 opacity-100"
-              : "pointer-events-none invisible -translate-y-2 opacity-0"
-          }`}
-          style={{
-            top: panelTop,
-            maxHeight: sheetMaxH,
-          }}
-          aria-hidden={!isOpen}
-          {...(!isOpen ? ({ inert: true } as Record<string, boolean>) : {})}
-        >
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pt-2.5">
-            <div className="grid gap-0.5 pb-2">
-              <Link
-                href="/"
-                onClick={(e) => handleNavClick(e, "/")}
-                className={mobileLinkClass("/")}
-              >
-                Home
-              </Link>
-
-              <ServicesMobileAccordion
-                onNavigate={handleNavClick}
-                isServiceActive={isActive}
-                onClose={() => closeMenu()}
-                scrollParentRef={panelRef}
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              <motion.button
+                key="mobile-nav-dim"
+                type="button"
+                className="fixed inset-0 z-[55] bg-black/25 min-[1200px]:hidden"
+                aria-label="Close menu"
+                onClick={() => closeMenu()}
+                initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.2, ease: easeOut }
+                }
               />
 
-              <Link
-                href="/about"
-                onClick={(e) => handleNavClick(e, "/about")}
-                className={mobileLinkClass("/about")}
+              <motion.div
+                key="mobile-nav-sheet"
+                ref={(el) => {
+                  panelRef.current = el;
+                }}
+                id="mobile-nav-sheet"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Site menu"
+                className="fixed left-3 right-3 z-[65] flex flex-col overflow-hidden rounded-[20px] border border-black/[0.08] bg-white shadow-[0_20px_50px_rgba(11,11,11,0.2)] min-[1200px]:hidden sm:left-4 sm:right-4"
+                style={{
+                  top: panelTop,
+                  maxHeight: sheetMaxH,
+                }}
+                initial={
+                  reduceMotion
+                    ? { opacity: 1 }
+                    : { opacity: 0, y: 12, scale: 0.985 }
+                }
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={
+                  reduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: 8, scale: 0.99 }
+                }
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.26, ease: easeOut }
+                }
               >
-                About Us
-              </Link>
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pt-2.5">
+                  <div className="grid gap-0.5 pb-2">
+                    <Link
+                      href="/"
+                      onClick={(e) => handleNavClick(e, "/")}
+                      className={mobileLinkClass("/")}
+                    >
+                      Home
+                    </Link>
 
-              <Link
-                href="/blog"
-                onClick={(e) => handleNavClick(e, "/blog")}
-                className={mobileLinkClass("/blog")}
-              >
-                Blog
-              </Link>
+                    <ServicesMobileAccordion
+                      onNavigate={handleNavClick}
+                      isServiceActive={isActive}
+                      onClose={() => closeMenu()}
+                      scrollParentRef={panelRef}
+                    />
 
-              <Link
-                href="/help"
-                onClick={(e) => handleNavClick(e, "/help")}
-                className={mobileLinkClass("/help")}
-              >
-                Help Center
-              </Link>
-            </div>
-          </div>
+                    <Link
+                      href="/about"
+                      onClick={(e) => handleNavClick(e, "/about")}
+                      className={mobileLinkClass("/about")}
+                    >
+                      About Us
+                    </Link>
 
-          {/* Sticky Contact CTA */}
-          <div className="shrink-0 border-t border-black/[0.06] bg-white px-2.5 py-2.5 pb-[max(10px,env(safe-area-inset-bottom))]">
-            <Link
-              href="/contact"
-              onClick={(e) => handleNavClick(e, "/contact")}
-              className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 font-montserrat text-[14px] font-bold text-[#0b0b0b] shadow-[0_6px_16px_rgba(253,184,19,0.35)]"
-            >
-              Contact Us
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
+                    <Link
+                      href="/blog"
+                      onClick={(e) => handleNavClick(e, "/blog")}
+                      className={mobileLinkClass("/blog")}
+                    >
+                      Blog
+                    </Link>
+
+                    <Link
+                      href="/help"
+                      onClick={(e) => handleNavClick(e, "/help")}
+                      className={mobileLinkClass("/help")}
+                    >
+                      Help Center
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="shrink-0 border-t border-black/[0.06] bg-white px-2.5 py-2.5 pb-[max(10px,env(safe-area-inset-bottom))]">
+                  <motion.div
+                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { duration: 0.12, ease: easeOut }
+                    }
+                  >
+                    <Link
+                      href="/contact"
+                      onClick={(e) => handleNavClick(e, "/contact")}
+                      className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 font-montserrat text-[14px] font-bold text-[#0b0b0b] shadow-[0_6px_16px_rgba(253,184,19,0.35)]"
+                    >
+                      Contact Us
+                      <span aria-hidden>→</span>
+                    </Link>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );
