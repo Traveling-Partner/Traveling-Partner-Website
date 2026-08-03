@@ -70,7 +70,7 @@ export default function HelpHero({
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
-            Support · We Are Here!!!
+            Need a hand?
           </span>
         </div>
 
@@ -82,15 +82,10 @@ export default function HelpHero({
         </h1>
 
         <p className="mb-8 max-w-[720px] text-[15px] leading-relaxed text-[#4a4a45] sm:mb-10 sm:text-base sm:leading-[1.7] md:mb-12">
-          <span className="block">
-            Find answers to common questions about Traveling Partner services.
-          </span>
-          <span className="block">
-            Search our help center or browse by topic below.
-          </span>
-          <span className="block">
-            Everything you need to travel smarter, safer, and together.
-          </span>
+          Whether you&apos;re booking a ride, sending a parcel, managing a
+          business delivery, or planning a trip, you&apos;ll find the most
+          common questions here. Choose a topic below or search for what you
+          need.
         </p>
 
         <form
@@ -103,7 +98,7 @@ export default function HelpHero({
               type="search"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search help articles..."
+              placeholder="Search rides, deliveries, payments or trips..."
               className="min-w-0 flex-1 bg-transparent py-2 text-[14px] text-[#0b0b0b] outline-none placeholder:text-[#9a968c] sm:text-[15px]"
               aria-label="Search help articles"
             />

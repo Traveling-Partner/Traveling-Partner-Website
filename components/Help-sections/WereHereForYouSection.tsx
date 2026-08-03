@@ -189,25 +189,25 @@ function SectionCopy({
           <span className="relative h-[6px] w-[6px] rounded-full bg-[#FCE001]" />
         </span>
         <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-white sm:text-[10px]">
-          WE&apos;RE HERE FOR YOU
+          Still Need Help?
         </span>
       </div>
 
       <h2
         className={`font-extrabold tracking-tight text-[#0b0b0b] ${headingClassName}`}
       >
-        <span className="block">How can we</span>
+        <span className="block">Didn&apos;t find what</span>
         <em
           className="mt-0.5 block font-medium italic text-[#FDB813]"
           style={{ fontStyle: "italic" }}
         >
-          help you today?
+          you were looking for?
         </em>
       </h2>
 
       <p className={`text-[#6B6960] ${bodyClassName}`}>
-        Our support team is available 24/7. Reach us through any channel
-        that&apos;s most convenient for you.
+        Send us a message and our team will review your request as soon as
+        possible.
       </p>
     </>
   );
