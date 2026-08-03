@@ -440,13 +440,9 @@ export default function OurServicesSection(): React.ReactElement {
               id="our-services-heading"
               className="font-poppins tracking-[-2.8px]"
             >
-              <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
-                Five rides.
-              </span>
-              <span
-                className={`block text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] ${accentYellowClass}`}
-              >
-                One platform.
+              <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[1.05] text-[#0b0b0b]">
+                One App. More Ways to{" "}
+                <span className={accentYellowClass}>Move.</span>
               </span>
             </h2>
 
