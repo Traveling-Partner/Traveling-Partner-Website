@@ -258,7 +258,7 @@ export function ServicesMegaMenuDesktop({
       <button
         ref={triggerRef}
         type="button"
-        className={`inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
+        className={`relative inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
           open || anyServiceActive
             ? "bg-[rgba(11,11,11,0.07)] text-black"
             : "text-black hover:bg-[rgba(11,11,11,0.07)]"
@@ -272,10 +272,20 @@ export function ServicesMegaMenuDesktop({
         }}
         onKeyDown={onTriggerKeyDown}
       >
+        {open && !reduceMotion && (
+          <motion.span
+            layoutId="services-trigger-glow"
+            className="pointer-events-none absolute inset-x-2 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-[#FCE001] to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.9 }}
+            transition={t(0.25)}
+            aria-hidden
+          />
+        )}
         Services
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.2, ease: easeOut }}
+          transition={t(0.2)}
           className="text-[10px] opacity-60"
           aria-hidden
         >
@@ -289,10 +299,14 @@ export function ServicesMegaMenuDesktop({
             id={menuId}
             role="menu"
             aria-label="Services"
-            initial={{ opacity: 0, y: 8, scale: 0.985 }}
+            initial={
+              reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10, scale: 0.985 }
+            }
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.99 }}
-            transition={{ duration: 0.22, ease: easeOut }}
+            exit={
+              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.99 }
+            }
+            transition={t(0.26)}
             style={panelStyle}
             className="pt-2.5"
             onMouseEnter={openMenu}
@@ -307,7 +321,7 @@ export function ServicesMegaMenuDesktop({
               }}
             >
               <div className="grid h-full grid-cols-[220px_minmax(0,1fr)] gap-4 xl:grid-cols-[232px_minmax(0,1fr)]">
-                {/* Left list */}
+                {/* Left list — staggered entrance */}
                 <div
                   ref={listRef}
                   id={listboxId}
@@ -324,73 +338,90 @@ export function ServicesMegaMenuDesktop({
                   {SERVICES.map((service, index) => {
                     const isActive = service.id === activeId;
                     return (
-                      <Link
+                      <motion.div
                         key={service.id}
-                        id={`${menuId}-option-${service.id}`}
-                        href={service.href}
-                        role="option"
-                        aria-selected={isActive}
-                        data-service-index={index}
-                        tabIndex={isActive ? 0 : -1}
-                        onMouseEnter={() => setActiveId(service.id)}
-                        onFocus={() => setActiveId(service.id)}
-                        onClick={(e) => {
-                          closeMenu();
-                          onNavigate(e, service.href);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            // Link handles Enter; Space needs preventDefault to avoid scroll
+                        initial={
+                          reduceMotion ? false : { opacity: 0, x: -8 }
+                        }
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={t(0.22, index * 0.03)}
+                      >
+                        <Link
+                          id={`${menuId}-option-${service.id}`}
+                          href={service.href}
+                          role="option"
+                          aria-selected={isActive}
+                          data-service-index={index}
+                          tabIndex={isActive ? 0 : -1}
+                          onMouseEnter={() => setActiveId(service.id)}
+                          onFocus={() => setActiveId(service.id)}
+                          onClick={(e) => {
+                            closeMenu();
+                            onNavigate(e, service.href);
+                          }}
+                          onKeyDown={(e) => {
                             if (e.key === " ") {
                               e.preventDefault();
                               e.currentTarget.click();
                             }
-                          }
-                        }}
-                        className={`group relative flex items-center gap-3 rounded-[12px] px-2.5 py-2.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 focus-visible:ring-offset-1 ${
-                          isActive
-                            ? "bg-gradient-to-r from-[#FCE001]/28 via-[#FCE001]/12 to-transparent"
-                            : "hover:bg-[rgba(11,11,11,0.04)]"
-                        }`}
-                      >
-                        {isActive && (
-                          <motion.span
-                            layoutId="services-mega-accent"
-                            className="absolute bottom-2 left-0 top-2 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
-                            transition={{ duration: 0.22, ease: easeOut }}
-                          />
-                        )}
-                        <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/5 bg-white shadow-[0_2px_8px_rgba(11,11,11,0.06)]">
-                          <Image
-                            src={service.icon}
-                            alt=""
-                            width={36}
-                            height={36}
-                            className="h-9 w-9 scale-110 object-contain"
-                          />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block font-montserrat text-[13px] font-semibold leading-tight text-[#0b0b0b]">
-                            {service.label}
+                          }}
+                          className={`group relative flex items-center gap-3 rounded-[12px] px-2.5 py-2.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 focus-visible:ring-offset-1 ${
+                            isActive
+                              ? "bg-gradient-to-r from-[#FCE001]/28 via-[#FCE001]/12 to-transparent"
+                              : "hover:bg-[rgba(11,11,11,0.04)]"
+                          }`}
+                        >
+                          {isActive && (
+                            <motion.span
+                              layoutId="services-mega-accent"
+                              className="absolute bottom-2 left-0 top-2 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                              transition={
+                                reduceMotion
+                                  ? { duration: 0 }
+                                  : { type: "spring", stiffness: 420, damping: 32 }
+                              }
+                            />
+                          )}
+                          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/5 bg-white shadow-[0_2px_8px_rgba(11,11,11,0.06)]">
+                            <Image
+                              src={service.icon}
+                              alt=""
+                              width={36}
+                              height={36}
+                              className="h-9 w-9 scale-110 object-contain"
+                            />
                           </span>
-                          <span className="mt-0.5 block truncate font-montserrat text-[11px] leading-snug text-[#6f6e68]">
-                            {service.short}
+                          <span className="min-w-0">
+                            <span className="block font-montserrat text-[13px] font-semibold leading-tight text-[#0b0b0b]">
+                              {service.label}
+                            </span>
+                            <span className="mt-0.5 block truncate font-montserrat text-[11px] leading-snug text-[#6f6e68]">
+                              {service.short}
+                            </span>
                           </span>
-                        </span>
-                      </Link>
+                        </Link>
+                      </motion.div>
                     );
                   })}
                 </div>
 
-                {/* Right: full-width hero + meta */}
+                {/* Right: hero + meta */}
                 <div className="min-w-0">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={active.id}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.18, ease: easeOut }}
+                      initial={
+                        reduceMotion
+                          ? { opacity: 1 }
+                          : { opacity: 0, y: 8, scale: 0.98 }
+                      }
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={
+                        reduceMotion
+                          ? { opacity: 0 }
+                          : { opacity: 0, y: -4, scale: 0.99 }
+                      }
+                      transition={t(0.2)}
                       className="flex h-full flex-col"
                     >
                       <Link
@@ -412,7 +443,12 @@ export function ServicesMegaMenuDesktop({
                               transform: `translateY(${active.heroOffsetY ?? 0}px) scale(${active.heroScale ?? 1})`,
                             }}
                           >
-                            <div className="relative h-full w-full transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]">
+                            <motion.div
+                              className="relative h-full w-full transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]"
+                              initial={reduceMotion ? false : { y: 6, opacity: 0.85 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              transition={t(0.28)}
+                            >
                               <Image
                                 src={active.hero}
                                 alt=""
@@ -421,7 +457,7 @@ export function ServicesMegaMenuDesktop({
                                 className="object-contain object-center"
                                 priority
                               />
-                            </div>
+                            </motion.div>
                           </div>
                         </div>
                         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#fff8e4]/95 via-[#fff8e4]/35 to-transparent px-3.5 pb-2.5 pt-8">
@@ -434,7 +470,12 @@ export function ServicesMegaMenuDesktop({
                         </div>
                       </Link>
 
-                      <div className="mt-3 flex items-end justify-between gap-3">
+                      <motion.div
+                        className="mt-3 flex items-end justify-between gap-3"
+                        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={t(0.22, 0.06)}
+                      >
                         <div className="min-w-0">
                           <h3 className="font-montserrat text-[16px] font-bold tracking-tight text-[#0b0b0b]">
                             {active.label}
@@ -443,34 +484,45 @@ export function ServicesMegaMenuDesktop({
                             {active.description}
                           </p>
                           <ul className="mt-2 flex flex-wrap gap-1.5">
-                            {active.features.map((feature) => (
-                              <li
+                            {active.features.map((feature, i) => (
+                              <motion.li
                                 key={feature}
+                                initial={
+                                  reduceMotion ? false : { opacity: 0, y: 4 }
+                                }
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={t(0.18, 0.08 + i * 0.04)}
                                 className="rounded-full border border-black/6 bg-white/80 px-2 py-0.5 font-montserrat text-[10.5px] font-medium text-[#3a3934]"
                               >
                                 {feature}
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
 
-                        <Link
-                          href={active.href}
-                          onClick={(e) => {
-                            closeMenu();
-                            onNavigate(e, active.href);
-                          }}
-                          className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-2 font-montserrat text-[12px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#111] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
+                        <motion.div
+                          whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+                          whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+                          transition={t(0.15)}
                         >
-                          Explore
-                          <span
-                            className="transition-transform duration-200 group-hover:translate-x-0.5"
-                            aria-hidden
+                          <Link
+                            href={active.href}
+                            onClick={(e) => {
+                              closeMenu();
+                              onNavigate(e, active.href);
+                            }}
+                            className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-2 font-montserrat text-[12px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#111] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
                           >
-                            →
-                          </span>
-                        </Link>
-                      </div>
+                            Explore
+                            <span
+                              className="transition-transform duration-200 group-hover:translate-x-0.5"
+                              aria-hidden
+                            >
+                              →
+                            </span>
+                          </Link>
+                        </motion.div>
+                      </motion.div>
                     </motion.div>
                   </AnimatePresence>
                 </div>
@@ -501,6 +553,7 @@ export function ServicesMobileAccordion({
   const exploreRef = useRef<HTMLAnchorElement>(null);
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
   const anyServiceActive = SERVICES.some((s) => isServiceActive(s.href));
+  const { reduceMotion, t } = useMotionPrefs();
 
   useEffect(() => {
     if (!expanded) return;
@@ -550,7 +603,7 @@ export function ServicesMobileAccordion({
         Services
         <motion.span
           animate={{ rotate: expanded ? 180 : 0 }}
-          transition={{ duration: 0.2, ease: easeOut }}
+          transition={t(0.2)}
           className="text-[11px] opacity-70"
           aria-hidden
         >
@@ -561,10 +614,10 @@ export function ServicesMobileAccordion({
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
+            initial={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: easeOut }}
+            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={t(0.24)}
             className="overflow-hidden"
           >
             <div className="space-y-2 px-1 pb-2 pt-1.5">
@@ -575,12 +628,23 @@ export function ServicesMobileAccordion({
                 {SERVICES.map((service) => {
                   const selected = service.id === activeId;
                   return (
-                    <button
+                    <motion.button
                       key={service.id}
                       type="button"
                       data-chip-id={service.id}
                       onClick={() => setActiveId(service.id)}
-                      className={`flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 outline-none transition-all duration-200 ${
+                      animate={
+                        reduceMotion
+                          ? undefined
+                          : { scale: selected ? 1.04 : 1 }
+                      }
+                      whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+                      transition={
+                        reduceMotion
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 400, damping: 26 }
+                      }
+                      className={`flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 outline-none transition-colors duration-200 ${
                         selected
                           ? "bg-[#0b0b0b] text-[#FCE001]"
                           : "bg-[#f3f0e7] text-[#0b0b0b]"
@@ -596,27 +660,35 @@ export function ServicesMobileAccordion({
                       <span className="font-montserrat text-[11px] font-semibold">
                         {service.label}
                       </span>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
 
-              {/* Compact service hero — contain + no Y offset so nothing clips at bottom */}
               <div className="relative h-[132px] overflow-hidden rounded-2xl bg-[#f7f4ec] sm:h-[148px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.16, ease: easeOut }}
+                    initial={
+                      reduceMotion
+                        ? { opacity: 1 }
+                        : { opacity: 0, scale: 0.96 }
+                    }
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={
+                      reduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 0.98 }
+                    }
+                    transition={t(0.18)}
                     className="absolute inset-0 flex items-center justify-center p-1"
                   >
                     <div
                       className="relative h-full w-full"
                       style={{
                         transform: `scale(${
-                          active.id === "taxi-stand" || active.id === "pool-ride"
+                          active.id === "taxi-stand" ||
+                          active.id === "pool-ride"
                             ? 1.28
                             : 1.08
                         })`,
@@ -639,18 +711,23 @@ export function ServicesMobileAccordion({
                 {active.short}
               </p>
 
-              <Link
-                ref={exploreRef}
-                href={active.href}
-                onClick={(e) => {
-                  onClose();
-                  onNavigate(e, active.href);
-                }}
-                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001]"
+              <motion.div
+                whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                transition={t(0.12)}
               >
-                Explore {active.label}
-                <span aria-hidden>→</span>
-              </Link>
+                <Link
+                  ref={exploreRef}
+                  href={active.href}
+                  onClick={(e) => {
+                    onClose();
+                    onNavigate(e, active.href);
+                  }}
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001]"
+                >
+                  Explore {active.label}
+                  <span aria-hidden>→</span>
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
