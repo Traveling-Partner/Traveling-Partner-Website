@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const backendOrigin =
-  (process.env.BACKEND_ORIGIN || "http://45.55.78.67:8080").replace(
+  (process.env.BACKEND_ORIGIN || "https://api.traveling-partner.com").replace(
     /\/$/,
     ""
   );

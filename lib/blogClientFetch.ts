@@ -1,4 +1,8 @@
-import { extractBlogDetail, findBlogInListPayload } from "@/lib/blogApi";
+import {
+  BLOG_LIST_STATIC_PATH,
+  extractBlogDetail,
+  findBlogInListPayload,
+} from "@/lib/blogApi";
 import { websiteApiUrlsForBrowser } from "@/lib/websiteApiUrl";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
@@ -14,10 +18,17 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
 }
 
 /**
- * Blog list — live API only (same backend as admin portal). No static JSON cache.
+ * Blog list — production API first, then same-origin snapshot.
+ *
+ * Staging hosts get 403 from api.traveling-partner.com (CORS), so
+ * /blog-list.json (generated at build from that API) keeps blogs visible.
+ * Never calls /website/* on the staging domain.
  */
 export async function fetchBlogListClient(): Promise<unknown> {
-  const urls = websiteApiUrlsForBrowser("/blog/list");
+  const urls = [
+    ...websiteApiUrlsForBrowser("/blog/list"),
+    BLOG_LIST_STATIC_PATH,
+  ];
   const errors: string[] = [];
 
   for (const url of urls) {
@@ -35,7 +46,7 @@ export async function fetchBlogListClient(): Promise<unknown> {
 }
 
 /**
- * Blog detail — live API only (view endpoint + list fallback).
+ * Blog detail — production API first, then static snapshot / list fallback.
  */
 export async function fetchBlogDetailClient(
   routeId: string,
@@ -52,6 +63,16 @@ export async function fetchBlogDetailClient(
       } catch {
         /* try next URL */
       }
+    }
+
+    try {
+      const staticDetail = await fetchJsonUrl(
+        `/blog-data/${encodeURIComponent(candidateId)}.json`
+      );
+      const detail = extractBlogDetail(staticDetail);
+      if (detail) return detail;
+    } catch {
+      /* try next */
     }
   }
 
