@@ -3,8 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { FaFacebook, FaLinkedin, FaLink } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaLink } from "react-icons/fa";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
 import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
@@ -12,6 +11,7 @@ import {
   extractHeadingsFromHtml,
   normalizeBlogContentHtml,
 } from "@/lib/blogDetailContent";
+import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 type ShareLinks = Record<string, string>;
 
@@ -37,24 +37,62 @@ const NAV_OFFSET = 108;
 
 type PinMode = "static" | "fixed" | "bottom";
 
-function VerticalShareButton({
+function SocialIconButton({
   href,
   label,
+  color = "#0b0b0b",
   children,
   onClick,
+  copied,
+  size = "md",
 }: {
   href?: string;
   label: string;
+  color?: string;
   children: ReactNode;
   onClick?: () => void;
+  copied?: boolean;
+  size?: "sm" | "md";
 }) {
-  const className =
-    "flex h-11 w-11 items-center justify-center rounded-full border border-[#eceae4] bg-white text-[#0b0b0b] shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all hover:border-[#FCE001] hover:shadow-[0_4px_12px_rgba(252,224,1,0.2)]";
+  const dim = size === "sm" ? "h-8 w-8" : "h-10 w-10";
+  const className = copied
+    ? `group relative flex ${dim} items-center justify-center overflow-hidden rounded-full bg-[#22c55e] text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]`
+    : `group relative flex ${dim} items-center justify-center overflow-hidden rounded-full border border-[#eceae4] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:border-transparent hover:shadow-[0_6px_16px_rgba(253,184,19,0.45)]`;
+
+  const content = (
+    <>
+      {!copied && (
+        <span
+          className="absolute inset-0 bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          aria-hidden
+        />
+      )}
+      <span
+        className={`relative z-[1] flex items-center justify-center transition-colors duration-300 ${
+          copied
+            ? "text-white"
+            : "text-[var(--social-color)] group-hover:text-[#0b0b0b]"
+        }`}
+      >
+        {children}
+      </span>
+    </>
+  );
+
+  const style = copied
+    ? undefined
+    : ({ ["--social-color" as string]: color } as CSSProperties);
 
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} aria-label={label} className={className}>
-        {children}
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={label}
+        className={className}
+        style={style}
+      >
+        {content}
       </button>
     );
   }
@@ -66,11 +104,14 @@ function VerticalShareButton({
       rel="noopener noreferrer"
       aria-label={label}
       className={className}
+      style={style}
     >
-      {children}
+      {content}
     </a>
   );
 }
+
+const SHARE_BOTTOM_PAD = 24;
 
 function getPinStyle(
   pin: PinMode,
@@ -83,6 +124,11 @@ function getPinStyle(
       left: coords.left,
       width: coords.width,
       zIndex: 30,
+      // Keep full icon stack visible — scroll inside rail if needed
+      maxHeight: `calc(100vh - ${NAV_OFFSET + SHARE_BOTTOM_PAD}px)`,
+      overflowY: "auto",
+      paddingBottom: 8,
+      scrollbarWidth: "none",
     };
   }
   if (pin === "bottom") {
@@ -159,7 +205,10 @@ export default function BlogDetailBody({
         return;
       }
 
-      if (layoutRect.bottom <= NAV_OFFSET + innerHeight + 16) {
+      const availableH = window.innerHeight - NAV_OFFSET - SHARE_BOTTOM_PAD;
+      const effectiveH = Math.min(innerHeight, availableH);
+
+      if (layoutRect.bottom <= NAV_OFFSET + effectiveH + 16) {
         setPin("bottom");
         return;
       }
@@ -222,34 +271,33 @@ export default function BlogDetailBody({
           <div ref={shareColRef} className="relative hidden min-h-[1px] lg:block">
             <aside
               ref={shareInnerRef}
-              className="flex flex-col items-center gap-3 pt-2"
+              className="flex flex-col items-center gap-1.5 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               style={getPinStyle(sharePin, shareCoords)}
               aria-label="Share this story"
             >
-              <span className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#9a968c] [writing-mode:vertical-rl] rotate-180">
+              <span className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#9a968c] [writing-mode:vertical-rl] rotate-180">
                 Share
               </span>
-              <VerticalShareButton
-                href={shareLinks.twitter ?? shareUrl}
-                label="Share on X"
+              {SOCIAL_LINKS.map((social) => (
+                <SocialIconButton
+                  key={social.label}
+                  href={social.href}
+                  label={`Follow us on ${social.label}`}
+                  color={social.color}
+                  size="sm"
+                >
+                  <social.icon className="h-3.5 w-3.5" aria-hidden />
+                </SocialIconButton>
+              ))}
+              <SocialIconButton
+                label="Copy link"
+                onClick={onCopyLink}
+                copied={linkCopied}
+                color="#0b0b0b"
+                size="sm"
               >
-                <FaXTwitter className="h-4 w-4" />
-              </VerticalShareButton>
-              <VerticalShareButton
-                href={shareLinks.facebook ?? shareUrl}
-                label="Share on Facebook"
-              >
-                <FaFacebook className="h-4 w-4" />
-              </VerticalShareButton>
-              <VerticalShareButton
-                href={shareLinks.linkedin ?? shareUrl}
-                label="Share on LinkedIn"
-              >
-                <FaLinkedin className="h-4 w-4" />
-              </VerticalShareButton>
-              <VerticalShareButton label="Copy link" onClick={onCopyLink}>
-                <FaLink className="h-4 w-4" />
-              </VerticalShareButton>
+                <FaLink className="h-3.5 w-3.5" aria-hidden />
+              </SocialIconButton>
             </aside>
           </div>
 
@@ -281,46 +329,25 @@ export default function BlogDetailBody({
               <p className="text-[15px] font-bold text-[#0b0b0b] sm:text-[16px]">
                 Share this story:
               </p>
-              <div className="flex flex-wrap items-center gap-2.5">
-                <a
-                  href={shareLinks.twitter ?? shareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on X"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3f2ee] text-[#0b0b0b] transition-colors hover:bg-[#eceae4]"
-                >
-                  <FaXTwitter className="h-4 w-4" />
-                </a>
-                <a
-                  href={shareLinks.facebook ?? shareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on Facebook"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3f2ee] text-[#0b0b0b] transition-colors hover:bg-[#eceae4]"
-                >
-                  <FaFacebook className="h-4 w-4" />
-                </a>
-                <a
-                  href={shareLinks.linkedin ?? shareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on LinkedIn"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3f2ee] text-[#0b0b0b] transition-colors hover:bg-[#eceae4]"
-                >
-                  <FaLinkedin className="h-4 w-4" />
-                </a>
-                <button
-                  type="button"
+              <div className="flex flex-wrap items-center gap-2">
+                {SOCIAL_LINKS.map((social) => (
+                  <SocialIconButton
+                    key={social.label}
+                    href={social.href}
+                    label={`Follow us on ${social.label}`}
+                    color={social.color}
+                  >
+                    <social.icon className="h-4 w-4" aria-hidden />
+                  </SocialIconButton>
+                ))}
+                <SocialIconButton
+                  label="Copy link"
                   onClick={onCopyLink}
-                  aria-label="Copy link"
-                  className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
-                    linkCopied
-                      ? "bg-[#22c55e] text-white"
-                      : "bg-[#f3f2ee] text-[#0b0b0b] hover:bg-[#eceae4]"
-                  }`}
+                  copied={linkCopied}
+                  color="#0b0b0b"
                 >
-                  <FaLink className="h-4 w-4" />
-                </button>
+                  <FaLink className="h-4 w-4" aria-hidden />
+                </SocialIconButton>
               </div>
             </div>
           </article>
