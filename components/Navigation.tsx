@@ -4,16 +4,10 @@ import Link from "next/link";
 import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/taxi-stand", label: "Taxi Stand" },
-  { href: "/pool-ride", label: "Pool Ride" },
-  { href: "/delivery", label: "Delivery" },
-  { href: "/logistic", label: "Logistic" },
-  { href: "/trip", label: "Trip" },
-  { href: "/about", label: "About Us" },
-];
+import {
+  ServicesMegaMenuDesktop,
+  ServicesMobileAccordion,
+} from "@/components/ServicesMegaMenu";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,16 +96,42 @@ export default function Navigation() {
             />
           </Link>
 
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          <Link
+            href="/"
+            onClick={(e) => handleNavClick(e, "/")}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/")}`}
+          >
+            Home
+          </Link>
+
+          <ServicesMegaMenuDesktop
+            onNavigate={handleNavClick}
+            isServiceActive={isActive}
+          />
+
+          <Link
+            href="/about"
+            onClick={(e) => handleNavClick(e, "/about")}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/about")}`}
+          >
+            About Us
+          </Link>
+
+          <Link
+            href="/blog"
+            onClick={(e) => handleNavClick(e, "/blog")}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/blog")}`}
+          >
+            Blog
+          </Link>
+
+          <Link
+            href="/help"
+            onClick={(e) => handleNavClick(e, "/help")}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/help")}`}
+          >
+            Help Center
+          </Link>
 
           <Link
             href="/contact"
@@ -178,16 +198,43 @@ export default function Navigation() {
 
           <div className="max-h-[min(70vh,520px)] overflow-y-auto px-3 py-3 sm:px-4">
             <div className="grid gap-1">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass(link.href)}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <Link
+                href="/"
+                onClick={(e) => handleNavClick(e, "/")}
+                className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass("/")}`}
+              >
+                Home
+              </Link>
+
+              <ServicesMobileAccordion
+                onNavigate={handleNavClick}
+                isServiceActive={isActive}
+                onClose={() => setIsOpen(false)}
+              />
+
+              <Link
+                href="/about"
+                onClick={(e) => handleNavClick(e, "/about")}
+                className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass("/about")}`}
+              >
+                About Us
+              </Link>
+
+              <Link
+                href="/blog"
+                onClick={(e) => handleNavClick(e, "/blog")}
+                className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass("/blog")}`}
+              >
+                Blog
+              </Link>
+
+              <Link
+                href="/help"
+                onClick={(e) => handleNavClick(e, "/help")}
+                className={`flex min-h-[44px] items-center rounded-[100px] px-4 py-3 font-montserrat text-[15px] font-medium leading-none transition-all duration-200 ${navLinkClass("/help")}`}
+              >
+                Help Center
+              </Link>
             </div>
 
             <Link

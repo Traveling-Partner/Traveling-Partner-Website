@@ -322,9 +322,17 @@ export default function Footer(): React.ReactElement {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Follow us on ${social.label}`}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e8e4d9] text-[#6f6e68] transition-colors hover:bg-[#ddd8cb] hover:text-[#0b0b0b]"
+                className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#e8e4d9] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:shadow-[0_6px_16px_rgba(253,184,19,0.45)]"
+                style={{ ["--social-color" as string]: social.color }}
               >
-                <social.icon className="h-3.5 w-3.5" aria-hidden />
+                <span
+                  className="absolute inset-0 bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  aria-hidden
+                />
+                <social.icon
+                  className="relative z-[1] h-[18px] w-[18px] text-[var(--social-color)] transition-colors duration-300 group-hover:text-[#0b0b0b]"
+                  aria-hidden
+                />
               </a>
             ))}
           </div>
