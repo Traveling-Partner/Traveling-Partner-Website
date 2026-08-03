@@ -1,7 +1,7 @@
 /**
- * Website API URLs — same base as admin portal (NEXT_PUBLIC_API_BASE_URL).
- * Browser: same-origin /website/* when on HTTPS (needs host proxy on DigitalOcean).
- * Server/build: direct API URL from env.
+ * Website API URLs — live production API only.
+ * Blog/client fetches always use https://api.traveling-partner.com/api/website/*
+ * (never same-origin /website proxy on staging hosts).
  */
 
 export const PUBLIC_WEBSITE_API_BASE =
@@ -32,17 +32,10 @@ export function websiteApiUrl(path: string): string {
 }
 
 /**
- * Browser fetch targets: live API only (portal source of truth).
- * 1) /website/* — same-origin proxy (local dev + DO App Platform with api-proxy)
- * 2) Direct env API URL — same endpoint family as admin portal
+ * Browser fetch targets — production API only.
+ * Always https://api.traveling-partner.com/api/website/...
  */
 export function websiteApiUrlsForBrowser(path: string): string[] {
   const segment = path.startsWith("/") ? path : `/${path}`;
-  const direct = `${getWebsiteApiBase()}${segment}`;
-
-  if (typeof window === "undefined") {
-    return [direct];
-  }
-
-  return [`/website${segment}`, direct];
+  return [`${PUBLIC_WEBSITE_API_BASE}${segment}`];
 }
