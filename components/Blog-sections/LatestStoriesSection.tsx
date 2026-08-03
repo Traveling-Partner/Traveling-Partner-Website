@@ -133,9 +133,9 @@ export default function LatestStoriesSection({
     return (
       <section className="relative w-full overflow-hidden pb-12 pt-6 sm:pb-14 sm:pt-8">
         <div
-          className="pointer-events-none absolute inset-0 bg-[#FFF9E6] bg-cover bg-center bg-no-repeat"
+          className="pointer-events-none absolute inset-0 bg-[#FFF9E6]"
           style={{
-            backgroundImage: `url('/images/blog/posts-grid-bg.png'), radial-gradient(ellipse 70% 50% at 18% 28%, rgba(252,224,1,0.16), transparent 65%), radial-gradient(ellipse 55% 45% at 88% 72%, rgba(253,184,19,0.1), transparent 68%)`,
+            backgroundImage: `radial-gradient(ellipse 70% 50% at 18% 28%, rgba(252,224,1,0.16), transparent 65%), radial-gradient(ellipse 55% 45% at 88% 72%, rgba(253,184,19,0.1), transparent 68%)`,
           }}
           aria-hidden="true"
         />
@@ -148,11 +148,11 @@ export default function LatestStoriesSection({
 
   return (
     <section className="relative w-full overflow-hidden pb-12 pt-6 sm:pb-14 sm:pt-8">
-      {/* Section background — uploaded cream texture + soft glow fallback */}
+      {/* Section background — cream base + soft glow */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[#FFF9E6] bg-cover bg-center bg-no-repeat"
+        className="pointer-events-none absolute inset-0 bg-[#FFF9E6]"
         style={{
-          backgroundImage: `url('/images/blog/posts-grid-bg.png'), radial-gradient(ellipse 70% 50% at 18% 28%, rgba(252,224,1,0.16), transparent 65%), radial-gradient(ellipse 55% 45% at 88% 72%, rgba(253,184,19,0.1), transparent 68%)`,
+          backgroundImage: `radial-gradient(ellipse 70% 50% at 18% 28%, rgba(252,224,1,0.16), transparent 65%), radial-gradient(ellipse 55% 45% at 88% 72%, rgba(253,184,19,0.1), transparent 68%)`,
         }}
         aria-hidden="true"
       />
