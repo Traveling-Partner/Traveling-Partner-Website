@@ -194,6 +194,10 @@ export function ServicesMegaMenuDesktop({
       `[data-service-index="${clamped}"]`,
     );
     el?.focus();
+    el?.scrollIntoView({
+      block: "nearest",
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
   };
 
   const onTriggerKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
@@ -313,14 +317,14 @@ export function ServicesMegaMenuDesktop({
             onMouseLeave={scheduleClose}
           >
             <div
-              className="overflow-hidden rounded-[18px] border border-white/60 bg-white/95 p-3.5 shadow-[0_20px_48px_rgba(11,11,11,0.12),0_6px_16px_rgba(11,11,11,0.06)] backdrop-blur-[16px]"
+              className="overflow-hidden rounded-[16px] border border-black/[0.06] bg-white p-3 shadow-[0_16px_40px_rgba(11,11,11,0.1)]"
               style={{
                 background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,252,242,0.92) 100%)",
+                  "linear-gradient(180deg, #ffffff 0%, #fffcf6 100%)",
                 maxHeight: "min(400px, calc(100vh - 88px))",
               }}
             >
-              <div className="grid h-full grid-cols-[220px_minmax(0,1fr)] gap-4 xl:grid-cols-[232px_minmax(0,1fr)]">
+              <div className="grid h-full grid-cols-[212px_minmax(0,1fr)] gap-3 xl:grid-cols-[220px_minmax(0,1fr)]">
                 {/* Left list — staggered entrance */}
                 <div
                   ref={listRef}
@@ -330,7 +334,7 @@ export function ServicesMegaMenuDesktop({
                   aria-activedescendant={`${menuId}-option-${active.id}`}
                   tabIndex={-1}
                   onKeyDown={onListKeyDown}
-                  className="flex max-h-[calc(min(400px,100vh-88px)-28px)] flex-col gap-0.5 overflow-y-auto pr-0.5 outline-none"
+                  className="flex max-h-[calc(min(400px,100vh-88px)-24px)] flex-col gap-0.5 overflow-y-auto pr-0.5 outline-none"
                 >
                   <p className="mb-1 px-2 font-montserrat text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8a877f]">
                     Our services
@@ -365,7 +369,7 @@ export function ServicesMegaMenuDesktop({
                               e.currentTarget.click();
                             }
                           }}
-                          className={`group relative flex items-center gap-3 rounded-[12px] px-2.5 py-2.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 focus-visible:ring-offset-1 ${
+                          className={`group relative flex items-center gap-2.5 rounded-[11px] px-2 py-2 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 focus-visible:ring-offset-1 ${
                             isActive
                               ? "bg-gradient-to-r from-[#FCE001]/28 via-[#FCE001]/12 to-transparent"
                               : "hover:bg-[rgba(11,11,11,0.04)]"
@@ -374,7 +378,7 @@ export function ServicesMegaMenuDesktop({
                           {isActive && (
                             <motion.span
                               layoutId="services-mega-accent"
-                              className="absolute bottom-2 left-0 top-2 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                              className="absolute bottom-1.5 left-0 top-1.5 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
                               transition={
                                 reduceMotion
                                   ? { duration: 0 }
@@ -382,20 +386,20 @@ export function ServicesMegaMenuDesktop({
                               }
                             />
                           )}
-                          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/5 bg-white shadow-[0_2px_8px_rgba(11,11,11,0.06)]">
+                          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-black/5 bg-white shadow-[0_1px_6px_rgba(11,11,11,0.05)]">
                             <Image
                               src={service.icon}
                               alt=""
-                              width={36}
-                              height={36}
-                              className="h-9 w-9 scale-110 object-contain"
+                              width={32}
+                              height={32}
+                              className="h-8 w-8 scale-110 object-contain"
                             />
                           </span>
                           <span className="min-w-0">
-                            <span className="block font-montserrat text-[13px] font-semibold leading-tight text-[#0b0b0b]">
+                            <span className="block font-montserrat text-[12.5px] font-semibold leading-tight text-[#0b0b0b]">
                               {service.label}
                             </span>
-                            <span className="mt-0.5 block truncate font-montserrat text-[11px] leading-snug text-[#6f6e68]">
+                            <span className="mt-0.5 block truncate font-montserrat text-[10.5px] leading-snug text-[#6f6e68]">
                               {service.short}
                             </span>
                           </span>
@@ -405,94 +409,107 @@ export function ServicesMegaMenuDesktop({
                   })}
                 </div>
 
-                {/* Right: hero + meta */}
+                {/* Right: hero + meta — signature layout morph */}
                 <div className="min-w-0">
-                  <AnimatePresence mode="wait">
+                  <div className="flex h-full flex-col">
                     <motion.div
-                      key={active.id}
-                      initial={
-                        reduceMotion
-                          ? { opacity: 1 }
-                          : { opacity: 0, y: 8, scale: 0.98 }
+                      layout={!reduceMotion}
+                      layoutId={
+                        reduceMotion ? undefined : "services-mega-hero"
                       }
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={
+                      transition={
                         reduceMotion
-                          ? { opacity: 0 }
-                          : { opacity: 0, y: -4, scale: 0.99 }
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 380, damping: 34 }
                       }
-                      transition={t(0.2)}
-                      className="flex h-full flex-col"
+                      className="overflow-hidden rounded-[12px] border border-black/5"
+                      style={{
+                        background:
+                          "linear-gradient(160deg, #fffdf6 0%, #fff8e4 55%, #fff3c8 100%)",
+                      }}
                     >
-                      <Link
-                        href={active.href}
-                        onClick={(e) => {
-                          closeMenu();
-                          onNavigate(e, active.href);
-                        }}
-                        className="group/hero relative block h-[210px] overflow-hidden rounded-[14px] border border-black/5 outline-none focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
-                        style={{
-                          background:
-                            "linear-gradient(160deg, #fffdf6 0%, #fff8e4 55%, #fff3c8 100%)",
-                        }}
-                      >
-                        <div className="absolute inset-x-1.5 inset-y-1 bottom-9 flex items-center justify-center">
-                          <div
-                            className="relative h-full w-full"
-                            style={{
-                              transform: `translateY(${active.heroOffsetY ?? 0}px) scale(${active.heroScale ?? 1})`,
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={active.id}
+                          initial={
+                            reduceMotion
+                              ? { opacity: 1 }
+                              : { opacity: 0, y: 6 }
+                          }
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={
+                            reduceMotion
+                              ? { opacity: 0 }
+                              : { opacity: 0, y: -4 }
+                          }
+                          transition={t(0.18)}
+                        >
+                          <Link
+                            href={active.href}
+                            onClick={(e) => {
+                              closeMenu();
+                              onNavigate(e, active.href);
                             }}
+                            className="group/hero relative block h-[190px] outline-none focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
                           >
-                            <motion.div
-                              className="relative h-full w-full transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]"
-                              initial={reduceMotion ? false : { y: 6, opacity: 0.85 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              transition={t(0.28)}
-                            >
-                              <Image
-                                src={active.hero}
-                                alt=""
-                                fill
-                                sizes="520px"
-                                className="object-contain object-center"
-                                priority
-                              />
-                            </motion.div>
-                          </div>
-                        </div>
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#fff8e4]/95 via-[#fff8e4]/35 to-transparent px-3.5 pb-2.5 pt-8">
-                          <p className="font-montserrat text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B8860B]">
-                            Preview
-                          </p>
-                          <p className="mt-0.5 font-montserrat text-[16px] font-bold leading-none text-[#0b0b0b]">
-                            {active.label}
-                          </p>
-                        </div>
-                      </Link>
+                            <div className="absolute inset-x-1.5 inset-y-1 bottom-8 flex items-center justify-center">
+                              <div
+                                className="relative h-full w-full"
+                                style={{
+                                  transform: `translateY(${active.heroOffsetY ?? 0}px) scale(${active.heroScale ?? 1})`,
+                                }}
+                              >
+                                <div className="relative h-full w-full transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]">
+                                  <Image
+                                    src={active.hero}
+                                    alt=""
+                                    fill
+                                    sizes="520px"
+                                    className="object-contain object-center"
+                                    priority
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#fff8e4]/95 via-[#fff8e4]/35 to-transparent px-3 pb-2 pt-7">
+                              <p className="font-montserrat text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B8860B]">
+                                Preview
+                              </p>
+                              <p className="mt-0.5 font-montserrat text-[15px] font-bold leading-none text-[#0b0b0b]">
+                                {active.label}
+                              </p>
+                            </div>
+                          </Link>
+                        </motion.div>
+                      </AnimatePresence>
+                    </motion.div>
 
+                    <AnimatePresence mode="wait">
                       <motion.div
-                        className="mt-3 flex items-end justify-between gap-3"
-                        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                        key={`meta-${active.id}`}
+                        className="mt-2.5 flex items-end justify-between gap-3"
+                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={t(0.22, 0.06)}
+                        exit={reduceMotion ? undefined : { opacity: 0 }}
+                        transition={t(0.2)}
                       >
                         <div className="min-w-0">
-                          <h3 className="font-montserrat text-[16px] font-bold tracking-tight text-[#0b0b0b]">
+                          <h3 className="font-montserrat text-[15px] font-bold tracking-tight text-[#0b0b0b]">
                             {active.label}
                           </h3>
-                          <p className="mt-0.5 line-clamp-1 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
+                          <p className="mt-0.5 line-clamp-1 font-montserrat text-[11.5px] leading-snug text-[#6f6e68]">
                             {active.description}
                           </p>
-                          <ul className="mt-2 flex flex-wrap gap-1.5">
+                          <ul className="mt-1.5 flex flex-wrap gap-1">
                             {active.features.map((feature, i) => (
                               <motion.li
                                 key={feature}
                                 initial={
-                                  reduceMotion ? false : { opacity: 0, y: 4 }
+                                  reduceMotion ? false : { opacity: 0, y: 3 }
                                 }
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={t(0.18, 0.08 + i * 0.04)}
-                                className="rounded-full border border-black/6 bg-white/80 px-2 py-0.5 font-montserrat text-[10.5px] font-medium text-[#3a3934]"
+                                transition={t(0.16, 0.05 + i * 0.035)}
+                                className="rounded-full border border-black/5 bg-white px-1.5 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934]"
                               >
                                 {feature}
                               </motion.li>
@@ -511,20 +528,20 @@ export function ServicesMegaMenuDesktop({
                               closeMenu();
                               onNavigate(e, active.href);
                             }}
-                            className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-2 font-montserrat text-[12px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#111] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
+                            className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 font-montserrat text-[11.5px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#111] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
                           >
                             Explore
                             <span
-                              className="transition-transform duration-200 group-hover:translate-x-0.5"
                               aria-hidden
+                              className="inline-block transition-transform duration-150 ease-out group-hover:translate-x-[3px]"
                             >
                               →
                             </span>
                           </Link>
                         </motion.div>
                       </motion.div>
-                    </motion.div>
-                  </AnimatePresence>
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
             </div>
@@ -570,23 +587,40 @@ export function ServicesMobileAccordion({
   useEffect(() => {
     if (!expanded) return;
     const explore = exploreRef.current;
+    const panel = scrollParentRef?.current;
     const scroller =
-      scrollParentRef?.current?.querySelector<HTMLElement>(
-        ".overflow-y-auto",
-      ) ?? scrollParentRef?.current;
+      panel?.querySelector<HTMLElement>("[data-mobile-nav-scroll]") ??
+      panel?.querySelector<HTMLElement>(".overflow-y-auto") ??
+      panel;
     if (!explore || !scroller) return;
-    // Keep Explore reachable inside the sheet scroller
-    requestAnimationFrame(() => {
+
+    const bringExploreIntoView = () => {
       const exploreRect = explore.getBoundingClientRect();
       const scrollerRect = scroller.getBoundingClientRect();
-      if (exploreRect.bottom > scrollerRect.bottom - 8) {
+      const pad = 20;
+      if (exploreRect.bottom > scrollerRect.bottom - pad) {
         scroller.scrollBy({
-          top: exploreRect.bottom - scrollerRect.bottom + 16,
-          behavior: "smooth",
+          top: exploreRect.bottom - scrollerRect.bottom + pad + 8,
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
+      } else if (exploreRect.top < scrollerRect.top + 8) {
+        scroller.scrollBy({
+          top: exploreRect.top - scrollerRect.top - 8,
+          behavior: reduceMotion ? "auto" : "smooth",
         });
       }
+    };
+
+    // Wait for accordion height animation / layout
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(bringExploreIntoView);
     });
-  }, [expanded, activeId, scrollParentRef]);
+    const timer = window.setTimeout(bringExploreIntoView, reduceMotion ? 0 : 280);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(timer);
+    };
+  }, [expanded, activeId, scrollParentRef, reduceMotion]);
 
   return (
     <div className="overflow-hidden rounded-2xl">
@@ -623,7 +657,7 @@ export function ServicesMobileAccordion({
             <div className="space-y-2 px-1 pb-2 pt-1.5">
               <div
                 ref={chipsRef}
-                className="flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex gap-1.5 overflow-x-auto overflow-y-visible px-0.5 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {SERVICES.map((service) => {
                   const selected = service.id === activeId;
@@ -633,17 +667,19 @@ export function ServicesMobileAccordion({
                       type="button"
                       data-chip-id={service.id}
                       onClick={() => setActiveId(service.id)}
+                      layout={!reduceMotion}
                       animate={
                         reduceMotion
                           ? undefined
-                          : { scale: selected ? 1.04 : 1 }
+                          : { scale: selected ? 1.03 : 1 }
                       }
-                      whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
                       transition={
                         reduceMotion
                           ? { duration: 0 }
-                          : { type: "spring", stiffness: 400, damping: 26 }
+                          : { type: "spring", stiffness: 420, damping: 28 }
                       }
+                      style={{ transformOrigin: "center center" }}
                       className={`flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 outline-none transition-colors duration-200 ${
                         selected
                           ? "bg-[#0b0b0b] text-[#FCE001]"

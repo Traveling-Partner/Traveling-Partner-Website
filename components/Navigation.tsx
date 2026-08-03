@@ -29,11 +29,11 @@ export default function Navigation() {
   const pathname = usePathname() ?? "";
   const reduceMotion = !!useReducedMotion();
 
+  const pendingFocusReturn = useRef(false);
+
   const closeMenu = useCallback((returnFocus = false) => {
+    if (returnFocus) pendingFocusReturn.current = true;
     setIsOpen(false);
-    if (returnFocus) {
-      requestAnimationFrame(() => menuBtnRef.current?.focus());
-    }
   }, []);
 
   const handleNavClick = (
@@ -84,22 +84,31 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
-  // Escape + focus trap while mobile sheet is open
+  // Escape + focus trap while mobile sheet is open; autofocus first item on open
   useEffect(() => {
     if (!isOpen) return;
 
     const getFocusable = () => {
       const panel = panelRef.current;
-      const btn = menuBtnRef.current;
       const panelItems = panel
         ? Array.from(
             panel.querySelectorAll<HTMLElement>(
               'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
             ),
-          ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null)
+          ).filter(
+            (el) => !el.hasAttribute("disabled") && el.offsetParent !== null,
+          )
         : [];
-      return btn ? [btn, ...panelItems] : panelItems;
+      return panelItems;
     };
+
+    const focusFirst = () => {
+      const items = getFocusable();
+      items[0]?.focus();
+    };
+    const openFocusRaf = requestAnimationFrame(() => {
+      requestAnimationFrame(focusFirst);
+    });
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -115,20 +124,24 @@ export default function Navigation() {
       const first = items[0];
       const last = items[items.length - 1];
       const active = document.activeElement as HTMLElement | null;
+      const inPanel = active ? items.includes(active) : false;
 
       if (e.shiftKey) {
-        if (!active || active === first || !items.includes(active)) {
+        if (!inPanel || active === first) {
           e.preventDefault();
           last.focus();
         }
-      } else if (active === last) {
+      } else if (!inPanel || active === last) {
         e.preventDefault();
         first.focus();
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      cancelAnimationFrame(openFocusRaf);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [isOpen, closeMenu]);
 
   const onMenuBtnKeyDown = (e: ReactKeyboardEvent<HTMLButtonElement>) => {
@@ -180,7 +193,8 @@ export default function Navigation() {
       (p) => pathname === p || pathname.startsWith(`${p}/`),
     );
 
-  const sheetMaxH = `calc(100dvh - ${panelTop + 12}px)`;
+  // Prefer smaller of dvh/svh so short phones + browser chrome don’t clip Contact
+  const sheetMaxH = `min(calc(100dvh - ${panelTop + 12}px), calc(100svh - ${panelTop + 12}px))`;
 
   return (
     <header
@@ -304,7 +318,13 @@ export default function Navigation() {
           </div>
         </nav>
 
-        <AnimatePresence>
+        <AnimatePresence
+          onExitComplete={() => {
+            if (!pendingFocusReturn.current) return;
+            pendingFocusReturn.current = false;
+            requestAnimationFrame(() => menuBtnRef.current?.focus());
+          }}
+        >
           {isOpen && (
             <>
               <motion.button
@@ -354,8 +374,11 @@ export default function Navigation() {
                     : { duration: 0.26, ease: easeOut }
                 }
               >
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pt-2.5">
-                  <div className="grid gap-0.5 pb-2">
+                <div
+                  data-mobile-nav-scroll
+                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pt-2.5"
+                >
+                  <div className="grid gap-0.5 pb-3">
                     <Link
                       href="/"
                       onClick={(e) => handleNavClick(e, "/")}
