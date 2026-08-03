@@ -4,6 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { FaLink } from "react-icons/fa";
+import { FaShareNodes } from "react-icons/fa6";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
 import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
@@ -33,7 +34,7 @@ type BlogDetailBodyProps = {
   getImageSrc: (value: string) => string;
 };
 
-const NAV_OFFSET = 108;
+const NAV_OFFSET = 72;
 
 type PinMode = "static" | "fixed" | "bottom";
 
@@ -54,16 +55,19 @@ function SocialIconButton({
   copied?: boolean;
   size?: "sm" | "md";
 }) {
-  const dim = size === "sm" ? "h-8 w-8" : "h-10 w-10";
+  const dim =
+    size === "sm"
+      ? "h-9 w-9 min-h-9 min-w-9 max-h-9 max-w-9"
+      : "h-10 w-10 min-h-10 min-w-10 max-h-10 max-w-10";
   const className = copied
-    ? `group relative flex ${dim} items-center justify-center overflow-hidden rounded-full bg-[#22c55e] text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]`
-    : `group relative flex ${dim} items-center justify-center overflow-hidden rounded-full border border-[#eceae4] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:border-transparent hover:shadow-[0_6px_16px_rgba(253,184,19,0.45)]`;
+    ? `group relative inline-flex ${dim} shrink-0 aspect-square items-center justify-center overflow-hidden rounded-full bg-[#22c55e] text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]`
+    : `group relative inline-flex ${dim} shrink-0 aspect-square items-center justify-center overflow-hidden rounded-full border border-[#eceae4] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:border-transparent hover:shadow-[0_6px_16px_rgba(253,184,19,0.45)]`;
 
   const content = (
     <>
       {!copied && (
         <span
-          className="absolute inset-0 bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="absolute inset-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           aria-hidden
         />
       )}
@@ -171,7 +175,7 @@ export default function BlogDetailBody({
 
   const [sharePin, setSharePin] = useState<PinMode>("static");
   const [sidebarPin, setSidebarPin] = useState<PinMode>("static");
-  const [shareCoords, setShareCoords] = useState({ left: 0, width: 64 });
+  const [shareCoords, setShareCoords] = useState({ left: 0, width: 72 });
   const [sidebarCoords, setSidebarCoords] = useState({ left: 0, width: 300 });
 
   const updatePins = useCallback(() => {
@@ -246,6 +250,31 @@ export default function BlogDetailBody({
     updatePins();
   }, [updatePins, contentHtml, tocItems.length]);
 
+  const handleShareAnywhere = async () => {
+    try {
+      if (typeof navigator !== "undefined" && navigator.share) {
+        await navigator.share({
+          title,
+          text: title,
+          url: shareUrl,
+        });
+        return;
+      }
+    } catch {
+      // User cancelled the share sheet
+      return;
+    }
+
+    // Desktop / unsupported: open WhatsApp share, then X, else copy
+    const fallback =
+      shareLinks.whatsapp || shareLinks.twitter || shareLinks.facebook;
+    if (fallback) {
+      window.open(fallback, "_blank", "noopener,noreferrer");
+      return;
+    }
+    onCopyLink();
+  };
+
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-4 sm:pb-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -265,17 +294,17 @@ export default function BlogDetailBody({
 
         <div
           ref={layoutRef}
-          className="grid grid-cols-1 gap-8 lg:grid-cols-[64px_minmax(0,1fr)_300px] lg:gap-8 xl:grid-cols-[72px_minmax(0,1fr)_320px] xl:gap-10"
+          className="grid grid-cols-1 gap-8 lg:grid-cols-[72px_minmax(0,1fr)_300px] lg:gap-8 xl:grid-cols-[80px_minmax(0,1fr)_320px] xl:gap-10"
         >
           {/* Left share rail — fixed while scrolling */}
           <div ref={shareColRef} className="relative hidden min-h-[1px] lg:block">
             <aside
               ref={shareInnerRef}
-              className="flex flex-col items-center gap-1.5 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="flex flex-col items-center gap-2 pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               style={getPinStyle(sharePin, shareCoords)}
               aria-label="Share this story"
             >
-              <span className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#9a968c] [writing-mode:vertical-rl] rotate-180">
+              <span className="mb-1 shrink-0 text-[12px] font-bold uppercase tracking-[0.2em] text-[#6f6e68] [writing-mode:vertical-rl] rotate-180">
                 Share
               </span>
               {SOCIAL_LINKS.map((social) => (
@@ -286,7 +315,7 @@ export default function BlogDetailBody({
                   color={social.color}
                   size="sm"
                 >
-                  <social.icon className="h-3.5 w-3.5" aria-hidden />
+                  <social.icon className="h-4 w-4" aria-hidden />
                 </SocialIconButton>
               ))}
               <SocialIconButton
@@ -296,7 +325,15 @@ export default function BlogDetailBody({
                 color="#0b0b0b"
                 size="sm"
               >
-                <FaLink className="h-3.5 w-3.5" aria-hidden />
+                <FaLink className="h-4 w-4" aria-hidden />
+              </SocialIconButton>
+              <SocialIconButton
+                label="Share this post"
+                onClick={handleShareAnywhere}
+                color="#FDB813"
+                size="sm"
+              >
+                <FaShareNodes className="h-4 w-4" aria-hidden />
               </SocialIconButton>
             </aside>
           </div>
@@ -347,6 +384,13 @@ export default function BlogDetailBody({
                   color="#0b0b0b"
                 >
                   <FaLink className="h-4 w-4" aria-hidden />
+                </SocialIconButton>
+                <SocialIconButton
+                  label="Share this post"
+                  onClick={handleShareAnywhere}
+                  color="#FDB813"
+                >
+                  <FaShareNodes className="h-4 w-4" aria-hidden />
                 </SocialIconButton>
               </div>
             </div>
