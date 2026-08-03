@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   useCallback,
   useEffect,
@@ -12,6 +12,7 @@ import {
   type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
+  type RefObject,
 } from "react";
 
 export type ServiceItem = {
@@ -104,6 +105,18 @@ const easeOut = [0.22, 1, 0.36, 1] as const;
 const MENU_MAX_W = 840;
 const MENU_GUTTER = 16;
 
+function useMotionPrefs() {
+  const reduceMotion = useReducedMotion();
+  const t = useCallback(
+    (duration = 0.22, delay = 0) =>
+      reduceMotion
+        ? { duration: 0, delay: 0 }
+        : { duration, delay, ease: easeOut },
+    [reduceMotion],
+  );
+  return { reduceMotion: !!reduceMotion, t };
+}
+
 type ServicesMegaMenuProps = {
   onNavigate: (event: MouseEvent<HTMLAnchorElement>, href: string) => void;
   isServiceActive: (href: string) => boolean;
@@ -125,6 +138,7 @@ export function ServicesMegaMenuDesktop({
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
   const activeIndex = SERVICES.findIndex((s) => s.id === activeId);
   const anyServiceActive = SERVICES.some((s) => isServiceActive(s.href));
+  const { reduceMotion, t } = useMotionPrefs();
 
   const clearCloseTimer = () => {
     if (closeTimer.current) {
@@ -471,16 +485,20 @@ export function ServicesMegaMenuDesktop({
 
 type ServicesMobileAccordionProps = ServicesMegaMenuProps & {
   onClose: () => void;
+  /** Scroll container for keeping Explore in view when expanded */
+  scrollParentRef?: RefObject<HTMLElement | null>;
 };
 
 export function ServicesMobileAccordion({
   onNavigate,
   isServiceActive,
   onClose,
+  scrollParentRef,
 }: ServicesMobileAccordionProps) {
   const [expanded, setExpanded] = useState(false);
   const [activeId, setActiveId] = useState(SERVICES[0].id);
   const chipsRef = useRef<HTMLDivElement>(null);
+  const exploreRef = useRef<HTMLAnchorElement>(null);
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
   const anyServiceActive = SERVICES.some((s) => isServiceActive(s.href));
 
@@ -491,21 +509,41 @@ export function ServicesMobileAccordion({
       `[data-chip-id="${activeId}"]`,
     );
     if (!container || !chip) return;
-    // Scroll only the chip row — avoid jumping the whole mobile header
     const left =
       chip.offsetLeft - (container.clientWidth - chip.clientWidth) / 2;
     container.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
   }, [activeId, expanded]);
 
+  useEffect(() => {
+    if (!expanded) return;
+    const explore = exploreRef.current;
+    const scroller =
+      scrollParentRef?.current?.querySelector<HTMLElement>(
+        ".overflow-y-auto",
+      ) ?? scrollParentRef?.current;
+    if (!explore || !scroller) return;
+    // Keep Explore reachable inside the sheet scroller
+    requestAnimationFrame(() => {
+      const exploreRect = explore.getBoundingClientRect();
+      const scrollerRect = scroller.getBoundingClientRect();
+      if (exploreRect.bottom > scrollerRect.bottom - 8) {
+        scroller.scrollBy({
+          top: exploreRect.bottom - scrollerRect.bottom + 16,
+          behavior: "smooth",
+        });
+      }
+    });
+  }, [expanded, activeId, scrollParentRef]);
+
   return (
-    <div className="overflow-hidden rounded-[18px] border border-[#f0ebe0] bg-[#fffcf2]/70">
+    <div className="overflow-hidden rounded-2xl">
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className={`flex min-h-[44px] w-full items-center justify-between px-3.5 py-2.5 font-montserrat text-[15px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#FCE001] ${
+        className={`flex min-h-[48px] w-full items-center justify-between rounded-2xl px-3.5 font-montserrat text-[15px] font-semibold leading-none outline-none transition-colors ${
           anyServiceActive || expanded
-            ? "bg-[rgba(11,11,11,0.06)] text-black"
-            : "text-black"
+            ? "bg-[#0b0b0b] text-[#FCE001]"
+            : "text-[#0b0b0b] active:bg-[#f5f2ea]"
         }`}
         aria-expanded={expanded}
       >
@@ -513,7 +551,7 @@ export function ServicesMobileAccordion({
         <motion.span
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ duration: 0.2, ease: easeOut }}
-          className="text-[11px] opacity-55"
+          className="text-[11px] opacity-70"
           aria-hidden
         >
           ▾
@@ -529,52 +567,10 @@ export function ServicesMobileAccordion({
             transition={{ duration: 0.22, ease: easeOut }}
             className="overflow-hidden"
           >
-            <div className="space-y-2.5 px-2.5 pb-2.5">
-              <div
-                className="relative h-[140px] overflow-hidden rounded-[14px] border border-black/5 sm:h-[160px]"
-                style={{
-                  background:
-                    "linear-gradient(160deg, #fffdf6 0%, #fff8e4 55%, #fff3c8 100%)",
-                }}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.id}
-                    initial={{ opacity: 0, scale: 1.02 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.18, ease: easeOut }}
-                    className="absolute inset-0"
-                  >
-                    <div
-                      className="absolute inset-x-1.5 inset-y-1 bottom-10"
-                      style={{
-                        transform: `translateY(${active.heroOffsetY ?? 0}px) scale(${active.heroScale ?? 1})`,
-                      }}
-                    >
-                      <Image
-                        src={active.hero}
-                        alt=""
-                        fill
-                        sizes="100vw"
-                        className="object-contain object-center"
-                      />
-                    </div>
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#fff8e4] via-[#fff8e4]/70 to-transparent px-2.5 pb-2.5 pt-8">
-                      <p className="font-montserrat text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B8860B]">
-                        {active.label}
-                      </p>
-                      <p className="mt-0.5 line-clamp-2 font-montserrat text-[12px] leading-snug text-[#3a3934]">
-                        {active.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
+            <div className="space-y-2 px-1 pb-2 pt-1.5">
               <div
                 ref={chipsRef}
-                className="-mx-0.5 flex gap-1.5 overflow-x-auto px-0.5 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {SERVICES.map((service) => {
                   const selected = service.id === activeId;
@@ -584,20 +580,20 @@ export function ServicesMobileAccordion({
                       type="button"
                       data-chip-id={service.id}
                       onClick={() => setActiveId(service.id)}
-                      className={`flex min-h-[40px] shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] ${
+                      className={`flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 outline-none transition-all duration-200 ${
                         selected
-                          ? "border-[#FCE001] bg-[#FCE001]/25 shadow-[0_2px_10px_rgba(252,224,1,0.3)]"
-                          : "border-black/8 bg-white/80"
+                          ? "bg-[#0b0b0b] text-[#FCE001]"
+                          : "bg-[#f3f0e7] text-[#0b0b0b]"
                       }`}
                     >
                       <Image
                         src={service.icon}
                         alt=""
-                        width={24}
-                        height={24}
-                        className="h-6 w-6 scale-110 object-contain"
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 scale-110 object-contain"
                       />
-                      <span className="font-montserrat text-[11.5px] font-semibold text-[#0b0b0b]">
+                      <span className="font-montserrat text-[11px] font-semibold">
                         {service.label}
                       </span>
                     </button>
@@ -605,33 +601,52 @@ export function ServicesMobileAccordion({
                 })}
               </div>
 
-              {/* Selected service detail row */}
-              <div className="rounded-[14px] border border-black/5 bg-white/90 px-3 py-2.5 shadow-[0_2px_10px_rgba(11,11,11,0.04)]">
-                <p className="font-montserrat text-[13px] font-semibold text-[#0b0b0b]">
-                  {active.label}
-                </p>
-                <p className="mt-0.5 font-montserrat text-[11.5px] leading-snug text-[#6f6e68]">
-                  {active.short}
-                </p>
-                <ul className="mt-2 flex flex-wrap gap-1.5">
-                  {active.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="rounded-full bg-[#fffcf2] px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934]"
+              {/* Compact service hero — contain + no Y offset so nothing clips at bottom */}
+              <div className="relative h-[132px] overflow-hidden rounded-2xl bg-[#f7f4ec] sm:h-[148px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.16, ease: easeOut }}
+                    className="absolute inset-0 flex items-center justify-center p-1"
+                  >
+                    <div
+                      className="relative h-full w-full"
+                      style={{
+                        transform: `scale(${
+                          active.id === "taxi-stand" || active.id === "pool-ride"
+                            ? 1.28
+                            : 1.08
+                        })`,
+                      }}
                     >
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                      <Image
+                        src={active.hero}
+                        alt={active.label}
+                        fill
+                        sizes="100vw"
+                        className="object-contain object-center"
+                        priority
+                      />
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
+              <p className="px-1 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
+                {active.short}
+              </p>
+
               <Link
+                ref={exploreRef}
                 href={active.href}
                 onClick={(e) => {
                   onClose();
                   onNavigate(e, active.href);
                 }}
-                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001] outline-none focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
+                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001]"
               >
                 Explore {active.label}
                 <span aria-hidden>→</span>
