@@ -806,6 +806,8 @@ type ServicesMobileAccordionProps = ServicesMegaMenuProps & {
   scrollParentRef?: RefObject<HTMLElement | null>;
 };
 
+const MOBILE_ROTATE_MS = 3400;
+
 export function ServicesMobileAccordion({
   onNavigate,
   isServiceActive,
@@ -815,33 +817,42 @@ export function ServicesMobileAccordion({
   const [expanded, setExpanded] = useState(false);
   const [activeId, setActiveId] = useState(SERVICES[0].id);
   const [autoPaused, setAutoPaused] = useState(false);
+  const [progressKey, setProgressKey] = useState(0);
   const chipsRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLAnchorElement>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
+  const activeIndex = Math.max(
+    0,
+    SERVICES.findIndex((s) => s.id === activeId),
+  );
   const previewSrc = active.preview ?? active.hero;
   const anyServiceActive = SERVICES.some((s) => isServiceActive(s.href));
   const { reduceMotion, t } = useMotionPrefs();
 
-  const selectService = (id: string, fromUser = false) => {
-    setActiveId(id);
-    if (!fromUser) return;
-    // Pause auto-rotate briefly after a manual tap
+  const pauseAuto = (ms = 5000) => {
     setAutoPaused(true);
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
-    resumeTimer.current = setTimeout(() => setAutoPaused(false), 6000);
+    resumeTimer.current = setTimeout(() => setAutoPaused(false), ms);
   };
 
-  // Auto-cycle services while the accordion is open (mobile/tablet)
+  const selectService = (id: string, fromUser = false) => {
+    setActiveId(id);
+    setProgressKey((k) => k + 1);
+    if (fromUser) pauseAuto(6000);
+  };
+
+  // Auto-cycle + progress restart
   useEffect(() => {
     if (!expanded || reduceMotion || autoPaused) return;
+    setProgressKey((k) => k + 1);
     const id = window.setInterval(() => {
       setActiveId((current) => {
         const index = SERVICES.findIndex((s) => s.id === current);
-        const next = (index + 1) % SERVICES.length;
-        return SERVICES[next].id;
+        return SERVICES[(index + 1) % SERVICES.length].id;
       });
-    }, 3200);
+      setProgressKey((k) => k + 1);
+    }, MOBILE_ROTATE_MS);
     return () => window.clearInterval(id);
   }, [expanded, reduceMotion, autoPaused]);
 
@@ -854,6 +865,25 @@ export function ServicesMobileAccordion({
     }
   }, [expanded]);
 
+  // Pause while user scrolls / touches the sheet
+  useEffect(() => {
+    if (!expanded) return;
+    const panel = scrollParentRef?.current;
+    const scroller =
+      panel?.querySelector<HTMLElement>("[data-mobile-nav-scroll]") ??
+      panel?.querySelector<HTMLElement>(".overflow-y-auto") ??
+      panel;
+    if (!scroller) return;
+
+    const onInteract = () => pauseAuto(4500);
+    scroller.addEventListener("touchstart", onInteract, { passive: true });
+    scroller.addEventListener("scroll", onInteract, { passive: true });
+    return () => {
+      scroller.removeEventListener("touchstart", onInteract);
+      scroller.removeEventListener("scroll", onInteract);
+    };
+  }, [expanded, scrollParentRef]);
+
   useEffect(
     () => () => {
       if (resumeTimer.current) clearTimeout(resumeTimer.current);
@@ -861,6 +891,7 @@ export function ServicesMobileAccordion({
     [],
   );
 
+  // Keep active chip centered
   useEffect(() => {
     if (!expanded) return;
     const container = chipsRef.current;
@@ -889,7 +920,7 @@ export function ServicesMobileAccordion({
     const bringExploreIntoView = () => {
       const exploreRect = explore.getBoundingClientRect();
       const scrollerRect = scroller.getBoundingClientRect();
-      const pad = 24;
+      const pad = 20;
       if (exploreRect.bottom > scrollerRect.bottom - pad) {
         scroller.scrollBy({
           top: exploreRect.bottom - scrollerRect.bottom + pad + 8,
@@ -901,7 +932,7 @@ export function ServicesMobileAccordion({
     const raf = requestAnimationFrame(() => {
       requestAnimationFrame(bringExploreIntoView);
     });
-    const timer = window.setTimeout(bringExploreIntoView, reduceMotion ? 0 : 300);
+    const timer = window.setTimeout(bringExploreIntoView, reduceMotion ? 0 : 260);
     return () => {
       cancelAnimationFrame(raf);
       window.clearTimeout(timer);
@@ -937,137 +968,199 @@ export function ServicesMobileAccordion({
             initial={reduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={t(0.24)}
+            transition={t(0.22)}
             className="overflow-hidden"
           >
-            <div className="space-y-3 px-1 pb-2.5 pt-2">
-              {/* Service chips */}
+            <div className="space-y-2.5 px-1 pb-2 pt-2">
+              {/* Chips — snap + strong active */}
               <div
                 ref={chipsRef}
-                className="flex gap-2 overflow-x-auto overflow-y-visible px-0.5 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex snap-x snap-mandatory gap-2 overflow-x-auto px-0.5 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {SERVICES.map((service) => {
                   const selected = service.id === activeId;
                   return (
-                    <motion.button
+                    <button
                       key={service.id}
                       type="button"
                       data-chip-id={service.id}
                       onClick={() => selectService(service.id, true)}
-                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                      transition={t(0.15)}
-                      className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-3 py-1.5 outline-none transition-colors duration-200 ${
+                      className={`relative flex min-h-[42px] shrink-0 snap-center items-center gap-2 rounded-full px-3 py-1.5 outline-none transition-colors duration-200 ${
                         selected
-                          ? "bg-[#0b0b0b] text-[#FCE001] shadow-[0_4px_12px_rgba(11,11,11,0.18)]"
+                          ? "bg-[#0b0b0b] text-[#FCE001]"
                           : "bg-[#f3f0e7] text-[#0b0b0b]"
                       }`}
                     >
+                      {selected && (
+                        <span
+                          className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-gradient-to-r from-[#FCE001] to-[#FDB813]"
+                          aria-hidden
+                        />
+                      )}
                       <span
                         className={`flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ${
-                          selected ? "bg-[#FCE001]" : "bg-white"
+                          selected
+                            ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                            : "bg-white"
                         }`}
                       >
                         <Image
                           src={service.icon}
                           alt=""
-                          width={22}
-                          height={22}
-                          className="h-[22px] w-[22px] object-contain"
+                          width={24}
+                          height={24}
+                          className="h-6 w-6 object-contain"
                         />
                       </span>
-                      <span className="font-montserrat text-[12px] font-semibold">
+                      <span
+                        className={`font-montserrat text-[12px] ${
+                          selected ? "font-bold" : "font-semibold"
+                        }`}
+                      >
                         {service.label}
                       </span>
-                    </motion.button>
+                    </button>
                   );
                 })}
               </div>
 
-              {/* Preview card — same images as desktop */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active.id}
-                  initial={
-                    reduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }
-                  }
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={
-                    reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }
-                  }
-                  transition={t(0.2)}
-                  className="overflow-hidden rounded-[20px] border border-black/[0.06] bg-[#fbfaf7] shadow-[0_8px_24px_rgba(11,11,11,0.06)]"
-                >
-                  <div className="relative aspect-[3/2] w-full overflow-hidden bg-white">
-                    <Image
-                      src={previewSrc}
-                      alt={active.label}
-                      fill
-                      sizes="(max-width: 1200px) 100vw, 480px"
-                      className="object-contain object-center"
-                      priority
-                    />
-                  </div>
+              {/* Dot index */}
+              <div className="flex items-center justify-center gap-1.5" aria-hidden>
+                {SERVICES.map((service) => (
+                  <span
+                    key={service.id}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      service.id === activeId
+                        ? "w-4 bg-[#FDB813]"
+                        : "w-1.5 bg-black/15"
+                    }`}
+                  />
+                ))}
+              </div>
 
-                  <div className="space-y-2.5 px-3.5 py-3">
-                    <div>
-                      <p className="font-montserrat text-[9px] font-bold uppercase tracking-[0.14em] text-[#FDB813]">
-                        Preview
-                      </p>
-                      <h3 className="mt-1 font-montserrat text-[18px] font-bold leading-none tracking-tight text-[#0b0b0b]">
+              {/* Preview card */}
+              <div className="overflow-hidden rounded-[18px] border border-black/[0.06] bg-[#fbfaf7] shadow-[0_8px_22px_rgba(11,11,11,0.06)]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-white sm:aspect-[3/2]">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={active.id}
+                      className="absolute inset-0"
+                      initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
+                      transition={t(0.22)}
+                    >
+                      <Image
+                        src={previewSrc}
+                        alt={active.label}
+                        fill
+                        sizes="(max-width: 1200px) 100vw, 480px"
+                        className="object-contain object-center"
+                        priority
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Auto-rotate progress */}
+                  {!reduceMotion && expanded && (
+                    <div className="absolute inset-x-0 bottom-0 h-[3px] bg-black/10">
+                      <motion.div
+                        key={`${active.id}-${progressKey}-${autoPaused}`}
+                        className="h-full origin-left bg-gradient-to-r from-[#FCE001] to-[#FDB813]"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: autoPaused ? 0 : 1 }}
+                        transition={
+                          autoPaused
+                            ? { duration: 0 }
+                            : {
+                                duration: MOBILE_ROTATE_MS / 1000,
+                                ease: "linear",
+                              }
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2.5 px-3.5 pb-3 pt-3">
+                  <div>
+                    <div className="flex items-end justify-between gap-2">
+                      <h3 className="font-montserrat text-[20px] font-bold leading-none tracking-tight text-[#0b0b0b]">
                         {active.label}
                       </h3>
-                      <p className="mt-1.5 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
-                        {active.description}
-                      </p>
+                      <span className="shrink-0 font-montserrat text-[10px] font-semibold text-[#9a968c]">
+                        {activeIndex + 1}/{SERVICES.length}
+                      </span>
                     </div>
+                    <p className="mt-1.5 line-clamp-1 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
+                      {active.short}
+                    </p>
+                  </div>
 
-                    <ul className="flex flex-wrap gap-1.5">
-                      {active.features.slice(0, 3).map((feature) => (
-                        <li
-                          key={feature}
-                          className="rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934]"
-                        >
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                  <ul className="flex flex-wrap gap-1.5">
+                    {active.features.slice(0, 2).map((feature) => (
+                      <li
+                        key={feature}
+                        className="rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934] sm:hidden"
+                      >
+                        {feature}
+                      </li>
+                    ))}
+                    {active.features.slice(0, 3).map((feature) => (
+                      <li
+                        key={`sm-${feature}`}
+                        className="hidden rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934] sm:inline-flex"
+                      >
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
 
-                    <div className="grid grid-cols-3 gap-1.5">
-                      {active.stats.slice(0, 3).map((stat) => (
+                  <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+                    {active.stats
+                      .slice(0, 2)
+                      .map((stat) => (
                         <div
                           key={stat.value + stat.detail}
-                          className="rounded-[12px] border border-black/[0.05] bg-white px-2 py-1.5"
+                          className="rounded-[12px] border border-black/[0.05] bg-white px-2.5 py-2 sm:hidden"
                         >
-                          <p className="font-montserrat text-[12px] font-bold leading-none text-[#0b0b0b]">
+                          <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
                             {stat.value}
                           </p>
-                          <p className="mt-1 line-clamp-1 font-montserrat text-[9px] leading-none text-[#7a776e]">
+                          <p className="mt-1 line-clamp-1 font-montserrat text-[9px] text-[#7a776e]">
                             {stat.detail}
                           </p>
                         </div>
                       ))}
-                    </div>
-
-                    <motion.div
-                      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                      transition={t(0.12)}
-                    >
-                      <Link
-                        ref={exploreRef}
-                        href={active.href}
-                        onClick={(e) => {
-                          onClose();
-                          onNavigate(e, active.href);
-                        }}
-                        className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001]"
+                    {active.stats.slice(0, 3).map((stat) => (
+                      <div
+                        key={`sm-${stat.value + stat.detail}`}
+                        className="hidden rounded-[12px] border border-black/[0.05] bg-white px-2.5 py-2 sm:block"
                       >
-                        Explore {active.label}
-                        <span aria-hidden>→</span>
-                      </Link>
-                    </motion.div>
+                        <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
+                          {stat.value}
+                        </p>
+                        <p className="mt-1 line-clamp-1 font-montserrat text-[9px] text-[#7a776e]">
+                          {stat.detail}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                </motion.div>
-              </AnimatePresence>
+
+                  <Link
+                    ref={exploreRef}
+                    href={active.href}
+                    onClick={(e) => {
+                      onClose();
+                      onNavigate(e, active.href);
+                    }}
+                    className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001] active:bg-[#171717]"
+                  >
+                    Explore {active.label}
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
