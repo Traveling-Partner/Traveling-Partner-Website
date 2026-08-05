@@ -814,12 +814,52 @@ export function ServicesMobileAccordion({
 }: ServicesMobileAccordionProps) {
   const [expanded, setExpanded] = useState(false);
   const [activeId, setActiveId] = useState(SERVICES[0].id);
+  const [autoPaused, setAutoPaused] = useState(false);
   const chipsRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLAnchorElement>(null);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
   const previewSrc = active.preview ?? active.hero;
   const anyServiceActive = SERVICES.some((s) => isServiceActive(s.href));
   const { reduceMotion, t } = useMotionPrefs();
+
+  const selectService = (id: string, fromUser = false) => {
+    setActiveId(id);
+    if (!fromUser) return;
+    // Pause auto-rotate briefly after a manual tap
+    setAutoPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setAutoPaused(false), 6000);
+  };
+
+  // Auto-cycle services while the accordion is open (mobile/tablet)
+  useEffect(() => {
+    if (!expanded || reduceMotion || autoPaused) return;
+    const id = window.setInterval(() => {
+      setActiveId((current) => {
+        const index = SERVICES.findIndex((s) => s.id === current);
+        const next = (index + 1) % SERVICES.length;
+        return SERVICES[next].id;
+      });
+    }, 3200);
+    return () => window.clearInterval(id);
+  }, [expanded, reduceMotion, autoPaused]);
+
+  useEffect(() => {
+    if (expanded) return;
+    setAutoPaused(false);
+    if (resumeTimer.current) {
+      clearTimeout(resumeTimer.current);
+      resumeTimer.current = null;
+    }
+  }, [expanded]);
+
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
 
   useEffect(() => {
     if (!expanded) return;
@@ -913,7 +953,7 @@ export function ServicesMobileAccordion({
                       key={service.id}
                       type="button"
                       data-chip-id={service.id}
-                      onClick={() => setActiveId(service.id)}
+                      onClick={() => selectService(service.id, true)}
                       whileTap={reduceMotion ? undefined : { scale: 0.97 }}
                       transition={t(0.15)}
                       className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-3 py-1.5 outline-none transition-colors duration-200 ${
