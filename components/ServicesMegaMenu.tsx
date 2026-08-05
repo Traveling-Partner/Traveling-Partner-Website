@@ -15,6 +15,12 @@ import {
   type RefObject,
 } from "react";
 
+export type ServiceStat = {
+  value: string;
+  detail: string;
+  icon: "clock" | "car" | "star" | "shield";
+};
+
 export type ServiceItem = {
   id: string;
   href: string;
@@ -23,32 +29,45 @@ export type ServiceItem = {
   description: string;
   features: string[];
   icon: string;
-  /** Right-side hero image from each service page */
   hero: string;
-  /** Optional visual scale so padded assets match other heroes */
+  phone: string;
+  /** Full composite preview (car + phone + scene). When set, replaces layered visual. */
+  preview?: string;
   heroScale?: number;
-  /** Extra vertical offset in px (positive = down) */
   heroOffsetY?: number;
+  stats: ServiceStat[];
 };
 
 /**
- * Desktop panel target size:
- * - Width:  min(840px, 100vw − 32px)
- * - Height: min(400px, 100vh − 88px)
- * - Hero:   ~210px tall (full width, object-contain — no crop)
+ * Figma mega menu footprint:
+ * - Width:  min(1120px, 100vw − 32px)
+ * - Height: ~min(560px, 100vh − 88px)
  */
 export const SERVICES: ServiceItem[] = [
   {
     id: "taxi-stand",
     href: "/taxi-stand",
     label: "Taxi Stand",
-    short: "Private rides from nearby stands.",
+    short: "Private rides from nearby taxi stands.",
     description: "Reliable city rides with professional drivers.",
-    features: ["Real-time booking", "Nearby drivers", "Cash & digital pay"],
+    features: [
+      "Real-time booking",
+      "Nearby drivers",
+      "Cash & Digital payments",
+      "Scheduled rides",
+    ],
     icon: "/images/taxi-stand/services/icon-taxi.png",
     hero: "/images/taxi-stand/taxi-hero-car-v3.png",
-    heroScale: 1.34,
-    heroOffsetY: 16,
+    phone: "/images/taxi-stand/need-a-ride/phone-mockup.png",
+    preview: "/images/taxi-stand/mega-menu-taxi-preview.png",
+    heroScale: 1.2,
+    heroOffsetY: 8,
+    stats: [
+      { value: "24/7", detail: "Always available for your rides.", icon: "clock" },
+      { value: "12+", detail: "Vehicle options to choose from.", icon: "car" },
+      { value: "4.9", detail: "Average rider rating.", icon: "star" },
+      { value: "100%", detail: "Verified & trusted drivers.", icon: "shield" },
+    ],
   },
   {
     id: "pool-ride",
@@ -56,11 +75,24 @@ export const SERVICES: ServiceItem[] = [
     label: "Pool Ride",
     short: "Share your route, split the fare.",
     description: "Smarter shared travel for everyday routes.",
-    features: ["Split fare savings", "Same-route match", "Live tracking"],
+    features: [
+      "Split fare savings",
+      "Same-route match",
+      "Live tracking",
+      "Verified riders",
+    ],
     icon: "/images/taxi-stand/services/icon-pool.png",
     hero: "/images/pool-ride/pool-hero-car.png",
-    heroScale: 1.34,
-    heroOffsetY: 16,
+    phone: "/images/pool-ride/going-same-way/bg-van-phone.png",
+    preview: "/images/pool-ride/mega-menu-pool-preview.png",
+    heroScale: 1.2,
+    heroOffsetY: 8,
+    stats: [
+      { value: "50%", detail: "Save more by sharing your route.", icon: "clock" },
+      { value: "Live", detail: "Instant same-route matching.", icon: "car" },
+      { value: "4.8", detail: "Average rider rating.", icon: "star" },
+      { value: "Safe", detail: "Verified riders & drivers.", icon: "shield" },
+    ],
   },
   {
     id: "delivery",
@@ -68,11 +100,24 @@ export const SERVICES: ServiceItem[] = [
     label: "Delivery",
     short: "Send parcels across the city.",
     description: "Fast parcel delivery with live status updates.",
-    features: ["Door-to-door pickup", "Live tracking", "Secure handling"],
+    features: [
+      "Door-to-door pickup",
+      "Live tracking",
+      "Secure handling",
+      "Same-day options",
+    ],
     icon: "/images/taxi-stand/services/icon-delivery.png",
     hero: "/images/delivery/delivery-hero-courier.png",
-    heroScale: 1.22,
-    heroOffsetY: 14,
+    phone: "/images/delivery/ready-to-send/bg-phone-van-rounded.png",
+    preview: "/images/delivery/mega-menu-delivery-preview.png",
+    heroScale: 1.12,
+    heroOffsetY: 6,
+    stats: [
+      { value: "Same-day", detail: "City deliveries when you need them.", icon: "clock" },
+      { value: "Live", detail: "Track your parcel in real time.", icon: "car" },
+      { value: "4.9", detail: "Trusted delivery experience.", icon: "star" },
+      { value: "Secure", detail: "Handled with care end to end.", icon: "shield" },
+    ],
   },
   {
     id: "logistic",
@@ -80,11 +125,24 @@ export const SERVICES: ServiceItem[] = [
     label: "Logistic",
     short: "Bulk cargo for your business.",
     description: "Fleet-ready logistics for growing businesses.",
-    features: ["Fleet visibility", "Shipment tracking", "Nationwide"],
+    features: [
+      "Fleet visibility",
+      "Shipment tracking",
+      "Nationwide coverage",
+      "Business support",
+    ],
     icon: "/images/taxi-stand/services/icon-logistics.png",
     hero: "/images/logistic/mega-menu-truck.png",
-    heroScale: 1.18,
-    heroOffsetY: 14,
+    phone: "/images/logistic/move-bulk-cargo/bg-phone-map-rounded.png",
+    preview: "/images/logistic/mega-menu-logistic-preview.png",
+    heroScale: 1.1,
+    heroOffsetY: 6,
+    stats: [
+      { value: "Fleet", detail: "Full visibility across vehicles.", icon: "clock" },
+      { value: "B2B", detail: "Built for business shipments.", icon: "car" },
+      { value: "4.8", detail: "Trusted logistics partners.", icon: "star" },
+      { value: "Wide", detail: "Nationwide cargo coverage.", icon: "shield" },
+    ],
   },
   {
     id: "trip",
@@ -92,17 +150,29 @@ export const SERVICES: ServiceItem[] = [
     label: "Trip",
     short: "Out-of-town journeys made easy.",
     description: "Comfortable trips beyond the city.",
-    features: ["Trip planning", "Transparent pricing", "Trusted drivers"],
+    features: [
+      "Trip planning",
+      "Transparent pricing",
+      "Trusted drivers",
+      "Intercity routes",
+    ],
     icon: "/images/taxi-stand/services/icon-trip.png",
     hero: "/images/trip/mega-menu-suv.png",
-    heroScale: 1.16,
-    heroOffsetY: 14,
+    phone: "/images/trip/ready-to-trip/bg-phone-car.png",
+    preview: "/images/trip/mega-menu-trip-preview.png",
+    heroScale: 1.08,
+    heroOffsetY: 6,
+    stats: [
+      { value: "City+", detail: "Comfortable out-of-town trips.", icon: "clock" },
+      { value: "Fixed", detail: "Clear pricing before you go.", icon: "car" },
+      { value: "4.9", detail: "Highly rated trip drivers.", icon: "star" },
+      { value: "Safe", detail: "Verified & trusted drivers.", icon: "shield" },
+    ],
   },
 ];
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
-
-const MENU_MAX_W = 840;
+const MENU_MAX_W = 1120;
 const MENU_GUTTER = 16;
 
 function useMotionPrefs() {
@@ -115,6 +185,200 @@ function useMotionPrefs() {
     [reduceMotion],
   );
   return { reduceMotion: !!reduceMotion, t };
+}
+
+function StatIcon({ name }: { name: ServiceStat["icon"] }) {
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    className: "shrink-0 text-[#FDB813]",
+    "aria-hidden": true as const,
+  };
+  if (name === "clock") {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+        <path
+          d="M12 7v5l3 2"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </svg>
+    );
+  }
+  if (name === "car") {
+    return (
+      <svg {...common}>
+        <path
+          d="M4 14h16l-1.2-3.6a2 2 0 0 0-1.9-1.4H7.1a2 2 0 0 0-1.9 1.4L4 14Z"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6 17.5h.01M18 17.5h.01M5 14v2.5a1.5 1.5 0 0 0 1.5 1.5h.7M17.8 18h.7A1.5 1.5 0 0 0 20 16.5V14"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+      </svg>
+    );
+  }
+  if (name === "star") {
+    return (
+      <svg {...common}>
+        <path
+          d="m12 3.5 2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.8 7.2 18.4l.9-5.4L4.2 9.2l5.4-.8L12 3.5Z"
+          fill="currentColor"
+        />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common}>
+      <path
+        d="M12 3.5 19 6.5v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9v-5l7-3Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9.5 12 1.8 1.8 3.5-3.8"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <span
+      className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+      aria-hidden
+    >
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+        <path
+          d="M2.5 6.2 4.8 8.5 9.5 3.5"
+          stroke="#0b0b0b"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function MapPinIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="shrink-0 text-[#FDB813]"
+      aria-hidden
+    >
+      <path
+        d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
+      <circle cx="12" cy="10" r="2.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+function PreviewVisual({ service }: { service: ServiceItem }) {
+  // All mega-menu previews are 1024×682 (3:2) — match that so nothing crops
+  const frameClass =
+    "relative aspect-[3/2] w-full shrink-0 overflow-hidden rounded-[18px]";
+
+  if (service.preview) {
+    return (
+      <div className={frameClass}>
+        <Image
+          src={service.preview}
+          alt=""
+          fill
+          sizes="480px"
+          className="h-full w-full object-contain object-center"
+          priority
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className={frameClass}>
+      {/* Soft city skyline */}
+      <svg
+        className="absolute inset-x-0 bottom-[28%] h-[42%] w-full opacity-[0.14]"
+        viewBox="0 0 640 160"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        <path
+          fill="#0b0b0b"
+          d="M0 160V98h28v-34h18v34h22V72h16v26h20V54h14v44h26V66h12v32h18V48h10v50h24V80h16v18h20V60h14v38h22V90h18v28h26V70h12v48h30V84h16v34h22V76h14v42h28V96h18v64H0Z"
+        />
+      </svg>
+
+      {/* Yellow dot grid */}
+      <div
+        className="absolute right-[34%] top-[18%] h-[72px] w-[96px] opacity-80"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, #FCE001 1.4px, transparent 1.5px)",
+          backgroundSize: "12px 12px",
+        }}
+        aria-hidden
+      />
+
+      {/* Floor wash */}
+      <div className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-white via-white/70 to-transparent" />
+
+      {/* Hero vehicle */}
+      <div className="absolute bottom-[10%] left-[2%] right-[28%] top-[8%]">
+        <div
+          className="relative h-full w-full"
+          style={{
+            transform: `translateY(${service.heroOffsetY ?? 0}px) scale(${service.heroScale ?? 1})`,
+          }}
+        >
+          <Image
+            src={service.hero}
+            alt=""
+            fill
+            sizes="420px"
+            className="object-contain object-bottom drop-shadow-[0_14px_22px_rgba(11,11,11,0.14)]"
+            priority
+          />
+        </div>
+        <div className="pointer-events-none absolute bottom-[6%] left-[18%] right-[22%] h-3 rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(11,11,11,0.18)_0%,transparent_72%)] blur-[3px]" />
+      </div>
+
+      {/* Phone mockup */}
+      <div className="absolute bottom-[6%] right-[4%] top-[10%] w-[34%] max-w-[148px]">
+        <div className="relative h-full w-full drop-shadow-[0_16px_28px_rgba(11,11,11,0.18)]">
+          <Image
+            src={service.phone}
+            alt=""
+            fill
+            sizes="160px"
+            className="object-contain object-bottom"
+            priority
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 type ServicesMegaMenuProps = {
@@ -168,19 +432,19 @@ export function ServicesMegaMenuDesktop({
   const updatePanelPosition = useCallback(() => {
     const el = wrapRef.current;
     if (!el) return;
-    // Center under the full nav pill (not the Services trigger alone)
     const nav = el.closest("nav");
     const anchor = nav?.getBoundingClientRect() ?? el.getBoundingClientRect();
     const trigger = el.getBoundingClientRect();
     const width = Math.min(MENU_MAX_W, window.innerWidth - MENU_GUTTER * 2);
-    let left = anchor.left + anchor.width / 2 - width / 2;
+    // Nudge down + right so the panel sits under the header with a clear gap
+    let left = anchor.left + anchor.width / 2 - width / 2 + 28;
     left = Math.max(
       MENU_GUTTER,
       Math.min(left, window.innerWidth - width - MENU_GUTTER),
     );
     setPanelStyle({
       position: "fixed",
-      top: trigger.bottom,
+      top: trigger.bottom + 28,
       left,
       width,
       zIndex: 60,
@@ -276,13 +540,9 @@ export function ServicesMegaMenuDesktop({
         }}
         onKeyDown={onTriggerKeyDown}
       >
-        {open && !reduceMotion && (
-          <motion.span
-            layoutId="services-trigger-glow"
-            className="pointer-events-none absolute inset-x-2 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-[#FCE001] to-transparent"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.9 }}
-            transition={t(0.25)}
+        {open && (
+          <span
+            className="pointer-events-none absolute inset-x-3 -bottom-[3px] h-[3px] rounded-full bg-gradient-to-r from-[#FCE001] to-[#FDB813]"
             aria-hidden
           />
         )}
@@ -304,28 +564,23 @@ export function ServicesMegaMenuDesktop({
             role="menu"
             aria-label="Services"
             initial={
-              reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10, scale: 0.985 }
+              reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10, scale: 0.99 }
             }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={
-              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.99 }
+              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.995 }
             }
-            transition={t(0.26)}
+            transition={t(0.24)}
             style={panelStyle}
-            className="pt-2.5"
             onMouseEnter={openMenu}
             onMouseLeave={scheduleClose}
           >
             <div
-              className="overflow-hidden rounded-[16px] border border-black/[0.06] bg-white p-3 shadow-[0_16px_40px_rgba(11,11,11,0.1)]"
-              style={{
-                background:
-                  "linear-gradient(180deg, #ffffff 0%, #fffcf6 100%)",
-                maxHeight: "min(400px, calc(100vh - 88px))",
-              }}
+              className="overflow-hidden rounded-[28px] border border-black/[0.05] bg-white shadow-[0_24px_64px_rgba(11,11,11,0.14),0_8px_20px_rgba(11,11,11,0.06)]"
+              style={{ maxHeight: "min(560px, calc(100vh - 88px))" }}
             >
-              <div className="grid h-full grid-cols-[212px_minmax(0,1fr)] gap-3 xl:grid-cols-[220px_minmax(0,1fr)]">
-                {/* Left list — staggered entrance */}
+              <div className="grid grid-cols-[268px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
+                {/* LEFT — Our services */}
                 <div
                   ref={listRef}
                   id={listboxId}
@@ -334,23 +589,17 @@ export function ServicesMegaMenuDesktop({
                   aria-activedescendant={`${menuId}-option-${active.id}`}
                   tabIndex={-1}
                   onKeyDown={onListKeyDown}
-                  className="flex max-h-[calc(min(400px,100vh-88px)-24px)] flex-col gap-0.5 overflow-y-auto pr-0.5 outline-none"
+                  className="border-r border-black/[0.06] bg-[#fbfaf7] p-4 outline-none"
                 >
-                  <p className="mb-1 px-2 font-montserrat text-[9px] font-semibold uppercase tracking-[0.16em] text-[#8a877f]">
+                  <p className="mb-3 px-2 font-montserrat text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
                     Our services
                   </p>
-                  {SERVICES.map((service, index) => {
-                    const isActive = service.id === activeId;
-                    return (
-                      <motion.div
-                        key={service.id}
-                        initial={
-                          reduceMotion ? false : { opacity: 0, x: -8 }
-                        }
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={t(0.22, index * 0.03)}
-                      >
+                  <div className="flex flex-col gap-1">
+                    {SERVICES.map((service, index) => {
+                      const isActive = service.id === activeId;
+                      return (
                         <Link
+                          key={service.id}
                           id={`${menuId}-option-${service.id}`}
                           href={service.href}
                           role="option"
@@ -369,179 +618,160 @@ export function ServicesMegaMenuDesktop({
                               e.currentTarget.click();
                             }
                           }}
-                          className={`group relative flex items-center gap-2.5 rounded-[11px] px-2 py-2 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 focus-visible:ring-offset-1 ${
+                          className={`group relative flex items-center gap-3 rounded-[14px] px-2.5 py-2.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 ${
                             isActive
-                              ? "bg-gradient-to-r from-[#FCE001]/28 via-[#FCE001]/12 to-transparent"
-                              : "hover:bg-[rgba(11,11,11,0.04)]"
+                              ? "bg-[#FFF4C2]"
+                              : "hover:bg-white/80"
                           }`}
                         >
                           {isActive && (
                             <motion.span
                               layoutId="services-mega-accent"
-                              className="absolute bottom-1.5 left-0 top-1.5 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                              className="absolute bottom-2 left-0 top-2 w-[3px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
                               transition={
                                 reduceMotion
                                   ? { duration: 0 }
-                                  : { type: "spring", stiffness: 420, damping: 32 }
+                                  : {
+                                      type: "spring",
+                                      stiffness: 420,
+                                      damping: 32,
+                                    }
                               }
                             />
                           )}
-                          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-black/5 bg-white shadow-[0_1px_6px_rgba(11,11,11,0.05)]">
+                          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/[0.04] bg-white shadow-[0_2px_8px_rgba(11,11,11,0.05)]">
                             <Image
                               src={service.icon}
                               alt=""
-                              width={32}
-                              height={32}
-                              className="h-8 w-8 scale-110 object-contain"
+                              width={34}
+                              height={34}
+                              className="h-[34px] w-[34px] object-contain"
                             />
                           </span>
-                          <span className="min-w-0">
-                            <span className="block font-montserrat text-[12.5px] font-semibold leading-tight text-[#0b0b0b]">
+                          <span className="min-w-0 flex-1">
+                            <span className="block font-montserrat text-[13px] font-bold leading-tight text-[#0b0b0b]">
                               {service.label}
                             </span>
-                            <span className="mt-0.5 block truncate font-montserrat text-[10.5px] leading-snug text-[#6f6e68]">
+                            <span className="mt-0.5 block font-montserrat text-[11px] leading-snug text-[#7a776e]">
                               {service.short}
                             </span>
                           </span>
+                          <span
+                            className={`shrink-0 text-[14px] transition-colors ${
+                              isActive
+                                ? "text-[#0b0b0b]/45"
+                                : "text-[#0b0b0b]/25 group-hover:text-[#0b0b0b]/45"
+                            }`}
+                            aria-hidden
+                          >
+                            ›
+                          </span>
                         </Link>
-                      </motion.div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
 
-                {/* Right: hero + meta — signature layout morph */}
-                <div className="min-w-0">
-                  <div className="flex h-full flex-col">
+                {/* RIGHT — Preview */}
+                <div className="flex min-h-0 flex-col p-4 xl:p-5">
+                  <AnimatePresence mode="wait">
                     <motion.div
-                      layout={!reduceMotion}
-                      layoutId={
-                        reduceMotion ? undefined : "services-mega-hero"
+                      key={active.id}
+                      initial={
+                        reduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }
                       }
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 380, damping: 34 }
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={
+                        reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }
                       }
-                      className="overflow-hidden rounded-[12px] border border-black/5"
-                      style={{
-                        background:
-                          "linear-gradient(160deg, #fffdf6 0%, #fff8e4 55%, #fff3c8 100%)",
-                      }}
+                      transition={t(0.2)}
+                      className="flex min-h-0 flex-1 flex-col"
                     >
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={active.id}
-                          initial={
-                            reduceMotion
-                              ? { opacity: 1 }
-                              : { opacity: 0, y: 6 }
-                          }
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={
-                            reduceMotion
-                              ? { opacity: 0 }
-                              : { opacity: 0, y: -4 }
-                          }
-                          transition={t(0.18)}
-                        >
-                          <Link
-                            href={active.href}
-                            onClick={(e) => {
-                              closeMenu();
-                              onNavigate(e, active.href);
-                            }}
-                            className="group/hero relative block h-[190px] outline-none focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
-                          >
-                            <div className="absolute inset-x-1.5 inset-y-1 bottom-8 flex items-center justify-center">
-                              <div
-                                className="relative h-full w-full"
-                                style={{
-                                  transform: `translateY(${active.heroOffsetY ?? 0}px) scale(${active.heroScale ?? 1})`,
-                                }}
-                              >
-                                <div className="relative h-full w-full transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]">
-                                  <Image
-                                    src={active.hero}
-                                    alt=""
-                                    fill
-                                    sizes="520px"
-                                    className="object-contain object-center"
-                                    priority
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#fff8e4]/95 via-[#fff8e4]/35 to-transparent px-3 pb-2 pt-7">
-                              <p className="font-montserrat text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B8860B]">
-                                Preview
-                              </p>
-                              <p className="mt-0.5 font-montserrat text-[15px] font-bold leading-none text-[#0b0b0b]">
-                                {active.label}
-                              </p>
-                            </div>
-                          </Link>
-                        </motion.div>
-                      </AnimatePresence>
-                    </motion.div>
-
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={`meta-${active.id}`}
-                        className="mt-2.5 flex items-end justify-between gap-3"
-                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={reduceMotion ? undefined : { opacity: 0 }}
-                        transition={t(0.2)}
-                      >
-                        <div className="min-w-0">
-                          <h3 className="font-montserrat text-[15px] font-bold tracking-tight text-[#0b0b0b]">
+                      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(280px,1.15fr)] gap-4 xl:gap-5">
+                        {/* Copy + features */}
+                        <div className="min-w-0 pt-0.5">
+                          <p className="font-montserrat text-[10px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
+                            Preview
+                          </p>
+                          <h3 className="mt-1.5 font-montserrat text-[26px] font-bold leading-none tracking-tight text-[#0b0b0b]">
                             {active.label}
                           </h3>
-                          <p className="mt-0.5 line-clamp-1 font-montserrat text-[11.5px] leading-snug text-[#6f6e68]">
+                          <p className="mt-2 font-montserrat text-[13px] leading-snug text-[#6f6e68]">
                             {active.description}
                           </p>
-                          <ul className="mt-1.5 flex flex-wrap gap-1">
-                            {active.features.map((feature, i) => (
-                              <motion.li
+                          <ul className="mt-4 space-y-2.5">
+                            {active.features.map((feature) => (
+                              <li
                                 key={feature}
-                                initial={
-                                  reduceMotion ? false : { opacity: 0, y: 3 }
-                                }
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={t(0.16, 0.05 + i * 0.035)}
-                                className="rounded-full border border-black/5 bg-white px-1.5 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934]"
+                                className="flex items-start gap-2.5 font-montserrat text-[13px] font-medium text-[#2f2e2a]"
                               >
+                                <CheckIcon />
                                 {feature}
-                              </motion.li>
+                              </li>
                             ))}
                           </ul>
                         </div>
 
-                        <motion.div
-                          whileHover={reduceMotion ? undefined : { scale: 1.04 }}
-                          whileTap={reduceMotion ? undefined : { scale: 0.96 }}
-                          transition={t(0.15)}
-                        >
+                        {/* Visual — fixed slot so all services match */}
+                        <div className="w-full min-w-0 self-start">
+                          <PreviewVisual service={active} />
+                        </div>
+                      </div>
+
+                      {/* Info cards */}
+                      <div className="mt-4 grid grid-cols-4 gap-2.5">
+                        {active.stats.map((stat) => (
+                          <div
+                            key={stat.value + stat.detail}
+                            className="rounded-[14px] border border-black/[0.06] bg-white px-3 py-2.5 shadow-[0_2px_8px_rgba(11,11,11,0.03)]"
+                          >
+                            <div className="flex items-center gap-1.5">
+                              <StatIcon name={stat.icon} />
+                              <p className="font-montserrat text-[15px] font-bold leading-none text-[#0b0b0b]">
+                                {stat.value}
+                              </p>
+                            </div>
+                            <p className="mt-1.5 font-montserrat text-[10px] leading-snug text-[#7a776e]">
+                              {stat.detail}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Bottom action bar */}
+                      <div className="mt-4 flex items-center justify-between gap-4 border-t border-black/[0.06] pt-3.5">
+                        <div className="flex min-w-0 items-start gap-2">
+                          <MapPinIcon />
+                          <p className="min-w-0 font-montserrat text-[12px] leading-snug">
+                            <span className="font-bold text-[#0b0b0b]">
+                              Want to know more?
+                            </span>{" "}
+                            <span className="text-[#7a776e]">
+                              Explore all features and how {active.label} works.
+                            </span>
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 items-center">
                           <Link
                             href={active.href}
                             onClick={(e) => {
                               closeMenu();
                               onNavigate(e, active.href);
                             }}
-                            className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 font-montserrat text-[11.5px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#111] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2"
+                            className="group inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-4 py-2 font-montserrat text-[12px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#171717] focus-visible:ring-2 focus-visible:ring-[#FCE001]"
                           >
-                            Explore
+                            Explore {active.label}
                             <span
                               aria-hidden
-                              className="inline-block transition-transform duration-150 ease-out group-hover:translate-x-[3px]"
+                              className="transition-transform duration-150 group-hover:translate-x-0.5"
                             >
                               →
                             </span>
                           </Link>
-                        </motion.div>
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
@@ -554,7 +784,6 @@ export function ServicesMegaMenuDesktop({
 
 type ServicesMobileAccordionProps = ServicesMegaMenuProps & {
   onClose: () => void;
-  /** Scroll container for keeping Explore in view when expanded */
   scrollParentRef?: RefObject<HTMLElement | null>;
 };
 
@@ -611,7 +840,6 @@ export function ServicesMobileAccordion({
       }
     };
 
-    // Wait for accordion height animation / layout
     const raf = requestAnimationFrame(() => {
       requestAnimationFrame(bringExploreIntoView);
     });
@@ -679,7 +907,6 @@ export function ServicesMobileAccordion({
                           ? { duration: 0 }
                           : { type: "spring", stiffness: 420, damping: 28 }
                       }
-                      style={{ transformOrigin: "center center" }}
                       className={`flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 outline-none transition-colors duration-200 ${
                         selected
                           ? "bg-[#0b0b0b] text-[#FCE001]"
