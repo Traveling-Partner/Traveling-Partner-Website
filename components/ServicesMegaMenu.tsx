@@ -706,7 +706,7 @@ export function ServicesMegaMenuDesktop({
                       transition={t(0.2)}
                       className="flex min-h-0 flex-1 flex-col"
                     >
-                      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,0.95fr)_minmax(240px,1.1fr)] gap-3.5">
+                      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,0.82fr)_minmax(270px,1.28fr)] gap-3">
                         {/* Copy + features */}
                         <div className="min-w-0 pt-0.5">
                           <p className="font-montserrat text-[9px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
