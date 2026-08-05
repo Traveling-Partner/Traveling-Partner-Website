@@ -295,6 +295,25 @@ function MapPinIcon() {
   );
 }
 
+function ChevronIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      className={className}
+      aria-hidden
+    >
+      <path
+        d="M4 6.25 8 10.25 12 6.25"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function PreviewVisual({ service }: { service: ServiceItem }) {
   // All mega-menu previews are 1024×682 (3:2) — match that so nothing crops
   const frameClass =
@@ -550,10 +569,10 @@ export function ServicesMegaMenuDesktop({
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={t(0.2)}
-          className="text-[10px] opacity-60"
+          className="ml-0.5 inline-flex text-[#0b0b0b]/55"
           aria-hidden
         >
-          ▾
+          <ChevronIcon className="h-3.5 w-3.5" />
         </motion.span>
       </button>
 
@@ -866,10 +885,10 @@ export function ServicesMobileAccordion({
         <motion.span
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={t(0.2)}
-          className="text-[11px] opacity-70"
+          className="inline-flex text-current opacity-70"
           aria-hidden
         >
-          ▾
+          <ChevronIcon className="h-4 w-4" />
         </motion.span>
       </button>
 
