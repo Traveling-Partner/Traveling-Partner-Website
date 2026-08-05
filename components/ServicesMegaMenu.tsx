@@ -39,9 +39,9 @@ export type ServiceItem = {
 };
 
 /**
- * Figma mega menu footprint:
- * - Width:  min(1120px, 100vw − 32px)
- * - Height: ~min(560px, 100vh − 88px)
+ * Desktop mega menu footprint:
+ * - Width:  min(980px, 100vw − 32px)
+ * - Height: ~min(500px, 100vh − 88px)
  */
 export const SERVICES: ServiceItem[] = [
   {
@@ -172,7 +172,7 @@ export const SERVICES: ServiceItem[] = [
 ];
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
-const MENU_MAX_W = 1120;
+const MENU_MAX_W = 980;
 const MENU_GUTTER = 16;
 
 function useMotionPrefs() {
@@ -455,15 +455,15 @@ export function ServicesMegaMenuDesktop({
     const anchor = nav?.getBoundingClientRect() ?? el.getBoundingClientRect();
     const trigger = el.getBoundingClientRect();
     const width = Math.min(MENU_MAX_W, window.innerWidth - MENU_GUTTER * 2);
-    // Nudge down + right so the panel sits under the header with a clear gap
-    let left = anchor.left + anchor.width / 2 - width / 2 + 28;
+    // Center under the nav pill, with a clear gap below the header
+    let left = anchor.left + anchor.width / 2 - width / 2;
     left = Math.max(
       MENU_GUTTER,
       Math.min(left, window.innerWidth - width - MENU_GUTTER),
     );
     setPanelStyle({
       position: "fixed",
-      top: trigger.bottom + 28,
+      top: trigger.bottom + 14,
       left,
       width,
       zIndex: 60,
@@ -595,10 +595,10 @@ export function ServicesMegaMenuDesktop({
             onMouseLeave={scheduleClose}
           >
             <div
-              className="overflow-hidden rounded-[28px] border border-black/[0.05] bg-white shadow-[0_24px_64px_rgba(11,11,11,0.14),0_8px_20px_rgba(11,11,11,0.06)]"
-              style={{ maxHeight: "min(560px, calc(100vh - 88px))" }}
+              className="overflow-hidden rounded-[24px] border border-black/[0.06] bg-white shadow-[0_18px_48px_rgba(11,11,11,0.12),0_4px_14px_rgba(11,11,11,0.05)]"
+              style={{ maxHeight: "min(500px, calc(100vh - 96px))" }}
             >
-              <div className="grid grid-cols-[268px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
+              <div className="grid grid-cols-[240px_minmax(0,1fr)]">
                 {/* LEFT — Our services */}
                 <div
                   ref={listRef}
@@ -608,12 +608,12 @@ export function ServicesMegaMenuDesktop({
                   aria-activedescendant={`${menuId}-option-${active.id}`}
                   tabIndex={-1}
                   onKeyDown={onListKeyDown}
-                  className="border-r border-black/[0.06] bg-[#fbfaf7] p-4 outline-none"
+                  className="border-r border-black/[0.06] bg-[#fbfaf7] p-3 outline-none"
                 >
-                  <p className="mb-3 px-2 font-montserrat text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
+                  <p className="mb-2 px-2 font-montserrat text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
                     Our services
                   </p>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-0.5">
                     {SERVICES.map((service, index) => {
                       const isActive = service.id === activeId;
                       return (
@@ -637,7 +637,7 @@ export function ServicesMegaMenuDesktop({
                               e.currentTarget.click();
                             }
                           }}
-                          className={`group relative flex items-center gap-3 rounded-[14px] px-2.5 py-2.5 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 ${
+                          className={`group relative flex items-center gap-2.5 rounded-[12px] px-2 py-2 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001]/80 ${
                             isActive
                               ? "bg-[#FFF4C2]"
                               : "hover:bg-white/80"
@@ -646,7 +646,7 @@ export function ServicesMegaMenuDesktop({
                           {isActive && (
                             <motion.span
                               layoutId="services-mega-accent"
-                              className="absolute bottom-2 left-0 top-2 w-[3px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                              className="absolute bottom-1.5 left-0 top-1.5 w-[2.5px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
                               transition={
                                 reduceMotion
                                   ? { duration: 0 }
@@ -658,25 +658,25 @@ export function ServicesMegaMenuDesktop({
                               }
                             />
                           )}
-                          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/[0.04] bg-white shadow-[0_2px_8px_rgba(11,11,11,0.05)]">
+                          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[11px] border border-black/[0.04] bg-white shadow-[0_1px_6px_rgba(11,11,11,0.05)]">
                             <Image
                               src={service.icon}
                               alt=""
-                              width={34}
-                              height={34}
-                              className="h-[34px] w-[34px] object-contain"
+                              width={30}
+                              height={30}
+                              className="h-[30px] w-[30px] object-contain"
                             />
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block font-montserrat text-[13px] font-bold leading-tight text-[#0b0b0b]">
+                            <span className="block font-montserrat text-[12.5px] font-bold leading-tight text-[#0b0b0b]">
                               {service.label}
                             </span>
-                            <span className="mt-0.5 block font-montserrat text-[11px] leading-snug text-[#7a776e]">
+                            <span className="mt-0.5 block truncate font-montserrat text-[10.5px] leading-snug text-[#7a776e]">
                               {service.short}
                             </span>
                           </span>
                           <span
-                            className={`shrink-0 text-[14px] transition-colors ${
+                            className={`shrink-0 text-[13px] transition-colors ${
                               isActive
                                 ? "text-[#0b0b0b]/45"
                                 : "text-[#0b0b0b]/25 group-hover:text-[#0b0b0b]/45"
@@ -692,7 +692,7 @@ export function ServicesMegaMenuDesktop({
                 </div>
 
                 {/* RIGHT — Preview */}
-                <div className="flex min-h-0 flex-col p-4 xl:p-5">
+                <div className="flex min-h-0 flex-col p-3.5">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={active.id}
@@ -706,23 +706,23 @@ export function ServicesMegaMenuDesktop({
                       transition={t(0.2)}
                       className="flex min-h-0 flex-1 flex-col"
                     >
-                      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(280px,1.15fr)] gap-4 xl:gap-5">
+                      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,0.95fr)_minmax(240px,1.1fr)] gap-3.5">
                         {/* Copy + features */}
                         <div className="min-w-0 pt-0.5">
-                          <p className="font-montserrat text-[10px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
+                          <p className="font-montserrat text-[9px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
                             Preview
                           </p>
-                          <h3 className="mt-1.5 font-montserrat text-[26px] font-bold leading-none tracking-tight text-[#0b0b0b]">
+                          <h3 className="mt-1 font-montserrat text-[22px] font-bold leading-none tracking-tight text-[#0b0b0b]">
                             {active.label}
                           </h3>
-                          <p className="mt-2 font-montserrat text-[13px] leading-snug text-[#6f6e68]">
+                          <p className="mt-1.5 line-clamp-2 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
                             {active.description}
                           </p>
-                          <ul className="mt-4 space-y-2.5">
+                          <ul className="mt-3 space-y-2">
                             {active.features.map((feature) => (
                               <li
                                 key={feature}
-                                className="flex items-start gap-2.5 font-montserrat text-[13px] font-medium text-[#2f2e2a]"
+                                className="flex items-start gap-2 font-montserrat text-[12px] font-medium text-[#2f2e2a]"
                               >
                                 <CheckIcon />
                                 {feature}
@@ -738,19 +738,19 @@ export function ServicesMegaMenuDesktop({
                       </div>
 
                       {/* Info cards */}
-                      <div className="mt-4 grid grid-cols-4 gap-2.5">
+                      <div className="mt-3 grid grid-cols-4 gap-2">
                         {active.stats.map((stat) => (
                           <div
                             key={stat.value + stat.detail}
-                            className="rounded-[14px] border border-black/[0.06] bg-white px-3 py-2.5 shadow-[0_2px_8px_rgba(11,11,11,0.03)]"
+                            className="rounded-[12px] border border-black/[0.06] bg-[#fbfaf7] px-2.5 py-2"
                           >
-                            <div className="flex items-center gap-1.5">
+                            <div className="flex items-center gap-1">
                               <StatIcon name={stat.icon} />
-                              <p className="font-montserrat text-[15px] font-bold leading-none text-[#0b0b0b]">
+                              <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
                                 {stat.value}
                               </p>
                             </div>
-                            <p className="mt-1.5 font-montserrat text-[10px] leading-snug text-[#7a776e]">
+                            <p className="mt-1 font-montserrat text-[9px] leading-snug text-[#7a776e]">
                               {stat.detail}
                             </p>
                           </div>
@@ -758,15 +758,15 @@ export function ServicesMegaMenuDesktop({
                       </div>
 
                       {/* Bottom action bar */}
-                      <div className="mt-4 flex items-center justify-between gap-4 border-t border-black/[0.06] pt-3.5">
+                      <div className="mt-3 flex items-center justify-between gap-3 border-t border-black/[0.06] pt-3">
                         <div className="flex min-w-0 items-start gap-2">
                           <MapPinIcon />
-                          <p className="min-w-0 font-montserrat text-[12px] leading-snug">
+                          <p className="min-w-0 font-montserrat text-[11px] leading-snug">
                             <span className="font-bold text-[#0b0b0b]">
                               Want to know more?
                             </span>{" "}
                             <span className="text-[#7a776e]">
-                              Explore all features and how {active.label} works.
+                              Explore how {active.label} works.
                             </span>
                           </p>
                         </div>
@@ -777,7 +777,7 @@ export function ServicesMegaMenuDesktop({
                               closeMenu();
                               onNavigate(e, active.href);
                             }}
-                            className="group inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-4 py-2 font-montserrat text-[12px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#171717] focus-visible:ring-2 focus-visible:ring-[#FCE001]"
+                            className="group inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 font-montserrat text-[11.5px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#171717] focus-visible:ring-2 focus-visible:ring-[#FCE001]"
                           >
                             Explore {active.label}
                             <span
