@@ -1,10 +1,16 @@
 "use client";
 
-import React, { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
-import CircularIndeterminate from "./loader";
+import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
@@ -166,11 +172,15 @@ export default function ContactUsForm(): React.ReactElement {
   const [activeTab, setActiveTab] = useState<ContactTab>("General");
   const [formData, setFormData] = useState<ContactFormFields>(initialFormData);
   const [loading, setLoading] = useState(false);
+  const [overlayPhase, setOverlayPhase] = useState<
+    "loading" | "success" | "error" | null
+  >(null);
   const [alertVisible, setAlertVisible] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>({
     type: null,
     message: "",
   });
+  const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -181,7 +191,9 @@ export default function ContactUsForm(): React.ReactElement {
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    if (overlayTimer.current) clearTimeout(overlayTimer.current);
     setLoading(true);
+    setOverlayPhase("loading");
 
     try {
       const isBusiness = activeTab === "Business";
@@ -207,15 +219,19 @@ export default function ContactUsForm(): React.ReactElement {
         type: "success",
         message: "Message sent successfully!",
       });
+      setOverlayPhase("success");
       setAlertVisible(true);
       setFormData(initialFormData);
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Failed to submit form. Please try again.";
       setSubmissionStatus({ type: "error", message: errorMessage });
+      setOverlayPhase("error");
       setAlertVisible(true);
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1800);
     } finally {
       setLoading(false);
     }
@@ -226,6 +242,13 @@ export default function ContactUsForm(): React.ReactElement {
     const timer = window.setTimeout(() => setAlertVisible(false), 3000);
     return () => window.clearTimeout(timer);
   }, [alertVisible]);
+
+  useEffect(
+    () => () => {
+      if (overlayTimer.current) clearTimeout(overlayTimer.current);
+    },
+    [],
+  );
 
   return (
     <section
@@ -290,11 +313,10 @@ export default function ContactUsForm(): React.ReactElement {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative overflow-hidden rounded-[22px] bg-white p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.32)] sm:rounded-[24px] sm:p-4">
-              {loading ? (
-                <div className="absolute inset-0 z-20 flex items-center justify-center rounded-[22px] bg-white/90 backdrop-blur-sm sm:rounded-[24px]">
-                  <CircularIndeterminate />
-                </div>
-              ) : null}
+              <FormStatusOverlay
+                phase={overlayPhase}
+                message={submissionStatus.message}
+              />
 
               {/* Tabs */}
               <div className="rounded-full bg-[#f5f0e6] p-1">

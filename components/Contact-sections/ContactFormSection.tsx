@@ -12,7 +12,7 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import FormAlert from "@/components/FormAlert";
-import CircularIndeterminate from "@/components/loader";
+import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
@@ -282,6 +282,9 @@ function ContactInfoCard({
 export default function ContactFormSection() {
   const [form, setForm] = useState<FormFields>(initialForm);
   const [loading, setLoading] = useState(false);
+  const [overlayPhase, setOverlayPhase] = useState<
+    "loading" | "success" | "error" | null
+  >(null);
   const [alertVisible, setAlertVisible] = useState(false);
   const [status, setStatus] = useState<{
     type: "success" | "error" | null;
@@ -289,6 +292,7 @@ export default function ContactFormSection() {
   }>({ type: null, message: "" });
   const [fileName, setFileName] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -314,7 +318,9 @@ export default function ContactFormSection() {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (overlayTimer.current) clearTimeout(overlayTimer.current);
     setLoading(true);
+    setOverlayPhase("loading");
     try {
       const isBusiness = form.subject === "Business";
       const message = isBusiness
@@ -335,20 +341,23 @@ export default function ContactFormSection() {
         message,
         phoneNumber: form.phone.trim(),
       });
-      setStatus({ type: "success", message: "Message sent successfully!" });
+      const successMsg = "Message sent successfully!";
+      setStatus({ type: "success", message: successMsg });
+      setOverlayPhase("success");
       setAlertVisible(true);
       setForm(initialForm);
       setFileName(null);
       if (fileRef.current) fileRef.current.value = "";
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (err: unknown) {
-      setStatus({
-        type: "error",
-        message:
-          err instanceof Error
-            ? err.message
-            : "Failed to submit form. Please try again.",
-      });
+      const errorMsg =
+        err instanceof Error
+          ? err.message
+          : "Failed to submit form. Please try again.";
+      setStatus({ type: "error", message: errorMsg });
+      setOverlayPhase("error");
       setAlertVisible(true);
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1800);
     } finally {
       setLoading(false);
     }
@@ -359,6 +368,13 @@ export default function ContactFormSection() {
     const t = window.setTimeout(() => setAlertVisible(false), 3200);
     return () => window.clearTimeout(t);
   }, [alertVisible]);
+
+  useEffect(
+    () => () => {
+      if (overlayTimer.current) clearTimeout(overlayTimer.current);
+    },
+    [],
+  );
 
   const fieldClass =
     "w-full rounded-[12px] border border-[#ebe6da] bg-[#F7F4EC] px-3 py-2 font-poppins text-[12.5px] text-[#0b0b0b] outline-none transition-colors placeholder:text-[#9a968c] focus:border-[#FCE001]/70 focus:bg-[#faf8f2] sm:px-3.5 sm:py-2.5 sm:text-[13px]";
@@ -481,11 +497,10 @@ export default function ContactFormSection() {
             className="relative mx-auto w-full max-w-[560px] lg:ml-auto lg:max-w-none"
           >
             <div className="relative overflow-hidden rounded-[24px] bg-white p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] sm:rounded-[28px] sm:p-4 lg:rounded-[32px] lg:p-5">
-              {loading ? (
-                <div className="absolute inset-0 z-20 flex items-center justify-center rounded-[inherit] bg-white/90 backdrop-blur-sm">
-                  <CircularIndeterminate />
-                </div>
-              ) : null}
+              <FormStatusOverlay
+                phase={overlayPhase}
+                message={status.message}
+              />
 
               <div className="relative z-10 mb-4 flex items-start gap-2.5 sm:mb-4">
                 <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-[10px] sm:h-11 sm:w-11 sm:rounded-[12px]">
