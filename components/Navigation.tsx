@@ -178,6 +178,7 @@ export default function Navigation() {
     "/pool-ride",
     "/delivery",
     "/logistic",
+    "/tourism",
     "/trip",
     "/about",
     "/contact",

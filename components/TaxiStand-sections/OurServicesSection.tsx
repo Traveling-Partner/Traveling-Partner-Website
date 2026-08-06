@@ -151,9 +151,9 @@ const MOBILE_CARDS = [
     ...CLEAN_MOBILE_CARDS.pool,
   },
   {
-    href: "/trip",
+    href: "/tourism",
     icon: "/images/taxi-stand/services/icon-trip.png",
-    title: "Trip",
+    title: "Tourism",
     subtitle: "City to city",
     video: TRIP_VIDEO,
     ...CLEAN_MOBILE_CARDS.trip,
@@ -241,10 +241,10 @@ export default function OurServicesSection() {
               mask={LOGISTICS_MASK}
             />
             <DesktopPhotoCard
-              href="/trip"
+              href="/tourism"
               image="/images/taxi-stand/services/card-trip.png"
               icon="/images/taxi-stand/services/icon-trip.png"
-              title="Trip"
+              title="Tourism"
               subtitle="City to city"
               delay={0.22}
               contentClassName="left-6 top-[14%]"

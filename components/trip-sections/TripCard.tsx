@@ -4,9 +4,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const FEATURES = [
-  "Group trips",
-  "Live tracking",
-  "0% commission",
+  "Family trips",
+  "Group tours",
+  "Weekend getaways",
 ] as const;
 
 function SparkleIcon() {
@@ -65,11 +65,12 @@ function DesktopContent() {
       </div>
 
       <h3 className="mb-[2%] text-[clamp(28px,3.8vw,40px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-black">
-        Trip.
+        Tourism.
       </h3>
 
       <p className="mb-[7%] max-w-[220px] text-[clamp(13px,1.4vw,15px)] font-medium leading-[1.45] text-[#3d3d3d]">
-        Plan family, friends, or school trips — commission-free.
+        Plan family trips, group tours, and travel across Pakistan with flexible
+        options.
       </p>
 
       <ul className="mt-auto flex w-full max-w-[220px] flex-col gap-2.5 pb-[2%]">
@@ -149,13 +150,13 @@ export default function TripCard({
             </div>
 
             <h3 className="mb-1 text-[28px] font-extrabold leading-none tracking-[-0.03em] text-black sm:text-[30px]">
-              Trip.
+              Tourism.
             </h3>
 
             <p className="mb-3 max-w-[280px] text-[11px] font-medium leading-snug text-[#2f2f2f] sm:text-[12px]">
-              Plan family, friends, or school trips —
+              Plan family trips, group tours, and
               <br />
-              commission-free.
+              travel across Pakistan.
             </p>
 
             <ul className="mt-auto flex max-w-[300px] flex-wrap justify-center gap-1.5 pb-1">

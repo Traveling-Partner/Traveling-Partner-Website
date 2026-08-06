@@ -146,12 +146,12 @@ export const SERVICES: ServiceItem[] = [
   },
   {
     id: "trip",
-    href: "/trip",
-    label: "Trip",
+    href: "/tourism",
+    label: "Tourism",
     short: "Out-of-town journeys made easy.",
-    description: "Comfortable trips beyond the city.",
+    description: "Comfortable tourism travel beyond the city.",
     features: [
-      "Trip planning",
+      "Tourism planning",
       "Transparent pricing",
       "Trusted drivers",
       "Intercity routes",
@@ -159,7 +159,7 @@ export const SERVICES: ServiceItem[] = [
     icon: "/images/taxi-stand/services/icon-trip.png",
     hero: "/images/trip/mega-menu-suv.png",
     phone: "/images/trip/ready-to-trip/bg-phone-car.png",
-    preview: "/images/trip/mega-menu-trip-preview.png",
+    preview: "/images/trip/mega-menu-tourism-preview.png",
     heroScale: 1.08,
     heroOffsetY: 6,
     stats: [

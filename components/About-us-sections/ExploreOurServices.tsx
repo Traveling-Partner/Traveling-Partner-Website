@@ -26,7 +26,7 @@ const ABOUT_DESCRIPTIONS = {
   delivery:
     "Send documents, parcels, and business orders with real-time tracking from pickup to delivery.",
   logistic: "Reliable transport and fleet support for businesses of every size.",
-  trip: "Travel between cities with verified drivers and flexible booking options.",
+  trip: "Plan family trips, group tours, weekend getaways, and travel across Pakistan with flexible options.",
 } as const;
 
 const CONTACT_DESCRIPTIONS = {
@@ -34,7 +34,7 @@ const CONTACT_DESCRIPTIONS = {
   pool: "Share your route with others and make everyday travel more affordable.",
   delivery: "Send parcels with real-time tracking from pickup to destination.",
   logistic: "Flexible transport and delivery support for businesses.",
-  trip: "Book comfortable intercity rides with verified drivers.",
+  trip: "Book comfortable tourism travel with verified drivers.",
 } as const;
 
 type ServiceKey = keyof typeof ABOUT_DESCRIPTIONS;
@@ -108,12 +108,12 @@ const services: Service[] = [
   },
   {
     number: "05",
-    title: "Trip",
+    title: "Tourism",
     label: "Plan journey",
     key: "trip",
     image: "/images/about/explore/card-trip.png",
     icon: "/images/about/explore/icon-trip.png",
-    href: "/trip",
+    href: "/tourism",
     rotate: 10,
     drop: 44,
     z: 2,

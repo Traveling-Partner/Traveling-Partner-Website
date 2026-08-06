@@ -144,9 +144,9 @@ const SERVICE_NODES: ServiceNode[] = [
     h: 152.72726440429688,
   },
   {
-    label: "Trip",
+    label: "Tourism",
     image: "/images/our-services/trip.png",
-    href: "/trip",
+    href: "/tourism",
     imgStyle: TRIP_IMG_STYLE,
     x: -137.86953735351562,
     y: 350.7275390625,
