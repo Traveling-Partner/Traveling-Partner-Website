@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { Bell, Gift, Mail, MapPin, ArrowRight } from "lucide-react";
+import FormAlert from "@/components/FormAlert";
+import { submitContactForm } from "@/services/contact";
 import "./NewsletterSection.css";
 
 /** Original full artwork — rings, airplane, clouds, dots, mailbox */
@@ -34,19 +36,52 @@ const FEATURES = [
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmed = email.trim();
-    if (!trimmed) return;
+    if (!trimmed || loading) return;
 
-    const subject = encodeURIComponent("Newsletter subscription");
-    const body = encodeURIComponent(
-      `Please subscribe me to the Traveling Partner newsletter.\n\nEmail: ${trimmed}`
-    );
-    window.location.href = `mailto:hello@traveling-partner.com?subject=${subject}&body=${body}`;
-    setEmail("");
+    setLoading(true);
+    try {
+      await submitContactForm({
+        name: "Newsletter Subscriber",
+        email: trimmed,
+        subject: "Newsletter",
+        message: `Please subscribe me to the Traveling Partner newsletter.\n\nEmail: ${trimmed}`,
+        phoneNumber: "",
+      });
+      setStatus({
+        type: "success",
+        message: "You’re subscribed! Watch your inbox for travel tips and offers.",
+      });
+      setAlertVisible(true);
+      setEmail("");
+    } catch (err: unknown) {
+      setStatus({
+        type: "error",
+        message:
+          err instanceof Error
+            ? err.message
+            : "Couldn’t subscribe right now. Please try again.",
+      });
+      setAlertVisible(true);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (!alertVisible) return;
+    const timer = window.setTimeout(() => setAlertVisible(false), 3200);
+    return () => window.clearTimeout(timer);
+  }, [alertVisible]);
 
   return (
     <section className="sil" aria-labelledby="sil-heading">
@@ -116,12 +151,15 @@ export default function NewsletterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
+                disabled={loading}
                 className="sil__input"
                 autoComplete="email"
               />
-              <button type="submit" className="sil__submit">
-                Subscribe
-                <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+              <button type="submit" className="sil__submit" disabled={loading}>
+                {loading ? "Subscribing…" : "Subscribe"}
+                {!loading ? (
+                  <ArrowRight size={16} strokeWidth={2.4} aria-hidden="true" />
+                ) : null}
               </button>
             </form>
 
@@ -150,6 +188,10 @@ export default function NewsletterSection() {
           </div>
         </div>
       </div>
+
+      {alertVisible ? (
+        <FormAlert status={status.type} message={status.message} />
+      ) : null}
     </section>
   );
 }
