@@ -26,21 +26,31 @@ export default function TPLoader({
   size = 96,
   label,
 }: TPLoaderProps) {
+  const boxSize = variant === "fullscreen" ? "min(56vw, 280px)" : size;
+
   const disc = (
     <div
-      className="relative shrink-0 overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
+      className="relative shrink-0"
       style={{
-        width: variant === "fullscreen" ? "min(56vw, 280px)" : size,
-        height: variant === "fullscreen" ? "min(56vw, 280px)" : size,
-        backgroundImage: GRADIENT,
-        backgroundSize: "100% 100%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        clipPath: "circle(50% at 50% 50%)",
+        width: boxSize,
+        height: boxSize,
       }}
     >
-      <div className="absolute inset-[10%]">
-        <div className="tp-loader-ring absolute inset-[2%]">
+      {/* Yellow bg only — slightly smaller than the logo/ring stage */}
+      <div
+        className="absolute inset-[12%] rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
+        style={{
+          backgroundImage: GRADIENT,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+        aria-hidden
+      />
+
+      {/* Inner logo + ring keep full size (not shrunk with the bg) */}
+      <div className="absolute inset-[4%]">
+        <div className="tp-loader-ring absolute inset-[1%]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={RING_SRC}
@@ -49,7 +59,7 @@ export default function TPLoader({
             draggable={false}
           />
         </div>
-        <div className="tp-loader-logo absolute inset-[24%]">
+        <div className="tp-loader-logo absolute inset-[22%]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={LOGO_SRC}
