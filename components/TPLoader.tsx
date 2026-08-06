@@ -11,63 +11,61 @@ type TPLoaderProps = {
    * inline — compact circular badge for splash / blog / forms
    */
   variant?: "fullscreen" | "inline";
-  /** Diameter of the circular loader. Default 108. */
+  /** Diameter of the circular loader. Default 120. */
   size?: number;
   label?: string;
 };
 
 /**
  * Traveling Partner loader — Figma proto node 295:1584
- * CSS animations start immediately (no JS / Framer delay).
+ * Yellow disc is 4px larger than the outer spinning ring on every side.
  */
 export default function TPLoader({
   className = "",
   variant = "inline",
-  size = 108,
+  size = 120,
   label,
 }: TPLoaderProps) {
   const boxSize = variant === "fullscreen" ? "min(56vw, 280px)" : size;
+  const ringInsetPx = 4;
 
   const disc = (
     <div
-      className="relative shrink-0"
+      className="relative shrink-0 overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
       style={{
         width: boxSize,
         height: boxSize,
+        backgroundImage: GRADIENT,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
-      {/* Yellow bg — slightly smaller than the outer box */}
+      {/* Outer ring — inset 4px so yellow bg exceeds the ring by 4px */}
       <div
-        className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
-        style={{
-          backgroundImage: GRADIENT,
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          clipPath: "circle(50% at 50% 50%)",
-        }}
+        className="pointer-events-none absolute"
+        style={{ inset: ringInsetPx }}
       >
-        {/* Ring + logo stay inside the yellow disc */}
-        <div className="absolute inset-[10%]">
-          <div className="tp-loader-ring absolute inset-[2%]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={RING_SRC}
-              alt=""
-              className="h-full w-full object-contain"
-              draggable={false}
-            />
-          </div>
-          <div className="tp-loader-logo absolute inset-[24%]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={LOGO_SRC}
-              alt="Traveling Partner"
-              className="h-full w-full object-contain"
-              draggable={false}
-            />
-          </div>
+        <div className="tp-loader-ring absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={RING_SRC}
+            alt=""
+            className="h-full w-full object-contain"
+            draggable={false}
+          />
         </div>
+      </div>
+
+      {/* Center logo */}
+      <div className="tp-loader-logo absolute inset-[24%]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={LOGO_SRC}
+          alt="Traveling Partner"
+          className="h-full w-full object-contain"
+          draggable={false}
+        />
       </div>
     </div>
   );
