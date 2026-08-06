@@ -55,7 +55,7 @@ const getImageSrc = (value: string): string => {
 
 const Loader = () => (
   <div className="flex items-center justify-center py-20">
-    <TPLoader variant="inline" size={108} label="Loading blogs…" />
+    <TPLoader variant="inline" size={120} label="Loading blogs…" />
   </div>
 );
 

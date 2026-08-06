@@ -70,7 +70,7 @@ export default function AppSplashLoader() {
       // Extensions (Grammarly, rulers) often mutate this node — ignore mismatch noise.
       suppressHydrationWarning
     >
-      <TPLoader variant="inline" size={108} />
+      <TPLoader variant="inline" size={120} />
     </div>
   );
 }
