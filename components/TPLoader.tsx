@@ -95,6 +95,7 @@ export default function TPLoader({
       aria-live="polite"
       aria-label={label || "Loading"}
       data-name="TP Loader"
+      suppressHydrationWarning
     >
       {disc}
       {label ? (
