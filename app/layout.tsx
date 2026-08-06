@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins, Montserrat } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import AppSplashLoader from "@/components/AppSplashLoader";
 import { getSiteUrl } from "@/lib/blogShare";
 import "./globals.css";
 
@@ -35,6 +36,8 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
       >
+        <AppSplashLoader />
+
         {/* Top Navigation */}
         <Navigation />
 

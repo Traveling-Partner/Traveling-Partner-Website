@@ -15,6 +15,7 @@ import { extractBlogList } from "@/lib/blogApi";
 import BlogDetailHero from "@/components/Blog-sections/BlogDetailHero";
 import BlogDetailBody from "@/components/Blog-sections/BlogDetailBody";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
+import TPLoader from "@/components/TPLoader";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 
 interface Blog {
@@ -79,9 +80,8 @@ const getImageSrc = (value: string): string => {
 };
 
 const Loader = () => (
-  <div className="flex flex-col items-center justify-center gap-4">
-    <div className="h-12 w-12 animate-spin rounded-full border-2 border-[#fce001]/30 border-t-[#fdb813]" />
-    <p className="text-sm font-medium text-[#6b6960]">Loading article…</p>
+  <div className="flex flex-col items-center justify-center py-16">
+    <TPLoader variant="inline" size={120} label="Loading article…" />
   </div>
 );
 

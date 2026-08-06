@@ -1,29 +1,16 @@
-// app/components/loader.tsx
 "use client";
 
-import React from "react";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
+import TPLoader from "@/components/TPLoader";
 
-const CircularIndeterminate: React.FC = () => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        color: "linear-gradient(to bottom, #fce001, #fdb813)",
-      }}
-    >
-      <CircularProgress
-        size={70}
-        thickness={2}
-        sx={{
-          color: "#fdb813",
-        }}
-      />
-    </Box>
-  );
+/** Drop-in branded loader — exact Figma prototype, compact size. */
+const CircularIndeterminate = ({
+  size = 96,
+  label,
+}: {
+  size?: number;
+  label?: string;
+}) => {
+  return <TPLoader variant="inline" size={size} label={label} />;
 };
 
 export default CircularIndeterminate;

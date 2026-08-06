@@ -14,6 +14,7 @@ import BlogHero from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
+import TPLoader from "@/components/TPLoader";
 
 interface Blog {
   id: string | number;
@@ -54,7 +55,7 @@ const getImageSrc = (value: string): string => {
 
 const Loader = () => (
   <div className="flex items-center justify-center py-20">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fdb813]"></div>
+    <TPLoader variant="inline" size={120} label="Loading blogs…" />
   </div>
 );
 
