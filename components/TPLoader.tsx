@@ -2,14 +2,10 @@ const RING_SRC = "/images/loader/tp-loader-ring.svg";
 const LOGO_SRC = "/images/loader/tp-loader-logo.svg";
 
 const GRADIENT =
-  "linear-gradient(99.88798881557781deg, rgb(252, 224, 1) 0%, rgb(253, 184, 19) 100%)";
+  "linear-gradient(145deg, #FFE84A 0%, #FCE001 38%, #FDB813 78%, #E89A00 100%)";
 
 type TPLoaderProps = {
   className?: string;
-  /**
-   * fullscreen — covers viewport (legacy)
-   * inline — compact circular badge for splash / blog / forms
-   */
   variant?: "fullscreen" | "inline";
   /** Diameter of the circular loader. Default 120. */
   size?: number;
@@ -17,7 +13,7 @@ type TPLoaderProps = {
 };
 
 /**
- * Traveling Partner loader — Figma proto node 295:1584
+ * Traveling Partner loader — Figma proto motion, premium floating badge look.
  * Yellow disc is 4px larger than the outer spinning ring on every side.
  */
 export default function TPLoader({
@@ -31,41 +27,54 @@ export default function TPLoader({
 
   const disc = (
     <div
-      className="relative shrink-0 overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
-      style={{
-        width: boxSize,
-        height: boxSize,
-        backgroundImage: GRADIENT,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
+      className="tp-loader-stage"
+      style={{ width: boxSize, height: boxSize }}
     >
-      {/* Outer ring — inset 4px so yellow bg exceeds the ring by 4px */}
-      <div
-        className="pointer-events-none absolute"
-        style={{ inset: ringInsetPx }}
-      >
-        <div className="tp-loader-ring absolute inset-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={RING_SRC}
-            alt=""
-            className="h-full w-full object-contain"
-            draggable={false}
-          />
-        </div>
-      </div>
+      {/* Ambient brand glow */}
+      <span className="tp-loader-glow" aria-hidden />
 
-      {/* Center logo */}
-      <div className="tp-loader-logo absolute inset-[24%]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={LOGO_SRC}
-          alt="Traveling Partner"
-          className="h-full w-full object-contain"
-          draggable={false}
-        />
+      {/* Contact / ground shadow */}
+      <span className="tp-loader-ground" aria-hidden />
+
+      <div className="tp-loader-badge">
+        <div
+          className="tp-loader-disc"
+          style={{ backgroundImage: GRADIENT }}
+        >
+          {/* Top gloss — 3D “bumped” surface */}
+          <span className="tp-loader-gloss" aria-hidden />
+          {/* Soft bottom shade */}
+          <span className="tp-loader-shade" aria-hidden />
+          {/* Crisp rim */}
+          <span className="tp-loader-rim" aria-hidden />
+
+          {/* Outer ring — inset 4px so yellow exceeds the ring by 4px */}
+          <div
+            className="pointer-events-none absolute"
+            style={{ inset: ringInsetPx }}
+          >
+            <div className="tp-loader-ring absolute inset-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={RING_SRC}
+                alt=""
+                className="h-full w-full object-contain"
+                draggable={false}
+              />
+            </div>
+          </div>
+
+          {/* Center logo */}
+          <div className="tp-loader-logo absolute inset-[24%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_SRC}
+              alt="Traveling Partner"
+              className="h-full w-full object-contain"
+              draggable={false}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
