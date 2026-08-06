@@ -11,7 +11,7 @@ type TPLoaderProps = {
    * inline — compact circular badge for splash / blog / forms
    */
   variant?: "fullscreen" | "inline";
-  /** Diameter of the circular loader. Default 96. */
+  /** Diameter of the circular loader. Default 108. */
   size?: number;
   label?: string;
 };
@@ -23,7 +23,7 @@ type TPLoaderProps = {
 export default function TPLoader({
   className = "",
   variant = "inline",
-  size = 96,
+  size = 108,
   label,
 }: TPLoaderProps) {
   const boxSize = variant === "fullscreen" ? "min(56vw, 280px)" : size;
@@ -36,37 +36,37 @@ export default function TPLoader({
         height: boxSize,
       }}
     >
-      {/* Yellow bg only — slightly smaller than the logo/ring stage */}
+      {/* Yellow bg — slightly smaller than the outer box */}
       <div
-        className="absolute inset-[12%] rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
+        className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
         style={{
           backgroundImage: GRADIENT,
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
+          clipPath: "circle(50% at 50% 50%)",
         }}
-        aria-hidden
-      />
-
-      {/* Inner logo + ring keep full size (not shrunk with the bg) */}
-      <div className="absolute inset-[4%]">
-        <div className="tp-loader-ring absolute inset-[1%]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={RING_SRC}
-            alt=""
-            className="h-full w-full object-contain"
-            draggable={false}
-          />
-        </div>
-        <div className="tp-loader-logo absolute inset-[22%]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={LOGO_SRC}
-            alt="Traveling Partner"
-            className="h-full w-full object-contain"
-            draggable={false}
-          />
+      >
+        {/* Ring + logo stay inside the yellow disc */}
+        <div className="absolute inset-[10%]">
+          <div className="tp-loader-ring absolute inset-[2%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={RING_SRC}
+              alt=""
+              className="h-full w-full object-contain"
+              draggable={false}
+            />
+          </div>
+          <div className="tp-loader-logo absolute inset-[24%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_SRC}
+              alt="Traveling Partner"
+              className="h-full w-full object-contain"
+              draggable={false}
+            />
+          </div>
         </div>
       </div>
     </div>
