@@ -4,7 +4,7 @@ import TPLoader from "@/components/TPLoader";
 
 /** Drop-in branded loader — exact Figma prototype, compact size. */
 const CircularIndeterminate = ({
-  size = 96,
+  size = 108,
   label,
 }: {
   size?: number;

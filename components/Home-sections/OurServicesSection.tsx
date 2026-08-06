@@ -312,17 +312,21 @@ function OrbitImage({
   counterOrbit?: boolean;
   href?: string;
 }): React.ReactElement {
-  const style: React.CSSProperties = imgStyle ?? {
-    position: "absolute",
-    ...boundStyle(box),
-    zIndex,
-    objectFit: "contain",
+  // Always clone — never mutate shared imgStyle constants (frozen in prod/Turbopack).
+  const style: React.CSSProperties = {
+    ...(imgStyle ?? {
+      position: "absolute",
+      ...boundStyle(box),
+      zIndex,
+      objectFit: "contain" as const,
+    }),
+    ...(counterOrbit
+      ? {
+          animation: `our-services-orbit-rotate-reverse ${SERVICES_ORBIT_DURATION_S}s linear infinite`,
+          transformOrigin: "center center",
+        }
+      : null),
   };
-
-  if (counterOrbit) {
-    style.animation = `our-services-orbit-rotate-reverse ${SERVICES_ORBIT_DURATION_S}s linear infinite`;
-    style.transformOrigin = "center center";
-  }
 
   const image = (
     // eslint-disable-next-line @next/next/no-img-element

@@ -262,6 +262,19 @@ html {
   animation: fade-in 0.3s ease-out;
 }
 
+@keyframes tp-alert-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.tp-alert-progress {
+  animation: tp-alert-progress 3.2s linear forwards;
+}
+
 .animate-drive {
   animation: drive 10s linear infinite;
 }

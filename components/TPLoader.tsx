@@ -11,7 +11,7 @@ type TPLoaderProps = {
    * inline — compact circular badge for splash / blog / forms
    */
   variant?: "fullscreen" | "inline";
-  /** Diameter of the circular loader. Default 96. */
+  /** Diameter of the circular loader. Default 108. */
   size?: number;
   label?: string;
 };
@@ -23,40 +23,50 @@ type TPLoaderProps = {
 export default function TPLoader({
   className = "",
   variant = "inline",
-  size = 96,
+  size = 108,
   label,
 }: TPLoaderProps) {
+  const boxSize = variant === "fullscreen" ? "min(56vw, 280px)" : size;
+
   const disc = (
     <div
-      className="relative shrink-0 overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
+      className="relative shrink-0"
       style={{
-        width: variant === "fullscreen" ? "min(56vw, 280px)" : size,
-        height: variant === "fullscreen" ? "min(56vw, 280px)" : size,
-        backgroundImage: GRADIENT,
-        backgroundSize: "100% 100%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        clipPath: "circle(50% at 50% 50%)",
+        width: boxSize,
+        height: boxSize,
       }}
     >
-      <div className="absolute inset-[10%]">
-        <div className="tp-loader-ring absolute inset-[2%]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={RING_SRC}
-            alt=""
-            className="h-full w-full object-contain"
-            draggable={false}
-          />
-        </div>
-        <div className="tp-loader-logo absolute inset-[24%]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={LOGO_SRC}
-            alt="Traveling Partner"
-            className="h-full w-full object-contain"
-            draggable={false}
-          />
+      {/* Yellow bg — slightly smaller than the outer box */}
+      <div
+        className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_8px_22px_rgba(253,184,19,0.28)]"
+        style={{
+          backgroundImage: GRADIENT,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          clipPath: "circle(50% at 50% 50%)",
+        }}
+      >
+        {/* Ring + logo stay inside the yellow disc */}
+        <div className="absolute inset-[10%]">
+          <div className="tp-loader-ring absolute inset-[2%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={RING_SRC}
+              alt=""
+              className="h-full w-full object-contain"
+              draggable={false}
+            />
+          </div>
+          <div className="tp-loader-logo absolute inset-[24%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_SRC}
+              alt="Traveling Partner"
+              className="h-full w-full object-contain"
+              draggable={false}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -85,6 +95,7 @@ export default function TPLoader({
       aria-live="polite"
       aria-label={label || "Loading"}
       data-name="TP Loader"
+      suppressHydrationWarning
     >
       {disc}
       {label ? (

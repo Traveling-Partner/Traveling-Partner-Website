@@ -32,9 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <body
         className={`${poppins.variable} ${montserrat.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
+        suppressHydrationWarning
       >
         {/* Hoisted by Next — preload so loader assets are ready on first paint */}
         <link
