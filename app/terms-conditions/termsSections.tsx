@@ -162,10 +162,10 @@ export const termsSections: TermsSection[] = [
             )}
           </p>
           <p className={body}>
-            <span className="font-semibold text-[#0b0b0b]">Trip:</span>{" "}
+            <span className="font-semibold text-[#0b0b0b]">Tourism:</span>{" "}
             {emphasizePhrases(
-              "Book intercity travel with verified drivers. Trip availability depends on destination, scheduling and driver availability.",
-              ["intercity travel", "verified drivers"],
+              "Book tourism travel with verified drivers. Tourism availability depends on destination, scheduling and driver availability.",
+              ["tourism travel", "verified drivers"],
             )}
           </p>
           <p className={body}>

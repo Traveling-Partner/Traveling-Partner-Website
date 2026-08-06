@@ -4,11 +4,26 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const features = [
-  "Go on a long trip with your friends and family.",
-  "Get a taxi that is just made for road trips.",
-  "Freedom from car servicing hassles.",
-  "Optimize travelling time.",
-];
+  {
+    title: "Verified Travel Drivers",
+    description:
+      "travel with drivers who complete Traveling Partner’s verification process.",
+  },
+  {
+    title: "Flexible Travel Plans",
+    description:
+      "select the date, time, and route that fits your journey.",
+  },
+  {
+    title: "Transparent Travel Fares",
+    description: "see the travel fare before you confirm your booking.",
+  },
+  {
+    title: "Comfortable Travel",
+    description:
+      "sit back and enjoy the journey while your driver handles the road.",
+  },
+] as const;
 
 function CheckIcon() {
   return (
@@ -84,15 +99,21 @@ export default function TripWeekend() {
           >
             <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
-                Weekend Special
+                Why Choose Tourism
               </span>
             </div>
 
-            <h2 className="mb-6 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-7">
-              Enjoy Your{" "}
-              <span className="font-medium italic text-[#FCE001]">Weekend</span>{" "}
-              with Traveling Partner
+            <h2 className="mb-4 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
+              Why Choose{" "}
+              <span className="font-medium italic text-[#FCE001]">Tourism?</span>
             </h2>
+
+            <p className="mb-6 max-w-lg text-[14px] leading-relaxed text-[#5c5b55] sm:mb-7 sm:text-[15px]">
+              Every journey is different. Some people plan a family vacation weeks
+              ahead, while others decide on a weekend trip at the last minute.
+              Traveling Partner gives you a simpler way to arrange tourism
+              transport in Pakistan.
+            </p>
 
             <div
               className="mb-6 border-t border-dashed border-black/15 sm:mb-7"
@@ -100,9 +121,9 @@ export default function TripWeekend() {
             />
 
             <ul className="mb-6 flex flex-col gap-3.5 sm:mb-7 sm:gap-4">
-              {features.map((text, index) => (
+              {features.map((feature, index) => (
                 <motion.li
-                  key={text}
+                  key={feature.title}
                   initial={{ opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -113,7 +134,9 @@ export default function TripWeekend() {
                     <CheckIcon />
                   </span>
                   <span className="text-[14px] leading-snug text-[#0b0b0b] sm:text-[15px]">
-                    {text}
+                    <strong className="font-bold">{feature.title}</strong>
+                    {" — "}
+                    {feature.description}
                   </span>
                 </motion.li>
               ))}
@@ -137,10 +160,10 @@ export default function TripWeekend() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    Group Trips
+                    Family & Groups
                   </p>
                   <p className="text-[12px] text-[#0b0b0b]/75 sm:text-[13px]">
-                    Perfect for friends
+                    Trips & getaways
                   </p>
                 </div>
               </div>
@@ -157,10 +180,10 @@ export default function TripWeekend() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    24/7 Service
+                    Flexible Plans
                   </p>
                   <p className="text-[12px] text-[#5c5b55] sm:text-[13px]">
-                    Anytime, anywhere
+                    Your schedule
                   </p>
                 </div>
               </div>

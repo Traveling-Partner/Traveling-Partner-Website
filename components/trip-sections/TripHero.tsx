@@ -136,7 +136,7 @@ export default function TripHero() {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
-              Intercity Travel
+              Travel Farther
             </span>
           </div>
 
@@ -144,7 +144,7 @@ export default function TripHero() {
             className="trip-hero-fade mb-4 flex flex-wrap items-end gap-1.5 text-[42px] font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] sm:gap-2 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[72px]"
             style={{ animationDelay: "80ms" }}
           >
-            <span>Trip</span>
+            <span>Tourism</span>
             <span
               className="relative mb-[0.08em] ml-1 inline-flex h-[0.82em] w-[0.48em] shrink-0 origin-center items-end justify-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] pb-[0.2em] shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:ml-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
@@ -166,8 +166,13 @@ export default function TripHero() {
             style={{ animationDelay: "200ms" }}
           >
             {emphasizePhrases(
-              "Traveling Partner is the easy way to book intercity travel in Pakistan for people who want a reliable ride without the hassle. Whether you're looking for long-distance ride booking or want to book a driver for travel, you can plan your trip in minutes, travel with drivers you can trust, and know your fare from the moment your journey begins.",
-              ["intercity travel in Pakistan", "long-distance ride booking"],
+              "Traveling Partner makes tourism travel in Pakistan easier to plan. Whether you're heading to the northern areas, planning a family holiday, arranging a group tour, or taking a weekend getaway, you can book travel through one platform. Choose your route, set your travel plans, and travel with verified drivers. From short escapes to longer journeys, Traveling Partner helps you arrange comfortable and reliable tourism transport across Pakistan.",
+              [
+                "tourism travel in Pakistan",
+                "northern areas",
+                "verified drivers",
+                "tourism transport across Pakistan",
+              ],
             )}
           </p>
 
@@ -196,10 +201,10 @@ export default function TripHero() {
             <PeopleIcon className="h-4 w-4 shrink-0 text-[#fdb813]" />
             <span className="text-[12px] text-[#4a4a45] sm:text-[13px]">
               <span className="font-normal text-[#6f6e68]">
-                Verified drivers · Clear fares ·
+                Verified travel drivers · Transparent fares ·
               </span>{" "}
               <strong className="font-bold text-[#0b0b0b]">
-                Book in minutes
+                Flexible plans
               </strong>
             </span>
           </div>

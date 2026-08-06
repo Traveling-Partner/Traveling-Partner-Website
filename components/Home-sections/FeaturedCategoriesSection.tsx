@@ -40,11 +40,11 @@ const categories = [
       "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
   },
   {
-    title: "Trip",
+    title: "Tourism",
     image:
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253811/tp-Imgs/img/Categories_2_nfy9aq.png",
     description:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions"
+      "Plan family trips, group tours, weekend getaways, and travel across Pakistan with flexible tourism options — no extra fees."
   },
 ];
 

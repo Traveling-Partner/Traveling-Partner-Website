@@ -11,26 +11,26 @@ const APP_STORE_URL = "https://www.apple.com/app-store/";
 const cards = [
   {
     icon: "/images/trip/reliable/icon-quality.png",
-    iconAlt: "Gold medal with star — best quality rides",
-    title: "Best Quality Rides",
+    iconAlt: "Verified travel drivers",
+    title: "Verified Travel Drivers",
     description:
-      "Experience top-tier comfort and safety with our meticulously maintained fleet and professional drivers.",
+      "Travel with drivers who complete Traveling Partner’s verification process. From pickup to destination, your journey stays connected through one booking.",
     featured: false,
   },
   {
     icon: "/images/trip/reliable/icon-time.png",
-    iconAlt: "Stopwatch — faster than ever",
-    title: "Faster Than Ever",
+    iconAlt: "Flexible travel plans",
+    title: "Flexible Travel Plans",
     description:
-      "Get to your destination quicker with our optimized routes and priority booking system.",
+      "Planning a family trip, group tour, or weekend getaway? Select the date, time, and route that fits your travel plans.",
     featured: true,
   },
   {
     icon: "/images/trip/reliable/icon-cash.png",
-    iconAlt: "Cash with prohibition mark — no cash hassle",
-    title: "No Cash Hassle",
+    iconAlt: "Transparent travel fares",
+    title: "Transparent Travel Fares",
     description:
-      "Enjoy seamless digital payments. No need to worry about carrying cash or finding change.",
+      "See the travel fare before you confirm your booking. You’ll know the expected cost before your journey begins.",
     featured: false,
   },
 ] as const;
@@ -165,19 +165,20 @@ export default function TripReliable() {
         >
           <div className="mb-5 inline-flex items-center rounded-full bg-[#454117] px-4 py-1.5 sm:mb-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#FCE001] sm:text-[11px]">
-              Trusted Service
+              Comfortable Travel
             </span>
           </div>
 
           <h2 className="mb-3 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.12] tracking-tight text-white sm:mb-4">
-            Reliable, Safe,{" "}
+            Sit Back.{" "}
             <span className="font-medium italic text-[#FCE001]">
-              Transparent.
+              Enjoy the Journey.
             </span>
           </h2>
 
           <p className="font-poppins text-[15px] italic leading-relaxed text-white/75 sm:text-[17px] sm:leading-[1.55] md:text-[18px]">
-            Your trusted ride for every occasion!
+            Your driver handles the road while you focus on the places, people,
+            and experiences ahead.
           </p>
         </motion.div>
 

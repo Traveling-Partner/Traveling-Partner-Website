@@ -94,8 +94,8 @@ const RIDES: RideItem[] = [
   },
   {
     id: "trip",
-    title: "Trip",
-    titleWithPeriod: "Trip.",
+    title: "Tourism",
+    titleWithPeriod: "Tourism.",
     subtitle: "Every journey deserves a comfortable ride.",
     listDescription:
       "Visiting family out of town, driving in for a business meeting, or heading off for a weekend getaway. Book a verified driver and travel on your own schedule, with flexible intercity ride options across Pakistan.",
@@ -105,7 +105,7 @@ const RIDES: RideItem[] = [
     features: ["Pre-planned routes", "Group bookings", "Verified drivers"],
     icon: "/images/five-rides/icon-trip.png",
     panelIcon: "/images/five-rides/panel-trip.png",
-    href: "/trip",
+    href: "/tourism",
   },
 ];
 

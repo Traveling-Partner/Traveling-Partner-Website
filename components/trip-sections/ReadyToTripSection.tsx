@@ -202,29 +202,33 @@ export default function ReadyToTripSection() {
                 <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
-                Ready for your next trip?
+                Ready to Explore?
               </span>
             </div>
 
             <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-5">
               <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
-                Plan it,
+                Plan it.
               </span>
               <em
                 className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#fce001] lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
-                track it,
+                Travel it.
               </em>
               <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
-                enjoy it.
+                Enjoy it.
               </span>
             </h2>
 
             <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-white/85 lg:mb-5 lg:text-base lg:leading-[1.65] lg:text-[#b7b1a4]">
               {emphasizePhrases(
-                "Book a driver for travel in minutes and enjoy comfortable intercity travel in Pakistan. Verified intercity drivers, flexible departure times and clear prices from the moment you book.",
-                ["intercity travel in Pakistan", "Verified intercity drivers"],
+                "Whether you’re travelling with family, planning a group tour, visiting the northern areas, or taking a short break from the city, Traveling Partner helps you arrange tourism travel in Pakistan without the usual transport hassle. Choose your destination, book a verified travel driver, and plan your journey around your own schedule.",
+                [
+                  "northern areas",
+                  "tourism travel in Pakistan",
+                  "verified travel driver",
+                ],
                 "onDark",
               )}
             </p>

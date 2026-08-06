@@ -17,42 +17,42 @@ const steps: Step[] = [
   {
     number: "01",
     image: "/images/trip/how-it-works/step-book.png",
-    imageAlt: "Woman booking a trip on her phone",
+    imageAlt: "Woman choosing pickup and travel destination",
     title: (
       <>
-        Book a{" "}
-        <span className="font-medium italic text-[#FCE001]">Ride.</span>
+        Choose Your{" "}
+        <span className="font-medium italic text-[#FCE001]">Route.</span>
       </>
     ),
     description:
-      "Initiate your journey by booking a ride through Traveling Partner. Connect with reliable trip drivers in a few taps.",
+      "Choose your pickup location and travel destination to start planning your tourism journey.",
   },
   {
     number: "02",
     image: "/images/trip/how-it-works/step-track.png",
-    imageAlt: "Traveler tracking vehicle on phone",
+    imageAlt: "Traveler adding travel date and journey details",
     title: (
       <>
-        Track Your{" "}
-        <span className="font-medium italic">Vehicle.</span>
+        Set Travel{" "}
+        <span className="font-medium italic">Details.</span>
       </>
     ),
     description:
-      "Enjoy peace of mind with real-time vehicle tracking. Monitor your ride’s location for full transparency.",
+      "Add your preferred travel date, time, and journey details that fit your schedule.",
     featured: true,
   },
   {
     number: "03",
     image: "/images/trip/how-it-works/step-arrive.png",
-    imageAlt: "Friends arriving safely on a mountain road trip",
+    imageAlt: "Friends beginning a verified driver tourism journey",
     title: (
       <>
-        Arrive{" "}
-        <span className="font-medium italic text-[#FCE001]">Safely.</span>
+        Confirm &{" "}
+        <span className="font-medium italic text-[#FCE001]">Explore.</span>
       </>
     ),
     description:
-      "Arrive at your destination with confidence — flexible, commission-free travel managed on your terms.",
+      "Review the fare, confirm your tourism booking, then meet your verified driver and begin your journey.",
   },
 ];
 
@@ -148,13 +148,13 @@ export default function TripHowItWorks() {
           </div>
 
           <h2 className="mb-4 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
-            How It{" "}
-            <span className="font-medium italic text-[#FCE001]">Works.</span>
+            Plan. Book.{" "}
+            <span className="font-medium italic text-[#FCE001]">Explore.</span>
           </h2>
 
           <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">
-            Three simple steps between planning your trip and arriving at your
-            destination — no hassle, no commission.
+            Book tourism travel in a few simple steps — choose your route, set
+            your plans, confirm the fare, and start exploring.
           </p>
         </motion.div>
 

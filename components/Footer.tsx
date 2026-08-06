@@ -19,7 +19,7 @@ const FOOTER_LINKS = {
     { label: "Pool Ride", href: "/pool-ride" },
     { label: "Delivery", href: "/delivery" },
     { label: "Logistics", href: "/logistic" },
-    { label: "Trip", href: "/trip" },
+    { label: "Tourism", href: "/tourism" },
   ],
   support: [
     { label: "Help Center", href: "/help" },
