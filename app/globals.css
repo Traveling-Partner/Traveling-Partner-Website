@@ -167,6 +167,77 @@ html {
 }
 
 /* Custom animations */
+
+/* TP Loader — Figma 295:1584 (2s loop). CSS so animation starts on first paint. */
+@keyframes tp-loader-ring {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  79.51% {
+    transform: rotate(349.618deg);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: rotate(349.618deg);
+  }
+}
+
+@keyframes tp-loader-logo {
+  0% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  21.36% {
+    transform: scale(0.74);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  55.54% {
+    transform: scale(1);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tp-loader-ring {
+  animation: tp-loader-ring 2s infinite;
+  will-change: transform;
+}
+
+.tp-loader-logo {
+  animation: tp-loader-logo 2s infinite;
+  will-change: transform;
+}
+
+.tp-app-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fefbf6;
+  transition: opacity 0.25s cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.tp-app-splash--hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-loader-ring,
+  .tp-loader-logo {
+    animation: none !important;
+  }
+
+  .tp-app-splash {
+    transition: none;
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

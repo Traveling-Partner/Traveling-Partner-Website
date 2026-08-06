@@ -13,7 +13,7 @@ type CircleLogoLoaderProps = {
  * Kept as CircleLogoLoader for existing imports.
  */
 export default function CircleLogoLoader({
-  size = 120,
+  size = 96,
   label,
   className = "",
 }: CircleLogoLoaderProps) {

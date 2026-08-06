@@ -39,7 +39,7 @@ export default function FormStatusOverlay({
       aria-live="polite"
     >
       {phase === "loading" ? (
-        <TPLoader variant="inline" size={112} label="Sending message…" />
+        <TPLoader variant="inline" size={96} label="Sending message…" />
       ) : null}
 
       {phase === "success" ? (
