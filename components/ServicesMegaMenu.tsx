@@ -329,6 +329,8 @@ function PreviewVisual({ service }: { service: ServiceItem }) {
           sizes="480px"
           className="h-full w-full object-contain object-center"
           priority
+          // Already optimized public assets — skip /_next/image so idle preload hits the same URL.
+          unoptimized
         />
       </div>
     );
@@ -411,11 +413,18 @@ export function ServicesMegaMenuDesktop({
 }: ServicesMegaMenuProps) {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState(SERVICES[0].id);
-  const [panelStyle, setPanelStyle] = useState<CSSProperties>({});
+  const [panelStyle, setPanelStyle] = useState<CSSProperties>({
+    position: "fixed",
+    top: 72,
+    left: MENU_GUTTER,
+    width: MENU_MAX_W,
+    zIndex: 60,
+  });
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const assetsPreloaded = useRef(false);
   const menuId = useId();
   const listboxId = `${menuId}-list`;
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
@@ -428,24 +437,6 @@ export function ServicesMegaMenuDesktop({
       clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
-  };
-
-  const openMenu = useCallback(() => {
-    clearCloseTimer();
-    setOpen(true);
-  }, []);
-
-  const closeMenu = useCallback((returnFocus = false) => {
-    clearCloseTimer();
-    setOpen(false);
-    if (returnFocus) {
-      requestAnimationFrame(() => triggerRef.current?.focus());
-    }
-  }, []);
-
-  const scheduleClose = () => {
-    clearCloseTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 100);
   };
 
   const updatePanelPosition = useCallback(() => {
@@ -469,6 +460,40 @@ export function ServicesMegaMenuDesktop({
       zIndex: 60,
     });
   }, []);
+
+  const preloadAssets = useCallback(() => {
+    if (assetsPreloaded.current || typeof window === "undefined") return;
+    assetsPreloaded.current = true;
+    SERVICES.forEach((service) => {
+      const icon = new window.Image();
+      icon.src = service.icon;
+      if (service.preview) {
+        const preview = new window.Image();
+        preview.src = service.preview;
+      }
+    });
+  }, []);
+
+  const openMenu = useCallback(() => {
+    clearCloseTimer();
+    // Position before paint so first open doesn't mount at 0,0 then jump.
+    updatePanelPosition();
+    preloadAssets();
+    setOpen(true);
+  }, [updatePanelPosition, preloadAssets]);
+
+  const closeMenu = useCallback((returnFocus = false) => {
+    clearCloseTimer();
+    setOpen(false);
+    if (returnFocus) {
+      requestAnimationFrame(() => triggerRef.current?.focus());
+    }
+  }, []);
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setOpen(false), 100);
+  };
 
   const focusItem = (index: number) => {
     const clamped = (index + SERVICES.length) % SERVICES.length;
@@ -512,6 +537,14 @@ export function ServicesMegaMenuDesktop({
     }
   };
 
+  // Keep position warm even while closed so first hover is correct.
+  useEffect(() => {
+    updatePanelPosition();
+    const onResize = () => updatePanelPosition();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [updatePanelPosition]);
+
   useEffect(() => {
     if (!open) return;
     updatePanelPosition();
@@ -519,14 +552,23 @@ export function ServicesMegaMenuDesktop({
       if (e.key === "Escape") closeMenu(true);
     };
     window.addEventListener("keydown", onKey);
-    window.addEventListener("resize", updatePanelPosition);
     window.addEventListener("scroll", updatePanelPosition, true);
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("resize", updatePanelPosition);
       window.removeEventListener("scroll", updatePanelPosition, true);
     };
   }, [open, updatePanelPosition, closeMenu]);
+
+  // Prefetch mega-menu images during idle time so first open isn't blank/laggy.
+  useEffect(() => {
+    const run = () => preloadAssets();
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(run, { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = window.setTimeout(run, 600);
+    return () => window.clearTimeout(timer);
+  }, [preloadAssets]);
 
   useEffect(() => () => clearCloseTimer(), []);
 
@@ -537,6 +579,7 @@ export function ServicesMegaMenuDesktop({
       onMouseEnter={openMenu}
       onMouseLeave={scheduleClose}
       onFocusCapture={openMenu}
+      onPointerEnter={preloadAssets}
       onBlurCapture={(e) => {
         const next = e.relatedTarget as Node | null;
         if (!wrapRef.current?.contains(next)) scheduleClose();
@@ -583,13 +626,13 @@ export function ServicesMegaMenuDesktop({
             role="menu"
             aria-label="Services"
             initial={
-              reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10, scale: 0.99 }
+              reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6, scale: 0.995 }
             }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={
-              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.995 }
+              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: 0.995 }
             }
-            transition={t(0.24)}
+            transition={t(0.18)}
             style={panelStyle}
             onMouseEnter={openMenu}
             onMouseLeave={scheduleClose}
