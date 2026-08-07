@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Poppins, Montserrat } from "next/font/google";
+import { Poppins, Montserrat, Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import AppSplashLoader from "@/components/AppSplashLoader";
@@ -20,6 +20,11 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Traveling Partner",
@@ -34,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${montserrat.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
+        className={`${poppins.variable} ${montserrat.variable} ${bricolage.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
         suppressHydrationWarning
       >
         {/* Hoisted by Next — preload so loader assets are ready on first paint */}

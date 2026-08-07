@@ -771,17 +771,66 @@ img {
   @apply my-10 border-0 border-t border-dashed border-[#e8e4da];
 }
 
-.blog-detail-figma table {
-  @apply my-8 w-full overflow-hidden rounded-[16px] border border-[#eceae4] text-sm;
+/* Tables — every <table> from the API gets wrapped in .blog-table-wrap by
+   normalizeBlogContentHtml() (lib/blogDetailContent.ts), which also strips
+   any inline style/border/width attrs the source HTML brought along, so
+   this is the *only* thing that ever styles a blog table, for this post and
+   any future one. Rounding lives on the wrapper (not <table>) because
+   border-radius on table elements clips inconsistently across browsers. */
+.blog-detail-figma .blog-table-wrap {
+  @apply my-8 w-full overflow-x-auto rounded-[16px] border border-[#eceae4] bg-white shadow-[0_8px_24px_rgba(11,11,11,0.05)];
+  scrollbar-width: thin;
+  scrollbar-color: #fdb813 #f3f2ee;
 }
 
-.blog-detail-figma th,
-.blog-detail-figma td {
-  @apply border border-[#eceae4] px-4 py-3 text-left;
+.blog-detail-figma .blog-table-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.blog-detail-figma .blog-table-wrap::-webkit-scrollbar-track {
+  background: #f3f2ee;
+}
+
+.blog-detail-figma .blog-table-wrap::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: linear-gradient(90deg, #fce001, #fdb813);
+}
+
+.blog-detail-figma table {
+  @apply w-full min-w-[520px] border-collapse text-left text-[13.5px] sm:text-[14.5px];
+}
+
+.blog-detail-figma caption {
+  @apply mb-2 text-left text-[13px] font-semibold text-[#6f6e68];
 }
 
 .blog-detail-figma th {
-  @apply bg-[#fff8e1] font-bold text-[#0b0b0b];
+  @apply whitespace-nowrap border-b-2 border-[#fdb813] bg-[#fffaf0] px-5 py-3.5 text-left text-[11px] font-bold uppercase tracking-[0.06em] text-[#0b0b0b] sm:text-[12px];
+}
+
+.blog-detail-figma td {
+  @apply border-b border-[#eceae4] px-5 py-3.5 align-top text-[#3d3d38];
+}
+
+.blog-detail-figma tr:last-child td {
+  border-bottom: none;
+}
+
+.blog-detail-figma tr:nth-child(even) td {
+  background-color: #fefaf0;
+}
+
+.blog-detail-figma tbody tr:hover td {
+  background-color: rgba(252, 224, 1, 0.12);
+}
+
+.blog-detail-figma td:first-child {
+  @apply font-semibold text-[#0b0b0b];
+}
+
+.blog-detail-figma td p,
+.blog-detail-figma th p {
+  @apply mb-0;
 }
 
 .blog-detail-figma code {

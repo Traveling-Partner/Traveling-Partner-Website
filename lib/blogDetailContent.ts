@@ -114,12 +114,40 @@ function applySectionLeadCallouts(html: string, maxTotal = 4): string {
 }
 
 /**
+ * Drop presentational attributes (inline style/border/width/etc.) that
+ * WYSIWYG editors bake into table markup — those inline attributes win over
+ * our stylesheet, which is why tables copied from the API look "ordinary"
+ * no matter what CSS we write. Structural attributes like colspan/rowspan
+ * are left untouched.
+ */
+function stripTablePresentationAttrs(tableHtml: string): string {
+  return tableHtml.replace(
+    /<(table|thead|tbody|tfoot|tr|th|td)\b([^>]*)>/gi,
+    (_match, tag: string, attrs: string) => {
+      const cleaned = attrs.replace(
+        /\s(style|class|border|cellpadding|cellspacing|width|height|bgcolor|align|valign|bordercolor)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,
+        ""
+      );
+      return `<${tag}${cleaned}>`;
+    }
+  );
+}
+
+/** Wrap every table in a scrollable, styled container — current and future posts alike. */
+function enhanceTables(html: string): string {
+  return html.replace(/<table\b[^>]*>[\s\S]*?<\/table>/gi, (tableMatch) => {
+    if (/class="[^"]*blog-table-wrap/.test(tableMatch)) return tableMatch;
+    return `<div class="blog-table-wrap">${stripTablePresentationAttrs(tableMatch)}</div>`;
+  });
+}
+
+/**
  * Unify h2/h3/h4 and strong-only paragraphs into one heading style (blog 68 parity).
  */
 export function normalizeBlogContentHtml(html: string): string {
   if (!html) return "";
 
-  let result = html;
+  let result = enhanceTables(html);
 
   result = result.replace(
     /<h([2-4])([^>]*)>([\s\S]*?)<\/h\1>/gi,
