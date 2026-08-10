@@ -439,8 +439,24 @@ export default function NotFoundPage() {
           </div>
         </div>
 
-        <div ref={sceneRef} className="mb-8 w-full max-w-[880px] sm:mb-10">
-          <DriveScene />
+        {/* Full-bleed: spans the entire viewport so the car enters and exits
+            at the real screen edges — no side spacing. Outer div handles the
+            breakout, inner div keeps GSAP's entrance transform conflict-free. */}
+        <div
+          className="relative mb-8 sm:mb-10"
+          // Symmetric negative margins are required: the parent is a
+          // flex/items-center column, which centers the MARGIN box — a
+          // one-sided margin would shift the strip and leave a gap on the
+          // right. With both margins the strip spans the full viewport evenly.
+          style={{
+            width: "100vw",
+            marginLeft: "calc(50% - 50vw)",
+            marginRight: "calc(50% - 50vw)",
+          }}
+        >
+          <div ref={sceneRef}>
+            <DriveScene />
+          </div>
         </div>
 
         <div
