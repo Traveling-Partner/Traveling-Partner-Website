@@ -30,11 +30,21 @@ export interface DriverInfo {
   name: string;
   rating: number;
   avatarUrl?: string;
+  /** Lifetime completed trips on the platform. */
+  totalTrips?: number;
+  /** Year the driver joined, e.g. "2021". */
+  memberSince?: string;
+  /** Identity/document verification passed. */
+  verified?: boolean;
 }
 
 export interface PassengerInfo {
   name: string;
   avatarUrl?: string;
+  totalTrips?: number;
+  /** Year the passenger joined, e.g. "2023". */
+  memberSince?: string;
+  verified?: boolean;
 }
 
 /**
@@ -53,6 +63,10 @@ export interface VehicleInfo {
   model: string;
   plateNumber: string;
   color?: string;
+  /** Model year, e.g. 2022. */
+  year?: number;
+  /** Photo of the vehicle (side profile preferred). */
+  imageUrl?: string;
 }
 
 export interface TripShareData {

@@ -1,8 +1,6 @@
 import type { LiveVehicleState, ShareRole, TripShareData } from "@/lib/liveTrip/types";
 import TripHeroCard from "./TripHeroCard";
-import TripActionButtons from "./TripActionButtons";
 import DriverVehicleCard from "./DriverVehicleCard";
-import TripRoute from "./TripRoute";
 
 interface TripInfoCardProps {
   trip: TripShareData;
@@ -14,7 +12,6 @@ interface TripInfoCardProps {
    * the driver's own contacts know who is riding along (driver protection).
    */
   viewAs: ShareRole;
-  onShare: () => void;
 }
 
 /**
@@ -24,7 +21,7 @@ interface TripInfoCardProps {
  * in their own clearly bordered cards below so nothing competes for
  * attention at the same visual weight.
  */
-export default function TripInfoCard({ trip, liveState, viewAs, onShare }: TripInfoCardProps) {
+export default function TripInfoCard({ trip, liveState, viewAs }: TripInfoCardProps) {
   const etaMinutes = liveState?.etaMinutes ?? trip.etaMinutes;
   const distanceKm = liveState?.distanceRemainingKm ?? trip.distanceKm;
 
@@ -40,16 +37,12 @@ export default function TripInfoCard({ trip, liveState, viewAs, onShare }: TripI
         driver={trip.driver}
       />
 
-      <TripActionButtons onShare={onShare} />
-
       <DriverVehicleCard
         viewAs={viewAs}
         driver={trip.driver}
         passenger={trip.passenger}
         vehicle={trip.vehicle}
       />
-
-      <TripRoute pickup={trip.pickup} destination={trip.destination} />
     </div>
   );
 }

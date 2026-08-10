@@ -11,21 +11,31 @@ import TripSpinner from "./TripSpinner";
  * - With NEXT_PUBLIC_GOOGLE_MAPS_API_KEY set → full Maps JavaScript API
  *   experience (brand-styled tiles + live moving vehicle marker), see
  *   LiveTripMapGoogle.tsx.
- * - Without a key (or if the interactive map fails to load/authenticate)
- *   → real Google Maps via the keyless embed endpoint, tinted toward the
- *   site's yellow/amber gradient with a blend overlay. The page always
- *   shows a real map either way.
+ * - Without a key → interactive Leaflet/OpenStreetMap map with the real
+ *   road route and a live car marker moving along it (LiveTripMapOSM) —
+ *   the Google embed iframe is sealed, so a moving marker is impossible
+ *   there.
+ * - If the interactive map can't load (auth, network, blocked tiles) →
+ *   real Google Maps via the keyless embed endpoint as the final,
+ *   always-works fallback.
  */
 
 const HAS_MAPS_KEY = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
 
+const mapLoading = () => (
+  <div className="flex h-full w-full items-center justify-center bg-[#f3f2ee]">
+    <TripSpinner label="Loading map…" />
+  </div>
+);
+
 const LiveTripMapGoogle = dynamic(() => import("./LiveTripMapGoogle"), {
   ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-[#f3f2ee]">
-      <TripSpinner label="Loading map…" />
-    </div>
-  ),
+  loading: mapLoading,
+});
+
+const LiveTripMapOSM = dynamic(() => import("./LiveTripMapOSM"), {
+  ssr: false,
+  loading: mapLoading,
 });
 
 interface LiveTripMapProps {
@@ -37,9 +47,10 @@ interface LiveTripMapProps {
 export default function LiveTripMap({ trip, liveState, className = "" }: LiveTripMapProps) {
   const [interactiveFailed, setInteractiveFailed] = useState(false);
 
-  if (HAS_MAPS_KEY && !interactiveFailed) {
+  if (!interactiveFailed) {
+    const Interactive = HAS_MAPS_KEY ? LiveTripMapGoogle : LiveTripMapOSM;
     return (
-      <LiveTripMapGoogle
+      <Interactive
         trip={trip}
         liveState={liveState}
         className={className}
@@ -62,10 +73,16 @@ function LiveTripMapEmbed({ trip, className = "" }: { trip: TripShareData; class
 
   return (
     <div className={`relative overflow-hidden bg-[#f3f2ee] ${className}`}>
+      {/* The embed is rendered 150px taller than the container and shifted up
+          by the same amount: Google pins its directions card (origin /
+          destination / "More options") to the top-left of the embed, and this
+          crops it out of view. Pickup & destination remain visible in our own
+          journey bar and route card, so no information is lost. */}
       <iframe
         title={`Route map: ${trip.pickup.label} to ${trip.destination.label}`}
         src={src}
-        className="absolute inset-0 h-full w-full border-0"
+        className="absolute inset-x-0 bottom-0 w-full border-0"
+        style={{ top: "-150px", height: "calc(100% + 150px)" }}
         allowFullScreen
         referrerPolicy="no-referrer-when-downgrade"
         onLoad={() => setLoaded(true)}
