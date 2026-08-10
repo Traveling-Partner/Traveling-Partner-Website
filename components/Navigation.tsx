@@ -197,6 +197,11 @@ export default function Navigation() {
   // Prefer smaller of dvh/svh so short phones + browser chrome don’t clip Contact
   const sheetMaxH = `min(calc(100dvh - ${panelTop + 12}px), calc(100svh - ${panelTop + 12}px))`;
 
+  // The public live-trip tracking experience uses its own minimal header —
+  // skip the full marketing navigation entirely on these routes.
+  const isLiveTripRoute = pathname === "/trip/track";
+  if (isLiveTripRoute) return null;
+
   return (
     <header
       className={`z-[60] w-full px-3 sm:px-4 ${

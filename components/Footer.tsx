@@ -249,7 +249,13 @@ function FooterLinkColumn({
   );
 }
 
-export default function Footer(): React.ReactElement {
+export default function Footer(): React.ReactElement | null {
+  const pathname = usePathname();
+  // The public live-trip tracking experience is a focused, distraction-free
+  // screen — skip the full marketing footer entirely on these routes.
+  const isLiveTripRoute = pathname === "/trip/track";
+  if (isLiveTripRoute) return null;
+
   return (
     <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
       <div className="mx-auto w-full max-w-7xl px-4 pb-5 pt-10 sm:px-6 sm:pb-6 sm:pt-12 lg:px-8 lg:pb-7 lg:pt-14">
