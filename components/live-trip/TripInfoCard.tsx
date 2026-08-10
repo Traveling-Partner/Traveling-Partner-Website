@@ -1,7 +1,6 @@
 import type { LiveVehicleState, ShareRole, TripShareData } from "@/lib/liveTrip/types";
 import TripHeroCard from "./TripHeroCard";
 import DriverVehicleCard from "./DriverVehicleCard";
-import TripRoute from "./TripRoute";
 
 interface TripInfoCardProps {
   trip: TripShareData;
@@ -44,8 +43,6 @@ export default function TripInfoCard({ trip, liveState, viewAs }: TripInfoCardPr
         passenger={trip.passenger}
         vehicle={trip.vehicle}
       />
-
-      <TripRoute pickup={trip.pickup} destination={trip.destination} />
     </div>
   );
 }

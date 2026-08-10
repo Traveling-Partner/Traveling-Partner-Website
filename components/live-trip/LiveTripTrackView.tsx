@@ -9,13 +9,12 @@ import LiveTripHeader from "./LiveTripHeader";
 import LiveTripMap from "./LiveTripMap";
 import TripInfoPanel from "./TripInfoPanel";
 import TripJourneyBar from "./TripJourneyBar";
-import FloatingSOSButton from "./FloatingSOSButton";
+import TripRouteBar from "./TripRouteBar";
 import TripLoadingState from "./TripLoadingState";
 import TrackingErrorState from "./TrackingErrorState";
 import TripExpiredState from "./TripExpiredState";
 import TripCancelledState from "./TripCancelledState";
 import TripCompletedState from "./TripCompletedState";
-import ShareTripModal from "./ShareTripModal";
 
 /** Small, deliberate delay so the loading state is genuine, not a flash. */
 const RESOLVE_DELAY_MS = 500;
@@ -27,7 +26,6 @@ export default function LiveTripTrackView() {
   const viewAs: ShareRole = requestedRole === "driver" ? "driver" : "passenger";
 
   const [resolved, setResolved] = useState(false);
-  const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
     setResolved(false);
@@ -97,30 +95,22 @@ export default function LiveTripTrackView() {
       <LiveTripHeader connection={liveState?.connection} lastUpdatedAt={liveState?.lastUpdatedAt} />
 
       <div className="flex flex-1 flex-col lg:flex-row lg:overflow-hidden">
-        {/* Map column: a more restrained map with the journey strip below it
-            (CTO feedback: the map alone dominating the screen was too much). */}
+        {/* Map column: a restrained inset map card — framed with breathing
+            room instead of bleeding edge-to-edge — with the journey strip
+            below it (CTO feedback: the map dominating the screen was too
+            much). */}
         <div className="flex flex-col lg:min-w-0 lg:flex-1">
-          <div className="sticky top-14 z-10 h-[34vh] w-full shrink-0 sm:top-16 sm:h-[38vh] lg:relative lg:top-0 lg:h-auto lg:min-h-0 lg:flex-1">
-            <LiveTripMap trip={trip} liveState={liveState} className="h-full w-full" />
-            <FloatingSOSButton />
+          <TripRouteBar pickup={trip.pickup} destination={trip.destination} />
+          <div className="sticky top-14 z-10 h-[30vh] w-full shrink-0 bg-[#f7f6f1] p-2.5 sm:top-16 sm:h-[34vh] sm:p-3 lg:relative lg:top-0 lg:h-auto lg:min-h-0 lg:flex-1 lg:p-5">
+            <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[#eceae4] shadow-[0_6px_20px_rgba(11,11,11,0.08)]">
+              <LiveTripMap trip={trip} liveState={liveState} className="h-full w-full" />
+            </div>
           </div>
           <TripJourneyBar trip={trip} liveState={liveState} />
         </div>
 
-        <TripInfoPanel
-          trip={trip}
-          liveState={liveState}
-          viewAs={viewAs}
-          onShare={() => setShareOpen(true)}
-        />
+        <TripInfoPanel trip={trip} liveState={liveState} viewAs={viewAs} />
       </div>
-
-      <ShareTripModal
-        open={shareOpen}
-        onOpenChange={setShareOpen}
-        trip={trip}
-        sharedBy={viewAs}
-      />
     </div>
   );
 }

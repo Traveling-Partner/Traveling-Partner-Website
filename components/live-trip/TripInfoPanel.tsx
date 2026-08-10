@@ -14,7 +14,7 @@ interface TripInfoPanelProps {
  */
 export default function TripInfoPanel({ trip, liveState, viewAs }: TripInfoPanelProps) {
   return (
-    <div className="relative w-full rounded-t-[24px] bg-white pt-4 shadow-[0_-8px_30px_rgba(11,11,11,0.06)] lg:w-[420px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-[#eceae4] lg:pt-5 lg:shadow-none lg:overflow-y-auto xl:w-[460px]">
+    <div className="relative w-full rounded-t-[24px] bg-white pt-4 shadow-[0_-8px_30px_rgba(11,11,11,0.06)] lg:w-[440px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-[#eceae4] lg:pt-5 lg:shadow-none lg:overflow-y-auto xl:w-[500px]">
       <TripInfoCard trip={trip} liveState={liveState} viewAs={viewAs} />
     </div>
   );
