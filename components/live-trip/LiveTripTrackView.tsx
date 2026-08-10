@@ -8,6 +8,7 @@ import type { ShareRole, TrackingViewState, TripShareData } from "@/lib/liveTrip
 import LiveTripHeader from "./LiveTripHeader";
 import LiveTripMap from "./LiveTripMap";
 import TripInfoPanel from "./TripInfoPanel";
+import TripJourneyBar from "./TripJourneyBar";
 import FloatingSOSButton from "./FloatingSOSButton";
 import TripLoadingState from "./TripLoadingState";
 import TrackingErrorState from "./TrackingErrorState";
@@ -96,9 +97,14 @@ export default function LiveTripTrackView() {
       <LiveTripHeader connection={liveState?.connection} lastUpdatedAt={liveState?.lastUpdatedAt} />
 
       <div className="flex flex-1 flex-col lg:flex-row lg:overflow-hidden">
-        <div className="sticky top-14 z-10 h-[42vh] w-full shrink-0 sm:top-16 sm:h-[46vh] lg:static lg:h-auto lg:flex-1">
-          <LiveTripMap trip={trip} liveState={liveState} className="h-full w-full" />
-          <FloatingSOSButton />
+        {/* Map column: a more restrained map with the journey strip below it
+            (CTO feedback: the map alone dominating the screen was too much). */}
+        <div className="flex flex-col lg:min-w-0 lg:flex-1">
+          <div className="sticky top-14 z-10 h-[34vh] w-full shrink-0 sm:top-16 sm:h-[38vh] lg:relative lg:top-0 lg:h-auto lg:min-h-0 lg:flex-1">
+            <LiveTripMap trip={trip} liveState={liveState} className="h-full w-full" />
+            <FloatingSOSButton />
+          </div>
+          <TripJourneyBar trip={trip} liveState={liveState} />
         </div>
 
         <TripInfoPanel
