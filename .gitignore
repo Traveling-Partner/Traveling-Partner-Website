@@ -34,3 +34,15 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Auto-generated blog snapshots. Regenerated on every `yarn dev`/`yarn build`
+# via the predev/prebuild/build scripts (scripts/generate-blog-static-data.mjs)
+# from the live API, so the committed copies are overwritten immediately and
+# never actually relied upon. Keeping them tracked only caused constant,
+# meaningless diffs. See lib/blogApi.ts — these paths are explicitly marked
+# as deprecated build artifacts; the live site fetches blog data straight
+# from the API, not from these files.
+/data/blog-list-cache.json
+/data/blog-build-ids.json
+/public/blog-list.json
+/public/blog-data/
