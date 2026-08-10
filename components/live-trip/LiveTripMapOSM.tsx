@@ -10,11 +10,13 @@ import TripSpinner from "./TripSpinner";
 /**
  * Keyless interactive map: Leaflet + OpenStreetMap tiles (no API key, no
  * billing) with a real road route fetched from the public OSRM router and
- * a live car marker that glides along the blue line — the moving-vehicle
- * experience the Google embed can't provide (its iframe is sealed).
+ * a live car marker that glides along the blue line.
  *
- * Failure ladder: OSRM down → fall back to the trip's demo route geometry;
- * tiles unreachable → onFail → parent falls back to the Google embed.
+ * Zoom note: never call marker.setLatLng() while Leaflet is mid-zoom.
+ * That fights the zoom CSS transform and flings the car off the route
+ * (sometimes hundreds of km). We freeze updates during zoom/pan and
+ * resync once the view is settled. Zoom animation is also disabled so
+ * marker pixels stay locked to lat/lng.
  */
 
 const TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -22,10 +24,7 @@ const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const OSRM_URL = "https://router.project-osrm.org/route/v1/driving";
 const LOAD_TIMEOUT_MS = 12_000;
-/** Matches the simulation tick so the car glides between updates. */
 const GLIDE_MS = 2800;
-
-/** Google-directions blue, so the route reads instantly as "the route". */
 const ROUTE_BLUE = "#1a73e8";
 
 function pinIconHtml(color: string): string {
@@ -37,16 +36,22 @@ function pinIconHtml(color: string): string {
   );
 }
 
-/** Top-view car in brand colors, rotated toward the bearing. */
 function carIconHtml(bearingDeg: number): string {
   return (
-    `<div style="transform: rotate(${bearingDeg}deg); transition: transform ${GLIDE_MS}ms linear; width:38px; height:38px; display:flex; align-items:center; justify-content:center;">` +
-    `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="34" viewBox="0 0 20 34" style="filter: drop-shadow(0 2px 4px rgba(11,11,11,0.4));">` +
+    `<div style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;">` +
+    `<div data-car-rotator="1" style="transform:rotate(${bearingDeg}deg);width:20px;height:34px;line-height:0;">` +
+    `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="34" viewBox="0 0 20 34" style="display:block;filter:drop-shadow(0 2px 4px rgba(11,11,11,0.4));">` +
     `<rect x="1.5" y="2" width="17" height="30" rx="6.5" fill="#0b0b0b" stroke="#fce001" stroke-width="2"/>` +
     `<rect x="4.5" y="7" width="11" height="6" rx="2" fill="#fce001"/>` +
     `<rect x="4.5" y="21" width="11" height="5" rx="2" fill="#fdb813" opacity="0.85"/>` +
     `</svg>` +
-    `</div>`
+    `</div></div>`
+  );
+}
+
+function glowIconHtml(): string {
+  return (
+    `<div style="width:44px;height:44px;border-radius:9999px;background:rgba(253,184,19,0.28);box-shadow:0 0 0 8px rgba(253,184,19,0.12);"></div>`
   );
 }
 
@@ -70,13 +75,8 @@ function bearingBetween(a: GeoPoint, b: GeoPoint): number {
   return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
 }
 
-/**
- * Interpolates a position + heading at `progress` (0..1) along a polyline,
- * measured by real distance — this keeps the car ON the drawn road line
- * even though the simulation's own demo route is a different curve.
- */
 function pointAlong(line: GeoPoint[], cumulative: number[], progress: number) {
-  const total = cumulative[cumulative.length - 1];
+  const total = cumulative[cumulative.length - 1] || 1;
   const target = Math.min(Math.max(progress, 0), 1) * total;
 
   let i = 1;
@@ -122,6 +122,12 @@ async function fetchRoadRoute(trip: TripShareData): Promise<GeoPoint[] | null> {
   }
 }
 
+function setCarBearing(marker: L.Marker | null, bearing: number) {
+  const el = marker?.getElement();
+  const rotator = el?.querySelector("[data-car-rotator]") as HTMLElement | null;
+  if (rotator) rotator.style.transform = `rotate(${bearing}deg)`;
+}
+
 interface LiveTripMapOSMProps {
   trip: TripShareData;
   liveState: LiveVehicleState | null;
@@ -142,6 +148,12 @@ export default function LiveTripMapOSM({
   const glowMarkerRef = useRef<L.Marker | null>(null);
   const lineGeomRef = useRef<GeoPoint[] | null>(null);
   const cumulativeRef = useRef<number[] | null>(null);
+  const animRafRef = useRef<number | null>(null);
+  const interactingRef = useRef(false);
+  const currentPosRef = useRef<GeoPoint | null>(null);
+  const targetPosRef = useRef<GeoPoint | null>(null);
+  const targetBearingRef = useRef(0);
+  const glideToRef = useRef<((point: GeoPoint, bearing: number) => void) | null>(null);
   const onFailRef = useRef(onFail);
   onFailRef.current = onFail;
 
@@ -154,18 +166,102 @@ export default function LiveTripMapOSM({
     let cancelled = false;
     setMapReady(false);
 
+    const cancelGlide = () => {
+      if (animRafRef.current !== null) {
+        window.cancelAnimationFrame(animRafRef.current);
+        animRafRef.current = null;
+      }
+    };
+
+    /** Place markers at lat/lng. Safe ONLY when the map is not mid-zoom. */
+    const placeAt = (point: GeoPoint, bearing?: number) => {
+      currentPosRef.current = point;
+      targetPosRef.current = point;
+      if (bearing !== undefined) targetBearingRef.current = bearing;
+      carMarkerRef.current?.setLatLng([point.lat, point.lng]);
+      glowMarkerRef.current?.setLatLng([point.lat, point.lng]);
+      if (bearing !== undefined) setCarBearing(carMarkerRef.current, bearing);
+    };
+
+    const glideTo = (point: GeoPoint, bearing: number) => {
+      targetPosRef.current = point;
+      targetBearingRef.current = bearing;
+
+      const car = carMarkerRef.current;
+      // Mid zoom/pan OR car not ready yet: remember target, don't touch DOM.
+      // setLatLng during Leaflet's zoom transform is what flings the car
+      // off-route (sometimes into another country on the map).
+      if (!car || interactingRef.current) {
+        cancelGlide();
+        return;
+      }
+
+      const from = currentPosRef.current ?? point;
+      cancelGlide();
+      setCarBearing(car, bearing);
+
+      const startedAt = performance.now();
+      const tick = (now: number) => {
+        if (interactingRef.current) {
+          cancelGlide();
+          return;
+        }
+
+        const t = Math.min(1, (now - startedAt) / GLIDE_MS);
+        const mid = {
+          lat: from.lat + (point.lat - from.lat) * t,
+          lng: from.lng + (point.lng - from.lng) * t,
+        };
+        currentPosRef.current = mid;
+        car.setLatLng([mid.lat, mid.lng]);
+        glowMarkerRef.current?.setLatLng([mid.lat, mid.lng]);
+
+        if (t < 1) {
+          animRafRef.current = window.requestAnimationFrame(tick);
+        } else {
+          animRafRef.current = null;
+          currentPosRef.current = point;
+        }
+      };
+
+      animRafRef.current = window.requestAnimationFrame(tick);
+    };
+
+    glideToRef.current = glideTo;
+
     const map = L.map(container, {
       zoomControl: false,
       attributionControl: true,
+      // Critical: animated zoom applies a CSS transform that desyncs HTML
+      // markers from their lat/lng while setLatLng/RAF also run.
+      zoomAnimation: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
     });
     mapRef.current = map;
+
+    const onInteractStart = () => {
+      interactingRef.current = true;
+      cancelGlide();
+    };
+
+    const onInteractEnd = () => {
+      interactingRef.current = false;
+      // Resync AFTER the view has settled — this is the safe moment.
+      const target = targetPosRef.current;
+      if (target) placeAt(target, targetBearingRef.current);
+    };
+
+    map.on("zoomstart", onInteractStart);
+    map.on("movestart", onInteractStart);
+    map.on("zoomend", onInteractEnd);
+    map.on("moveend", onInteractEnd);
 
     const tiles = L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
       maxZoom: 19,
     }).addTo(map);
 
-    // If no tiles arrive in time, the host is unreachable → embed fallback.
     let sawTile = false;
     tiles.on("tileload", () => {
       sawTile = true;
@@ -180,12 +276,11 @@ export default function LiveTripMapOSM({
       }
     }, LOAD_TIMEOUT_MS);
 
-    // Temporary view while the road route resolves.
     const roughBounds = L.latLngBounds([
       [trip.pickup.lat, trip.pickup.lng],
       [trip.destination.lat, trip.destination.lng],
     ]);
-    map.fitBounds(roughBounds, { padding: [48, 48] });
+    map.fitBounds(roughBounds, { padding: [48, 48], animate: false });
 
     L.marker([trip.pickup.lat, trip.pickup.lng], {
       icon: L.divIcon({
@@ -197,6 +292,7 @@ export default function LiveTripMapOSM({
       title: trip.pickup.label,
       interactive: false,
     }).addTo(map);
+
     L.marker([trip.destination.lat, trip.destination.lng], {
       icon: L.divIcon({
         html: pinIconHtml("#0b0b0b"),
@@ -216,22 +312,19 @@ export default function LiveTripMapOSM({
       cumulativeRef.current = cumulativeDistances(road);
 
       const latLngs = road.map((p) => [p.lat, p.lng] as [number, number]);
-      // Casing under the blue line so it reads over any tile background.
       L.polyline(latLngs, { color: "#ffffff", weight: 9, opacity: 0.9 }).addTo(map);
       L.polyline(latLngs, { color: ROUTE_BLUE, weight: 5, opacity: 0.95 }).addTo(map);
 
       const bounds = L.latLngBounds(latLngs);
       boundsRef.current = bounds;
-      map.fitBounds(bounds, { padding: [48, 48] });
+      map.fitBounds(bounds, { padding: [48, 48], animate: false });
 
       const start = pointAlong(road, cumulativeRef.current, liveState?.progress ?? 0);
 
       glowMarkerRef.current = L.marker([start.point.lat, start.point.lng], {
         icon: L.divIcon({
-          html:
-            `<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#fdb813]/60"></span>` +
-            `<span class="absolute inline-flex h-full w-full rounded-full bg-[#fdb813]/25"></span>`,
-          className: "relative",
+          html: glowIconHtml(),
+          className: "",
           iconSize: [44, 44],
           iconAnchor: [22, 22],
         }),
@@ -250,16 +343,20 @@ export default function LiveTripMapOSM({
         zIndexOffset: 1000,
       }).addTo(map);
 
-      // Let the car glide between simulation ticks instead of jumping.
-      [carMarkerRef.current, glowMarkerRef.current].forEach((m) => {
-        const el = m.getElement();
-        if (el) el.style.transition = `transform ${GLIDE_MS}ms linear`;
-      });
+      currentPosRef.current = start.point;
+      targetPosRef.current = start.point;
+      targetBearingRef.current = start.bearing;
     })();
 
     return () => {
       cancelled = true;
       window.clearTimeout(timeoutId);
+      cancelGlide();
+      glideToRef.current = null;
+      map.off("zoomstart", onInteractStart);
+      map.off("movestart", onInteractStart);
+      map.off("zoomend", onInteractEnd);
+      map.off("moveend", onInteractEnd);
       map.remove();
       mapRef.current = null;
       carMarkerRef.current = null;
@@ -267,29 +364,24 @@ export default function LiveTripMapOSM({
       boundsRef.current = null;
       lineGeomRef.current = null;
       cumulativeRef.current = null;
+      currentPosRef.current = null;
+      targetPosRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trip.token]);
 
-  // Live updates: move the car along the DISPLAYED road line by progress,
-  // so it never drifts off the blue route.
   useEffect(() => {
     const road = lineGeomRef.current;
     const cumulative = cumulativeRef.current;
-    const car = carMarkerRef.current;
-    if (!liveState || !road || !cumulative || !car) return;
+    if (!liveState || !road || !cumulative || !glideToRef.current) return;
 
     const { point, bearing } = pointAlong(road, cumulative, liveState.progress);
-    car.setLatLng([point.lat, point.lng]);
-    glowMarkerRef.current?.setLatLng([point.lat, point.lng]);
-
-    const inner = car.getElement()?.firstElementChild as HTMLElement | null;
-    if (inner) inner.style.transform = `rotate(${bearing}deg)`;
+    glideToRef.current(point, bearing);
   }, [liveState]);
 
   const handleRecenter = () => {
     if (mapRef.current && boundsRef.current) {
-      mapRef.current.fitBounds(boundsRef.current, { padding: [48, 48] });
+      mapRef.current.fitBounds(boundsRef.current, { padding: [48, 48], animate: false });
     }
   };
 
