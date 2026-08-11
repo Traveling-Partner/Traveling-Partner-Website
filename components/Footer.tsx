@@ -263,13 +263,13 @@ export default function Footer(): React.ReactElement | null {
 
         {/* Mobile — stacked sections like reference */}
         <div className="mt-10 lg:hidden">
-          <FooterNavLink href="/" className="inline-flex h-[48px] w-[200px] shrink-0 items-start leading-none">
+          <FooterNavLink href="/" className="inline-flex h-[52px] w-[220px] shrink-0 items-start leading-none">
             <Image
-              src="/images/traveling-partner-logo-trim.png"
+              src="/images/traveling-partner-logo.png"
               alt="Traveling Partner"
-              width={200}
-              height={76}
-              className="h-[48px] w-auto max-w-full object-contain object-left object-top"
+              width={220}
+              height={83}
+              className="h-[52px] w-auto max-w-full object-contain object-left object-top"
             />
           </FooterNavLink>
           <p className="mt-4 font-poppins text-[13px] font-normal leading-[1.65] text-[#6f6e68]">
@@ -291,15 +291,13 @@ export default function Footer(): React.ReactElement | null {
         {/* Desktop */}
         <div className="mt-12 hidden items-start gap-x-10 lg:mt-16 lg:grid lg:grid-cols-[minmax(0,1.35fr)_repeat(4,minmax(0,1fr))] xl:gap-x-14">
           <div className="min-w-0 lg:col-span-1">
-            {/* Trimmed logo asset — source PNG has ~20px empty top padding which
-                made the mark sit mid-heading vs COMPANY / SERVICES / SUPPORT. */}
-            <FooterNavLink href="/" className="inline-flex h-[48px] w-[200px] shrink-0 items-start leading-none">
+            <FooterNavLink href="/" className="inline-flex h-[52px] w-[220px] shrink-0 items-start leading-none">
               <Image
-                src="/images/traveling-partner-logo-trim.png"
+                src="/images/traveling-partner-logo.png"
                 alt="Traveling Partner"
-                width={200}
-                height={76}
-                className="h-[48px] w-auto max-w-full object-contain object-left object-top"
+                width={220}
+                height={83}
+                className="h-[52px] w-auto max-w-full object-contain object-left object-top"
               />
             </FooterNavLink>
             <p className="mt-5 max-w-[300px] font-poppins text-[14px] font-normal leading-[1.65] text-[#6f6e68]">
