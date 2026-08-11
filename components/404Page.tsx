@@ -75,6 +75,15 @@ export default function NotFoundPage() {
     if (el && !dotsRef.current.includes(el)) dotsRef.current.push(el);
   };
 
+  // Float the shared nav over this page so the yellow gradient mixes
+  // behind the header (no solid white/cream band).
+  useEffect(() => {
+    document.body.dataset.tpChrome = "not-found";
+    return () => {
+      delete document.body.dataset.tpChrome;
+    };
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
