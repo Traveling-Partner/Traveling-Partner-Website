@@ -232,14 +232,14 @@ export default function Navigation() {
         >
           <Link
             href="/"
-            className="block h-9 w-[64px] shrink-0 sm:h-[52px] sm:w-[92px] min-[1200px]:h-[52px] min-[1200px]:w-[95px]"
+            className="block h-10 w-[72px] shrink-0 sm:h-[58px] sm:w-[102px] min-[1200px]:h-[58px] min-[1200px]:w-[106px]"
             onClick={(e) => handleNavClick(e, "/")}
           >
             <Image
               src="/images/traveling-partner-logo.png"
               alt="Traveling Partner"
-              width={110}
-              height={65}
+              width={120}
+              height={70}
               className="h-full w-full object-contain object-left"
               priority
             />
