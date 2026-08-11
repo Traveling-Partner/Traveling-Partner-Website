@@ -28,8 +28,23 @@ export default function Navigation() {
   const panelRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname() ?? "";
   const reduceMotion = !!useReducedMotion();
+  const [isNotFoundPage, setIsNotFoundPage] = useState(false);
 
   const pendingFocusReturn = useRef(false);
+
+  // 404 can be any invalid URL — NotFoundPage sets body[data-tp-chrome]
+  // so we can float the nav over its yellow gradient like other heroes.
+  useEffect(() => {
+    const sync = () =>
+      setIsNotFoundPage(document.body.dataset.tpChrome === "not-found");
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-tp-chrome"],
+    });
+    return () => observer.disconnect();
+  }, [pathname]);
 
   const closeMenu = useCallback((returnFocus = false) => {
     if (returnFocus) pendingFocusReturn.current = true;
@@ -205,7 +220,7 @@ export default function Navigation() {
   return (
     <header
       className={`z-[60] w-full px-3 sm:px-4 ${
-        isOverlayHeroPage
+        isOverlayHeroPage || isNotFoundPage
           ? "absolute inset-x-0 top-0 bg-transparent pt-3 sm:pt-5 md:pt-[43px]"
           : "relative bg-white py-3 sm:py-4"
       }`}
