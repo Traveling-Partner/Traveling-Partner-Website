@@ -228,18 +228,18 @@ export default function Navigation() {
       <div className="relative mx-auto w-full max-w-4xl min-[1200px]:max-w-[1920px]">
         <nav
           ref={navRef}
-          className="relative z-[70] flex h-[56px] w-full min-w-0 items-center justify-between gap-1.5 rounded-full border border-black/[0.06] bg-white px-2 shadow-[0_8px_28px_rgba(11,11,11,0.1)] sm:h-[66px] sm:gap-3 sm:px-5 md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[66px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:border-0 min-[1200px]:px-5 min-[1200px]:py-2 min-[1200px]:shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)]"
+          className="relative z-[70] flex h-[60px] w-full min-w-0 items-center justify-between gap-1.5 rounded-full border border-black/[0.06] bg-white px-2 shadow-[0_8px_28px_rgba(11,11,11,0.1)] sm:h-[72px] sm:gap-3 sm:px-5 md:px-6 min-[1200px]:mx-auto min-[1200px]:h-[72px] min-[1200px]:w-fit min-[1200px]:justify-center min-[1200px]:gap-1 min-[1200px]:border-0 min-[1200px]:px-5 min-[1200px]:py-2 min-[1200px]:shadow-[0_-6px_20px_rgba(0,0,0,0.05),0_6px_20px_rgba(0,0,0,0.08)]"
         >
           <Link
             href="/"
-            className="block h-9 w-[64px] shrink-0 sm:h-[52px] sm:w-[92px] min-[1200px]:h-[52px] min-[1200px]:w-[95px]"
+            className="block h-[52px] w-[94px] shrink-0 sm:h-[68px] sm:w-[126px] min-[1200px]:h-[68px] min-[1200px]:w-[130px]"
             onClick={(e) => handleNavClick(e, "/")}
           >
             <Image
               src="/images/traveling-partner-logo.png"
               alt="Traveling Partner"
-              width={110}
-              height={65}
+              width={150}
+              height={88}
               className="h-full w-full object-contain object-left"
               priority
             />
