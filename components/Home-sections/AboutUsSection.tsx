@@ -4,8 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { heroBackgroundStyle } from "@/lib/heroBackground";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 /** Figma About Us — section 124:3686 (1920 × 1198) */
 const LEFT_COL_W = 787.5831909179688;
 const RIGHT_COL_W = 966.6965942382812;
@@ -475,21 +473,8 @@ export default function AboutUsSection(): React.ReactElement {
               style={{ maxWidth: BODY_MAX }}
             >
               <p>{ABOUT_BODY_P1}</p>
-              <p>
-                {emphasizePhrases(ABOUT_BODY_P2, [
-                  "best ride booking app in Pakistan",
-                  "verified drivers",
-                  "book a ride online",
-                  "taxi service",
-                  "airport transfer service",
-                ])}
-              </p>
-              <p>
-                {emphasizePhrases(ABOUT_BODY_P3, [
-                  "ride hailing app",
-                  "online taxi booking",
-                ])}
-              </p>
+              <p>{ABOUT_BODY_P2}</p>
+              <p>{ABOUT_BODY_P3}</p>
               <p>{ABOUT_BODY_P4}</p>
             </div>
 

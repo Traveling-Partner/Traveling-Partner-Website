@@ -147,18 +147,15 @@ export default function HeroSection() {
           >
             <p>Some trips don&apos;t need an entire car to yourself.</p>
             <p>
-              {emphasizePhrases(
-                "Share your trip with others heading in the same direction, split the fare and enjoy a smarter way to commute with Pool Ride. Going to work, university or home? An easy way to save money without compromising on comfort or safety.",
-                ["Pool Ride"],
-                "onLight",
-              )}
+              Share your trip with others heading in the same direction, split
+              the fare and enjoy a smarter way to commute with Pool Ride. Going
+              to work, university or home? An easy way to save money without
+              compromising on comfort or safety.
             </p>
             <p>
-              {emphasizePhrases(
-                "We're a shared ride booking service that connects riders traveling similar routes to make daily commutes more affordable and take unnecessary cars off our roads.",
-                ["shared ride booking service"],
-                "onLight",
-              )}
+              We&apos;re a shared ride booking service that connects riders
+              traveling similar routes to make daily commutes more affordable
+              and take unnecessary cars off our roads.
             </p>
           </div>
 

@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
 
@@ -212,24 +210,19 @@ export default function ReadyToSendSection() {
             </h2>
 
             <div className="mb-3 max-w-[440px] space-y-1 text-[13px] leading-[1.4] text-[#4a4a45] lg:mb-3.5 lg:text-[14px] lg:leading-[1.45]">
-              <p className="font-bold text-[#0b0b0b]">
+              <p>
                 Sending a parcel really doesn&apos;t need to be complicated.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Book a rider, set your pickup time, and follow your parcel the whole way, from your doorstep to theirs, all in the same app.",
-                  ["follow your parcel the whole way", "all in the same app"],
-                )}
+                Book a rider, set your pickup time, and follow your parcel the
+                whole way, from your doorstep to theirs, all in the same app.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Whether it's an important document, an order for a customer, or a gift for someone, Traveling Partner gets it there safely and on time.",
-                  ["safely and on time"],
-                )}
+                Whether it&apos;s an important document, an order for a
+                customer, or a gift for someone, Traveling Partner gets it there
+                safely and on time.
               </p>
-              <p className="font-bold text-[#0b0b0b]">
-                Download the app and give it a try.
-              </p>
+              <p>Download the app and give it a try.</p>
             </div>
 
             {/* Store buttons */}

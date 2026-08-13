@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const FEATURES = [
   {
@@ -11,7 +10,6 @@ const FEATURES = [
     titleItalic: "Verified Couriers.",
     description:
       "Every parcel goes through a trained, verified courier who actually knows how to handle a delivery properly. Important documents, customer orders, whatever it is, it's treated with care.",
-    bold: ["trained, verified courier", "treated with care"] as const,
     icon: "/images/delivery/how-works/icon-04-shield.png",
   },
   {
@@ -20,11 +18,6 @@ const FEATURES = [
     titleItalic: "Pricing.",
     description:
       "You'll know exactly what a delivery costs before you even book it. No surprise charges tacked on later, just a fair price for what you're actually getting.",
-    bold: [
-      "exactly what a delivery costs",
-      "No surprise charges",
-      "fair price",
-    ] as const,
     icon: "/images/help-center/icon-payment.png",
   },
   {
@@ -33,7 +26,6 @@ const FEATURES = [
     titleItalic: "Support.",
     description:
       "Got a question or something went sideways with a delivery? Our support team's there to sort it out, fast.",
-    bold: ["sort it out, fast"] as const,
     icon: "/images/help-center/icon-chat.png",
   },
   {
@@ -42,7 +34,6 @@ const FEATURES = [
     titleItalic: "Time.",
     description:
       "Book a rider in a couple of minutes and let us take it from there. No extra trips across town, no standing around waiting.",
-    bold: ["couple of minutes", "No extra trips across town"] as const,
     icon: "/images/logistic/services/icon-fast.png",
   },
 ] as const;
@@ -82,10 +73,10 @@ export default function WhyChooseUs() {
           </p>
 
           <p className="mx-auto mt-2 max-w-[640px] font-poppins text-[12px] font-normal leading-[1.45] text-[#5c5c5c] sm:text-[13px]">
-            {emphasizePhrases(
-              "Every delivery matters to us, whether it's a personal parcel or a business order. We built this service around one idea: get it there fast, keep you in the loop, and don't drop the ball between pickup and doorstep.",
-              ["get it there fast", "keep you in the loop"],
-            )}
+            Every delivery matters to us, whether it&apos;s a personal parcel or
+            a business order. We built this service around one idea: get it
+            there fast, keep you in the loop, and don&apos;t drop the ball
+            between pickup and doorstep.
           </p>
         </motion.header>
 
@@ -125,7 +116,7 @@ export default function WhyChooseUs() {
               </h3>
 
               <p className="font-poppins text-[11px] font-normal leading-[1.4] text-[#5c5c5c] xl:text-[12px]">
-                {emphasizePhrases(feature.description, feature.bold)}
+                {feature.description}
               </p>
             </article>
           ))}
@@ -165,7 +156,7 @@ export default function WhyChooseUs() {
               </h3>
 
               <p className="font-poppins text-[12px] font-normal leading-[1.5] text-[#5c5c5c] sm:text-[13px]">
-                {emphasizePhrases(feature.description, feature.bold)}
+                {feature.description}
               </p>
             </motion.article>
           ))}

@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
 
@@ -145,11 +143,11 @@ export default function HeroSection() {
             className="taxi-hero-fade mb-8 max-w-md text-[14px] leading-[1.5] text-[#4a4a45] sm:text-[15px] sm:leading-[1.55]"
             style={{ animationDelay: "200ms" }}
           >
-            {emphasizePhrases(
-              "Need to get somewhere? Open the app, enter your destination, and we'll connect you with a verified driver nearby. You'll know the fare before your trip begins, and booking only takes a few taps. With our zero commission model for drivers, everyone gets a better experience when they ride with a Traveling Partner.",
-              ["Need to get somewhere?", "verified driver", "zero commission"],
-              "onLight",
-            )}
+            Need to get somewhere? Open the app, enter your destination, and
+            we&apos;ll connect you with a verified driver nearby. You&apos;ll
+            know the fare before your trip begins, and booking only takes a few
+            taps. With our zero commission model for drivers, everyone gets a
+            better experience when they ride with a Traveling Partner.
           </p>
 
           <div
