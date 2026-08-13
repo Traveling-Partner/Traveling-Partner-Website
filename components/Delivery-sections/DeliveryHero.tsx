@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
 
@@ -142,16 +140,13 @@ export default function DeliveryHero() {
               something you forgot at home.
             </p>
             <p>
-              {emphasizePhrases(
-                "Open the app, book a rider, and we'll handle the rest. You can follow your parcel from pickup to delivery, so you're never left wondering where it is.",
-                ["follow your parcel from pickup to delivery"],
-              )}
+              Open the app, book a rider, and we&apos;ll handle the rest. You
+              can follow your parcel from pickup to delivery, so you&apos;re
+              never left wondering where it is.
             </p>
             <p>
-              {emphasizePhrases(
-                "No complicated process. No hidden charges. Just delivery that works.",
-                ["No hidden charges", "Just delivery that works."],
-              )}
+              No complicated process. No hidden charges. Just delivery that
+              works.
             </p>
           </div>
 

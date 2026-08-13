@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma Our Services — 124:3939 / parent 124:3931 (1920 × 974.545) */
 /** Figma LEFT orbital composition — 124:3967 */
@@ -25,12 +24,6 @@ const ORBIT_MAX_W = 700;
 
 const BODY_COPY =
   "One app for every journey. Whether you need a taxi service, Pool Ride, parcel delivery, business logistics, or an out-of-town trip, Traveling Partner makes moving around Pakistan simple. Traveling Partner brings everyday travel, online taxi booking, and business transport under one roof with upfront fares, real-time GPS tracking, and drivers you can actually trust. It's what makes us the best ride booking app in Pakistan.";
-
-const BODY_BOLD = [
-  "taxi service",
-  "online taxi booking",
-  "best ride booking app in Pakistan",
-] as const;
 
 const STATS = [
   { value: "5", suffix: "+", label: "SERVICE CATEGORIES" },
@@ -451,7 +444,7 @@ export default function OurServicesSection(): React.ReactElement {
             </h2>
 
             <p className="mt-5 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#6f6e68] sm:mt-6 sm:text-[15px] md:text-[16px] lg:mt-8 lg:text-[17px]">
-              {emphasizePhrases(BODY_COPY, BODY_BOLD)}
+              {BODY_COPY}
             </p>
 
             <div className="mt-7 border-y border-[#ddd8cb] py-6 sm:mt-8 sm:py-7 lg:mt-10 lg:py-8">

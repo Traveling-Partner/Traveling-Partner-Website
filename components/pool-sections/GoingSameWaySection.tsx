@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
 
@@ -237,24 +235,17 @@ export default function GoingSameWaySection() {
 
             {/* Description — Figma mobile is near-white */}
             <div className="mb-2 max-w-[420px] space-y-0.5 text-[15px] leading-[1.35] text-white/85 lg:mb-2 lg:text-base lg:leading-[1.4] lg:text-[#b7b1a4]">
-              <p className="font-bold text-white">
-                A smarter way to travel starts here.
-              </p>
+              <p>A smarter way to travel starts here.</p>
               <p>
                 Traveling Partner is your partner in booking a ride, sharing
                 your commute, sending a parcel, or planning your next trip. Get
                 there with less fuss and more value.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Built into every journey, it's fair pricing, verified drivers, and real-time tracking from start to finish.",
-                  ["verified drivers", "real-time tracking"],
-                  "onDark",
-                )}
+                Built into every journey, it&apos;s fair pricing, verified
+                drivers, and real-time tracking from start to finish.
               </p>
-              <p className="font-bold text-white">
-                Download the app today and travel the way you want.
-              </p>
+              <p>Download the app today and travel the way you want.</p>
             </div>
 
             {/* Store buttons — side-by-side (Figma) */}
