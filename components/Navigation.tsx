@@ -172,7 +172,7 @@ export default function Navigation() {
   };
 
   const navLinkClass = (href: string) =>
-    `text-black transition-all duration-200 hover:bg-[rgba(11,11,11,0.07)] ${
+    `border border-transparent text-black transition-all duration-200 hover:border-[#FDB813] hover:bg-[rgba(11,11,11,0.07)] ${
       isActive(href) ? "bg-[rgba(11,11,11,0.07)]" : ""
     }`;
 
@@ -285,10 +285,10 @@ export default function Navigation() {
           <Link
             href="/contact"
             onClick={(e) => handleNavClick(e, "/contact")}
-            className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] px-3.5 py-1.5 font-poppins text-[12px] font-bold leading-none transition-all duration-200 ${
+            className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] border px-3.5 py-1.5 font-poppins text-[12px] font-bold leading-none transition-all duration-200 ${
               contactActive
-                ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
-                : "bg-black text-[#FCE001] hover:bg-black/90"
+                ? "border-transparent bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
+                : "border-transparent bg-black text-[#FCE001] hover:border-[#FDB813] hover:bg-black/90"
             }`}
           >
             Contact Us

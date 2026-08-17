@@ -588,7 +588,7 @@ export function ServicesMegaMenuDesktop({
       <button
         ref={triggerRef}
         type="button"
-        className={`relative inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] px-3.5 font-poppins text-[13px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
+        className={`group relative inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] border border-transparent px-3.5 font-poppins text-[13px] font-medium leading-none outline-none transition-all duration-200 hover:border-[#FDB813] focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
           open || anyServiceActive
             ? "bg-[rgba(11,11,11,0.07)] text-black"
             : "text-black hover:bg-[rgba(11,11,11,0.07)]"
@@ -602,17 +602,11 @@ export function ServicesMegaMenuDesktop({
         }}
         onKeyDown={onTriggerKeyDown}
       >
-        {open && (
-          <span
-            className="pointer-events-none absolute inset-x-3 -bottom-[3px] h-[3px] rounded-full bg-gradient-to-r from-[#FCE001] to-[#FDB813]"
-            aria-hidden
-          />
-        )}
         Services
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={t(0.2)}
-          className="ml-0.5 inline-flex text-[#0b0b0b]/55"
+          className="ml-0.5 inline-flex text-[#0b0b0b]/55 transition-colors duration-200 group-hover:text-[#FDB813]"
           aria-hidden
         >
           <ChevronIcon className="h-3.5 w-3.5" />
