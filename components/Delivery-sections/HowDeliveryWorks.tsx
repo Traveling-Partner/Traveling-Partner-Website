@@ -124,7 +124,7 @@ export default function HowDeliveryWorks() {
 
           <h2 className="mb-2.5 text-[28px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[42px]">
             How Delivery{" "}
-            <em className="font-medium italic text-[#FDB813]">Works.</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Works.</em>
           </h2>
 
           <p className="mx-auto max-w-[480px] text-[13px] leading-[1.6] text-[#A8A8A8] sm:text-[14px]">

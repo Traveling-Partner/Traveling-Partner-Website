@@ -21,7 +21,7 @@ const steps: Step[] = [
     title: (
       <>
         Choose Your{" "}
-        <span className="font-medium italic text-[#FCE001]">Route.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Route.</span>
       </>
     ),
     description:
@@ -48,7 +48,7 @@ const steps: Step[] = [
     title: (
       <>
         Confirm &{" "}
-        <span className="font-medium italic text-[#FCE001]">Explore.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Explore.</span>
       </>
     ),
     description:
@@ -149,7 +149,7 @@ export default function TripHowItWorks() {
 
           <h2 className="mb-4 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
             Plan. Book.{" "}
-            <span className="font-medium italic text-[#FCE001]">Explore.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Explore.</span>
           </h2>
 
           <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">

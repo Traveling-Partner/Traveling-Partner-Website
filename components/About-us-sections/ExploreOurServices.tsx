@@ -288,7 +288,7 @@ function ServiceCard({
                 {service.title}
               </h3>
 
-              <p className="mt-1.5 font-poppins text-[12px] font-medium italic leading-none text-[#FCE001]">
+              <p className="mt-1.5 bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-poppins text-[12px] font-medium italic leading-none text-transparent">
                 {service.label}
               </p>
 
@@ -426,7 +426,7 @@ export default function ExploreOurServices({
 
           <h2 className="mb-4 font-poppins text-[clamp(34px,5vw,52px)] font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b]">
             Explore Our{" "}
-            <span className="font-medium italic text-[#FCE001]">Services.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Services.</span>
           </h2>
 
           <p className="mx-auto max-w-[540px] text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">

@@ -105,7 +105,7 @@ export default function OurLocationSection() {
 
             <h2 className="mb-4 max-w-md font-poppins text-[clamp(30px,4.2vw,48px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
               Serving Across{" "}
-              <span className="font-medium italic text-[#FCE001]">
+              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                 Pakistan.
               </span>
             </h2>

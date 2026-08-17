@@ -44,7 +44,7 @@ function accentTitle(title: string): ReactNode {
   return (
     <>
       {rest}{" "}
-      <span className="font-medium italic text-[#FCE001]">{last}</span>
+      <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">{last}</span>
     </>
   );
 }
@@ -305,7 +305,7 @@ export default function PrivacyPolicyPage() {
                             className="font-poppins text-[22px] font-extrabold leading-none text-white sm:text-[26px]"
                           >
                             Get in{" "}
-                            <span className="font-semibold italic text-[#FCE001]">
+                            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">
                               Touch.
                             </span>
                           </h2>

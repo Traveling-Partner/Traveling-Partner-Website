@@ -223,7 +223,7 @@ export default function GoingSameWaySection() {
                 Share it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] font-medium italic text-[#fce001] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 save it,

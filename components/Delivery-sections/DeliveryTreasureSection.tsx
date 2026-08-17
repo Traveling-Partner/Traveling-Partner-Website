@@ -7,7 +7,7 @@ function AccentTitle({
   lead,
   accent,
   leadClassName = "text-[#0b0b0b]",
-  accentClassName = "font-medium italic text-[#FDB813]",
+  accentClassName = "bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent",
 }: {
   lead: string;
   accent: string;
@@ -97,7 +97,7 @@ export default function DeliveryTreasureSection() {
 
           <h2 className="mb-3 text-[34px] font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] sm:text-5xl lg:text-[52px]">
             Deliver Your{" "}
-            <em className="font-semibold italic text-[#FDB813]">Treasure.</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">Treasure.</em>
           </h2>
 
           <p className="mx-auto max-w-[560px] text-[13px] leading-[1.45] text-[#6F6E68] sm:text-[14px] sm:leading-[1.5]">
@@ -324,7 +324,7 @@ export default function DeliveryTreasureSection() {
                   <span className="font-extrabold text-[#0b0b0b]">
                     Community-
                   </span>
-                  <em className="font-medium italic text-[#FDB813]">
+                  <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                     Centric.
                   </em>
                 </h3>

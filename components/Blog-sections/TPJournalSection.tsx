@@ -178,7 +178,7 @@ function SectionCopy({
       >
         <span className="block">Real stories.</span>
         <em
-          className="mt-1 block font-medium italic text-[#FCE001]"
+          className="mt-1 block bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
           style={{ fontStyle: "italic" }}
         >
           Real journeys.

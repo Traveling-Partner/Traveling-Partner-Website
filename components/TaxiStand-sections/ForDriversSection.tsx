@@ -22,7 +22,7 @@ const driverSteps: DriverStep[] = [
     watermark: "01",
     title: (
       <>
-        Download <em className="font-medium italic text-[#FDB813]">the app</em>
+        Download <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">the app</em>
       </>
     ),
     description:
@@ -48,7 +48,7 @@ const driverSteps: DriverStep[] = [
     title: (
       <>
         Go Online &{" "}
-        <em className="font-medium italic text-[#FDB813]">find your partner</em>
+        <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">find your partner</em>
       </>
     ),
     description:
@@ -212,7 +212,7 @@ export default function ForDriversSection() {
 
           <h2 className="mb-4 text-[32px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl lg:text-[52px]">
             Ready to Earn{" "}
-            <em className="font-medium italic text-[#FDB813]">with Us?</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">with Us?</em>
           </h2>
 
           <p className="mx-auto max-w-lg text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">

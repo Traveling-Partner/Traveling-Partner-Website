@@ -119,7 +119,7 @@ export default function LogisticsFasterSaferSection() {
                 Faster Than You
                 <br />
                 Think{" "}
-                <em className="font-medium italic text-[#FCE001]">
+                <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                   Safer
                 </em>{" "}
                 Than

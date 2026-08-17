@@ -221,7 +221,7 @@ export default function HeroSection() {
                 Available in
               </p>
               <p className="text-lg font-extrabold leading-tight text-[#0b0b0b] sm:text-xl">
-                <em className="font-medium italic text-[#FDB813]">All</em> Cities
+                <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">All</em> Cities
               </p>
             </div>
 

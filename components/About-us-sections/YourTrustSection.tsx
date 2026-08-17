@@ -206,7 +206,7 @@ export default function YourTrustSection() {
                 One Platform.
               </span>
               <em
-                className="block text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#FCE001] lg:text-[52px]"
+                className="block text-[clamp(34px,8.5vw,42px)] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 Every Journey.

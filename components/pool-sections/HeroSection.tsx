@@ -220,7 +220,7 @@ export default function HeroSection() {
                 Share
               </p>
               <p className="text-lg font-extrabold leading-[1.05] text-[#0b0b0b] sm:text-xl">
-                <em className="font-medium italic text-[#FDB813]">Your</em>
+                <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Your</em>
               </p>
               <p className="text-lg font-extrabold leading-[1.05] text-[#0b0b0b] sm:text-xl">
                 Ride

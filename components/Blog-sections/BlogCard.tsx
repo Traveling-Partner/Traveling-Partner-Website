@@ -71,7 +71,7 @@ function renderCardTitle(title: string): ReactNode {
     parts.push(
       <em
         key={`brand-${match.index}`}
-        className="font-medium italic text-[#FCE001]"
+        className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
       >
         {match[0]}
       </em>

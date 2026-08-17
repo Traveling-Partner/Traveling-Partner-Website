@@ -424,7 +424,7 @@ export default function ContactFormSection() {
 
             <h2 className="mb-3 font-poppins text-[clamp(30px,4.2vw,44px)] font-extrabold leading-[1.05] tracking-tight text-white">
               Send Us a{" "}
-              <span className="font-medium italic text-[#FCE001]">
+              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                 Message.
               </span>
             </h2>

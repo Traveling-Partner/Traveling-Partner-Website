@@ -171,7 +171,7 @@ export default function TripReliable() {
 
           <h2 className="mb-3 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.12] tracking-tight text-white sm:mb-4">
             Sit Back.{" "}
-            <span className="font-medium italic text-[#FCE001]">
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
               Enjoy the Journey.
             </span>
           </h2>

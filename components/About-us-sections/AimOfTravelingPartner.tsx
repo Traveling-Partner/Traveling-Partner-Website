@@ -90,7 +90,7 @@ export default function AimOfTravelingPartner() {
                 className="mb-4 font-poppins text-[clamp(30px,4vw,48px)] font-extrabold leading-[1.12] tracking-tight text-white"
               >
                 Built for people who{" "}
-                <span className="font-medium italic text-[#FCE001]">move.</span>
+                <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">move.</span>
               </motion.h2>
 
               <motion.div
