@@ -140,7 +140,7 @@
 }
 
 .scrollbar-brand::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #fdb813 0%, #e5a50f 100%);
+  background: linear-gradient(180deg, #fce001 0%, #fdb813 100%);
 }
 
 /* Help center FAQ answer typography */
@@ -572,7 +572,7 @@ img {
 }
 
 .blog-detail-content a {
-  @apply text-[#c99200] font-medium underline underline-offset-2 decoration-[#fce001]/60 hover:text-[#fdb813] transition-colors;
+  @apply text-[#FDB813] font-medium underline underline-offset-2 decoration-[#fce001]/60 hover:text-[#fce001] transition-colors;
 }
 
 .blog-detail-content strong {
@@ -702,7 +702,7 @@ img {
 }
 
 .blog-detail-figma a {
-  @apply font-semibold text-[#0b0b0b] underline decoration-[#FCE001] decoration-2 underline-offset-2 transition-colors hover:text-[#c99200];
+  @apply font-semibold text-[#0b0b0b] underline decoration-[#FCE001] decoration-2 underline-offset-2 transition-colors hover:text-[#FDB813];
 }
 
 .blog-detail-figma strong {
@@ -714,7 +714,7 @@ img {
 }
 
 .blog-detail-figma blockquote {
-  @apply relative my-8 overflow-hidden rounded-r-[20px] rounded-l-[4px] border-l-[5px] border-[#FDB813] bg-gradient-to-r from-[#fff3cc] via-[#fff8e6] to-[#fffdf5] px-5 py-5 pl-6 text-[15px] font-medium italic leading-[1.75] text-[#0b0b0b] sm:px-6 sm:py-6;
+  @apply relative my-8 overflow-hidden rounded-r-[20px] rounded-l-[4px] border-l-[5px] border-[#FDB813] bg-gradient-to-r from-[#fce001]/25 via-[#fce001]/10 to-[#fdb813]/10 px-5 py-5 pl-6 text-[15px] font-medium italic leading-[1.75] text-[#0b0b0b] sm:px-6 sm:py-6;
 }
 
 .blog-detail-figma blockquote::before {

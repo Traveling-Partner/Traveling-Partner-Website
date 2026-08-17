@@ -442,7 +442,7 @@ export function TutorialPreviewCard({
         <h3 className="mt-2.5 font-poppins text-[clamp(1.35rem,2.25vw,1.875rem)] font-bold leading-[1.15] tracking-[-0.02em] text-[#0b0b0b]">
           {tutorial.headlineLead}{" "}
           <span
-            className={`${accentSerif.className} bg-gradient-to-b from-[#f5a623] to-[#fdb813] bg-clip-text font-normal text-transparent`}
+            className={`${accentSerif.className} bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal text-transparent`}
           >
             {tutorial.headlineAccent}
           </span>

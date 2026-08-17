@@ -96,7 +96,7 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
             style={{
               background: isSuccess
                 ? "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)"
-                : "linear-gradient(180deg, #FDB813 0%, #e2a20f 100%)",
+                : "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
             }}
             aria-hidden
           />

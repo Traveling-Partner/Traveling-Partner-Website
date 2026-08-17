@@ -26,9 +26,8 @@ const poolFull = path.join(destDir, "services-mobile-pool.png");
 <svg width="${W}" height="${yellowH}" viewBox="0 0 ${W} ${yellowH}" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFEE5C"/>
-      <stop offset="55%" stop-color="#FCE001"/>
-      <stop offset="100%" stop-color="#F5C400"/>
+      <stop offset="0%" stop-color="#FCE001"/>
+      <stop offset="100%" stop-color="#FDB813"/>
     </linearGradient>
   </defs>
   <!-- cream fill behind so no taxi text peeks -->

@@ -169,7 +169,7 @@ function PanelBackground() {
           fx="12%"
           fy="12%"
         >
-          <stop offset="0%" stopColor="#fff6a8" stopOpacity="0.45" />
+          <stop offset="0%" stopColor="#FCE001" stopOpacity="0.45" />
           <stop offset="55%" stopColor="#FCE001" stopOpacity="0" />
           <stop offset="100%" stopColor="#FDB813" stopOpacity="0.18" />
         </radialGradient>

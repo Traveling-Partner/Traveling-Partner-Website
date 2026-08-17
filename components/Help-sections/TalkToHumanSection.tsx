@@ -50,7 +50,7 @@ export default function TalkToHumanSection() {
           className="overflow-hidden rounded-[28px] border border-[#0b0b0b]/10 px-5 py-8 sm:rounded-[32px] sm:px-8 sm:py-10 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center lg:gap-10 lg:px-10 lg:py-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:gap-12"
           style={{
             backgroundImage:
-              "linear-gradient(135deg, #FFEE5C 0%, #FCE001 55%, #FDB813 100%)",
+              "linear-gradient(135deg, #FCE001 0%, #FDB813 100%)",
           }}
         >
           <div>
