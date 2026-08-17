@@ -53,14 +53,16 @@ function DesktopContent() {
   return (
     <>
       <div className="mb-[5%] flex items-center gap-3">
-        <Image
-          src="/images/taxi-stand/services/icon-taxi.png"
-          alt=""
-          width={116}
-          height={116}
-          className="h-[98px] w-[98px] shrink-0 object-contain sm:h-[106px] sm:w-[106px]"
-          priority
-        />
+        <span className="-ml-1.5 inline-block h-[98px] w-[98px] shrink-0 overflow-hidden sm:-ml-2 sm:h-[106px] sm:w-[106px]">
+          <Image
+            src="/images/taxi-stand/services/icon-taxi.png"
+            alt=""
+            width={116}
+            height={116}
+            className="h-full w-full scale-[1.2] object-cover object-center"
+            priority
+          />
+        </span>
         <div className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black px-3">
           <SparkleIcon />
           <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#FCE001] sm:text-[10px]">
