@@ -86,7 +86,9 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
   const dateLabel = formatHeroDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
-  const authorInitials = getAuthorInitials(authorLabel);
+  const isAdminAuthor = /admin/i.test(authorLabel);
+  const showAuthor = Boolean(authorLabel) && !isAdminAuthor;
+  const authorInitials = showAuthor ? getAuthorInitials(authorLabel) : "";
   const authorRole = blog.category
     ? `Editor · ${formatBlogType(blog.category)}`
     : "Editor";
@@ -159,7 +161,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
             </p>
           ) : null}
 
-          {(authorLabel || authorInitials) && (
+          {showAuthor && (
             <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
               {authorInitials ? (
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[13px] font-bold text-[#0b0b0b]">

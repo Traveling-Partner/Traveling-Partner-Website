@@ -104,7 +104,7 @@ function RelatedStoryCard({
   const dateLabel = formatCardDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
-  const detailHref = `/blog/detail?id=${blog.id}`;
+  const detailHref = `/blog/${blog.id}`;
 
   return (
     <Link href={detailHref} className="group block h-full">

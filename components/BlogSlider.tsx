@@ -186,7 +186,7 @@ function BlogCard({
   const titleLineHeight = 1.35;
 
   return (
-    <Link href={`/blog/detail?id=${blog.id}`} className="block h-full w-full min-w-0 max-w-full">
+    <Link href={`/blog/${blog.id}`} className="block h-full w-full min-w-0 max-w-full">
       <article
         className={`blog-card-article flex w-full min-w-0 max-w-full flex-col ${
           isCompact ? "overflow-hidden" : "h-full overflow-hidden"

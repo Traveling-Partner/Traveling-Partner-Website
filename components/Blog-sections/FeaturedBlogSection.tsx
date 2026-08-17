@@ -117,7 +117,7 @@ function FeaturedStoryCard({
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
   const authorRole = formatAuthorRole(blog.category);
-  const detailHref = `/blog/detail?id=${blog.id}`;
+  const detailHref = `/blog/${blog.id}`;
 
   const metaParts = [categoryLabel, dateLabel, readTimeLabel].filter(Boolean);
 

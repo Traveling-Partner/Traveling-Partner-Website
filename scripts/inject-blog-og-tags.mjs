@@ -1,6 +1,9 @@
 /**
- * After `next build`, inject Open Graph / Twitter / JSON-LD into each blog/*.html
+ * After `next build`, inject Open Graph / Twitter / JSON-LD into each blog/{id}.html
  * so LinkedIn, Facebook, WhatsApp show rich previews (image + title + description).
+ *
+ * Next generateMetadata already writes most tags; this pass refreshes from live
+ * blog-data and covers any host that served older HTML.
  */
 import fs from "fs";
 import path from "path";
@@ -45,10 +48,6 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;");
 }
 
-function escapeJson(value) {
-  return JSON.stringify(String(value)).slice(1, -1);
-}
-
 function stripHtml(value) {
   return String(value)
     .replace(/<[^>]*>/g, " ")
@@ -57,11 +56,25 @@ function stripHtml(value) {
 }
 
 function imageMimeType(url) {
-  const lower = url.toLowerCase();
+  const lower = url.toLowerCase().split("?")[0];
   if (lower.endsWith(".png")) return "image/png";
   if (lower.endsWith(".webp")) return "image/webp";
   if (lower.endsWith(".gif")) return "image/gif";
   return "image/jpeg";
+}
+
+function toAbsoluteImage(image) {
+  const src = String(image || "").trim();
+  if (!src) return DEFAULT_OG_IMAGE;
+  if (src.startsWith("http://") || src.startsWith("https://")) {
+    try {
+      return new URL(src).href;
+    } catch {
+      return src.replace(/ /g, "%20");
+    }
+  }
+  if (src.startsWith("/")) return `${SITE_URL}${src}`;
+  return DEFAULT_OG_IMAGE;
 }
 
 async function fetchBlog(id) {
@@ -91,12 +104,9 @@ function buildSocialMetaBlock(blog, id) {
   const description = stripHtml(
     blog.description1 ?? blog.description ?? blog.short_description ?? ""
   ).slice(0, 200);
-  let image = String(
+  const image = toAbsoluteImage(
     blog.coverImage ?? blog.cover_image ?? blog.image ?? ""
-  ).trim();
-  if (!image.startsWith("http")) {
-    image = DEFAULT_OG_IMAGE;
-  }
+  );
   const url = `${SITE_URL}/blog/${id}`;
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(
@@ -156,7 +166,7 @@ function buildSocialMetaBlock(blog, id) {
       name: "Traveling Partner",
       logo: {
         "@type": "ImageObject",
-        url: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+        url: DEFAULT_OG_IMAGE,
       },
     },
     image: [image],
@@ -176,7 +186,6 @@ function injectIntoHtml(html, metaBlock) {
   next = next.replace(/<link\s+rel="canonical"[^>]*>/i, "");
   next = next.replace(/<meta\s+property="og:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+property="article:[^"]+"[^>]*>/gi, "");
-  next = next.replace(/<meta\s+property="og:image:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+name="twitter:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+itemprop="[^"]+"[^>]*>/gi, "");
   next = next.replace(
@@ -188,24 +197,49 @@ function injectIntoHtml(html, metaBlock) {
   return next.replace("<head>", `<head>${metaBlock}`);
 }
 
+/** Collect out/blog/{id}.html and out/blog/{id}/index.html */
+function collectBlogHtmlFiles() {
+  if (!fs.existsSync(OUT_BLOG)) return [];
+
+  const found = [];
+
+  for (const entry of fs.readdirSync(OUT_BLOG, { withFileTypes: true })) {
+    if (entry.isFile() && /^\d+\.html$/.test(entry.name)) {
+      found.push({
+        id: entry.name.replace(".html", ""),
+        filePath: path.join(OUT_BLOG, entry.name),
+      });
+      continue;
+    }
+    if (entry.isDirectory() && /^\d+$/.test(entry.name)) {
+      const indexPath = path.join(OUT_BLOG, entry.name, "index.html");
+      if (fs.existsSync(indexPath)) {
+        found.push({ id: entry.name, filePath: indexPath });
+      }
+    }
+  }
+
+  return found;
+}
+
 async function main() {
-  if (!fs.existsSync(OUT_BLOG)) {
-    console.warn("[inject-blog-og] out/blog not found — skip");
+  const files = collectBlogHtmlFiles();
+  if (files.length === 0) {
+    console.warn(
+      "[inject-blog-og] no per-id blog HTML under out/blog — skip (ensure app/blog/[id] exported)"
+    );
     return;
   }
 
-  const files = fs.readdirSync(OUT_BLOG).filter((f) => /^\d+\.html$/.test(f));
   let updated = 0;
 
-  for (const file of files) {
-    const id = file.replace(".html", "");
+  for (const { id, filePath } of files) {
     const blog = await fetchBlog(id);
     if (!blog) {
       console.warn(`[inject-blog-og] no data for blog ${id}`);
       continue;
     }
 
-    const filePath = path.join(OUT_BLOG, file);
     const html = fs.readFileSync(filePath, "utf8");
     const metaBlock = buildSocialMetaBlock(blog, id);
     const nextHtml = injectIntoHtml(html, metaBlock);
@@ -228,4 +262,3 @@ main().catch((err) => {
   console.warn("[inject-blog-og] failed:", err.message || err);
   process.exit(0);
 });
-
