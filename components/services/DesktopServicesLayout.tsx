@@ -28,13 +28,13 @@ export const DESKTOP_MOSAIC_SLOTS = {
     left: "25.338%",
     top: "0%",
     width: "36.345%",
-    height: "56.691%",
+    height: "calc(56.691% - 8px)",
   },
   /** Frame 14 — Delivery */
   topRight: {
-    left: "61.474%",
+    left: "calc(61.474% + 3px)",
     top: "0%",
-    width: "38.525%",
+    width: "calc(38.525% - 8px)",
     height: "45.612%",
   },
   /** Frame 16 — Logistics */
@@ -149,10 +149,10 @@ function DesktopPhotoCard({
             className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
           />
           <div className="min-w-0 leading-tight">
-            <p className="truncate text-[15px] font-bold text-white drop-shadow lg:text-[16px]">
+            <p className="truncate text-[15px] font-bold text-white lg:text-[16px]">
               {title}
             </p>
-            <p className="truncate text-[12px] font-medium italic text-white/90 drop-shadow sm:text-[13px]">
+            <p className="truncate text-[12px] font-medium italic text-white/90 sm:text-[13px]">
               {subtitle}
             </p>
           </div>

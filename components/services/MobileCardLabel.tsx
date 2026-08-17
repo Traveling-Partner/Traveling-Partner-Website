@@ -43,10 +43,10 @@ export default function MobileCardLabel({
           className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
         />
         <div className="min-w-0 leading-tight">
-          <p className="truncate text-[14px] font-bold text-white drop-shadow sm:text-[15px]">
+          <p className="truncate text-[14px] font-bold text-white sm:text-[15px]">
             {title}
           </p>
-          <p className="truncate text-[11px] font-medium italic text-white/90 drop-shadow sm:text-[12px]">
+          <p className="truncate text-[11px] font-medium italic text-white/90 sm:text-[12px]">
             {subtitle}
           </p>
         </div>

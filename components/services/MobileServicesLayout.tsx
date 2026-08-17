@@ -130,10 +130,10 @@ function MobileVideoCard({
             className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
           />
           <div className="min-w-0 leading-tight">
-            <p className="truncate text-[14px] font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] sm:text-[15px]">
+            <p className="truncate text-[14px] font-bold text-white sm:text-[15px]">
               {title}
             </p>
-            <p className="truncate text-[11px] font-medium italic text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] sm:text-[12px]">
+            <p className="truncate text-[11px] font-medium italic text-white/90 sm:text-[12px]">
               {subtitle}
             </p>
           </div>
