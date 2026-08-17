@@ -23,34 +23,37 @@ type MobileServicesLayoutProps = {
 };
 
 /**
- * Exact Figma mobile card slots (relative to the 4-card grid only).
- * Bounding boxes intentionally overlap — cream gutters come from
- * transparent shape edges, matching the desktop interlocking layout.
+ * Mobile card slots — full width of the yellow featured card.
+ * Proportions match Figma interlocking shapes; only outer insets
+ * were removed so left/right edges align with the yellow card.
+ * Bounding boxes still overlap — cream gutters come from mask edges.
  */
 export const CARD_SLOTS = {
   topLeft: {
-    left: "3.54%",
+    left: "0.4%",
     top: "1.1%",
-    width: "44.53%",
-    height: "52.9%",
+    width: "46.5%",
+    height: "49.2%",
   },
   topRight: {
-    left: "44.77%",
-    top: "0%",
-    width: "54.11%",
-    height: "52.0%",
+    left: "43.5%",
+    // Same top as left — was 0%, which made the right side sit closer to the yellow card
+    top: "1.1%",
+    width: "56.5%",
+    height: "49.2%",
   },
+  // ~5px cream gap between top (middle) row and bottom row
   bottomLeft: {
-    left: "3.14%",
-    top: "51.4%",
-    width: "48.95%",
-    height: "49.1%",
+    left: "0%",
+    top: "51.0%",
+    width: "51.1%",
+    height: "49.0%",
   },
   bottomRight: {
-    left: "54.75%",
-    top: "51.6%",
-    width: "44.12%",
-    height: "48.4%",
+    left: "53.9%",
+    top: "51.0%",
+    width: "46.1%",
+    height: "49.0%",
   },
 } as const;
 
@@ -152,11 +155,11 @@ export default function MobileServicesLayout({
   cards,
 }: MobileServicesLayoutProps) {
   return (
-    <div className="mx-auto w-full max-w-[440px] px-1 lg:hidden">
-      {/* Small cream gutter under yellow V — not tight, not large */}
-      <div className="relative z-10 -mb-16 sm:-mb-[4.5rem]">{featured}</div>
+    <div className="mx-auto w-full max-w-[440px] lg:hidden">
+      {/* Cream gap between yellow V tip and the slides */}
+      <div className="relative z-10 -mb-[80px] sm:-mb-[88px]">{featured}</div>
 
-      {/* Aspect matches Figma 4-card grid (1242×1948) */}
+      {/* Same width as yellow card; aspect matches Figma 4-card grid (1242×1948) */}
       <div
         className="relative z-0 w-full"
         style={{ aspectRatio: "1242 / 1948" }}
