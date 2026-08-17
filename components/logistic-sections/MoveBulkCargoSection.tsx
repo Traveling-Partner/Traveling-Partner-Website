@@ -96,11 +96,11 @@ function StatItem({
     <div
       className={
         boxed
-          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-black/10 bg-white px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
-          : "flex items-center gap-3.5 px-1 py-2.5 lg:gap-2.5 lg:px-0 lg:py-0"
+          ? "flex w-full items-center gap-3 rounded-[14px] border border-black/10 bg-white px-3.5 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]"
+          : "flex items-center gap-3 px-1 py-2.5 lg:gap-2.5 lg:px-0 lg:py-0"
       }
     >
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[11px] border border-[#fce001]/50 bg-[#fce001]/30 lg:h-[34px] lg:w-[34px] lg:rounded-[10px] lg:border-[#fce001]/40 lg:bg-[#fce001]/25">
         {icon}
       </span>
       <span className="min-w-0 leading-tight">
@@ -150,31 +150,24 @@ function FloatChip({
 
 export default function MoveBulkCargoSection() {
   return (
-    <section className="bg-[#FEFBF6] py-2 sm:py-3">
-      {/*
-        Mobile: same pattern as Ready to Send / Need a Ride / Going Same Way.
-        Cover in flow = full natural height (no crop). Content overlays cream top.
-      */}
+    <section className="bg-[#FEFBF6] py-4 sm:py-6">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="relative mx-auto w-full overflow-hidden rounded-[24px] bg-[#FFF8E6] max-lg:max-w-[420px] sm:rounded-[28px]">
-        {/* Mobile cover IN FLOW — 360×1024, full width, no crop */}
-        <Image
-          src={`${ASSETS}/bg-logistic-mobile.png`}
-          alt=""
-          width={360}
-          height={1024}
-          sizes="420px"
-          className="pointer-events-none relative z-0 block h-auto w-full scale-[1.03] select-none lg:hidden"
-          style={{ width: "100%", height: "auto" }}
-          priority
-        />
-
-        {/* Desktop background */}
-        <div
-          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-y-0 right-0 aspect-[1024/662]">
+      <div className="relative overflow-hidden rounded-[24px] bg-[#FFF8E6] sm:rounded-[28px]">
+        {/* Background — same shell as Ready to Send */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          {/* Mobile cover: absolute (does not inflate card height) */}
+          <Image
+            src={`${ASSETS}/bg-logistic-mobile.png`}
+            alt=""
+            width={360}
+            height={1024}
+            sizes="100vw"
+            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
+            style={{ width: "100%", height: "auto" }}
+            priority
+          />
+          {/* Desktop background */}
+          <div className="absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block">
             <Image
               src={`${ASSETS}/bg-phone-map-rounded.png`}
               alt=""
@@ -186,10 +179,11 @@ export default function MoveBulkCargoSection() {
           </div>
         </div>
 
-        {/* Content overlays cover on mobile; side-by-side on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:min-h-[360px] lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-3 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-3 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 lg:mb-2.5">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:gap-5 lg:px-10 lg:py-6 xl:px-12">
+          {/* ── Content ── */}
+          <div className="relative z-10 w-full px-6 pb-0 pt-7 sm:px-8 lg:w-[46%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+            {/* Badge */}
+            <div className="mb-2.5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 lg:mb-3">
               <span className="relative flex h-[6px] w-[6px] items-center justify-center">
                 <span className="absolute h-[12px] w-[12px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
                 <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
@@ -199,7 +193,8 @@ export default function MoveBulkCargoSection() {
               </span>
             </div>
 
-            <h2 className="mb-2 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-2">
+            {/* Heading */}
+            <h2 className="mb-2.5 font-extrabold leading-[1.06] tracking-tight text-[#0b0b0b] lg:mb-3">
               <span className="block text-[clamp(28px,7vw,34px)] lg:text-[40px]">
                 Load it,
               </span>
@@ -214,28 +209,23 @@ export default function MoveBulkCargoSection() {
               </span>
             </h2>
 
-            <div className="mb-3 max-w-[400px] space-y-0.5 text-[12px] leading-[1.4] text-[#4a4a45] lg:mb-3 lg:text-[13px] lg:leading-[1.45]">
-              <p>
-                Business deliveries without the back and forth.
-              </p>
+            <div className="mb-3 max-w-[400px] space-y-1 text-[12px] leading-[1.45] text-[#4a4a45] lg:mb-3 lg:text-[13px] lg:leading-[1.5]">
+              <p>Business deliveries without the back and forth.</p>
               <p>
                 Some businesses send five deliveries a day. Others send
-                hundreds.
-              </p>
-              <p>
-                Whatever your workload looks like, Traveling Partner helps you
-                keep things moving without making logistics another job to
-                manage.
+                hundreds. Whatever your workload looks like, Traveling Partner
+                helps you keep things moving without making logistics another
+                job to manage.
               </p>
               <p>
                 Track every shipment. Know where your drivers are. Keep your
                 customers updated.
               </p>
-              <p>The rest is business as usual.</p>
               <p>Download the app today.</p>
             </div>
 
-            <div className="mb-3 grid grid-cols-2 gap-2 lg:mb-3 lg:flex lg:gap-3">
+            {/* Store buttons */}
+            <div className="mb-3 grid grid-cols-2 gap-2 lg:mb-3.5 lg:flex lg:gap-3">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
@@ -262,9 +252,9 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-truck.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="200+"
@@ -276,9 +266,9 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-box.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="10K+"
@@ -290,9 +280,9 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-globe.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="Nationwide"
@@ -305,16 +295,16 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-truck.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="200+"
                 label="Business Clients"
               />
               <span
-                className="mx-5 block h-8 w-px bg-black/10"
+                className="mx-4 block h-7 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -322,16 +312,16 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-box.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="10K+"
                 label="Tons Delivered"
               />
               <span
-                className="mx-5 block h-8 w-px bg-black/10"
+                className="mx-4 block h-7 w-px bg-black/10"
                 aria-hidden="true"
               />
               <StatItem
@@ -339,9 +329,9 @@ export default function MoveBulkCargoSection() {
                   <Image
                     src={`${ASSETS}/icon-globe.png`}
                     alt=""
-                    width={22}
-                    height={22}
-                    className="h-[22px] w-[22px] object-contain"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
                   />
                 }
                 value="Nationwide"
@@ -350,24 +340,29 @@ export default function MoveBulkCargoSection() {
             </div>
           </div>
 
-          {/* Chips over lower cover (map / phone zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-3 lg:mt-0 lg:min-h-[260px] lg:flex-1 lg:px-0 lg:pb-0">
+          {/* Visual + chips — same height shell as Ready to Send */}
+          <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[260px] lg:flex-1 lg:px-0 lg:pb-0">
+            <div
+              className="relative min-h-[240px] w-full sm:min-h-[280px] lg:hidden"
+              aria-hidden="true"
+            />
+
             <FloatChip
-              className="absolute right-1 top-[16%] sm:right-[2%] lg:-right-1 lg:top-[10%]"
+              className="absolute right-1 top-[22%] sm:right-[4%] lg:right-[1%] lg:top-[10%]"
               title="Live GPS"
               subtitle="Track now"
               icon={
                 <Image
                   src={`${ASSETS}/icon-live-gps.png`}
                   alt=""
-                  width={26}
-                  height={26}
+                  width={30}
+                  height={30}
                   className="h-[26px] w-[26px] object-contain lg:h-[30px] lg:w-[30px]"
                 />
               }
             />
             <FloatChip
-              className="absolute bottom-[28%] right-1 sm:right-[2%] lg:bottom-auto lg:-right-1 lg:top-[48%]"
+              className="absolute bottom-[40%] right-1 sm:right-[4%] lg:bottom-auto lg:right-[1%] lg:top-[36%]"
               title="No Fees"
               subtitle="Direct deal"
               delay="1.4s"
@@ -375,8 +370,8 @@ export default function MoveBulkCargoSection() {
                 <Image
                   src={`${ASSETS}/icon-no-fee.png`}
                   alt=""
-                  width={26}
-                  height={26}
+                  width={30}
+                  height={30}
                   className="h-[26px] w-[26px] object-contain lg:h-[30px] lg:w-[30px]"
                 />
               }
