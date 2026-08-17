@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 const ASSETS = "/images/blog/tp-journal";
+const STORIES_VISUAL = `${ASSETS}/stories-visual.jpg`;
 
 const FEATURES = [
   {
@@ -221,12 +222,12 @@ export default function TPJournalSection() {
             aria-hidden="true"
           />
           <Image
-            src={`${ASSETS}/bg-mobile-fill.png`}
-            alt=""
+            src={STORIES_VISUAL}
+            alt="Traveling Partner Stories — TP Journal"
             width={738}
             height={340}
             sizes="360px"
-            className="pointer-events-none relative z-0 mx-auto block h-auto w-full max-w-full select-none"
+            className="pointer-events-none relative z-0 mx-auto block h-auto w-full max-w-full select-none object-contain object-right"
             priority
           />
         </div>
@@ -234,14 +235,17 @@ export default function TPJournalSection() {
 
       {/* ——— Desktop ——— */}
       <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-black lg:block lg:min-h-[440px] lg:aspect-[1024/360] xl:min-h-[480px] xl:rounded-[32px]">
-        <Image
-          src={`${ASSETS}/bg-desktop.png`}
-          alt=""
-          fill
-          sizes="1280px"
-          className="object-contain object-right"
-          priority
-        />
+        {/* Same footprint as before: contained art pinned to the right edge */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-[55%] max-w-[640px]">
+          <Image
+            src={STORIES_VISUAL}
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 640px, 55vw"
+            className="object-contain object-right object-center"
+            priority
+          />
+        </div>
 
         <div className="relative z-10 flex h-full items-center px-12 py-14 xl:px-16 xl:py-16">
           <div className="w-[52%] max-w-[560px] shrink-0 pr-6">
