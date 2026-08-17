@@ -466,15 +466,17 @@ export default function ContactFormSection() {
                 Follow Us
               </p>
               <div className="flex flex-wrap gap-2">
-                {SOCIAL_LINKS.map((s) => (
+                {SOCIAL_LINKS.map((s) => {
+                  const glyphColor = s.colorOnDark ?? s.color;
+                  return (
                   <a
                     key={s.label}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="group relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/[0.05] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:border-transparent hover:shadow-[0_6px_18px_rgba(253,184,19,0.4)]"
-                    style={{ ["--social-color" as string]: s.color }}
+                    className="group relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/[0.08] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:border-transparent hover:shadow-[0_6px_18px_rgba(253,184,19,0.4)]"
+                    style={{ ["--social-color" as string]: glyphColor }}
                   >
                     <span
                       className="absolute inset-0 bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -482,7 +484,8 @@ export default function ContactFormSection() {
                     />
                     <s.icon className="relative z-[1] h-5 w-5 text-[var(--social-color)] transition-colors duration-300 group-hover:text-[#0b0b0b]" />
                   </a>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </motion.div>

@@ -15,8 +15,10 @@ export type SocialLink = {
   icon: IconType;
   label: string;
   href: string;
-  /** Official brand color for the glyph */
+  /** Official brand color for the glyph (light backgrounds) */
   color: string;
+  /** Glyph color on dark surfaces — defaults to `color` when omitted */
+  colorOnDark?: string;
 };
 
 /** Official Traveling Partner social profiles (content doc). */
@@ -38,12 +40,14 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     label: "Threads",
     href: "https://www.threads.com/@travelingpartnerofficial",
     color: "#000000",
+    colorOnDark: "#FFFFFF",
   },
   {
     icon: FaXTwitter,
     label: "X",
     href: "https://x.com/TravelPartnerHQ",
     color: "#000000",
+    colorOnDark: "#FFFFFF",
   },
   {
     icon: FaLinkedin,
@@ -62,6 +66,7 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     label: "TikTok",
     href: "https://www.tiktok.com/@travelingpartnerr_",
     color: "#000000",
+    colorOnDark: "#FFFFFF",
   },
   {
     icon: FaPinterest,
