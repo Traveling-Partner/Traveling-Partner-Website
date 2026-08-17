@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -226,18 +225,15 @@ export default function NeedARideSection() {
             {/* Description — Figma mobile is near-white */}
             <div className="mb-3.5 max-w-[420px] space-y-1 text-[15px] leading-[1.4] text-white/85 lg:mb-3.5 lg:text-base lg:leading-[1.45] lg:text-[#b7b1a4]">
               <p>
-                {emphasizePhrases(
-                  "Going somewhere? Open the app, choose your destination, and you're ready to go. You'll see the fare before the ride starts, know who's picking you up, and follow your trip with real-time GPS tracking.",
-                  ["real-time GPS tracking"],
-                  "onDark",
-                )}
+                Going somewhere? Open the app, choose your destination, and
+                you&apos;re ready to go. You&apos;ll see the fare before the ride
+                starts, know who&apos;s picking you up, and follow your trip with
+                real-time GPS tracking.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Whether it's your daily commute or an airport transfer service, getting there shouldn't take more effort than opening an app.",
-                  ["airport transfer service"],
-                  "onDark",
-                )}
+                Whether it&apos;s your daily commute or an airport transfer
+                service, getting there shouldn&apos;t take more effort than
+                opening an app.
               </p>
             </div>
 
