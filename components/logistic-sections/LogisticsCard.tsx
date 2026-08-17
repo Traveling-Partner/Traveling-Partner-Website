@@ -56,12 +56,12 @@ function DesktopContent() {
         <Image
           src="/images/taxi-stand/services/icon-logistics.png"
           alt=""
-          width={72}
-          height={72}
-          className="h-[60px] w-[60px] shrink-0 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.2)] sm:h-[64px] sm:w-[64px]"
+          width={116}
+          height={116}
+          className="h-[98px] w-[98px] shrink-0 object-contain sm:h-[106px] sm:w-[106px]"
           priority
         />
-        <div className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black px-3 shadow-[0_3px_10px_rgba(0,0,0,0.16)]">
+        <div className="inline-flex h-8 items-center gap-1.5 rounded-full bg-black px-3">
           <SparkleIcon />
           <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#FCE001] sm:text-[10px]">
             You Are Here
@@ -81,7 +81,7 @@ function DesktopContent() {
         {FEATURES.map((feature) => (
           <li
             key={feature}
-            className="flex h-[40px] w-full items-center gap-2.5 rounded-full bg-black pl-2 pr-4 shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+            className="flex h-[40px] w-full items-center gap-2.5 rounded-full bg-black pl-2 pr-4"
           >
             <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
               <CheckIcon />
@@ -103,12 +103,12 @@ function MobileContent() {
         <Image
           src="/images/taxi-stand/services/icon-logistics.png"
           alt=""
-          width={56}
-          height={56}
-          className="h-12 w-12 shrink-0 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)]"
+          width={72}
+          height={72}
+          className="h-16 w-16 shrink-0 object-contain"
           priority
         />
-        <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5 shadow-[0_3px_10px_rgba(0,0,0,0.16)]">
+        <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5">
           <SparkleIcon />
           <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#FCE001]">
             You Are Here
@@ -128,7 +128,7 @@ function MobileContent() {
         {FEATURES.map((feature) => (
           <li
             key={feature}
-            className="inline-flex h-9 items-center gap-2 rounded-full bg-black pl-1.5 pr-3 shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
+            className="inline-flex h-9 items-center gap-2 rounded-full bg-black pl-1.5 pr-3"
           >
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
               <CheckIcon />
@@ -158,7 +158,7 @@ export default function LogisticsCard({
       >
         <div className="relative w-full" style={{ aspectRatio: "390 / 400" }}>
           <svg
-            className="absolute inset-0 h-full w-full drop-shadow-[0_12px_28px_rgba(0,0,0,0.12)]"
+            className="absolute inset-0 h-full w-full"
             viewBox="0 0 390 400"
             preserveAspectRatio="none"
             aria-hidden="true"
@@ -203,7 +203,7 @@ export default function LogisticsCard({
           alt=""
           width={589}
           height={609}
-          className="h-auto w-full drop-shadow-[0_14px_32px_rgba(0,0,0,0.12)]"
+          className="h-auto w-full"
           priority
           sizes="(max-width: 1024px) 400px, 520px"
         />
