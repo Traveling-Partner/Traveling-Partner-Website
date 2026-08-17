@@ -22,11 +22,11 @@ function AccentTitle({
   );
 }
 
-/** Single dashed orbit ring — darker gold to match section screenshot */
+/** Single dashed orbit ring — light gold, still readable on cream */
 function DashedOrbit({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`pointer-events-none absolute rounded-full border border-dashed border-[#C4A84A]/70 ${className}`}
+      className={`pointer-events-none absolute rounded-full border border-dashed border-[#E0CF88]/50 ${className}`}
       aria-hidden="true"
     />
   );
@@ -76,7 +76,7 @@ export default function DeliveryTreasureSection() {
 
       {/* Dashed orbit behind hero — smaller, right of image, raised so it isn’t hidden under the photo */}
       <div
-        className="pointer-events-none absolute left-[28%] top-[24%] z-[1] hidden h-[240px] w-[240px] rounded-full border border-dashed border-[#C4A84A]/80 lg:block"
+        className="pointer-events-none absolute left-[28%] top-[24%] z-[1] hidden h-[240px] w-[240px] rounded-full border border-dashed border-[#E0CF88]/55 lg:block"
         aria-hidden="true"
       />
 

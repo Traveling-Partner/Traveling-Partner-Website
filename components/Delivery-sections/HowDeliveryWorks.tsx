@@ -46,7 +46,7 @@ const STEPS = [
 ];
 
 const cardBase =
-  "group relative flex flex-col rounded-[18px] bg-[#141414] transition-all duration-300 " +
+  "group relative flex flex-col rounded-[18px] transition-all duration-300 " +
   "hover:border-[#FDB813] hover:bg-gradient-to-b hover:from-[#FCE001] hover:to-[#FDB813] hover:shadow-[0_0_22px_rgba(253,184,19,0.35)]";
 
 function StepCard({
@@ -56,12 +56,16 @@ function StepCard({
   item: (typeof STEPS)[number];
   className?: string;
 }) {
+  const featured = Boolean(item.featured);
+
   return (
     <article
       className={[
         cardBase,
-        item.featured ? "flex min-h-[295px] flex-col" : "min-h-[230px]",
-        "border border-white/[0.06]",
+        featured ? "min-h-[295px]" : "min-h-[230px]",
+        featured
+          ? "border border-transparent [background:linear-gradient(#141414,#141414)_padding-box,linear-gradient(180deg,#FCE001,#FDB813)_border-box] hover:[background:linear-gradient(#FCE001,#FDB813)_padding-box,linear-gradient(#FCE001,#FDB813)_border-box]"
+          : "border border-white/[0.06] bg-[#141414]",
         className,
       ].join(" ")}
     >
@@ -88,7 +92,7 @@ function StepCard({
       <p
         className={[
           "text-[11px] leading-[1.4] text-[#9A9A9A] transition-colors duration-300 group-hover:text-[#2A2A2A]",
-          item.featured ? "mt-5" : "",
+          featured ? "mt-5" : "",
         ].join(" ")}
       >
         {item.description}

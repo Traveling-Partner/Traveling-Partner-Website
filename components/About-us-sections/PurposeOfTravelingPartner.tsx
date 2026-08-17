@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /**
  * Purpose of Traveling Partner — 1:1 Figma dark mission split.
@@ -44,7 +43,7 @@ export default function PurposeOfTravelingPartner() {
           </div>
 
           <div className="absolute -bottom-3 -right-3 z-10 rounded-2xl bg-[#0b0b0b] px-4 py-3 shadow-[0_14px_36px_rgba(0,0,0,0.45)] sm:-bottom-4 sm:-right-4 sm:px-5 sm:py-3.5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[11px]">
+            <p className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text text-[10px] font-bold uppercase tracking-[0.14em] text-transparent sm:text-[11px]">
               Trusted Across
             </p>
             <p className="text-[16px] font-extrabold leading-tight text-white sm:text-[18px]">
@@ -69,10 +68,12 @@ export default function PurposeOfTravelingPartner() {
 
           <h2 className="mb-3 font-poppins text-[clamp(32px,4.8vw,52px)] font-extrabold leading-[1.12] tracking-tight text-white sm:mb-4">
             Purpose of Traveling{" "}
-            <span className="font-medium italic text-[#FCE001]">Partner.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+              Partner.
+            </span>
           </h2>
 
-          <p className="mb-5 font-poppins text-[15px] font-medium italic text-[#FCE001] sm:mb-6 sm:text-[16px] md:text-[17px]">
+          <p className="mb-5 bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-poppins text-[15px] font-medium italic text-transparent sm:mb-6 sm:text-[16px] md:text-[17px]">
             Built around everyday movement.
           </p>
 
@@ -83,18 +84,14 @@ export default function PurposeOfTravelingPartner() {
 
           <div className="max-w-xl space-y-4 text-[14px] leading-[1.7] text-white/75 sm:text-[15px] sm:leading-[1.75] md:text-[16px]">
             <p>
-              {emphasizePhrases(
-                "Getting from one place to another shouldn't feel complicated. The same goes for sending a parcel or managing deliveries for your business.",
-                ["shouldn't feel complicated"],
-                "onDark",
-              )}
+              Getting from one place to another shouldn&apos;t feel complicated.
+              The same goes for sending a parcel or managing deliveries for your
+              business.
             </p>
             <p>
-              {emphasizePhrases(
-                "Traveling Partner brings rides, deliveries, and logistics together in one app, helping you spend less time switching between services and more time getting things done.",
-                ["one app"],
-                "onDark",
-              )}
+              Traveling Partner brings rides, deliveries, and logistics together
+              in one app, helping you spend less time switching between services
+              and more time getting things done.
             </p>
           </div>
         </motion.div>
