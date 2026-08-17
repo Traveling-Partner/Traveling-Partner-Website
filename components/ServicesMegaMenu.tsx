@@ -588,7 +588,7 @@ export function ServicesMegaMenuDesktop({
       <button
         ref={triggerRef}
         type="button"
-        className={`relative inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] px-3.5 font-montserrat text-[13px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
+        className={`relative inline-flex h-[32px] shrink-0 items-center gap-1 whitespace-nowrap rounded-[100px] px-3.5 font-poppins text-[13px] font-medium leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#FCE001] focus-visible:ring-offset-2 ${
           open || anyServiceActive
             ? "bg-[rgba(11,11,11,0.07)] text-black"
             : "text-black hover:bg-[rgba(11,11,11,0.07)]"
@@ -653,7 +653,7 @@ export function ServicesMegaMenuDesktop({
                   onKeyDown={onListKeyDown}
                   className="border-r border-black/[0.06] bg-[#fbfaf7] p-3 outline-none"
                 >
-                  <p className="mb-2 px-2 font-montserrat text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
+                  <p className="mb-2 px-2 font-poppins text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
                     Our services
                   </p>
                   <div className="flex flex-col gap-0.5">
@@ -711,10 +711,10 @@ export function ServicesMegaMenuDesktop({
                             />
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block font-montserrat text-[12.5px] font-bold leading-tight text-[#0b0b0b]">
+                            <span className="block font-poppins text-[12.5px] font-bold leading-tight text-[#0b0b0b]">
                               {service.label}
                             </span>
-                            <span className="mt-0.5 block truncate font-montserrat text-[10.5px] leading-snug text-[#7a776e]">
+                            <span className="mt-0.5 block truncate font-poppins text-[10.5px] leading-snug text-[#7a776e]">
                               {service.short}
                             </span>
                           </span>
@@ -752,20 +752,20 @@ export function ServicesMegaMenuDesktop({
                       <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,0.82fr)_minmax(270px,1.28fr)] gap-3">
                         {/* Copy + features */}
                         <div className="min-w-0 pt-0.5">
-                          <p className="font-montserrat text-[9px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
+                          <p className="font-poppins text-[9px] font-bold uppercase tracking-[0.16em] text-[#FDB813]">
                             Preview
                           </p>
-                          <h3 className="mt-1 font-montserrat text-[22px] font-bold leading-none tracking-tight text-[#0b0b0b]">
+                          <h3 className="mt-1 font-poppins text-[22px] font-bold leading-none tracking-tight text-[#0b0b0b]">
                             {active.label}
                           </h3>
-                          <p className="mt-1.5 line-clamp-2 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
+                          <p className="mt-1.5 line-clamp-2 font-poppins text-[12px] leading-snug text-[#6f6e68]">
                             {active.description}
                           </p>
                           <ul className="mt-3 space-y-2">
                             {active.features.map((feature) => (
                               <li
                                 key={feature}
-                                className="flex items-start gap-2 font-montserrat text-[12px] font-medium text-[#2f2e2a]"
+                                className="flex items-start gap-2 font-poppins text-[12px] font-medium text-[#2f2e2a]"
                               >
                                 <CheckIcon />
                                 {feature}
@@ -789,11 +789,11 @@ export function ServicesMegaMenuDesktop({
                           >
                             <div className="flex items-center gap-1">
                               <StatIcon name={stat.icon} />
-                              <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
+                              <p className="font-poppins text-[13px] font-bold leading-none text-[#0b0b0b]">
                                 {stat.value}
                               </p>
                             </div>
-                            <p className="mt-1 font-montserrat text-[9px] leading-snug text-[#7a776e]">
+                            <p className="mt-1 font-poppins text-[9px] leading-snug text-[#7a776e]">
                               {stat.detail}
                             </p>
                           </div>
@@ -804,7 +804,7 @@ export function ServicesMegaMenuDesktop({
                       <div className="mt-3 flex items-center justify-between gap-3 border-t border-black/[0.06] pt-3">
                         <div className="flex min-w-0 items-start gap-2">
                           <MapPinIcon />
-                          <p className="min-w-0 font-montserrat text-[11px] leading-snug">
+                          <p className="min-w-0 font-poppins text-[11px] leading-snug">
                             <span className="font-bold text-[#0b0b0b]">
                               Want to know more?
                             </span>{" "}
@@ -820,7 +820,7 @@ export function ServicesMegaMenuDesktop({
                               closeMenu();
                               onNavigate(e, active.href);
                             }}
-                            className="group inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 font-montserrat text-[11.5px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#171717] focus-visible:ring-2 focus-visible:ring-[#FCE001]"
+                            className="group inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 font-poppins text-[11.5px] font-bold text-[#FCE001] outline-none transition-colors hover:bg-[#171717] focus-visible:ring-2 focus-visible:ring-[#FCE001]"
                           >
                             Explore {active.label}
                             <span
@@ -987,7 +987,7 @@ export function ServicesMobileAccordion({
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className={`flex min-h-[48px] w-full items-center justify-between rounded-2xl px-3.5 font-montserrat text-[15px] font-semibold leading-none outline-none transition-colors ${
+        className={`flex min-h-[48px] w-full items-center justify-between rounded-2xl px-3.5 font-poppins text-[15px] font-semibold leading-none outline-none transition-colors ${
           anyServiceActive || expanded
             ? "bg-[#0b0b0b] text-[#FCE001]"
             : "text-[#0b0b0b] active:bg-[#f5f2ea]"
@@ -1056,7 +1056,7 @@ export function ServicesMobileAccordion({
                         />
                       </span>
                       <span
-                        className={`font-montserrat text-[12px] ${
+                        className={`font-poppins text-[12px] ${
                           selected ? "font-bold" : "font-semibold"
                         }`}
                       >
@@ -1128,14 +1128,14 @@ export function ServicesMobileAccordion({
                 <div className="space-y-2.5 px-3.5 pb-3 pt-3">
                   <div>
                     <div className="flex items-end justify-between gap-2">
-                      <h3 className="font-montserrat text-[20px] font-bold leading-none tracking-tight text-[#0b0b0b]">
+                      <h3 className="font-poppins text-[20px] font-bold leading-none tracking-tight text-[#0b0b0b]">
                         {active.label}
                       </h3>
-                      <span className="shrink-0 font-montserrat text-[10px] font-semibold text-[#9a968c]">
+                      <span className="shrink-0 font-poppins text-[10px] font-semibold text-[#9a968c]">
                         {activeIndex + 1}/{SERVICES.length}
                       </span>
                     </div>
-                    <p className="mt-1.5 line-clamp-1 font-montserrat text-[12px] leading-snug text-[#6f6e68]">
+                    <p className="mt-1.5 line-clamp-1 font-poppins text-[12px] leading-snug text-[#6f6e68]">
                       {active.short}
                     </p>
                   </div>
@@ -1144,7 +1144,7 @@ export function ServicesMobileAccordion({
                     {active.features.slice(0, 2).map((feature) => (
                       <li
                         key={feature}
-                        className="rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934] sm:hidden"
+                        className="rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-poppins text-[10px] font-medium text-[#3a3934] sm:hidden"
                       >
                         {feature}
                       </li>
@@ -1152,7 +1152,7 @@ export function ServicesMobileAccordion({
                     {active.features.slice(0, 3).map((feature) => (
                       <li
                         key={`sm-${feature}`}
-                        className="hidden rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-montserrat text-[10px] font-medium text-[#3a3934] sm:inline-flex"
+                        className="hidden rounded-full border border-[#FDB813]/30 bg-white px-2 py-0.5 font-poppins text-[10px] font-medium text-[#3a3934] sm:inline-flex"
                       >
                         {feature}
                       </li>
@@ -1167,10 +1167,10 @@ export function ServicesMobileAccordion({
                           key={stat.value + stat.detail}
                           className="rounded-[12px] border border-black/[0.05] bg-white px-2.5 py-2 sm:hidden"
                         >
-                          <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
+                          <p className="font-poppins text-[13px] font-bold leading-none text-[#0b0b0b]">
                             {stat.value}
                           </p>
-                          <p className="mt-1 line-clamp-1 font-montserrat text-[9px] text-[#7a776e]">
+                          <p className="mt-1 line-clamp-1 font-poppins text-[9px] text-[#7a776e]">
                             {stat.detail}
                           </p>
                         </div>
@@ -1180,10 +1180,10 @@ export function ServicesMobileAccordion({
                         key={`sm-${stat.value + stat.detail}`}
                         className="hidden rounded-[12px] border border-black/[0.05] bg-white px-2.5 py-2 sm:block"
                       >
-                        <p className="font-montserrat text-[13px] font-bold leading-none text-[#0b0b0b]">
+                        <p className="font-poppins text-[13px] font-bold leading-none text-[#0b0b0b]">
                           {stat.value}
                         </p>
-                        <p className="mt-1 line-clamp-1 font-montserrat text-[9px] text-[#7a776e]">
+                        <p className="mt-1 line-clamp-1 font-poppins text-[9px] text-[#7a776e]">
                           {stat.detail}
                         </p>
                       </div>
@@ -1197,7 +1197,7 @@ export function ServicesMobileAccordion({
                       onClose();
                       onNavigate(e, active.href);
                     }}
-                    className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-montserrat text-[13px] font-bold text-[#FCE001] active:bg-[#171717]"
+                    className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-[#0b0b0b] px-4 font-poppins text-[13px] font-bold text-[#FCE001] active:bg-[#171717]"
                   >
                     Explore {active.label}
                     <span aria-hidden>→</span>
