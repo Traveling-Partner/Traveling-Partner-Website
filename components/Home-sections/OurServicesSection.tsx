@@ -15,12 +15,17 @@ const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 const accentYellowClass =
   "bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text font-normal italic text-transparent";
 
+/** Scale orbit service icons + labels slightly above Figma base */
+const SERVICE_ICON_SCALE = 1.14;
+/** Nudge icons/headings up a few px (as % of orbit canvas height) */
+const SERVICE_ICON_NUDGE_Y = -0.9;
+
 /** Orbit spin — six services rotate around center brand (sun) */
 const ORBIT_SPIN_ORIGIN = "49.52% 49.09%";
 const SERVICES_ORBIT_DURATION_S = 88;
 
 /** Orbit diagram — scaled down slightly from Figma 824px canvas */
-const ORBIT_MAX_W = 700;
+const ORBIT_MAX_W = 620;
 
 const BODY_COPY =
   "One app for every journey. Whether you need a taxi service, Pool Ride, parcel delivery, business logistics, or an out-of-town trip, Traveling Partner makes moving around Pakistan simple. Traveling Partner brings everyday travel, online taxi booking, and business transport under one roof with upfront fares, real-time GPS tracking, and drivers you can actually trust. It's what makes us the best ride booking app in Pakistan.";
@@ -295,6 +300,7 @@ function OrbitImage({
   imgStyle,
   counterOrbit = false,
   href,
+  scale = 1,
 }: {
   src: string;
   alt: string;
@@ -304,12 +310,41 @@ function OrbitImage({
   imgStyle?: React.CSSProperties;
   counterOrbit?: boolean;
   href?: string;
+  scale?: number;
 }): React.ReactElement {
+  const nudgedImgStyle = imgStyle
+    ? (() => {
+        const left = parseFloat(String(imgStyle.left ?? "0"));
+        const top = parseFloat(String(imgStyle.top ?? "0"));
+        const width = parseFloat(String(imgStyle.width ?? "0"));
+        const height = parseFloat(String(imgStyle.height ?? "0"));
+        const scaledW = width * scale;
+        const scaledH = height * scale;
+        return {
+          ...imgStyle,
+          left: `${left - (scaledW - width) / 2}%`,
+          top: `${top - (scaledH - height) / 2 + SERVICE_ICON_NUDGE_Y}%`,
+          width: `${scaledW}%`,
+          height: `${scaledH}%`,
+        } as React.CSSProperties;
+      })()
+    : undefined;
+
+  const scaledBox: FigmaRect =
+    scale !== 1 && !imgStyle
+      ? {
+          x: box.x - (box.w * (scale - 1)) / 2,
+          y: box.y - (box.h * (scale - 1)) / 2 + (SERVICE_ICON_NUDGE_Y / 100) * TOTAL_H,
+          w: box.w * scale,
+          h: box.h * scale,
+        }
+      : box;
+
   // Always clone — never mutate shared imgStyle constants (frozen in prod/Turbopack).
   const style: React.CSSProperties = {
-    ...(imgStyle ?? {
+    ...(nudgedImgStyle ?? {
       position: "absolute",
-      ...boundStyle(box),
+      ...boundStyle(scaledBox),
       zIndex,
       objectFit: "contain" as const,
     }),
@@ -395,6 +430,7 @@ function ServicesOrbit(): React.ReactElement {
             zIndex={20}
             imgStyle={node.imgStyle}
             counterOrbit
+            scale={SERVICE_ICON_SCALE}
           />
         ))}
       </div>
@@ -423,12 +459,12 @@ export default function OurServicesSection(): React.ReactElement {
   return (
     <section
       id="our-services"
-      className="relative w-full scroll-mt-28 overflow-hidden bg-[#fffcf2] py-12 sm:py-16 lg:py-[95px]"
+      className="relative w-full scroll-mt-28 overflow-hidden bg-[#fffcf2] pt-10 pb-6 sm:pt-14 sm:pb-8 lg:pt-[72px] lg:pb-10"
       aria-labelledby="our-services-heading"
     >
       <div className="relative z-[1] mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-6 xl:gap-8">
-          <div className="relative order-2 min-w-0 overflow-hidden lg:order-1 lg:pt-[4%] xl:pt-[6%]">
+        <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:gap-5 xl:gap-6">
+          <div className="relative order-2 min-w-0 overflow-hidden lg:order-1 lg:pt-[2%] xl:pt-[3%]">
             <ServicesOrbit />
           </div>
 
@@ -437,23 +473,23 @@ export default function OurServicesSection(): React.ReactElement {
               id="our-services-heading"
               className="font-poppins tracking-[-2.8px]"
             >
-              <span className="block font-bold text-[clamp(36px,4.167vw,80px)] leading-[1.05] text-[#0b0b0b]">
+              <span className="block font-bold text-[clamp(34px,4vw,72px)] leading-[1.05] text-[#0b0b0b]">
                 One App. More Ways to{" "}
                 <span className={accentYellowClass}>Move.</span>
               </span>
             </h2>
 
-            <p className="mt-5 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#6f6e68] sm:mt-6 sm:text-[15px] md:text-[16px] lg:mt-8 lg:text-[17px]">
+            <p className="mt-4 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#6f6e68] sm:mt-5 sm:text-[15px] md:text-[16px] lg:mt-6 lg:text-[16px]">
               {BODY_COPY}
             </p>
 
-            <div className="mt-7 border-y border-[#ddd8cb] py-6 sm:mt-8 sm:py-7 lg:mt-10 lg:py-8">
+            <div className="mt-6 border-y border-[#ddd8cb] py-5 sm:mt-7 sm:py-6 lg:mt-8 lg:py-6">
               <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-8">
                 {STATS.map((stat) => (
                   <div key={stat.label} className="min-w-0">
-                    <p className="font-poppins text-[clamp(26px,6vw,53px)] font-bold leading-none tracking-[-0.02em] text-[#0b0b0b]">
+                    <p className="font-poppins text-[clamp(24px,5.5vw,48px)] font-bold leading-none tracking-[-0.02em] text-[#0b0b0b]">
                       {stat.value}
-                      <span className="text-[clamp(26px,6vw,53px)] font-bold">{stat.suffix}</span>
+                      <span className="text-[clamp(24px,5.5vw,48px)] font-bold">{stat.suffix}</span>
                     </p>
                     <p className="mt-1.5 font-poppins text-[8px] font-semibold uppercase leading-tight tracking-[0.1em] text-[#8a877f] sm:mt-2 sm:text-[10px] sm:tracking-[0.12em] md:text-[11px]">
                       {stat.label}
@@ -463,7 +499,7 @@ export default function OurServicesSection(): React.ReactElement {
               </div>
             </div>
 
-            <div className="mt-7 sm:mt-8 lg:mt-10">
+            <div className="mt-6 sm:mt-7 lg:mt-8">
               <LearnMoreButton />
             </div>
           </div>
