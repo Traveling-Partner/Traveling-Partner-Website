@@ -23,7 +23,6 @@ const FOOTER_LINKS = {
   ],
   support: [
     { label: "Help Center", href: "/help" },
-    { label: "Safety Guidelines", href: "/help#safety-and-security" },
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms of Service", href: "/terms-conditions" },
   ],
