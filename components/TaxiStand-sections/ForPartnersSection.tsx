@@ -85,17 +85,9 @@ function PartnerCard({ step, index }: { step: PartnerStep; index: number }) {
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       className={`relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[28px] p-5 sm:p-6 ${
         featured
-          ? "border border-black shadow-[0_18px_50px_rgba(253,184,19,0.35)]"
+          ? "border border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_18px_50px_rgba(253,184,19,0.35)]"
           : "border border-transparent bg-white shadow-[0_14px_40px_rgba(0,0,0,0.06)]"
       }`}
-      style={
-        featured
-          ? {
-              backgroundImage:
-                "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
-            }
-          : undefined
-      }
     >
       <span
         className={`pointer-events-none absolute right-4 top-2 select-none text-[48px] font-black leading-none sm:right-5 sm:text-[56px] ${

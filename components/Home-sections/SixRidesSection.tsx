@@ -44,7 +44,7 @@ const RIDES: RideItem[] = [
     panelDescription:
       "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",
     boldPhrases: ["verified drivers", "no surge pricing"],
-    features: ["Verified drivers", "Fixed fares", "0% commission"],
+    features: ["Verified drivers", "Estimated Fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
     href: "/taxi-stand",

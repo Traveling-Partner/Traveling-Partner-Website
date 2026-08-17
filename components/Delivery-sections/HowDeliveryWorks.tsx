@@ -65,8 +65,8 @@ function StepCard({
         className,
       ].join(" ")}
     >
-      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2 py-0.5 transition-colors duration-300 group-hover:bg-[#0b0b0b]">
-        <span className="text-[8px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] transition-colors duration-300 group-hover:text-[#FCE001]">
+      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2 py-0.5 transition-all duration-300 group-hover:bg-white group-hover:from-white group-hover:to-white">
+        <span className="text-[8px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b]">
           {item.step} Step
         </span>
       </div>
