@@ -4,7 +4,7 @@ import FeaturedServiceCard from "@/components/services/FeaturedServiceCard";
 
 const FEATURES = [
   "Verified drivers",
-  "Fixed fares",
+  "Estimated Fares",
   "0% commission",
 ] as const;
 
