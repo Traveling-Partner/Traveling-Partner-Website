@@ -8,7 +8,6 @@ import MobileServicesLayout, {
 import DesktopServicesLayout, {
   type DesktopPhotoCardData,
 } from "@/components/services/DesktopServicesLayout";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const POOL_VIDEO = "/videos/pool-bg.mp4";
 const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
@@ -104,7 +103,7 @@ const MOBILE_CARDS = [
 
 export default function OurServicesSection() {
   return (
-    <section className="relative overflow-hidden bg-[#FEFBF6] py-14 sm:py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#FEFBF6] pt-8 pb-14 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24">
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -119,10 +118,9 @@ export default function OurServicesSection() {
           <div className="mx-auto max-w-lg space-y-1.5 text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
             <p className="font-semibold text-[#0b0b0b]">More than logistics.</p>
             <p>
-              {emphasizePhrases(
-                "One app can do a lot more than move freight. Need a ride across town? Sending a parcel? Sharing a trip? Planning an intercity journey? It's all there when you need it.",
-                ["move freight"],
-              )}
+              One app can do a lot more than move freight. Need a ride across
+              town? Sending a parcel? Sharing a trip? Planning an intercity
+              journey? It&apos;s all there when you need it.
             </p>
           </div>
         </motion.div>

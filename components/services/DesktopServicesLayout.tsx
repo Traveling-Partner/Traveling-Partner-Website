@@ -21,7 +21,7 @@ export const DESKTOP_MOSAIC_SLOTS = {
     left: "-15px",
     top: "0%",
     width: "34.839%",
-    height: "99.856%",
+    height: "100%",
   },
   /** Frame 13 — Pool */
   topLeft: {
@@ -173,11 +173,11 @@ export default function DesktopServicesLayout({
   return (
     <div className="mx-auto hidden w-full max-w-[1200px] lg:block">
       <div
-        className="relative w-full"
+        className="relative w-full overflow-visible"
         style={{ aspectRatio: `${FIGMA_FRAME.w} / ${FIGMA_FRAME.h}` }}
       >
         <div
-          className="absolute z-[1] overflow-hidden [&_article]:!block [&_article]:!h-full [&_article]:!w-full [&_article>div]:!relative [&_article>div]:!h-full [&_article>div]:!w-full [&_article>div>:first-child]:!absolute [&_article>div>:first-child]:!inset-0 [&_article>div>:first-child]:!h-full [&_article>div>:first-child]:!w-full [&_article>div>:first-child_img]:!h-full [&_article>div>:first-child_img]:!w-full [&_article>div>:first-child_img]:!max-h-none [&_article>div>:first-child_img]:!object-fill"
+          className="absolute z-[1] overflow-visible [&_article]:!block [&_article]:!h-full [&_article]:!w-full [&_article>div]:!relative [&_article>div]:!h-full [&_article>div]:!w-full [&_article>div>:first-child]:!absolute [&_article>div>:first-child]:!inset-0 [&_article>div>:first-child]:!h-full [&_article>div>:first-child]:!w-full [&_article>div>:first-child_img]:!h-full [&_article>div>:first-child_img]:!w-full [&_article>div>:first-child_img]:!max-h-none [&_article>div>:first-child_img]:!object-fill"
           style={DESKTOP_MOSAIC_SLOTS.featured}
         >
           {featured}

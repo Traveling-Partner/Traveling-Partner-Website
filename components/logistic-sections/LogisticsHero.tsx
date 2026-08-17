@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -149,16 +148,15 @@ export default function LogisticsHero() {
             style={{ animationDelay: "200ms" }}
           >
             <p>
-              {emphasizePhrases(
-                "Every business needs deliveries they can rely on. Whether you're moving stock between sites, sending orders to customers, or managing day-to-day operations, Traveling Partner gives you the tools to keep it all moving.",
-                ["deliveries they can rely on"],
-              )}
+              Every business needs deliveries they can rely on. Whether
+              you&apos;re moving stock between sites, sending orders to
+              customers, or managing day-to-day operations, Traveling Partner
+              gives you the tools to keep it all moving.
             </p>
             <p>
-              {emphasizePhrases(
-                "Our enterprise logistics solutions are made for the business that relies on dependable transport, flexible fleet support and reliable deliveries every day.",
-                ["flexible fleet support"],
-              )}
+              Our enterprise logistics solutions are made for the business that
+              relies on dependable transport, flexible fleet support and
+              reliable deliveries every day.
             </p>
           </div>
 
