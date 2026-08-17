@@ -84,7 +84,7 @@ function HeroManMobile(): React.ReactElement {
       />
       {/* Yellow guide dot — left of head */}
       <div
-        className="pointer-events-none absolute z-[2] -translate-y-1/2 rounded-full bg-[#fce001] shadow-[0_0_0_4px_rgba(252,224,1,0.2),0_0_18px_rgba(252,224,1,0.42)]"
+        className="pointer-events-none absolute z-[2] -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_0_0_4px_rgba(252,224,1,0.2),0_0_18px_rgba(252,224,1,0.42)]"
         style={{
           left: "21.5%",
           top: "31.5%",

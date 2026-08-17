@@ -63,7 +63,7 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-[#fce001] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
+      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105">
         {icon}
@@ -115,7 +115,7 @@ export default function HeroSection() {
             className="pool-hero-fade mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5"
             style={{ animationDelay: "0ms" }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
               Eco-Friendly Travel
             </span>
@@ -127,7 +127,7 @@ export default function HeroSection() {
           >
             Pool{" "}
             <span
-              className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
+              className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
             >
               <em className="font-medium italic text-black">Ride.</em>
@@ -229,7 +229,7 @@ export default function HeroSection() {
 
             {/* Floating: SPLIT FARE 50% */}
             <div
-              className="pool-float absolute bottom-[12%] right-0 z-10 rounded-2xl bg-[#fce001] px-4 py-3 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[14%] sm:right-[2%] sm:px-5 sm:py-3.5"
+              className="pool-float absolute bottom-[12%] right-0 z-10 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-3 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[14%] sm:right-[2%] sm:px-5 sm:py-3.5"
               style={{ animationDelay: "1.2s" }}
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/95 sm:text-[11px]">

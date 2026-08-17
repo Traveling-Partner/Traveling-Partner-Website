@@ -213,7 +213,7 @@ function SubjectDropdown({
                   type="button"
                   className={`flex w-full px-3.5 py-2.5 text-left text-[13px] transition-colors ${
                     selected
-                      ? "bg-[#FCE001] font-semibold text-[#0b0b0b]"
+                      ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] font-semibold text-[#0b0b0b]"
                       : "text-[#0b0b0b] hover:bg-[#FCE001]/35"
                   }`}
                   onClick={() => {
@@ -268,7 +268,7 @@ function ContactInfoCard({
           {value}
         </span>
       </span>
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] transition-transform duration-300 group-hover:scale-105">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] transition-transform duration-300 group-hover:scale-105">
         <ArrowOutIcon />
       </span>
     </a>
@@ -416,7 +416,7 @@ export default function ContactFormSection() {
             transition={{ duration: 0.55 }}
             className="lg:pt-1"
           >
-            <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1.5">
+            <div className="mb-4 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
                 Contact Us
               </span>
@@ -708,7 +708,7 @@ export default function ContactFormSection() {
                   <span className="font-poppins text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
                     Send Message
                   </span>
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] transition-transform duration-300 group-hover:translate-x-0.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] transition-transform duration-300 group-hover:translate-x-0.5">
                     <svg
                       viewBox="0 0 16 16"
                       className="h-3.5 w-3.5"

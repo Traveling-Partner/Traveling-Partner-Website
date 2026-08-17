@@ -97,7 +97,7 @@ function FeaturePill({
       className={`gta-float flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3.5 shadow-[0_12px_28px_rgba(0,0,0,0.22)] lg:gap-2.5 lg:py-1.5 lg:pl-1.5 lg:pr-4 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[36px] lg:w-[36px]">
+      <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[36px] lg:w-[36px]">
         {icon}
       </span>
       <span className="whitespace-nowrap pr-0.5 text-[12px] font-bold text-[#0b0b0b] lg:text-[13px]">
@@ -174,8 +174,8 @@ export default function GetTheAppSection() {
           <div className="relative z-20 w-full shrink-0 px-5 pt-9 sm:px-6 sm:pt-10">
             <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-3.5 py-1.5">
               <span className="relative flex h-[6px] w-[6px] items-center justify-center">
-                <span className="absolute h-[12px] w-[12px] rounded-full bg-[#fce001]/35 blur-[2px]" />
-                <span className="relative h-[6px] w-[6px] rounded-full bg-[#fce001]" />
+                <span className="absolute h-[12px] w-[12px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[2px]" />
+                <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
               <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-[#fce001]">
                 Need Help?
@@ -241,8 +241,8 @@ export default function GetTheAppSection() {
           <div className="w-[36%] max-w-[460px] shrink-0">
             <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 bg-[#0b0b0b]/40 px-4 py-2 backdrop-blur-sm">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-                <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
-                <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
+                <span className="absolute h-[14px] w-[14px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
+                <span className="relative h-[7px] w-[7px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#fce001]">
                 Need Help?

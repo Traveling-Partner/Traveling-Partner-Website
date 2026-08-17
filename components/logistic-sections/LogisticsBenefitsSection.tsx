@@ -224,7 +224,7 @@ export default function LogisticsBenefitsSection() {
           transition={{ duration: 0.45 }}
           className="mx-auto mb-12 max-w-3xl text-center sm:mb-14 lg:mb-16"
         >
-          <div className="mb-5 inline-flex items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
+          <div className="mb-5 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
               Key Advantages
             </span>

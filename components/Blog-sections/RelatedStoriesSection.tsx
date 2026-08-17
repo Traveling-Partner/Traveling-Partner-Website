@@ -120,7 +120,7 @@ function RelatedStoryCard({
 
           {categoryLabel ? (
             <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0b0b0b] sm:text-[11px]">
                 {categoryLabel}
               </span>
@@ -183,7 +183,7 @@ export default function RelatedStoriesSection({
           <span className="text-[13px] font-semibold text-[#0b0b0b] sm:text-[14px]">
             View all stories
           </span>
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] sm:h-9 sm:w-9">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] sm:h-9 sm:w-9">
             <ArrowRightIcon className="h-4 w-4" />
           </span>
         </Link>

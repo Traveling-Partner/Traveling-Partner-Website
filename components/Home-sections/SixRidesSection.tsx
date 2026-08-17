@@ -195,7 +195,7 @@ function PanelBackground() {
 function FeaturePill({ label }: { label: string }) {
   return (
     <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-2 text-[12px] font-semibold leading-none whitespace-nowrap text-white sm:px-4 sm:py-2.5 sm:text-[13px]">
-      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
+      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
         <CheckIcon className="h-2.5 w-2.5" />
       </span>
       {label}
@@ -221,7 +221,7 @@ function DetailPanel({
     <div className="relative flex h-full flex-col lg:rounded-l-[40px]">
       {/* ——— Mobile spotlight panel ——— */}
       <div className="relative overflow-hidden lg:hidden">
-        <div className="relative overflow-hidden bg-[#FCE001] px-5 pb-8 pt-5 sm:px-6 sm:pb-9 sm:pt-6">
+        <div className="relative overflow-hidden bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 pb-8 pt-5 sm:px-6 sm:pb-9 sm:pt-6">
           {/* Soft bottom wave into black — light, not the desktop B-curve */}
           <svg
             className="pointer-events-none absolute inset-x-0 bottom-0 h-10 w-full text-[#0b0b0b]"
@@ -331,7 +331,7 @@ function DetailPanel({
               >
                 <span>Explore {ride.title}</span>
                 <span
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b]"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[14px] font-bold text-[#0b0b0b]"
                   aria-hidden
                 >
                   →
@@ -402,7 +402,7 @@ function DetailPanel({
                   >
                     <span>Explore {panelRide.title}</span>
                     <span
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[14px] font-bold text-[#0b0b0b] transition-transform group-hover:translate-x-0.5"
                       aria-hidden
                     >
                       →
@@ -476,7 +476,7 @@ function MobileRideChips({
               onClick={() => onSelect(index)}
               className={`h-1.5 rounded-full transition-all ${
                 index === activeIndex
-                  ? "w-5 bg-[#FCE001]"
+                  ? "w-5 bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
                   : "w-1.5 bg-white/25"
               }`}
             />
@@ -518,7 +518,7 @@ function MobileRideChips({
               <div className="relative mb-3 flex items-center justify-between">
                 <span
                   className={`flex h-11 w-11 items-center justify-center overflow-hidden rounded-[13px] ${
-                    active ? "bg-[#FCE001]" : "bg-[#f4f1ea]"
+                    active ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813]" : "bg-[#f4f1ea]"
                   }`}
                 >
                   <Image
@@ -592,7 +592,7 @@ function RideListItem({
 
       {/* Rail glow dot */}
       <motion.span
-        className="absolute -left-[5px] top-1/2 z-[2] h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#FCE001] sm:-left-[6px]"
+        className="absolute -left-[5px] top-1/2 z-[2] h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] sm:-left-[6px]"
         initial={false}
         animate={{
           opacity: active ? 1 : 0,

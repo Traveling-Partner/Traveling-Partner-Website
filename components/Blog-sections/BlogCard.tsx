@@ -110,7 +110,7 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
 
           {categoryLabel ? (
             <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0b0b0b] sm:text-[11px]">
                 {categoryLabel}
               </span>
@@ -152,7 +152,7 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
           <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-[#e8e4da] pt-3 sm:pt-3.5">
             <div className="flex min-w-0 items-center gap-2">
               {authorInitials ? (
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[11px] font-bold text-[#0b0b0b] sm:h-9 sm:w-9 sm:text-[12px]">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[11px] font-bold text-[#0b0b0b] sm:h-9 sm:w-9 sm:text-[12px]">
                   {authorInitials}
                 </span>
               ) : null}

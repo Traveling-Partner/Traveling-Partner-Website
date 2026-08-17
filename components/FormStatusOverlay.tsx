@@ -44,7 +44,7 @@ export default function FormStatusOverlay({
 
       {phase === "success" ? (
         <div className="flex max-w-[240px] flex-col items-center px-4 text-center">
-          <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-[#FCE001] shadow-[0_8px_20px_rgba(253,184,19,0.35)]">
+          <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_8px_20px_rgba(253,184,19,0.35)]">
             <CheckIcon />
           </span>
           <p className="font-poppins text-[16px] font-extrabold text-[#0b0b0b]">

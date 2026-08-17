@@ -79,7 +79,7 @@ export default function DriveWithUsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-2"
+                className="inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-2"
               >
                 <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-black sm:text-[11px]">
                   100% Commission Free · For Drivers
@@ -148,7 +148,7 @@ export default function DriveWithUsSection() {
                     transition={{ duration: 0.35, delay: 0.2 + index * 0.06 }}
                     className="flex items-start gap-3"
                   >
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
                       <CheckIcon />
                     </span>
                     <span className="text-[14px] leading-relaxed text-white sm:text-[15px]">
@@ -168,7 +168,7 @@ export default function DriveWithUsSection() {
                   href="https://play.google.com/store/apps?hl=en&gl=US"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
+                  className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
                 >
                   <span className="text-[15px] font-bold text-black sm:text-base">
                     Register Now

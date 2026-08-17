@@ -38,7 +38,7 @@ export default function PrivacyHeader(): React.ReactElement {
             {/* Left Content */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-[#FCE001] px-4 py-2 rounded-full mb-6">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-2 rounded-full mb-6">
                 <Shield className="w-4 h-4 text-[#1a1a1a]" />
                 <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">
                   Legal

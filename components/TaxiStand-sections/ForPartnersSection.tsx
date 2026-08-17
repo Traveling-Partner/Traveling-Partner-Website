@@ -207,7 +207,7 @@ export default function ForPartnersSection() {
           transition={{ duration: 0.45 }}
           className="mx-auto mb-12 max-w-2xl text-center sm:mb-14"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#FCE001] px-3.5 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-black" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
               For Partners

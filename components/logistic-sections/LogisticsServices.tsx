@@ -74,7 +74,7 @@ function ServiceCard({
       transition={{ duration: 0.4, delay }}
       className={`flex h-full flex-col items-center rounded-[24px] px-4 py-7 text-center sm:rounded-[28px] sm:px-5 sm:py-8 ${
         featured
-          ? "border border-black bg-[#FCE001] shadow-[0_14px_32px_rgba(253,184,19,0.28)]"
+          ? "border border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_14px_32px_rgba(253,184,19,0.28)]"
           : "bg-white shadow-[0_10px_28px_rgba(11,11,11,0.06)]"
       }`}
     >

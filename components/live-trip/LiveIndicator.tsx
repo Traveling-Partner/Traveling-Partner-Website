@@ -69,8 +69,8 @@ export default function LiveIndicator({
     >
       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-white">
         <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#fce001] opacity-75" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#fce001]" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-75" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
         </span>
         Live
       </span>

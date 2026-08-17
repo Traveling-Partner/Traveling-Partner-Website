@@ -220,7 +220,7 @@ function BlogCard({
           />
           {categoryLabel ? (
             <span
-              className="absolute left-[18px] top-[18px] rounded-[6px] bg-[#fce001] font-bold uppercase tracking-[0.06em] text-black"
+              className="absolute left-[18px] top-[18px] rounded-[6px] bg-gradient-to-b from-[#FCE001] to-[#FDB813] font-bold uppercase tracking-[0.06em] text-black"
               style={{
                 fontSize: isActive ? 11 : 9,
                 padding: isActive ? "6px 11px" : "4px 8px",
@@ -275,7 +275,7 @@ function BlogCard({
               <span className="inline-flex min-w-0 max-w-full items-center gap-1.5">
                 {authorInitials ? (
                   <span
-                    className="flex shrink-0 items-center justify-center rounded-full bg-[#fce001] font-bold text-black"
+                    className="flex shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] font-bold text-black"
                     style={{
                       width: isActive ? 24 : 20,
                       height: isActive ? 24 : 20,
@@ -467,7 +467,7 @@ export default function BlogSlider() {
                 aria-label={`Go to slide ${i + 1}`}
                 onClick={() => goToIndex(i)}
                 className={`rounded-full transition-all duration-300 ${
-                  i === activeIndex ? "h-2 w-9 bg-[#fce001]" : "h-2 w-2 bg-white/25"
+                  i === activeIndex ? "h-2 w-9 bg-gradient-to-b from-[#FCE001] to-[#FDB813]" : "h-2 w-2 bg-white/25"
                 }`}
               />
             ))}

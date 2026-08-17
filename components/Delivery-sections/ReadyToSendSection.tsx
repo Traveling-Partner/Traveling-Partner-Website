@@ -133,7 +133,7 @@ function FloatChip({
       className={`rts-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-5 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[44px] lg:w-[44px]">
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[44px] lg:w-[44px]">
         {icon}
       </span>
       <span className="leading-tight">
@@ -185,8 +185,8 @@ export default function ReadyToSendSection() {
             {/* Badge */}
             <div className="mb-3.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-4">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-                <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
-                <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
+                <span className="absolute h-[14px] w-[14px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
+                <span className="relative h-[7px] w-[7px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
                 Ready to send?
@@ -199,7 +199,7 @@ export default function ReadyToSendSection() {
                 Ship it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[50px]"
+                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[50px]"
                 style={{ fontStyle: "italic" }}
               >
                 track it,

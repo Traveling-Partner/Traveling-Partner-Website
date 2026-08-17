@@ -88,7 +88,7 @@ export default function ContactHero() {
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pb-14 pt-[110px] text-center sm:px-6 sm:pb-16 sm:pt-[128px] md:pb-20 md:pt-[140px] lg:px-8 lg:pb-24 lg:pt-[150px]">
         {/* Badge */}
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[11px]">
             Get In Touch
           </span>
@@ -97,7 +97,7 @@ export default function ContactHero() {
         {/* Heading */}
         <h1 className="mb-5 font-poppins text-[42px] font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] sm:mb-6 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[72px]">
           Contact{" "}
-          <span className="relative inline-block origin-center rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-[#FCE001] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1.5">
+          <span className="relative inline-block origin-center rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1.5">
             <em className="font-medium italic text-black">Us.</em>
           </span>
         </h1>

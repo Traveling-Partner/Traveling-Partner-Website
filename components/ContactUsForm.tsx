@@ -119,7 +119,7 @@ const TABS = ["General", "Drivers", "Business"] as const;
 type ContactTab = (typeof TABS)[number];
 
 const SOCIAL_AVATARS = [
-  { initials: "AM", className: "bg-[#fce001] text-[#0b0b0b]" },
+  { initials: "AM", className: "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]" },
   { initials: "UA", className: "bg-[#4f8cff] text-white" },
   { initials: "FS", className: "bg-[#22c55e] text-white" },
 ];

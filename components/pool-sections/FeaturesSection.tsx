@@ -98,7 +98,7 @@ function FeatureCard({
             tagLight ? "bg-white/95" : "bg-black/75"
           }`}
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
           <span
             className={`text-[9px] font-bold uppercase tracking-[0.14em] sm:text-[10px] ${
               tagLight ? "text-black" : "text-white"
@@ -162,7 +162,7 @@ export default function FeaturesSection() {
           transition={{ duration: 0.45 }}
           className="mx-auto mb-10 max-w-3xl text-center sm:mb-12"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#FCE001] px-3.5 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-black" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
               Features

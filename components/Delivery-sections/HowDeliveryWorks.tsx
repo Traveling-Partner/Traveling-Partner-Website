@@ -47,7 +47,7 @@ const STEPS = [
 
 const cardBase =
   "group relative flex flex-col rounded-[18px] bg-[#141414] transition-all duration-300 " +
-  "hover:border-[#FCE001] hover:bg-[#FCE001] hover:shadow-[0_0_22px_rgba(252,224,1,0.35)]";
+  "hover:border-[#FDB813] hover:bg-gradient-to-b hover:from-[#FCE001] hover:to-[#FDB813] hover:shadow-[0_0_22px_rgba(253,184,19,0.35)]";
 
 function StepCard({
   item,
@@ -60,18 +60,12 @@ function StepCard({
     <article
       className={[
         cardBase,
-        item.featured
-          ? "flex min-h-[295px] flex-col border-2 border-solid !border-[#FCE001] shadow-[0_0_22px_rgba(252,224,1,0.32)]"
-          : "min-h-[230px] border border-white/[0.06]",
+        item.featured ? "flex min-h-[295px] flex-col" : "min-h-[230px]",
+        "border border-white/[0.06]",
         className,
       ].join(" ")}
-      style={
-        item.featured
-          ? { borderColor: "#FCE001", borderStyle: "solid", borderWidth: 2 }
-          : undefined
-      }
     >
-      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-2 py-0.5 transition-colors duration-300 group-hover:bg-[#0b0b0b]">
+      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2 py-0.5 transition-colors duration-300 group-hover:bg-[#0b0b0b]">
         <span className="text-[8px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] transition-colors duration-300 group-hover:text-[#FCE001]">
           {item.step} Step
         </span>
@@ -118,7 +112,7 @@ export default function HowDeliveryWorks() {
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center sm:mb-9 lg:mb-10">
-          <div className="mb-4 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1">
+          <div className="mb-4 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1">
             <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[10px]">
               Simple Process
             </span>
@@ -150,7 +144,7 @@ export default function HowDeliveryWorks() {
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute z-[5] h-[10px] w-[10px] rounded-full bg-[#FCE001]"
+            className="pointer-events-none absolute z-[5] h-[10px] w-[10px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
             style={{
               right: "calc(10% - 11px)",
               bottom: "calc(230px + 13px)",

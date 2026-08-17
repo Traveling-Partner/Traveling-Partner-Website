@@ -163,8 +163,8 @@ function SectionCopy({
         className={`inline-flex items-center gap-2 rounded-full border border-[#FCE001]/85 bg-transparent px-3 py-1.5 sm:gap-2.5 sm:px-3.5 sm:py-1.5 lg:px-4 lg:py-2 ${badgeClassName}`}
       >
         <span className="relative flex h-[6px] w-[6px] items-center justify-center lg:h-[7px] lg:w-[7px]">
-          <span className="absolute h-[11px] w-[11px] rounded-full bg-[#FCE001]/35 blur-[2px] lg:h-[13px] lg:w-[13px]" />
-          <span className="relative h-[6px] w-[6px] rounded-full bg-[#FCE001] lg:h-[7px] lg:w-[7px]" />
+          <span className="absolute h-[11px] w-[11px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[2px] lg:h-[13px] lg:w-[13px]" />
+          <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[7px] lg:w-[7px]" />
         </span>
         <span
           className={`text-[9px] font-bold uppercase tracking-[0.2em] sm:text-[10px] lg:tracking-[0.22em] ${badgeTextClassName}`}

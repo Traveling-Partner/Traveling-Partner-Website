@@ -59,12 +59,12 @@ export default function TripHeroCard({
   return (
     <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#111110] via-[#0b0b0b] to-[#0b0b0b] px-5 py-5 shadow-[0_20px_45px_rgba(11,11,11,0.3)] sm:px-6 sm:py-6">
       <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-[#fdb813]/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-[#fce001]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/10 blur-3xl" />
 
       <div className="relative flex items-center gap-2">
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#fce001] opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#fce001]" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
         </span>
         <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#fce001]">
           {meta.label}

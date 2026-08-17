@@ -185,8 +185,8 @@ function SectionCopy({
         className={`inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3 py-1.5 sm:gap-2.5 sm:px-3.5 sm:py-1.5 ${badgeClassName}`}
       >
         <span className="relative flex h-[6px] w-[6px] items-center justify-center">
-          <span className="absolute h-[11px] w-[11px] rounded-full bg-[#FCE001]/35 blur-[2px]" />
-          <span className="relative h-[6px] w-[6px] rounded-full bg-[#FCE001]" />
+          <span className="absolute h-[11px] w-[11px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[2px]" />
+          <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
         </span>
         <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-white sm:text-[10px]">
           Still Need Help?

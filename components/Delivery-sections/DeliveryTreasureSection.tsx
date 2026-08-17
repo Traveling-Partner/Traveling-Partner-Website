@@ -89,7 +89,7 @@ export default function DeliveryTreasureSection() {
           transition={{ duration: 0.4 }}
           className="mb-8 text-center sm:mb-10 lg:mb-12"
         >
-          <div className="mb-5 inline-flex items-center rounded-full bg-[#FCE001] px-4 py-1.5">
+          <div className="mb-5 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5">
             <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[11px]">
               Delivery Service
             </span>
@@ -133,7 +133,7 @@ export default function DeliveryTreasureSection() {
 
               {/* TP · DELIVERY badge */}
               <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full border border-[#FCE001]/70 bg-[#0b0b0b] px-3 py-1.5 sm:left-5 sm:top-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#FCE001] sm:text-[10px]">
                   TP · Delivery
                 </span>
@@ -240,7 +240,7 @@ export default function DeliveryTreasureSection() {
                 className="h-[76px] w-[76px] shrink-0 object-contain drop-shadow-[0_0_26px_rgba(252,224,1,0.5)] sm:h-[84px] sm:w-[84px]"
               />
               <div className="min-w-0">
-                <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#FCE001] px-2.5 py-1">
+                <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2.5 py-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#0b0b0b]" />
                   <span className="text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[10px]">
                     Clear Pricing

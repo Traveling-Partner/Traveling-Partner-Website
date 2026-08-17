@@ -103,7 +103,7 @@ function BenefitCard({
             featured ? "bg-[#0b0b0b]" : "bg-white"
           }`}
         >
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#FCE001] text-[11px] font-bold text-black">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[11px] font-bold text-black">
             {step}
           </span>
           <span
@@ -151,7 +151,7 @@ function BenefitCard({
                 className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
                   featured
                     ? "bg-black text-[#FCE001]"
-                    : "bg-[#FCE001] text-black"
+                    : "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-black"
                 }`}
               >
                 <CheckIcon className="h-3 w-3" />
@@ -179,7 +179,7 @@ export default function BenefitsSection() {
           transition={{ duration: 0.45 }}
           className="mx-auto mb-10 max-w-2xl text-center sm:mb-12"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#FCE001] px-3.5 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-black" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
               For Users

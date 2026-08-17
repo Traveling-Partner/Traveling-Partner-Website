@@ -82,7 +82,7 @@ function StoriesToggleButton({
         <span className="text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
           {expanded ? "Show Less Articles" : "Load More Articles"}
         </span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] sm:h-9 sm:w-9">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] sm:h-9 sm:w-9">
           {expanded ? (
             <ChevronUpIcon className="h-4 w-4" />
           ) : (
