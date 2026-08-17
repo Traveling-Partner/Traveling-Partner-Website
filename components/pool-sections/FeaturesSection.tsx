@@ -116,7 +116,7 @@ function FeatureCard({
           featured
             ? {
                 backgroundImage:
-                  "linear-gradient(180deg, #FFEE5C 0%, #FCE001 55%, #FDB813 100%)",
+                  "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
               }
             : { backgroundColor: "#ffffff" }
         }

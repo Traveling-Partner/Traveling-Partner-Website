@@ -166,9 +166,8 @@ export default function TaxiStandCard({
           >
             <defs>
               <linearGradient id="taxiMobileGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#FFEE5C" />
-                <stop offset="50%" stopColor="#FCE001" />
-                <stop offset="100%" stopColor="#F5C400" />
+                <stop offset="0%" stopColor="#FCE001" />
+                <stop offset="100%" stopColor="#FDB813" />
               </linearGradient>
             </defs>
             {/* Soft rounded top + wide downward chevron */}

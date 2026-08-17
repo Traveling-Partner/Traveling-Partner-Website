@@ -13,8 +13,8 @@ const CONTACT_CARDS = [
   {
     icon: HELP_ICONS.email,
     label: "EMAIL SUPPORT",
-    value: "hello@traveling-partner.com",
-    href: "mailto:hello@traveling-partner.com",
+    value: "info@traveling-partner.com",
+    href: "mailto:info@traveling-partner.com",
   },
   {
     icon: HELP_ICONS.phone,

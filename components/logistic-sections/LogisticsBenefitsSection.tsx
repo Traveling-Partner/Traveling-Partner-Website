@@ -146,7 +146,7 @@ function BenefitCard({
       transition={{ duration: 0.45, delay }}
       className={`relative flex h-full flex-col overflow-hidden rounded-[24px] p-5 sm:rounded-[28px] sm:p-6 ${
         isYellow
-          ? "bg-gradient-to-br from-[#FCE001] via-[#FCE001] to-[#FDB813] shadow-[0_14px_32px_rgba(253,184,19,0.25)]"
+          ? "bg-gradient-to-br from-[#FCE001] to-[#FDB813] shadow-[0_14px_32px_rgba(253,184,19,0.25)]"
           : isDark
             ? "bg-[#0b0b0b] shadow-[0_14px_32px_rgba(0,0,0,0.25)]"
             : "bg-white shadow-[0_10px_28px_rgba(11,11,11,0.06)]"

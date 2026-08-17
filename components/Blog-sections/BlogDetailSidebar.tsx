@@ -126,7 +126,7 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
-                    className="group flex items-start gap-2.5 text-[13px] font-medium leading-snug text-[#0b0b0b] transition-colors hover:text-[#c99200] sm:text-[14px]"
+                    className="group flex items-start gap-2.5 text-[13px] font-medium leading-snug text-[#0b0b0b] transition-colors hover:text-[#FDB813] sm:text-[14px]"
                   >
                     <span className="mt-[0.45em] h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-[#fce001] to-[#fdb813]" />
                     <span>{item.text}</span>

@@ -51,8 +51,7 @@ function PinIcon() {
     <svg viewBox="0 0 40 40" className="h-8 w-8" aria-hidden="true">
       <defs>
         <linearGradient id="pinY" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FFF59D" />
-          <stop offset="55%" stopColor="#FCE001" />
+          <stop offset="0%" stopColor="#FCE001" />
           <stop offset="100%" stopColor="#FDB813" />
         </linearGradient>
       </defs>
@@ -69,7 +68,7 @@ function EnvelopeIcon3D() {
     <svg viewBox="0 0 40 40" className="h-8 w-8" aria-hidden="true">
       <defs>
         <linearGradient id="envY" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FFF59D" />
+          <stop offset="0%" stopColor="#FCE001" />
           <stop offset="100%" stopColor="#FDB813" />
         </linearGradient>
       </defs>
@@ -90,7 +89,7 @@ function PhoneIcon3D() {
     <svg viewBox="0 0 40 40" className="h-8 w-8" aria-hidden="true">
       <defs>
         <linearGradient id="phY" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FFF59D" />
+          <stop offset="0%" stopColor="#FCE001" />
           <stop offset="100%" stopColor="#FDB813" />
         </linearGradient>
       </defs>
@@ -450,8 +449,8 @@ export default function ContactFormSection() {
               />
               <ContactInfoCard
                 label="Email"
-                value="hello@traveling-partner.com"
-                href="mailto:hello@traveling-partner.com"
+                value="info@traveling-partner.com"
+                href="mailto:info@traveling-partner.com"
                 icon={<EnvelopeIcon3D />}
               />
               <ContactInfoCard

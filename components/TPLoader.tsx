@@ -2,7 +2,7 @@ const RING_SRC = "/images/loader/tp-loader-ring.svg";
 const LOGO_SRC = "/images/loader/tp-loader-logo.svg";
 
 const GRADIENT =
-  "linear-gradient(145deg, #FFE84A 0%, #FCE001 38%, #FDB813 78%, #E89A00 100%)";
+  "linear-gradient(145deg, #FCE001 0%, #FDB813 100%)";
 
 type TPLoaderProps = {
   className?: string;

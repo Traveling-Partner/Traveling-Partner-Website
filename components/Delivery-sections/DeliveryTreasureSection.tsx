@@ -191,7 +191,7 @@ export default function DeliveryTreasureSection() {
             className="relative overflow-hidden rounded-[28px] p-5 shadow-[0_10px_30px_rgba(253,184,19,0.28)] sm:p-6 lg:col-start-3 lg:row-start-1"
             style={{
               backgroundImage:
-                "linear-gradient(145deg, #FFE94D 0%, #FCE001 48%, #F5B800 100%)",
+                "linear-gradient(145deg, #FCE001 0%, #FDB813 100%)",
             }}
           >
             <DashedOrbit className="-bottom-14 -right-14 h-48 w-48" />

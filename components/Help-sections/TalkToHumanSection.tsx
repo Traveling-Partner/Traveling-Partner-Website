@@ -21,7 +21,7 @@ const SUPPORT_CARDS = [
     icon: HELP_ICONS.email,
     title: "Email support",
     subtitle: "Send us a message anytime",
-    href: "mailto:hello@traveling-partner.com",
+    href: "mailto:info@traveling-partner.com",
   },
 ] as const;
 
@@ -50,7 +50,7 @@ export default function TalkToHumanSection() {
           className="overflow-hidden rounded-[28px] border border-[#0b0b0b]/10 px-5 py-8 sm:rounded-[32px] sm:px-8 sm:py-10 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center lg:gap-10 lg:px-10 lg:py-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:gap-12"
           style={{
             backgroundImage:
-              "linear-gradient(135deg, #FFEE5C 0%, #FCE001 55%, #FDB813 100%)",
+              "linear-gradient(135deg, #FCE001 0%, #FDB813 100%)",
           }}
         >
           <div>
@@ -75,7 +75,7 @@ export default function TalkToHumanSection() {
 
             <div className="flex flex-wrap gap-3">
               <Link
-                href="mailto:hello@traveling-partner.com"
+                href="mailto:info@traveling-partner.com"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0b0b0b] shadow-[0_4px_14px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90 sm:px-6 sm:py-3 sm:text-[14px]"
               >
                 Email support

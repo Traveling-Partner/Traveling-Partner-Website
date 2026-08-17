@@ -193,7 +193,7 @@ export default function PrivacyContent(): React.ReactElement {
             </p>
             <div className="flex justify-center">
               <a 
-                href="mailto:hello@traveling-partner.com"
+                href="mailto:info@traveling-partner.com"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white rounded-full font-semibold hover:bg-black/80 transition-colors"
               >
                 Contact Support <ArrowRight className="w-4 h-4" />
