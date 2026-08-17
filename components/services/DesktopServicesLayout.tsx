@@ -139,20 +139,20 @@ function DesktopPhotoCard({
         </div>
 
         <div
-          className={`absolute z-10 flex max-w-[72%] items-center gap-2.5 sm:gap-3 ${contentClassName}`}
+          className={`absolute z-10 flex max-w-[78%] items-center gap-3 sm:gap-3.5 ${contentClassName}`}
         >
           <Image
             src={icon}
             alt=""
-            width={56}
-            height={56}
-            className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12 lg:h-[52px] lg:w-[52px]"
+            width={64}
+            height={64}
+            className="h-12 w-12 shrink-0 object-contain sm:h-[54px] sm:w-[54px] lg:h-[60px] lg:w-[60px]"
           />
           <div className="min-w-0 leading-tight">
-            <p className="truncate text-[15px] font-bold text-white lg:text-[16px]">
+            <p className="truncate text-[17px] font-bold text-white lg:text-[19px]">
               {title}
             </p>
-            <p className="truncate text-[12px] font-medium italic text-white/90 sm:text-[13px]">
+            <p className="truncate text-[13px] font-medium italic text-white/90 sm:text-[14px]">
               {subtitle}
             </p>
           </div>
