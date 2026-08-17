@@ -54,24 +54,30 @@ function StatusCheckIcon() {
   );
 }
 
-/** Figma map pin — black teardrop + red center + yellow accent */
+/** Traveling Partner map pin — brand yellow gradient + black center */
 function LocationPin() {
   return (
     <div className="relative h-[56px] w-[48px] sm:h-[64px] sm:w-[54px]" aria-hidden="true">
       <svg
         viewBox="0 0 54 64"
-        className="h-full w-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.28)]"
+        className="h-full w-full drop-shadow-[0_8px_16px_rgba(253,184,19,0.35)]"
         fill="none"
       >
+        <defs>
+          <linearGradient id="tp-pin-grad" x1="27" y1="2" x2="27" y2="62" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FCE001" />
+            <stop offset="100%" stopColor="#FDB813" />
+          </linearGradient>
+        </defs>
         <path
           d="M27 2C15.4 2 6 11.4 6 23c0 14.2 16.4 33.2 19.6 36.8a2.2 2.2 0 0 0 2.8 0C31.6 56.2 48 37.2 48 23 48 11.4 38.6 2 27 2Z"
-          fill="#0b0b0b"
+          fill="url(#tp-pin-grad)"
         />
-        <circle cx="27" cy="22" r="8.5" fill="#E53935" />
-        <circle cx="27" cy="22" r="4" fill="#FF6B63" />
+        <circle cx="27" cy="22" r="8.5" fill="#0b0b0b" />
+        <circle cx="27" cy="22" r="3.5" fill="#FCE001" />
       </svg>
-      {/* Yellow accent dot — Figma */}
-      <span className="absolute right-0 top-2 h-3.5 w-3.5 rounded-full border-2 border-white bg-[#FCE001] shadow-sm sm:h-4 sm:w-4" />
+      {/* Accent dot */}
+      <span className="absolute right-0 top-2 h-3.5 w-3.5 rounded-full border-2 border-white bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-sm sm:h-4 sm:w-4" />
     </div>
   );
 }
@@ -150,7 +156,7 @@ export default function OurLocationSection() {
                 className="absolute left-1/2 top-[46%] z-10 flex -translate-x-1/2 -translate-y-full flex-col items-center gap-1.5 transition-transform duration-300 hover:scale-105"
                 aria-label="Open Traveling Partner Pvt. Ltd location in Google Maps"
               >
-                <span className="whitespace-nowrap rounded-full bg-[#0b0b0b] px-3 py-1 text-[11px] font-bold text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] sm:text-[12px]">
+                <span className="whitespace-nowrap rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 text-[11px] font-bold text-[#0b0b0b] shadow-[0_4px_12px_rgba(253,184,19,0.35)] sm:text-[12px]">
                   Traveling Partner Pvt. Ltd
                 </span>
                 <LocationPin />

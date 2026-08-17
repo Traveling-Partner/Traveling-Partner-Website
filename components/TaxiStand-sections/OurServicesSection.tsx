@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import type { CSSProperties } from "react";
 import TaxiStandCard from "./TaxiStandCard";
 import MobileServicesLayout, {
   CLEAN_MOBILE_CARDS,
 } from "@/components/services/MobileServicesLayout";
-import { useInViewVideo } from "@/hooks/useInViewVideo";
+import DesktopServicesLayout, {
+  type DesktopPhotoCardData,
+} from "@/components/services/DesktopServicesLayout";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const DELIVERY_VIDEO = "/videos/delivery-bg.mp4";
@@ -20,118 +19,53 @@ const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
 const LOGISTICS_VIDEO = "/videos/logistics-bg.mp4";
 const LOGISTICS_MASK = "/images/taxi-stand/services/card-logistics-mask.png";
 
-type DesktopPhotoCardProps = {
-  href: string;
-  image: string;
-  icon: string;
-  title: string;
-  subtitle: string;
-  delay?: number;
-  className?: string;
-  contentClassName?: string;
-  video?: string;
-  mask?: string;
-};
-
-function DesktopPhotoCard({
-  href,
-  image,
-  icon,
-  title,
-  subtitle,
-  delay = 0,
-  className = "",
-  contentClassName = "left-5 top-5",
-  video,
-  mask,
-}: DesktopPhotoCardProps) {
-  const videoRef = useInViewVideo(video);
-  const maskUrl = mask ?? image;
-
-  const maskStyle: CSSProperties | undefined = video
-    ? {
-        WebkitMaskImage: `url(${maskUrl})`,
-        maskImage: `url(${maskUrl})`,
-        WebkitMaskSize: "100% 100%",
-        maskSize: "100% 100%",
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskPosition: "left center",
-        maskPosition: "left center",
-        maskMode: "alpha",
-      }
-    : undefined;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.4, delay }}
-      whileHover={{ y: -2 }}
-      className={`relative h-full min-h-0 w-full ${className}`}
-    >
-      <Link href={href} className="group relative block h-full w-full">
-        {video ? (
-          <div className="relative h-full w-full">
-            <Image
-              src={image}
-              alt={title}
-              width={640}
-              height={340}
-              className="h-full w-full object-fill object-left"
-              sizes="30vw"
-              priority
-            />
-            <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
-              <video
-                ref={videoRef}
-                src={video}
-                className="h-full w-full object-cover object-center [transform:translateZ(0)]"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="none"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
-            </div>
-          </div>
-        ) : (
-          <Image
-            src={image}
-            alt={title}
-            width={640}
-            height={340}
-            className="h-full w-full object-fill object-left"
-            sizes="30vw"
-            priority
-          />
-        )}
-
-        <div
-          className={`absolute z-10 flex max-w-[70%] items-center gap-2.5 sm:gap-3 ${contentClassName}`}
-        >
-          <Image
-            src={icon}
-            alt=""
-            width={64}
-            height={64}
-            className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-14"
-          />
-          <div className="min-w-0 leading-tight">
-            <p className="truncate text-[15px] font-bold text-white drop-shadow lg:text-[17px]">
-              {title}
-            </p>
-            <p className="truncate text-[12px] font-medium italic text-white/90 drop-shadow sm:text-[13px]">
-              {subtitle}
-            </p>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
+/** Exact Figma Frame 11 content offsets (icon+label groups). */
+const DESKTOP_CARDS: DesktopPhotoCardData[] = [
+  {
+    href: "/pool-ride",
+    image: "/images/taxi-stand/services/card-pool.png",
+    icon: "/images/taxi-stand/services/icon-pool.png",
+    title: "Pool Ride",
+    subtitle: "Share & save",
+    video: POOL_VIDEO,
+    mask: POOL_MASK,
+    slot: "topLeft",
+    contentClassName: "left-[17.7%] top-[11.1%]",
+  },
+  {
+    href: "/delivery",
+    image: "/images/taxi-stand/services/card-delivery.png",
+    icon: "/images/taxi-stand/services/icon-delivery.png",
+    title: "Delivery",
+    subtitle: "Across the city",
+    video: DELIVERY_VIDEO,
+    mask: DELIVERY_MASK,
+    slot: "topRight",
+    contentClassName: "left-[9.4%] top-[13.7%]",
+  },
+  {
+    href: "/logistic",
+    image: "/images/taxi-stand/services/card-logistics.png",
+    icon: "/images/taxi-stand/services/icon-logistics.png",
+    title: "Logistics",
+    subtitle: "Reliable fleet support",
+    video: LOGISTICS_VIDEO,
+    mask: LOGISTICS_MASK,
+    slot: "bottomLeft",
+    contentClassName: "left-[25.3%] top-[13.7%]",
+  },
+  {
+    href: "/tourism",
+    image: "/images/taxi-stand/services/card-trip.png",
+    icon: "/images/taxi-stand/services/icon-trip.png",
+    title: "Tourism",
+    subtitle: "City to city",
+    video: TRIP_VIDEO,
+    mask: TRIP_MASK,
+    slot: "bottomRight",
+    contentClassName: "left-[9.7%] top-[12.5%]",
+  },
+];
 
 const MOBILE_CARDS = [
   {
@@ -171,7 +105,7 @@ const MOBILE_CARDS = [
 export default function OurServicesSection() {
   return (
     <section className="relative overflow-hidden bg-[#FEFBF6] py-14 sm:py-20 lg:py-24">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -199,60 +133,10 @@ export default function OurServicesSection() {
           cards={MOBILE_CARDS}
         />
 
-        {/* Desktop unchanged */}
-        <div className="mx-auto hidden w-full items-stretch lg:flex">
-          <div className="relative z-10 w-[38%] max-w-[420px] shrink-0 -mr-16 xl:max-w-[460px] xl:-mr-20">
-            <TaxiStandCard variant="desktop" />
-          </div>
-
-          <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-x-0.5 gap-y-0.5">
-            <DesktopPhotoCard
-              href="/pool-ride"
-              image="/images/taxi-stand/services/card-pool.png"
-              icon="/images/taxi-stand/services/icon-pool.png"
-              title="Pool Ride"
-              subtitle="Share & save"
-              delay={0.1}
-              contentClassName="left-[14%] top-[12%]"
-              video={POOL_VIDEO}
-              mask={POOL_MASK}
-            />
-            <DesktopPhotoCard
-              href="/delivery"
-              image="/images/taxi-stand/services/card-delivery.png"
-              icon="/images/taxi-stand/services/icon-delivery.png"
-              title="Delivery"
-              subtitle="Across the city"
-              delay={0.14}
-              className="!h-[88%] self-start"
-              contentClassName="left-6 top-[12%]"
-              video={DELIVERY_VIDEO}
-              mask={DELIVERY_MASK}
-            />
-            <DesktopPhotoCard
-              href="/logistic"
-              image="/images/taxi-stand/services/card-logistics.png"
-              icon="/images/taxi-stand/services/icon-logistics.png"
-              title="Logistics"
-              subtitle="Reliable fleet support"
-              delay={0.18}
-              contentClassName="left-[20%] top-[14%]"
-              video={LOGISTICS_VIDEO}
-              mask={LOGISTICS_MASK}
-            />
-            <DesktopPhotoCard
-              href="/tourism"
-              image="/images/taxi-stand/services/card-trip.png"
-              icon="/images/taxi-stand/services/icon-trip.png"
-              title="Tourism"
-              subtitle="City to city"
-              delay={0.22}
-              contentClassName="left-6 top-[14%]"
-              video={TRIP_VIDEO}
-              mask={TRIP_MASK}
-            />
-          </div>
-        </div>
+        <DesktopServicesLayout
+          featured={<TaxiStandCard variant="desktop" />}
+          cards={DESKTOP_CARDS}
+        />
       </div>
     </section>
   );
