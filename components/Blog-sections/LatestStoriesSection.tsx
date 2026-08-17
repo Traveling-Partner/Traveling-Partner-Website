@@ -162,7 +162,7 @@ export default function LatestStoriesSection({
           <div className="max-w-[560px]">
             <h2 className="font-poppins text-[clamp(28px,3.5vw,40px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b]">
               Latest{" "}
-              <span className="font-medium italic text-[#FCE001]">Stories.</span>
+              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Stories.</span>
             </h2>
             <p className="mt-2 text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
               Guides, comparisons, travel advice, and updates from Traveling

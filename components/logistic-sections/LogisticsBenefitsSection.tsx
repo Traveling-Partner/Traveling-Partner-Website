@@ -26,7 +26,7 @@ const benefits: Benefit[] = [
     title: (
       <>
         Commission-Free{" "}
-        <span className="font-medium italic text-[#FDB813]">Logistics.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Logistics.</span>
       </>
     ),
     description:
@@ -52,7 +52,7 @@ const benefits: Benefit[] = [
     title: (
       <>
         Shared Vehicle{" "}
-        <span className="font-medium italic text-[#FDB813]">Options.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Options.</span>
       </>
     ),
     description:
@@ -66,7 +66,7 @@ const benefits: Benefit[] = [
     iconAlt: "Flexible logistics handshake",
     title: (
       <>
-        <span className="font-medium italic text-[#FDB813]">Flexibility.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Flexibility.</span>
       </>
     ),
     description:
@@ -81,7 +81,7 @@ const benefits: Benefit[] = [
     title: (
       <>
         Live Shipment{" "}
-        <span className="font-medium italic text-[#FCE001]">Tracking.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Tracking.</span>
       </>
     ),
     description:
@@ -97,7 +97,7 @@ const benefits: Benefit[] = [
     title: (
       <>
         Business{" "}
-        <span className="font-medium italic text-[#FDB813]">Partnership.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Partnership.</span>
       </>
     ),
     description:
@@ -232,7 +232,7 @@ export default function LogisticsBenefitsSection() {
 
           <h2 className="mb-4 font-poppins text-[clamp(32px,5.5vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
             Logistics{" "}
-            <span className="font-medium italic text-[#FDB813]">Benefits.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Benefits.</span>
           </h2>
 
           <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">

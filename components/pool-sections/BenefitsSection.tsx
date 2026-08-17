@@ -188,7 +188,7 @@ export default function BenefitsSection() {
 
           <h2 className="mb-3 text-[clamp(28px,6vw,48px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl">
             Benefits Of{" "}
-            <em className="font-medium italic text-[#FDB813]">Pool Ride</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Pool Ride</em>
           </h2>
 
           <div className="mx-auto max-w-lg space-y-1 text-[14px] leading-snug text-[#5c5b55] sm:text-[15px]">
@@ -210,7 +210,7 @@ export default function BenefitsSection() {
             title={
               <>
                 Save{" "}
-                <em className="font-medium italic text-[#FDB813]">
+                <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                   & Connect
                 </em>
               </>

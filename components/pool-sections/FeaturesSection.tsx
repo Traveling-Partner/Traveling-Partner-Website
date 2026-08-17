@@ -25,7 +25,7 @@ const features: Feature[] = [
     title: (
       <>
         In & out of{" "}
-        <em className="font-medium italic text-[#FDB813]">city</em>
+        <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">city</em>
       </>
     ),
     description:
@@ -53,7 +53,7 @@ const features: Feature[] = [
     title: (
       <>
         Live{" "}
-        <em className="font-medium italic text-[#FDB813]">tracking</em>
+        <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">tracking</em>
       </>
     ),
     description:
@@ -171,7 +171,7 @@ export default function FeaturesSection() {
 
           <h2 className="mb-3 text-[clamp(28px,5.5vw,48px)] font-extrabold leading-[1.15] tracking-tight text-white">
             Best Things About{" "}
-            <em className="font-medium italic text-[#FCE001]">Pool Ride</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Pool Ride</em>
           </h2>
 
           <div className="mx-auto max-w-xl space-y-1 text-[14px] leading-snug text-white/85 sm:text-[15px]">

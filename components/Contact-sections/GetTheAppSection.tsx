@@ -187,7 +187,7 @@ export default function GetTheAppSection() {
                 Need Help?
               </span>
               <em
-                className="mt-0.5 block text-[34px] font-medium italic text-[#FCE001] sm:text-[36px]"
+                className="mt-0.5 block text-[34px] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent sm:text-[36px]"
                 style={{ fontStyle: "italic" }}
               >
                 Get in touch.
@@ -254,7 +254,7 @@ export default function GetTheAppSection() {
                 Need Help?
               </span>
               <em
-                className="mt-0.5 block text-[40px] font-medium italic text-[#FCE001] xl:text-[46px]"
+                className="mt-0.5 block text-[40px] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent xl:text-[46px]"
                 style={{ fontStyle: "italic" }}
               >
                 Get in touch.

@@ -23,7 +23,7 @@ const partnerSteps: PartnerStep[] = [
     watermark: "01",
     title: (
       <>
-        Download <em className="font-medium italic text-[#FDB813]">the app</em>
+        Download <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">the app</em>
       </>
     ),
     description:
@@ -48,7 +48,7 @@ const partnerSteps: PartnerStep[] = [
     watermark: "03",
     title: (
       <>
-        Become a <em className="font-medium italic text-[#FDB813]">Partner</em>
+        Become a <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Partner</em>
       </>
     ),
     description: emphasizePhrases(
@@ -208,7 +208,7 @@ export default function ForPartnersSection() {
 
           <h2 className="mb-4 text-[28px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
             Let&apos;s Get You{" "}
-            <span className="font-medium text-[#FCE001]">Moving.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium text-transparent">Moving.</span>
           </h2>
 
           <p className="mx-auto max-w-xl text-[15px] leading-relaxed text-[#5c5b55] sm:text-base">

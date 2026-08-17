@@ -62,19 +62,19 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[54px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-3 sm:pl-2 sm:pr-5 lg:h-[58px] lg:w-auto lg:pr-6"
+      className="group inline-flex h-[46px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-2.5 sm:pl-1.5 sm:pr-4 lg:h-[48px] lg:w-auto lg:pr-5"
       style={{
         background: "linear-gradient(90deg, #FCE001 0%, #FDB813 100%)",
       }}
     >
-      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[42px] lg:w-[42px]">
+      <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[34px] lg:w-[34px]">
         {icon}
       </span>
       <span className="min-w-0 text-left leading-tight">
-        <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-black/70 lg:text-[10px] lg:tracking-[0.18em]">
+        <span className="block text-[7px] font-bold uppercase tracking-[0.14em] text-black/70 lg:text-[8px] lg:tracking-[0.16em]">
           {label}
         </span>
-        <span className="block truncate text-[14px] font-bold text-black lg:text-[16px]">
+        <span className="block truncate text-[12px] font-bold text-black lg:text-[13px]">
           {title}
         </span>
       </span>
@@ -134,14 +134,14 @@ function FloatChip({
       className={`rtt-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.35)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-6 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[48px] lg:w-[48px]">
+      <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[40px] lg:w-[40px]">
         {icon}
       </span>
       <span className="leading-tight">
-        <span className="block text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
+        <span className="block text-[13px] font-bold text-[#0b0b0b] lg:text-[14px]">
           {title}
         </span>
-        <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
+        <span className="block text-[8px] font-bold uppercase tracking-[0.14em] text-[#f5a81c] lg:text-[9px] lg:tracking-[0.16em]">
           {subtitle}
         </span>
       </span>
@@ -151,12 +151,12 @@ function FloatChip({
 
 export default function ReadyToTripSection() {
   return (
-    <section className="bg-[#FEFBF6] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <section className="bg-[#FEFBF6] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {/*
         Mobile: card height = full cover so image never crops.
         Content overlays the black top; phone/car stay below the stats.
       */}
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px]">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[24px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[28px]">
         {/* Mobile cover IN FLOW — defines card height */}
         <Image
           src={`${ASSETS}/bg-trip-mobile.png`}
@@ -194,34 +194,34 @@ export default function ReadyToTripSection() {
         </div>
 
         {/* Content: overlays cover on mobile; normal flow on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-6 lg:px-9 lg:py-6 xl:px-10">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-8 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
-            <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-7">
-              <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-                <span className="absolute h-[14px] w-[14px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
-                <span className="relative h-[7px] w-[7px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-5 xl:px-9">
+          <div className="relative z-20 w-full shrink-0 px-5 pt-6 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-3.5 inline-flex items-center gap-2 rounded-full border border-[#fce001]/80 px-3.5 py-1.5 lg:mb-4">
+              <span className="relative flex h-[6px] w-[6px] items-center justify-center">
+                <span className="absolute h-[12px] w-[12px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
+                <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#fce001] lg:text-[10px]">
                 Ready to Explore?
               </span>
             </div>
 
-            <h2 className="mb-4 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-5">
-              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
+            <h2 className="mb-3 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-3.5">
+              <span className="block text-[clamp(28px,7vw,34px)] lg:text-[40px]">
                 Plan it.
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#fce001] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[2px] inline-block rounded-[7px] border border-[#fce001]/50 px-2 pb-0.5 text-[clamp(28px,7vw,34px)] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent lg:my-[3px] lg:px-2.5 lg:text-[40px]"
                 style={{ fontStyle: "italic" }}
               >
                 Travel it.
               </em>
-              <span className="block text-[clamp(34px,8.5vw,42px)] lg:text-[52px]">
+              <span className="block text-[clamp(28px,7vw,34px)] lg:text-[40px]">
                 Enjoy it.
               </span>
             </h2>
 
-            <p className="mb-5 max-w-[440px] text-[14px] leading-[1.6] text-white/85 lg:mb-5 lg:text-base lg:leading-[1.65] lg:text-[#b7b1a4]">
+            <p className="mb-4 max-w-[400px] text-[13px] leading-[1.55] text-white/85 lg:mb-4 lg:text-[14px] lg:leading-[1.6] lg:text-[#b7b1a4]">
               {emphasizePhrases(
                 "Whether you’re travelling with family, planning a group tour, visiting the northern areas, or taking a short break from the city, Traveling Partner helps you arrange tourism travel in Pakistan without the usual transport hassle. Choose your destination, book a verified travel driver, and plan your journey around your own schedule.",
                 [
@@ -233,13 +233,13 @@ export default function ReadyToTripSection() {
               )}
             </p>
 
-            <div className="mb-5 grid grid-cols-2 gap-2.5 lg:mb-6 lg:flex lg:gap-4">
+            <div className="mb-4 grid grid-cols-2 gap-2 lg:mb-4 lg:flex lg:gap-3">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
                 title="Google Play"
                 icon={
-                  <PlayStoreIcon className="h-[20px] w-[20px] lg:h-[22px] lg:w-[22px]" />
+                  <PlayStoreIcon className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px]" />
                 }
               />
               <StoreButton
@@ -247,7 +247,7 @@ export default function ReadyToTripSection() {
                 label="Download on"
                 title="App Store"
                 icon={
-                  <AppleIcon className="h-[22px] w-[22px] text-black lg:h-[24px] lg:w-[24px]" />
+                  <AppleIcon className="h-[18px] w-[18px] text-black lg:h-[20px] lg:w-[20px]" />
                 }
               />
             </div>
@@ -297,7 +297,7 @@ export default function ReadyToTripSection() {
                 label="Support"
               />
             </div>
-            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[16px] border border-white/10 bg-[#171410]/85 px-5 py-3 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
+            <div className="relative z-20 hidden h-auto w-full shrink-0 rounded-[14px] border border-white/10 bg-[#171410]/85 px-4 py-2.5 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[500px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
@@ -349,7 +349,7 @@ export default function ReadyToTripSection() {
           </div>
 
           {/* Chips over lower cover (phone / car zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[360px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-5 lg:mt-0 lg:min-h-[300px] lg:flex-1 lg:px-0 lg:pb-0">
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[70%] w-[52%] lg:block"
               viewBox="0 0 340 420"

@@ -11,8 +11,8 @@ export default function Delivery() {
     <div>
       <DeliveryHero />
       <DeliveryTreasureSection />
-      <WhyChooseUs />
       <HowDeliveryWorks />
+      <WhyChooseUs />
       <OurServicesSection />
       <ReadyToSendSection />
     </div>

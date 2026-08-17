@@ -78,7 +78,7 @@ function renderCardTitle(title: string): ReactNode {
     parts.push(
       <em
         key={`brand-${match.index}`}
-        className="font-medium italic text-[#FCE001]"
+        className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
       >
         {match[0]}
       </em>
@@ -173,7 +173,7 @@ export default function RelatedStoriesSection({
       <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="font-poppins text-[clamp(26px,3.2vw,36px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b]">
           You might also{" "}
-          <span className="font-medium italic text-[#FCE001]">like.</span>
+          <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">like.</span>
         </h2>
 
         <Link

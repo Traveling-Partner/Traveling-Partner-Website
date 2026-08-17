@@ -116,7 +116,7 @@ export default function DriveWithUsSection() {
               >
                 Drive with
                 <br />
-                <em className="font-medium italic text-[#FCE001]">
+                <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                   Traveling Partner
                 </em>{" "}
                 &

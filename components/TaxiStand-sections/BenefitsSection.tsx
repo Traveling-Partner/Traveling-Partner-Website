@@ -86,7 +86,7 @@ export default function BenefitsSection() {
               className="mb-3 text-[32px] font-extrabold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[50px]"
             >
               Benefits of{" "}
-              <em className="font-medium italic text-[#FCE001]">
+              <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
                 Traveling Partner
               </em>{" "}
               App

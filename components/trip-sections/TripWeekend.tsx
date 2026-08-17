@@ -105,7 +105,7 @@ export default function TripWeekend() {
 
             <h2 className="mb-4 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
               Why Choose{" "}
-              <span className="font-medium italic text-[#FCE001]">Tourism?</span>
+              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Tourism?</span>
             </h2>
 
             <p className="mb-6 max-w-lg text-[14px] leading-relaxed text-[#5c5b55] sm:mb-7 sm:text-[15px]">

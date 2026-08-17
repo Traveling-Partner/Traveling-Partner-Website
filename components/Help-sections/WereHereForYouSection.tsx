@@ -198,7 +198,7 @@ function SectionCopy({
       >
         <span className="block">Didn&apos;t find what</span>
         <em
-          className="mt-0.5 block font-medium italic text-[#FDB813]"
+          className="mt-0.5 block bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
           style={{ fontStyle: "italic" }}
         >
           you were looking for?

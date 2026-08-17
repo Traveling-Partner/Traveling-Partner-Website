@@ -114,7 +114,7 @@ export default function OurServicesSection() {
           className="mb-8 text-center sm:mb-10 lg:mb-12"
         >
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
-            Our <em className="font-medium italic text-[#FDB813]">Services</em>
+            Our <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Services</em>
           </h2>
           <p className="mx-auto mb-1.5 max-w-lg text-[15px] font-semibold leading-snug text-[#0b0b0b] sm:text-base">
             One app. Different ways to get around.

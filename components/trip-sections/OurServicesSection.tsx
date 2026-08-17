@@ -114,7 +114,7 @@ export default function OurServicesSection() {
         >
           <h2 className="mb-3 text-[32px] font-extrabold leading-tight tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[52px]">
             More Than{" "}
-            <em className="font-medium italic text-[#FDB813]">Tourism.</em>
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Tourism.</em>
           </h2>
           <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-[#6b6a64] sm:text-[15px]">
             Traveling Partner brings everyday transport, delivery, and business

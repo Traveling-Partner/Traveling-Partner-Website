@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const goals = [
   {
@@ -90,7 +89,7 @@ export default function AimOfTravelingPartner() {
                 className="mb-4 font-poppins text-[clamp(30px,4vw,48px)] font-extrabold leading-[1.12] tracking-tight text-white"
               >
                 Built for people who{" "}
-                <span className="font-medium italic text-[#FCE001]">move.</span>
+                <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">move.</span>
               </motion.h2>
 
               <motion.div
@@ -101,18 +100,13 @@ export default function AimOfTravelingPartner() {
                 className="mb-5 max-w-lg space-y-3 text-[14px] leading-relaxed text-white/70 sm:mb-6 sm:text-[16px] sm:leading-[1.65]"
               >
                 <p>
-                  {emphasizePhrases(
-                    "No two journeys are the same. Some people need a ride across town. Others need to deliver customer orders or keep their business moving.",
-                    ["No two journeys are the same"],
-                    "onDark",
-                  )}
+                  No two journeys are the same. Some people need a ride across
+                  town. Others need to deliver customer orders or keep their
+                  business moving.
                 </p>
                 <p>
-                  {emphasizePhrases(
-                    "Our mission is simple: make everyday transportation and deliveries easier with services people can rely on.",
-                    ["services people can rely on"],
-                    "onDark",
-                  )}
+                  Our mission is simple: make everyday transportation and
+                  deliveries easier with services people can rely on.
                 </p>
               </motion.div>
 
@@ -157,7 +151,7 @@ export default function AimOfTravelingPartner() {
               transition={{ duration: 0.5, delay: 0.12 }}
               className="order-1 w-full lg:order-2"
             >
-              <div className="relative mx-auto aspect-[5/4] w-full max-w-[460px] overflow-hidden rounded-[22px] sm:rounded-[28px] lg:ml-auto lg:mr-0 lg:max-w-[520px] lg:rounded-[32px]">
+              <div className="relative mx-auto aspect-[1/1] w-full max-w-[460px] overflow-hidden rounded-[22px] sm:rounded-[28px] lg:ml-auto lg:mr-0 lg:max-w-[520px] lg:rounded-[32px]">
                 <Image
                   src="/images/about/aim-photo.png"
                   alt="Traveling Partner team connecting with customers at sunset"

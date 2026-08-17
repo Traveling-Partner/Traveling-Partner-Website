@@ -68,7 +68,7 @@ function renderCategoryTitle(category: HelpCategory) {
     return (
       <>
         Payment{" "}
-        <span className="font-medium italic text-[#FCE001]">Processing.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Processing.</span>
       </>
     );
   }
@@ -76,7 +76,7 @@ function renderCategoryTitle(category: HelpCategory) {
     return (
       <>
         Safety &{" "}
-        <span className="font-medium italic text-[#FCE001]">Security.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Security.</span>
       </>
     );
   }

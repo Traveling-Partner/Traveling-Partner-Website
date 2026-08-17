@@ -46,7 +46,7 @@ function accentTitle(title: string, suffix = ""): ReactNode {
   return (
     <>
       {rest}{" "}
-      <span className="font-medium italic text-[#FCE001]">
+      <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
         {last}
         {suffix}
       </span>
@@ -313,7 +313,7 @@ export default function TermsConditionsPage() {
                           >
                             Contact{" "}
                             <em
-                              className="font-medium italic text-[#FCE001]"
+                              className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
                               style={{ fontStyle: "italic" }}
                             >
                               Us
