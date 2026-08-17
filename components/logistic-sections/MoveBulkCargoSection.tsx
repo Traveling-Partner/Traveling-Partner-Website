@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -216,7 +215,7 @@ export default function MoveBulkCargoSection() {
             </h2>
 
             <div className="mb-2 max-w-[440px] space-y-0.5 text-[13px] leading-[1.3] text-[#4a4a45] lg:mb-2 lg:text-[14px] lg:leading-[1.35]">
-              <p className="font-semibold text-[#0b0b0b]">
+              <p>
                 Business deliveries without the back and forth.
               </p>
               <p>
@@ -224,21 +223,16 @@ export default function MoveBulkCargoSection() {
                 hundreds.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Whatever your workload looks like, Traveling Partner helps you keep things moving without making logistics another job to manage.",
-                  ["keep things moving"],
-                )}
+                Whatever your workload looks like, Traveling Partner helps you
+                keep things moving without making logistics another job to
+                manage.
               </p>
               <p>
-                {emphasizePhrases(
-                  "Track every shipment. Know where your drivers are. Keep your customers updated.",
-                  ["Track every shipment"],
-                )}
+                Track every shipment. Know where your drivers are. Keep your
+                customers updated.
               </p>
               <p>The rest is business as usual.</p>
-              <p className="font-semibold text-[#0b0b0b]">
-                Download the app today.
-              </p>
+              <p>Download the app today.</p>
             </div>
 
             <div className="mb-2 grid grid-cols-2 gap-2.5 lg:mb-2 lg:flex lg:gap-4">

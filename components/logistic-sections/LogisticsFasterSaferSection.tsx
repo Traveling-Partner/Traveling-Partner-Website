@@ -134,22 +134,17 @@ export default function LogisticsFasterSaferSection() {
                 transition={{ duration: 0.4, delay: 0.16 }}
                 className="mb-6 max-w-lg space-y-2.5 text-[14px] leading-[1.65] text-white/80 sm:mb-7 sm:text-[15px] lg:text-[16px]"
               >
-                <p className="font-semibold text-white">
+                <p>
                   Logistics that work around your business.
                 </p>
                 <p>
-                  {emphasizePhrases(
-                    "From retail stores and restaurants to wholesalers and growing businesses, Traveling Partner helps you move products quickly and efficiently.",
-                    ["move products quickly and efficiently"],
-                    "onDark",
-                  )}
+                  From retail stores and restaurants to wholesalers and growing
+                  businesses, Traveling Partner helps you move products quickly
+                  and efficiently.
                 </p>
                 <p>
-                  {emphasizePhrases(
-                    "Our aim is simple: help your business do more, while spending less time worrying about logistics.",
-                    ["help your business do more"],
-                    "onDark",
-                  )}
+                  Our aim is simple: help your business do more, while spending
+                  less time worrying about logistics.
                 </p>
               </motion.div>
 

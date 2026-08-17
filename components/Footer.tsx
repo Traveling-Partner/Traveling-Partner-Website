@@ -34,8 +34,6 @@ const APP_STORE_HREF = "https://www.apple.com/app-store/";
 
 const FOOTER_IMAGES = {
   duns: "/images/footer/duns-badge.png",
-  googlePlay: "/images/footer/google-play-badge.png",
-  appStore: "/images/footer/app-store-badge.png",
 } as const;
 
 function getHrefPath(href: string): string {
@@ -91,10 +89,101 @@ function FooterNavLink({
   );
 }
 
+function PlayStoreIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M3.6 2.2c-.3.2-.5.5-.5.9v17.8c0 .4.2.7.5.9l9.3-9.8L3.6 2.2z"
+        fill="#00D7FF"
+      />
+      <path
+        d="M13.2 12.2l2.4 2.5 3.8-2.2c.7-.4.7-1.1 0-1.5l-3.8-2.2-2.4 2.5.1.9-.1.5z"
+        fill="#FFD400"
+      />
+      <path
+        d="M13.2 11.8L3.6 2.2c.2-.1.4-.2.7-.1l11.3 6.5-2.4 2.2z"
+        fill="#FF3A44"
+      />
+      <path
+        d="M13.2 12.2l2.4 2.5L4.3 21.9c-.3.1-.5 0-.7-.1l9.6-9.6z"
+        fill="#00F076"
+      />
+    </svg>
+  );
+}
+
+function AppleIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.24.41-2.35 1.05-3.11z" />
+    </svg>
+  );
+}
+
+function FooterStoreButton({
+  href,
+  label,
+  title,
+  icon,
+  ariaLabel,
+}: {
+  href: string;
+  label: string;
+  title: string;
+  icon: React.ReactNode;
+  ariaLabel: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={ariaLabel}
+      className="inline-flex h-[40px] w-full min-w-0 max-w-[150px] items-center gap-1.5 rounded-full bg-[#FCE001] py-1.5 pl-1.5 pr-2.5 shadow-[0_6px_18px_rgba(253,184,19,0.28)] transition-opacity hover:opacity-90 sm:h-[42px] sm:gap-2 sm:py-2 sm:pl-2 sm:pr-3"
+    >
+      <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-white text-black sm:h-[30px] sm:w-[30px]">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1 py-0.5 text-left leading-[1.15]">
+        <span className="block truncate text-[7px] font-bold uppercase tracking-[0.12em] text-black/75 sm:text-[8px]">
+          {label}
+        </span>
+        <span className="mt-0.5 block truncate text-[11px] font-bold text-black sm:text-[12px]">
+          {title}
+        </span>
+      </span>
+    </a>
+  );
+}
+
 function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.ReactElement {
+  const storeButtons = (
+    <div className="mx-auto flex w-full min-w-0 max-w-[150px] flex-col gap-2.5">
+      <FooterStoreButton
+        href={PLAY_STORE_HREF}
+        label="Get it on"
+        title="Google Play"
+        ariaLabel="Get it on Google Play"
+        icon={<PlayStoreIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
+      />
+      <FooterStoreButton
+        href={APP_STORE_HREF}
+        label="Download on"
+        title="App Store"
+        ariaLabel="Download on the App Store"
+        icon={<AppleIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
+      />
+    </div>
+  );
+
   if (mobile) {
     return (
-      <div className="flex items-center gap-5 sm:gap-6">
+      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={FOOTER_IMAGES.duns}
@@ -104,89 +193,25 @@ function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.Reac
           className="block h-auto w-[132px] shrink-0 sm:w-[148px]"
           decoding="async"
         />
-        <div className="flex flex-col gap-2.5">
-          <a
-            href={PLAY_STORE_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block leading-none transition-opacity hover:opacity-90"
-            aria-label="Get it on Google Play"
-          >
-            <Image
-              src={FOOTER_IMAGES.googlePlay}
-              alt=""
-              width={120}
-              height={36}
-              unoptimized
-              className="block h-[32px] w-auto sm:h-[34px]"
-            />
-          </a>
-          <a
-            href={APP_STORE_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block leading-none transition-opacity hover:opacity-90"
-            aria-label="Download on the App Store"
-          >
-            <Image
-              src={FOOTER_IMAGES.appStore}
-              alt=""
-              width={120}
-              height={36}
-              unoptimized
-              className="block h-[32px] w-auto sm:h-[34px]"
-            />
-          </a>
+        <div className="flex w-full min-w-0 max-w-[150px] justify-center sm:justify-start">
+          {storeButtons}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-fit max-w-none shrink-0 overflow-visible">
+    <div className="flex w-full min-w-0 max-w-[192px] flex-col items-center">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={FOOTER_IMAGES.duns}
         alt="Dun & Bradstreet D-U-N-S Registered"
         width={192}
         height={149}
-        className="block h-auto w-[192px] max-w-none"
+        className="block h-auto w-[180px] max-w-full"
         decoding="async"
       />
-      <div className="mt-3 flex flex-row flex-nowrap items-center gap-2">
-        <a
-          href={PLAY_STORE_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block shrink-0 leading-none transition-opacity hover:opacity-90"
-          aria-label="Get it on Google Play"
-        >
-          <Image
-            src={FOOTER_IMAGES.googlePlay}
-            alt=""
-            width={92}
-            height={31}
-            unoptimized
-            className="block h-[34px] w-auto"
-          />
-        </a>
-        <a
-          href={APP_STORE_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block shrink-0 leading-none transition-opacity hover:opacity-90"
-          aria-label="Download on the App Store"
-        >
-          <Image
-            src={FOOTER_IMAGES.appStore}
-            alt=""
-            width={92}
-            height={31}
-            unoptimized
-            className="block h-[34px] w-auto"
-          />
-        </a>
-      </div>
+      <div className="mt-2 flex w-full min-w-0 justify-center">{storeButtons}</div>
     </div>
   );
 }
@@ -257,7 +282,7 @@ export default function Footer(): React.ReactElement | null {
   if (isLiveTripRoute) return null;
 
   return (
-    <footer className="w-full overflow-hidden bg-[#fffcf2] text-[#0b0b0b]">
+    <footer className="w-full overflow-x-clip bg-[#fffcf2] text-[#0b0b0b]">
       <div className="mx-auto w-full max-w-7xl px-4 pb-5 pt-10 sm:px-6 sm:pb-6 sm:pt-12 lg:px-8 lg:pb-7 lg:pt-14">
         <NewsletterSection />
 
@@ -310,14 +335,14 @@ export default function Footer(): React.ReactElement | null {
           <FooterLinkColumn title="Services" links={FOOTER_LINKS.services} />
           <FooterLinkColumn title="Support" links={FOOTER_LINKS.support} />
 
-          <div className="w-fit shrink-0 overflow-visible">
+          <div className="min-w-0">
             <TrustAndAppsBlock />
           </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-[#ddd8cb] pt-4 sm:mt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
           <p className="font-poppins text-[12px] font-normal text-[#8a877f] sm:text-[13px]">
-            © {new Date().getFullYear()} Traveling Partner. All rights reserved.
+            {"\u00A9"} {new Date().getFullYear()} Traveling Partner. All rights reserved.
           </p>
 
           <div className="flex flex-wrap items-center gap-2.5 sm:justify-end sm:gap-3">

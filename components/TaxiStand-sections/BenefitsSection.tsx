@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const benefits = [
   "Connect with passengers without paying commission.",
@@ -100,15 +99,10 @@ export default function BenefitsSection() {
               transition={{ duration: 0.4, delay: 0.14 }}
               className="mb-6 max-w-md text-[14px] leading-snug text-white/85 sm:mb-6 sm:text-[15px]"
             >
-              {emphasizePhrases(
-                "Getting from one place to another shouldn't be difficult. Whether you're booking a ride or driving one, Traveling Partner keeps things simple. Book a ride online, travel with verified drivers, or earn more with our zero commission ride app.",
-                [
-                  "Book a ride online",
-                  "verified drivers",
-                  "zero commission ride app",
-                ],
-                "onDark",
-              )}
+              Getting from one place to another shouldn&apos;t be difficult.
+              Whether you&apos;re booking a ride or driving one, Traveling
+              Partner keeps things simple. Book a ride online, travel with
+              verified drivers, or earn more with our zero commission ride app.
             </motion.p>
 
             <ul className="mb-8 flex w-full max-w-lg flex-col gap-2.5 sm:mb-9 sm:gap-3">

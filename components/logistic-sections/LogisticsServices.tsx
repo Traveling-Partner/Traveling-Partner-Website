@@ -20,7 +20,7 @@ const services: Service[] = [
     title: "Simple Booking",
     description:
       "Book a pickup in a few clicks. Add the delivery details, choose a vehicle, and you're ready to go.",
-    bold: ["Book a pickup in a few clicks"],
+    bold: [],
   },
   {
     icon: "/images/logistic/services/icon-pickup.png",
@@ -28,7 +28,7 @@ const services: Service[] = [
     title: "On-Time Pickup",
     description:
       "Set a pickup time that works for you. Our riders arrive ready to collect your shipment, so there's no need to chase drivers.",
-    bold: ["no need to chase drivers"],
+    bold: [],
   },
   {
     icon: "/images/logistic/services/icon-fast.png",
@@ -36,7 +36,7 @@ const services: Service[] = [
     title: "Fast Shipments",
     description:
       "Some deliveries can't wait. We help move your goods as quickly as possible while keeping you updated from pickup to delivery.",
-    bold: ["from pickup to delivery"],
+    bold: [],
     featured: true,
   },
   {
@@ -45,7 +45,7 @@ const services: Service[] = [
     title: "On-Time Delivery",
     description:
       "Your shipment stays on the move until it reaches its destination. Simple updates let you know where it is without making a phone call.",
-    bold: ["stays on the move"],
+    bold: [],
   },
   {
     icon: "/images/logistic/services/icon-save.png",
@@ -53,7 +53,7 @@ const services: Service[] = [
     title: "Save Time & Money",
     description:
       "Less time arranging deliveries. Less money spent on unnecessary transport. More time for the work that matters.",
-    bold: ["work that matters"],
+    bold: [],
   },
 ];
 
@@ -105,7 +105,7 @@ function ServiceCard({
 
 export default function LogisticsServices() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#FEFBF6] py-16 sm:py-20 lg:py-24">
+    <section className="relative w-full overflow-hidden bg-[#FEFBF6] pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12">
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
@@ -145,10 +145,9 @@ export default function LogisticsServices() {
               planned. Some come in at the last minute.
             </p>
             <p>
-              {emphasizePhrases(
-                "Traveling Partner brings booking, pickups, tracking, and delivery together in one place, so you spend less time managing logistics and more time running your business.",
-                ["booking, pickups, tracking, and delivery"],
-              )}
+              Traveling Partner brings booking, pickups, tracking, and delivery
+              together in one place, so you spend less time managing logistics
+              and more time running your business.
             </p>
           </div>
         </motion.div>

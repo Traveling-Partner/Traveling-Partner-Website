@@ -236,10 +236,8 @@ export default function LogisticsBenefitsSection() {
           </h2>
 
           <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
-            {emphasizePhrases(
-              "Every business works differently. That's why our logistics services are customized to your operation, not the other way around.",
-              ["customized to your operation"],
-            )}
+            Every business works differently. That&apos;s why our logistics
+            services are customized to your operation, not the other way around.
           </p>
         </motion.div>
 
