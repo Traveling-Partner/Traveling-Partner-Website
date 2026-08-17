@@ -15,8 +15,8 @@ import { submitContactForm } from "@/services/contact";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 /** Figma Contact — node 124:3877 */
-const PHONE_DISPLAY = "+92 333 300 1241";
-const PHONE_HREF = "tel:+923333001241";
+const PHONE_DISPLAY = "+92 325 2801261";
+const PHONE_HREF = "tel:+923252801261";
 
 const accentItalicClass =
   "font-poppins font-normal italic bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent";
