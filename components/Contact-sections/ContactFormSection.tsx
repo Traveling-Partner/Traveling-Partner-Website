@@ -449,8 +449,8 @@ export default function ContactFormSection() {
               />
               <ContactInfoCard
                 label="Email"
-                value="hello@traveling-partner.com"
-                href="mailto:hello@traveling-partner.com"
+                value="info@traveling-partner.com"
+                href="mailto:info@traveling-partner.com"
                 icon={<EnvelopeIcon3D />}
               />
               <ContactInfoCard

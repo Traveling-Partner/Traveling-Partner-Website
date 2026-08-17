@@ -5,7 +5,7 @@
  * Same cream / glow / typography system as Taxi / Pool / Delivery / Logistics / Trip / About heroes.
  */
 
-const CONTACT_EMAIL = "hello@traveling-partner.com";
+const CONTACT_EMAIL = "info@traveling-partner.com";
 const GMAIL_COMPOSE_HREF = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent("Inquiry from Traveling Partner website")}`;
 
 function MapPinIcon({ className = "" }: { className?: string }) {
