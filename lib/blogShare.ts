@@ -6,14 +6,25 @@ export function getSiteUrl(): string {
   return (fromEnv || "https://traveling-partner.com").replace(/\/$/, "");
 }
 
+/** Path for in-app links (also what crawlers must hit for OG tags). */
+export function getBlogPath(id: string | number): string {
+  return `/blog/${encodeURIComponent(String(id))}`;
+}
+
 export function getBlogCanonicalUrl(id: string | number): string {
-  return `${getSiteUrl()}/blog/detail?id=${encodeURIComponent(String(id))}`;
+  return `${getSiteUrl()}${getBlogPath(id)}`;
 }
 
 export function toAbsoluteImageUrl(image: string | undefined): string | undefined {
   const src = String(image || "").trim();
   if (!src) return undefined;
-  if (src.startsWith("http://") || src.startsWith("https://")) return src;
+  if (src.startsWith("http://") || src.startsWith("https://")) {
+    try {
+      return new URL(src).href;
+    } catch {
+      return src.replace(/ /g, "%20");
+    }
+  }
   if (src.startsWith("/")) return `${getSiteUrl()}${src}`;
   return src;
 }
@@ -30,6 +41,7 @@ export function buildShareLinks(
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
   const encodedImage = image ? encodeURIComponent(image) : "";
+  const textWithUrl = encodeURIComponent(`${title}\n${url}`);
 
   return {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
@@ -40,6 +52,8 @@ export function buildShareLinks(
     pinterest: image
       ? `https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}&media=${encodedImage}`
       : `https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}`,
+    reddit: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+    threads: `https://www.threads.net/intent/post?text=${textWithUrl}`,
     email: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(`${title}\n\n${url}`)}`,
   };
 }

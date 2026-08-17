@@ -3,8 +3,17 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { FaLink } from "react-icons/fa";
-import { FaShareNodes } from "react-icons/fa6";
+import {
+  FaFacebook,
+  FaLink,
+  FaLinkedin,
+  FaPinterest,
+  FaReddit,
+  FaTelegram,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { FaShareNodes, FaThreads, FaXTwitter } from "react-icons/fa6";
+import type { IconType } from "react-icons";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
 import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
@@ -12,25 +21,36 @@ import {
   extractHeadingsFromHtml,
   normalizeBlogContentHtml,
 } from "@/lib/blogDetailContent";
-import { SOCIAL_LINKS } from "@/lib/socialLinks";
 
 type ShareLinks = Record<string, string>;
+
+/** Platforms that open a share dialog for this post (not brand profile pages). */
+const BLOG_SHARE_PLATFORMS: readonly {
+  key: keyof ShareLinks | string;
+  label: string;
+  color: string;
+  icon: IconType;
+}[] = [
+  { key: "facebook", label: "Share on Facebook", color: "#1877F2", icon: FaFacebook },
+  { key: "twitter", label: "Share on X", color: "#000000", icon: FaXTwitter },
+  { key: "threads", label: "Share on Threads", color: "#000000", icon: FaThreads },
+  { key: "linkedin", label: "Share on LinkedIn", color: "#0A66C2", icon: FaLinkedin },
+  { key: "whatsapp", label: "Share on WhatsApp", color: "#25D366", icon: FaWhatsapp },
+  { key: "telegram", label: "Share on Telegram", color: "#26A5E4", icon: FaTelegram },
+  { key: "pinterest", label: "Share on Pinterest", color: "#E60023", icon: FaPinterest },
+  { key: "reddit", label: "Share on Reddit", color: "#FF4500", icon: FaReddit },
+];
 
 type BlogDetailBodyProps = {
   coverImage: string;
   title: string;
-  description1?: string;
   description2?: string;
-  author?: string;
-  category?: string;
   tags: string[];
   shareLinks: ShareLinks;
   shareUrl: string;
   linkCopied: boolean;
   onCopyLink: () => void;
   relatedBlogs: BlogCardData[];
-  storiesCount?: number;
-  readersCount?: number;
   getImageSrc: (value: string) => string;
 };
 
@@ -149,18 +169,13 @@ function getPinStyle(
 export default function BlogDetailBody({
   coverImage,
   title,
-  description1,
   description2,
-  author,
-  category,
   tags,
   shareLinks,
   shareUrl,
   linkCopied,
   onCopyLink,
   relatedBlogs,
-  storiesCount,
-  readersCount,
   getImageSrc,
 }: BlogDetailBodyProps) {
   const normalizedHtml = normalizeBlogContentHtml(description2 ?? "");
@@ -307,17 +322,21 @@ export default function BlogDetailBody({
               <span className="mb-1 shrink-0 text-[12px] font-bold uppercase tracking-[0.2em] text-[#6f6e68] [writing-mode:vertical-rl] rotate-180">
                 Share
               </span>
-              {SOCIAL_LINKS.map((social) => (
-                <SocialIconButton
-                  key={social.label}
-                  href={social.href}
-                  label={`Follow us on ${social.label}`}
-                  color={social.color}
-                  size="sm"
-                >
-                  <social.icon className="h-4 w-4" aria-hidden />
-                </SocialIconButton>
-              ))}
+              {BLOG_SHARE_PLATFORMS.map((platform) => {
+                const href = shareLinks[platform.key];
+                if (!href) return null;
+                return (
+                  <SocialIconButton
+                    key={platform.key}
+                    href={href}
+                    label={platform.label}
+                    color={platform.color}
+                    size="sm"
+                  >
+                    <platform.icon className="h-4 w-4" aria-hidden />
+                  </SocialIconButton>
+                );
+              })}
               <SocialIconButton
                 label="Copy link"
                 onClick={onCopyLink}
@@ -367,16 +386,20 @@ export default function BlogDetailBody({
                 Share this story:
               </p>
               <div className="flex flex-wrap items-center gap-2">
-                {SOCIAL_LINKS.map((social) => (
-                  <SocialIconButton
-                    key={social.label}
-                    href={social.href}
-                    label={`Follow us on ${social.label}`}
-                    color={social.color}
-                  >
-                    <social.icon className="h-4 w-4" aria-hidden />
-                  </SocialIconButton>
-                ))}
+                {BLOG_SHARE_PLATFORMS.map((platform) => {
+                  const href = shareLinks[platform.key];
+                  if (!href) return null;
+                  return (
+                    <SocialIconButton
+                      key={platform.key}
+                      href={href}
+                      label={platform.label}
+                      color={platform.color}
+                    >
+                      <platform.icon className="h-4 w-4" aria-hidden />
+                    </SocialIconButton>
+                  );
+                })}
                 <SocialIconButton
                   label="Copy link"
                   onClick={onCopyLink}
@@ -405,15 +428,7 @@ export default function BlogDetailBody({
                   : getPinStyle(sidebarPin, sidebarCoords)
               }
             >
-              <BlogDetailSidebar
-                ref={sidebarInnerRef}
-                author={author}
-                category={category}
-                description1={description1}
-                storiesCount={storiesCount}
-                readersCount={readersCount}
-                tocItems={tocItems}
-              />
+              <BlogDetailSidebar ref={sidebarInnerRef} tocItems={tocItems} />
             </div>
           </div>
         </div>

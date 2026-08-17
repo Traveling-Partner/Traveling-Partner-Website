@@ -1,6 +1,13 @@
-# Apache: API proxy + legacy /blog/123 URLs → static detail page
+# Apache: API proxy. Prefer real /blog/{id}.html (OG tags) over legacy query detail.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^website/(.*)$ https://api.traveling-partner.com/api/website/$1 [P,L]
+
+  # Pretty URL → static export file when present
+  RewriteCond %{DOCUMENT_ROOT}/blog/$1.html -f
+  RewriteRule ^blog/([0-9]+)/?$ /blog/$1.html [L]
+
+  # Legacy fallback only if per-id HTML was not built
+  RewriteCond %{DOCUMENT_ROOT}/blog/$1.html !-f
   RewriteRule ^blog/([0-9]+)/?$ /blog/detail.html?id=$1 [L,QSA]
 </IfModule>

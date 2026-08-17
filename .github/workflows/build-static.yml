@@ -32,7 +32,15 @@ jobs:
         run: |
           test -f out/blog-list.json || (echo "Missing out/blog-list.json" && exit 1)
           test -f out/blog/detail.html || (echo "Missing out/blog/detail.html" && exit 1)
-          ls -la out/blog-list.json out/blog/detail.html 2>/dev/null || true
+          # At least one per-id page with Open Graph image (LinkedIn share previews)
+          ls out/blog/*.html 2>/dev/null | grep -E '/[0-9]+\.html$' | head -1 | grep -q . \
+            || (echo "Missing out/blog/{id}.html — generateStaticParams failed" && exit 1)
+          SAMPLE=$(ls out/blog/[0-9]*.html 2>/dev/null | head -1)
+          grep -q 'og:image' "$SAMPLE" || (echo "Missing og:image in $SAMPLE" && exit 1)
+          grep -q 'og:title' "$SAMPLE" || (echo "Missing og:title in $SAMPLE" && exit 1)
+          ls -la out/blog-list.json out/blog/detail.html "$SAMPLE" 2>/dev/null || true
+          echo "OG sample from $SAMPLE:"
+          grep -E 'og:(title|image)' "$SAMPLE" | head -5
 
       - uses: actions/upload-artifact@v4
         with:

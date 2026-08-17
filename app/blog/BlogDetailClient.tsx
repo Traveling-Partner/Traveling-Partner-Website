@@ -110,12 +110,15 @@ function StatusCard({
   );
 }
 
-export default function BlogDetailClient(): React.ReactElement {
+export default function BlogDetailClient({
+  blogId,
+}: {
+  blogId?: string;
+} = {}): React.ReactElement {
   const searchParams = useSearchParams();
-  const routeId = searchParams?.get("id") ?? "";
+  const routeId = (blogId?.trim() || searchParams?.get("id") || "").trim();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
-  const [categoryStoriesCount, setCategoryStoriesCount] = useState<number | undefined>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -142,7 +145,6 @@ export default function BlogDetailClient(): React.ReactElement {
         if (!detailData) {
           setBlog(null);
           setRelatedBlogs([]);
-          setCategoryStoriesCount(undefined);
           return;
         }
 
@@ -168,18 +170,8 @@ export default function BlogDetailClient(): React.ReactElement {
               )
               .slice(0, 3);
             setRelatedBlogs(related);
-
-            if (resolvedBlog.category) {
-              const count = rawList.filter(
-                (item) => pickBlogCategoryField(item) === resolvedBlog.category
-              ).length;
-              setCategoryStoriesCount(count);
-            } else {
-              setCategoryStoriesCount(rawList.length);
-            }
           } catch {
             setRelatedBlogs([]);
-            setCategoryStoriesCount(undefined);
           }
         }
 
@@ -256,18 +248,13 @@ export default function BlogDetailClient(): React.ReactElement {
       <BlogDetailBody
         coverImage={blog.cover_image}
         title={blog.main_title}
-        description1={blog.description1}
         description2={blog.description2}
-        author={blog.author}
-        category={blog.category}
         tags={displayTags}
         shareLinks={shareLinks}
         shareUrl={shareUrl}
         linkCopied={linkCopied}
         onCopyLink={handleCopyLink}
         relatedBlogs={relatedBlogs}
-        storiesCount={categoryStoriesCount}
-        readersCount={blog.views}
         getImageSrc={getImageSrc}
       />
       <TPJournalSection />

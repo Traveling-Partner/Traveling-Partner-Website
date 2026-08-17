@@ -29,6 +29,29 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Traveling Partner",
   description: "Your ultimate travel companion app",
+  openGraph: {
+    type: "website",
+    siteName: "Traveling Partner",
+    title: "Traveling Partner",
+    description: "Your ultimate travel companion app",
+    url: getSiteUrl(),
+    images: [
+      {
+        url: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+        width: 512,
+        height: 512,
+        alt: "Traveling Partner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Traveling Partner",
+    description: "Your ultimate travel companion app",
+    images: [
+      "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+    ],
+  },
 };
 
 export default function RootLayout({

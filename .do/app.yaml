@@ -22,7 +22,9 @@ static_sites:
     build_command: yarn install --frozen-lockfile && yarn build
     output_dir: out
     index_document: index.html
-    catchall_document: index.html
+    # Do not fall back unknown paths to homepage — LinkedIn/Facebook
+    # would scrape the wrong page (and miss blog og:title / og:image).
+    error_document: 404.html
     environment_slug: node-js
     envs:
       - key: NEXT_PUBLIC_API_BASE_URL

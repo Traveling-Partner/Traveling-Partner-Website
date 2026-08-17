@@ -93,7 +93,7 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
   const readTimeLabel = formatReadTimeBadge(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
-  const detailHref = `/blog/detail?id=${blog.id}`;
+  const detailHref = `/blog/${blog.id}`;
 
   return (
     <Link href={detailHref} className="group block h-full">
