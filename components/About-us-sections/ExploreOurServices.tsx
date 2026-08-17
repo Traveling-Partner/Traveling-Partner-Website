@@ -304,7 +304,7 @@ function ServiceCard({
 
               <span
                 data-card-el="cta"
-                className="mt-3.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c1c] text-white ring-1 ring-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-[#FCE001] group-hover:text-black"
+                className="mt-3.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1c1c] text-white ring-1 ring-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-gradient-to-b group-hover:from-[#FCE001] group-hover:to-[#FDB813] group-hover:text-black"
               >
                 <ArrowIcon />
               </span>

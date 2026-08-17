@@ -75,7 +75,7 @@ export default function AimOfTravelingPartner() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.08 }}
-                className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6"
+                className="mb-5 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6"
               >
                 <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
                   Our Mission
@@ -134,7 +134,7 @@ export default function AimOfTravelingPartner() {
                     }}
                     className="flex items-center gap-3"
                   >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
                       <CheckIcon />
                     </span>
                     <span className="text-[14px] font-normal text-white/80 sm:text-[15px] md:text-[16px]">

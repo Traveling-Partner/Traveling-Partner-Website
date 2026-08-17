@@ -97,7 +97,7 @@ export default function OurLocationSection() {
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="mb-5 inline-flex items-center rounded-full bg-[#FCE001] px-3.5 py-1.5 sm:mb-6">
+            <div className="mb-5 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
                 Serving Across Pakistan
               </span>
@@ -119,7 +119,7 @@ export default function OurLocationSection() {
             <ul className="flex flex-col gap-3.5 sm:gap-4">
               {features.map((item) => (
                 <li key={item} className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FCE001] sm:h-7 sm:w-7">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] sm:h-7 sm:w-7">
                     <CheckIcon />
                   </span>
                   <span className="text-[14px] font-semibold text-[#0b0b0b] sm:text-[15px]">

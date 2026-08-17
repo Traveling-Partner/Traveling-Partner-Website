@@ -55,7 +55,7 @@ export default function TalkToHumanSection() {
         >
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
                 Customer Support
               </span>

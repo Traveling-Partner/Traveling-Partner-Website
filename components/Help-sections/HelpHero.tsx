@@ -18,7 +18,7 @@ const TOTAL_CATEGORIES = helpCategories.length;
 function YellowDot() {
   return (
     <span
-      className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]"
+      className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
       aria-hidden="true"
     />
   );
@@ -68,7 +68,7 @@ export default function HelpHero({
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pb-10 pt-[110px] text-center sm:px-6 sm:pb-12 sm:pt-[128px] md:pt-[140px] lg:px-8 lg:pt-[150px]">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
             Need a hand?
           </span>
@@ -76,7 +76,7 @@ export default function HelpHero({
 
         <h1 className="mb-5 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 font-poppins text-[42px] font-extrabold leading-[1.05] tracking-tight text-[#0b0b0b] sm:mb-6 sm:gap-x-3 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[72px]">
           <span>Help</span>
-          <span className="relative inline-block origin-center -rotate-[3deg] rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-[#FCE001] px-3 py-0.5 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1">
+          <span className="relative inline-block origin-center -rotate-[3deg] rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-0.5 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1">
             <em className="font-medium italic text-black">Center.</em>
           </span>
         </h1>

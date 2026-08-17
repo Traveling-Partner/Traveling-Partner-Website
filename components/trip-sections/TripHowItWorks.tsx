@@ -61,7 +61,7 @@ function StepBadge({ number, dark }: { number: string; dark?: boolean }) {
     <div className="absolute left-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-white py-0.5 pl-0.5 pr-2 shadow-[0_6px_16px_rgba(0,0,0,0.12)] sm:left-3.5 sm:top-3.5 sm:gap-1.5 sm:pr-2.5">
       <span
         className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-extrabold sm:h-[22px] sm:w-[22px] sm:text-[11px] ${
-          dark ? "bg-[#0b0b0b] text-[#FCE001]" : "bg-[#FCE001] text-[#0b0b0b]"
+          dark ? "bg-[#0b0b0b] text-[#FCE001]" : "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]"
         }`}
       >
         {number}

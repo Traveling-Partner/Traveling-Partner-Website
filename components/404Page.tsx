@@ -328,7 +328,7 @@ export default function NotFoundPage() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div
           ref={pushBlob}
-          className="absolute left-[8%] top-[18%] h-[220px] w-[220px] rounded-full bg-[#fce001]/25 blur-3xl"
+          className="absolute left-[8%] top-[18%] h-[220px] w-[220px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/25 blur-3xl"
         />
         <div
           ref={pushBlob}
@@ -336,7 +336,7 @@ export default function NotFoundPage() {
         />
         <div
           ref={pushBlob}
-          className="absolute bottom-[10%] left-[42%] h-[200px] w-[200px] rounded-full bg-[#fce001]/18 blur-3xl"
+          className="absolute bottom-[10%] left-[42%] h-[200px] w-[200px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/18 blur-3xl"
         />
       </div>
 
@@ -370,10 +370,10 @@ export default function NotFoundPage() {
         <div ref={badgeRef} className="relative mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 sm:mb-6">
           <span
             ref={pushDot}
-            className="pointer-events-none absolute -right-1.5 -top-1.5 h-1.5 w-1.5 rounded-full bg-[#fce001]"
+            className="pointer-events-none absolute -right-1.5 -top-1.5 h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
             aria-hidden="true"
           />
-          <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-[#fce001]" />
+          <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white sm:text-[11px]">
             Error 404 · Off Route
           </span>
@@ -388,7 +388,7 @@ export default function NotFoundPage() {
           </span>
           <span
             ref={stickerRef}
-            className="relative inline-block origin-center -rotate-[3deg] rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] px-3 py-0.5 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1"
+            className="relative inline-block origin-center -rotate-[3deg] rounded-[10px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-0.5 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:rounded-[12px] sm:px-4 sm:py-1"
           >
             <span
               className="pointer-events-none absolute inset-[1px] overflow-hidden rounded-[8px] sm:rounded-[10px]"

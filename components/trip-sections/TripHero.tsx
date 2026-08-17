@@ -80,7 +80,7 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-[#fce001] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
+      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105">
         {icon}
@@ -134,7 +134,7 @@ export default function TripHero() {
             className="trip-hero-fade mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5"
             style={{ animationDelay: "0ms" }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
               Travel Farther
             </span>
@@ -146,7 +146,7 @@ export default function TripHero() {
           >
             <span>Tourism</span>
             <span
-              className="relative mb-[0.08em] ml-1 inline-flex h-[0.82em] w-[0.48em] shrink-0 origin-center items-end justify-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] pb-[0.2em] shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:ml-1.5"
+              className="relative mb-[0.08em] ml-1 inline-flex h-[0.82em] w-[0.48em] shrink-0 origin-center items-end justify-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] pb-[0.2em] shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:ml-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
               aria-hidden="true"
             >

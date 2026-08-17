@@ -77,7 +77,7 @@ function StorePill({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex h-[56px] items-center gap-3 rounded-full bg-[#FCE001] px-5 shadow-[0_10px_28px_rgba(252,224,1,0.22)] transition-transform duration-300 hover:-translate-y-0.5 sm:h-[60px] sm:min-w-[190px] sm:px-6"
+      className="inline-flex h-[56px] items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 shadow-[0_10px_28px_rgba(252,224,1,0.22)] transition-transform duration-300 hover:-translate-y-0.5 sm:h-[60px] sm:min-w-[190px] sm:px-6"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center text-black sm:h-9 sm:w-9">
         {icon}

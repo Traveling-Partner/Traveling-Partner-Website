@@ -53,7 +53,7 @@ function TopicCard({ category }: { category: HelpCategory }) {
         {category.browseDescription}
       </p>
 
-      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f3f2ee] text-[#0b0b0b] transition-colors group-hover:bg-[#FCE001]">
+      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f3f2ee] text-[#0b0b0b] transition-colors group-hover:bg-gradient-to-b group-hover:from-[#FCE001] group-hover:to-[#FDB813]">
         <ArrowRightIcon className="h-4 w-4" />
       </span>
     </Link>

@@ -97,7 +97,7 @@ export default function TripWeekend() {
             transition={{ duration: 0.5, delay: 0.08 }}
             className="flex w-full max-w-xl flex-col lg:min-w-0 lg:flex-1 lg:max-w-none"
           >
-            <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
+            <div className="mb-5 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
                 Why Choose Tourism
               </span>
@@ -130,7 +130,7 @@ export default function TripWeekend() {
                   transition={{ duration: 0.35, delay: 0.12 + index * 0.05 }}
                   className="flex items-start gap-3"
                 >
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
                     <CheckIcon />
                   </span>
                   <span className="text-[14px] leading-snug text-[#0b0b0b] sm:text-[15px]">
@@ -148,7 +148,7 @@ export default function TripWeekend() {
             />
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-              <div className="flex items-center gap-3 rounded-2xl border border-black bg-[#FCE001] px-3.5 py-3.5 shadow-[0_10px_28px_rgba(253,184,19,0.25)] sm:px-4 sm:py-4">
+              <div className="flex items-center gap-3 rounded-2xl border border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-3.5 shadow-[0_10px_28px_rgba(253,184,19,0.25)] sm:px-4 sm:py-4">
                 <div className="relative h-11 w-11 shrink-0 sm:h-12 sm:w-12">
                   <Image
                     src="/images/trip/weekend/icon-group.png"

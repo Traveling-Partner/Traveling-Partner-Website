@@ -116,7 +116,7 @@ export default function BenefitsSection() {
                   whileHover={{ x: 4 }}
                   className="flex w-full items-center gap-2.5 rounded-full bg-white px-3.5 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:px-4 sm:py-3"
                 >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
                     <CheckIcon />
                   </span>
                   <span className="text-[13px] leading-snug text-[#0b0b0b] sm:text-[14px]">
@@ -136,7 +136,7 @@ export default function BenefitsSection() {
                 href="https://play.google.com/store/apps?hl=en&gl=US"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
+                className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
               >
                 <span className="text-[15px] font-bold text-black sm:text-base">
                   Download the App

@@ -113,7 +113,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
             href="/blog"
             className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b]">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
               <BackArrowIcon className="h-3.5 w-3.5" />
             </span>
             <span className="text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
@@ -125,7 +125,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
             <div className="inline-flex w-fit flex-wrap items-center gap-2 self-end rounded-full border border-[#eceae4] bg-white px-3 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-2.5 sm:px-4 sm:py-2.5 sm:self-auto">
               {categoryLabel ? (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#FCE001]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
                     {categoryLabel}
                   </span>
@@ -164,7 +164,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
           {showAuthor && (
             <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
               {authorInitials ? (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[13px] font-bold text-[#0b0b0b]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b]">
                   {authorInitials}
                 </span>
               ) : null}

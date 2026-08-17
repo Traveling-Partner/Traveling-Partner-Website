@@ -53,7 +53,7 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-[#fce001] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
+      className="group inline-flex h-[56px] w-full items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 shadow-[0_10px_28px_rgba(253,184,19,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(253,184,19,0.45)] sm:h-[60px] sm:w-auto sm:min-w-[190px]"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105">
         {icon}
@@ -105,7 +105,7 @@ export default function DeliveryHero() {
             className="delivery-hero-fade mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5"
             style={{ animationDelay: "0ms" }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
               Deliver Anything
             </span>
@@ -117,7 +117,7 @@ export default function DeliveryHero() {
           >
             <span className="block">Deliver</span>
             <span
-              className="relative mt-1 inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:mt-1.5 sm:px-4 sm:py-1.5"
+              className="relative mt-1 inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:mt-1.5 sm:px-4 sm:py-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
             >
               <em className="font-medium italic text-black">Anything.</em>
@@ -244,7 +244,7 @@ export default function DeliveryHero() {
               </p>
               <p className="flex items-center gap-1.5 text-2xl font-extrabold leading-none text-[#0b0b0b] sm:text-3xl">
                 98%
-                <span className="mt-1 h-2 w-2 rounded-full bg-[#fce001] shadow-[0_0_10px_rgba(252,224,1,0.8)]" />
+                <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_0_10px_rgba(252,224,1,0.8)]" />
               </p>
             </div>
           </div>

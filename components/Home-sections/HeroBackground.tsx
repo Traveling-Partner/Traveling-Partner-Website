@@ -38,12 +38,12 @@ export function HeroBackgroundDecor(): ReactElement {
 
       {/* Yellow guide dots — desktop/tablet only */}
       <div
-        className="pointer-events-none absolute hidden h-[14.5px] w-[14.5px] -translate-y-1/2 rounded-full bg-[#fce001] shadow-[0_0_0_5.8px_rgba(252,224,1,0.2),0_0_23px_rgba(252,224,1,0.4)] md:block"
+        className="pointer-events-none absolute hidden h-[14.5px] w-[14.5px] -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_0_0_5.8px_rgba(252,224,1,0.2),0_0_23px_rgba(252,224,1,0.4)] md:block"
         style={{ left: "32.73%", top: "calc(50% + 5.2%)" }}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute hidden h-[14.5px] w-[14.5px] -translate-y-1/2 rounded-full bg-[#fce001] shadow-[0_0_0_5.8px_rgba(252,224,1,0.2),0_0_23px_rgba(252,224,1,0.4)] md:block"
+        className="pointer-events-none absolute hidden h-[14.5px] w-[14.5px] -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] shadow-[0_0_0_5.8px_rgba(252,224,1,0.2),0_0_23px_rgba(252,224,1,0.4)] md:block"
         style={{ left: "65.53%", top: "calc(50% + 5.2%)" }}
         aria-hidden
       />

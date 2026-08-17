@@ -88,7 +88,7 @@ function DesktopContent({
             key={feature}
             className="flex h-[36px] w-full items-center gap-2 rounded-full bg-black pl-1.5 pr-3 sm:h-[38px] sm:gap-2.5 sm:pl-2 sm:pr-4"
           >
-            <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[#FFD400] sm:h-[26px] sm:w-[26px]">
+            <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] sm:h-[26px] sm:w-[26px]">
               <CheckIcon />
             </span>
             <span className="text-[12px] font-semibold leading-none text-white sm:text-[13px]">
@@ -145,7 +145,7 @@ function MobileContent({
             key={feature}
             className="inline-flex h-9 items-center gap-2 rounded-full bg-black pl-1.5 pr-3"
           >
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FFD400]">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
               <CheckIcon />
             </span>
             <span className="text-[12px] font-semibold leading-none text-white">

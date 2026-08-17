@@ -184,7 +184,7 @@ function FeaturedStoryCard({
           <div className="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-[#eceae4] pt-5 sm:pt-6">
             <div className="flex min-w-0 items-center gap-3">
               {authorInitials ? (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCE001] text-[13px] font-bold text-[#0b0b0b] sm:h-11 sm:w-11 sm:text-[14px]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b] sm:h-11 sm:w-11 sm:text-[14px]">
                   {authorInitials}
                 </span>
               ) : null}
@@ -207,7 +207,7 @@ function FeaturedStoryCard({
               <span className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
                 Read Article
               </span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)] transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)] transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10">
                 <ArrowIcon className="h-4 w-4" />
               </span>
             </Link>
@@ -235,7 +235,7 @@ function CarouselNavButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FCE001] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)] transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-11 sm:w-11"
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)] transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-11 sm:w-11"
     >
       <ArrowIcon
         className={`h-4 w-4 ${direction === "prev" ? "rotate-180" : ""}`}
@@ -325,7 +325,7 @@ export default function FeaturedBlogSection({
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-4 flex items-center justify-between gap-4 sm:mb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#eceae4] bg-white px-3.5 py-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FCE001]" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
               Featured Story
             </span>

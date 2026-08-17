@@ -129,7 +129,7 @@ export default function AboutHero() {
             className="about-hero-fade mb-5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5"
             style={{ animationDelay: "0ms" }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#fce001]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#fce001] sm:text-[11px]">
               Trusted Across Pakistan
             </span>
@@ -141,7 +141,7 @@ export default function AboutHero() {
           >
             About{" "}
             <span
-              className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-[#fce001] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
+              className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
             >
               <em className="font-medium italic text-black">Us.</em>

@@ -81,7 +81,7 @@ export default function LogisticsFasterSaferSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.08 }}
-                className="inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-2"
+                className="inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-2"
               >
                 <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
                   Benefits 02
@@ -173,7 +173,7 @@ export default function LogisticsFasterSaferSection() {
                     transition={{ duration: 0.35, delay: 0.22 + index * 0.06 }}
                     className="flex items-center gap-3"
                   >
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FCE001]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]">
                       <CheckIcon />
                     </span>
                     <span className="text-[14px] leading-snug text-white sm:text-[15px]">
@@ -193,7 +193,7 @@ export default function LogisticsFasterSaferSection() {
                   href="https://play.google.com/store/apps?hl=en&gl=US"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#FCE001] px-6 py-3.5 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_14px_34px_rgba(252,224,1,0.38)] sm:px-7 sm:py-4"
+                  className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_14px_34px_rgba(252,224,1,0.38)] sm:px-7 sm:py-4"
                 >
                   <span className="text-[15px] font-bold text-black sm:text-base">
                     Transport Cargo

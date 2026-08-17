@@ -133,7 +133,7 @@ function FloatChip({
       className={`mbc-float flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-6 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#fce001] lg:h-[48px] lg:w-[48px]">
+      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[48px] lg:w-[48px]">
         {icon}
       </span>
       <span className="leading-tight">
@@ -191,8 +191,8 @@ export default function MoveBulkCargoSection() {
           <div className="relative z-20 w-full shrink-0 px-5 pt-3 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
             <div className="mb-1.5 inline-flex items-center gap-2.5 rounded-full bg-[#0b0b0b] px-4 py-2 lg:mb-2">
               <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-                <span className="absolute h-[14px] w-[14px] rounded-full bg-[#fce001]/35 blur-[3px]" />
-                <span className="relative h-[7px] w-[7px] rounded-full bg-[#fce001]" />
+                <span className="absolute h-[14px] w-[14px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
+                <span className="relative h-[7px] w-[7px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
               <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
                 Business deliveries
@@ -204,7 +204,7 @@ export default function MoveBulkCargoSection() {
                 Load it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-[#fce001] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[3px] inline-block rounded-[8px] border-b-[4px] border-r-[4px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2.5 pb-0.5 text-[clamp(34px,8.5vw,42px)] font-medium italic text-[#0b0b0b] lg:my-[4px] lg:px-3 lg:text-[52px]"
                 style={{ fontStyle: "italic" }}
               >
                 move it,

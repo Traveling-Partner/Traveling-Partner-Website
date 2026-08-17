@@ -61,7 +61,7 @@ export default function PurposeOfTravelingPartner() {
           transition={{ duration: 0.5, delay: 0.08 }}
           className="flex w-full max-w-xl flex-col lg:min-w-0 lg:flex-1 lg:max-w-none"
         >
-          <div className="mb-5 inline-flex w-fit items-center rounded-full bg-[#FCE001] px-4 py-1.5 sm:mb-6">
+          <div className="mb-5 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
               Our Purpose
             </span>

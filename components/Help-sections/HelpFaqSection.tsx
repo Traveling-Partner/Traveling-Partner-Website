@@ -232,7 +232,7 @@ export default function HelpFaqSection({
         </p>
         <Link
           href="/contact"
-          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#FCE001] px-4 py-2.5 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-90"
+          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-2.5 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-90"
         >
           Contact now
         </Link>
@@ -324,7 +324,7 @@ export default function HelpFaqSection({
                           <span
                             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[13px] font-bold sm:h-10 sm:w-10 sm:text-[14px] ${
                               isOpen
-                                ? "bg-[#FCE001] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)]"
+                                ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] shadow-[0_4px_12px_rgba(252,224,1,0.35)]"
                                 : "bg-[#fff8e1] text-[#0b0b0b]"
                             }`}
                           >
