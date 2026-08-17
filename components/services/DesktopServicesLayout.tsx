@@ -18,7 +18,7 @@ export const FIGMA_FRAME = { w: 1688, h: 609.1173706054688 } as const;
 export const DESKTOP_MOSAIC_SLOTS = {
   /** Frame 12 — featured yellow card */
   featured: {
-    left: "-10px",
+    left: "-15px",
     top: "0%",
     width: "34.839%",
     height: "99.856%",
@@ -46,9 +46,9 @@ export const DESKTOP_MOSAIC_SLOTS = {
   },
   /** Frame 15 — Trip */
   bottomRight: {
-    left: "61.110%",
+    left: "calc(62.6% - 4px)",
     top: "49.497%",
-    width: "38.681%",
+    width: "37.191%",
     height: "50.503%",
   },
 } as const;
