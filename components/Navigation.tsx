@@ -172,12 +172,12 @@ export default function Navigation() {
   };
 
   const navLinkClass = (href: string) =>
-    `text-black transition-all duration-200 hover:bg-[rgba(11,11,11,0.07)] ${
+    `border border-transparent text-black transition-all duration-200 hover:border-[#FDB813] hover:bg-[rgba(11,11,11,0.07)] ${
       isActive(href) ? "bg-[rgba(11,11,11,0.07)]" : ""
     }`;
 
   const mobileLinkClass = (href: string) =>
-    `flex min-h-[48px] items-center rounded-2xl px-3.5 font-montserrat text-[15px] font-semibold leading-none transition-colors ${
+    `flex min-h-[48px] items-center rounded-2xl px-3.5 font-poppins text-[15px] font-semibold leading-none transition-colors ${
       isActive(href)
         ? "bg-[#0b0b0b] text-[#FCE001]"
         : "text-[#0b0b0b] active:bg-[#f5f2ea]"
@@ -232,14 +232,14 @@ export default function Navigation() {
         >
           <Link
             href="/"
-            className="block h-[44px] w-[118px] shrink-0 sm:h-[56px] sm:w-[150px] min-[1200px]:h-[56px] min-[1200px]:w-[150px]"
+            className="relative inline-flex h-[44px] w-[74px] shrink-0 items-center self-center overflow-hidden sm:h-[52px] sm:w-[88px] min-[1200px]:h-[52px] min-[1200px]:w-[88px]"
             onClick={(e) => handleNavClick(e, "/")}
           >
             <Image
               src="/images/traveling-partner-logo.png"
               alt="Traveling Partner"
-              width={150}
-              height={56}
+              width={440}
+              height={260}
               className="h-full w-full object-contain object-left"
               priority
             />
@@ -248,7 +248,7 @@ export default function Navigation() {
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
-            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/")}`}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/")}`}
           >
             Home
           </Link>
@@ -261,7 +261,7 @@ export default function Navigation() {
           <Link
             href="/about"
             onClick={(e) => handleNavClick(e, "/about")}
-            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/about")}`}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/about")}`}
           >
             About Us
           </Link>
@@ -269,7 +269,7 @@ export default function Navigation() {
           <Link
             href="/blog"
             onClick={(e) => handleNavClick(e, "/blog")}
-            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/blog")}`}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/blog")}`}
           >
             Blog
           </Link>
@@ -277,7 +277,7 @@ export default function Navigation() {
           <Link
             href="/help"
             onClick={(e) => handleNavClick(e, "/help")}
-            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-montserrat text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/help")}`}
+            className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/help")}`}
           >
             Help Center
           </Link>
@@ -285,10 +285,10 @@ export default function Navigation() {
           <Link
             href="/contact"
             onClick={(e) => handleNavClick(e, "/contact")}
-            className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] px-3.5 py-1.5 font-montserrat text-[12px] font-bold leading-none transition-all duration-200 ${
+            className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] border px-3.5 py-1.5 font-poppins text-[12px] font-bold leading-none transition-all duration-200 ${
               contactActive
-                ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
-                : "bg-black text-[#FCE001] hover:bg-black/90"
+                ? "border-transparent bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
+                : "border-transparent bg-black text-[#FCE001] hover:border-[#FDB813] hover:bg-black/90"
             }`}
           >
             Contact Us
@@ -302,7 +302,7 @@ export default function Navigation() {
             <Link
               href="/contact"
               onClick={(e) => handleNavClick(e, "/contact")}
-              className={`inline-flex h-9 items-center rounded-full px-2.5 font-montserrat text-[11px] font-bold leading-none transition-colors sm:px-3 ${
+              className={`inline-flex h-9 items-center rounded-full px-2.5 font-poppins text-[11px] font-bold leading-none transition-colors sm:px-3 ${
                 contactActive
                   ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]"
                   : "bg-[#0b0b0b] text-[#FCE001]"
@@ -453,7 +453,7 @@ export default function Navigation() {
                     <Link
                       href="/contact"
                       onClick={(e) => handleNavClick(e, "/contact")}
-                      className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 font-montserrat text-[14px] font-bold text-[#0b0b0b] shadow-[0_6px_16px_rgba(253,184,19,0.35)]"
+                      className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 font-poppins text-[14px] font-bold text-[#0b0b0b] shadow-[0_6px_16px_rgba(253,184,19,0.35)]"
                     >
                       Contact Us
                       <span aria-hidden>→</span>
