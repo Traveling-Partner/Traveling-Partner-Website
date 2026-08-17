@@ -162,49 +162,57 @@ function SafetyTextCard({
   const isMobile = variant === "mobile";
 
   return (
-    <article className={`flex w-full min-w-0 flex-col ${isMobile ? "" : "h-full justify-center overflow-hidden py-1"}`}>
-      <div
-        className={`flex shrink-0 items-center ${isMobile ? "mb-4" : "mb-3"}`}
-        aria-hidden
-      >
-        {isMobile ? (
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b from-[#fce001] to-[#fdb813] shadow-[0_4px_14px_rgba(252,224,1,0.28)] ring-2 ring-white">
-            {item.icon}
+    <article
+      className={`flex w-full min-w-0 flex-col ${
+        isMobile
+          ? ""
+          : "h-full justify-between overflow-hidden rounded-[24px] border border-[#0b0b0b]/[0.05] bg-white px-5 py-5 sm:rounded-[28px] sm:px-5 sm:py-5 lg:rounded-[32px] lg:px-6 lg:py-6"
+      }`}
+    >
+      <div>
+        <div
+          className={`flex shrink-0 items-center ${isMobile ? "mb-4" : "mb-3"}`}
+          aria-hidden
+        >
+          {isMobile ? (
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b from-[#fce001] to-[#fdb813] shadow-[0_4px_14px_rgba(252,224,1,0.28)] ring-2 ring-white">
+              {item.icon}
+            </span>
+          ) : (
+            item.icon
+          )}
+        </div>
+
+        <h3
+          className={`shrink-0 font-poppins font-bold tracking-[-0.02em] text-[#0b0b0b] ${
+            isMobile
+              ? "text-[1.375rem] leading-[1.15] sm:text-[1.5rem]"
+              : "text-[clamp(1.1rem,1.7vw,1.45rem)] leading-[1.15]"
+          }`}
+        >
+          {item.titleBold}{" "}
+          <span className={isMobile ? accentItalicClass : "font-normal italic"}>
+            {item.titleItalic}
           </span>
-        ) : (
-          item.icon
-        )}
+        </h3>
+
+        <p
+          className={`min-h-0 font-poppins font-normal text-[#5c5c5c] ${
+            isMobile
+              ? "mt-3 flex-1 text-[14px] leading-[1.6]"
+              : "mt-2.5 text-[clamp(11px,1vw,13px)] leading-[1.45] lg:text-[13px]"
+          }`}
+        >
+          {item.description}
+        </p>
       </div>
-
-      <h3
-        className={`shrink-0 font-poppins font-bold tracking-[-0.02em] text-[#0b0b0b] ${
-          isMobile
-            ? "text-[1.375rem] leading-[1.15] sm:text-[1.5rem]"
-            : "text-[clamp(1.15rem,1.9vw,1.65rem)] leading-[1.12]"
-        }`}
-      >
-        {item.titleBold}{" "}
-        <span className={isMobile ? accentItalicClass : "font-normal italic"}>
-          {item.titleItalic}
-        </span>
-      </h3>
-
-      <p
-        className={`min-h-0 font-poppins font-normal leading-[1.6] text-[#5c5c5c] ${
-          isMobile
-            ? "mt-3 flex-1 text-[14px]"
-            : "mt-2 flex-1 text-[clamp(11px,1.05vw,13px)] sm:text-[13px] lg:text-[14px] leading-[1.5]"
-        }`}
-      >
-        {item.description}
-      </p>
 
       <Link
         href={item.href}
         className={
           isMobile
             ? "group mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[100px] bg-gradient-to-b from-[#fce001] to-[#fdb813] px-5 py-3.5 font-poppins text-[14px] font-semibold text-[#0b0b0b] shadow-[0_6px_20px_rgba(252,224,1,0.28)] transition-all hover:shadow-[0_8px_26px_rgba(252,224,1,0.38)]"
-            : "group mt-3 inline-flex w-fit shrink-0 items-center gap-1.5 font-poppins text-[clamp(11px,1.05vw,13px)] font-semibold text-[#0b0b0b] underline decoration-[#0b0b0b]/25 underline-offset-[5px] transition-colors hover:decoration-[#0b0b0b] sm:text-[13px]"
+            : "group mt-4 inline-flex w-fit shrink-0 items-center gap-1.5 font-poppins text-[12px] font-semibold text-[#0b0b0b] underline decoration-[#0b0b0b]/25 underline-offset-[5px] transition-colors hover:decoration-[#0b0b0b] lg:text-[13px]"
         }
       >
         Learn More
@@ -235,8 +243,8 @@ function SafetyMobileFeature({
   const featureNum = String(index + 1).padStart(2, "0");
 
   const imageBlock = (
-    <div className={`relative px-4 ${imageFirst ? "pt-4 pb-0" : "pb-4 pt-0"}`}>
-      <div className="relative aspect-square w-full overflow-hidden rounded-[22px] bg-gradient-to-br from-[#fff9e8] via-[#fdf9ef] to-[#f3ede0] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_24px_rgba(11,11,11,0.06)] ring-1 ring-[#0b0b0b]/[0.06]">
+    <div className={`relative px-4 ${imageFirst ? "pt-4 pb-3" : "pb-4 pt-3"}`}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[22px] bg-gradient-to-br from-[#fff9e8] via-[#fdf9ef] to-[#f3ede0] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_24px_rgba(11,11,11,0.06)] ring-1 ring-[#0b0b0b]/[0.06] sm:aspect-square">
         <SafetyImageCard
           item={image}
           fit="contain"
@@ -251,7 +259,7 @@ function SafetyMobileFeature({
   );
 
   const textBlock = (
-    <div className="relative bg-gradient-to-b from-white to-[#fffcf6] px-5 py-5 sm:px-6 sm:py-6">
+    <div className="relative bg-gradient-to-b from-white to-[#fffcf6] px-5 py-5 sm:px-6 sm:py-5">
       {imageFirst ? (
         <div
           className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#fdb813]/45 to-transparent"
@@ -341,7 +349,7 @@ export default function SafetySecuritySection(): React.ReactElement {
 
         {/* Desktop — Figma mosaic grid */}
         <motion.div
-          className="hidden items-stretch gap-x-5 xl:gap-x-6 lg:grid lg:grid-cols-4"
+          className="hidden items-stretch gap-4 xl:gap-5 lg:grid lg:grid-cols-4"
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
