@@ -61,19 +61,19 @@ function StoreButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex h-[54px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-3 sm:pl-2 sm:pr-5 lg:h-[58px] lg:w-auto lg:pr-6"
+      className="group inline-flex h-[46px] w-full min-w-0 items-center gap-2 rounded-full pl-1.5 pr-3 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(252,224,1,0.4)] sm:gap-2.5 sm:pl-1.5 sm:pr-4 lg:h-[48px] lg:w-auto lg:pr-5"
       style={{
         background: "linear-gradient(90deg, #FCE001 0%, #FDB813 100%)",
       }}
     >
-      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[42px] lg:w-[42px]">
+      <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-white transition-transform duration-300 group-hover:scale-105 lg:h-[34px] lg:w-[34px]">
         {icon}
       </span>
       <span className="min-w-0 text-left leading-tight">
-        <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-black/70 lg:text-[10px] lg:tracking-[0.18em]">
+        <span className="block text-[7px] font-bold uppercase tracking-[0.14em] text-black/70 lg:text-[8px] lg:tracking-[0.16em]">
           {label}
         </span>
-        <span className="block truncate text-[14px] font-bold text-black lg:text-[16px]">
+        <span className="block truncate text-[12px] font-bold text-black lg:text-[13px]">
           {title}
         </span>
       </span>
@@ -130,17 +130,17 @@ function FloatChip({
 }) {
   return (
     <div
-      className={`nar-float flex w-[152px] items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)] sm:w-[168px] lg:w-[196px] lg:gap-3 lg:py-2 lg:pl-2 lg:pr-4 ${className}`}
+      className={`nar-float flex w-[140px] items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)] sm:w-[156px] lg:w-[180px] lg:gap-2.5 lg:py-1.5 lg:pl-1.5 lg:pr-3.5 ${className}`}
       style={{ animationDelay: delay }}
     >
-      <span className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[48px] lg:w-[48px]">
+      <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[40px] lg:w-[40px]">
         {icon}
       </span>
       <span className="min-w-0 flex-1 leading-tight">
-        <span className="block truncate text-[14px] font-bold text-[#0b0b0b] lg:text-[16px]">
+        <span className="block truncate text-[13px] font-bold text-[#0b0b0b] lg:text-[14px]">
           {title}
         </span>
-        <span className="block truncate text-[9px] font-bold uppercase tracking-[0.16em] text-[#f5a81c] lg:text-[11px] lg:tracking-[0.18em]">
+        <span className="block truncate text-[8px] font-bold uppercase tracking-[0.14em] text-[#f5a81c] lg:text-[9px] lg:tracking-[0.16em]">
           {subtitle}
         </span>
       </span>
@@ -150,9 +150,9 @@ function FloatChip({
 
 export default function NeedARideSection() {
   return (
-    <section className="bg-[#FEFBF6] py-2 sm:py-4">
+    <section className="bg-[#FEFBF6] py-2 sm:py-3">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="relative overflow-hidden rounded-[28px] bg-[#070604] sm:rounded-[32px]">
+      <div className="relative overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[28px]">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {/* Mobile/tablet: Figma cover 442×1024 — full width, natural height, no crop */}
@@ -192,38 +192,38 @@ export default function NeedARideSection() {
           />
         </div>
 
-        <div className="relative flex flex-col lg:min-h-[500px] lg:flex-row lg:items-center lg:gap-5 lg:px-9 lg:py-4 xl:px-10">
+        <div className="relative flex flex-col lg:min-h-[420px] lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-4 xl:px-9">
           {/* ── Content ── */}
-          <div className="relative z-10 w-full px-5 pb-0 pt-3 sm:px-7 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
+          <div className="relative z-10 w-full px-5 pb-0 pt-3 sm:px-6 lg:w-[44%] lg:shrink-0 lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
-            <div className="mb-2.5 inline-flex items-center gap-2.5 rounded-full border border-[#fce001]/80 px-4 py-2 lg:mb-3.5">
-              <span className="relative flex h-[7px] w-[7px] items-center justify-center">
-                <span className="absolute h-[14px] w-[14px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
-                <span className="relative h-[7px] w-[7px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#fce001]/80 px-3.5 py-1.5 lg:mb-3">
+              <span className="relative flex h-[6px] w-[6px] items-center justify-center">
+                <span className="absolute h-[12px] w-[12px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
+                <span className="relative h-[6px] w-[6px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#fce001] lg:text-[11px]">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#fce001] lg:text-[10px]">
                 Need a ride?
               </span>
             </div>
 
-            {/* Heading — Figma mobile ~40px */}
-            <h2 className="mb-2.5 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-2.5">
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+            {/* Heading */}
+            <h2 className="mb-2 font-extrabold leading-[1.08] tracking-tight text-white lg:mb-2.5">
+              <span className="block text-[clamp(28px,7vw,34px)] lg:text-[40px]">
                 Tap it,
               </span>
               <em
-                className="my-[3px] inline-block rounded-[8px] border border-[#fce001]/50 px-2.5 pb-0.5 text-[clamp(36px,9.5vw,42px)] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent lg:my-[4px] lg:px-3 lg:text-[52px]"
+                className="my-[2px] inline-block rounded-[7px] border border-[#fce001]/50 px-2 pb-0.5 text-[clamp(28px,7vw,34px)] bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent lg:my-[3px] lg:px-2.5 lg:text-[40px]"
                 style={{ fontStyle: "italic" }}
               >
                 ride it,
               </em>
-              <span className="block text-[clamp(36px,9.5vw,42px)] lg:text-[52px]">
+              <span className="block text-[clamp(28px,7vw,34px)] lg:text-[40px]">
                 arrive.
               </span>
             </h2>
 
-            {/* Description — Figma mobile is near-white */}
-            <div className="mb-3.5 max-w-[420px] space-y-1 text-[15px] leading-[1.4] text-white/85 lg:mb-3.5 lg:text-base lg:leading-[1.45] lg:text-[#b7b1a4]">
+            {/* Description */}
+            <div className="mb-3 max-w-[400px] space-y-1 text-[13px] leading-[1.45] text-white/85 lg:mb-3 lg:text-[14px] lg:leading-[1.5] lg:text-[#b7b1a4]">
               <p>
                 Going somewhere? Open the app, choose your destination, and
                 you&apos;re ready to go. You&apos;ll see the fare before the ride
@@ -237,20 +237,20 @@ export default function NeedARideSection() {
               </p>
             </div>
 
-            {/* Store buttons — side-by-side (Figma) */}
-            <div className="mb-3.5 grid grid-cols-2 gap-2.5 lg:mb-3.5 lg:flex lg:gap-4">
+            {/* Store buttons */}
+            <div className="mb-3 grid grid-cols-2 gap-2 lg:mb-3 lg:flex lg:gap-3">
               <StoreButton
                 href={PLAY_STORE_URL}
                 label="Get it on"
                 title="Google Play"
-                icon={<PlayStoreIcon className="h-[20px] w-[20px] lg:h-[22px] lg:w-[22px]" />}
+                icon={<PlayStoreIcon className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px]" />}
               />
               <StoreButton
                 href={APP_STORE_URL}
                 label="Download on"
                 title="App Store"
                 icon={
-                  <AppleIcon className="h-[22px] w-[22px] text-black lg:h-[24px] lg:w-[24px]" />
+                  <AppleIcon className="h-[18px] w-[18px] text-black lg:h-[20px] lg:w-[20px]" />
                 }
               />
             </div>
@@ -300,7 +300,7 @@ export default function NeedARideSection() {
                 label="Pickup Time"
               />
             </div>
-            <div className="hidden w-full rounded-[16px] border border-white/10 bg-[#171410]/85 px-5 py-3 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[540px] lg:flex-row lg:items-center">
+            <div className="hidden w-full rounded-[14px] border border-white/10 bg-[#171410]/85 px-4 py-2.5 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[500px] lg:flex-row lg:items-center">
               <StatItem
                 icon={
                   <Image
