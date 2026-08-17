@@ -185,8 +185,8 @@ export default function YourTrustSection() {
         </div>
 
         {/* Content overlays cover on mobile; side-by-side on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:min-h-[560px] lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-4 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-5 sm:px-6 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:min-h-[560px] lg:flex-row lg:items-center lg:gap-5 lg:px-10 lg:py-6 xl:px-12">
+          <div className="relative z-20 w-full shrink-0 px-6 pt-7 sm:px-8 lg:w-[46%] lg:px-0 lg:pb-0 lg:pt-0">
             {/* Badge */}
             <div className="mb-2.5 inline-flex items-center gap-2 rounded-full bg-[#0b0b0b] px-3.5 py-1.5 lg:mb-3">
               <span className="relative flex h-[6px] w-[6px] items-center justify-center">
@@ -333,7 +333,7 @@ export default function YourTrustSection() {
           </div>
 
           {/* Chips over lower cover (phone / van zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-4 lg:mt-0 lg:min-h-[280px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-6 lg:mt-0 lg:min-h-[280px] lg:flex-1 lg:px-0 lg:pb-0">
             <div className="absolute right-1 top-[22%] flex flex-col gap-3 sm:right-[2%] lg:contents">
               <FloatChip
                 className="relative lg:absolute lg:right-[2%] lg:top-[12%]"

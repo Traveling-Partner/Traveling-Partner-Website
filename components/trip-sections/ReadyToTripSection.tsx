@@ -194,8 +194,8 @@ export default function ReadyToTripSection() {
         </div>
 
         {/* Content: overlays cover on mobile; normal flow on desktop */}
-        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-5 lg:px-8 lg:py-5 xl:px-9">
-          <div className="relative z-20 w-full shrink-0 px-5 pt-6 sm:px-6 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
+        <div className="absolute inset-0 z-10 flex flex-col lg:relative lg:inset-auto lg:flex-row lg:items-center lg:gap-5 lg:px-10 lg:py-7 xl:px-12">
+          <div className="relative z-20 w-full shrink-0 px-6 pt-8 sm:px-8 lg:w-[44%] lg:px-0 lg:pb-0 lg:pt-0">
             <div className="mb-3.5 inline-flex items-center gap-2 rounded-full border border-[#fce001]/80 px-3.5 py-1.5 lg:mb-4">
               <span className="relative flex h-[6px] w-[6px] items-center justify-center">
                 <span className="absolute h-[12px] w-[12px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]/35 blur-[3px]" />
@@ -349,7 +349,7 @@ export default function ReadyToTripSection() {
           </div>
 
           {/* Chips over lower cover (phone / car zone) */}
-          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-5 lg:mt-0 lg:min-h-[300px] lg:flex-1 lg:px-0 lg:pb-0">
+          <div className="relative z-10 mt-auto min-h-0 w-full flex-1 px-2 pb-7 lg:mt-0 lg:min-h-[300px] lg:flex-1 lg:px-0 lg:pb-0">
             <svg
               className="pointer-events-none absolute right-[calc(12%-4px)] top-[2%] hidden h-[70%] w-[52%] lg:block"
               viewBox="0 0 340 420"
