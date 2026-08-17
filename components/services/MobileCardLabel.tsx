@@ -34,19 +34,19 @@ export default function MobileCardLabel({
       style={frameStyle}
       aria-hidden="true"
     >
-      <div className="flex max-w-[92%] items-center gap-2 pl-[8%] pt-[8%]">
+      <div className="flex max-w-[92%] items-center gap-2.5 pl-[8%] pt-[8%]">
         <Image
           src={icon}
           alt=""
-          width={48}
-          height={48}
-          className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
+          width={52}
+          height={52}
+          className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
         />
         <div className="min-w-0 leading-tight">
-          <p className="truncate text-[14px] font-bold text-white sm:text-[15px]">
+          <p className="truncate text-[15px] font-bold text-white sm:text-[16px]">
             {title}
           </p>
-          <p className="truncate text-[11px] font-medium italic text-white/90 sm:text-[12px]">
+          <p className="truncate text-[12px] font-medium italic text-white/90 sm:text-[13px]">
             {subtitle}
           </p>
         </div>

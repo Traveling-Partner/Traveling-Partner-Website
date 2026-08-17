@@ -121,19 +121,19 @@ function MobileVideoCard({
           <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-black/65 via-black/25 to-transparent" />
         </div>
 
-        <div className="pointer-events-none absolute inset-x-[11%] bottom-[10%] z-10 flex items-center gap-2">
+        <div className="pointer-events-none absolute inset-x-[11%] bottom-[10%] z-10 flex items-center gap-2.5">
           <Image
             src={icon}
             alt=""
-            width={52}
-            height={52}
-            className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
+            width={56}
+            height={56}
+            className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
           />
           <div className="min-w-0 leading-tight">
-            <p className="truncate text-[14px] font-bold text-white sm:text-[15px]">
+            <p className="truncate text-[15px] font-bold text-white sm:text-[16px]">
               {title}
             </p>
-            <p className="truncate text-[11px] font-medium italic text-white/90 sm:text-[12px]">
+            <p className="truncate text-[12px] font-medium italic text-white/90 sm:text-[13px]">
               {subtitle}
             </p>
           </div>
