@@ -147,9 +147,12 @@ function PlusIcon({ className = "" }: { className?: string }) {
 }
 
 function PanelBackground() {
-  // Desktop-only B-scallop on the right edge of the yellow panel.
+  /**
+   * Clean geometric “B / 3” silhouette — two circular lobes + sharp mid pinch.
+   * Pure bezier arcs (not pixel-traced) so edges stay smooth, not hand-drawn.
+   */
   const desktopPath =
-    "M0 0 H920 C950 0 975 40 980 110 C985 175 978 235 965 285 C948 308 920 314 900 320 C920 326 948 332 965 355 C978 405 985 465 980 530 C975 600 950 640 920 640 H0 Z";
+    "M0 0 H820 C905 0 1000 45 1000 165 C1000 245 982 290 955 312 C948 316 946 318 946 320 C946 322 948 324 955 328 C982 350 1000 395 1000 475 C1000 575 905 640 820 640 H0 Z";
 
   return (
     <svg
@@ -157,10 +160,21 @@ function PanelBackground() {
       viewBox="0 0 1000 640"
       preserveAspectRatio="none"
       aria-hidden="true"
+      shapeRendering="geometricPrecision"
     >
-      <path d={desktopPath} fill="#FCE001" />
+      <path d={desktopPath} fill="url(#five-rides-panel-grad)" />
       <path d={desktopPath} fill="url(#five-rides-yellow-glow)" />
       <defs>
+        <linearGradient
+          id="five-rides-panel-grad"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+        >
+          <stop offset="0%" stopColor="#FCE001" />
+          <stop offset="100%" stopColor="#FDB813" />
+        </linearGradient>
         <radialGradient
           id="five-rides-yellow-glow"
           cx="18%"
@@ -169,9 +183,9 @@ function PanelBackground() {
           fx="12%"
           fy="12%"
         >
-          <stop offset="0%" stopColor="#FCE001" stopOpacity="0.45" />
+          <stop offset="0%" stopColor="#FCE001" stopOpacity="0.35" />
           <stop offset="55%" stopColor="#FCE001" stopOpacity="0" />
-          <stop offset="100%" stopColor="#FDB813" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="#FDB813" stopOpacity="0.12" />
         </radialGradient>
       </defs>
     </svg>
@@ -765,7 +779,7 @@ export default function SixRidesSection(): React.ReactElement {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.08 }}
         >
-          <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch">
+          <div className="relative z-[1] grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-stretch">
             <DetailPanel
               ride={activeRide}
               activeIndex={activeIndex}
