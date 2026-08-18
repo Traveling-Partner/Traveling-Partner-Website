@@ -47,7 +47,7 @@ const driverSteps: DriverStep[] = [
     watermark: "03",
     title: (
       <>
-        Go Online &{" "}
+        Go online and{" "}
         <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">find your partner</em>
       </>
     ),

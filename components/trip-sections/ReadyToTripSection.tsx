@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -221,16 +220,20 @@ export default function ReadyToTripSection() {
               </span>
             </h2>
 
-            <p className="mb-4 max-w-[400px] text-[13px] leading-[1.55] text-white/85 lg:mb-4 lg:text-[14px] lg:leading-[1.6] lg:text-[#b7b1a4]">
-              {emphasizePhrases(
-                "Whether you’re travelling with family, planning a group tour, visiting the northern areas, or taking a short break from the city, Traveling Partner helps you arrange tourism travel in Pakistan without the usual transport hassle. Choose your destination, book a verified travel driver, and plan your journey around your own schedule.",
-                [
-                  "northern areas",
-                  "tourism travel in Pakistan",
-                  "verified travel driver",
-                ],
-                "onDark",
-              )}
+            <p className="mb-4 max-w-[400px] space-y-2 text-[13px] leading-[1.55] text-white/85 lg:mb-4 lg:text-[14px] lg:leading-[1.6] lg:text-[#b7b1a4]">
+              <span className="block">
+                Whether you&apos;re travelling with family, planning a group
+                tour, visiting the northern areas, or taking a short break from
+                the city, Traveling Partner helps you arrange tourism travel in
+                Pakistan without the usual transport hassle.
+              </span>
+              <span className="block">
+                Choose your destination, book a verified travel driver, and plan
+                your journey around your own schedule.
+              </span>
+              <span className="block">
+                Travel Pakistan your way with Traveling Partner.
+              </span>
             </p>
 
             <div className="mb-4 grid grid-cols-2 gap-2 lg:mb-4 lg:flex lg:gap-3">

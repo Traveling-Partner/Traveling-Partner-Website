@@ -144,7 +144,7 @@ const ABOUT_BODY_P2 =
   "We call ourselves the best ride booking app in Pakistan, and we back that up with the basics people actually care about: fair prices, verified drivers, quick pickups, and a way to book a ride online without any guesswork. Need a taxi service for the daily grind or an airport transfer service before an early flight? Same app, same standard — safe, comfortable, and easy to book.";
 
 const ABOUT_BODY_P3 =
-  "This isn't just a ride hailing app that gets you from A to B. Drivers get to earn on their own schedule, and riders get a trip that doesn't feel like a gamble. Short hop across the city, an early airport run, or a longer drive out of town — online taxi booking shouldn't be complicated, and with us, it isn't.";
+  "This isn't just a ride hailing-app that gets you from A to B. Drivers get to earn on their own schedule, and riders get a trip they can count on. Short hop across the city, an early airport run, or a longer drive out of town — online taxi booking shouldn't be complicated, and with us, it isn't.";
 
 const ABOUT_BODY_P4 =
   "That's the whole idea: make getting around Pakistan a bit easier, one ride at a time.";
@@ -194,7 +194,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize) }}
         >
-          Start our journey
+          Start yours journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
@@ -223,7 +223,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize + 3, mobileScale) }}
         >
-          Start our journey
+          Start yours journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"
@@ -455,7 +455,7 @@ export default function AboutUsSection(): React.ReactElement {
           >
             <h2
               id="about-us-heading"
-              className="whitespace-nowrap font-poppins tracking-[-2.8px]"
+              className="whitespace-nowrap max-[380px]:whitespace-normal font-poppins tracking-[-2.8px] max-[380px]:tracking-[-1.2px]"
               style={{ maxWidth: HEAD_W }}
             >
               <span className="inline font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">

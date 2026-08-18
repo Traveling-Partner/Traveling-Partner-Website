@@ -128,7 +128,7 @@ export default function HeroSection() {
               className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 font-medium text-black shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
             >
-              Stand.
+              Ride.
             </span>
           </h1>
 
@@ -216,7 +216,7 @@ export default function HeroSection() {
             </div>
 
             {/* Floating: Available in All Cities */}
-            <div className="taxi-float absolute left-0 top-[8%] z-10 rounded-2xl bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[10%] sm:px-5 sm:py-3.5">
+            <div className="taxi-float absolute left-1 top-[8%] z-10 rounded-2xl bg-white px-3 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[10%] sm:px-5 sm:py-3.5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#fdb813] sm:text-[11px]">
                 Available in
               </p>
@@ -227,7 +227,7 @@ export default function HeroSection() {
 
             {/* Floating: Commission 0% */}
             <div
-              className="taxi-float absolute bottom-[14%] right-0 z-10 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-3 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[16%] sm:right-[4%] sm:px-5 sm:py-3.5"
+              className="taxi-float absolute bottom-[14%] right-1 z-10 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-2.5 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[16%] sm:right-[4%] sm:px-5 sm:py-3.5"
               style={{ animationDelay: "1.2s" }}
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/95 sm:text-[11px]">

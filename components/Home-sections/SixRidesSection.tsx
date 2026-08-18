@@ -36,8 +36,8 @@ type RideItem = {
 const RIDES: RideItem[] = [
   {
     id: "taxi",
-    title: "Taxi Stand",
-    titleWithPeriod: "Taxi Stand.",
+    title: "Taxi Ride",
+    titleWithPeriod: "Taxi Ride.",
     subtitle: "Wherever you're going, let's get you there.",
     listDescription:
       "Work, university, the airport, back home — book a taxi in seconds with verified drivers. Fares are set upfront, pickups are quick, and there's no surge pricing sneaking up on you at the worst time. Built for the daily commute.",

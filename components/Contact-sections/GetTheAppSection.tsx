@@ -94,13 +94,13 @@ function FeaturePill({
 }) {
   return (
     <div
-      className={`gta-float flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3.5 shadow-[0_12px_28px_rgba(0,0,0,0.22)] lg:gap-2.5 lg:py-1.5 lg:pl-1.5 lg:pr-4 ${className}`}
+      className={`gta-float flex max-w-[calc(100vw-5.5rem)] items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3.5 shadow-[0_12px_28px_rgba(0,0,0,0.22)] lg:max-w-none lg:gap-2.5 lg:py-1.5 lg:pl-1.5 lg:pr-4 ${className}`}
       style={{ animationDelay: delay }}
     >
       <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] lg:h-[36px] lg:w-[36px]">
         {icon}
       </span>
-      <span className="whitespace-nowrap pr-0.5 text-[12px] font-bold text-[#0b0b0b] lg:text-[13px]">
+      <span className="truncate whitespace-nowrap pr-0.5 text-[12px] font-bold text-[#0b0b0b] lg:text-[13px]">
         {title}
       </span>
     </div>

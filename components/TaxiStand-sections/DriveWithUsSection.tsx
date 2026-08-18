@@ -132,8 +132,8 @@ export default function DriveWithUsSection() {
                 className="mb-4 text-[14px] leading-snug text-white/90 sm:text-[15px]"
               >
                 {emphasizePhrases(
-                  "Looking for a flexible way to earn? Traveling Partner is a zero commission ride app, so you keep more of what you earn. Drive full-time, part-time, or only when you're free—it's up to you.",
-                  ["zero commission ride app"],
+                  "Looking for a flexible way to earn? Traveling Partner is a zero-commission ride app, so you keep more of what you earn. Drive full-time, part-time, or only when you're free—it's up to you.",
+                  ["zero-commission ride app"],
                   "onDark",
                 )}
               </motion.p>

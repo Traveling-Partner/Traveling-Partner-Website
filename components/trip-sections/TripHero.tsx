@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
 const APP_STORE_URL = "https://www.apple.com/app-store/";
@@ -99,7 +98,7 @@ function StoreButton({
 
 /**
  * Trip page hero — pixel-matched to Figma, same system as
- * Taxi Stand / Pool Ride / Delivery / Logistics heroes.
+ * Taxi Ride / Pool Ride / Delivery / Logistics heroes.
  */
 export default function TripHero() {
   return (
@@ -162,18 +161,21 @@ export default function TripHero() {
           </p>
 
           <p
-            className="trip-hero-fade mb-8 max-w-md text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
+            className="trip-hero-fade mb-8 max-w-md space-y-3 text-[15px] leading-relaxed text-[#4a4a45] sm:text-base sm:leading-[1.7]"
             style={{ animationDelay: "200ms" }}
           >
-            {emphasizePhrases(
-              "Traveling Partner makes tourism travel in Pakistan easier to plan. Whether you're heading to the northern areas, planning a family holiday, arranging a group tour, or taking a weekend getaway, you can book travel through one platform. Choose your route, set your travel plans, and travel with verified drivers. From short escapes to longer journeys, Traveling Partner helps you arrange comfortable and reliable tourism transport across Pakistan.",
-              [
-                "tourism travel in Pakistan",
-                "northern areas",
-                "verified drivers",
-                "tourism transport across Pakistan",
-              ],
-            )}
+            <span className="block">
+              Traveling Partner makes tourism travel in Pakistan easier to plan.
+              Whether you&apos;re heading to the northern areas, planning a
+              family holiday, arranging a group tour, or taking a weekend
+              getaway, you can book travel through one platform.
+            </span>
+            <span className="block">
+              Choose your route, set your travel plans, and travel with verified
+              drivers. From short escapes to longer journeys, Traveling Partner
+              helps you arrange comfortable and reliable tourism transport across
+              Pakistan.
+            </span>
           </p>
 
           <div

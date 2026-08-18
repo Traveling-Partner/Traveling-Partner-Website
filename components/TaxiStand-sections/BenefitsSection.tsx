@@ -102,7 +102,7 @@ export default function BenefitsSection() {
               Getting from one place to another shouldn&apos;t be difficult.
               Whether you&apos;re booking a ride or driving one, Traveling
               Partner keeps things simple. Book a ride online, travel with
-              verified drivers, or earn more with our zero commission ride app.
+              verified drivers, or earn more with our zero-commission ride app.
             </motion.p>
 
             <ul className="mb-8 flex w-full max-w-lg flex-col gap-2.5 sm:mb-9 sm:gap-3">

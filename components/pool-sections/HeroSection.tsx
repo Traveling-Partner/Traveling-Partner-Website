@@ -215,7 +215,7 @@ export default function HeroSection() {
             </div>
 
             {/* Floating: SHARE / Your / Ride — matches Figma stacked card */}
-            <div className="pool-float absolute left-0 top-[4%] z-10 min-w-[120px] rounded-2xl bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[6%] sm:min-w-[132px] sm:px-5 sm:py-3.5">
+            <div className="pool-float absolute left-1 top-[4%] z-10 min-w-0 rounded-2xl bg-white px-3 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[6%] sm:min-w-[132px] sm:px-5 sm:py-3.5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FDB813] sm:text-[11px]">
                 Share
               </p>
@@ -229,7 +229,7 @@ export default function HeroSection() {
 
             {/* Floating: SPLIT FARE 50% */}
             <div
-              className="pool-float absolute bottom-[12%] right-0 z-10 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-3 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[14%] sm:right-[2%] sm:px-5 sm:py-3.5"
+              className="pool-float absolute bottom-[12%] right-1 z-10 rounded-2xl bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-2.5 shadow-[0_12px_32px_rgba(253,184,19,0.45)] sm:bottom-[14%] sm:right-[2%] sm:px-5 sm:py-3.5"
               style={{ animationDelay: "1.2s" }}
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/95 sm:text-[11px]">

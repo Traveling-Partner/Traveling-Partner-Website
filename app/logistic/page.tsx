@@ -8,7 +8,7 @@ import MoveBulkCargoSection from "@/components/logistic-sections/MoveBulkCargoSe
 
 export default function Logistics() {
   return (
-    <div>
+    <div className="w-full min-w-0 overflow-x-hidden">
       <LogisticsHero />
       <LogisticsBenefitsSection />
       <LogisticsFasterSaferSection />

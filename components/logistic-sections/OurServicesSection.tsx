@@ -45,7 +45,7 @@ const DESKTOP_CARDS: DesktopPhotoCardData[] = [
     href: "/taxi-stand",
     image: "/images/taxi-stand/services/card-logistics.png",
     icon: "/images/taxi-stand/services/icon-taxi.png",
-    title: "Taxi Stand",
+    title: "Taxi Ride",
     subtitle: "Upfront fares",
     video: TAXI_VIDEO,
     mask: LOGISTICS_MASK,
@@ -70,7 +70,7 @@ const MOBILE_CARDS = [
   {
     href: "/taxi-stand",
     icon: "/images/taxi-stand/services/icon-taxi.png",
-    title: "Taxi Stand",
+    title: "Taxi Ride",
     subtitle: "Upfront fares",
     video: TAXI_VIDEO,
     ...CLEAN_MOBILE_CARDS.logistics,

@@ -124,8 +124,8 @@ function RegisterSubtext(): React.ReactElement {
       }}
     >
       {emphasizePhrases(
-        "Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
-        ["zero commission ride app"],
+        "Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero-commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
+        ["zero-commission ride app"],
         "onDark",
       )}
     </div>
@@ -280,7 +280,7 @@ function CtaSlot({
           transformOrigin: "center center",
         }}
       >
-        <div className="h-full w-full origin-center [container-type:size] max-md:scale-[1.25]">
+        <div className="h-full w-full origin-center [container-type:size] max-md:origin-bottom max-md:scale-[1.12]">
           {children}
         </div>
       </div>
@@ -291,10 +291,7 @@ function CtaSlot({
 /** Single Figma canvas — scales proportionally on mobile & desktop */
 function RegisterSectionCanvas(): React.ReactElement {
   return (
-    <div
-      className="relative mx-auto w-full max-w-[1920px] [container-type:size] overflow-visible"
-      style={{ aspectRatio: `${SECTION_W} / ${SECTION_H}` }}
-    >
+    <div className="relative mx-auto aspect-[1920/1200] w-full max-w-[1920px] overflow-visible [container-type:size] max-md:aspect-[1920/1700]">
       <div className="absolute inset-0 overflow-hidden">
         <Image
           src="/images/register-section-car.png"

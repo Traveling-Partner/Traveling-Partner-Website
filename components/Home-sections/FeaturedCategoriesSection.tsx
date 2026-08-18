@@ -4,11 +4,11 @@ import Image from "next/image";
 
 const categories = [
   {
-    title: "Taxi stand",
+    title: "Taxi Ride",
     image:
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Carpool_edmkbm.png",
     description:
-"Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions."
+"Traveling Partner offers a platform connecting you with Cab Ride, providing hassle-free commuting without additional commissions."
   },
   {
     title: "Logistic",

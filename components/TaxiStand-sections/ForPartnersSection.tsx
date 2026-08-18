@@ -206,7 +206,7 @@ export default function ForPartnersSection() {
             </span>
           </div>
 
-          <h2 className="mb-4 text-[28px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:whitespace-nowrap sm:text-4xl md:text-5xl lg:text-[52px]">
+          <h2 className="mb-4 text-[28px] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:text-4xl md:text-5xl lg:whitespace-nowrap lg:text-[52px]">
             Let&apos;s Get You{" "}
             <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium text-transparent">Moving.</span>
           </h2>

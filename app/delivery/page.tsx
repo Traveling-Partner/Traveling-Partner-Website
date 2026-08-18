@@ -8,7 +8,7 @@ import ReadyToSendSection from "@/components/Delivery-sections/ReadyToSendSectio
 
 export default function Delivery() {
   return (
-    <div>
+    <div className="w-full min-w-0 overflow-x-hidden">
       <DeliveryHero />
       <DeliveryTreasureSection />
       <HowDeliveryWorks />

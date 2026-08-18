@@ -124,7 +124,7 @@ export default function LogisticsFasterSaferSection() {
                 </em>{" "}
                 Than
                 <br />
-                You Expect.
+                You expect.
               </motion.h2>
 
               <motion.div

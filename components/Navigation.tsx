@@ -302,7 +302,7 @@ export default function Navigation() {
             <Link
               href="/contact"
               onClick={(e) => handleNavClick(e, "/contact")}
-              className={`inline-flex h-9 items-center rounded-full px-2.5 font-poppins text-[11px] font-bold leading-none transition-colors sm:px-3 ${
+              className={`inline-flex h-10 items-center rounded-full px-2.5 font-poppins text-[11px] font-bold leading-none transition-colors sm:px-3 ${
                 contactActive
                   ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]"
                   : "bg-[#0b0b0b] text-[#FCE001]"
@@ -315,7 +315,7 @@ export default function Navigation() {
               type="button"
               onClick={() => setIsOpen((v) => !v)}
               onKeyDown={onMenuBtnKeyDown}
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                 isOpen
                   ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] shadow-[0_4px_12px_rgba(253,184,19,0.4)]"
                   : "bg-[#0b0b0b] text-white"

@@ -328,7 +328,7 @@ export default function ContactUsForm(): React.ReactElement {
                         key={tab}
                         type="button"
                         onClick={() => setActiveTab(tab)}
-                        className={`rounded-full px-2 py-2 font-poppins text-[11px] font-semibold transition-all sm:px-3 sm:py-2.5 sm:text-[13px] ${
+                        className={`flex min-h-[40px] min-w-0 items-center justify-center truncate rounded-full px-1.5 py-2 font-poppins text-[10px] font-semibold transition-all sm:min-h-[44px] sm:px-3 sm:py-2.5 sm:text-[13px] ${
                           active
                             ? "bg-white text-[#0b0b0b] shadow-sm"
                             : "text-[#6f6e68] hover:text-[#0b0b0b]"

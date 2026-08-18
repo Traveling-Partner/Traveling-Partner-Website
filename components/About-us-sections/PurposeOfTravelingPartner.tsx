@@ -42,7 +42,7 @@ export default function PurposeOfTravelingPartner() {
             />
           </div>
 
-          <div className="absolute -bottom-3 -right-3 z-10 rounded-2xl bg-[#0b0b0b] px-4 py-3 shadow-[0_14px_36px_rgba(0,0,0,0.45)] sm:-bottom-4 sm:-right-4 sm:px-5 sm:py-3.5">
+          <div className="absolute bottom-3 right-3 z-10 rounded-2xl bg-[#0b0b0b] px-4 py-3 shadow-[0_14px_36px_rgba(0,0,0,0.45)] sm:-bottom-4 sm:-right-4 sm:px-5 sm:py-3.5">
             <p className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text text-[10px] font-bold uppercase tracking-[0.14em] text-transparent sm:text-[11px]">
               Trusted Across
             </p>

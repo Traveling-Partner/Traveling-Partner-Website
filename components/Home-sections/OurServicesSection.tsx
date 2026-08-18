@@ -491,7 +491,7 @@ export default function OurServicesSection(): React.ReactElement {
                       {stat.value}
                       <span className="text-[clamp(24px,5.5vw,48px)] font-bold">{stat.suffix}</span>
                     </p>
-                    <p className="mt-1.5 font-poppins text-[8px] font-semibold uppercase leading-tight tracking-[0.1em] text-[#8a877f] sm:mt-2 sm:text-[10px] sm:tracking-[0.12em] md:text-[11px]">
+                    <p className="mt-1.5 font-poppins text-[9px] font-semibold uppercase leading-tight tracking-[0.08em] text-[#8a877f] sm:mt-2 sm:text-[10px] sm:tracking-[0.12em] md:text-[11px]">
                       {stat.label}
                     </p>
                   </div>

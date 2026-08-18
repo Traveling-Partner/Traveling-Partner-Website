@@ -13,9 +13,9 @@ type PinMode = "static" | "fixed" | "bottom";
 const CONTACT_ACTIONS = [
   {
     label: "Mail Us",
-    href: "mailto:support@traveling-partner.com",
+    href: "mailto:info@traveling-partner.com",
     icon: "/images/terms/icon-contact-envelope.png",
-    detail: "support@traveling-partner.com",
+    detail: "info@traveling-partner.com",
   },
   {
     label: "Call Us",
@@ -173,8 +173,25 @@ export default function TermsConditionsPage() {
     }, 900);
   };
 
-  const handlePrint = () => {
-    window.print();
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+
+  const handlePrint = async () => {
+    const source = document.getElementById("terms-print-source");
+    if (!source || isDownloadingPdf) return;
+
+    setSidebarPin("static");
+    setIsDownloadingPdf(true);
+    try {
+      const { downloadTermsPdf } = await import("@/lib/downloadTermsPdf");
+      await downloadTermsPdf(source);
+    } catch (err) {
+      console.error(err);
+      window.alert(
+        "Could not create the PDF. Please check your connection and try again.",
+      );
+    } finally {
+      setIsDownloadingPdf(false);
+    }
   };
 
   const sidebarNav = (
@@ -227,7 +244,8 @@ export default function TermsConditionsPage() {
         <button
           type="button"
           onClick={handlePrint}
-          className="flex w-full items-center gap-3 rounded-full border border-[#eceae4] bg-white px-3 py-2.5 text-left transition-colors hover:bg-[#faf9f6]"
+          disabled={isDownloadingPdf}
+          className="flex w-full items-center gap-3 rounded-full border border-[#eceae4] bg-white px-3 py-2.5 text-left transition-colors hover:bg-[#faf9f6] disabled:cursor-wait disabled:opacity-70"
         >
           <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#FCE001]">
             <Image
@@ -239,7 +257,7 @@ export default function TermsConditionsPage() {
             />
           </span>
           <span className="text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
-            Print / Save as PDF
+            {isDownloadingPdf ? "Preparing PDF…" : "Download PDF"}
           </span>
         </button>
 
@@ -265,17 +283,31 @@ export default function TermsConditionsPage() {
   );
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
-      <TermsHero />
+    <div className="terms-print-root min-h-screen overflow-x-hidden bg-[#FEFBF6]">
+      <div className="print:hidden">
+        <TermsHero />
+      </div>
 
-      <section className="bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Print / PDF document header (A4 only) */}
+      <div className="terms-print-doc-header hidden print:block">
+        <p className="terms-print-kicker">Traveling Partner</p>
+        <h1>Terms &amp; Conditions</h1>
+        <p className="terms-print-meta">
+          Effective as of October 23, 2023 · traveling-partner.com
+        </p>
+      </div>
+
+      <section className="bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4 print:bg-white print:pb-0 print:pt-0">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 print:mx-0 print:max-w-none print:px-0">
           <div
             ref={layoutRef}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:gap-12"
+            className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:gap-12 print:block"
           >
             {/* Same CONTENTS sidebar on mobile + desktop (Figma match) */}
-            <div ref={sidebarColRef} className="relative min-h-[1px] order-1 lg:order-none">
+            <div
+              ref={sidebarColRef}
+              className="relative order-1 min-h-[1px] print:hidden lg:order-none"
+            >
               <div
                 className="lg:block"
                 style={
@@ -288,24 +320,27 @@ export default function TermsConditionsPage() {
               </div>
             </div>
 
-            <article className="order-2 min-w-0 rounded-[24px] border border-[#eceae4] bg-white p-5 shadow-[0_8px_28px_rgba(0,0,0,0.05)] sm:rounded-[28px] sm:p-8 lg:order-none lg:p-10">
+            <article
+              id="terms-print-source"
+              className="terms-print-article order-2 min-w-0 rounded-[24px] border border-[#eceae4] bg-white p-5 shadow-[0_8px_28px_rgba(0,0,0,0.05)] sm:rounded-[28px] sm:p-8 lg:order-none lg:p-10"
+            >
               {termsSections.map((section) => {
                 if (section.slug === "contact-us") {
                   return (
                     <section
                       key={section.slug}
                       id={section.slug}
-                      className="mt-10 scroll-mt-28"
+                      className="terms-print-section mt-10 scroll-mt-28"
                       aria-labelledby={`heading-${section.slug}`}
                     >
-                      <div className="overflow-hidden rounded-[22px] bg-[#0b0b0b] p-5 sm:rounded-[24px] sm:p-7">
+                      <div className="terms-print-contact overflow-hidden rounded-[22px] bg-[#0b0b0b] p-5 sm:rounded-[24px] sm:p-7">
                         <div className="mb-3 flex items-center gap-3">
                           <Image
                             src="/images/terms/icon-contact-envelope.png"
                             alt=""
                             width={40}
                             height={40}
-                            className="h-10 w-10 object-contain"
+                            className="h-10 w-10 object-contain print:hidden"
                           />
                           <h2
                             id={`heading-${section.slug}`}
@@ -320,7 +355,7 @@ export default function TermsConditionsPage() {
                             </em>
                           </h2>
                         </div>
-                        <div className="mb-5 space-y-3 text-[14px] leading-[1.75] sm:text-[15px] [&_p]:!text-white/75">
+                        <div className="terms-print-contact-body mb-5 space-y-3 text-[14px] leading-[1.75] sm:text-[15px] [&_p]:!text-white/75">
                           {section.content}
                         </div>
                         <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
@@ -328,14 +363,14 @@ export default function TermsConditionsPage() {
                             <Link
                               key={action.label}
                               href={action.href}
-                              className="inline-flex items-center gap-2.5 rounded-full border border-[#FCE001]/50 bg-transparent px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:border-[#FCE001] hover:bg-[#FCE001]/10"
+                              className="terms-print-contact-link inline-flex items-center gap-2.5 rounded-full border border-[#FCE001]/50 bg-transparent px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:border-[#FCE001] hover:bg-[#FCE001]/10"
                             >
                               <Image
                                 src={action.icon}
                                 alt=""
                                 width={22}
                                 height={22}
-                                className="h-[22px] w-[22px] object-contain"
+                                className="h-[22px] w-[22px] object-contain print:hidden"
                               />
                               {action.detail}
                             </Link>
@@ -354,10 +389,10 @@ export default function TermsConditionsPage() {
                   <section
                     key={section.slug}
                     id={section.slug}
-                    className="scroll-mt-28 border-b border-dashed border-[#e8e4da] py-7 first:pt-0 last:border-b-0 sm:py-8"
+                    className="terms-print-section scroll-mt-28 border-b border-dashed border-[#e8e4da] py-7 first:pt-0 last:border-b-0 sm:py-8"
                     aria-labelledby={`heading-${section.slug}`}
                   >
-                    <div className="mb-4 flex items-start gap-3 sm:mb-5 sm:gap-3.5">
+                    <div className="terms-print-heading mb-4 flex items-start gap-3 sm:mb-5 sm:gap-3.5">
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] text-[12px] font-bold tabular-nums text-[#FCE001] sm:h-9 sm:w-9 sm:text-[13px]">
                         {section.id}
                       </span>
@@ -368,7 +403,7 @@ export default function TermsConditionsPage() {
                         {accentTitle(section.title, section.titleSuffix ?? "")}
                       </h2>
                     </div>
-                    <div>{section.content}</div>
+                    <div className="terms-print-body">{section.content}</div>
                   </section>
                 );
               })}

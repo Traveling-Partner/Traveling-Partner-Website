@@ -96,8 +96,8 @@ export default function DeliveryTreasureSection() {
           </div>
 
           <h2 className="mb-3 text-[34px] font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] sm:text-5xl lg:text-[52px]">
-            Deliver Your{" "}
-            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">Treasure.</em>
+            Send it{" "}
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">safely</em>
           </h2>
 
           <p className="mx-auto max-w-[560px] text-[13px] leading-[1.45] text-[#6F6E68] sm:text-[14px] sm:leading-[1.5]">
@@ -141,7 +141,7 @@ export default function DeliveryTreasureSection() {
             </div>
 
             {/* Safe Delivery — bottom-right, slightly outside the image */}
-            <div className="absolute -bottom-3 -right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
+            <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
               <Image
                 src="/images/delivery/treasure/icon-box.png"
                 alt=""

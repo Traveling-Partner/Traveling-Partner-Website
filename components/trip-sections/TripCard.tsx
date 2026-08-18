@@ -22,7 +22,7 @@ export default function TripCard({
       className={className}
       variant={variant}
       title="Tourism."
-      description="Plan family trips, group tours, and travel across Pakistan with flexible options."
+      description="Plan family trips, group tours, weekend getaways, and travel across Pakistan with flexible travel options."
       features={FEATURES}
       iconSrc="/images/taxi-stand/services/icon-trip.png"
       gradientId="tripFeaturedMobileGrad"
