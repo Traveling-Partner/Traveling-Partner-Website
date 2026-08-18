@@ -3,7 +3,7 @@
 import { forwardRef, useEffect, useState, type FormEvent } from "react";
 import { Mail } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
-import { submitContactForm } from "@/services/contact";
+import { subscribeNewsletter } from "@/services/newsletter";
 
 export type TocItem = {
   id: string;
@@ -31,13 +31,7 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
 
       setLoading(true);
       try {
-        await submitContactForm({
-          name: "Newsletter Subscriber",
-          email: trimmed,
-          subject: "Newsletter",
-          message: `Please subscribe me to the Traveling Partner newsletter.\n\nEmail: ${trimmed}`,
-          phoneNumber: "",
-        });
+        await subscribeNewsletter(trimmed);
         setStatus({
           type: "success",
           message: "You’re subscribed! Watch your inbox for travel tips and offers.",
