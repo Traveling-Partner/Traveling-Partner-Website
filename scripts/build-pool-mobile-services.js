@@ -121,7 +121,7 @@ const poolFull = path.join(destDir, "services-mobile-pool.png");
     </linearGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#d)"/>
-  <text x="${poolW * 0.28}" y="${poolH * 0.28}" font-family="Poppins, Arial, sans-serif" font-size="${poolW * 0.09}" font-weight="700" fill="#fff">Taxi Stand</text>
+  <text x="${poolW * 0.28}" y="${poolH * 0.28}" font-family="Poppins, Arial, sans-serif" font-size="${poolW * 0.09}" font-weight="700" fill="#fff">Taxi Ride</text>
   <text x="${poolW * 0.28}" y="${poolH * 0.40}" font-family="Poppins, Arial, sans-serif" font-size="${poolW * 0.065}" font-weight="500" font-style="italic" fill="rgba(255,255,255,0.9)">City rides</text>
 </svg>`);
 

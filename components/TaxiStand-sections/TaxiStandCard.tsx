@@ -21,7 +21,7 @@ export default function TaxiStandCard({
     <FeaturedServiceCard
       className={className}
       variant={variant}
-      title="Taxi Stand."
+      title="Taxi Ride."
       description="Book a ride online with verified drivers for your everyday travel."
       features={FEATURES}
       iconSrc="/images/taxi-stand/services/icon-taxi.png"

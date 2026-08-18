@@ -9,7 +9,7 @@ import DesktopServicesLayout, {
   type DesktopPhotoCardData,
 } from "@/components/services/DesktopServicesLayout";
 
-/** Same service videos / masks as Taxi Stand & Pool Ride — shapes unchanged */
+/** Same service videos / masks as Taxi Ride & Pool Ride — shapes unchanged */
 const POOL_VIDEO = "/videos/pool-bg.mp4";
 const POOL_MASK = "/images/taxi-stand/services/card-pool-mask.png";
 const TRIP_VIDEO = "/videos/trip-bg.mp4";
@@ -35,7 +35,7 @@ const DESKTOP_CARDS: DesktopPhotoCardData[] = [
     href: "/taxi-stand",
     image: "/images/taxi-stand/services/card-delivery.png",
     icon: "/images/taxi-stand/services/icon-taxi.png",
-    title: "Taxi Stand",
+    title: "Taxi Ride",
     subtitle: "City rides",
     video: TAXI_VIDEO,
     mask: DELIVERY_MASK,
@@ -94,7 +94,7 @@ const MOBILE_CARDS = [
   {
     href: "/taxi-stand",
     icon: "/images/taxi-stand/services/icon-taxi.png",
-    title: "Taxi Stand",
+    title: "Taxi Ride",
     subtitle: "City rides",
     video: TAXI_VIDEO,
     ...CLEAN_MOBILE_CARDS.delivery,

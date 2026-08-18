@@ -78,7 +78,7 @@ function StoreButton({
 
 /**
  * Logistics page hero — pixel-matched to Figma, same system as
- * Taxi Stand / Pool Ride / Delivery heroes.
+ * Taxi Ride / Pool Ride / Delivery heroes.
  */
 export default function LogisticsHero() {
   return (

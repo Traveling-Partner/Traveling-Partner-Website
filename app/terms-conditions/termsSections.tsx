@@ -134,7 +134,7 @@ export const termsSections: TermsSection[] = [
         </p>
         <div className="space-y-4">
           <p className={body}>
-            <span className="font-semibold text-[#0b0b0b]">Taxi Stand:</span>{" "}
+            <span className="font-semibold text-[#0b0b0b]">Taxi Ride:</span>{" "}
             {emphasizePhrases(
               "Book city rides with verified drivers for your everyday travel. Availability depends on nearby drivers and operating conditions.",
               ["verified drivers"],

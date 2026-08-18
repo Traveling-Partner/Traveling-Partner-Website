@@ -128,7 +128,7 @@ export default function HeroSection() {
               className="relative inline-block origin-center rounded-[10.8px] border-b-[5px] border-r-[5px] border-black bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3 py-1 font-medium text-black shadow-[0_8px_24px_rgba(253,184,19,0.35)] sm:px-4 sm:py-1.5"
               style={{ transform: "rotate(-1.5deg)" }}
             >
-              Stand.
+              Ride.
             </span>
           </h1>
 

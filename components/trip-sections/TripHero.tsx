@@ -98,7 +98,7 @@ function StoreButton({
 
 /**
  * Trip page hero — pixel-matched to Figma, same system as
- * Taxi Stand / Pool Ride / Delivery / Logistics heroes.
+ * Taxi Ride / Pool Ride / Delivery / Logistics heroes.
  */
 export default function TripHero() {
   return (

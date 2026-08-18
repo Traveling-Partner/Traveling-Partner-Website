@@ -47,8 +47,8 @@ export const SERVICES: ServiceItem[] = [
   {
     id: "taxi-stand",
     href: "/taxi-stand",
-    label: "Taxi Stand",
-    short: "Private rides from nearby taxi stands.",
+    label: "Taxi Ride",
+    short: "Private rides from nearby Cab Ride.",
     description: "Reliable city rides with professional drivers.",
     features: [
       "Real-time booking",

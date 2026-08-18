@@ -56,7 +56,7 @@ type Service = {
 const services: Service[] = [
   {
     number: "01",
-    title: "Taxi Stand",
+    title: "Taxi Ride",
     label: "City rides",
     key: "taxi",
     image: "/images/about/explore/card-taxi.png",
