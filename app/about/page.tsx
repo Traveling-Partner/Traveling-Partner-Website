@@ -7,7 +7,7 @@ import ExploreOurServices from "@/components/About-us-sections/ExploreOurService
 import YourTrustSection from "@/components/About-us-sections/YourTrustSection";
 const AboutUs: React.FC = () => {
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0 overflow-x-hidden">
       <AboutHero />
       <PurposeSection />
       <ChooseUsSection />

@@ -225,7 +225,7 @@ export default function DeliveryHero() {
             </div>
 
             {/* Floating: Trusted Couriers */}
-            <div className="delivery-float absolute left-0 top-[6%] z-10 rounded-2xl bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[8%] sm:px-5 sm:py-3.5">
+            <div className="delivery-float absolute left-1 top-[6%] z-10 rounded-2xl bg-white px-3 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:left-[2%] sm:top-[8%] sm:px-5 sm:py-3.5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#fdb813] sm:text-[11px]">
                 Trusted Couriers
               </p>
@@ -236,7 +236,7 @@ export default function DeliveryHero() {
 
             {/* Floating: On-Time Delivery */}
             <div
-              className="delivery-float absolute bottom-[10%] right-0 z-10 rounded-2xl bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:bottom-[12%] sm:right-[2%] sm:px-5 sm:py-3.5"
+              className="delivery-float absolute bottom-[10%] right-1 z-10 rounded-2xl bg-white px-3 py-2.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)] sm:bottom-[12%] sm:right-[2%] sm:px-5 sm:py-3.5"
               style={{ animationDelay: "1.2s" }}
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#fdb813] sm:text-[11px]">

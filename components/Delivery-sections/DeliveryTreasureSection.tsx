@@ -141,7 +141,7 @@ export default function DeliveryTreasureSection() {
             </div>
 
             {/* Safe Delivery — bottom-right, slightly outside the image */}
-            <div className="absolute -bottom-3 -right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
+            <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2.5 rounded-[18px] bg-white px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.14)] sm:-bottom-4 sm:-right-4 sm:px-3.5 sm:py-3">
               <Image
                 src="/images/delivery/treasure/icon-box.png"
                 alt=""

@@ -9,7 +9,7 @@ import BenefitsSection from "@/components/TaxiStand-sections/BenefitsSection";
 
 export default function TaxiStand() {
   return (
-    <div className="font-[Poppins]">
+    <div className="w-full min-w-0 overflow-x-hidden font-[Poppins]">
       <HeroSection />
       <ForDriversSection />
       <DriveWithUsSection />

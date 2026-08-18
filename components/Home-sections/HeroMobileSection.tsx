@@ -66,7 +66,7 @@ function ExploreServicesButtonMobile(): React.ReactElement {
 function HeroManMobile(): React.ReactElement {
   return (
     <div
-      className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden"
+      className="relative left-1/2 w-full max-w-full -translate-x-1/2 overflow-hidden"
       style={{
         marginTop: cqw(4),
         aspectRatio: `${FW} / ${HERO_IMAGE_H}`,

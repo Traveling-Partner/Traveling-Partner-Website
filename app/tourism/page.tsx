@@ -7,7 +7,7 @@ import ReadyToTripSection from "@/components/trip-sections/ReadyToTripSection";
 
 export default function Tourism() {
   return (
-    <div>
+    <div className="w-full min-w-0 overflow-x-hidden">
       <TripHero />
       <TripWeekend />
       <TripReliable />

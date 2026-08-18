@@ -6,7 +6,7 @@ import GoingSameWaySection from "@/components/pool-sections/GoingSameWaySection"
 
 export default function PoolRide() {
   return (
-    <div className="font-poppins">
+    <div className="w-full min-w-0 overflow-x-hidden font-poppins">
       <HeroSection />
       <BenefitsSection />
       <FeaturesSection />

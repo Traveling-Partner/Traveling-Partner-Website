@@ -455,7 +455,7 @@ export default function AboutUsSection(): React.ReactElement {
           >
             <h2
               id="about-us-heading"
-              className="whitespace-nowrap font-poppins tracking-[-2.8px]"
+              className="whitespace-nowrap max-[380px]:whitespace-normal font-poppins tracking-[-2.8px] max-[380px]:tracking-[-1.2px]"
               style={{ maxWidth: HEAD_W }}
             >
               <span className="inline font-bold text-[clamp(36px,4.167vw,80px)] leading-[clamp(36px,4.167vw,80px)] text-[#0b0b0b]">
