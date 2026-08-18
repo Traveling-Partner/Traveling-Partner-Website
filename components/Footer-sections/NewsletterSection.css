@@ -180,15 +180,15 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  max-width: 24rem;
-  padding-right: 1rem;
+  max-width: 27rem;
+  padding-right: 0.5rem;
 }
 
 .sil__form {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 22rem;
+  max-width: 25.5rem;
   padding: 0.3rem 0.3rem 0.3rem 0.9rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.96);
@@ -209,14 +209,28 @@
   border: 0;
   outline: none;
   background: transparent;
-  padding: 0.7rem 0.65rem;
+  padding: 0.75rem 0.65rem;
   font-family: var(--font-poppins), Poppins, system-ui, sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   color: #0b0b0b;
+  text-overflow: ellipsis;
 }
 
 .sil__input::placeholder {
   color: #b0ada4;
+}
+
+/* Chrome ignores background-color while an input is autofilled, so the pill is
+   repainted with an inset shadow to avoid the browser's blue wash. */
+.sil__input:-webkit-autofill,
+.sil__input:-webkit-autofill:hover,
+.sil__input:-webkit-autofill:focus,
+.sil__input:-webkit-autofill:active {
+  -webkit-text-fill-color: #0b0b0b;
+  caret-color: #0b0b0b;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
 
 .sil__submit {

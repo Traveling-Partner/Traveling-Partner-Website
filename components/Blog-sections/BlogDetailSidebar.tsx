@@ -3,7 +3,7 @@
 import { forwardRef, useEffect, useState, type FormEvent } from "react";
 import { Mail } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
-import { submitContactForm } from "@/services/contact";
+import { subscribeNewsletter } from "@/services/newsletter";
 
 export type TocItem = {
   id: string;
@@ -31,13 +31,7 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
 
       setLoading(true);
       try {
-        await submitContactForm({
-          name: "Newsletter Subscriber",
-          email: trimmed,
-          subject: "Newsletter",
-          message: `Please subscribe me to the Traveling Partner newsletter.\n\nEmail: ${trimmed}`,
-          phoneNumber: "",
-        });
+        await subscribeNewsletter(trimmed);
         setStatus({
           type: "success",
           message: "You’re subscribed! Watch your inbox for travel tips and offers.",
@@ -99,7 +93,7 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
                 required
                 disabled={loading}
                 autoComplete="email"
-                className="w-full rounded-full border border-[#e8e4da] bg-[#faf8f3] px-4 py-3.5 text-[14px] text-[#0b0b0b] outline-none transition-colors placeholder:text-[#9a968c] focus:border-[#FDB813] focus:bg-white disabled:opacity-60"
+                className="w-full rounded-full border border-[#e8e4da] bg-[#faf8f3] px-4 py-3.5 text-[14px] text-[#0b0b0b] outline-none transition-colors placeholder:text-[#9a968c] autofill:[-webkit-text-fill-color:#0b0b0b] autofill:shadow-[inset_0_0_0_1000px_#faf8f3] focus:border-[#FDB813] focus:bg-white focus:autofill:shadow-[inset_0_0_0_1000px_#ffffff] disabled:opacity-60"
               />
               <button
                 type="submit"
