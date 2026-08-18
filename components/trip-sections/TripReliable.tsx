@@ -14,7 +14,7 @@ const cards = [
     iconAlt: "Verified travel drivers",
     title: "Verified Travel Drivers",
     description:
-      "Travel with drivers who complete Traveling Partner’s verification process. From pickup to destination, your journey stays connected through one booking.",
+      "Travel with drivers who complete the Traveling Partner’s verification process before joining the platform. From pickup to your destination, your journey stays connected through one booking.",
     featured: false,
   },
   {
@@ -22,15 +22,15 @@ const cards = [
     iconAlt: "Flexible travel plans",
     title: "Flexible Travel Plans",
     description:
-      "Planning a family trip, group tour, or weekend getaway? Select the date, time, and route that fits your travel plans.",
+      "Planning a family trip, group tour or weekend getaway? Select the date, time and route that fits your travel plans.",
     featured: true,
   },
   {
     icon: "/images/trip/reliable/icon-cash.png",
-    iconAlt: "Transparent travel fares",
-    title: "Transparent Travel Fares",
+    iconAlt: "Fare visibility",
+    title: "Fare Visibility",
     description:
-      "See the travel fare before you confirm your booking. You’ll know the expected cost before your journey begins.",
+      "Review the applicable fare before confirming your booking, so you know the expected cost of your journey.",
     featured: false,
   },
 ] as const;
@@ -177,8 +177,8 @@ export default function TripReliable() {
           </h2>
 
           <p className="font-poppins text-[15px] italic leading-relaxed text-white/75 sm:text-[17px] sm:leading-[1.55] md:text-[18px]">
-            Your driver handles the road while you focus on the places, people,
-            and experiences ahead.
+            Sit back and enjoy the journey. Your driver handles the road while
+            you focus on the places, people, and experiences ahead.
           </p>
         </motion.div>
 

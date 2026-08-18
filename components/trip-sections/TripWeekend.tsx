@@ -7,21 +7,22 @@ const features = [
   {
     title: "Verified Travel Drivers",
     description:
-      "travel with drivers who complete Traveling Partner’s verification process.",
+      "Travel with drivers who complete the Traveling Partner’s verification process before joining the platform. From pickup to your destination, your journey stays connected through one booking.",
   },
   {
     title: "Flexible Travel Plans",
     description:
-      "select the date, time, and route that fits your journey.",
+      "Planning a family trip, group tour or weekend getaway? Select the date, time and route that fits your travel plans.",
   },
   {
-    title: "Transparent Travel Fares",
-    description: "see the travel fare before you confirm your booking.",
+    title: "Fare Visibility",
+    description:
+      "Review the applicable fare before confirming your booking, so you know the expected cost of your journey.",
   },
   {
     title: "Comfortable Travel",
     description:
-      "sit back and enjoy the journey while your driver handles the road.",
+      "Sit back and enjoy the journey. Your driver handles the road while you focus on the places, people, and experiences ahead.",
   },
 ] as const;
 
@@ -65,7 +66,7 @@ export default function TripWeekend() {
             transition={{ duration: 0.5 }}
             className="relative w-full max-w-[480px] lg:max-w-[460px] lg:shrink-0"
           >
-            <div className="relative aspect-[764/788] w-full overflow-hidden rounded-[28px] sm:rounded-[32px] lg:rounded-[36px]">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] sm:rounded-[32px] lg:min-h-[560px] lg:rounded-[36px]">
               <Image
                 src="/images/trip/weekend/weekend-photo.png"
                 alt="Friends enjoying a weekend road trip with Traveling Partner"
@@ -99,20 +100,29 @@ export default function TripWeekend() {
           >
             <div className="mb-5 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
-                Why Choose Tourism
+                Why Choose a Traveling Partner for Tourism?
               </span>
             </div>
 
             <h2 className="mb-4 max-w-lg font-poppins text-[clamp(28px,4.5vw,46px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-5">
-              Why Choose{" "}
-              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Tourism?</span>
+              Why Choose a Traveling Partner for{" "}
+              <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+                Tourism?
+              </span>
             </h2>
 
-            <p className="mb-6 max-w-lg text-[14px] leading-relaxed text-[#5c5b55] sm:mb-7 sm:text-[15px]">
-              Every journey is different. Some people plan a family vacation weeks
-              ahead, while others decide on a weekend trip at the last minute.
-              Traveling Partner gives you a simpler way to arrange tourism
-              transport in Pakistan.
+            <p className="mb-6 max-w-lg space-y-3 text-[14px] leading-relaxed text-[#5c5b55] sm:mb-7 sm:text-[15px]">
+              <span className="block">
+                Every journey is different. Some people plan a family vacation
+                weeks ahead, while others decide on a weekend trip at the last
+                minute.
+              </span>
+              <span className="block">
+                Traveling Partner gives you a simpler way to arrange tourism
+                transport in Pakistan. Choose your destination, plan your travel
+                around your schedule, and book a verified travel driver without
+                managing transport through multiple contacts.
+              </span>
             </p>
 
             <div

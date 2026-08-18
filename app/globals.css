@@ -907,3 +907,384 @@ img {
     transform: rotate(0deg);
   }
 }
+
+/* ── Terms & Conditions: A4 / Save as PDF ─────────────────────────── */
+@page {
+  size: A4 portrait;
+  /* Fallback for Ctrl+P — button uses isolated iframe print */
+  margin: 20px !important;
+}
+
+@page :first {
+  margin: 20px !important;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    color: #0b0b0b !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.printing-terms {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hide site chrome */
+  body > header,
+  body > footer,
+  [data-tp-splash],
+  .AppSplashLoader {
+    display: none !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  main {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+    flex: none !important;
+  }
+
+  .terms-print-root,
+  .terms-print-root * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .terms-print-root {
+    display: block !important;
+    background: #fff !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .terms-print-pad {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .terms-print-root section {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .terms-print-root .mx-auto,
+  .terms-print-root [class*="max-w-"] {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .terms-print-doc-header {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 0 8mm !important;
+    padding: 0 0 3.5mm !important;
+    border-bottom: 1.25pt solid #0b0b0b !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .terms-print-doc-header .terms-print-kicker {
+    margin: 0 0 1.5mm !important;
+    font-size: 8.5pt !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: #6f6e68 !important;
+  }
+
+  .terms-print-doc-header h1 {
+    margin: 0 0 1.5mm !important;
+    font-size: 18pt !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    color: #0b0b0b !important;
+  }
+
+  .terms-print-doc-header .terms-print-meta {
+    margin: 0 !important;
+    font-size: 9pt !important;
+    color: #6f6e68 !important;
+  }
+
+  .terms-print-article {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    overflow: visible !important;
+    position: static !important;
+    box-sizing: border-box !important;
+  }
+
+  .terms-print-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    break-inside: auto;
+    page-break-inside: auto;
+    border-bottom: 0.6pt dashed #cfc9bc !important;
+    padding: 4.5mm 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  .terms-print-section:first-of-type {
+    padding-top: 0 !important;
+  }
+
+  .terms-print-section:last-of-type {
+    border-bottom: none !important;
+  }
+
+  /* Keep section title with at least the first lines of body */
+  .terms-print-heading {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 2.5mm !important;
+    margin: 0 0 2.5mm !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .terms-print-heading span {
+    flex-shrink: 0 !important;
+    width: 7mm !important;
+    height: 7mm !important;
+    border-radius: 999px !important;
+    font-size: 9pt !important;
+  }
+
+  .terms-print-article h2 {
+    font-size: 12.5pt !important;
+    line-height: 1.25 !important;
+    color: #0b0b0b !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .terms-print-body {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  /*
+    Do NOT force break-inside:avoid on paragraphs.
+    That was causing text to overflow past the page edge / get cut.
+  */
+  .terms-print-body p,
+  .terms-print-body li,
+  .terms-print-contact-body p {
+    break-inside: auto;
+    page-break-inside: auto;
+    orphans: 3;
+    widows: 3;
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+    color: #2f2f2b !important;
+    margin: 0 0 2.2mm !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+  }
+
+  .terms-print-body ul {
+    margin: 0 0 2mm !important;
+    padding: 0 !important;
+    list-style: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Small cards / checklist rows only — safe to keep together */
+  .terms-print-keep {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 2.5mm !important;
+    padding: 2.5mm 3mm !important;
+    border: 0.6pt solid #d4d0c8 !important;
+    border-left: 2pt solid #FDB813 !important;
+    border-radius: 2mm !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  li.terms-print-keep {
+    position: relative !important;
+    padding: 0 0 0 6mm !important;
+    margin: 0 0 1.8mm !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  li.terms-print-keep > span {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0.2em !important;
+    width: 3.6mm !important;
+    height: 3.6mm !important;
+    font-size: 7pt !important;
+  }
+
+  /* Large tinted service box — allow splitting across pages */
+  .terms-print-allow-break {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 3mm !important;
+    border: 0.6pt solid #d4d0c8 !important;
+    border-radius: 2mm !important;
+    background: #fff !important;
+  }
+
+  /* Subsection titles (Driver Conduct / User Conduct) stay with next block */
+  .terms-print-subhead {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    font-size: 10.5pt !important;
+    color: #0b0b0b !important;
+    margin-top: 2.5mm !important;
+    margin-bottom: 1.5mm !important;
+  }
+
+  .terms-print-body p.font-semibold,
+  .terms-print-body .font-semibold.text-\[\#0b0b0b\] {
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    font-size: 10.5pt !important;
+    color: #0b0b0b !important;
+    margin-top: 2mm !important;
+  }
+
+  /* Gradient / clip text → solid black */
+  .terms-print-root .bg-clip-text,
+  .terms-print-root .text-transparent {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #0b0b0b !important;
+    color: #0b0b0b !important;
+  }
+
+  .terms-print-contact {
+    background: #fff !important;
+    border: 0.75pt solid #d4d0c8 !important;
+    border-radius: 2mm !important;
+    padding: 3.5mm !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .terms-print-contact h2,
+  .terms-print-contact-body,
+  .terms-print-contact-body p,
+  .terms-print-contact-body span {
+    color: #0b0b0b !important;
+  }
+
+  .terms-print-contact-link {
+    border: 0.6pt solid #0b0b0b !important;
+    color: #0b0b0b !important;
+    background: #fff !important;
+    border-radius: 2mm !important;
+    display: inline-block !important;
+    margin: 0 1.5mm 1.5mm 0 !important;
+  }
+
+  a {
+    color: #0b0b0b !important;
+    text-decoration: none !important;
+  }
+
+  a[href^="mailto:"]::after,
+  a[href^="tel:"]::after,
+  a[href^="http"]::after {
+    content: none !important;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+}

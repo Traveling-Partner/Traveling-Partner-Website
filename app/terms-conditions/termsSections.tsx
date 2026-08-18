@@ -16,7 +16,7 @@ const checkList =
 
 function CheckItem({ children }: { children: React.ReactNode }) {
   return (
-    <li className="relative pl-7">
+    <li className="terms-print-keep relative pl-7">
       <span
         className="absolute left-0 top-[0.35em] flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-[#0b0b0b]"
         style={{
@@ -39,7 +39,7 @@ function DefinitionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+    <div className="terms-print-keep rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
       <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
         {label}
       </p>
@@ -125,7 +125,7 @@ export const termsSections: TermsSection[] = [
     slug: "services",
     title: "Services",
     content: (
-      <div className="rounded-[18px] border border-[#f5e9b8] bg-[#FFFDF0] px-4 py-5 sm:rounded-[20px] sm:px-6 sm:py-6">
+      <div className="terms-print-allow-break rounded-[18px] border border-[#f5e9b8] bg-[#FFFDF0] px-4 py-5 sm:rounded-[20px] sm:px-6 sm:py-6">
         <p className={`${body} mb-4`}>
           {emphasizePhrases(
             "Traveling Partner brings several services together in one platform.",
@@ -230,7 +230,7 @@ export const termsSections: TermsSection[] = [
     content: (
       <div className="space-y-5">
         <div className="space-y-4">
-          <p className={`${body} font-semibold text-[#0b0b0b]`}>
+          <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>
             Driver Conduct
           </p>
           <p className={body}>
@@ -264,7 +264,7 @@ export const termsSections: TermsSection[] = [
           </ul>
         </div>
         <div className="space-y-4">
-          <p className={`${body} font-semibold text-[#0b0b0b]`}>User Conduct</p>
+          <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>User Conduct</p>
           <p className={body}>
             {emphasizePhrases(
               "Everyone using Traveling Partner is expected to treat others respectfully.",
@@ -333,7 +333,7 @@ export const termsSections: TermsSection[] = [
     title: "Termination",
     content: (
       <div className="space-y-4">
-        <p className={`${body} font-semibold text-[#0b0b0b]`}>
+        <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>
           Platform Responsibility
         </p>
         <p className={body}>
@@ -411,7 +411,7 @@ export const termsSections: TermsSection[] = [
     title: "Unforeseen Events",
     content: (
       <div className="space-y-4">
-        <p className={`${body} font-semibold text-[#0b0b0b]`}>Force Majeure</p>
+        <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>Force Majeure</p>
         <p className={body}>
           {emphasizePhrases(
             "Sometimes things happen that are beyond anyone's control such as bad weather, natural disasters, government restrictions, internet outages or other unforeseen circumstances.",
@@ -500,10 +500,10 @@ export const termsSections: TermsSection[] = [
         <p className={body}>
           Email:{" "}
           <a
-            href="mailto:support@traveling-partner.com"
+            href="mailto:info@traveling-partner.com"
             className="font-semibold text-[#FCE001] hover:underline"
           >
-            support@traveling-partner.com
+            info@traveling-partner.com
           </a>
         </p>
       </div>

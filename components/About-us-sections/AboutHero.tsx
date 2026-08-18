@@ -196,7 +196,7 @@ export default function AboutHero() {
                 Community · Commission-Free ·
               </span>{" "}
               <strong className="font-bold text-[#0b0b0b]">
-                Made For Pakistan
+                Made for Pakistan
               </strong>
             </span>
           </div>

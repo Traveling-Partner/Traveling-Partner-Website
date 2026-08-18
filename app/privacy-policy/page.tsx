@@ -18,9 +18,9 @@ type PinMode = "static" | "fixed" | "bottom";
 const CONTACT_ACTIONS = [
   {
     label: "Email",
-    href: "mailto:support@traveling-partner.com",
+    href: "mailto:info@traveling-partner.com",
     icon: "/images/terms/icon-contact-envelope.png",
-    detail: "support@traveling-partner.com",
+    detail: "info@traveling-partner.com",
   },
   {
     label: "Call",

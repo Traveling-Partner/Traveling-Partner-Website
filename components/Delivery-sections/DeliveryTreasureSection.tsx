@@ -96,8 +96,8 @@ export default function DeliveryTreasureSection() {
           </div>
 
           <h2 className="mb-3 text-[34px] font-extrabold leading-[1.08] tracking-tight text-[#0b0b0b] sm:text-5xl lg:text-[52px]">
-            Deliver Your{" "}
-            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">Treasure.</em>
+            Send it{" "}
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-semibold italic text-transparent">safely</em>
           </h2>
 
           <p className="mx-auto max-w-[560px] text-[13px] leading-[1.45] text-[#6F6E68] sm:text-[14px] sm:leading-[1.5]">

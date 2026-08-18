@@ -17,20 +17,22 @@ const steps: Step[] = [
   {
     number: "01",
     image: "/images/trip/how-it-works/step-book.png",
-    imageAlt: "Woman choosing pickup and travel destination",
+    imageAlt: "Choosing pickup location and travel destination",
     title: (
       <>
         Choose Your{" "}
-        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Route.</span>
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+          Route.
+        </span>
       </>
     ),
     description:
-      "Choose your pickup location and travel destination to start planning your tourism journey.",
+      "Choose your pickup location and travel destination.",
   },
   {
     number: "02",
     image: "/images/trip/how-it-works/step-track.png",
-    imageAlt: "Traveler adding travel date and journey details",
+    imageAlt: "Adding travel date, time, and journey details",
     title: (
       <>
         Set Travel{" "}
@@ -38,21 +40,38 @@ const steps: Step[] = [
       </>
     ),
     description:
-      "Add your preferred travel date, time, and journey details that fit your schedule.",
+      "Add your preferred travel date, time, and journey details.",
     featured: true,
   },
   {
     number: "03",
     image: "/images/trip/how-it-works/step-arrive.png",
-    imageAlt: "Friends beginning a verified driver tourism journey",
+    imageAlt: "Reviewing fare and confirming tourism booking",
     title: (
       <>
-        Confirm &{" "}
-        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Explore.</span>
+        Confirm Your{" "}
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+          Booking.
+        </span>
       </>
     ),
     description:
-      "Review the fare, confirm your tourism booking, then meet your verified driver and begin your journey.",
+      "Review the fare and confirm your tourism booking.",
+  },
+  {
+    number: "04",
+    image: "/images/trip/how-it-works/step-arrive.png",
+    imageAlt: "Meeting verified driver and beginning the journey",
+    title: (
+      <>
+        Begin Your{" "}
+        <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+          Journey.
+        </span>
+      </>
+    ),
+    description:
+      "Meet your verified driver and begin your journey.",
   },
 ];
 
@@ -143,22 +162,19 @@ export default function TripHowItWorks() {
         >
           <div className="mb-5 inline-flex items-center rounded-full bg-[#F3EBD2] px-4 py-1.5 sm:mb-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0b0b0b] sm:text-[11px]">
-              Easy Process
+              How It Works
             </span>
           </div>
 
           <h2 className="mb-4 font-poppins text-[clamp(32px,5.2vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
             Plan. Book.{" "}
-            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Explore.</span>
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+              Explore.
+            </span>
           </h2>
-
-          <p className="mx-auto max-w-xl text-[14px] leading-relaxed text-[#5c5b55] sm:text-[15px] sm:leading-[1.65] md:text-[16px]">
-            Book tourism travel in a few simple steps — choose your route, set
-            your plans, confirm the fare, and start exploring.
-          </p>
         </motion.div>
 
-        <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3 lg:gap-6">
+        <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-5">
           {steps.map((step, index) => (
             <StepCard
               key={step.number}
