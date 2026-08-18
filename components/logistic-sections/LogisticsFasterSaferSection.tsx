@@ -93,15 +93,14 @@ export default function LogisticsFasterSaferSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.12 }}
-                className="relative w-full"
+                className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-[6/5] lg:min-h-[460px]"
               >
                 <Image
                   src="/images/logistic/faster-safer/truck.png"
                   alt="Traveling Partner logistics truck — 24/7 service"
-                  width={792}
-                  height={592}
+                  fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="h-auto w-full"
+                  className="object-cover object-center"
                   priority
                 />
               </motion.div>
