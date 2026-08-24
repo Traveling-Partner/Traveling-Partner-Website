@@ -71,9 +71,9 @@ export default function DriveWithUsSection() {
           transition={{ duration: 0.55, ease: "easeOut" }}
           className="overflow-hidden rounded-[28px] bg-[#111111] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.45)] sm:rounded-[36px] sm:p-7 lg:rounded-[48px] lg:p-10 xl:p-12"
         >
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-6 xl:gap-8">
+          <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10 xl:gap-12">
             {/* Left: badge + media */}
-            <div className="order-2 flex flex-col gap-5 lg:order-1 lg:gap-6">
+            <div className="order-2 flex flex-col gap-5 lg:order-1 lg:h-full lg:gap-6">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export default function DriveWithUsSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.15 }}
                 whileHover={{ scale: 1.015 }}
-                className="relative aspect-[16/11] w-full overflow-hidden rounded-[20px] sm:rounded-[24px]"
+                className="relative aspect-[16/11] w-full flex-1 overflow-hidden rounded-[20px] sm:rounded-[24px] lg:aspect-auto lg:min-h-[280px]"
               >
                 <Image
                   src="/images/taxi-stand/drive-earn-interior.png"
@@ -106,13 +106,13 @@ export default function DriveWithUsSection() {
             </div>
 
             {/* Right: content */}
-            <div className="order-1 flex flex-col lg:order-2">
+            <div className="order-1 flex w-full flex-col items-stretch text-left lg:order-2">
               <motion.h2
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: 0.12 }}
-                className="mb-3 text-[32px] font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[52px]"
+                className="m-0 text-[32px] font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[52px]"
               >
                 Drive with
                 <br />
@@ -129,7 +129,7 @@ export default function DriveWithUsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.16 }}
-                className="mb-4 text-[14px] leading-snug text-white/90 sm:text-[15px]"
+                className="mt-4 mb-0 w-full text-[14px] leading-relaxed text-white/90 sm:mt-5 sm:text-[15px]"
               >
                 {emphasizePhrases(
                   "Looking for a flexible way to earn? Traveling Partner is a zero-commission ride app, so you keep more of what you earn. Drive full-time, part-time, or only when you're free—it's up to you.",
@@ -138,12 +138,12 @@ export default function DriveWithUsSection() {
                 )}
               </motion.p>
 
-              <ul className="mb-8 space-y-3.5 sm:mb-10 sm:space-y-4">
+              <ul className="mt-5 mb-0 w-full space-y-3.5 sm:mt-6 sm:space-y-4">
                 {features.map((item, index) => (
                   <motion.li
                     key={item.text}
-                    initial={{ opacity: 0, x: 12 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.35, delay: 0.2 + index * 0.06 }}
                     className="flex items-start gap-3"
@@ -163,6 +163,7 @@ export default function DriveWithUsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.45 }}
+                className="mt-8 sm:mt-10"
               >
                 <Link
                   href="https://play.google.com/store/apps?hl=en&gl=US"
