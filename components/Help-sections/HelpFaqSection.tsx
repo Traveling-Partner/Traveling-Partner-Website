@@ -275,6 +275,46 @@ export default function HelpFaqSection({
           </div>
 
           <div className="min-w-0 space-y-10 sm:space-y-12">
+            {normalizedQuery && filteredCategories.length === 0 ? (
+              <div
+                role="status"
+                aria-live="polite"
+                className="rounded-[22px] border border-[#eceae4] bg-white px-6 py-10 text-center shadow-[0_6px_22px_rgba(0,0,0,0.05)] sm:rounded-[24px] sm:px-10 sm:py-14"
+              >
+                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#fff8e1] text-[#0b0b0b]">
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                </div>
+                <h2 className="font-poppins text-[20px] font-extrabold leading-tight text-[#0b0b0b] sm:text-[22px]">
+                  No results found
+                </h2>
+                <p className="mx-auto mt-3 max-w-[420px] text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
+                  We couldn&apos;t find any help articles matching{" "}
+                  <span className="font-semibold text-[#0b0b0b]">
+                    &ldquo;{searchQuery.trim()}&rdquo;
+                  </span>
+                  . Try a different keyword, or contact our team.
+                </p>
+                <Link
+                  href="/contact"
+                  className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 py-2.5 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-90 sm:text-[14px]"
+                >
+                  Contact now
+                </Link>
+              </div>
+            ) : null}
+
             {filteredCategories.map((category) => (
               <section
                 key={category.id}
