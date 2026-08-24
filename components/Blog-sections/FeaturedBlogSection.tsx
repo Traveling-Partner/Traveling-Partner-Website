@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatBlogDate, formatBlogType } from "@/lib/blogFormat";
+import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
 
 export type FeaturedBlog = {
   id: string | number;
@@ -61,10 +61,7 @@ function formatFeaturedDate(value: unknown): string {
 }
 
 function formatReadTime(value?: string): string {
-  const raw = String(value ?? "").trim();
-  if (!raw) return "";
-  if (/read/i.test(raw)) return raw;
-  return `${raw} read`;
+  return formatReadTimeLabel(value);
 }
 
 function formatAuthorRole(category?: string): string {

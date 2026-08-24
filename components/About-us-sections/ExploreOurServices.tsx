@@ -61,7 +61,7 @@ const services: Service[] = [
     key: "taxi",
     image: "/images/about/explore/card-taxi.png",
     icon: "/images/about/explore/icon-taxi.png",
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     rotate: -10,
     drop: 44,
     z: 1,

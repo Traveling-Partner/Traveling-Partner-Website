@@ -47,7 +47,7 @@ const RIDES: RideItem[] = [
     features: ["Verified drivers", "Estimated Fares", "0% commission"],
     icon: "/images/five-rides/icon-taxi.png",
     panelIcon: "/images/five-rides/panel-taxi.png",
-    href: "/taxi-stand",
+    href: "/taxi-ride",
   },
   {
     id: "pool",

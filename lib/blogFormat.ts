@@ -174,6 +174,16 @@ export function formatBlogDate(dateInput: unknown): string {
   });
 }
 
+/**
+ * Article meta label from the API. Never appends "read"
+ * (avoids "12 hours ago read" / "5 min read").
+ */
+export function formatReadTimeLabel(value?: string): string {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "";
+  return raw.replace(/\s+read\b/gi, "").replace(/\s+/g, " ").trim();
+}
+
 /** @deprecated Use getBlogTimeAgo — kept for imports already using formatTimeAgo */
 export function formatTimeAgo(dateInput: string | unknown): string {
   return getBlogTimeAgo(dateInput);

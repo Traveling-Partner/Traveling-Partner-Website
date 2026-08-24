@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatBlogDate, formatBlogType } from "@/lib/blogFormat";
+import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
 
 export type BlogCardData = {
   id: string | number;
@@ -35,9 +35,7 @@ function formatCardDate(value: unknown): string {
 }
 
 function formatReadTimeBadge(value?: string): string {
-  const raw = String(value ?? "").trim();
-  if (!raw) return "";
-  return raw.replace(/\s*read\s*/i, "").trim();
+  return formatReadTimeLabel(value);
 }
 
 function ExternalLinkIcon({ className = "" }: { className?: string }) {

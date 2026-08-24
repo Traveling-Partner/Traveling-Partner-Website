@@ -9,7 +9,7 @@ import CircularIndeterminate from "./loader";
 import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
-import { formatBlogDate, pickBlogCategoryField } from "@/lib/blogFormat";
+import { formatBlogDate, formatReadTimeLabel, pickBlogCategoryField } from "@/lib/blogFormat";
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.76;
@@ -168,7 +168,7 @@ function BlogCard({
   const dateLabel = displayApiDate(blog.date);
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
-  const readTimeLabel = blog.readTime?.trim() ?? "";
+  const readTimeLabel = formatReadTimeLabel(blog.readTime);
   const imageH = isCompact
     ? undefined
     : isActive

@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/taxi-stand",
+      "destination": "/taxi-ride",
+      "permanent": true
+    },
+    {
+      "source": "/taxi-stand/",
+      "destination": "/taxi-ride",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/website/:path*",
