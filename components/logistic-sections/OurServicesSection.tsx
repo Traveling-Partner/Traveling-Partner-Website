@@ -42,7 +42,7 @@ const DESKTOP_CARDS: DesktopPhotoCardData[] = [
     contentClassName: "left-[9.4%] top-[13.7%]",
   },
   {
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     image: "/images/taxi-stand/services/card-logistics.png",
     icon: "/images/taxi-stand/services/icon-taxi.png",
     title: "Taxi Ride",
@@ -68,7 +68,7 @@ const DESKTOP_CARDS: DesktopPhotoCardData[] = [
 /** Same interlocking shapes as Taxi / Pool / Delivery — Logistics is featured */
 const MOBILE_CARDS = [
   {
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     icon: "/images/taxi-stand/services/icon-taxi.png",
     title: "Taxi Ride",
     subtitle: "Upfront fares",

@@ -45,8 +45,8 @@ export type ServiceItem = {
  */
 export const SERVICES: ServiceItem[] = [
   {
-    id: "taxi-stand",
-    href: "/taxi-stand",
+    id: "taxi-ride",
+    href: "/taxi-ride",
     label: "Taxi Ride",
     short: "Private rides from nearby Cab Ride.",
     description: "Reliable city rides with professional drivers.",

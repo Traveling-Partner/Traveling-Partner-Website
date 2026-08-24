@@ -15,7 +15,7 @@ const FOOTER_LINKS = {
     { label: "Blog", href: "/blog" },
   ],
   services: [
-    { label: "Taxi Ride", href: "/taxi-stand" },
+    { label: "Taxi Ride", href: "/taxi-ride" },
     { label: "Pool Ride", href: "/pool-ride" },
     { label: "Delivery", href: "/delivery" },
     { label: "Logistics", href: "/logistic" },

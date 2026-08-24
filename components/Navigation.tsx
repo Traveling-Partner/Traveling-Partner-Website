@@ -189,7 +189,7 @@ export default function Navigation() {
   const isHome = pathname === "/";
 
   const overlayHeroPaths = [
-    "/taxi-stand",
+    "/taxi-ride",
     "/pool-ride",
     "/delivery",
     "/logistic",

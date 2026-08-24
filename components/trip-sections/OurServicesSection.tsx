@@ -53,7 +53,7 @@ const DESKTOP_CARDS: DesktopPhotoCardData[] = [
     contentClassName: "left-[25.3%] top-[13.7%]",
   },
   {
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     image: "/images/taxi-stand/services/card-trip.png",
     icon: "/images/taxi-stand/services/icon-taxi.png",
     title: "Ride Services",
@@ -84,7 +84,7 @@ const MOBILE_CARDS = [
     ...CLEAN_MOBILE_CARDS.pool,
   },
   {
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     icon: "/images/taxi-stand/services/icon-taxi.png",
     title: "Ride Services",
     subtitle: "City rides with clear fares",

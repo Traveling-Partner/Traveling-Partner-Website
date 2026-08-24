@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { formatBlogDate, formatBlogType } from "@/lib/blogFormat";
+import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
 
 export type BlogDetailHeroData = {
   main_title: string;
@@ -43,13 +43,6 @@ function formatHeroDate(value: unknown): string {
   return formatted.replace(",", "");
 }
 
-function formatReadTime(value?: string): string {
-  const raw = String(value ?? "").trim();
-  if (!raw) return "";
-  if (/read/i.test(raw)) return raw;
-  return `${raw} read`;
-}
-
 function renderHeroTitle(title: string): ReactNode {
   const pattern = /(travell?ing partner|TP driver|TP)/gi;
   const parts: ReactNode[] = [];
@@ -84,7 +77,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
     ? formatBlogType(blog.category).toUpperCase()
     : "";
   const dateLabel = formatHeroDate(blog.date);
-  const readTimeLabel = formatReadTime(blog.readTime);
+  const readTimeLabel = formatReadTimeLabel(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
   const isAdminAuthor = /admin/i.test(authorLabel);
   const showAuthor = Boolean(authorLabel) && !isAdminAuthor;

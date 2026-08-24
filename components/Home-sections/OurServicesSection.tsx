@@ -105,7 +105,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Daily Rides",
     image: "/images/our-services/daily-rides.png",
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     x: 204.19580078125,
     y: -151.97842407226562,
     w: 131.60726928710938,
@@ -154,7 +154,7 @@ const SERVICE_NODES: ServiceNode[] = [
   {
     label: "Tracking",
     image: "/images/our-services/tracking.png",
-    href: "/taxi-stand",
+    href: "/taxi-ride",
     imgStyle: TRACKING_IMG_STYLE,
     x: -117.11328125,
     y: -10.5966796875,

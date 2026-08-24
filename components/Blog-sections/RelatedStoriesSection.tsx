@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatBlogDate, formatBlogType } from "@/lib/blogFormat";
+import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 
 type RelatedStoriesSectionProps = {
@@ -52,9 +52,7 @@ function formatCardDate(value: unknown): string {
 }
 
 function formatReadTime(value?: string): string {
-  const raw = String(value ?? "").trim();
-  if (!raw) return "";
-  return raw.replace(/\s*read\s*/i, "").trim();
+  return formatReadTimeLabel(value);
 }
 
 function ensurePeriod(title: string): string {
