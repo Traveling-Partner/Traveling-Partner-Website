@@ -425,6 +425,7 @@ export function ServicesMegaMenuDesktop({
   const listRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const assetsPreloaded = useRef(false);
+  const [fineHover, setFineHover] = useState(false);
   const menuId = useId();
   const listboxId = `${menuId}-list`;
   const active = SERVICES.find((s) => s.id === activeId) ?? SERVICES[0];
@@ -492,8 +493,27 @@ export function ServicesMegaMenuDesktop({
 
   const scheduleClose = () => {
     clearCloseTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 100);
+    closeTimer.current = setTimeout(() => setOpen(false), 180);
   };
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setFineHover(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+      if (target && wrapRef.current?.contains(target)) return;
+      closeMenu();
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open, closeMenu]);
 
   const focusItem = (index: number) => {
     const clamped = (index + SERVICES.length) % SERVICES.length;
@@ -576,15 +596,23 @@ export function ServicesMegaMenuDesktop({
     <div
       ref={wrapRef}
       className="relative hidden min-[1200px]:block"
-      onMouseEnter={openMenu}
-      onMouseLeave={scheduleClose}
+      onMouseEnter={fineHover ? openMenu : undefined}
+      onMouseLeave={fineHover ? scheduleClose : undefined}
       onFocusCapture={openMenu}
       onPointerEnter={preloadAssets}
       onBlurCapture={(e) => {
         const next = e.relatedTarget as Node | null;
-        if (!wrapRef.current?.contains(next)) scheduleClose();
+        if (next && wrapRef.current?.contains(next)) return;
+        if (!next) return;
+        scheduleClose();
       }}
     >
+      {open ? (
+        <div
+          aria-hidden
+          className="pointer-events-auto absolute left-1/2 top-full z-[1] h-5 w-[min(980px,100vw)] -translate-x-1/2"
+        />
+      ) : null}
       <button
         ref={triggerRef}
         type="button"
@@ -597,6 +625,11 @@ export function ServicesMegaMenuDesktop({
         aria-controls={menuId}
         aria-haspopup="true"
         onClick={() => {
+          // Hover already opens the menu. A follow-up click must not toggle it shut.
+          if (fineHover) {
+            openMenu();
+            return;
+          }
           if (open) closeMenu();
           else openMenu();
         }}
@@ -628,8 +661,8 @@ export function ServicesMegaMenuDesktop({
             }
             transition={t(0.18)}
             style={panelStyle}
-            onMouseEnter={openMenu}
-            onMouseLeave={scheduleClose}
+            onMouseEnter={fineHover ? openMenu : undefined}
+            onMouseLeave={fineHover ? scheduleClose : undefined}
           >
             <div
               className="overflow-hidden rounded-[24px] border border-black/[0.06] bg-white shadow-[0_18px_48px_rgba(11,11,11,0.12),0_4px_14px_rgba(11,11,11,0.05)]"
