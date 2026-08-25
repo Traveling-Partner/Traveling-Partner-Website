@@ -1,7 +1,7 @@
 # Apache: API proxy. Prefer real /blog/{id}.html (OG tags) over legacy query detail.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^website/(.*)$ https://api.traveling-partner.com/api/website/$1 [P,L]
+  RewriteRule ^website/(.*)$ https://staging.api.traveling-partner.com/api/website/$1 [P,L]
 
   # Pretty URL → static export file when present
   RewriteCond %{DOCUMENT_ROOT}/blog/$1.html -f

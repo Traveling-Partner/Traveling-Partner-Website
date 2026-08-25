@@ -1,6 +1,6 @@
 /**
  * One-time helper: writes data/blog-list-cache.json from the live API response
- * when local SSL cannot reach api.traveling-partner.com.
+ * when local SSL cannot reach staging.api.traveling-partner.com.
  * Run: node scripts/seed-blog-list-cache.mjs
  */
 import fs from "fs";

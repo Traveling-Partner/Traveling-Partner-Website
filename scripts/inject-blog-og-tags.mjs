@@ -11,7 +11,7 @@ import path from "path";
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://traveling-partner.com"
 ).replace(/\/$/, "");
-const API_BASE = "https://api.traveling-partner.com/api/website";
+const API_BASE = "https://staging.api.traveling-partner.com/api/website";
 const OUT_BLOG = path.join(process.cwd(), "out", "blog");
 const OUT_BLOG_DATA = path.join(process.cwd(), "out", "blog-data");
 const DEFAULT_OG_IMAGE =

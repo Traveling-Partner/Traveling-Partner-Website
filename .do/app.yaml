@@ -28,7 +28,7 @@ static_sites:
     environment_slug: node-js
     envs:
       - key: NEXT_PUBLIC_API_BASE_URL
-        value: https://api.traveling-partner.com/api
+        value: https://staging.api.traveling-partner.com/api
       - key: NEXT_PUBLIC_SITE_URL
         value: https://traveling-partner.com
 

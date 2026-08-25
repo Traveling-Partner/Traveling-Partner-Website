@@ -9,7 +9,7 @@ import path from "path";
 const publicOnly = process.argv.includes("--public-only");
 
 const API_BASE =
-  (process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.traveling-partner.com/api")
+  (process.env.NEXT_PUBLIC_API_BASE_URL || "https://staging.api.traveling-partner.com/api")
     .replace(/\/$/, "") + "/website";
 
 const OUT_DIR = path.join(process.cwd(), "out");
