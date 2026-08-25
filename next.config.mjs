@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const backendOrigin =
-  (process.env.BACKEND_ORIGIN || "https://api.traveling-partner.com").replace(
+  (process.env.BACKEND_ORIGIN || "https://staging.api.traveling-partner.com").replace(
     /\/$/,
     ""
   );

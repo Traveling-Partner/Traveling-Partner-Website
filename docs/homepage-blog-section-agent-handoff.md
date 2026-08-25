@@ -60,7 +60,7 @@ flowchart LR
 
 ## Data contract
 
-**Primary API:** `https://api.traveling-partner.com/api/website/blog/list`  
+**Primary API:** `https://staging.api.traveling-partner.com/api/website/blog/list`  
 **Fallback:** same-origin `/blog-list.json` (build-time snapshot)
 
 ### List payload shapes accepted

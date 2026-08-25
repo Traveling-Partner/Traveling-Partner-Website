@@ -14,7 +14,7 @@
   "rewrites": [
     {
       "source": "/website/:path*",
-      "destination": "https://api.traveling-partner.com/api/website/:path*"
+      "destination": "https://staging.api.traveling-partner.com/api/website/:path*"
     }
   ]
 }

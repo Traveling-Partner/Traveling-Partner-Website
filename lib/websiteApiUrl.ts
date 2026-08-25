@@ -1,12 +1,12 @@
 /**
  * Website API URLs — production API only.
- * https://api.traveling-partner.com/api/website/*
+ * https://staging.api.traveling-partner.com/api/website/*
  *
  * Blog listing and detail in the browser always use this live API.
  */
 
 export const PUBLIC_WEBSITE_API_BASE =
-  "https://api.traveling-partner.com/api/website";
+  "https://staging.api.traveling-partner.com/api/website";
 
 function envBaseToWebsiteApiBase(base: string): string {
   const normalized = base.replace(/\/$/, "");
