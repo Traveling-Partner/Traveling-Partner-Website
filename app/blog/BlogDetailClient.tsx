@@ -4,13 +4,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { fetchBlogDetailClient, fetchBlogListClient } from "@/lib/blogClientFetch";
-import {
-  buildShareLinks,
-  getBlogCanonicalUrl,
-  toAbsoluteImageUrl,
-} from "@/lib/blogShare";
-import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { pickBlogCategoryField, pickBlogDateField } from "@/lib/blogFormat";
+import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { extractBlogList } from "@/lib/blogApi";
 import BlogDetailHero from "@/components/Blog-sections/BlogDetailHero";
 import BlogDetailBody from "@/components/Blog-sections/BlogDetailBody";
@@ -121,7 +116,6 @@ export default function BlogDetailClient({
   const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const fetchBlogDetail = async () => {
@@ -228,20 +222,6 @@ export default function BlogDetailClient({
     );
   }
 
-  const shareUrl = getBlogCanonicalUrl(blog.id);
-  const shareImage = toAbsoluteImageUrl(blog.cover_image);
-  const shareLinks = buildShareLinks(shareUrl, blog.main_title, shareImage);
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setLinkCopied(true);
-      window.setTimeout(() => setLinkCopied(false), 2000);
-    } catch {
-      window.prompt("Copy this link:", shareUrl);
-    }
-  };
-
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogDetailHero blog={blog} />
@@ -250,10 +230,6 @@ export default function BlogDetailClient({
         title={blog.main_title}
         description2={blog.description2}
         tags={displayTags}
-        shareLinks={shareLinks}
-        shareUrl={shareUrl}
-        linkCopied={linkCopied}
-        onCopyLink={handleCopyLink}
         relatedBlogs={relatedBlogs}
         getImageSrc={getImageSrc}
       />
