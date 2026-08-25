@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { HelpCategory } from "@/app/help/helpContent";
+import SearchEmptyState from "@/components/SearchEmptyState";
 
 type HelpFaqSectionProps = {
   categories: HelpCategory[];
@@ -111,6 +112,9 @@ export default function HelpFaqSection({
       }))
       .filter((category) => category.items.length > 0);
   }, [categories, normalizedQuery]);
+
+  const hasNoSearchResults =
+    Boolean(normalizedQuery) && filteredCategories.length === 0;
 
   const updateSidebar = useCallback(() => {
     const layout = faqLayoutRef.current;
@@ -245,74 +249,49 @@ export default function HelpFaqSection({
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           ref={faqLayoutRef}
-          className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-12"
+          className={
+            hasNoSearchResults
+              ? "block"
+              : "grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[280px_minmax(0,1fr)] xl:gap-12"
+          }
         >
-          <div
-            ref={sidebarColumnRef}
-            className="relative hidden min-h-[1px] lg:block"
-          >
-            {sidebarPin === "static" && (
-              <aside className="w-full">{sidebarNav}</aside>
-            )}
+          {!hasNoSearchResults ? (
+            <div
+              ref={sidebarColumnRef}
+              className="relative hidden min-h-[1px] lg:block"
+            >
+              {sidebarPin === "static" && (
+                <aside className="w-full">{sidebarNav}</aside>
+              )}
 
-            {sidebarPin === "fixed" && (
-              <aside
-                className="z-30"
-                style={{
-                  position: "fixed",
-                  top: NAV_OFFSET,
-                  left: sidebarCoords.left,
-                  width: sidebarCoords.width,
-                }}
-              >
-                {sidebarNav}
-              </aside>
-            )}
+              {sidebarPin === "fixed" && (
+                <aside
+                  className="z-30"
+                  style={{
+                    position: "fixed",
+                    top: NAV_OFFSET,
+                    left: sidebarCoords.left,
+                    width: sidebarCoords.width,
+                  }}
+                >
+                  {sidebarNav}
+                </aside>
+              )}
 
-            {sidebarPin === "bottom" && (
-              <aside className="absolute bottom-0 left-0 w-full">{sidebarNav}</aside>
-            )}
-          </div>
+              {sidebarPin === "bottom" && (
+                <aside className="absolute bottom-0 left-0 w-full">
+                  {sidebarNav}
+                </aside>
+              )}
+            </div>
+          ) : null}
 
           <div className="min-w-0 space-y-10 sm:space-y-12">
-            {normalizedQuery && filteredCategories.length === 0 ? (
-              <div
-                role="status"
-                aria-live="polite"
-                className="rounded-[22px] border border-[#eceae4] bg-white px-6 py-10 text-center shadow-[0_6px_22px_rgba(0,0,0,0.05)] sm:rounded-[24px] sm:px-10 sm:py-14"
-              >
-                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#fff8e1] text-[#0b0b0b]">
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="m20 20-3.5-3.5" />
-                  </svg>
-                </div>
-                <h2 className="font-poppins text-[20px] font-extrabold leading-tight text-[#0b0b0b] sm:text-[22px]">
-                  No results found
-                </h2>
-                <p className="mx-auto mt-3 max-w-[420px] text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
-                  We couldn&apos;t find any help articles matching{" "}
-                  <span className="font-semibold text-[#0b0b0b]">
-                    &ldquo;{searchQuery.trim()}&rdquo;
-                  </span>
-                  . Try a different keyword, or contact our team.
-                </p>
-                <Link
-                  href="/contact"
-                  className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 py-2.5 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-90 sm:text-[14px]"
-                >
-                  Contact now
-                </Link>
-              </div>
+            {hasNoSearchResults ? (
+              <SearchEmptyState
+                query={searchQuery.trim()}
+                description="We couldn't find any help articles for that keyword. Try another search, or reach our team and we'll point you in the right direction."
+              />
             ) : null}
 
             {filteredCategories.map((category) => (

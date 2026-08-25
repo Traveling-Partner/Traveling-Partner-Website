@@ -8,5 +8,16 @@ export const metadata: Metadata = {
 };
 
 export default function NotFound() {
-  return <NotFoundPage />;
+  return (
+    <>
+      {/* Static hosts serve this 404.html for missing /blog/{id}.html.
+          Send those URLs to the always-exported detail page (same API). */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var m=location.pathname.match(/^\\/blog\\/([^/]+)\\/?$/);if(!m)return;var id=decodeURIComponent(m[1]||"").trim();if(!id||id.toLowerCase()==="detail")return;location.replace("/blog/detail?id="+encodeURIComponent(id));}catch(e){}})();`,
+        }}
+      />
+      <NotFoundPage />
+    </>
+  );
 }

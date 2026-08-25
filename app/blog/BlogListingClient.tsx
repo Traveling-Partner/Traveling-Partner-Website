@@ -14,6 +14,7 @@ import BlogHero from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
+import SearchEmptyState from "@/components/SearchEmptyState";
 import TPLoader from "@/components/TPLoader";
 
 interface Blog {
@@ -142,6 +143,9 @@ export default function BlogListingClient() {
         categories={categories}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
+        hideCategories={
+          !loading && !error && searchQuery.trim() !== "" && carouselBlogs.length === 0
+        }
       />
 
       {loading ? (
@@ -152,13 +156,24 @@ export default function BlogListingClient() {
         <div className="flex items-center justify-center px-4 py-20">
           <p className="text-center text-red-600">{error}</p>
         </div>
+      ) : carouselBlogs.length === 0 ? (
+        <section
+          id="blog-stories"
+          className="relative w-full bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4"
+        >
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SearchEmptyState
+              query={searchQuery}
+              description="We couldn't find any blogs matching that keyword. Try another search, or reach our team and we'll point you in the right direction."
+            />
+          </div>
+        </section>
       ) : (
-        <FeaturedBlogSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+        <>
+          <FeaturedBlogSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+          <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+        </>
       )}
-
-      {!loading && !error ? (
-        <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
-      ) : null}
 
       <TPJournalSection />
     </div>

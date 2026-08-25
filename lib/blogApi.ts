@@ -7,10 +7,10 @@ import {
 /** @deprecated Use blogListApiUrl() — kept for backward compatibility. */
 export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
 
-/** Build-time snapshot path only (not used by client UI). */
+/** Build-time OG snapshot only — client UI never reads this. */
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
-/** @deprecated Build artifact only — client uses live API via blogClientFetch. */
+/** @deprecated Build artifact only — client always uses the live view API. */
 export function blogDataStaticPath(id: string): string {
   return `/blog-data/${encodeURIComponent(id)}.json`;
 }
