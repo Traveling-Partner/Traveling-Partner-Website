@@ -6,4 +6,5 @@ export const HELP_ICONS = {
   phone: "/images/help-center/icon-phone.png",
   chat: "/images/help-center/icon-chat.png",
   email: "/images/help-center/icon-email.png",
+  noResults: "/images/help-center/icon-no-results.png",
 } as const;

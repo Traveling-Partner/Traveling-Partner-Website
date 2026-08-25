@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
+import { getBlogDetailHref } from "@/lib/blogShare";
 
 export type BlogCardData = {
   id: string | number;
@@ -91,7 +92,7 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
   const readTimeLabel = formatReadTimeBadge(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
-  const detailHref = `/blog/${blog.id}`;
+  const detailHref = getBlogDetailHref(blog.id);
 
   return (
     <Link href={detailHref} className="group block h-full">

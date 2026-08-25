@@ -1,8 +1,4 @@
-import {
-  BLOG_LIST_STATIC_PATH,
-  extractBlogDetail,
-  findBlogInListPayload,
-} from "@/lib/blogApi";
+import { extractBlogDetail } from "@/lib/blogApi";
 import { websiteApiUrlsForBrowser } from "@/lib/websiteApiUrl";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
@@ -17,71 +13,41 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
   return response.json();
 }
 
-/**
- * Blog list — production API first, then same-origin snapshot.
- *
- * Staging hosts get 403 from api.traveling-partner.com (CORS), so
- * /blog-list.json (generated at build from that API) keeps blogs visible.
- * Never calls /website/* on the staging domain.
- */
-export async function fetchBlogListClient(): Promise<unknown> {
-  const urls = [
-    ...websiteApiUrlsForBrowser("/blog/list"),
-    BLOG_LIST_STATIC_PATH,
-  ];
+async function fetchLiveApi(path: string): Promise<unknown> {
+  const urls = websiteApiUrlsForBrowser(path);
   const errors: string[] = [];
 
   for (const url of urls) {
     try {
-      const data = await fetchJsonUrl(url);
-      return data;
+      return await fetchJsonUrl(url);
     } catch (err) {
       errors.push(err instanceof Error ? err.message : String(err));
     }
   }
 
-  throw new Error(
-    `Could not load blogs from live API. ${errors.join("; ")}`
-  );
+  throw new Error(`Live API failed for ${path}. ${errors.join("; ")}`);
 }
 
-/**
- * Blog detail — production API first, then static snapshot / list fallback.
- */
+/** Blog list — live production API only (no static JSON). */
+export async function fetchBlogListClient(): Promise<unknown> {
+  return fetchLiveApi("/blog/list");
+}
+
+/** Blog detail — live `/blog/view/:id` only (no static JSON / list snapshot). */
 export async function fetchBlogDetailClient(
-  routeId: string,
+  _routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
   for (const candidateId of idCandidates) {
-    for (const base of websiteApiUrlsForBrowser(
-      `/blog/view/${encodeURIComponent(candidateId)}`
-    )) {
-      try {
-        const json = await fetchJsonUrl(base);
-        const detail = extractBlogDetail(json);
-        if (detail) return detail;
-      } catch {
-        /* try next URL */
-      }
-    }
-
     try {
-      const staticDetail = await fetchJsonUrl(
-        `/blog-data/${encodeURIComponent(candidateId)}.json`
+      const json = await fetchLiveApi(
+        `/blog/view/${encodeURIComponent(candidateId)}`
       );
-      const detail = extractBlogDetail(staticDetail);
+      const detail = extractBlogDetail(json);
       if (detail) return detail;
     } catch {
-      /* try next */
+      /* try next candidate */
     }
-  }
-
-  try {
-    const listJson = await fetchBlogListClient();
-    const fromList = findBlogInListPayload(listJson, routeId);
-    if (fromList) return fromList;
-  } catch {
-    /* list unavailable */
   }
 
   return null;

@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
+import { getBlogDetailHref } from "@/lib/blogShare";
 
 export type FeaturedBlog = {
   id: string | number;
@@ -114,7 +115,7 @@ function FeaturedStoryCard({
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
   const authorRole = formatAuthorRole(blog.category);
-  const detailHref = `/blog/${blog.id}`;
+  const detailHref = getBlogDetailHref(blog.id);
 
   const metaParts = [categoryLabel, dateLabel, readTimeLabel].filter(Boolean);
 
@@ -302,16 +303,7 @@ export default function FeaturedBlogSection({
   }, [emblaApi]);
 
   if (!blogs.length) {
-    return (
-      <section
-      id="blog-stories"
-      className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14"
-    >
-        <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="py-12 text-center text-[#6b6960]">No blogs found.</div>
-        </div>
-      </section>
-    );
+    return null;
   }
 
   return (

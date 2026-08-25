@@ -11,6 +11,15 @@ export function getBlogPath(id: string | number): string {
   return `/blog/${encodeURIComponent(String(id))}`;
 }
 
+/**
+ * In-app article URL. Static export only has `/blog/{id}.html` for IDs known
+ * at build time, so listing (live API) can show posts that 404 on `/blog/{id}`.
+ * `/blog/detail` always exists and loads the same view API by query id.
+ */
+export function getBlogDetailHref(id: string | number): string {
+  return `/blog/detail?id=${encodeURIComponent(String(id))}`;
+}
+
 export function getBlogCanonicalUrl(id: string | number): string {
   return `${getSiteUrl()}${getBlogPath(id)}`;
 }

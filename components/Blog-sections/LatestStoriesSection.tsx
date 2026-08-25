@@ -130,20 +130,7 @@ export default function LatestStoriesSection({
   };
 
   if (!blogs.length) {
-    return (
-      <section className="relative w-full overflow-hidden pb-12 pt-6 sm:pb-14 sm:pt-8">
-        <div
-          className="pointer-events-none absolute inset-0 bg-[#FFF9E6]"
-          style={{
-            backgroundImage: `radial-gradient(ellipse 70% 50% at 18% 28%, rgba(252,224,1,0.16), transparent 65%), radial-gradient(ellipse 55% 45% at 88% 72%, rgba(253,184,19,0.1), transparent 68%)`,
-          }}
-          aria-hidden="true"
-        />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="py-12 text-center text-[#6b6960]">No blogs found.</div>
-        </div>
-      </section>
-    );
+    return null;
   }
 
   return (

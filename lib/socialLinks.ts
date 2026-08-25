@@ -64,7 +64,7 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
   {
     icon: FaTiktok,
     label: "TikTok",
-    href: "https://www.tiktok.com/@travelingpartnerr_",
+    href: "https://www.tiktok.com/@travelingpartnerofficial",
     color: "#000000",
     colorOnDark: "#FFFFFF",
   },

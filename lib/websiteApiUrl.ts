@@ -2,8 +2,7 @@
  * Website API URLs — production API only.
  * https://api.traveling-partner.com/api/website/*
  *
- * Note: browsers on staging get 403 from the API (CORS). Client fetch
- * falls back to same-origin /blog-list.json (built from this API).
+ * Blog listing and detail in the browser always use this live API.
  */
 
 export const PUBLIC_WEBSITE_API_BASE =

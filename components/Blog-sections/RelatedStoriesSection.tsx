@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
+import { getBlogDetailHref } from "@/lib/blogShare";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 
 type RelatedStoriesSectionProps = {
@@ -102,7 +103,7 @@ function RelatedStoryCard({
   const dateLabel = formatCardDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
-  const detailHref = `/blog/${blog.id}`;
+  const detailHref = getBlogDetailHref(blog.id);
 
   return (
     <Link href={detailHref} className="group block h-full">

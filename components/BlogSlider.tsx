@@ -10,6 +10,7 @@ import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { formatBlogDate, formatReadTimeLabel, pickBlogCategoryField } from "@/lib/blogFormat";
+import { getBlogDetailHref } from "@/lib/blogShare";
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.76;
@@ -186,7 +187,7 @@ function BlogCard({
   const titleLineHeight = 1.35;
 
   return (
-    <Link href={`/blog/${blog.id}`} className="block h-full w-full min-w-0 max-w-full">
+    <Link href={getBlogDetailHref(blog.id)} className="block h-full w-full min-w-0 max-w-full">
       <article
         className={`blog-card-article flex w-full min-w-0 max-w-full flex-col ${
           isCompact ? "overflow-hidden" : "h-full overflow-hidden"
