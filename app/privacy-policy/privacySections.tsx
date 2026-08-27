@@ -121,6 +121,35 @@ export const privacySections: PrivacySection[] = [
             <CheckItem>Location Data (if permission is granted)</CheckItem>
           </ul>
         </CalloutCard>
+        <CalloutCard label="Cookies and Tracking Technologies">
+          <p>
+            We may use cookies, analytics tools, device identifiers and similar
+            technologies on our website and application to understand how our
+            services are used, improve platform performance, measure advertising
+            effectiveness, and provide relevant content or promotions. The
+            technologies used may vary depending on the services and features
+            available on the platform.
+          </p>
+        </CalloutCard>
+        <CalloutCard label="Driver and Vehicle Data">
+          <p className="mb-3">
+            If you register as a driver, courier, or service partner, we may
+            collect information related to you and your vehicle, including:
+          </p>
+          <ul className={checkList}>
+            <CheckItem>Vehicle Make and Model</CheckItem>
+            <CheckItem>Vehicle Registration Details</CheckItem>
+            <CheckItem>Vehicle Type and Relevant Specifications</CheckItem>
+            <CheckItem>Vehicle Images, where required</CheckItem>
+            <CheckItem>Driving Licence and Verification Documents</CheckItem>
+            <CheckItem>
+              Vehicle Ownership or Authorization Documents
+            </CheckItem>
+            <CheckItem>
+              Service and Operational Information Related to the Vehicle
+            </CheckItem>
+          </ul>
+        </CalloutCard>
       </div>
     ),
   },
@@ -145,6 +174,16 @@ export const privacySections: PrivacySection[] = [
           </CheckItem>
           <CheckItem>Connect riders, drivers and couriers.</CheckItem>
           <CheckItem>Provide customer support.</CheckItem>
+          <CheckItem>
+            Confirming bookings, processing payments and refunds, and sending
+            service-related notifications.
+          </CheckItem>
+          <CheckItem>
+            Maintaining platform safety, security and service quality.
+          </CheckItem>
+          <CheckItem>
+            Complying with applicable legal and regulatory requirements.
+          </CheckItem>
         </ul>
         <p className={body}>
           {emphasizePhrases(
@@ -157,6 +196,27 @@ export const privacySections: PrivacySection[] = [
             ],
           )}
         </p>
+        <CalloutCard label="Location Services">
+          <p>
+            When you grant the required permission, Traveling Partner may collect
+            and use your location information, including location data collected
+            while the app is running in the background, to support pickup and
+            drop-off services, driver matching, navigation, estimated arrival
+            times, delivery and logistics operations, service availability, and
+            platform safety.
+          </p>
+        </CalloutCard>
+        <CalloutCard label="Advertising and Promotional Use">
+          <p>
+            We may use certain information collected through the platform,
+            including general user preferences, service usage information,
+            permitted location information, and driver, vehicle or service
+            information, to support advertising, promotions and personalized
+            content. We may also use aggregated or anonymized information for
+            advertising, analytics and marketing purposes. We do not sell your
+            personal information to advertisers.
+          </p>
+        </CalloutCard>
       </div>
     ),
   },
@@ -211,13 +271,20 @@ export const privacySections: PrivacySection[] = [
             Service providers supporting platform operations.
           </CheckItem>
           <CheckItem>
+            Advertising and marketing service providers, where necessary to
+            provide relevant advertising or promotional services.
+          </CheckItem>
+          <CheckItem>
             Government authorities where required by law.
           </CheckItem>
         </ul>
         <p className={body}>
           {emphasizePhrases(
-            "Only the information needed for a particular purpose is shared.",
-            ["information needed for a particular purpose"],
+            "Only the information needed for a particular purpose is shared. Where practical, we may use aggregated or anonymized information for analytics, advertising and service improvement.",
+            [
+              "information needed for a particular purpose",
+              "aggregated or anonymized information",
+            ],
           )}
         </p>
       </div>
@@ -244,6 +311,10 @@ export const privacySections: PrivacySection[] = [
           <CheckItem>Manage location permissions.</CheckItem>
           <CheckItem>Contact us to request account assistance.</CheckItem>
           <CheckItem>Stop using the platform whenever you choose.</CheckItem>
+          <CheckItem>
+            Request deletion of your account and personal information, subject
+            to applicable legal and business requirements.
+          </CheckItem>
         </ul>
         <p className={body}>
           {emphasizePhrases(
@@ -256,6 +327,24 @@ export const privacySections: PrivacySection[] = [
   },
   {
     id: 7,
+    slug: "data-retention",
+    title: "Data Retention",
+    content: (
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "We retain your information for as long as necessary to provide our services, maintain business and transaction records, resolve disputes, protect our platform and users, and comply with applicable legal and regulatory requirements. The length of time information is retained may vary depending on the type of information and the purpose for which it was collected.",
+            [
+              "as long as necessary",
+              "legal and regulatory requirements",
+            ],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 8,
     slug: "changes",
     title: "Changes to this Policy",
     content: (
@@ -279,7 +368,7 @@ export const privacySections: PrivacySection[] = [
     ),
   },
   {
-    id: 8,
+    id: 9,
     slug: "contact-us",
     title: "Contact Us",
     content: null,
@@ -293,8 +382,9 @@ export const privacyNavItems = [
   { slug: "data-security", label: "Data Security", id: 4 },
   { slug: "data-sharing", label: "Data Sharing", id: 5 },
   { slug: "your-choices", label: "Your Choices", id: 6 },
-  { slug: "changes", label: "Changes to this Policy", id: 7 },
-  { slug: "contact-us", label: "Contact Us", id: 8 },
+  { slug: "data-retention", label: "Data Retention", id: 7 },
+  { slug: "changes", label: "Changes to this Policy", id: 8 },
+  { slug: "contact-us", label: "Contact Us", id: 9 },
 ] as const;
 
 export const privacyOverviewCards = [

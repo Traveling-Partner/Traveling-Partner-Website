@@ -48,22 +48,47 @@ function DefinitionCard({
   );
 }
 
+function CalloutCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="terms-print-keep rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+      <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+        {label}
+      </p>
+      <div className={body}>{children}</div>
+    </div>
+  );
+}
+
 export const termsSections: TermsSection[] = [
   {
     id: 1,
     slug: "introduction",
     title: "Introduction",
     content: (
-      <p className={body}>
-        {emphasizePhrases(
-          "Traveling Partner is a technology platform connecting riders, drivers, couriers and business partners. We make it easier to book rides, arrange deliveries and access logistics services through one application. Drivers and couriers using the platform work independently and are responsible for the services they provide.",
-          [
-            "technology platform",
-            "one application",
-            "work independently",
-          ],
-        )}
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner is a technology platform connecting riders, drivers, couriers and business partners. We make it easier to book rides, arrange deliveries and access logistics services through one application. Drivers and couriers using the platform work independently and are responsible for the services they provide.",
+            [
+              "technology platform",
+              "one application",
+              "work independently",
+            ],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner does not hire or contract with drivers.",
+            ["does not hire or contract with drivers"],
+          )}
+        </p>
+      </div>
     ),
   },
   {
@@ -125,7 +150,19 @@ export const termsSections: TermsSection[] = [
     slug: "services",
     title: "Services",
     content: (
-      <div className="terms-print-allow-break rounded-[18px] border border-[#f5e9b8] bg-[#FFFDF0] px-4 py-5 sm:rounded-[20px] sm:px-6 sm:py-6">
+      <div className="space-y-4">
+        <CalloutCard label="Location Information">
+          <p>
+            {emphasizePhrases(
+              "Location information may be used, where permission is granted, to support pickup and drop-off services, driver matching, navigation, estimated arrival times, delivery operations and platform safety. Additional details about how location, personal, vehicle and other information is collected and used are provided in our Privacy Policy.",
+              [
+                "where permission is granted",
+                "Privacy Policy",
+              ],
+            )}
+          </p>
+        </CalloutCard>
+        <div className="terms-print-allow-break rounded-[18px] border border-[#f5e9b8] bg-[#FFFDF0] px-4 py-5 sm:rounded-[20px] sm:px-6 sm:py-6">
         <p className={`${body} mb-4`}>
           {emphasizePhrases(
             "Traveling Partner brings several services together in one platform.",
@@ -174,6 +211,7 @@ export const termsSections: TermsSection[] = [
               ["Fares can change"],
             )}
           </p>
+        </div>
         </div>
       </div>
     ),
@@ -225,10 +263,40 @@ export const termsSections: TermsSection[] = [
   },
   {
     id: 7,
+    slug: "cancellation",
+    title: "Cancellation",
+    content: (
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "Users may cancel a booking subject to the cancellation conditions applicable to the selected service. Where applicable, cancellation charges may depend on the service, timing of the cancellation and other booking conditions displayed before or during the booking process.",
+            [
+              "cancellation conditions",
+              "cancellation charges",
+            ],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 8,
     slug: "restrictions-and-user-conduct",
     title: "Restrictions & User Conduct",
     content: (
       <div className="space-y-5">
+        <CalloutCard label="Lost and Found">
+          <p>
+            {emphasizePhrases(
+              "Users are responsible for their personal belongings while using Traveling Partner services. If an item is left in a vehicle, users may contact our support team to report the lost item. Traveling Partner may assist in connecting the user with the relevant driver or service provider, but recovery of lost property cannot always be guaranteed.",
+              [
+                "personal belongings",
+                "lost item",
+                "cannot always be guaranteed",
+              ],
+            )}
+          </p>
+        </CalloutCard>
         <div className="space-y-4">
           <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>
             Driver Conduct
@@ -310,7 +378,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 8,
+    id: 9,
     slug: "privacy",
     title: "Privacy",
     content: (
@@ -324,11 +392,26 @@ export const termsSections: TermsSection[] = [
             ["Privacy Policy", "personal information"],
           )}
         </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Our Privacy Policy explains what information we collect, including personal, location, booking, device, driver and vehicle information, how we use it, how certain information may be used for advertising and promotional purposes, and the steps we take to protect your personal information while you are using Traveling Partner.",
+            [
+              "personal, location, booking, device, driver and vehicle information",
+              "advertising and promotional purposes",
+            ],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "By using Traveling Partner, you acknowledge that information may be collected and used as described in the Privacy Policy.",
+            ["acknowledge that information may be collected"],
+          )}
+        </p>
       </div>
     ),
   },
   {
-    id: 9,
+    id: 10,
     slug: "termination",
     title: "Termination",
     content: (
@@ -355,7 +438,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 10,
+    id: 11,
     slug: "disclaimer",
     title: "Disclaimer",
     content: (
@@ -382,7 +465,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 11,
+    id: 12,
     slug: "limitation-of-liability",
     title: "Limitation of Liability",
     content: (
@@ -406,7 +489,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 12,
+    id: 13,
     slug: "unforeseen-events",
     title: "Unforeseen Events",
     content: (
@@ -428,7 +511,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 13,
+    id: 14,
     slug: "governing-law",
     title: "Governing Law",
     content: (
@@ -449,7 +532,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 14,
+    id: 15,
     slug: "dispute-resolution",
     title: "Dispute Resolution",
     content: (
@@ -462,7 +545,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 15,
+    id: 16,
     slug: "changes",
     title: "Changes to Terms",
     content: (
@@ -483,7 +566,7 @@ export const termsSections: TermsSection[] = [
     ),
   },
   {
-    id: 16,
+    id: 17,
     slug: "contact-us",
     title: "Contact Us",
     titleSuffix: ".",
@@ -523,18 +606,19 @@ export const termsNavItems = [
   { slug: "services", label: "Services", id: 4 },
   { slug: "payments", label: "Payments", id: 5 },
   { slug: "refund-policy", label: "Refund Policy", id: 6 },
+  { slug: "cancellation", label: "Cancellation", id: 7 },
   {
     slug: "restrictions-and-user-conduct",
     label: "Restrictions & Conduct",
-    id: 7,
+    id: 8,
   },
-  { slug: "privacy", label: "Privacy", id: 8 },
-  { slug: "termination", label: "Termination", id: 9 },
-  { slug: "disclaimer", label: "Disclaimer", id: 10 },
-  { slug: "limitation-of-liability", label: "Limitation of Liability", id: 11 },
-  { slug: "unforeseen-events", label: "Unforeseen Events", id: 12 },
-  { slug: "governing-law", label: "Governing Law", id: 13 },
-  { slug: "dispute-resolution", label: "Dispute Resolution", id: 14 },
-  { slug: "changes", label: "Changes to Terms", id: 15 },
-  { slug: "contact-us", label: "Contact Us", id: 16 },
+  { slug: "privacy", label: "Privacy", id: 9 },
+  { slug: "termination", label: "Termination", id: 10 },
+  { slug: "disclaimer", label: "Disclaimer", id: 11 },
+  { slug: "limitation-of-liability", label: "Limitation of Liability", id: 12 },
+  { slug: "unforeseen-events", label: "Unforeseen Events", id: 13 },
+  { slug: "governing-law", label: "Governing Law", id: 14 },
+  { slug: "dispute-resolution", label: "Dispute Resolution", id: 15 },
+  { slug: "changes", label: "Changes to Terms", id: 16 },
+  { slug: "contact-us", label: "Contact Us", id: 17 },
 ] as const;
