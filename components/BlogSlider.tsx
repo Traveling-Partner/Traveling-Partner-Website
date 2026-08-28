@@ -211,7 +211,7 @@ function BlogCard({
               src={imageSrc}
               alt={blog.main_title}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width:768px) 90vw, 642px"
             />
           ) : null}
