@@ -155,6 +155,7 @@ export default function BlogDetailBody({
             width={1800}
             height={800}
             className="h-auto w-full rounded-[22px] sm:rounded-[28px]"
+            style={{ width: "100%", height: "auto" }}
             priority
             sizes="(max-width: 900px) 92vw, 900px"
           />

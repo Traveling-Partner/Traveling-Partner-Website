@@ -3,7 +3,6 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
 import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
@@ -17,11 +16,13 @@ const DESIGN_SCALE = 0.76;
 /** Allow cards to grow slightly past design size so they fill the section width */
 const MAX_FRAME_SCALE = 1.1;
 const ACTIVE_W = Math.round(600*DESIGN_SCALE);
-const ACTIVE_H = Math.round(558 * DESIGN_SCALE);
 const SIDE_W = Math.round(440 * DESIGN_SCALE);
 const CARD_GAP = Math.round(25* DESIGN_SCALE);
-const IMAGE_H = Math.round(306 * DESIGN_SCALE);
 const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
+/** Same image slot height on every card (16:9 of the active card width). */
+const IMAGE_H = Math.round(ACTIVE_W * 9 / 16);
+const TEXT_H = Math.round(252 * DESIGN_SCALE);
+const ACTIVE_H = IMAGE_H + TEXT_H;
 /** Exactly 3 cards: 1 active + gap + 2 side */
 const VIEWPORT_W = ACTIVE_W + CARD_GAP + SIDE_W + CARD_GAP + SIDE_W;
 const COMPACT_BREAKPOINT = 768;
@@ -170,11 +171,6 @@ function BlogCard({
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
   const readTimeLabel = formatReadTimeLabel(blog.readTime);
-  const imageH = isCompact
-    ? undefined
-    : isActive
-      ? Math.round(IMAGE_H * 0.86)
-      : Math.round(IMAGE_H * 0.8);
   const textPad = isCompact
     ? "14px 16px 16px"
     : isActive
@@ -203,16 +199,17 @@ function BlogCard({
         }}
       >
         <div
-          className={`relative shrink-0 overflow-hidden bg-[#1a1a1a] ${isCompact ? "aspect-[5/3] w-full" : ""}`}
-          style={imageH != null ? { height: imageH } : undefined}
+          className={`relative w-full shrink-0 overflow-hidden bg-[#1a1a1a] ${
+            isCompact ? "aspect-[16/9]" : ""
+          }`}
+          style={isCompact ? undefined : { height: IMAGE_H }}
         >
           {imageSrc ? (
-            <Image
+            <img
               src={imageSrc}
               alt={blog.main_title}
-              fill
-              className="object-contain"
-              sizes="(max-width:768px) 90vw, 642px"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              style={{ objectFit: "cover", objectPosition: "center" }}
             />
           ) : null}
           <div

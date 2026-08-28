@@ -123,12 +123,13 @@ function FeaturedStoryCard({
     <article className="overflow-hidden rounded-[28px] border border-[#eceae4] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] sm:rounded-[32px]">
       <div className="grid lg:grid-cols-2">
         <div className="relative p-4 sm:p-5 lg:p-6 lg:pr-3">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-[#f7f4ec] sm:rounded-[24px]">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-[#f7f4ec] sm:rounded-[24px]">
             <Image
               src={getImageSrc(blog.cover_image)}
               alt={blog.main_title}
               fill
-              className="object-contain"
+              className="object-cover object-center"
+              style={{ objectFit: "cover", objectPosition: "center" }}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority={priority}
             />
