@@ -98,12 +98,12 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
     <Link href={detailHref} className="group block h-full">
       <article className="flex h-full flex-col overflow-hidden rounded-[24px] border border-[#eceae4] bg-white shadow-[0_8px_28px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(0,0,0,0.1)] sm:rounded-[28px]">
         {/* Image */}
-        <div className="relative aspect-[16/11] overflow-hidden">
+        <div className="relative aspect-[16/11] overflow-hidden bg-[#f7f4ec]">
           <Image
             src={getImageSrc(blog.cover_image)}
             alt={blog.main_title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 

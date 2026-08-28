@@ -764,7 +764,7 @@ img {
 }
 
 .blog-detail-figma img {
-  @apply my-8 h-auto w-full rounded-[22px] object-cover shadow-[0_8px_24px_rgba(0,0,0,0.06)];
+  @apply my-8 h-auto w-full rounded-[22px] object-contain shadow-[0_8px_24px_rgba(0,0,0,0.06)];
 }
 
 .blog-detail-figma hr {

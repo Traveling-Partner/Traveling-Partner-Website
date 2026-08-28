@@ -147,18 +147,17 @@ export default function BlogDetailBody({
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-4 sm:pb-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Featured image — larger width + taller aspect */}
+        {/* Featured image — full artwork, no crop/zoom */}
         <div className="mx-auto mb-8 max-w-[900px] sm:mb-10 lg:mb-12">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[22px] sm:rounded-[28px]">
-            <Image
-              src={getImageSrc(coverImage)}
-              alt={title}
-              fill
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 900px) 92vw, 900px"
-            />
-          </div>
+          <Image
+            src={getImageSrc(coverImage)}
+            alt={title}
+            width={1800}
+            height={800}
+            className="h-auto w-full rounded-[22px] sm:rounded-[28px]"
+            priority
+            sizes="(max-width: 900px) 92vw, 900px"
+          />
         </div>
 
         <div

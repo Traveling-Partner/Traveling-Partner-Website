@@ -108,12 +108,12 @@ function RelatedStoryCard({
   return (
     <Link href={detailHref} className="group block h-full">
       <article className="flex h-full flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_6px_22px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.09)] sm:rounded-[24px]">
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden bg-[#f7f4ec]">
           <Image
             src={getImageSrc(blog.cover_image)}
             alt={blog.main_title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 
