@@ -41,7 +41,7 @@ export default function BlogFaqAccordion({ faqs }: { faqs: BlogFaq[] }) {
   if (!faqs.length) return null;
 
   return (
-    <section className="mt-0 mb-10 border-b border-dashed border-[#e8e4da] pb-8" aria-labelledby="blog-faq-heading">
+    <section className="mt-10 border-t border-dashed border-[#e8e4da] pt-8" aria-labelledby="blog-faq-heading">
       <h2
         id="blog-faq-heading"
         className="mb-5 font-poppins text-[22px] font-extrabold leading-tight text-[#0b0b0b] sm:mb-6 sm:text-[26px]"
