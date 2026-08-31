@@ -1,28 +1,38 @@
-import {
-  getWebsiteApiBase,
-  PUBLIC_WEBSITE_API_BASE,
-  websiteApiUrlsForBrowser,
-} from "@/lib/websiteApiUrl";
+import { blogApiUrl, PUBLIC_BLOG_API_BASE } from "@/lib/websiteApiUrl";
+import { stripHtml } from "@/lib/blogShare";
+import { normalizeStringList } from "@/lib/blogFormat";
 
 /** @deprecated Use blogListApiUrl() — kept for backward compatibility. */
-export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
+export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=0&size=10&search=&status=PUBLISHED`;
 
 /** Build-time OG snapshot only — client UI never reads this. */
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
+
+const LIST_PAGE_SIZE = 10;
 
 /** @deprecated Build artifact only — client always uses the live view API. */
 export function blogDataStaticPath(id: string): string {
   return `/blog-data/${encodeURIComponent(id)}.json`;
 }
 
-/** Live list URL from env (same base as admin portal). */
-export function blogListApiUrl(): string {
-  return `${getWebsiteApiBase()}/blog/list`;
+/** Live published list URL. */
+export function blogListApiUrl(page = 0, size = LIST_PAGE_SIZE, search = ""): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+    search,
+    status: "PUBLISHED",
+  });
+  return blogApiUrl(`/getAll?${params.toString()}`);
 }
 
-/** @deprecated Use websiteApiUrlsForBrowser — kept for backward compatibility. */
+export function blogDetailApiUrl(id: string): string {
+  return blogApiUrl(`/getById/${encodeURIComponent(id)}`);
+}
+
+/** @deprecated Use blogListApiUrl — kept for backward compatibility. */
 export function blogListUrlForRuntime(): string {
-  return websiteApiUrlsForBrowser("/blog/list")[0];
+  return blogListApiUrl();
 }
 
 export function findBlogInListPayload(
@@ -80,10 +90,11 @@ export async function fetchBlogDetailById(
   id: string
 ): Promise<Record<string, unknown> | null> {
   try {
-    const response = await fetch(
-      `${getWebsiteApiBase()}/blog/view/${encodeURIComponent(id)}`,
-      { method: "GET", cache: "no-store", headers: { Accept: "application/json" } }
-    );
+    const response = await fetch(blogDetailApiUrl(id), {
+      method: "GET",
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
     if (!response.ok) return null;
     const json = await response.json();
     return extractBlogDetail(json);
@@ -95,15 +106,28 @@ export async function fetchBlogDetailById(
 export function pickBlogMetaFields(item: Record<string, unknown>) {
   const id = getBlogIdFromItem(item);
   const title = String(
-    item.mainTitle ?? item.main_title ?? item.title ?? "Traveling Partner Blog"
-  );
+    item.seoTitle ||
+      item.mainTitle ||
+      item.main_title ||
+      item.title ||
+      "Traveling Partner Blog"
+  ).trim();
   const description = String(
-    item.description1 ?? item.description ?? item.short_description ?? ""
+    item.seoDescription ||
+      item.description1 ||
+      item.description ||
+      item.short_description ||
+      ""
   ).trim();
   const coverImage = String(
     item.coverImage ?? item.cover_image ?? item.image ?? ""
   ).trim();
-  return { id, title, description, coverImage };
+  const keywords = [
+    ...normalizeStringList(item.primaryKeywords),
+    ...normalizeStringList(item.secondaryKeywords),
+    ...normalizeStringList(item.semanticKeywords),
+  ];
+  return { id, title, description: stripHtml(description), coverImage, keywords };
 }
 
 export const extractBlogList = (payload: unknown): Record<string, unknown>[] => {
@@ -132,19 +156,49 @@ export const getBlogIdFromItem = (item: Record<string, unknown>): string => {
   return raw != null && String(raw).trim() !== "" ? String(raw) : "";
 };
 
-export async function fetchAllBlogIds(): Promise<string[]> {
-  try {
-    const response = await fetch(blogListApiUrl(), {
+export async function fetchPublishedBlogPages(): Promise<
+  Record<string, unknown>[]
+> {
+  const all: Record<string, unknown>[] = [];
+  let page = 0;
+  let totalPages = 1;
+  const maxPages = 50;
+
+  while (page < totalPages && page < maxPages) {
+    const response = await fetch(blogListApiUrl(page, LIST_PAGE_SIZE, ""), {
       method: "GET",
       cache: "no-store",
       headers: { Accept: "application/json" },
     });
     if (!response.ok) {
-      console.warn(`[blog] build: list API returned ${response.status}`);
-      return [];
+      throw new Error(`${blogListApiUrl(page)} → ${response.status}`);
     }
     const json = await response.json();
-    const ids = extractBlogList(json)
+    const items = extractBlogList(json).filter((item) => {
+      const status = String(item.status ?? "").trim().toUpperCase();
+      return !status || status === "PUBLISHED";
+    });
+    all.push(...items);
+    const data = (json?.data ?? {}) as Record<string, unknown>;
+    const reportedPages = Number(data.totalPages);
+    if (Number.isFinite(reportedPages) && reportedPages > 0) {
+      totalPages = reportedPages;
+    } else if (items.length < LIST_PAGE_SIZE) {
+      totalPages = page + 1;
+    } else {
+      totalPages = page + 2;
+    }
+    if (items.length === 0) break;
+    page += 1;
+  }
+
+  return all;
+}
+
+export async function fetchAllBlogIds(): Promise<string[]> {
+  try {
+    const items = await fetchPublishedBlogPages();
+    const ids = items
       .map(getBlogIdFromItem)
       .filter((id) => id.length > 0);
     console.log(`[blog] generateStaticParams (${ids.length}): ${ids.join(", ")}`);

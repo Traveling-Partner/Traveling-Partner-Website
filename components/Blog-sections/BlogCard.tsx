@@ -13,8 +13,11 @@ export type BlogCardData = {
   description1: string;
   date?: unknown;
   category?: string;
+  categories?: string[];
   author?: string;
   readTime?: string;
+  tags?: string[];
+  isFeatured?: boolean;
 };
 
 type BlogCardProps = {
@@ -93,6 +96,11 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
   const detailHref = getBlogDetailHref(blog.id);
+  const tags = (blog.tags ?? []).map((tag) => String(tag).trim()).filter(Boolean);
+  const extraCategories = (blog.categories ?? [])
+    .slice(1)
+    .map((cat) => formatBlogType(cat))
+    .filter(Boolean);
 
   return (
     <Link href={detailHref} className="group block h-full">
@@ -113,6 +121,14 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0b0b0b] sm:text-[11px]">
                 {categoryLabel}
+              </span>
+            </div>
+          ) : null}
+
+          {blog.isFeatured ? (
+            <div className="absolute right-4 top-4 inline-flex items-center rounded-full bg-[#0b0b0b] px-2.5 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.18)]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#FCE001] sm:text-[11px]">
+                Featured
               </span>
             </div>
           ) : null}
@@ -146,6 +162,27 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
             <p className="mb-3 line-clamp-2 flex-grow text-[12px] leading-[1.6] text-[#5c5b55] sm:mb-4 sm:text-[13px]">
               {blog.description1}
             </p>
+          ) : null}
+
+          {tags.length || extraCategories.length ? (
+            <div className="mb-3 flex flex-wrap gap-1.5 sm:mb-4">
+              {extraCategories.map((cat) => (
+                <span
+                  key={`cat-${cat}`}
+                  className="rounded-full bg-[#fff8e1] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-[#0b0b0b]"
+                >
+                  {cat}
+                </span>
+              ))}
+              {tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-[#eceae4] bg-[#faf8f3] px-2 py-0.5 text-[10px] font-medium text-[#6b6960]"
+                >
+                  #{tag.toLowerCase().replace(/\s+/g, "-")}
+                </span>
+              ))}
+            </div>
           ) : null}
 
           {/* Footer */}

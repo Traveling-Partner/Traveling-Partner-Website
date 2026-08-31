@@ -640,6 +640,15 @@ img {
   color: #f5a800;
 }
 
+.blog-detail-figma.blog-detail-optional > p:first-of-type::first-letter {
+  float: none;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
 .blog-detail-figma h3 {
   @apply mb-3 mt-8 text-[clamp(18px,2.2vw,26px)] leading-[1.25] text-[#0b0b0b];
 }

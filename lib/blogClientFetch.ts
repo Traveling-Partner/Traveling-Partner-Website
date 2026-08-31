@@ -1,5 +1,4 @@
-import { extractBlogDetail } from "@/lib/blogApi";
-import { websiteApiUrlsForBrowser } from "@/lib/websiteApiUrl";
+import { extractBlogDetail, fetchPublishedBlogPages, blogDetailApiUrl } from "@/lib/blogApi";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
   const response = await fetch(url, {
@@ -13,38 +12,26 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
   return response.json();
 }
 
-async function fetchLiveApi(path: string): Promise<unknown> {
-  const urls = websiteApiUrlsForBrowser(path);
-  const errors: string[] = [];
-
-  for (const url of urls) {
-    try {
-      return await fetchJsonUrl(url);
-    } catch (err) {
-      errors.push(err instanceof Error ? err.message : String(err));
-    }
-  }
-
-  throw new Error(`Live API failed for ${path}. ${errors.join("; ")}`);
-}
-
-/** Blog list — live production API only (no static JSON). */
+/** Published blog list — GET /api/blog/getAll (paginated). */
 export async function fetchBlogListClient(): Promise<unknown> {
-  return fetchLiveApi("/blog/list");
+  const content = await fetchPublishedBlogPages();
+  return { success: true, data: { content } };
 }
 
-/** Blog detail — live `/blog/view/:id` only (no static JSON / list snapshot). */
+/** Blog detail — GET /api/blog/getById/{id} only. */
 export async function fetchBlogDetailClient(
   _routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
   for (const candidateId of idCandidates) {
     try {
-      const json = await fetchLiveApi(
-        `/blog/view/${encodeURIComponent(candidateId)}`
-      );
+      const json = await fetchJsonUrl(blogDetailApiUrl(candidateId));
       const detail = extractBlogDetail(json);
-      if (detail) return detail;
+      if (detail) {
+        const status = String(detail.status ?? "").trim().toUpperCase();
+        if (status && status !== "PUBLISHED") continue;
+        return detail;
+      }
     } catch {
       /* try next candidate */
     }

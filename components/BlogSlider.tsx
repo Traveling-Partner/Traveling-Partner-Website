@@ -5,10 +5,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { extractBlogList, getBlogIdFromItem } from "@/lib/blogApi";
+import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
-import { formatBlogDate, formatReadTimeLabel, pickBlogCategoryField } from "@/lib/blogFormat";
+import { formatBlogDate, formatReadTimeLabel } from "@/lib/blogFormat";
+import { mapBlogCard } from "@/lib/blogMap";
 import { getBlogDetailHref } from "@/lib/blogShare";
 
 /** Figma 124:3829 — scaled to fit typical section width */
@@ -122,18 +123,8 @@ interface Blog {
   category?: string;
   author?: string;
   readTime?: string;
+  isFeatured?: boolean;
 }
-
-const mapBlog = (item: Record<string, unknown>): Blog => ({
-  id: getBlogIdFromItem(item),
-  cover_image: String(item?.coverImage ?? item?.cover_image ?? item?.image ?? "").trim(),
-  main_title: String(item?.mainTitle ?? item?.main_title ?? item?.title ?? "").trim(),
-  description1: String(item?.description1 ?? item?.description ?? item?.short_description ?? "").trim(),
-  date: item?.date ?? item?.publishedAt ?? item?.published_at ?? "",
-  category: pickBlogCategoryField(item),
-  author: String(item?.author ?? "").trim(),
-  readTime: String(item?.readTime ?? item?.read_time ?? "").trim(),
-});
 
 const getImageSrc = (v: string): string | null => {
   const src = String(v || "").trim();
@@ -225,6 +216,17 @@ function BlogCard({
               }}
             >
               {categoryLabel.toUpperCase()}
+            </span>
+          ) : null}
+          {blog.isFeatured ? (
+            <span
+              className="absolute right-[18px] top-[18px] rounded-[6px] bg-black font-bold uppercase tracking-[0.06em] text-[#FCE001]"
+              style={{
+                fontSize: isActive ? 11 : 9,
+                padding: isActive ? "6px 11px" : "4px 8px",
+              }}
+            >
+              Featured
             </span>
           ) : null}
         </div>
@@ -398,7 +400,11 @@ export default function BlogSlider() {
       try {
         setLoading(true);
         const json = await fetchBlogListClient();
-        setBlogs(extractBlogList(json).map(mapBlog).filter((b: Blog) => b.id && b.main_title));
+        setBlogs(
+          extractBlogList(json)
+            .map(mapBlogCard)
+            .filter((b) => b.id && b.main_title)
+        );
       } catch {
         setError("Unable to load blogs right now.");
       } finally {

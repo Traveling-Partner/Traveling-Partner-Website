@@ -11,7 +11,19 @@ import path from "path";
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://traveling-partner.com"
 ).replace(/\/$/, "");
-const API_BASE = "https://staging.api.traveling-partner.com/api/website";
+
+function toBlogApiBase(raw) {
+  const normalized = String(raw || "https://api.traveling-partner.com/api")
+    .replace(/\/$/, "");
+  if (normalized.endsWith("/blog")) return normalized;
+  if (normalized.endsWith("/website")) {
+    return normalized.replace(/\/website$/, "/blog");
+  }
+  if (normalized.endsWith("/api")) return `${normalized}/blog`;
+  return `${normalized}/api/blog`;
+}
+
+const BLOG_API = toBlogApiBase(process.env.NEXT_PUBLIC_API_BASE_URL);
 const OUT_BLOG = path.join(process.cwd(), "out", "blog");
 const OUT_BLOG_DATA = path.join(process.cwd(), "out", "blog-data");
 const DEFAULT_OG_IMAGE =
@@ -82,7 +94,7 @@ async function fetchBlog(id) {
   if (fromStatic) return fromStatic;
 
   try {
-    const res = await fetch(`${API_BASE}/blog/view/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${BLOG_API}/getById/${encodeURIComponent(id)}`, {
       headers: { Accept: "application/json" },
     });
     if (!res.ok) return null;
@@ -97,12 +109,37 @@ async function fetchBlog(id) {
   }
 }
 
+function collectKeywords(blog) {
+  const lists = [
+    blog.primaryKeywords,
+    blog.secondaryKeywords,
+    blog.semanticKeywords,
+  ];
+  const values = [];
+  for (const list of lists) {
+    if (Array.isArray(list)) {
+      values.push(...list);
+    } else if (typeof list === "string" && list.trim()) {
+      values.push(...list.split(","));
+    }
+  }
+  return values.map((value) => String(value ?? "").trim()).filter(Boolean);
+}
+
 function buildSocialMetaBlock(blog, id) {
   const title = String(
-    blog.mainTitle ?? blog.main_title ?? blog.title ?? "Traveling Partner Blog"
+    blog.seoTitle ||
+      blog.mainTitle ||
+      blog.main_title ||
+      blog.title ||
+      "Traveling Partner Blog"
   );
   const description = stripHtml(
-    blog.description1 ?? blog.description ?? blog.short_description ?? ""
+    blog.seoDescription ||
+      blog.description1 ||
+      blog.description ||
+      blog.short_description ||
+      ""
   ).slice(0, 200);
   const image = toAbsoluteImage(
     blog.coverImage ?? blog.cover_image ?? blog.image ?? ""
@@ -113,6 +150,7 @@ function buildSocialMetaBlock(blog, id) {
     description || "Read this article on Traveling Partner."
   );
   const published = String(blog.date ?? blog.createdAt ?? "").slice(0, 10);
+  const keywords = collectKeywords(blog);
 
   let block = `
 <meta property="og:type" content="article"/>
@@ -128,6 +166,11 @@ function buildSocialMetaBlock(blog, id) {
 <title>${safeTitle} | Traveling Partner</title>
 <meta name="description" content="${safeDesc}"/>
 <link rel="canonical" href="${url}"/>`;
+
+  if (keywords.length) {
+    block += `
+<meta name="keywords" content="${escapeHtml(keywords.join(", "))}"/>`;
+  }
 
   if (published) {
     block += `

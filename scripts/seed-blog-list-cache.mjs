@@ -6,7 +6,7 @@
 import fs from "fs";
 import path from "path";
 
-// Snapshot from GET /api/website/blog/list (2026-05-24). Re-run after major blog changes.
+// Snapshot from GET /api/blog/getAll?status=PUBLISHED. Re-run after major blog changes.
 const payload = {
   success: true,
   statusCode: 200,

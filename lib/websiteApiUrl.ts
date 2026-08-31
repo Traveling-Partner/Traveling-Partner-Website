@@ -8,6 +8,21 @@
 export const PUBLIC_WEBSITE_API_BASE =
   "https://api.traveling-partner.com/api/website";
 
+/** Blog CRM API (read-only): GET /api/blog/getAll and /api/blog/getById/{id} */
+export const PUBLIC_BLOG_API_BASE = PUBLIC_WEBSITE_API_BASE.replace(
+  /\/api\/website\/?$/,
+  "/api/blog"
+);
+
+export function blogApiUrl(path: string): string {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return `${PUBLIC_BLOG_API_BASE}${segment}`;
+}
+
+export function blogApiUrlsForBrowser(path: string): string[] {
+  return [blogApiUrl(path)];
+}
+
 function envBaseToWebsiteApiBase(base: string): string {
   const normalized = base.replace(/\/$/, "");
   if (normalized.endsWith("/api")) {
