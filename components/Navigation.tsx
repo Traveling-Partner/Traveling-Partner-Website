@@ -56,11 +56,15 @@ export default function Navigation() {
     href: string,
   ) => {
     closeMenu();
-    const current = pathname || "/";
+    const current = (pathname || "/").split("?")[0].replace(/\/$/, "") || "/";
+    const target = href.split("?")[0].replace(/\/$/, "") || "/";
+    // Listing vs article: /blog/detail and /blog/[id] are not the Blog page.
     const isSame =
-      href === "/"
+      target === "/"
         ? current === "/"
-        : current === href || current.startsWith(`${href}/`);
+        : target === "/blog"
+          ? current === "/blog"
+          : current === target || current.startsWith(`${target}/`);
     if (isSame) {
       event.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
