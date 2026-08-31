@@ -49,7 +49,7 @@ export async function generateMetadata({
     };
   }
 
-  const { title, description, coverImage } = pickBlogMetaFields(blog);
+  const { title, description, coverImage, keywords } = pickBlogMetaFields(blog);
   const desc =
     stripHtml(description).slice(0, 200) ||
     "Read this article on Traveling Partner.";
@@ -59,6 +59,7 @@ export async function generateMetadata({
   return {
     title: `${title} | Traveling Partner`,
     description: desc,
+    ...(keywords.length ? { keywords } : {}),
     alternates: { canonical: url },
     openGraph: {
       type: "article",

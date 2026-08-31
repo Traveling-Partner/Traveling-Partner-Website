@@ -1,28 +1,65 @@
 /** Display helpers for blog UI — no API changes. */
 
-/** Category / type label from API only (no frontend default). */
+/** Split legacy "Drivers, Partner" or keep CRM string[]. Never throw on null. */
+export function normalizeBlogCategories(raw: unknown): string[] {
+  if (raw == null || raw === "") return [];
+  if (Array.isArray(raw)) {
+    return raw
+      .map((value) => String(value ?? "").trim())
+      .filter(Boolean);
+  }
+  if (typeof raw === "string") {
+    return raw
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+export function normalizeStringList(raw: unknown): string[] {
+  if (raw == null || raw === "") return [];
+  if (Array.isArray(raw)) {
+    return raw
+      .map((value) => String(value ?? "").trim())
+      .filter(Boolean);
+  }
+  if (typeof raw === "string") {
+    return raw
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+/** All category labels from categoryName (array or legacy string). */
+export function pickBlogCategories(
+  item: Record<string, unknown> | null | undefined
+): string[] {
+  if (!item) return [];
+  const fromName = normalizeBlogCategories(item.categoryName);
+  if (fromName.length) return fromName;
+  return normalizeBlogCategories(
+    item.category ?? item.type ?? item.blogType ?? item.blog_type
+  );
+}
+
+/** First category for badges that show a single label. */
 export function pickBlogCategoryField(
   item: Record<string, unknown> | null | undefined
 ): string {
-  if (!item) return "";
-  const raw =
-    item.categoryName ??
-    item.category ??
-    item.type ??
-    item.blogType ??
-    item.blog_type ??
-    "";
-  return String(raw ?? "").trim();
+  return pickBlogCategories(item)[0] ?? "";
 }
 
 /** Prefer publish/create fields from Spring/API payloads. */
 export function pickBlogDateField(item: Record<string, unknown> | null | undefined): unknown {
   if (!item) return "";
   return (
+    item.date ??
     item.created_at ??
     item.createdAt ??
     item.createdDate ??
-    item.date ??
     item.published_at ??
     item.publishedAt ??
     item.postDate ??

@@ -4,66 +4,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { fetchBlogDetailClient, fetchBlogListClient } from "@/lib/blogClientFetch";
-import { pickBlogCategoryField, pickBlogDateField } from "@/lib/blogFormat";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { extractBlogList } from "@/lib/blogApi";
+import { mapBlogCard, mapBlogDetail, type MappedBlogDetail } from "@/lib/blogMap";
 import BlogDetailHero from "@/components/Blog-sections/BlogDetailHero";
 import BlogDetailBody from "@/components/Blog-sections/BlogDetailBody";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 import TPLoader from "@/components/TPLoader";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
-
-interface Blog {
-  id: string | number;
-  cover_image: string;
-  main_title: string;
-  description1: string;
-  description2?: string;
-  date?: unknown;
-  readTime?: string;
-  category?: string;
-  author?: string;
-  tags?: string[];
-  views?: number;
-}
-
-const mapBlogDetail = (item: any): Blog => ({
-  id:
-    item?.id ??
-    item?.blog_id ??
-    item?.blogId ??
-    item?.website_blog_id ??
-    item?.websiteBlogId ??
-    item?.slug ??
-    "",
-  cover_image: item?.coverImage ?? item?.cover_image ?? item?.image ?? "",
-  main_title: item?.mainTitle ?? item?.main_title ?? item?.title ?? "Untitled",
-  description1: item?.description1 ?? item?.description ?? item?.short_description ?? "",
-  description2: item?.description2 ?? item?.content ?? item?.long_description ?? "",
-  date: pickBlogDateField(item),
-  readTime: item?.readTime ?? item?.read_time ?? "5 min read",
-  category: pickBlogCategoryField(item),
-  author: String(item?.author ?? "").trim(),
-  tags: Array.isArray(item?.tags) ? item.tags : [],
-  views: Number(item?.views ?? item?.viewCount ?? 0) || undefined,
-});
-
-const mapRelatedBlog = (item: any): BlogCardData => ({
-  id:
-    item?.id ??
-    item?.blog_id ??
-    item?.blogId ??
-    item?.website_blog_id ??
-    item?.websiteBlogId ??
-    "",
-  cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
-  main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
-  description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
-  date: pickBlogDateField(item),
-  category: pickBlogCategoryField(item),
-  author: String(item?.author ?? "").trim(),
-  readTime: String(item?.readTime ?? item?.read_time ?? "").trim(),
-});
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -105,6 +53,12 @@ function StatusCard({
   );
 }
 
+function categoriesOverlap(a: string[], b: string[]): boolean {
+  if (!a.length || !b.length) return false;
+  const set = new Set(a.map((cat) => cat.trim().toLowerCase()).filter(Boolean));
+  return b.some((cat) => set.has(cat.trim().toLowerCase()));
+}
+
 export default function BlogDetailClient({
   blogId,
 }: {
@@ -112,7 +66,7 @@ export default function BlogDetailClient({
 } = {}): React.ReactElement {
   const searchParams = useSearchParams();
   const routeId = (blogId?.trim() || searchParams?.get("id") || "").trim();
-  const [blog, setBlog] = useState<Blog | null>(null);
+  const [blog, setBlog] = useState<MappedBlogDetail | null>(null);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -153,17 +107,14 @@ export default function BlogDetailClient({
         if (resolvedBlog) {
           try {
             const listData = await fetchBlogListClient();
-            const rawList = extractBlogList(listData);
-            const related = rawList
-              .map(mapRelatedBlog)
-              .filter((item) => item.id && String(item.id) !== String(resolvedBlog.id))
-              .filter((item) =>
-                resolvedBlog.category
-                  ? item.category === resolvedBlog.category
-                  : true
-              )
-              .slice(0, 3);
-            setRelatedBlogs(related);
+            const rawList = extractBlogList(listData).map(mapBlogCard);
+            const others = rawList.filter(
+              (item) => item.id && String(item.id) !== String(resolvedBlog.id)
+            );
+            const overlapping = others.filter((item) =>
+              categoriesOverlap(resolvedBlog.categories, item.categories)
+            );
+            setRelatedBlogs((overlapping.length ? overlapping : others).slice(0, 3));
           } catch {
             setRelatedBlogs([]);
           }
@@ -226,6 +177,7 @@ export default function BlogDetailClient({
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogDetailHero blog={blog} />
       <BlogDetailBody
+        blog={blog}
         coverImage={blog.cover_image}
         title={blog.main_title}
         description2={blog.description2}

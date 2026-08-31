@@ -6,12 +6,16 @@ import Image from "next/image";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
 import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
+import BlogOptionalSections from "@/components/Blog-sections/BlogOptionalSections";
+import BlogFaqAccordion from "@/components/Blog-sections/BlogFaqAccordion";
 import {
   extractHeadingsFromHtml,
   normalizeBlogContentHtml,
 } from "@/lib/blogDetailContent";
+import type { MappedBlogDetail } from "@/lib/blogMap";
 
 type BlogDetailBodyProps = {
+  blog: MappedBlogDetail;
   coverImage: string;
   title: string;
   description2?: string;
@@ -56,6 +60,7 @@ function getPinStyle(
 }
 
 export default function BlogDetailBody({
+  blog,
   coverImage,
   title,
   description2,
@@ -174,6 +179,8 @@ export default function BlogDetailBody({
               />
             ) : null}
 
+            <BlogOptionalSections blog={blog} getImageSrc={getImageSrc} />
+
             {tags.length > 0 ? (
               <div className="mt-10 border-t border-dashed border-[#e8e4da] pt-8">
                 <div className="flex flex-wrap gap-2.5">
@@ -188,6 +195,8 @@ export default function BlogDetailBody({
                 </div>
               </div>
             ) : null}
+
+            <BlogFaqAccordion faqs={blog.faqs ?? []} />
           </article>
 
           {/* Right sidebar — fixed on desktop only; normal flow on mobile */}

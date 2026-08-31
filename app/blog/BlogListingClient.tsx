@@ -3,47 +3,16 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
-import {
-  formatBlogType,
-  pickBlogCategoryField,
-  pickBlogDateField,
-} from "@/lib/blogFormat";
+import { formatBlogType } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
+import { mapBlogCard, type MappedBlogCard } from "@/lib/blogMap";
 import BlogHero from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 import SearchEmptyState from "@/components/SearchEmptyState";
 import TPLoader from "@/components/TPLoader";
-
-interface Blog {
-  id: string | number;
-  cover_image: string;
-  main_title: string;
-  description1: string;
-  date?: unknown;
-  category?: string;
-  author?: string;
-  readTime?: string;
-}
-
-const mapBlog = (item: any): Blog => ({
-  id:
-    item?.id ??
-    item?.blog_id ??
-    item?.blogId ??
-    item?.website_blog_id ??
-    item?.websiteBlogId ??
-    "",
-  cover_image: item?.image ?? item?.cover_image ?? item?.coverImage ?? "",
-  main_title: item?.title ?? item?.main_title ?? item?.mainTitle ?? "Untitled",
-  description1: item?.description ?? item?.description1 ?? item?.short_description ?? "",
-  date: pickBlogDateField(item),
-  category: pickBlogCategoryField(item),
-  author: String(item?.author ?? "").trim(),
-  readTime: String(item?.readTime ?? item?.read_time ?? "").trim(),
-});
 
 const getImageSrc = (value: string): string => {
   const src = String(value || "").trim();
@@ -61,7 +30,7 @@ const Loader = () => (
 );
 
 export default function BlogListingClient() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -74,8 +43,9 @@ export default function BlogListingClient() {
         setError(null);
 
         const data = await fetchBlogListClient();
-        const rawList = extractBlogList(data);
-        const mappedBlogs = rawList.map(mapBlog).filter((blog: Blog) => blog.id);
+        const mappedBlogs = extractBlogList(data)
+          .map(mapBlogCard)
+          .filter((blog) => blog.id);
         setBlogs(mappedBlogs);
       } catch (err) {
         console.error("Error while fetching blog list:", err);
@@ -91,9 +61,11 @@ export default function BlogListingClient() {
   const categories = useMemo(() => {
     const unique = Array.from(
       new Set(
-        blogs
-          .map((blog) => blog.category?.trim())
-          .filter((cat): cat is string => Boolean(cat))
+        blogs.flatMap((blog) =>
+          (blog.categories?.length ? blog.categories : blog.category ? [blog.category] : [])
+            .map((cat) => cat.trim())
+            .filter(Boolean)
+        )
       )
     );
 
@@ -102,7 +74,9 @@ export default function BlogListingClient() {
       ...unique.map((cat) => ({
         key: cat,
         label: formatBlogType(cat) || cat,
-        count: blogs.filter((blog) => blog.category === cat).length,
+        count: blogs.filter((blog) =>
+          (blog.categories?.length ? blog.categories : [blog.category]).includes(cat)
+        ).length,
       })),
     ];
   }, [blogs]);
@@ -111,24 +85,35 @@ export default function BlogListingClient() {
     const query = searchQuery.trim().toLowerCase();
 
     return blogs.filter((blog) => {
+      const blogCategories = blog.categories?.length
+        ? blog.categories
+        : blog.category
+          ? [blog.category]
+          : [];
       const matchesCategory =
-        selectedCategory === "All" || blog.category === selectedCategory;
+        selectedCategory === "All" || blogCategories.includes(selectedCategory);
 
       if (!matchesCategory) return false;
-
       if (!query) return true;
 
       const title = blog.main_title?.toLowerCase() ?? "";
       const description = blog.description1?.toLowerCase() ?? "";
-      const category = blog.category?.toLowerCase() ?? "";
+      const categoryText = blogCategories.join(" ").toLowerCase();
+      const tags = (blog.tags ?? []).join(" ").toLowerCase();
 
       return (
         title.includes(query) ||
         description.includes(query) ||
-        category.includes(query)
+        categoryText.includes(query) ||
+        tags.includes(query)
       );
     });
   }, [blogs, selectedCategory, searchQuery]);
+
+  const featuredBlogs = useMemo(() => {
+    const featured = carouselBlogs.filter((blog) => blog.isFeatured);
+    return featured.length ? featured : carouselBlogs;
+  }, [carouselBlogs]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
@@ -170,7 +155,7 @@ export default function BlogListingClient() {
         </section>
       ) : (
         <>
-          <FeaturedBlogSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+          <FeaturedBlogSection blogs={featuredBlogs} getImageSrc={getImageSrc} />
           <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
         </>
       )}

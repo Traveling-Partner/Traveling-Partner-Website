@@ -14,8 +14,11 @@ export type FeaturedBlog = {
   description1: string;
   date?: unknown;
   category?: string;
+  categories?: string[];
   author?: string;
   readTime?: string;
+  tags?: string[];
+  isFeatured?: boolean;
 };
 
 type FeaturedBlogSectionProps = {
@@ -110,6 +113,10 @@ function FeaturedStoryCard({
   priority?: boolean;
 }) {
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
+  const extraCategories = (blog.categories ?? [])
+    .slice(1)
+    .map((cat) => formatBlogType(cat).toUpperCase())
+    .filter(Boolean);
   const dateLabel = formatFeaturedDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
@@ -117,7 +124,7 @@ function FeaturedStoryCard({
   const authorRole = formatAuthorRole(blog.category);
   const detailHref = getBlogDetailHref(blog.id);
 
-  const metaParts = [categoryLabel, dateLabel, readTimeLabel].filter(Boolean);
+  const metaParts = [categoryLabel, ...extraCategories, dateLabel, readTimeLabel].filter(Boolean);
 
   return (
     <article className="overflow-hidden rounded-[28px] border border-[#eceae4] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] sm:rounded-[32px]">
@@ -151,7 +158,15 @@ function FeaturedStoryCard({
                   {categoryLabel}
                 </span>
               ) : null}
-              {categoryLabel && (dateLabel || readTimeLabel) ? (
+              {extraCategories.map((cat) => (
+                <span
+                  key={cat}
+                  className="font-bold uppercase tracking-[0.08em] text-[#6b6960]"
+                >
+                  {cat}
+                </span>
+              ))}
+              {(categoryLabel || extraCategories.length > 0) && (dateLabel || readTimeLabel) ? (
                 <span className="text-[#c4c0b6]" aria-hidden="true">
                   •
                 </span>

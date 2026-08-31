@@ -10,6 +10,7 @@ export type BlogDetailHeroData = {
   date?: unknown;
   readTime?: string;
   category?: string;
+  categories?: string[];
   author?: string;
 };
 
@@ -73,17 +74,24 @@ function renderHeroTitle(title: string): ReactNode {
 }
 
 export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
-  const categoryLabel = blog.category
-    ? formatBlogType(blog.category).toUpperCase()
-    : "";
+  const categoryLabels = (blog.categories?.length
+    ? blog.categories
+    : blog.category
+      ? [blog.category]
+      : []
+  )
+    .map((cat) => formatBlogType(cat))
+    .filter(Boolean);
+  const categoryLabel = categoryLabels[0]?.toUpperCase() ?? "";
+  const extraCategories = categoryLabels.slice(1);
   const dateLabel = formatHeroDate(blog.date);
   const readTimeLabel = formatReadTimeLabel(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
   const isAdminAuthor = /admin/i.test(authorLabel);
   const showAuthor = Boolean(authorLabel) && !isAdminAuthor;
   const authorInitials = showAuthor ? getAuthorInitials(authorLabel) : "";
-  const authorRole = blog.category
-    ? `Editor · ${formatBlogType(blog.category)}`
+  const authorRole = categoryLabels[0]
+    ? `Editor · ${categoryLabels[0]}`
     : "Editor";
 
   return (
@@ -114,7 +122,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
             </span>
           </Link>
 
-          {(categoryLabel || dateLabel || readTimeLabel) && (
+          {(categoryLabels.length || dateLabel || readTimeLabel) && (
             <div className="inline-flex w-fit flex-wrap items-center gap-2 self-end rounded-full border border-[#eceae4] bg-white px-3 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-2.5 sm:px-4 sm:py-2.5 sm:self-auto">
               {categoryLabel ? (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1">
@@ -124,6 +132,16 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
                   </span>
                 </span>
               ) : null}
+              {extraCategories.map((cat) => (
+                <span
+                  key={cat}
+                  className="inline-flex items-center rounded-full bg-[#fff8e1] px-3 py-1"
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#0b0b0b] sm:text-[11px]">
+                    {cat.toUpperCase()}
+                  </span>
+                </span>
+              ))}
               {dateLabel ? (
                 <span className="text-[12px] font-medium text-[#6b6960] sm:text-[13px]">
                   {dateLabel}
