@@ -62,15 +62,33 @@ export function isPublishedBlog(item: Record<string, unknown>): boolean {
 }
 
 export function normalizeFaqs(raw: unknown): BlogFaq[] {
-  if (!Array.isArray(raw)) return [];
-  return raw
+  let source: unknown = raw;
+  if (typeof source === "string" && source.trim()) {
+    try {
+      source = JSON.parse(source) as unknown;
+    } catch {
+      return [];
+    }
+  }
+  if (source && typeof source === "object" && !Array.isArray(source)) {
+    const nested = (source as Record<string, unknown>).faqs;
+    if (Array.isArray(nested)) source = nested;
+    else source = Object.values(source);
+  }
+  if (!Array.isArray(source)) return [];
+  return source
     .map((entry) => {
       const item = (entry ?? {}) as Record<string, unknown>;
-      const question = text(item.question);
-      const answer = text(item.answer);
-      const sortOrder = Number(item.sortOrder);
+      const question = text(item.question ?? item.Question);
+      const answer = text(item.answer ?? item.Answer);
+      const sortOrder = Number(item.sortOrder ?? item.sort_order);
+      const idRaw = item.id;
+      const id =
+        typeof idRaw === "number"
+          ? idRaw
+          : Number(idRaw);
       return {
-        id: typeof item.id === "number" ? item.id : undefined,
+        id: Number.isFinite(id) ? id : undefined,
         question,
         answer,
         sortOrder: Number.isFinite(sortOrder) ? sortOrder : 0,
@@ -78,6 +96,16 @@ export function normalizeFaqs(raw: unknown): BlogFaq[] {
     })
     .filter((faq) => faq.question && faq.answer)
     .sort((a, b) => a.sortOrder - b.sortOrder);
+}
+
+function pickFaqs(item: Record<string, unknown>): BlogFaq[] {
+  const direct = normalizeFaqs(item.faqs ?? item.faq ?? item.faqList);
+  if (direct.length) return direct;
+  const nested = item.data;
+  if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+    return normalizeFaqs((nested as Record<string, unknown>).faqs);
+  }
+  return [];
 }
 
 export function mapBlogCard(item: Record<string, unknown>): MappedBlogCard {
@@ -140,6 +168,6 @@ export function mapBlogDetail(item: Record<string, unknown>): MappedBlogDetail {
     whatWeTeachTitle: text(item.whatWeTeachTitle),
     whatWeTeachDescription: text(item.whatWeTeachDescription),
     whatWeTeachBulletPoints: normalizeStringList(item.whatWeTeachBulletPoints),
-    faqs: normalizeFaqs(item.faqs),
+    faqs: pickFaqs(item),
   };
 }

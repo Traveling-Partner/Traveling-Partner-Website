@@ -1,4 +1,10 @@
-import { extractBlogDetail, fetchPublishedBlogPages, blogDetailApiUrl } from "@/lib/blogApi";
+import {
+  extractBlogDetail,
+  fetchPublishedBlogPages,
+  blogDetailApiUrl,
+  legacyBlogDetailApiUrl,
+  findBlogInListPayload,
+} from "@/lib/blogApi";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
   const response = await fetch(url, {
@@ -12,29 +18,52 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
   return response.json();
 }
 
-/** Published blog list — GET /api/blog/getAll (paginated). */
+function publishedDetail(
+  detail: Record<string, unknown> | null
+): Record<string, unknown> | null {
+  if (!detail) return null;
+  const status = String(detail.status ?? "").trim().toUpperCase();
+  if (status && status !== "PUBLISHED") return null;
+  return detail;
+}
+
+/** Published blog list — prefers GET /api/blog/getAll, falls back to /website/blog/list. */
 export async function fetchBlogListClient(): Promise<unknown> {
   const content = await fetchPublishedBlogPages();
   return { success: true, data: { content } };
 }
 
-/** Blog detail — GET /api/blog/getById/{id} only. */
+/**
+ * Blog detail — prefers GET /api/blog/getById, then public /website/blog/view,
+ * then the published list item (list payloads also include `faqs`).
+ */
 export async function fetchBlogDetailClient(
-  _routeId: string,
+  routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
   for (const candidateId of idCandidates) {
-    try {
-      const json = await fetchJsonUrl(blogDetailApiUrl(candidateId));
-      const detail = extractBlogDetail(json);
-      if (detail) {
-        const status = String(detail.status ?? "").trim().toUpperCase();
-        if (status && status !== "PUBLISHED") continue;
-        return detail;
+    for (const url of [
+      legacyBlogDetailApiUrl(candidateId),
+      blogDetailApiUrl(candidateId),
+    ]) {
+      try {
+        const json = await fetchJsonUrl(url);
+        const detail = publishedDetail(extractBlogDetail(json));
+        if (detail) return detail;
+      } catch {
+        /* try next URL / candidate */
       }
-    } catch {
-      /* try next candidate */
     }
+  }
+
+  try {
+    const listPayload = await fetchBlogListClient();
+    const fromList = publishedDetail(
+      findBlogInListPayload(listPayload, routeId)
+    );
+    if (fromList) return fromList;
+  } catch {
+    /* ignore */
   }
 
   return null;

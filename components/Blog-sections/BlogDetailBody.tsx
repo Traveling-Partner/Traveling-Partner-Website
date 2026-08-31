@@ -69,7 +69,12 @@ export default function BlogDetailBody({
   getImageSrc,
 }: BlogDetailBodyProps) {
   const normalizedHtml = normalizeBlogContentHtml(description2 ?? "");
-  const tocItems = extractHeadingsFromHtml(normalizedHtml);
+  const tocItems = [
+    ...extractHeadingsFromHtml(normalizedHtml),
+    ...((blog.faqs?.length ?? 0) > 0
+      ? [{ id: "blog-faq-heading", text: "Frequently Asked Questions" }]
+      : []),
+  ];
   const contentHtml = normalizedHtml;
 
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -172,6 +177,8 @@ export default function BlogDetailBody({
         >
           {/* Main content */}
           <article className="min-w-0 order-1 lg:order-none">
+            <BlogFaqAccordion faqs={blog.faqs ?? []} />
+
             {contentHtml ? (
               <div
                 className="blog-detail-content blog-detail-figma"
@@ -195,8 +202,6 @@ export default function BlogDetailBody({
                 </div>
               </div>
             ) : null}
-
-            <BlogFaqAccordion faqs={blog.faqs ?? []} />
           </article>
 
           {/* Right sidebar — fixed on desktop only; normal flow on mobile */}

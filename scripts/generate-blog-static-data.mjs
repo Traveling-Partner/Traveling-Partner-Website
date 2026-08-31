@@ -20,6 +20,7 @@ function toBlogApiBase(raw) {
 }
 
 const BLOG_API = toBlogApiBase(process.env.NEXT_PUBLIC_API_BASE_URL);
+const WEBSITE_API = BLOG_API.replace(/\/blog$/, "/website");
 const LIST_PAGE_SIZE = 10;
 
 const OUT_DIR = path.join(process.cwd(), "out");
@@ -65,16 +66,14 @@ function extractIds(listPayload) {
     .filter(Boolean);
 }
 
-async function fetchPublishedList() {
+async function fetchPagedList(urlForPage) {
   const all = [];
   let page = 0;
   let totalPages = 1;
   const maxPages = 50;
 
   while (page < totalPages && page < maxPages) {
-    const json = await fetchJson(
-      `${BLOG_API}/getAll?page=${page}&size=${LIST_PAGE_SIZE}&search=&status=PUBLISHED`
-    );
+    const json = await fetchJson(urlForPage(page));
     const items = extractContent(json).filter(isPublished);
     all.push(...items);
     const reportedPages = Number(json?.data?.totalPages);
@@ -100,6 +99,27 @@ async function fetchPublishedList() {
       size: LIST_PAGE_SIZE,
     },
   };
+}
+
+async function fetchPublishedList() {
+  try {
+    const payload = await fetchPagedList(
+      (page) =>
+        `${BLOG_API}/getAll?page=${page}&size=${LIST_PAGE_SIZE}&search=&status=PUBLISHED`
+    );
+    console.log("[blog-static] fetched published list from /api/blog/getAll");
+    return payload;
+  } catch (err) {
+    console.warn("[blog-static] getAll failed:", err.message);
+    const payload = await fetchPagedList(
+      (page) =>
+        `${WEBSITE_API}/blog/list?page=${page}&size=${LIST_PAGE_SIZE}`
+    );
+    console.log(
+      "[blog-static] fetched published list from /api/website/blog/list"
+    );
+    return payload;
+  }
 }
 
 function writeJson(filePath, data) {
@@ -162,11 +182,17 @@ async function main() {
         `${BLOG_API}/getById/${encodeURIComponent(id)}`
       );
     } catch {
-      const item = extractContent(listPayload).find(
-        (row) => String(row?.id) === id
-      );
-      if (item) {
-        detailPayload = { success: true, data: item };
+      try {
+        detailPayload = await fetchJson(
+          `${WEBSITE_API}/blog/view/${encodeURIComponent(id)}`
+        );
+      } catch {
+        const item = extractContent(listPayload).find(
+          (row) => String(row?.id) === id
+        );
+        if (item) {
+          detailPayload = { success: true, data: item };
+        }
       }
     }
 

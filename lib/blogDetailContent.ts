@@ -141,13 +141,43 @@ function enhanceTables(html: string): string {
   });
 }
 
+function encodeMediaSrc(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return url;
+  try {
+    const parsed = new URL(trimmed);
+    parsed.pathname = parsed.pathname
+      .split("/")
+      .map((segment) => {
+        try {
+          return encodeURIComponent(decodeURIComponent(segment));
+        } catch {
+          return encodeURIComponent(segment);
+        }
+      })
+      .join("/");
+    return parsed.toString();
+  } catch {
+    return trimmed.replace(/ /g, "%20");
+  }
+}
+
+/** Encode spaces/parentheses in API image URLs so <img src> does not break. */
+function encodeHtmlMediaSrcs(html: string): string {
+  return html.replace(
+    /(<img\b[^>]*\bsrc\s*=\s*)(["'])([^"']*)\2/gi,
+    (_match, prefix: string, quote: string, src: string) =>
+      `${prefix}${quote}${encodeMediaSrc(src)}${quote}`
+  );
+}
+
 /**
  * Unify h2/h3/h4 and strong-only paragraphs into one heading style (blog 68 parity).
  */
 export function normalizeBlogContentHtml(html: string): string {
   if (!html) return "";
 
-  let result = enhanceTables(html);
+  let result = encodeHtmlMediaSrcs(enhanceTables(html));
 
   result = result.replace(
     /<h([2-4])([^>]*)>([\s\S]*?)<\/h\1>/gi,
