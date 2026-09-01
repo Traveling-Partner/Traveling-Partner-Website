@@ -105,61 +105,51 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex w-full flex-col items-start justify-between gap-3 sm:mb-10 sm:flex-row sm:items-center">
+        <div className="mb-8 flex w-full flex-col items-start justify-between gap-4 sm:mb-10 sm:flex-row sm:items-center">
           <Link
             href="/blog"
-            className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
+            className="inline-flex items-center gap-2 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-70 sm:text-[14px]"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
               <BackArrowIcon className="h-3.5 w-3.5" />
             </span>
-            <span className="text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
-              Back to Blog
-            </span>
+            Back to Blog
           </Link>
 
           {(primaryCategory || dateLabel || readTimeLabel) && (
-            <div className="inline-flex w-fit max-w-full flex-wrap items-center gap-2 self-start rounded-full border border-[#eceae4] bg-white px-3 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-2.5 sm:px-4 sm:py-2.5 sm:self-auto">
+            <div className="flex max-w-full flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] sm:text-[13px]">
               {primaryCategory ? (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
-                    {primaryCategory}
-                  </span>
+                <span className="font-bold uppercase tracking-[0.12em] text-[#c9a40a]">
+                  {primaryCategory}
+                </span>
+              ) : null}
+              {primaryCategory && (dateLabel || readTimeLabel) ? (
+                <span className="text-[#d2cec4]" aria-hidden="true">
+                  •
                 </span>
               ) : null}
               {dateLabel ? (
-                <span className="text-[12px] font-medium text-[#6b6960] sm:text-[13px]">
-                  {dateLabel}
-                </span>
+                <span className="font-medium text-[#6b6960]">{dateLabel}</span>
               ) : null}
               {dateLabel && readTimeLabel ? (
-                <span className="text-[#c4c0b6]" aria-hidden="true">
+                <span className="text-[#d2cec4]" aria-hidden="true">
                   •
                 </span>
               ) : null}
               {readTimeLabel ? (
-                <span className="text-[12px] font-semibold text-[#c9a40a] sm:text-[13px]">
-                  {readTimeLabel}
-                </span>
+                <span className="font-semibold text-[#6b6960]">{readTimeLabel}</span>
               ) : null}
             </div>
           )}
         </div>
 
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mb-5 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.14] tracking-tight text-[#0b0b0b] sm:mb-6">
+          <h1 className="mb-8 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.14] tracking-tight text-[#0b0b0b] sm:mb-10">
             {renderHeroTitle(blog.main_title)}
           </h1>
 
-          {blog.description1 ? (
-            <p className="mx-auto mb-8 max-w-[640px] text-[15px] leading-[1.75] text-[#5c5b55] sm:mb-10 sm:text-base sm:leading-[1.8]">
-              {blog.description1}
-            </p>
-          ) : null}
-
           {showAuthor ? (
-            <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
+            <div className="inline-flex items-center gap-3">
               {authorInitials ? (
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b]">
                   {authorInitials}
