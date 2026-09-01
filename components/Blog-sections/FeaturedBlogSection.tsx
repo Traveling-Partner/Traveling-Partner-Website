@@ -68,12 +68,6 @@ function formatReadTime(value?: string): string {
   return formatReadTimeLabel(value);
 }
 
-function formatAuthorRole(category?: string): string {
-  const label = formatBlogType(category ?? "");
-  if (!label) return "Editor";
-  return `Editor · ${label}`;
-}
-
 function renderFeaturedTitle(title: string): ReactNode {
   const pattern = /(travell?ing partner)/gi;
   const parts: ReactNode[] = [];
@@ -121,7 +115,7 @@ function FeaturedStoryCard({
   const readTimeLabel = formatReadTime(blog.readTime);
   const authorLabel = blog.author?.trim() ?? "";
   const authorInitials = getAuthorInitials(authorLabel);
-  const authorRole = formatAuthorRole(blog.category);
+  const authorRole = "Editor";
   const detailHref = getBlogDetailHref(blog.id);
 
   const metaParts = [categoryLabel, ...extraCategories, dateLabel, readTimeLabel].filter(Boolean);

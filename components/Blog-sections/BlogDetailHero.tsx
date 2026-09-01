@@ -90,9 +90,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
   const isAdminAuthor = /admin/i.test(authorLabel);
   const showAuthor = Boolean(authorLabel) && !isAdminAuthor;
   const authorInitials = showAuthor ? getAuthorInitials(authorLabel) : "";
-  const authorRole = categoryLabels[0]
-    ? `Editor · ${categoryLabels[0]}`
-    : "Editor";
+  const authorRole = "Editor";
 
   return (
     <section className="relative w-full overflow-hidden bg-[#FEFBF6] pb-8 pt-[110px] sm:pb-10 sm:pt-[128px] md:pt-[140px] lg:pt-[150px]">
