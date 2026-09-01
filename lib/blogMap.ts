@@ -1,4 +1,4 @@
-import { getBlogIdFromItem } from "@/lib/blogApi";
+import { getBlogIdFromItem, isFeaturedBlogItem } from "@/lib/blogApi";
 import {
   normalizeStringList,
   pickBlogCategories,
@@ -124,10 +124,7 @@ export function mapBlogCard(item: Record<string, unknown>): MappedBlogCard {
     author: text(item.author),
     readTime: text(item.readTime ?? item.read_time),
     tags: normalizeStringList(item.tags),
-    isFeatured:
-      item.isFeatured === true ||
-      item.isFeatured === "true" ||
-      item.isFeatured === 1,
+    isFeatured: isFeaturedBlogItem(item),
   };
 }
 

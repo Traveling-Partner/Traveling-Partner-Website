@@ -11,6 +11,7 @@ import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { formatBlogDate, formatReadTimeLabel } from "@/lib/blogFormat";
 import { mapBlogCard } from "@/lib/blogMap";
 import { getBlogDetailHref } from "@/lib/blogShare";
+import BlogLoadError from "@/components/BlogLoadError";
 
 /** Figma 124:3829 — scaled to fit typical section width */
 const DESIGN_SCALE = 0.76;
@@ -395,23 +396,26 @@ export default function BlogSlider() {
     return () => window.removeEventListener("resize", updateFrameScale);
   }, [updateFrameScale]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const json = await fetchBlogListClient();
-        setBlogs(
-          extractBlogList(json)
-            .map(mapBlogCard)
-            .filter((b) => b.id && b.main_title)
-        );
-      } catch {
-        setError("Unable to load blogs right now.");
-      } finally {
-        setLoading(false);
-      }
-    })();
+  const loadBlogs = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const json = await fetchBlogListClient();
+      setBlogs(
+        extractBlogList(json)
+          .map(mapBlogCard)
+          .filter((b) => b.id && b.main_title)
+      );
+    } catch {
+      setError("Unable to load blogs right now.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadBlogs();
+  }, [loadBlogs]);
 
   useEffect(() => {
     if (blogs.length <= 1) return;
@@ -447,7 +451,9 @@ export default function BlogSlider() {
       </div>
     );
   }
-  if (error) return <p className="py-4 text-center text-red-400">{error}</p>;
+  if (error) {
+    return <BlogLoadError variant="dark" onRetry={loadBlogs} />;
+  }
   if (!blogs.length) return null;
 
   const carouselHoverHandlers = {

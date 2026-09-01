@@ -1,17 +1,21 @@
 // app/blog/BlogListingClient.tsx
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { formatBlogType } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
-import { fetchBlogListClient } from "@/lib/blogClientFetch";
+import {
+  fetchBlogListClient,
+  fetchFeaturedBlogListClient,
+} from "@/lib/blogClientFetch";
 import { mapBlogCard, type MappedBlogCard } from "@/lib/blogMap";
 import BlogHero from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 import SearchEmptyState from "@/components/SearchEmptyState";
+import BlogLoadError from "@/components/BlogLoadError";
 import TPLoader from "@/components/TPLoader";
 
 const getImageSrc = (value: string): string => {
@@ -29,34 +33,75 @@ const Loader = () => (
   </div>
 );
 
+function matchesListingFilters(
+  blog: MappedBlogCard,
+  selectedCategory: string,
+  searchQuery: string
+): boolean {
+  const blogCategories = blog.categories?.length
+    ? blog.categories
+    : blog.category
+      ? [blog.category]
+      : [];
+  const matchesCategory =
+    selectedCategory === "All" || blogCategories.includes(selectedCategory);
+  if (!matchesCategory) return false;
+
+  const query = searchQuery.trim().toLowerCase();
+  if (!query) return true;
+
+  const title = blog.main_title?.toLowerCase() ?? "";
+  const description = blog.description1?.toLowerCase() ?? "";
+  const categoryText = blogCategories.join(" ").toLowerCase();
+  const tags = (blog.tags ?? []).join(" ").toLowerCase();
+
+  return (
+    title.includes(query) ||
+    description.includes(query) ||
+    categoryText.includes(query) ||
+    tags.includes(query)
+  );
+}
+
 export default function BlogListingClient() {
   const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
+  const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const loadBlogs = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const data = await fetchBlogListClient();
-        const mappedBlogs = extractBlogList(data)
+      const [listData, featuredData] = await Promise.all([
+        fetchBlogListClient(),
+        fetchFeaturedBlogListClient(),
+      ]);
+      setBlogs(
+        extractBlogList(listData)
           .map(mapBlogCard)
-          .filter((blog) => blog.id);
-        setBlogs(mappedBlogs);
-      } catch (err) {
-        console.error("Error while fetching blog list:", err);
-        setError("Unable to load blogs right now. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogs();
+          .filter((blog) => blog.id)
+      );
+      setFeaturedBlogs(
+        extractBlogList(featuredData)
+          .map(mapBlogCard)
+          .filter((blog) => blog.id && blog.isFeatured)
+      );
+    } catch (err) {
+      console.error("Error while fetching blog list:", err);
+      setFeaturedBlogs([]);
+      setError("Unable to load blogs right now. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadBlogs();
+  }, [loadBlogs]);
 
   const categories = useMemo(() => {
     const unique = Array.from(
@@ -81,39 +126,21 @@ export default function BlogListingClient() {
     ];
   }, [blogs]);
 
-  const carouselBlogs = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+  const carouselBlogs = useMemo(
+    () =>
+      blogs.filter((blog) =>
+        matchesListingFilters(blog, selectedCategory, searchQuery)
+      ),
+    [blogs, selectedCategory, searchQuery]
+  );
 
-    return blogs.filter((blog) => {
-      const blogCategories = blog.categories?.length
-        ? blog.categories
-        : blog.category
-          ? [blog.category]
-          : [];
-      const matchesCategory =
-        selectedCategory === "All" || blogCategories.includes(selectedCategory);
-
-      if (!matchesCategory) return false;
-      if (!query) return true;
-
-      const title = blog.main_title?.toLowerCase() ?? "";
-      const description = blog.description1?.toLowerCase() ?? "";
-      const categoryText = blogCategories.join(" ").toLowerCase();
-      const tags = (blog.tags ?? []).join(" ").toLowerCase();
-
-      return (
-        title.includes(query) ||
-        description.includes(query) ||
-        categoryText.includes(query) ||
-        tags.includes(query)
-      );
-    });
-  }, [blogs, selectedCategory, searchQuery]);
-
-  const featuredBlogs = useMemo(() => {
-    const featured = carouselBlogs.filter((blog) => blog.isFeatured);
-    return featured.length ? featured : carouselBlogs;
-  }, [carouselBlogs]);
+  const visibleFeaturedBlogs = useMemo(
+    () =>
+      featuredBlogs.filter((blog) =>
+        matchesListingFilters(blog, selectedCategory, searchQuery)
+      ),
+    [featuredBlogs, selectedCategory, searchQuery]
+  );
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
@@ -138,9 +165,14 @@ export default function BlogListingClient() {
           <Loader />
         </div>
       ) : error ? (
-        <div className="flex items-center justify-center px-4 py-20">
-          <p className="text-center text-red-600">{error}</p>
-        </div>
+        <section
+          id="blog-stories"
+          className="relative w-full bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4"
+        >
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <BlogLoadError variant="light" onRetry={loadBlogs} />
+          </div>
+        </section>
       ) : carouselBlogs.length === 0 ? (
         <section
           id="blog-stories"
@@ -154,10 +186,13 @@ export default function BlogListingClient() {
           </div>
         </section>
       ) : (
-        <>
-          <FeaturedBlogSection blogs={featuredBlogs} getImageSrc={getImageSrc} />
+        <div id="blog-stories">
+          <FeaturedBlogSection
+            blogs={visibleFeaturedBlogs}
+            getImageSrc={getImageSrc}
+          />
           <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
-        </>
+        </div>
       )}
 
       <TPJournalSection />

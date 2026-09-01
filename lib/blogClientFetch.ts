@@ -1,5 +1,6 @@
 import {
   extractBlogDetail,
+  fetchFeaturedBlogPages,
   fetchPublishedBlogPages,
   blogDetailApiUrl,
   legacyBlogDetailApiUrl,
@@ -30,6 +31,12 @@ function publishedDetail(
 /** Published blog list — prefers GET /api/blog/getAll, falls back to /website/blog/list. */
 export async function fetchBlogListClient(): Promise<unknown> {
   const content = await fetchPublishedBlogPages();
+  return { success: true, data: { content } };
+}
+
+/** Featured blogs — GET /api/website/blog/featured. Empty on failure; no published-list fallback. */
+export async function fetchFeaturedBlogListClient(): Promise<unknown> {
+  const content = await fetchFeaturedBlogPages();
   return { success: true, data: { content } };
 }
 
