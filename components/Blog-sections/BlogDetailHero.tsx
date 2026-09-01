@@ -45,7 +45,7 @@ function formatHeroDate(value: unknown): string {
 }
 
 function renderHeroTitle(title: string): ReactNode {
-  const pattern = /(travell?ing partner)/gi;
+  const pattern = /(travell?ing partner|TP driver|TP)/gi;
   const parts: ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -105,15 +105,17 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex w-full flex-col items-start justify-between gap-4 sm:mb-10 sm:flex-row sm:items-center">
+        <div className="mb-8 flex w-full flex-col items-start justify-between gap-3 sm:mb-10 sm:flex-row sm:items-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[13px] font-bold text-[#0b0b0b] transition-opacity hover:opacity-70 sm:text-[14px]"
+            className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]">
               <BackArrowIcon className="h-3.5 w-3.5" />
             </span>
-            Back to Blog
+            <span className="text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
+              Back to Blog
+            </span>
           </Link>
 
           {(primaryCategory || dateLabel || readTimeLabel) && (
@@ -143,22 +145,24 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
           )}
         </div>
 
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mb-8 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.14] tracking-tight text-[#0b0b0b] sm:mb-10">
+        <div className="text-center">
+          <h1 className="mb-8 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-10">
             {renderHeroTitle(blog.main_title)}
           </h1>
 
           {showAuthor ? (
-            <div className="inline-flex items-center gap-3">
+            <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
               {authorInitials ? (
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b]">
                   {authorInitials}
                 </span>
               ) : null}
               <div className="text-left">
-                <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                  {authorLabel}
-                </p>
+                {authorLabel ? (
+                  <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+                    {authorLabel}
+                  </p>
+                ) : null}
                 <p className="text-[12px] font-medium text-[#9a968c] sm:text-[13px]">
                   Editor
                 </p>
