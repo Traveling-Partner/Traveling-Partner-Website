@@ -324,7 +324,6 @@ export default function FeaturedBlogSection({
 
   return (
     <section
-      id="blog-stories"
       className="relative w-full bg-[#FEFBF6] pb-10 pt-2 sm:pb-12 sm:pt-4 lg:pb-14"
     >
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">

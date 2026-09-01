@@ -48,6 +48,26 @@ export function legacyBlogDetailApiUrl(id: string): string {
   return websiteApiUrl(`/blog/view/${encodeURIComponent(id)}`);
 }
 
+/** Public featured list — GET /api/website/blog/featured (no auth). */
+export function featuredBlogListApiUrl(
+  page = 0,
+  size = LIST_PAGE_SIZE
+): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+  });
+  return websiteApiUrl(`/blog/featured?${params.toString()}`);
+}
+
+export function isFeaturedBlogItem(item: Record<string, unknown>): boolean {
+  return (
+    item.isFeatured === true ||
+    item.isFeatured === "true" ||
+    item.isFeatured === 1
+  );
+}
+
 /** @deprecated Use blogListApiUrl — kept for backward compatibility. */
 export function blogListUrlForRuntime(): string {
   return blogListApiUrl();
@@ -232,6 +252,54 @@ export async function fetchPublishedBlogPages(): Promise<
       err
     );
     return await fetchPagedPublishedList((page) => legacyBlogListApiUrl(page));
+  }
+}
+
+/**
+ * Featured blogs for the blog page featured section.
+ * Public GET only — never falls back to all published posts.
+ * Failures return [] so static export / generateStaticParams stay green.
+ */
+export async function fetchFeaturedBlogPages(): Promise<
+  Record<string, unknown>[]
+> {
+  try {
+    const all: Record<string, unknown>[] = [];
+    let page = 0;
+    let totalPages = 1;
+    const maxPages = 50;
+
+    while (page < totalPages && page < maxPages) {
+      const url = featuredBlogListApiUrl(page, LIST_PAGE_SIZE);
+      const response = await fetch(url, {
+        method: "GET",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        console.warn(`[blog] GET /api/website/blog/featured → ${response.status}`);
+        return page === 0 ? [] : all;
+      }
+      const json = await response.json();
+      const items = extractBlogList(json).filter(isFeaturedBlogItem);
+      all.push(...items);
+      const data = (json?.data ?? {}) as Record<string, unknown>;
+      const reportedPages = Number(data.totalPages);
+      if (Number.isFinite(reportedPages) && reportedPages > 0) {
+        totalPages = reportedPages;
+      } else if (items.length < LIST_PAGE_SIZE) {
+        totalPages = page + 1;
+      } else {
+        totalPages = page + 2;
+      }
+      if (items.length === 0) break;
+      page += 1;
+    }
+
+    return all;
+  } catch (err) {
+    console.warn("[blog] GET /api/website/blog/featured failed", err);
+    return [];
   }
 }
 
