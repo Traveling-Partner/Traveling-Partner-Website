@@ -4,11 +4,11 @@ import Image from "next/image";
 
 const categories = [
   {
-    title: "Taxi stand",
+    title: "Taxi Ride",
     image:
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253507/tp-Imgs/Taxi-stand-img/Carpool_edmkbm.png",
     description:
-"Traveling Partner offers a platform connecting you with various taxi stands, providing hassle-free commuting without additional commissions."
+"Traveling Partner offers a platform connecting you with Cab Ride, providing hassle-free commuting without additional commissions."
   },
   {
     title: "Logistic",
@@ -40,11 +40,11 @@ const categories = [
       "Connecting users with delivery services, Traveling Partner ensures commission-free deliveries for various items, fostering a collaborative environment for sharing without added fees.",
   },
   {
-    title: "Trip",
+    title: "Tourism",
     image:
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253811/tp-Imgs/img/Categories_2_nfy9aq.png",
     description:
-      "Planning your journeys via Traveling Partner involves no extra fees. Connect with others, plan trips, and enjoy the platform's collaborative trip planning without commissions"
+      "Plan family trips, group tours, weekend getaways, and travel across Pakistan with flexible tourism options — no extra fees."
   },
 ];
 
@@ -89,7 +89,7 @@ export default function FeaturedCategoriesSection(): React.ReactElement {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
-      <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-0">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 max-md:px-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
             <svg

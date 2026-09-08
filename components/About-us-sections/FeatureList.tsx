@@ -21,7 +21,7 @@ const FeatureList: React.FC = () => {
     {
       title: "Community-Driven Collaboration",
       description:
-        "Be part of a platform connecting users with taxi stands, ride pools, couriers, logistics services, and trip planners, all in a community-centric, commission-free setting.",
+        "Be part of a platform connecting users with Cab Ride, ride pools, couriers, logistics services, and trip planners, all in a community-centric, commission-free setting.",
     },
     {
       title: "Transparent & Empowering",

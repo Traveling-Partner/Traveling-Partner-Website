@@ -1,12 +1,12 @@
 /**
  * One-time helper: writes data/blog-list-cache.json from the live API response
- * when local SSL cannot reach api.traveling-partner.com.
+ * when local SSL cannot reach staging.api.traveling-partner.com.
  * Run: node scripts/seed-blog-list-cache.mjs
  */
 import fs from "fs";
 import path from "path";
 
-// Snapshot from GET /api/website/blog/list (2026-05-24). Re-run after major blog changes.
+// Snapshot from GET /api/blog/getAll?status=PUBLISHED. Re-run after major blog changes.
 const payload = {
   success: true,
   statusCode: 200,

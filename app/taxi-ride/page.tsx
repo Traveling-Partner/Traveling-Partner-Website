@@ -1,0 +1,21 @@
+import HeroSection from "@/components/TaxiStand-sections/HeroSection";
+import NeedARideSection from "@/components/TaxiStand-sections/NeedARideSection";
+import OurServicesSection from "@/components/TaxiStand-sections/OurServicesSection";
+import ForDriversSection from "@/components/TaxiStand-sections/ForDriversSection";
+import DriveWithUsSection from "@/components/TaxiStand-sections/DriveWithUsSection";
+import ForPartnersSection from "@/components/TaxiStand-sections/ForPartnersSection";
+import BenefitsSection from "@/components/TaxiStand-sections/BenefitsSection";
+
+export default function TaxiRide() {
+  return (
+    <div className="w-full min-w-0 overflow-x-hidden font-[Poppins]">
+      <HeroSection />
+      <ForDriversSection />
+      <DriveWithUsSection />
+      <ForPartnersSection />
+      <BenefitsSection />
+      <OurServicesSection />
+      <NeedARideSection />
+    </div>
+  );
+}

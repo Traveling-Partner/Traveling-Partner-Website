@@ -1,219 +1,353 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
-import CarAnimation from "../CarAnimation";
-import StoreButtons from "../common/StoreButtons";
+import Link from "next/link";
+import {
+  HERO_FRAME_HEIGHT,
+  HERO_FRAME_WIDTH,
+  heroBottomFadeStyle,
+} from "@/lib/heroBackground";
+import { HeroBodyCopy } from "@/lib/homeContentEmphasis";
+import { HeroBackgroundRoot } from "@/components/Home-sections/HeroBackground";
+import HeroMobileSection from "@/components/Home-sections/HeroMobileSection";
+
+const FW = HERO_FRAME_WIDTH;
+const FH = HERO_FRAME_HEIGHT;
+
+const pct = (px: number, base: number) => `${(px / base) * 100}%`;
+
+/** Figma Component 2 — 124:3588 (267.09 × 81.45) — fixed outer size, slightly smaller label */
+function ExploreServicesButton({
+  className = "",
+}: {
+  className?: string;
+}): React.ReactElement {
+  return (
+    <Link
+      href="#services"
+      className={`group relative box-border flex h-full w-full items-center justify-between gap-[8cqh] overflow-hidden rounded-[100px] border-[1.78cqh] border-[#0b0b0b] bg-[#0b0b0b] pl-[11cqw] pr-[4.9cqw] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] ${className}`}
+    >
+      <span className="min-w-0 whitespace-nowrap font-poppins text-[20cqh] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b]">
+        Explore Services
+      </span>
+      <span className="flex h-[67.9cqh] w-[67.9cqh] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[26.8cqh] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001]">
+        →
+      </span>
+    </Link>
+  );
+}
+
+function ExploreServicesButtonCompact({
+  className = "",
+}: {
+  className?: string;
+}): React.ReactElement {
+  return (
+    <Link
+      href="#services"
+      className={`group inline-flex h-[54px] w-[220px] items-center justify-between gap-2 overflow-hidden rounded-[100px] border border-[#0b0b0b] bg-[#0b0b0b] py-2 pl-5 pr-2.5 shadow-[0_8px_24px_rgba(11,11,11,0.18)] transition-all duration-300 hover:border-[#fce001] hover:bg-gradient-to-b hover:from-[#fce001] hover:to-[#fdb813] sm:h-[56px] sm:w-[228px] sm:gap-2.5 sm:pl-[22px] sm:pr-[9px] ${className}`}
+    >
+      <span className="min-w-0 whitespace-nowrap font-poppins text-[13px] font-semibold leading-none text-white transition-colors duration-300 group-hover:text-[#0b0b0b] sm:text-[13.5px]">
+        Explore Services
+      </span>
+      <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] text-[15px] font-bold leading-none text-[#0b0b0b] transition-all duration-300 group-hover:from-[#0b0b0b] group-hover:to-[#0b0b0b] group-hover:text-[#fce001] sm:h-[38px] sm:w-[38px] sm:text-[15px]">
+        →
+      </span>
+    </Link>
+  );
+}
+
+function HeroHeadline({
+  className = "",
+  size = "mobile",
+  align = "left",
+}: {
+  className?: string;
+  size?: "mobile" | "tablet";
+  align?: "left" | "center";
+}): React.ReactElement {
+  const mobileSize = "clamp(1.75rem, 8.2vw, 2.125rem)";
+  const tabletSize = "clamp(1.85rem, 4.2vw, 2.75rem)";
+  const alignClass = align === "center" ? "text-center" : "text-left";
+
+  return (
+    <h1
+      className={`font-poppins font-semibold leading-[0.98] tracking-[-0.03em] ${alignClass} ${className}`}
+      style={{ fontSize: size === "tablet" ? tabletSize : mobileSize }}
+    >
+      <span className="block text-[#fdb813]">One App,</span>
+      <span className="block text-[#0b0b0b]">Every way</span>
+      <span className="block text-[#0b0b0b]">to move.</span>
+    </h1>
+  );
+}
+
+function HeroSubtext({
+  className = "",
+  align = "left",
+}: {
+  className?: string;
+  align?: "left" | "center";
+}): React.ReactElement {
+  const alignClass = align === "center" ? "text-center" : "text-left";
+
+  return (
+    <div
+      className={`font-poppins text-[13px] leading-[1.55] text-[#6f6e68] sm:text-[14px] sm:leading-[1.57] ${alignClass} ${className}`}
+    >
+      <p>
+        <HeroBodyCopy />
+      </p>
+    </div>
+  );
+}
+
+function HeroManWithCard({
+  className = "",
+  maxWidth = "360px",
+  variant = "default",
+}: {
+  className?: string;
+  maxWidth?: string;
+  variant?: "default" | "mobile";
+}): React.ReactElement {
+  const isMobile = variant === "mobile";
+
+  return (
+    <div
+      className={`relative mx-auto w-full overflow-hidden ${
+        isMobile ? "aspect-[585/652]" : "aspect-[585/812]"
+      } ${className}`}
+      style={{ maxWidth }}
+    >
+      <Image
+        src="/images/hero-man-figma-new.png"
+        alt="Traveling Partner app user"
+        fill
+        priority
+        className={
+          isMobile
+            ? "object-cover"
+            : "object-cover object-[42%_18%]"
+        }
+        style={
+          isMobile
+            ? {
+                objectPosition: "66% 0%",
+                transform: "scale(1.34) translateX(23%)",
+                transformOrigin: "68% 9%",
+              }
+            : undefined
+        }
+        sizes={
+          isMobile
+            ? "(max-width: 768px) 92vw, 400px"
+            : "(max-width: 1024px) 45vw, 400px"
+        }
+      />
+      <div
+        className={
+          isMobile
+            ? "absolute bottom-[5%] left-[1.5%] z-[3] w-[65%] max-w-[258px]"
+            : "absolute bottom-[6%] left-0 w-[58%] max-w-[220px]"
+        }
+      >
+        <Image
+          src="/images/hero-active-drivers-card.png"
+          alt="2,847 active drivers, up 12.4 percent"
+          width={378}
+          height={253}
+          className="h-auto w-full drop-shadow-[0_12px_40px_rgba(11,11,11,0.1)]"
+          priority
+        />
+      </div>
+      {isMobile ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[4] h-[118px]" aria-hidden>
+          <div
+            className="absolute inset-0 backdrop-blur-[11.95px]"
+            style={{
+              ...heroBottomFadeStyle,
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 22%, black 68%)",
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 22%, black 68%)",
+            }}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function HeroBottomFade({ className = "" }: { className?: string }): React.ReactElement {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-x-0 bottom-0 h-16 sm:h-20 md:h-24 ${className}`}
+      aria-hidden
+    >
+      <div
+        className="absolute inset-0 backdrop-blur-[11.95px]"
+        style={{
+          ...heroBottomFadeStyle,
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 70%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 70%)",
+        }}
+      />
+    </div>
+  );
+}
 
 export default function HeroSection(): React.ReactElement {
   return (
-    <div
-      className="w-full bg-cover bg-no-repeat relative overflow-hidden"
-      style={{
-        backgroundImage: "url('/images/image-95.png')",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-          <div className="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
-            {/* <div className="flex justify-center md:justify-start mb-4 md:mb-6">
-              <CarAnimation />
-            </div> */}
+    <HeroBackgroundRoot className="w-full">
+      <div className="relative mx-auto w-full max-w-[1920px] overflow-hidden">
+        {/* Desktop — Figma canvas (1024px+) */}
+        <div
+          className="relative mx-auto hidden w-full overflow-hidden lg:block"
+          style={{ height: 0, paddingBottom: pct(FH, FW) }}
+        >
+          <div className="absolute inset-0 overflow-hidden">
+            <div
+              className="absolute overflow-hidden"
+              style={{
+                left: pct(346.18, FW),
+                top: pct(323.09, FH),
+                width: pct(584.73, FW),
+                height: pct(811.64, FH),
+              }}
+            >
+              <Image
+                src="/images/hero-man-figma-new.png"
+                alt="Traveling Partner app user"
+                width={967}
+                height={1209}
+                priority
+                className="pointer-events-none absolute max-w-none object-cover"
+                style={{
+                  left: pct(-152.73, 584.73),
+                  top: pct(-84.36, 811.64),
+                  width: pct(966.98, 584.73),
+                  height: pct(1208.73, 811.64),
+                }}
+                sizes="(max-width: 1920px) 35vw, 585px"
+              />
+            </div>
 
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-medium leading-tight text-black mb-2">
-              GET TO YOUR{" "}
-              <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] bg-clip-text text-transparent font-bold">
-                DESTINATION
-              </span>
-            </p>
+            <h1
+              className="absolute -translate-y-1/2 font-poppins font-semibold text-[#fdb813]"
+              style={{
+                left: pct(558.55, FW),
+                top: pct(256.73, FH),
+                width: pct(865.45, FW),
+                fontSize: "clamp(52px, 6.97vw, 133.82px)",
+                lineHeight: "0.98",
+                letterSpacing: "-4.68px",
+              }}
+            >
+              <span className="block whitespace-nowrap">One App,</span>
+            </h1>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-tight font-black text-black mb-2 md:mb-3">
-              safe & secured
-            </h2>
-
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] uppercase font-semibold text-black mb-3 md:mb-4">
-              With{" "}
-              <span className="bg-gradient-to-b from-[#fce001] to-[#fdb813] px-2 md:px-3 py-1 rounded-lg shadow-md inline-block">
-                TRAVELING PARTNER
-              </span>
-            </h3>
+            <h1
+              className="absolute -translate-y-1/2 font-poppins font-semibold text-[#0b0b0b]"
+              style={{
+                left: pct(919, FW),
+                top: pct(551, FH),
+                width: pct(865.45, FW),
+                fontSize: "clamp(52px, 6.97vw, 133.82px)",
+                lineHeight: "0.98",
+                letterSpacing: "-4.68px",
+              }}
+            >
+              <span className="block whitespace-nowrap">Every way</span>
+              <span className="block whitespace-nowrap">to move.</span>
+            </h1>
 
             <div
-              className="mt-6 md:mt-8 animate-fade-in-up"
-              style={{ animationDelay: "0.3s" }}
+              className="absolute -translate-y-1/2 font-poppins text-[#6f6e68]"
+              style={{
+                left: pct(930.91, FW),
+                top: pct(826, FH),
+                width: pct(560, FW),
+                fontSize: "clamp(14px, 1.14vw, 21.82px)",
+                lineHeight: "1.55",
+              }}
             >
-              <StoreButtons className="max-md:justify-center" />
+              <p>
+                <HeroBodyCopy />
+              </p>
             </div>
-          </div>
 
-          {/* Image container with overflow hidden */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end order-1 md:order-2 mb-6 md:mb-0">
-            <div className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[440px] lg:h-[440px] overflow-visible">
-              {/* All rings contained within bounds using scale */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {/* Outer glow ring */}
-                <div className="absolute w-[110%] h-[110%] rounded-full bg-gradient-to-r from-[#fce001]/20 via-[#fdb813]/30 to-[#fce001]/20 blur-md pulsing-glow"></div>
-
-                {/* Outer dashed ring */}
-                <div className="absolute w-[108%] h-[108%] rounded-full border-2 border-dashed border-[#fce001]/60 outer-ring"></div>
-
-                {/* Middle gradient ring */}
-                <div className="absolute w-[104%] h-[104%] rounded-full border-2 sm:border-3 border-t-[#fce001] border-r-[#fdb813] border-b-[#fce001] border-l-[#fdb813] middle-ring"></div>
-
-                {/* Inner dotted ring */}
-                <div className="absolute w-[102%] h-[102%] rounded-full border-2 border-dotted border-[#fdb813]/40 inner-ring"></div>
-
-                {/* Particle dots - positioned absolutely within container */}
-                <div className="absolute w-full h-full particle-ring">
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#fce001] rounded-full shadow-[0_0_10px_#fce001]"></span>
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#fdb813] rounded-full shadow-[0_0_10px_#fdb813]"></span>
-                  {/* <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_white]"></span>
-                  <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_white]"></span> */}
-                </div>
-              </div>
-
-              {/* Static glow behind image */}
-              <div className="absolute inset-2 bg-gradient-to-br from-[#fce001]/20 to-[#fdb813]/20 rounded-full blur-xl pointer-events-none"></div>
-
+            <div
+              className="absolute z-[2]"
+              style={{
+                left: pct(193.45, FW),
+                bottom: pct(65.27, FH),
+                width: pct(378.18, FW),
+              }}
+            >
               <Image
-                src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253703/tp-Imgs/img/circle-img_ttqdsj.png"
-                alt="Hero Circle"
-                fill
-                className="object-contain p-1 sm:p-2 relative z-10"
+                src="/images/hero-active-drivers-card.png"
+                alt="2,847 active drivers, up 12.4 percent"
+                width={378}
+                height={253}
+                className="h-auto w-full drop-shadow-[0_23px_70px_rgba(11,11,11,0.1),0_6px_17px_rgba(11,11,11,0.06)]"
                 priority
-                sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, (max-width: 1024px) 380px, (max-width: 1280px) 440px, 440px"
               />
+            </div>
 
-              <div className="absolute -bottom-2 -left-2 sm:-bottom-3 sm:-left-3 bg-white rounded-xl p-2 sm:p-3 shadow-lg border border-gray-100 hidden sm:block z-20">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4 text-black"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-[10px] sm:text-xs text-gray-500 leading-none">
-                      Trusted by
-                    </p>
-                    <p className="text-xs sm:text-sm font-bold text-black leading-none">
-                      10K+ Riders
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div
+              className="pointer-events-none absolute inset-x-0 z-[1]"
+              style={{ top: pct(980, FH), height: pct(155, FH) }}
+              aria-hidden
+            >
+              <div
+                className="absolute inset-0 backdrop-blur-[11.95px]"
+                style={{
+                  ...heroBottomFadeStyle,
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.45) 18%, black 40%)",
+                  maskImage:
+                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.45) 18%, black 40%)",
+                }}
+              />
+            </div>
+
+            <div
+              className="absolute z-[2] [container-type:size]"
+              style={{
+                right: pct(93.73, FW),
+                bottom: pct(100, FH),
+                width: pct(267.09, FW),
+                height: pct(81.45, FH),
+              }}
+            >
+              <ExploreServicesButton />
             </div>
           </div>
         </div>
+
+        {/* Tablet — 768px to 1023px */}
+        <div className="relative hidden min-h-0 overflow-hidden px-6 pb-8 pt-[100px] md:block lg:hidden">
+          <div className="mx-auto flex max-w-[430px] flex-col items-center">
+            <div className="flex w-full max-w-[350px] flex-col items-center text-center">
+              <HeroHeadline size="tablet" align="center" />
+              <HeroSubtext className="mt-4 max-w-[318px]" align="center" />
+              <div className="mt-5">
+                <ExploreServicesButtonCompact />
+              </div>
+            </div>
+            <div className="-mx-6 mt-7 w-[calc(100%+48px)]">
+              <HeroManWithCard maxWidth="100%" variant="mobile" />
+            </div>
+          </div>
+        </div>
+
+        {/* Phone — Figma mobile 390px frame */}
+        <HeroMobileSection />
       </div>
-
-      <style jsx global>{`
-        .pulsing-glow {
-          animation: pulse-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-          0%,
-          100% {
-            opacity: 0.4;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.8;
-            transform: scale(1.02);
-          }
-        }
-
-        .outer-ring {
-          animation: rotate-slow 20s linear infinite;
-          will-change: transform;
-        }
-
-        @keyframes rotate-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .middle-ring {
-          animation: rotate-medium 15s linear infinite reverse;
-          will-change: transform;
-        }
-
-        @keyframes rotate-medium {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .inner-ring {
-          animation: rotate-fast 10s linear infinite;
-          will-change: transform;
-        }
-
-        @keyframes rotate-fast {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .particle-ring {
-          animation: rotate-particles 20s linear infinite;
-          will-change: transform;
-        }
-
-        @keyframes rotate-particles {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .outer-ring {
-            animation-duration: 30s;
-          }
-          .middle-ring {
-            animation-duration: 22s;
-          }
-          .inner-ring {
-            animation-duration: 15s;
-          }
-          .particle-ring {
-            animation-duration: 30s;
-          }
-          .pulsing-glow {
-            animation-duration: 4s;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .outer-ring,
-          .middle-ring,
-          .inner-ring,
-          .particle-ring,
-          .pulsing-glow {
-            animation: none;
-          }
-        }
-      `}</style>
-    </div>
+    </HeroBackgroundRoot>
   );
 }

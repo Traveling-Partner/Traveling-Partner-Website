@@ -1,4 +1,5 @@
 import React from "react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 export interface TermsSection {
   id: number;
@@ -9,7 +10,60 @@ export interface TermsSection {
   content: React.ReactNode;
 }
 
-const body = "text-gray-600 text-sm sm:text-base leading-relaxed";
+const body = "text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+const checkList =
+  "list-none space-y-3 text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+
+function CheckItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="terms-print-keep relative pl-7">
+      <span
+        className="absolute left-0 top-[0.35em] flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-[#0b0b0b]"
+        style={{
+          backgroundImage: "linear-gradient(135deg, #FCE001 0%, #FDB813 100%)",
+        }}
+        aria-hidden="true"
+      >
+        ✓
+      </span>
+      {children}
+    </li>
+  );
+}
+
+function DefinitionCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="terms-print-keep rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+      <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+        {label}
+      </p>
+      <p className={body}>{children}</p>
+    </div>
+  );
+}
+
+function CalloutCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="terms-print-keep rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+      <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+        {label}
+      </p>
+      <div className={body}>{children}</div>
+    </div>
+  );
+}
 
 export const termsSections: TermsSection[] = [
   {
@@ -17,13 +71,24 @@ export const termsSections: TermsSection[] = [
     slug: "introduction",
     title: "Introduction",
     content: (
-      <p className={body}>
-        Welcome to Travelling Partner! These Terms and Conditions govern your use of
-        our services as a Driver or a Partner. Please read this document carefully as
-        it outlines the terms under which you may access and utilize our platform. By
-        using our services, you agree to comply with and be bound by these Terms and
-        Conditions.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner is a technology platform connecting riders, drivers, couriers and business partners. We make it easier to book rides, arrange deliveries and access logistics services through one application. Drivers and couriers using the platform work independently and are responsible for the services they provide.",
+            [
+              "technology platform",
+              "one application",
+              "work independently",
+            ],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner does not hire or contract with drivers.",
+            ["does not hire or contract with drivers"],
+          )}
+        </p>
+      </div>
     ),
   },
   {
@@ -31,42 +96,53 @@ export const termsSections: TermsSection[] = [
     slug: "definitions",
     title: "Definitions",
     content: (
-      <div className="space-y-4">
-        <p className={body}>
-          &quot;Traveling Partner&quot; refers to our platform and mobile application
-          that empowers Drivers to provide Transportation, Delivery Services, logistics
-          services, and Trip planning services to Partners within and between cities.
-          Notably, Traveling Partner is distinctive for being a commission-free
-          platform, offering users greater autonomy and decision-making freedom in their
-          transactions.
-        </p>
-        <p className={body}>
-          &quot;Driver&quot; refers to individuals who leverage the Traveling Partner
-          platform to offer transportation, delivery, logistics, or trip-planning
-          services to Partners, benefiting from the platform&apos;s commission-free
-          approach, fostering greater independence and confidence in their service
-          provisions.
-        </p>
-        <p className={body}>
-          &quot;Partner&quot; refers to individuals who utilize the Traveling Partner
-          platform to book rides, deliveries, logistics services, or plan trips,
-          appreciating the commission-free nature of the platform, and allowing for more
-          flexible and collaborative engagements between users.
-        </p>
+      <div className="space-y-3 sm:space-y-4">
+        <DefinitionCard label="Traveling Partner">
+          {emphasizePhrases(
+            "Refers to the Traveling Partner website and mobile application that connects people with transportation, delivery, logistics and intercity travel services. The platform allows riders, drivers, couriers and businesses to access different services from one place.",
+            ["website and mobile application", "from one place"],
+          )}
+        </DefinitionCard>
+        <DefinitionCard label="Driver">
+          {emphasizePhrases(
+            "Refers to an independent driver who accepts ride or trip requests through the Traveling Partner platform. Traveling Partner does not hire or contract with drivers. Drivers are responsible for providing transportation services in accordance with all applicable laws and requirements of the platform.",
+            [
+              "independent driver",
+              "does not hire or contract with drivers",
+            ],
+          )}
+        </DefinitionCard>
+        <DefinitionCard label="Partner">
+          {emphasizePhrases(
+            "Refers to anyone using Traveling Partner, including riders, customers, businesses or delivery clients who book rides, deliveries, logistics services or intercity trips through the platform.",
+            ["riders, customers, businesses or delivery clients"],
+          )}
+        </DefinitionCard>
       </div>
     ),
   },
   {
     id: 3,
     slug: "registration-and-accounts",
-    title: "Registration and Accounts",
+    title: "Registration & Accounts",
     content: (
-      <p className={body}>
-        To access and use our services, you must create an account and provide
-        accurate, current, and complete information. You are responsible for
-        maintaining the confidentiality of your account information and for all
-        activities that occur under your account.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "You must be 18 years or older to create a Traveling Partner account.",
+            ["18 years or older"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Please register using your own information and keep your account details up to date. You are responsible for any activity carried out through your account, so keep your login information secure.",
+            [
+              "your own information",
+              "login information secure",
+            ],
+          )}
+        </p>
+      </div>
     ),
   },
   {
@@ -75,183 +151,474 @@ export const termsSections: TermsSection[] = [
     title: "Services",
     content: (
       <div className="space-y-4">
-        <p className={body}>Pooling People, Uniting Journeys:</p>
-        <p className={body}>
-          Ride Bookings: Travelling Partner connects Partners with Drivers for
-          transportation services within and between cities. Please note that
-          Travelling Partner will not provide an Estimated Fare nor any formula to
-          calculate the Fare. Driver and Partner will be independent to negotiate and
-          finalize this at their end.
+        <CalloutCard label="Location Information">
+          <p>
+            {emphasizePhrases(
+              "Location information may be used, where permission is granted, to support pickup and drop-off services, driver matching, navigation, estimated arrival times, delivery operations and platform safety. Additional details about how location, personal, vehicle and other information is collected and used are provided in our Privacy Policy.",
+              [
+                "where permission is granted",
+                "Privacy Policy",
+              ],
+            )}
+          </p>
+        </CalloutCard>
+        <div className="terms-print-allow-break rounded-[18px] border border-[#f5e9b8] bg-[#FFFDF0] px-4 py-5 sm:rounded-[20px] sm:px-6 sm:py-6">
+        <p className={`${body} mb-4`}>
+          {emphasizePhrases(
+            "Traveling Partner brings several services together in one platform.",
+            ["one platform"],
+          )}
         </p>
-        <p className={body}>
-          Delivery Services: Drivers can offer delivery services to Partners for the
-          transportation of goods and packages.
-        </p>
-        <p className={body}>
-          Logistics: We facilitate logistics services, connecting businesses and
-          individuals with reliable transport solutions.
-        </p>
-        <p className={body}>
-          Pool Rides: Users can share rides with other travelers for a more economical
-          and eco-friendly experience.
-        </p>
-        <p className={body}>
-          Trip Planning: Travelling Partner also offers a feature for planning trips for
-          family, friends, or group outings. Users can easily choose their trip driver,
-          companions, and itinerary through the app, simplifying the trip planning
-          process.
-        </p>
+        <div className="space-y-4">
+          <p className={body}>
+            <span className="font-semibold text-[#0b0b0b]">Taxi Ride:</span>{" "}
+            {emphasizePhrases(
+              "Book city rides with verified drivers for your everyday travel. Availability depends on nearby drivers and operating conditions.",
+              ["verified drivers"],
+            )}
+          </p>
+          <p className={body}>
+            <span className="font-semibold text-[#0b0b0b]">Pool Ride:</span>{" "}
+            {emphasizePhrases(
+              "Share your journey with passengers travelling in the same direction. Pool Ride availability depends on matching routes and driver availability.",
+              ["same direction"],
+            )}
+          </p>
+          <p className={body}>
+            <span className="font-semibold text-[#0b0b0b]">Delivery:</span>{" "}
+            {emphasizePhrases(
+              "Send parcels, documents and packages through verified delivery partners. Availability and delivery times are subject to service coverage and operating requirements.",
+              ["verified delivery partners"],
+            )}
+          </p>
+          <p className={body}>
+            <span className="font-semibold text-[#0b0b0b]">Logistics:</span>{" "}
+            {emphasizePhrases(
+              "Traveling Partner provides logistical and transport support for businesses. Fleet availability depends on operational capacity and service requirements.",
+              ["logistical and transport support"],
+            )}
+          </p>
+          <p className={body}>
+            <span className="font-semibold text-[#0b0b0b]">Tourism:</span>{" "}
+            {emphasizePhrases(
+              "Book tourism travel with verified drivers. Tourism availability depends on destination, scheduling and driver availability.",
+              ["tourism travel", "verified drivers"],
+            )}
+          </p>
+          <p className={body}>
+            {emphasizePhrases(
+              "Fares can change depending on how many drivers are around, how busy things are, the weather, and stuff like that.",
+              ["Fares can change"],
+            )}
+          </p>
+        </div>
+        </div>
       </div>
     ),
   },
   {
     id: 5,
-    slug: "payment",
-    title: "Payment",
+    slug: "payments",
+    title: "Payments",
     content: (
       <div className="space-y-4">
-        <p className={body}>Freedom to Choose, Commission-Free:</p>
         <p className={body}>
-          Traveling Partner does not have a payment processing system, as the Traveling
-          Partner is not a commission-based App. Therefore, users may finalize the
-          method of payment at their discretion
+          {emphasizePhrases(
+            "Payments can be completed using the payment methods available on the Traveling Partner platform.",
+            ["payment methods available"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "By confirming a booking, you agree to pay the applicable fare, delivery charges, tolls, waiting charges or any other fees related to your booking.",
+            [
+              "confirming a booking",
+              "fare, delivery charges, tolls, waiting charges",
+            ],
+          )}
         </p>
       </div>
     ),
   },
   {
     id: 6,
-    slug: "features",
-    title: "Features That Set Travelling Partner Apart",
-    titleSuffix: "!",
+    slug: "refund-policy",
+    title: "Refund Policy",
     content: (
       <div className="space-y-4">
-        <p className={body}>Empowering Independence, Anywhere in Pakistan:</p>
         <p className={body}>
-          The following two salient features make Travelling Partner stand out from the
-          rest:
+          {emphasizePhrases(
+            "If you believe you have been charged incorrectly or experienced a problem with a booking, you may contact our support team to request a review.",
+            ["charged incorrectly", "support team"],
+          )}
         </p>
         <p className={body}>
-          i. This App is commission-free, therefore, Users may operate the app with more
-          freedom and confidence.
-        </p>
-        <p className={body}>
-          ii. This App may be used anywhere in Pakistan, where an internet facility is
-          available.
+          {emphasizePhrases(
+            "Where a refund is approved, it will be processed using the original payment method whenever possible. Refund eligibility depends on the circumstances of the booking.",
+            ["refund is approved", "original payment method"],
+          )}
         </p>
       </div>
     ),
   },
   {
     id: 7,
-    slug: "user-conduct",
-    title: "User Conduct",
+    slug: "cancellation",
+    title: "Cancellation",
     content: (
       <div className="space-y-4">
-        <p className={body}>You agree not to:</p>
-        <ul className={`${body} list-disc pl-6 space-y-2`}>
-          <li>Violate any local, state, or national laws.</li>
-          <li>
-            Use the Travelling Partner platform for any illegal, harmful, or unauthorized
-            activities.
-          </li>
-          <li>Harass, threaten, or harm other users or Travelling Partner employees.</li>
-          <li>
-            Interfere with or disrupt the Travelling Partner platform or its
-            functionality.
-          </li>
-        </ul>
+        <p className={body}>
+          {emphasizePhrases(
+            "Users may cancel a booking subject to the cancellation conditions applicable to the selected service. Where applicable, cancellation charges may depend on the service, timing of the cancellation and other booking conditions displayed before or during the booking process.",
+            [
+              "cancellation conditions",
+              "cancellation charges",
+            ],
+          )}
+        </p>
       </div>
     ),
   },
   {
     id: 8,
-    slug: "privacy",
-    title: "Privacy",
+    slug: "restrictions-and-user-conduct",
+    title: "Restrictions & User Conduct",
     content: (
-      <p className={body}>
-        Your use of Travelling Partner is also governed by our Privacy Policy, which
-        outlines how we collect, use, and protect your data. You consent to the
-        practices outlined in the Privacy Policy by using our services.
-      </p>
+      <div className="space-y-5">
+        <CalloutCard label="Lost and Found">
+          <p>
+            {emphasizePhrases(
+              "Users are responsible for their personal belongings while using Traveling Partner services. If an item is left in a vehicle, users may contact our support team to report the lost item. Traveling Partner may assist in connecting the user with the relevant driver or service provider, but recovery of lost property cannot always be guaranteed.",
+              [
+                "personal belongings",
+                "lost item",
+                "cannot always be guaranteed",
+              ],
+            )}
+          </p>
+        </CalloutCard>
+        <div className="space-y-4">
+          <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>
+            Driver Conduct
+          </p>
+          <p className={body}>
+            {emphasizePhrases(
+              "Drivers and couriers using Traveling Partner are expected to provide a safe and professional experience.",
+              ["safe and professional experience"],
+            )}
+          </p>
+          <ul className={checkList}>
+            <CheckItem>
+              {emphasizePhrases("Follow local traffic laws.", [
+                "local traffic laws",
+              ])}
+            </CheckItem>
+            <CheckItem>Be nice to the customers on the ride.</CheckItem>
+            <CheckItem>
+              {emphasizePhrases(
+                "Accept a booking only if you are able to complete it.",
+                ["able to complete it"],
+              )}
+            </CheckItem>
+            <CheckItem>
+              {emphasizePhrases(
+                "Keep vehicles in safe operating condition.",
+                ["safe operating condition"],
+              )}
+            </CheckItem>
+            <CheckItem>
+              Make every reasonable effort to complete accepted bookings.
+            </CheckItem>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>User Conduct</p>
+          <p className={body}>
+            {emphasizePhrases(
+              "Everyone using Traveling Partner is expected to treat others respectfully.",
+              ["treat others respectfully"],
+            )}
+          </p>
+          <p className={body}>Please do not:</p>
+          <ul className={checkList}>
+            <CheckItem>
+              {emphasizePhrases(
+                "Create an account using false information.",
+                ["false information"],
+              )}
+            </CheckItem>
+            <CheckItem>
+              Use the platform for anything other than its intended purpose.
+            </CheckItem>
+            <CheckItem>
+              Intentionally damage vehicles, parcels or property connected with a
+              booking.
+            </CheckItem>
+            <CheckItem>
+              {emphasizePhrases(
+                "Threaten, abuse or harass drivers, couriers, customers or our support team.",
+                ["Threaten, abuse or harass"],
+              )}
+            </CheckItem>
+            <CheckItem>
+              {emphasizePhrases(
+                "Engage in illegal activity through the platform.",
+                ["illegal activity"],
+              )}
+            </CheckItem>
+          </ul>
+          <p className={body}>
+            {emphasizePhrases(
+              "Failure to follow these rules may result in suspension or permanent removal of your account.",
+              ["suspension or permanent removal"],
+            )}
+          </p>
+        </div>
+      </div>
     ),
   },
   {
     id: 9,
-    slug: "termination",
-    title: "Termination",
+    slug: "privacy",
+    title: "Privacy",
     content: (
-      <p className={body}>
-        We reserve the right to terminate or suspend your account and access to our
-        services at our discretion, without notice, for any violation of these Terms and
-        Conditions.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases("We value your privacy.", ["value your privacy"])}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Our Privacy Policy explains what information we collect, how we use it and the steps we take to protect your personal information while you are using Traveling Partner.",
+            ["Privacy Policy", "personal information"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Our Privacy Policy explains what information we collect, including personal, location, booking, device, driver and vehicle information, how we use it, how certain information may be used for advertising and promotional purposes, and the steps we take to protect your personal information while you are using Traveling Partner.",
+            [
+              "personal, location, booking, device, driver and vehicle information",
+              "advertising and promotional purposes",
+            ],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "By using Traveling Partner, you acknowledge that information may be collected and used as described in the Privacy Policy.",
+            ["acknowledge that information may be collected"],
+          )}
+        </p>
+      </div>
     ),
   },
   {
     id: 10,
-    slug: "disclaimers",
-    title: "Disclaimers",
+    slug: "termination",
+    title: "Termination",
     content: (
-      <ul className={`${body} list-disc pl-6 space-y-3`}>
-        <li>
-          Traveling Partner does not guarantee the availability of Drivers, trip planning
-          services, or the accuracy of ride or delivery times due to the varied nature of
-          user engagement.
-        </li>
-        <li>
-          Traveling Partner is not responsible for any goods or packages transported
-          through our platform, as the platform operates on a commission-free basis,
-          granting users the autonomy to make independent arrangements.
-        </li>
-      </ul>
+      <div className="space-y-4">
+        <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>
+          Platform Responsibility
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner is a technology platform that connects riders, drivers, couriers and business partners.",
+            ["technology platform"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Drivers and couriers operate independently and remain responsible for the transportation or delivery services they provide. Traveling Partner does not own vehicles or employ drivers and couriers to provide transportation services.",
+            [
+              "operate independently",
+              "does not own vehicles or employ drivers and couriers",
+            ],
+          )}
+        </p>
+      </div>
     ),
   },
   {
     id: 11,
-    slug: "limitation-of-liability",
-    title: "Limitation of Liability",
+    slug: "disclaimer",
+    title: "Disclaimer",
     content: (
-      <p className={body}>
-        Traveling Partner and its affiliates are not liable for any indirect, incidental,
-        special, consequential, or punitive damages, any loss of profits or revenues,
-        whether incurred directly or indirectly, or any loss of data, use, goodwill, or
-        any other tangible or intangible losses. This limitation is in place due to the
-        nature of Traveling Partner being a commission-free app, fostering user
-        independence and decision-making in various aspects of the offered services.
-      </p>
+      <div className="space-y-3 sm:space-y-4">
+        <DefinitionCard label="Intellectual Property">
+          {emphasizePhrases(
+            "The Traveling Partner name, logo, mobile application, website, designs, graphics and other platform content belong to Traveling Partner unless stated otherwise. They may not be copied, modified, reproduced or used without prior written permission.",
+            [
+              "belong to Traveling Partner",
+              "prior written permission",
+            ],
+          )}
+        </DefinitionCard>
+        <DefinitionCard label="Third Party Services">
+          {emphasizePhrases(
+            "Some of the services offered on the Traveling Partner platform may be provided by independent businesses, payment providers or other third-party service providers. Their products and services are governed by their own policies and terms where applicable.",
+            [
+              "third-party service providers",
+              "their own policies and terms",
+            ],
+          )}
+        </DefinitionCard>
+      </div>
     ),
   },
   {
     id: 12,
-    slug: "changes",
-    title: "Changes to Terms and Conditions",
+    slug: "limitation-of-liability",
+    title: "Limitation of Liability",
     content: (
-      <p className={body}>
-        We may update these Terms and Conditions from time to time to reflect changes in
-        our practices, legal requirements, or operational needs. Continued use of our
-        services after such changes implies your consent to the revised Terms and
-        Conditions.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner works as a technology platform that connects users with independent service providers.",
+            ["independent service providers"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner shall not be responsible for delays due to traffic, weather, vehicle breakdowns or other circumstances beyond our reasonable control, to the extent permitted by applicable law.",
+            [
+              "shall not be responsible",
+              "beyond our reasonable control",
+            ],
+          )}
+        </p>
+      </div>
     ),
   },
   {
     id: 13,
+    slug: "unforeseen-events",
+    title: "Unforeseen Events",
+    content: (
+      <div className="space-y-4">
+        <p className={`${body} terms-print-subhead font-semibold text-[#0b0b0b]`}>Force Majeure</p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Sometimes things happen that are beyond anyone's control such as bad weather, natural disasters, government restrictions, internet outages or other unforeseen circumstances.",
+            ["beyond anyone's control"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "If this occurs, some services may be delayed or temporarily unavailable.",
+            ["delayed or temporarily unavailable"],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 14,
+    slug: "governing-law",
+    title: "Governing Law",
+    content: (
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "These Terms & Conditions shall be governed by the laws of the Islamic Republic of Pakistan.",
+            ["laws of the Islamic Republic of Pakistan"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "Any dispute relating to these Terms or use of Traveling Partner shall be governed by the laws of Pakistan.",
+            ["laws of Pakistan"],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 15,
+    slug: "dispute-resolution",
+    title: "Dispute Resolution",
+    content: (
+      <p className={body}>
+        {emphasizePhrases(
+          "If you have a concern, tell us first. Our support team can sort out most problems without the need for anything else. If we can't fix it that way, either side can take further steps under the laws of Pakistan.",
+          ["tell us first", "support team", "laws of Pakistan"],
+        )}
+      </p>
+    ),
+  },
+  {
+    id: 16,
+    slug: "changes",
+    title: "Changes to Terms",
+    content: (
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "We might update these Terms sometimes if our platform, services, or the law changes. You'll always find the newest version on our website and app.",
+            ["newest version"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "The latest version will always be available on our website and mobile application. By continuing to use Traveling Partner after any update, you agree to the revised Terms.",
+            ["latest version", "revised Terms"],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 17,
     slug: "contact-us",
     title: "Contact Us",
     titleSuffix: ".",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3">
         <p className={body}>
-          For questions, concerns, or inquiries related to these Terms and Conditions,
-          please contact us at (Your Contact Information).
+          Questions about these Terms &amp; Conditions?
         </p>
         <p className={body}>
-          Thank you for choosing Travelling Partner. We are dedicated to streamlining
-          transportation, logistics, and trip planning while ensuring a secure and
-          efficient experience for the users.
+          {emphasizePhrases("Our support team is available to help.", [
+            "support team",
+          ], "onDark")}
+        </p>
+        <p className={body}>
+          Email:{" "}
+          <a
+            href="mailto:info@traveling-partner.com"
+            className="font-semibold text-[#FCE001] hover:underline"
+          >
+            info@traveling-partner.com
+          </a>
         </p>
       </div>
     ),
   },
 ];
+
+/** Closing paragraph shown below Contact Us. */
+export const termsClosingMessage =
+  "By creating an account, booking a ride, sending a parcel or using any service on the platform, you agree to these Terms.";
+
+/** Nav labels for sidebar / index. */
+export const termsNavItems = [
+  { slug: "introduction", label: "Introduction", id: 1 },
+  { slug: "definitions", label: "Definitions", id: 2 },
+  { slug: "registration-and-accounts", label: "Registration & Accounts", id: 3 },
+  { slug: "services", label: "Services", id: 4 },
+  { slug: "payments", label: "Payments", id: 5 },
+  { slug: "refund-policy", label: "Refund Policy", id: 6 },
+  { slug: "cancellation", label: "Cancellation", id: 7 },
+  {
+    slug: "restrictions-and-user-conduct",
+    label: "Restrictions & Conduct",
+    id: 8,
+  },
+  { slug: "privacy", label: "Privacy", id: 9 },
+  { slug: "termination", label: "Termination", id: 10 },
+  { slug: "disclaimer", label: "Disclaimer", id: 11 },
+  { slug: "limitation-of-liability", label: "Limitation of Liability", id: 12 },
+  { slug: "unforeseen-events", label: "Unforeseen Events", id: 13 },
+  { slug: "governing-law", label: "Governing Law", id: 14 },
+  { slug: "dispute-resolution", label: "Dispute Resolution", id: 15 },
+  { slug: "changes", label: "Changes to Terms", id: 16 },
+  { slug: "contact-us", label: "Contact Us", id: 17 },
+] as const;

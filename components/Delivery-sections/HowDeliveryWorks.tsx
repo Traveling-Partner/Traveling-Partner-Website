@@ -2,137 +2,197 @@
 
 import Image from "next/image";
 
-const steps = [
+const STEPS = [
   {
-    number: "01",
-    title: "Download the app",
-    description: "Get started with our easy-to-use mobile application",
+    step: "01",
+    title: "Download the App",
+    description:
+      "Download Traveling Partner and create your account in just a few minutes.",
+    icon: "/images/delivery/how-works/icon-01-phone.png",
+    featured: true,
   },
   {
-    number: "02",
-    title: "Provide delivery details",
-    description: "Date, time, items, pickup & drop-off locations, contact number",
+    step: "02",
+    title: "Add Your Delivery Details",
+    description:
+      "Pop in the pickup spot, where it's headed, who's receiving it, and a few details about the parcel itself.",
+    icon: "/images/delivery/how-works/icon-02-clipboard.png",
+    featured: false,
   },
   {
-    number: "03",
-    title: "Choose your rider",
-    description: "Select preferred gender (Male or Female)",
+    step: "03",
+    title: "Get Matched with a Rider",
+    description:
+      "We'll find you the closest available rider so pickup happens fast.",
+    icon: "/images/delivery/how-works/icon-03-people.png",
+    featured: false,
   },
   {
-    number: "04",
-    title: "Confirm rider",
-    description: "Review and confirm your selected delivery partner",
+    step: "04",
+    title: "Confirm and You're Set",
+    description:
+      "Give the details and the fare a quick look, then hit confirm.",
+    icon: "/images/delivery/how-works/icon-04-shield.png",
+    featured: false,
   },
   {
-    number: "05",
-    title: "Track your delivery",
-    description: "Driver will reach your pickup location at the scheduled time",
+    step: "05",
+    title: "Track it",
+    description:
+      "Follow your parcel in real time until it lands safely at its destination.",
+    icon: "/images/delivery/how-works/icon-05-pin.png",
+    featured: false,
   },
 ];
 
+const cardBase =
+  "group relative flex flex-col rounded-[18px] transition-all duration-300 " +
+  "hover:border-[#FDB813] hover:bg-gradient-to-b hover:from-[#FCE001] hover:to-[#FDB813] hover:shadow-[0_0_22px_rgba(253,184,19,0.35)]";
+
+function StepCard({
+  item,
+  className = "",
+}: {
+  item: (typeof STEPS)[number];
+  className?: string;
+}) {
+  const featured = Boolean(item.featured);
+
+  return (
+    <article
+      className={[
+        cardBase,
+        featured ? "min-h-[295px]" : "min-h-[230px]",
+        featured
+          ? "border border-transparent [background:linear-gradient(#141414,#141414)_padding-box,linear-gradient(180deg,#FCE001,#FDB813)_border-box] hover:[background:linear-gradient(#FCE001,#FDB813)_padding-box,linear-gradient(#FCE001,#FDB813)_border-box]"
+          : "border border-white/[0.06] bg-[#141414]",
+        className,
+      ].join(" ")}
+    >
+      <div className="mb-3 inline-flex w-fit items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-2 py-0.5 transition-all duration-300 group-hover:bg-white group-hover:from-white group-hover:to-white">
+        <span className="text-[8px] font-extrabold uppercase tracking-[0.14em] text-[#0b0b0b]">
+          {item.step} Step
+        </span>
+      </div>
+
+      <div className="mb-2.5 h-[56px] w-[56px] shrink-0 overflow-hidden rounded-[14px]">
+        <Image
+          src={item.icon}
+          alt=""
+          width={56}
+          height={56}
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <h3 className="mb-1 text-[14px] font-extrabold leading-[1.2] tracking-tight text-white transition-colors duration-300 group-hover:text-[#0b0b0b] xl:text-[15px]">
+        {item.title}
+      </h3>
+
+      <p
+        className={[
+          "text-[11px] leading-[1.4] text-[#9A9A9A] transition-colors duration-300 group-hover:text-[#2A2A2A]",
+          featured ? "mt-5" : "",
+        ].join(" ")}
+      >
+        {item.description}
+      </p>
+    </article>
+  );
+}
+
 export default function HowDeliveryWorks() {
   return (
-    <div className="relative w-full bg-white overflow-hidden py-12 px-4">
-      {/* Background Decorations */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#fce001]/5 to-transparent"></div>
-      <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#fdb813]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#fce001]/10 rounded-full blur-3xl"></div>
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-        backgroundSize: '40px 40px'
-      }}></div>
+    <section className="relative overflow-hidden bg-[#0A0A0A] py-12 sm:py-14 lg:py-16">
+      <Image
+        src="/images/delivery/how-works/bg-section.png"
+        alt=""
+        fill
+        priority={false}
+        sizes="100vw"
+        className="pointer-events-none object-cover object-center"
+        aria-hidden="true"
+      />
 
-      <div className="relative max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/30 rounded-full px-4 py-2 mb-6">
-            <span className="w-2 h-2 bg-[#fdb813] rounded-full animate-pulse"></span>
-            <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">Simple Process</span>
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center sm:mb-9 lg:mb-10">
+          <div className="mb-4 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-3.5 py-1">
+            <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[#0b0b0b] sm:text-[10px]">
+              Simple Process
+            </span>
           </div>
-          <h2 className="text-[32px] lg:text-[48px] font-black text-[#1a1a1a] leading-tight">
-            How <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Delivery</span> Works
+
+          <h2 className="mb-2.5 text-[28px] font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[42px]">
+            How Delivery{" "}
+            <em className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">Works.</em>
           </h2>
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/10 rounded-full"></div>
-            <div className="w-2 h-2 bg-[#fce001] rounded-full rotate-45"></div>
-            <div className="w-16 h-0.5 bg-[#1a1a1a]/10 rounded-full"></div>
-          </div>
+
+          <p className="mx-auto max-w-[480px] text-[13px] leading-[1.6] text-[#A8A8A8] sm:text-[14px]">
+            Sending a parcel is simple.
+          </p>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          
-          {/* Image */}
-          <div className="w-full lg:w-[45%] relative group order-2 lg:order-1">
-            <div className="absolute inset-0  rounded-3xl blur-xl transform scale-95 group-hover:scale-100 transition-transform duration-500"></div>
-            <Image
-              src="https://res.cloudinary.com/duubabjk7/image/upload/v1715253508/tp-Imgs/Taxi-stand-img/home-page-b-img_l1ekvj.png"
-              alt="How Delivery Works"
-              width={600}
-              height={500}
-              className="w-full h-auto lg:h-[450px] object-contain drop-shadow-2xl relative z-10"
-              loading="lazy"
-            />
-            {/* Floating Badge */}
-            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4 z-20 border border-gray-100 transform group-hover:-translate-y-2 transition-transform duration-500">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-xl flex items-center justify-center">
-                  <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-2xl font-black text-[#1a1a1a]">Fast</div>
-                  <div className="text-sm text-gray-500 font-medium">Delivery</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Desktop — small fixed connectors; line flush with big card (no gap) */}
+        <div className="relative hidden lg:grid lg:grid-cols-5 lg:items-end lg:gap-x-2.5 xl:gap-x-3">
+          {/*
+            Track starts at the right edge of card 1 so it looks like it
+            comes out of the Download card — no visible gap.
+            gap-x-2.5 → 4 gaps = 2.5rem; xl:gap-x-3 → 3rem (handled approx by %).
+          */}
+          <div
+            className="pointer-events-none absolute z-[5] h-[2px] bg-[#FCE001] max-xl:left-[calc((100%-2.5rem)/5-1px)] xl:left-[calc((100%-3rem)/5-1px)]"
+            style={{
+              right: "calc(10% - 6px)",
+              bottom: "calc(230px + 17px)",
+            }}
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute z-[5] h-[10px] w-[10px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+            style={{
+              right: "calc(10% - 11px)",
+              bottom: "calc(230px + 13px)",
+            }}
+            aria-hidden="true"
+          />
 
-          {/* Steps */}
-          <div className="w-full lg:w-[50%] order-1 lg:order-2">
-            <div className="space-y-4">
-              {steps.map((step, index) => (
-                <div 
-                  key={index} 
-                  className="group flex items-start gap-4 bg-white rounded-2xl p-5 shadow-lg border border-gray-100 hover:border-[#fce001]/50 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          {STEPS.map((item, i) => (
+            <div key={item.step} className="relative">
+              {i > 0 && (
+                <div
+                  className="pointer-events-none absolute left-1/2 top-0 z-[6] flex -translate-x-1/2 -translate-y-full flex-col items-center"
+                  aria-hidden="true"
                 >
-                  {/* Number Badge */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 bg-gradient-to-br from-[#fce001] to-[#fdb813] rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                      <span className="text-xl font-black text-[#1a1a1a]">{step.number}</span>
-                    </div>
-                    {/* Connector Line (except last item) */}
-                    {index !== steps.length - 1 && (
-                      <div className="absolute top-14 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gradient-to-b from-[#fce001] to-transparent"></div>
-                    )}
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="flex-1 pt-1">
-                    <h3 className="text-[#1a1a1a] text-lg font-bold uppercase tracking-wide mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#000000] group-hover:to-[#000000] transition-all duration-300">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                  
-                  {/* Arrow */}
-                  <div className="flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                    <svg className="w-5 h-5 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  <span className="h-[10px] w-[10px] shrink-0 rounded-full border-[2px] border-[#FCE001] bg-[#0A0A0A]" />
+                  <span className="h-3 w-[2px] shrink-0 bg-[#FCE001]" />
                 </div>
-              ))}
+              )}
+              <StepCard
+                item={item}
+                className={[
+                  "relative z-[1] p-4",
+                  // Pull first card above the track so the line meets its side flush
+                  i === 0 ? "z-[2]" : "",
+                ].join(" ")}
+              />
             </div>
-          </div>
+          ))}
+        </div>
 
+        {/* Mobile */}
+        <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {STEPS.map((item) => (
+            <StepCard
+              key={`m-${item.step}`}
+              item={item}
+              className={[
+                "w-[min(78vw,230px)] shrink-0 snap-center p-3.5 sm:w-[210px] sm:p-4",
+                item.featured ? "!min-h-[275px]" : "!min-h-[210px]",
+              ].join(" ")}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

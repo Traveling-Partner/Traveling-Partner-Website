@@ -1,115 +1,291 @@
 import React from "react";
-import {
-  BookOpen,
-  Database,
-  Sparkles,
-  Lock,
-  Share2,
-  Settings,
-  FileText,
-  HelpCircle,
-} from "lucide-react";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
 export interface PrivacySection {
   id: number;
   slug: string;
-  icon: React.ElementType;
   title: string;
   content: React.ReactNode;
 }
 
-const body = "text-gray-600 text-sm sm:text-base leading-relaxed";
+const body = "text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+const checkList =
+  "list-none space-y-3 text-[#5c5b55] text-[14px] sm:text-[15px] leading-[1.75]";
+
+function CheckItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="relative pl-7">
+      <span
+        className="absolute left-0 top-[0.35em] flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold text-[#0b0b0b]"
+        style={{
+          backgroundImage: "linear-gradient(135deg, #FCE001 0%, #FDB813 100%)",
+        }}
+        aria-hidden="true"
+      >
+        ✓
+      </span>
+      {children}
+    </li>
+  );
+}
+
+function CalloutCard({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-[14px] border border-[#f5e9b8] border-l-[5px] border-l-[#FCE001] bg-[#FFFBEB] px-4 py-4 sm:rounded-[16px] sm:px-5 sm:py-5">
+      <p className="mb-2 text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
+        {label}
+      </p>
+      <div className={body}>{children}</div>
+    </div>
+  );
+}
 
 export const privacySections: PrivacySection[] = [
   {
     id: 1,
     slug: "introduction",
-    icon: BookOpen,
     title: "Introduction",
     content: (
-      <p className={body}>
-        Welcome to Traveling Partner, where your privacy and security are central to
-        our commitment. We are dedicated to safeguarding your personal information
-        while providing you with a seamless experience using our diverse services.
-        This Privacy Policy serves as a comprehensive guide for all types of users on
-        how we collect, utilize, disclose, and protect your data. By utilizing our
-        services, you explicitly agree to the principles outlined in this policy.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "Traveling Partner provides transportation, ride booking, parcel delivery, logistics services, and intercity travel through one platform. We need some information to provide these services so that we can complete bookings, process payments and help with customer support whenever it is needed.",
+            ["one platform", "complete bookings", "process payments"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "We collect only the information needed to operate our services and work to protect it using reasonable security measures.",
+            [
+              "information needed to operate our services",
+              "reasonable security measures",
+            ],
+          )}
+        </p>
+      </div>
     ),
   },
   {
     id: 2,
     slug: "information-we-collect",
-    icon: Database,
     title: "Information We Collect",
     content: (
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <p className={body}>
-          To deliver a personalized and efficient experience, we collect various types
-          of information:
+          {emphasizePhrases(
+            "The information we collect depends on how you use Traveling Partner.",
+            ["depends on how you use"],
+          )}
         </p>
-        <p className={body}>
-          Personal Information: This encompasses your name, contact details, and, if
-          required, identification documents to comply with local regulations.
-        </p>
-        <p className={body}>
-          Location Data: We rely on your location to match you swiftly with nearby ride
-          requests, facilitating convenience for Partners and helping Drivers optimize
-          routes. You have the option to disable location tracking but bear in mind
-          that this may affect certain functionalities.
-        </p>
+        <CalloutCard label="Personal Data">
+          <p className="mb-3">
+            We may collect the following when you sign up or book a service:
+          </p>
+          <ul className={checkList}>
+            <CheckItem>Full Name</CheckItem>
+            <CheckItem>Mobile Number</CheckItem>
+            <CheckItem>Email Address</CheckItem>
+            <CheckItem>Profile Info</CheckItem>
+            <CheckItem>Payment Data (if applicable)</CheckItem>
+          </ul>
+        </CalloutCard>
+        <CalloutCard label="Booking Data">
+          <p className="mb-3">
+            When you use our services, we may collect the following:
+          </p>
+          <ul className={checkList}>
+            <CheckItem>Pickup Location</CheckItem>
+            <CheckItem>Destination</CheckItem>
+            <CheckItem>Delivery Address</CheckItem>
+            <CheckItem>Booking History</CheckItem>
+            <CheckItem>Trip Details</CheckItem>
+            <CheckItem>Parcel Info</CheckItem>
+            <CheckItem>Logistics Requests</CheckItem>
+          </ul>
+        </CalloutCard>
+        <CalloutCard label="Device Data">
+          <p className="mb-3">
+            To improve the performance of the platform, we may collect:
+          </p>
+          <ul className={checkList}>
+            <CheckItem>Device Type</CheckItem>
+            <CheckItem>Operating System</CheckItem>
+            <CheckItem>IP Address</CheckItem>
+            <CheckItem>App Version</CheckItem>
+            <CheckItem>Location Data (if permission is granted)</CheckItem>
+          </ul>
+        </CalloutCard>
+        <CalloutCard label="Cookies and Tracking Technologies">
+          <p>
+            We may use cookies, analytics tools, device identifiers and similar
+            technologies on our website and application to understand how our
+            services are used, improve platform performance, measure advertising
+            effectiveness, and provide relevant content or promotions. The
+            technologies used may vary depending on the services and features
+            available on the platform.
+          </p>
+        </CalloutCard>
+        <CalloutCard label="Driver and Vehicle Data">
+          <p className="mb-3">
+            If you register as a driver, courier, or service partner, we may
+            collect information related to you and your vehicle, including:
+          </p>
+          <ul className={checkList}>
+            <CheckItem>Vehicle Make and Model</CheckItem>
+            <CheckItem>Vehicle Registration Details</CheckItem>
+            <CheckItem>Vehicle Type and Relevant Specifications</CheckItem>
+            <CheckItem>Vehicle Images, where required</CheckItem>
+            <CheckItem>Driving Licence and Verification Documents</CheckItem>
+            <CheckItem>
+              Vehicle Ownership or Authorization Documents
+            </CheckItem>
+            <CheckItem>
+              Service and Operational Information Related to the Vehicle
+            </CheckItem>
+          </ul>
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 3,
     slug: "how-we-use",
-    icon: Sparkles,
-    title: "How We Use Your Information",
+    title: "Use of Your Data",
     content: (
       <div className="space-y-4">
         <p className={body}>
-          Your data plays a pivotal role in enhancing your Traveling Partner
-          experience:
+          {emphasizePhrases(
+            "Your data helps us to manage the Traveling Partner platform and to improve your experience.",
+            ["improve your experience"],
+          )}
         </p>
+        <p className={`${body} font-semibold text-[#0b0b0b]`}>
+          We may use it for:
+        </p>
+        <ul className={checkList}>
+          <CheckItem>
+            Processing ride, delivery and logistics reservations.
+          </CheckItem>
+          <CheckItem>Connect riders, drivers and couriers.</CheckItem>
+          <CheckItem>Provide customer support.</CheckItem>
+          <CheckItem>
+            Confirming bookings, processing payments and refunds, and sending
+            service-related notifications.
+          </CheckItem>
+          <CheckItem>
+            Maintaining platform safety, security and service quality.
+          </CheckItem>
+          <CheckItem>
+            Complying with applicable legal and regulatory requirements.
+          </CheckItem>
+        </ul>
         <p className={body}>
-          Connecting Individuals, Empowering Collaboration: Our aim is to gather people
-          of the same destination, Therefore, they may lend a hand to each other. As
-          the app is commission-free, users may operate with more courage, fostering
-          collaboration and mutual support among our community of travelers.
+          {emphasizePhrases(
+            "We use your info to take payments, send refunds, let you know when a booking's confirmed, keep things running safe and smooth on our end, and stay on the right side of the law.",
+            [
+              "take payments",
+              "send refunds",
+              "booking's confirmed",
+              "right side of the law",
+            ],
+          )}
         </p>
+        <CalloutCard label="Location Services">
+          <p>
+            When you grant the required permission, Traveling Partner may collect
+            and use your location information, including location data collected
+            while the app is running in the background, to support pickup and
+            drop-off services, driver matching, navigation, estimated arrival
+            times, delivery and logistics operations, service availability, and
+            platform safety.
+          </p>
+        </CalloutCard>
+        <CalloutCard label="Advertising and Promotional Use">
+          <p>
+            We may use certain information collected through the platform,
+            including general user preferences, service usage information,
+            permitted location information, and driver, vehicle or service
+            information, to support advertising, promotions and personalized
+            content. We may also use aggregated or anonymized information for
+            advertising, analytics and marketing purposes. We do not sell your
+            personal information to advertisers.
+          </p>
+        </CalloutCard>
       </div>
     ),
   },
   {
     id: 4,
     slug: "data-security",
-    icon: Lock,
     title: "Data Security",
     content: (
-      <p className={body}>
-        We take the security of your data seriously and employ industry-standard
-        measures to protect it from unauthorized access, disclosure, alteration, or
-        destruction. Our encryption protocols and rigorous security practices are in
-        place to ensure your information remains safe.
-      </p>
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "We take reasonable steps to protect information we hold about you against misuse, loss and unauthorised access.",
+            ["misuse, loss and unauthorised access"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "While no online system can guarantee complete security, Traveling Partner regularly reviews its security practices to help protect customer information and platform data.",
+            [
+              "no online system can guarantee complete security",
+              "security practices",
+            ],
+          )}
+        </p>
+      </div>
     ),
   },
   {
     id: 5,
     slug: "data-sharing",
-    icon: Share2,
     title: "Data Sharing",
     content: (
       <div className="space-y-4">
         <p className={body}>
-          To provide you with a seamless experience, we may share your information with
-          specific parties:
+          {emphasizePhrases(
+            "We do not sell your personal information.",
+            ["do not sell your personal information"],
+          )}
         </p>
         <p className={body}>
-          Fostering Connectivity: Our platform encourages sharing information between
-          users, fostering collaboration and support among the community, keeping in
-          line with our aim to unite people of the same destination.
+          Information may be shared only when it is necessary to provide our
+          services, including:
+        </p>
+        <ul className={checkList}>
+          <CheckItem>
+            Verified drivers and couriers completing your booking.
+          </CheckItem>
+          <CheckItem>
+            Processing of transactions by payment providers.
+          </CheckItem>
+          <CheckItem>
+            Service providers supporting platform operations.
+          </CheckItem>
+          <CheckItem>
+            Advertising and marketing service providers, where necessary to
+            provide relevant advertising or promotional services.
+          </CheckItem>
+          <CheckItem>
+            Government authorities where required by law.
+          </CheckItem>
+        </ul>
+        <p className={body}>
+          {emphasizePhrases(
+            "Only the information needed for a particular purpose is shared. Where practical, we may use aggregated or anonymized information for analytics, advertising and service improvement.",
+            [
+              "information needed for a particular purpose",
+              "aggregated or anonymized information",
+            ],
+          )}
         </p>
       </div>
     ),
@@ -117,57 +293,151 @@ export const privacySections: PrivacySection[] = [
   {
     id: 6,
     slug: "your-choices",
-    icon: Settings,
     title: "Your Choices",
     content: (
       <div className="space-y-4">
-        <p className={body}>Your control is paramount:</p>
         <p className={body}>
-          Empowering Decisions: Users have the power to manage their personal
-          information and enable or disable location tracking as per their
-          preferences, encouraging a collaborative and supportive environment among
-          travelers.
+          {emphasizePhrases(
+            "You remain in control of your account information.",
+            ["in control of your account information"],
+          )}
+        </p>
+        <p className={body}>
+          Depending on your use of the platform, you may:
+        </p>
+        <ul className={checkList}>
+          <CheckItem>Update your profile information.</CheckItem>
+          <CheckItem>Change your contact details.</CheckItem>
+          <CheckItem>Manage location permissions.</CheckItem>
+          <CheckItem>Contact us to request account assistance.</CheckItem>
+          <CheckItem>Stop using the platform whenever you choose.</CheckItem>
+          <CheckItem>
+            Request deletion of your account and personal information, subject
+            to applicable legal and business requirements.
+          </CheckItem>
+        </ul>
+        <p className={body}>
+          {emphasizePhrases(
+            "Some information may still be retained where required by law or for legitimate business purposes.",
+            ["required by law", "legitimate business purposes"],
+          )}
         </p>
       </div>
     ),
   },
   {
     id: 7,
-    slug: "changes",
-    icon: FileText,
-    title: "Changes to this Policy",
-    content: (
-      <p className={body}>
-        To keep you informed and updated, we may periodically update this Privacy Policy
-        to reflect changes in our practices, adhere to evolving legal requirements, or
-        address operational needs. Rest assured, you will receive notifications of
-        significant changes.
-      </p>
-    ),
-  },
-  {
-    id: 8,
-    slug: "contact-us",
-    icon: HelpCircle,
-    title: "Contact Us",
+    slug: "data-retention",
+    title: "Data Retention",
     content: (
       <div className="space-y-4">
-        <p className={body}>Your feedback and questions are invaluable:</p>
         <p className={body}>
-          If you have any concerns or inquiries regarding our Privacy Policy or data
-          practices, don&apos;t hesitate to reach out to us at (Contact Information).
-        </p>
-        <p className={body}>
-          At Traveling Partner, we are dedicated to simplifying transportation, ensuring
-          it is cost-effective, convenient, and secure for both Drivers and Partners.
-          We appreciate your choice to make us your preferred travel companion. What
-          sets us apart are two key features: First, our app operates on a
-          commission-free model, giving users more independence and courage in their
-          engagements. Second, Traveling Partner aims to foster a collaborative
-          environment where individuals can support and collaborate for mutual
-          benefit.
+          {emphasizePhrases(
+            "We retain your information for as long as necessary to provide our services, maintain business and transaction records, resolve disputes, protect our platform and users, and comply with applicable legal and regulatory requirements. The length of time information is retained may vary depending on the type of information and the purpose for which it was collected.",
+            [
+              "as long as necessary",
+              "legal and regulatory requirements",
+            ],
+          )}
         </p>
       </div>
     ),
   },
+  {
+    id: 8,
+    slug: "changes",
+    title: "Changes to this Policy",
+    content: (
+      <div className="space-y-4">
+        <p className={body}>
+          {emphasizePhrases(
+            "As Traveling Partner grows and new services are introduced, this Privacy Policy may be updated from time to time.",
+            ["updated from time to time"],
+          )}
+        </p>
+        <p className={body}>
+          {emphasizePhrases(
+            "The latest version will always be available on our website and mobile application. Continued use of the platform after an update means the revised Privacy Policy will apply.",
+            [
+              "latest version",
+              "revised Privacy Policy will apply",
+            ],
+          )}
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 9,
+    slug: "contact-us",
+    title: "Contact Us",
+    content: null,
+  },
 ];
+
+export const privacyNavItems = [
+  { slug: "introduction", label: "Introduction", id: 1 },
+  { slug: "information-we-collect", label: "Information We Collect", id: 2 },
+  { slug: "how-we-use", label: "Use of Your Data", id: 3 },
+  { slug: "data-security", label: "Data Security", id: 4 },
+  { slug: "data-sharing", label: "Data Sharing", id: 5 },
+  { slug: "your-choices", label: "Your Choices", id: 6 },
+  { slug: "data-retention", label: "Data Retention", id: 7 },
+  { slug: "changes", label: "Changes to this Policy", id: 8 },
+  { slug: "contact-us", label: "Contact Us", id: 9 },
+] as const;
+
+export const privacyOverviewCards = [
+  {
+    icon: "/images/privacy/icon-overview-data.png",
+    title: "Data we collect",
+    description:
+      "Personal, booking, and device data used to run our services.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-people.png",
+    title: "How we use your data",
+    description:
+      "To complete bookings, process payments, and improve your experience.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-security.png",
+    title: "Data security",
+    description:
+      "Reasonable steps to protect your information from misuse and loss.",
+  },
+  {
+    icon: "/images/privacy/icon-overview-mailbox.png",
+    title: "Changes to this Policy",
+    description:
+      "The latest version is always available on our website and app.",
+  },
+] as const;
+
+export const privacyClosingCard = {
+  paragraph1: (
+    <>
+      {emphasizePhrases(
+        "Your privacy matters to us. This Privacy Policy explains what information Traveling Partner collects, how it is used, and the choices you have while using our ride booking app in Pakistan, parcel delivery service, logistics platform, and intercity travel services.",
+        [
+          "Your privacy matters to us",
+          "ride booking app in Pakistan",
+        ],
+      )}
+    </>
+  ),
+  paragraph2: (
+    <>
+      {emphasizePhrases(
+        "By using Traveling Partner, you agree to the practices described below. Have questions about this Privacy Policy or how your information is handled? Our support team is here to help.",
+        [
+          "you agree to the practices described below",
+          "support team is here to help",
+        ],
+      )}
+    </>
+  ),
+};
+
+export const privacyContactIntro =
+  "Have questions about this Privacy Policy or how your information is handled? Our support team is here to help.";

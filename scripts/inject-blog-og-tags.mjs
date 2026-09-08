@@ -1,6 +1,9 @@
 /**
- * After `next build`, inject Open Graph / Twitter / JSON-LD into each blog/*.html
+ * After `next build`, inject Open Graph / Twitter / JSON-LD into each blog/{id}.html
  * so LinkedIn, Facebook, WhatsApp show rich previews (image + title + description).
+ *
+ * Next generateMetadata already writes most tags; this pass refreshes from live
+ * blog-data and covers any host that served older HTML.
  */
 import fs from "fs";
 import path from "path";
@@ -8,7 +11,19 @@ import path from "path";
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://traveling-partner.com"
 ).replace(/\/$/, "");
-const API_BASE = "https://api.traveling-partner.com/api/website";
+
+function toBlogApiBase(raw) {
+  const normalized = String(raw || "https://api.traveling-partner.com/api")
+    .replace(/\/$/, "");
+  if (normalized.endsWith("/blog")) return normalized;
+  if (normalized.endsWith("/website")) {
+    return normalized.replace(/\/website$/, "/blog");
+  }
+  if (normalized.endsWith("/api")) return `${normalized}/blog`;
+  return `${normalized}/api/blog`;
+}
+
+const BLOG_API = toBlogApiBase(process.env.NEXT_PUBLIC_API_BASE_URL);
 const OUT_BLOG = path.join(process.cwd(), "out", "blog");
 const OUT_BLOG_DATA = path.join(process.cwd(), "out", "blog-data");
 const DEFAULT_OG_IMAGE =
@@ -45,10 +60,6 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;");
 }
 
-function escapeJson(value) {
-  return JSON.stringify(String(value)).slice(1, -1);
-}
-
 function stripHtml(value) {
   return String(value)
     .replace(/<[^>]*>/g, " ")
@@ -57,11 +68,25 @@ function stripHtml(value) {
 }
 
 function imageMimeType(url) {
-  const lower = url.toLowerCase();
+  const lower = url.toLowerCase().split("?")[0];
   if (lower.endsWith(".png")) return "image/png";
   if (lower.endsWith(".webp")) return "image/webp";
   if (lower.endsWith(".gif")) return "image/gif";
   return "image/jpeg";
+}
+
+function toAbsoluteImage(image) {
+  const src = String(image || "").trim();
+  if (!src) return DEFAULT_OG_IMAGE;
+  if (src.startsWith("http://") || src.startsWith("https://")) {
+    try {
+      return new URL(src).href;
+    } catch {
+      return src.replace(/ /g, "%20");
+    }
+  }
+  if (src.startsWith("/")) return `${SITE_URL}${src}`;
+  return DEFAULT_OG_IMAGE;
 }
 
 async function fetchBlog(id) {
@@ -69,7 +94,7 @@ async function fetchBlog(id) {
   if (fromStatic) return fromStatic;
 
   try {
-    const res = await fetch(`${API_BASE}/blog/view/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${BLOG_API}/getById/${encodeURIComponent(id)}`, {
       headers: { Accept: "application/json" },
     });
     if (!res.ok) return null;
@@ -84,25 +109,48 @@ async function fetchBlog(id) {
   }
 }
 
+function collectKeywords(blog) {
+  const lists = [
+    blog.primaryKeywords,
+    blog.secondaryKeywords,
+    blog.semanticKeywords,
+  ];
+  const values = [];
+  for (const list of lists) {
+    if (Array.isArray(list)) {
+      values.push(...list);
+    } else if (typeof list === "string" && list.trim()) {
+      values.push(...list.split(","));
+    }
+  }
+  return values.map((value) => String(value ?? "").trim()).filter(Boolean);
+}
+
 function buildSocialMetaBlock(blog, id) {
   const title = String(
-    blog.mainTitle ?? blog.main_title ?? blog.title ?? "Traveling Partner Blog"
+    blog.seoTitle ||
+      blog.mainTitle ||
+      blog.main_title ||
+      blog.title ||
+      "Traveling Partner Blog"
   );
   const description = stripHtml(
-    blog.description1 ?? blog.description ?? blog.short_description ?? ""
+    blog.seoDescription ||
+      blog.description1 ||
+      blog.description ||
+      blog.short_description ||
+      ""
   ).slice(0, 200);
-  let image = String(
+  const image = toAbsoluteImage(
     blog.coverImage ?? blog.cover_image ?? blog.image ?? ""
-  ).trim();
-  if (!image.startsWith("http")) {
-    image = DEFAULT_OG_IMAGE;
-  }
+  );
   const url = `${SITE_URL}/blog/${id}`;
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(
     description || "Read this article on Traveling Partner."
   );
   const published = String(blog.date ?? blog.createdAt ?? "").slice(0, 10);
+  const keywords = collectKeywords(blog);
 
   let block = `
 <meta property="og:type" content="article"/>
@@ -118,6 +166,11 @@ function buildSocialMetaBlock(blog, id) {
 <title>${safeTitle} | Traveling Partner</title>
 <meta name="description" content="${safeDesc}"/>
 <link rel="canonical" href="${url}"/>`;
+
+  if (keywords.length) {
+    block += `
+<meta name="keywords" content="${escapeHtml(keywords.join(", "))}"/>`;
+  }
 
   if (published) {
     block += `
@@ -156,7 +209,7 @@ function buildSocialMetaBlock(blog, id) {
       name: "Traveling Partner",
       logo: {
         "@type": "ImageObject",
-        url: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+        url: DEFAULT_OG_IMAGE,
       },
     },
     image: [image],
@@ -176,7 +229,6 @@ function injectIntoHtml(html, metaBlock) {
   next = next.replace(/<link\s+rel="canonical"[^>]*>/i, "");
   next = next.replace(/<meta\s+property="og:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+property="article:[^"]+"[^>]*>/gi, "");
-  next = next.replace(/<meta\s+property="og:image:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+name="twitter:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta\s+itemprop="[^"]+"[^>]*>/gi, "");
   next = next.replace(
@@ -188,24 +240,49 @@ function injectIntoHtml(html, metaBlock) {
   return next.replace("<head>", `<head>${metaBlock}`);
 }
 
+/** Collect out/blog/{id}.html and out/blog/{id}/index.html */
+function collectBlogHtmlFiles() {
+  if (!fs.existsSync(OUT_BLOG)) return [];
+
+  const found = [];
+
+  for (const entry of fs.readdirSync(OUT_BLOG, { withFileTypes: true })) {
+    if (entry.isFile() && /^\d+\.html$/.test(entry.name)) {
+      found.push({
+        id: entry.name.replace(".html", ""),
+        filePath: path.join(OUT_BLOG, entry.name),
+      });
+      continue;
+    }
+    if (entry.isDirectory() && /^\d+$/.test(entry.name)) {
+      const indexPath = path.join(OUT_BLOG, entry.name, "index.html");
+      if (fs.existsSync(indexPath)) {
+        found.push({ id: entry.name, filePath: indexPath });
+      }
+    }
+  }
+
+  return found;
+}
+
 async function main() {
-  if (!fs.existsSync(OUT_BLOG)) {
-    console.warn("[inject-blog-og] out/blog not found — skip");
+  const files = collectBlogHtmlFiles();
+  if (files.length === 0) {
+    console.warn(
+      "[inject-blog-og] no per-id blog HTML under out/blog — skip (ensure app/blog/[id] exported)"
+    );
     return;
   }
 
-  const files = fs.readdirSync(OUT_BLOG).filter((f) => /^\d+\.html$/.test(f));
   let updated = 0;
 
-  for (const file of files) {
-    const id = file.replace(".html", "");
+  for (const { id, filePath } of files) {
     const blog = await fetchBlog(id);
     if (!blog) {
       console.warn(`[inject-blog-og] no data for blog ${id}`);
       continue;
     }
 
-    const filePath = path.join(OUT_BLOG, file);
     const html = fs.readFileSync(filePath, "utf8");
     const metaBlock = buildSocialMetaBlock(blog, id);
     const nextHtml = injectIntoHtml(html, metaBlock);
@@ -228,4 +305,3 @@ main().catch((err) => {
   console.warn("[inject-blog-og] failed:", err.message || err);
   process.exit(0);
 });
-

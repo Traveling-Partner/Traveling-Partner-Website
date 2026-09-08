@@ -1,14 +1,16 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Poppins, Montserrat } from "next/font/google";
+import { Poppins, Montserrat, Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import AppSplashLoader from "@/components/AppSplashLoader";
 import { getSiteUrl } from "@/lib/blogShare";
 import "./globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
   variable: "--font-poppins",
 });
 
@@ -18,10 +20,38 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Traveling Partner",
   description: "Your ultimate travel companion app",
+  openGraph: {
+    type: "website",
+    siteName: "Traveling Partner",
+    title: "Traveling Partner",
+    description: "Your ultimate travel companion app",
+    url: getSiteUrl(),
+    images: [
+      {
+        url: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+        width: 512,
+        height: 512,
+        alt: "Traveling Partner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Traveling Partner",
+    description: "Your ultimate travel companion app",
+    images: [
+      "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -30,10 +60,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${montserrat.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col`}
+        className={`${poppins.variable} ${montserrat.variable} ${bricolage.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
+        suppressHydrationWarning
       >
+        {/* Hoisted by Next — preload so loader assets are ready on first paint */}
+        <link
+          rel="preload"
+          href="/images/loader/tp-loader-ring.svg"
+          as="image"
+          type="image/svg+xml"
+        />
+        <link
+          rel="preload"
+          href="/images/loader/tp-loader-logo.svg"
+          as="image"
+          type="image/svg+xml"
+        />
+        <AppSplashLoader />
+
         {/* Top Navigation */}
         <Navigation />
 

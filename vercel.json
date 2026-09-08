@@ -1,8 +1,20 @@
 {
+  "redirects": [
+    {
+      "source": "/taxi-stand",
+      "destination": "/taxi-ride",
+      "permanent": true
+    },
+    {
+      "source": "/taxi-stand/",
+      "destination": "/taxi-ride",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/website/:path*",
-      "destination": "http://45.55.78.67:8080/api/website/:path*"
+      "destination": "https://staging.api.traveling-partner.com/api/website/:path*"
     }
   ]
 }

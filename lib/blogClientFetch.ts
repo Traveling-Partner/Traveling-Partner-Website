@@ -1,5 +1,11 @@
-import { extractBlogDetail, findBlogInListPayload } from "@/lib/blogApi";
-import { websiteApiUrlsForBrowser } from "@/lib/websiteApiUrl";
+import {
+  extractBlogDetail,
+  fetchFeaturedBlogPages,
+  fetchPublishedBlogPages,
+  blogDetailApiUrl,
+  legacyBlogDetailApiUrl,
+  findBlogInListPayload,
+} from "@/lib/blogApi";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
   const response = await fetch(url, {
@@ -13,54 +19,58 @@ async function fetchJsonUrl(url: string): Promise<unknown> {
   return response.json();
 }
 
-/**
- * Blog list — live API only (same backend as admin portal). No static JSON cache.
- */
+function publishedDetail(
+  detail: Record<string, unknown> | null
+): Record<string, unknown> | null {
+  if (!detail) return null;
+  const status = String(detail.status ?? "").trim().toUpperCase();
+  if (status && status !== "PUBLISHED") return null;
+  return detail;
+}
+
+/** Published blog list — prefers GET /api/blog/getAll, falls back to /website/blog/list. */
 export async function fetchBlogListClient(): Promise<unknown> {
-  const urls = websiteApiUrlsForBrowser("/blog/list");
-  const errors: string[] = [];
+  const content = await fetchPublishedBlogPages();
+  return { success: true, data: { content } };
+}
 
-  for (const url of urls) {
-    try {
-      const data = await fetchJsonUrl(url);
-      return data;
-    } catch (err) {
-      errors.push(err instanceof Error ? err.message : String(err));
-    }
-  }
-
-  throw new Error(
-    `Could not load blogs from live API. ${errors.join("; ")}`
-  );
+/** Featured blogs — GET /api/website/blog/featured. Empty on failure; no published-list fallback. */
+export async function fetchFeaturedBlogListClient(): Promise<unknown> {
+  const content = await fetchFeaturedBlogPages();
+  return { success: true, data: { content } };
 }
 
 /**
- * Blog detail — live API only (view endpoint + list fallback).
+ * Blog detail — prefers GET /api/blog/getById, then public /website/blog/view,
+ * then the published list item (list payloads also include `faqs`).
  */
 export async function fetchBlogDetailClient(
   routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
   for (const candidateId of idCandidates) {
-    for (const base of websiteApiUrlsForBrowser(
-      `/blog/view/${encodeURIComponent(candidateId)}`
-    )) {
+    for (const url of [
+      legacyBlogDetailApiUrl(candidateId),
+      blogDetailApiUrl(candidateId),
+    ]) {
       try {
-        const json = await fetchJsonUrl(base);
-        const detail = extractBlogDetail(json);
+        const json = await fetchJsonUrl(url);
+        const detail = publishedDetail(extractBlogDetail(json));
         if (detail) return detail;
       } catch {
-        /* try next URL */
+        /* try next URL / candidate */
       }
     }
   }
 
   try {
-    const listJson = await fetchBlogListClient();
-    const fromList = findBlogInListPayload(listJson, routeId);
+    const listPayload = await fetchBlogListClient();
+    const fromList = publishedDetail(
+      findBlogInListPayload(listPayload, routeId)
+    );
     if (fromList) return fromList;
   } catch {
-    /* list unavailable */
+    /* ignore */
   }
 
   return null;

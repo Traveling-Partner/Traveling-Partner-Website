@@ -24,7 +24,7 @@ export default function PrivacyHeader(): React.ReactElement {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-[90%] mx-auto max-w-7xl py-20">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           {/* Back Link */}
           <Link
             href="/"
@@ -38,7 +38,7 @@ export default function PrivacyHeader(): React.ReactElement {
             {/* Left Content */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-[#FCE001] px-4 py-2 rounded-full mb-6">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-2 rounded-full mb-6">
                 <Shield className="w-4 h-4 text-[#1a1a1a]" />
                 <span className="text-[#1a1a1a] text-sm font-bold uppercase tracking-wider">
                   Legal
@@ -124,7 +124,7 @@ export default function PrivacyHeader(): React.ReactElement {
 
       {/* Yellow Info Bar */}
       <div className="w-full bg-gradient-to-r from-[#FCE001] to-[#FDB813] py-8">
-        <div className="w-[90%] mx-auto max-w-7xl">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center lg:justify-between items-center gap-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-black/10 rounded-xl flex items-center justify-center">

@@ -10,8 +10,8 @@ function BlogDetailFallback() {
 }
 
 /**
- * Single static page for all blog posts (output: export).
- * Loads any post by ?id= from the live API — no per-id HTML file required.
+ * Legacy query URL (`?id=`) — still works for old links.
+ * Prefer `/blog/{id}` for shares (Open Graph title + image in static HTML).
  */
 export default function BlogDetailByQueryPage(): React.ReactElement {
   return (

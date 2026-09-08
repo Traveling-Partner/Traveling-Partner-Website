@@ -1,28 +1,76 @@
 import {
-  getWebsiteApiBase,
-  PUBLIC_WEBSITE_API_BASE,
-  websiteApiUrlsForBrowser,
+  blogApiUrl,
+  PUBLIC_BLOG_API_BASE,
+  websiteApiUrl,
 } from "@/lib/websiteApiUrl";
+import { stripHtml } from "@/lib/blogShare";
+import { normalizeStringList } from "@/lib/blogFormat";
 
 /** @deprecated Use blogListApiUrl() — kept for backward compatibility. */
-export const BLOG_LIST_URL = `${PUBLIC_WEBSITE_API_BASE}/blog/list`;
+export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=0&size=10&search=&status=PUBLISHED`;
 
-/** Build-time snapshot path only (not used by client UI). */
+/** Build-time OG snapshot only — client UI never reads this. */
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
-/** @deprecated Build artifact only — client uses live API via blogClientFetch. */
+const LIST_PAGE_SIZE = 10;
+
+/** @deprecated Build artifact only — client always uses the live view API. */
 export function blogDataStaticPath(id: string): string {
   return `/blog-data/${encodeURIComponent(id)}.json`;
 }
 
-/** Live list URL from env (same base as admin portal). */
-export function blogListApiUrl(): string {
-  return `${getWebsiteApiBase()}/blog/list`;
+/** Live published list URL. */
+export function blogListApiUrl(page = 0, size = LIST_PAGE_SIZE, search = ""): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+    search,
+    status: "PUBLISHED",
+  });
+  return blogApiUrl(`/getAll?${params.toString()}`);
 }
 
-/** @deprecated Use websiteApiUrlsForBrowser — kept for backward compatibility. */
+export function blogDetailApiUrl(id: string): string {
+  return blogApiUrl(`/getById/${encodeURIComponent(id)}`);
+}
+
+/** Public website list — used when CRM GET /api/blog/getAll returns 401. */
+export function legacyBlogListApiUrl(page = 0, size = LIST_PAGE_SIZE): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+  });
+  return websiteApiUrl(`/blog/list?${params.toString()}`);
+}
+
+/** Public website detail — this is the envelope that includes `faqs`. */
+export function legacyBlogDetailApiUrl(id: string): string {
+  return websiteApiUrl(`/blog/view/${encodeURIComponent(id)}`);
+}
+
+/** Public featured list — GET /api/website/blog/featured (no auth). */
+export function featuredBlogListApiUrl(
+  page = 0,
+  size = LIST_PAGE_SIZE
+): string {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+  });
+  return websiteApiUrl(`/blog/featured?${params.toString()}`);
+}
+
+export function isFeaturedBlogItem(item: Record<string, unknown>): boolean {
+  return (
+    item.isFeatured === true ||
+    item.isFeatured === "true" ||
+    item.isFeatured === 1
+  );
+}
+
+/** @deprecated Use blogListApiUrl — kept for backward compatibility. */
 export function blogListUrlForRuntime(): string {
-  return websiteApiUrlsForBrowser("/blog/list")[0];
+  return blogListApiUrl();
 }
 
 export function findBlogInListPayload(
@@ -79,31 +127,50 @@ export const extractBlogDetail = (payload: unknown): Record<string, unknown> | n
 export async function fetchBlogDetailById(
   id: string
 ): Promise<Record<string, unknown> | null> {
-  try {
-    const response = await fetch(
-      `${getWebsiteApiBase()}/blog/view/${encodeURIComponent(id)}`,
-      { method: "GET", cache: "no-store", headers: { Accept: "application/json" } }
-    );
-    if (!response.ok) return null;
-    const json = await response.json();
-    return extractBlogDetail(json);
-  } catch {
-    return null;
+  const urls = [legacyBlogDetailApiUrl(id), blogDetailApiUrl(id)];
+  for (const url of urls) {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) continue;
+      const json = await response.json();
+      const detail = extractBlogDetail(json);
+      if (detail) return detail;
+    } catch {
+      /* try next URL */
+    }
   }
+  return null;
 }
 
 export function pickBlogMetaFields(item: Record<string, unknown>) {
   const id = getBlogIdFromItem(item);
   const title = String(
-    item.mainTitle ?? item.main_title ?? item.title ?? "Traveling Partner Blog"
-  );
+    item.seoTitle ||
+      item.mainTitle ||
+      item.main_title ||
+      item.title ||
+      "Traveling Partner Blog"
+  ).trim();
   const description = String(
-    item.description1 ?? item.description ?? item.short_description ?? ""
+    item.seoDescription ||
+      item.description1 ||
+      item.description ||
+      item.short_description ||
+      ""
   ).trim();
   const coverImage = String(
     item.coverImage ?? item.cover_image ?? item.image ?? ""
   ).trim();
-  return { id, title, description, coverImage };
+  const keywords = [
+    ...normalizeStringList(item.primaryKeywords),
+    ...normalizeStringList(item.secondaryKeywords),
+    ...normalizeStringList(item.semanticKeywords),
+  ];
+  return { id, title, description: stripHtml(description), coverImage, keywords };
 }
 
 export const extractBlogList = (payload: unknown): Record<string, unknown>[] => {
@@ -132,25 +199,126 @@ export const getBlogIdFromItem = (item: Record<string, unknown>): string => {
   return raw != null && String(raw).trim() !== "" ? String(raw) : "";
 };
 
-export async function fetchAllBlogIds(): Promise<string[]> {
-  try {
-    const response = await fetch(blogListApiUrl(), {
+async function fetchPagedPublishedList(
+  listUrl: (page: number) => string
+): Promise<Record<string, unknown>[]> {
+  const all: Record<string, unknown>[] = [];
+  let page = 0;
+  let totalPages = 1;
+  const maxPages = 50;
+
+  while (page < totalPages && page < maxPages) {
+    const url = listUrl(page);
+    const response = await fetch(url, {
       method: "GET",
       cache: "no-store",
       headers: { Accept: "application/json" },
     });
     if (!response.ok) {
-      console.warn(`[blog] build: list API returned ${response.status}`);
-      return [];
+      throw new Error(`${url} → ${response.status}`);
     }
     const json = await response.json();
-    const ids = extractBlogList(json)
-      .map(getBlogIdFromItem)
-      .filter((id) => id.length > 0);
-    console.log(`[blog] generateStaticParams (${ids.length}): ${ids.join(", ")}`);
-    return ids;
+    const items = extractBlogList(json).filter((item) => {
+      const status = String(item.status ?? "").trim().toUpperCase();
+      return !status || status === "PUBLISHED";
+    });
+    all.push(...items);
+    const data = (json?.data ?? {}) as Record<string, unknown>;
+    const reportedPages = Number(data.totalPages);
+    if (Number.isFinite(reportedPages) && reportedPages > 0) {
+      totalPages = reportedPages;
+    } else if (items.length < LIST_PAGE_SIZE) {
+      totalPages = page + 1;
+    } else {
+      totalPages = page + 2;
+    }
+    if (items.length === 0) break;
+    page += 1;
+  }
+
+  return all;
+}
+
+export async function fetchPublishedBlogPages(): Promise<
+  Record<string, unknown>[]
+> {
+  try {
+    return await fetchPagedPublishedList((page) =>
+      blogListApiUrl(page, LIST_PAGE_SIZE, "")
+    );
   } catch (err) {
-    console.warn("[blog] build: failed to fetch blog list", err);
+    console.warn(
+      "[blog] GET /api/blog/getAll unavailable; falling back to /api/website/blog/list",
+      err
+    );
+    return await fetchPagedPublishedList((page) => legacyBlogListApiUrl(page));
+  }
+}
+
+/**
+ * Featured blogs for the blog page featured section.
+ * Public GET only — never falls back to all published posts.
+ * Failures return [] so static export / generateStaticParams stay green.
+ */
+export async function fetchFeaturedBlogPages(): Promise<
+  Record<string, unknown>[]
+> {
+  try {
+    const all: Record<string, unknown>[] = [];
+    let page = 0;
+    let totalPages = 1;
+    const maxPages = 50;
+
+    while (page < totalPages && page < maxPages) {
+      const url = featuredBlogListApiUrl(page, LIST_PAGE_SIZE);
+      const response = await fetch(url, {
+        method: "GET",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        console.warn(`[blog] GET /api/website/blog/featured → ${response.status}`);
+        return page === 0 ? [] : all;
+      }
+      const json = await response.json();
+      const items = extractBlogList(json).filter(isFeaturedBlogItem);
+      all.push(...items);
+      const data = (json?.data ?? {}) as Record<string, unknown>;
+      const reportedPages = Number(data.totalPages);
+      if (Number.isFinite(reportedPages) && reportedPages > 0) {
+        totalPages = reportedPages;
+      } else if (items.length < LIST_PAGE_SIZE) {
+        totalPages = page + 1;
+      } else {
+        totalPages = page + 2;
+      }
+      if (items.length === 0) break;
+      page += 1;
+    }
+
+    return all;
+  } catch (err) {
+    console.warn("[blog] GET /api/website/blog/featured failed", err);
     return [];
   }
+}
+
+export async function fetchAllBlogIds(): Promise<string[]> {
+  try {
+    const items = await fetchPublishedBlogPages();
+    const ids = items.map(getBlogIdFromItem).filter((id) => id.length > 0);
+    if (ids.length > 0) {
+      console.log(
+        `[blog] generateStaticParams (${ids.length}): ${ids.join(", ")}`
+      );
+      return ids;
+    }
+  } catch (err) {
+    console.warn("[blog] build: failed to fetch blog list", err);
+  }
+
+  console.warn(
+    "[blog] generateStaticParams empty after API fallback — emitting placeholder route"
+  );
+  return ["preview"];
 }

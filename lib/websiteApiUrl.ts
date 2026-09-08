@@ -1,11 +1,27 @@
 /**
- * Website API URLs — same base as admin portal (NEXT_PUBLIC_API_BASE_URL).
- * Browser: same-origin /website/* when on HTTPS (needs host proxy on DigitalOcean).
- * Server/build: direct API URL from env.
+ * Website API URLs — production API only.
+ * https://api.traveling-partner.com/api/website/*
+ *
+ * Blog listing and detail in the browser always use this live API.
  */
 
 export const PUBLIC_WEBSITE_API_BASE =
   "https://api.traveling-partner.com/api/website";
+
+/** Blog CRM API (read-only): GET /api/blog/getAll and /api/blog/getById/{id} */
+export const PUBLIC_BLOG_API_BASE = PUBLIC_WEBSITE_API_BASE.replace(
+  /\/api\/website\/?$/,
+  "/api/blog"
+);
+
+export function blogApiUrl(path: string): string {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return `${PUBLIC_BLOG_API_BASE}${segment}`;
+}
+
+export function blogApiUrlsForBrowser(path: string): string[] {
+  return [blogApiUrl(path)];
+}
 
 function envBaseToWebsiteApiBase(base: string): string {
   const normalized = base.replace(/\/$/, "");
@@ -17,6 +33,25 @@ function envBaseToWebsiteApiBase(base: string): string {
 
 /** Same resolver the admin portal should use (from NEXT_PUBLIC_API_BASE_URL). */
 export function getWebsiteApiBase(): string {
+  // Always prefer live production website API for blog/content endpoints.
+  return PUBLIC_WEBSITE_API_BASE;
+}
+
+export function websiteApiUrl(path: string): string {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return `${PUBLIC_WEBSITE_API_BASE}${segment}`;
+}
+
+/**
+ * Browser fetch targets — production API only (never staging /website proxy).
+ */
+export function websiteApiUrlsForBrowser(path: string): string[] {
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  return [`${PUBLIC_WEBSITE_API_BASE}${segment}`];
+}
+
+/** Kept for tooling that still reads env (contact, scripts). */
+export function getWebsiteApiBaseFromEnv(): string {
   const fromEnv =
     (globalThis as { process?: { env?: Record<string, string | undefined> } })
       .process?.env?.NEXT_PUBLIC_API_URL?.trim() ||
@@ -24,25 +59,4 @@ export function getWebsiteApiBase(): string {
       .process?.env?.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (fromEnv) return envBaseToWebsiteApiBase(fromEnv);
   return PUBLIC_WEBSITE_API_BASE;
-}
-
-export function websiteApiUrl(path: string): string {
-  const segment = path.startsWith("/") ? path : `/${path}`;
-  return `${getWebsiteApiBase()}${segment}`;
-}
-
-/**
- * Browser fetch targets: live API only (portal source of truth).
- * 1) /website/* — same-origin proxy (local dev + DO App Platform with api-proxy)
- * 2) Direct env API URL — same endpoint family as admin portal
- */
-export function websiteApiUrlsForBrowser(path: string): string[] {
-  const segment = path.startsWith("/") ? path : `/${path}`;
-  const direct = `${getWebsiteApiBase()}${segment}`;
-
-  if (typeof window === "undefined") {
-    return [direct];
-  }
-
-  return [`/website${segment}`, direct];
 }

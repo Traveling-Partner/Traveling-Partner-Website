@@ -1,108 +1,185 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { emphasizePhrases } from "@/lib/emphasizePhrases";
 
-interface Service {
+type Service = {
+  number: string;
   icon: string;
+  iconAlt: string;
   title: string;
   description: string;
-}
-
-interface ServiceCardProps {
-  title: string;
-  icon: string;
-  description: string;
-  index: number;
-}
+  bold: readonly string[];
+  featured?: boolean;
+};
 
 const services: Service[] = [
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314257/Booking_yu0dwo.png",
-    title: "simple booking",
-    description: "Empower yourself with easy and user-friendly booking procedures.",
+    number: "01",
+    icon: "/images/logistic/services/icon-booking.png",
+    iconAlt: "Simple booking",
+    title: "Simple Booking",
+    description:
+      "Book a pickup in a few clicks. Add the delivery details, choose a vehicle, and you're ready to go.",
+    bold: [],
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253811/tp-Imgs/img/Categories_4_fgj7t1.png",
-    title: "on time pickup",
-    description: "Take control of your logistics schedule with on-time pickups as per your convenience.",
+    number: "02",
+    icon: "/images/logistic/services/icon-pickup.png",
+    iconAlt: "On-time pickup",
+    title: "On-Time Pickup",
+    description:
+      "Set a pickup time that works for you. Our riders arrive ready to collect your shipment, so there's no need to chase drivers.",
+    bold: [],
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314313/Map_Marker_yjd9ga.png",
+    number: "03",
+    icon: "/images/logistic/services/icon-fast.png",
+    iconAlt: "Fast shipments",
     title: "Fast Shipments",
-    description: "Swift and efficient handling of your shipments, driven by your",
+    description:
+      "Some deliveries can't wait. We help move your goods as quickly as possible while keeping you updated from pickup to delivery.",
+    bold: [],
+    featured: true,
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1715253504/tp-Imgs/Taxi-stand-img/Local_Delivery_Time_hly4lo.png",
+    number: "04",
+    icon: "/images/logistic/services/icon-delivery.png",
+    iconAlt: "On-time delivery",
     title: "On-Time Delivery",
-    description: "Ensure punctual delivery by actively managing and overseeing the logistics process.",
+    description:
+      "Your shipment stays on the move until it reaches its destination. Simple updates let you know where it is without making a phone call.",
+    bold: [],
   },
   {
-    icon: "https://res.cloudinary.com/duubabjk7/image/upload/v1771314269/Euro_Money_x2dby9.png",
+    number: "05",
+    icon: "/images/logistic/services/icon-save.png",
+    iconAlt: "Save time and money",
     title: "Save Time & Money",
-    description: "Optimize your logistics operations independently, saving both time and money.",
+    description:
+      "Less time arranging deliveries. Less money spent on unnecessary transport. More time for the work that matters.",
+    bold: [],
   },
 ];
 
-const ServiceCard = ({ title, icon, description, index }: ServiceCardProps) => (
-  <div className="group relative w-full p-5 justify-center shadow-[0_4px_8px_0_rgba(0,0,0,0.2),0_6px_20px_0_rgba(0,0,0,0.19)] min-h-[300px] flex flex-col items-center hover:shadow-[0_8px_16px_0_rgba(0,0,0,0.3)] transition-all duration-500 bg-white rounded-2xl border border-gray-100 overflow-hidden max-md:w-[90%] max-md:p-10 max-md:min-h-0">
-    <div className="absolute inset-0 bg-gradient-to-br from-[#fce001]/5 to-[#fdb813]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    <div className={`absolute ${index % 2 === 0 ? 'top-0 right-0' : 'bottom-0 left-0'} w-32 h-32 bg-gradient-to-br from-[#fce001]/10 to-transparent rounded-full blur-2xl transform ${index % 2 === 0 ? 'translate-x-16 -translate-y-16' : '-translate-x-16 translate-y-16'} group-hover:scale-150 transition-transform duration-700`}></div>
+function ServiceCard({
+  service,
+  delay,
+}: {
+  service: Service;
+  delay: number;
+}) {
+  const featured = Boolean(service.featured);
 
-    <div className="relative z-10 flex flex-col items-center text-center">
-      <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-        <Image
-          src={icon}
-          alt={title}
-          width={60}
-          height={60}
-          className="w-12 h-12 object-contain drop-shadow-sm"
-        />
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, delay }}
+      className={`relative flex h-full flex-col overflow-hidden rounded-[24px] p-5 sm:rounded-[28px] sm:p-6 ${
+        featured
+          ? "bg-gradient-to-br from-[#FCE001] to-[#FDB813] shadow-[0_14px_32px_rgba(253,184,19,0.25)]"
+          : "bg-white shadow-[0_10px_28px_rgba(11,11,11,0.06)]"
+      }`}
+    >
+      <div className="relative z-[1] mb-4 flex items-start justify-between gap-3 sm:mb-5">
+        <div className="relative h-[48px] w-[48px] shrink-0 sm:h-[52px] sm:w-[52px]">
+          <Image
+            src={service.icon}
+            alt={service.iconAlt}
+            fill
+            sizes="52px"
+            className="object-contain"
+          />
+        </div>
+        <span
+          className={`select-none font-poppins text-[36px] font-bold italic leading-none tracking-tight sm:text-[40px] ${
+            featured ? "text-black/10" : "text-black/[0.07]"
+          }`}
+        >
+          {service.number}
+        </span>
       </div>
 
-      <span className="text-xl font-semibold text-black uppercase tracking-wide mb-2">{title}</span>
-      <p className="text-base font-normal text-black leading-relaxed">{description}</p>
-      <div className="mt-4 w-full h-1 bg-gradient-to-r from-transparent via-[#fce001] to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-    </div>
-  </div>
-);
+      <h3 className="relative z-[1] mb-2 text-[17px] font-bold leading-[1.25] tracking-tight text-[#0b0b0b] sm:mb-2.5 sm:text-[18px] lg:text-[19px]">
+        {service.title}
+      </h3>
+
+      <p
+        className={`relative z-[1] text-[13px] leading-[1.5] sm:text-[14px] sm:leading-[1.55] ${
+          featured ? "text-[#0b0b0b]/80" : "text-[#4a4a45]"
+        }`}
+      >
+        {emphasizePhrases(service.description, service.bold)}
+      </p>
+    </motion.article>
+  );
+}
 
 export default function LogisticsServices() {
   return (
-    <div className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-12 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#fce001]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#fdb813]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    <section className="relative w-full overflow-hidden bg-[#FEFBF6] pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12">
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            radial-gradient(ellipse 50% 40% at 50% 8%, rgba(252,224,1,0.22), transparent 70%),
+            radial-gradient(ellipse 40% 35% at 92% 12%, rgba(253,184,19,0.12), transparent 65%),
+            radial-gradient(ellipse 35% 30% at 8% 90%, rgba(252,224,1,0.1), transparent 70%)
+          `,
+        }}
+      />
 
-      <div className="w-[85%] mx-auto max-w-7xl relative z-10 max-md:w-full max-md:p-0">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#fce001]/10 border border-[#fce001]/20 px-4 py-2 rounded-full mb-6">
-            <svg className="w-4 h-4 text-[#fdb813]" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
-            <span className="text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider">What We Offer</span>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="mx-auto mb-10 max-w-3xl text-center sm:mb-12 lg:mb-14"
+        >
+          <div className="mb-5 inline-flex items-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-4 py-1.5 sm:mb-6">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b] sm:text-[11px]">
+              What We Offer
+            </span>
           </div>
 
-          <h1 className="uppercase text-[50px] font-bold text-[#1a1a1a] max-md:text-[30px] max-md:p-4">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">Services</span>
-          </h1>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-full mx-auto mt-4"></div>
-        </div>
+          <h2 className="mb-4 font-poppins text-[clamp(32px,5.5vw,52px)] font-extrabold leading-[1.1] tracking-tight text-[#0b0b0b] sm:mb-5">
+            Our{" "}
+            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">
+              Services.
+            </span>
+          </h2>
 
-        <div className="w-[90%] flex justify-center gap-10 mx-auto max-md:flex-col max-md:w-[95%] max-md:gap-10">
-          <div className="w-[30%] flex flex-col gap-10 items-center max-md:w-full max-md:gap-10">
-            <ServiceCard {...services[0]} index={0} />
-            <ServiceCard {...services[1]} index={1} />
+          <div className="mx-auto max-w-2xl space-y-2 text-[14px] leading-relaxed text-[#5c5b55] sm:text-[16px] sm:leading-[1.65]">
+            <p className="font-semibold text-[#0b0b0b]">
+              Everything you need to keep deliveries moving.
+            </p>
+            <p>
+              Running a business means deliveries don&apos;t stop. Some are
+              planned. Some come in at the last minute.
+            </p>
+            <p>
+              Traveling Partner brings booking, pickups, tracking, and delivery
+              together in one place, so you spend less time managing logistics
+              and more time running your business.
+            </p>
           </div>
-          <div className="w-[30%] flex flex-col gap-10 items-center mt-10 max-md:w-full max-md:mt-0 max-md:gap-10">
-            <ServiceCard {...services[2]} index={2} />
-            <ServiceCard {...services[3]} index={3} />
-          </div>
-          <div className="w-[30%] flex flex-col gap-10 items-center max-md:w-full max-md:gap-10">
-            <ServiceCard {...services[4]} index={4} />
-            {/* Empty div to maintain layout balance since we only have 5 services */}
-            <div className="min-h-[300px] max-md:hidden"></div>
-          </div>
+        </motion.div>
+
+        <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:max-w-none lg:grid-cols-5 lg:gap-4 xl:gap-5">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service.title}
+              service={service}
+              delay={0.06 + index * 0.05}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

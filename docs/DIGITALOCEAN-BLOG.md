@@ -66,5 +66,5 @@ Reload nginx, then deploy the latest `out/` as usual.
 ## Notes
 
 - `public/_redirects` and `.htaccess` **do not work** on DigitalOcean Spaces static hosting alone.
-- `api.traveling-partner.com` SSL errors in the browser are why we use `/website` on the same domain.
+- `staging.api.traveling-partner.com` SSL errors in the browser are why we use `/website` on the same domain.
 - CI build (`yarn build`) refreshes `blog-list.json` as a **fallback** when the API is down during build.

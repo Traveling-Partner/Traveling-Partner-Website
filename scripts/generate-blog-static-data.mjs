@@ -8,9 +8,20 @@ import path from "path";
 
 const publicOnly = process.argv.includes("--public-only");
 
-const API_BASE =
-  (process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.traveling-partner.com/api")
-    .replace(/\/$/, "") + "/website";
+function toBlogApiBase(raw) {
+  const normalized = String(raw || "https://api.traveling-partner.com/api")
+    .replace(/\/$/, "");
+  if (normalized.endsWith("/blog")) return normalized;
+  if (normalized.endsWith("/website")) {
+    return normalized.replace(/\/website$/, "/blog");
+  }
+  if (normalized.endsWith("/api")) return `${normalized}/blog`;
+  return `${normalized}/api/blog`;
+}
+
+const BLOG_API = toBlogApiBase(process.env.NEXT_PUBLIC_API_BASE_URL);
+const WEBSITE_API = BLOG_API.replace(/\/blog$/, "/website");
+const LIST_PAGE_SIZE = 10;
 
 const OUT_DIR = path.join(process.cwd(), "out");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -28,11 +39,21 @@ function readJsonFile(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-function extractIds(listPayload) {
+function extractContent(listPayload) {
   const data = listPayload?.data;
-  const content = data?.content ?? data;
-  if (!Array.isArray(content)) return [];
-  return content
+  if (Array.isArray(data?.content)) return data.content;
+  if (Array.isArray(data)) return data;
+  return [];
+}
+
+function isPublished(item) {
+  const status = String(item?.status ?? "").trim().toUpperCase();
+  return !status || status === "PUBLISHED";
+}
+
+function extractIds(listPayload) {
+  return extractContent(listPayload)
+    .filter(isPublished)
     .map((item) =>
       String(
         item?.id ??
@@ -43,6 +64,62 @@ function extractIds(listPayload) {
       ).trim()
     )
     .filter(Boolean);
+}
+
+async function fetchPagedList(urlForPage) {
+  const all = [];
+  let page = 0;
+  let totalPages = 1;
+  const maxPages = 50;
+
+  while (page < totalPages && page < maxPages) {
+    const json = await fetchJson(urlForPage(page));
+    const items = extractContent(json).filter(isPublished);
+    all.push(...items);
+    const reportedPages = Number(json?.data?.totalPages);
+    if (Number.isFinite(reportedPages) && reportedPages > 0) {
+      totalPages = reportedPages;
+    } else if (items.length < LIST_PAGE_SIZE) {
+      totalPages = page + 1;
+    } else {
+      totalPages = page + 2;
+    }
+    if (items.length === 0) break;
+    page += 1;
+  }
+
+  return {
+    success: true,
+    message: "Blogs fetched successfully",
+    data: {
+      content: all,
+      totalElements: all.length,
+      totalPages: Math.max(1, page),
+      number: 0,
+      size: LIST_PAGE_SIZE,
+    },
+  };
+}
+
+async function fetchPublishedList() {
+  try {
+    const payload = await fetchPagedList(
+      (page) =>
+        `${BLOG_API}/getAll?page=${page}&size=${LIST_PAGE_SIZE}&search=&status=PUBLISHED`
+    );
+    console.log("[blog-static] fetched published list from /api/blog/getAll");
+    return payload;
+  } catch (err) {
+    console.warn("[blog-static] getAll failed:", err.message);
+    const payload = await fetchPagedList(
+      (page) =>
+        `${WEBSITE_API}/blog/list?page=${page}&size=${LIST_PAGE_SIZE}`
+    );
+    console.log(
+      "[blog-static] fetched published list from /api/website/blog/list"
+    );
+    return payload;
+  }
 }
 
 function writeJson(filePath, data) {
@@ -71,8 +148,8 @@ async function main() {
   let listPayload = null;
 
   try {
-    listPayload = await fetchJson(`${API_BASE}/blog/list`);
-    console.log("[blog-static] fetched blog list from API");
+    listPayload = await fetchPublishedList();
+    console.log("[blog-static] fetched published blog list from API");
   } catch (err) {
     console.warn("[blog-static] API list fetch failed:", err.message);
     if (fs.existsSync(CACHE_LIST)) {
@@ -102,14 +179,20 @@ async function main() {
     let detailPayload = null;
     try {
       detailPayload = await fetchJson(
-        `${API_BASE}/blog/view/${encodeURIComponent(id)}`
+        `${BLOG_API}/getById/${encodeURIComponent(id)}`
       );
     } catch {
-      const item = (listPayload?.data?.content ?? []).find(
-        (row) => String(row?.id) === id
-      );
-      if (item) {
-        detailPayload = { success: true, data: item };
+      try {
+        detailPayload = await fetchJson(
+          `${WEBSITE_API}/blog/view/${encodeURIComponent(id)}`
+        );
+      } catch {
+        const item = extractContent(listPayload).find(
+          (row) => String(row?.id) === id
+        );
+        if (item) {
+          detailPayload = { success: true, data: item };
+        }
       }
     }
 

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const backendOrigin =
-  (process.env.BACKEND_ORIGIN || "http://45.55.78.67:8080").replace(
+  (process.env.BACKEND_ORIGIN || "https://staging.api.traveling-partner.com").replace(
     /\/$/,
     ""
   );
@@ -32,6 +32,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "traveling-partner-storage.nyc3.digitaloceanspaces.com",
         pathname: "/**",
       },
     ],
