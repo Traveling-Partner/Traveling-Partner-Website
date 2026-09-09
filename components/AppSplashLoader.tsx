@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import TPLoader from "@/components/TPLoader";
 
-const MIN_VISIBLE_MS = 900;
-const FADE_MS = 250;
+const MIN_VISIBLE_MS = 180;
+const FADE_MS = 200;
 
 /**
  * Cream full-page cover with compact Figma TP loader.
@@ -36,13 +36,14 @@ export default function AppSplashLoader() {
       }, wait);
     };
 
-    if (document.readyState === "complete") {
+    if (document.readyState === "complete" || document.readyState === "interactive") {
       hide();
     } else {
+      document.addEventListener("DOMContentLoaded", hide, { once: true });
       window.addEventListener("load", hide, { once: true });
     }
 
-    const safety = setTimeout(hide, 2200);
+    const safety = setTimeout(hide, 700);
 
     return () => {
       cancelled = true;
@@ -50,6 +51,7 @@ export default function AppSplashLoader() {
       if (hideTimer) clearTimeout(hideTimer);
       if (removeTimer) clearTimeout(removeTimer);
       clearTimeout(safety);
+      document.removeEventListener("DOMContentLoaded", hide);
       window.removeEventListener("load", hide);
     };
   }, []);

@@ -8,6 +8,7 @@ import CircularIndeterminate from "./loader";
 import { extractBlogList } from "@/lib/blogApi";
 import { fetchBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
 import { formatBlogDate, formatReadTimeLabel } from "@/lib/blogFormat";
 import { mapBlogCard } from "@/lib/blogMap";
 import { getBlogDetailHref } from "@/lib/blogShare";
@@ -128,7 +129,7 @@ interface Blog {
 }
 
 const getImageSrc = (v: string): string | null => {
-  const src = String(v || "").trim();
+  const src = encodeMediaUrl(String(v || "").trim());
   if (!src) return null;
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
     return optimizeCloudinaryImage(src, 900, 72);
@@ -200,8 +201,8 @@ function BlogCard({
             <img
               src={imageSrc}
               alt={blog.main_title}
-              className="absolute inset-0 h-full w-full object-cover object-center"
-              style={{ objectFit: "cover", objectPosition: "center" }}
+              className="absolute inset-0 h-full w-full object-cover object-top"
+              style={{ objectFit: "cover", objectPosition: "center top" }}
             />
           ) : null}
           <div
@@ -469,21 +470,54 @@ export default function BlogSlider() {
     <div className="mt-8 flex w-full min-w-0 flex-col items-start justify-between gap-6 sm:mt-12 sm:gap-8 lg:flex-row lg:items-end">
       <div className="w-full min-w-0 max-w-[692px]">
         {blogs.length > 1 && (
-          <div className="mb-6 flex items-center gap-2">
-            {blogs.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => goToIndex(i)}
-                className={`rounded-full transition-all duration-300 ${
-                  i === activeIndex ? "h-2 w-9 bg-gradient-to-b from-[#FCE001] to-[#FDB813]" : "h-2 w-2 bg-white/25"
-                }`}
-              />
-            ))}
+          <div className="mb-6 flex flex-wrap items-center gap-1">
+            {blogs.length <= 8
+              ? blogs.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    aria-current={i === activeIndex ? "true" : undefined}
+                    onClick={() => goToIndex(i)}
+                    className="flex h-11 w-11 items-center justify-center rounded-full"
+                  >
+                    <span
+                      className={`rounded-full transition-all duration-300 ${
+                        i === activeIndex
+                          ? "h-2.5 w-8 bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
+                          : "h-2.5 w-2.5 bg-white/30"
+                      }`}
+                    />
+                  </button>
+                ))
+              : (
+                  <>
+                    <button
+                      type="button"
+                      aria-label="Previous story"
+                      onClick={() =>
+                        goToIndex((activeIndex - 1 + blogs.length) % blogs.length)
+                      }
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white"
+                    >
+                      ←
+                    </button>
+                    <span className="px-2 text-[13px] font-medium text-white/70">
+                      {activeIndex + 1} / {blogs.length}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Next story"
+                      onClick={() => goToIndex((activeIndex + 1) % blogs.length)}
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white"
+                    >
+                      →
+                    </button>
+                  </>
+                )}
           </div>
         )}
-        {activeBlog?.description1 ? (
+        {activeBlog?.description1 && !isCompact ? (
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={activeIndex}

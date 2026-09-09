@@ -15,6 +15,13 @@ import FormAlert from "@/components/FormAlert";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
+import {
+  CONTACT_LIMITS,
+  isValidEmail,
+  isValidPhone,
+  requiredError,
+  type ContactFieldErrors,
+} from "@/lib/contactValidation";
 
 const SUBJECTS = [
   "General Inquiry",
@@ -290,33 +297,86 @@ export default function ContactFormSection() {
     message: string;
   }>({ type: null, message: "" });
   const [fileName, setFileName] = useState<string | null>(null);
+  const [fileError, setFileError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
   const fileRef = useRef<HTMLInputElement>(null);
   const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isBusiness = form.subject === "Business";
 
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const onFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
       setFileName(null);
+      setFileError("");
       return;
     }
+    const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
+    const allowedExt = [".pdf", ".png", ".jpg", ".jpeg"];
+    const allowedType = ["application/pdf", "image/png", "image/jpeg"];
     if (file.size > 10 * 1024 * 1024) {
-      setStatus({ type: "error", message: "File must be under 10MB." });
-      setAlertVisible(true);
+      setFileError("File must be under 10MB.");
+      setFileName(null);
       e.target.value = "";
       return;
     }
+    if (!allowedExt.includes(ext) && !allowedType.includes(file.type)) {
+      setFileError("Please attach a PDF, PNG, or JPG.");
+      setFileName(null);
+      e.target.value = "";
+      return;
+    }
+    setFileError("");
     setFileName(file.name);
+  };
+
+  const validate = (): ContactFieldErrors => {
+    const next: ContactFieldErrors = {};
+    const nameErr = requiredError("Full name", form.fullName);
+    if (nameErr) next.fullName = nameErr;
+    const emailErr = requiredError("Email", form.email);
+    if (emailErr) next.email = emailErr;
+    else if (!isValidEmail(form.email)) next.email = "Enter a valid email address.";
+    if (isBusiness) {
+      const phoneErr = requiredError("Phone", form.phone);
+      if (phoneErr) next.phone = phoneErr;
+      else if (!isValidPhone(form.phone)) next.phone = "Enter a valid phone number.";
+      const companyErr = requiredError("Company name", form.companyName);
+      if (companyErr) next.companyName = companyErr;
+      const typeErr = requiredError("Business type", form.businessType);
+      if (typeErr) next.businessType = typeErr;
+      const cityErr = requiredError("City", form.city);
+      if (cityErr) next.city = cityErr;
+    } else if (form.phone.trim() && !isValidPhone(form.phone)) {
+      next.phone = "Enter a valid phone number.";
+    }
+    const messageErr = requiredError("Message", form.message);
+    if (messageErr) next.message = messageErr;
+    else if (form.message.trim().length < CONTACT_LIMITS.messageMin) {
+      next.message = `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
+    }
+    return next;
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const nextErrors = validate();
+    setFieldErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      setStatus({
+        type: "error",
+        message: "Please fix the highlighted fields and try again.",
+      });
+      setAlertVisible(true);
+      return;
+    }
     if (overlayTimer.current) clearTimeout(overlayTimer.current);
     setLoading(true);
     setOverlayPhase("loading");
@@ -346,6 +406,8 @@ export default function ContactFormSection() {
       setAlertVisible(true);
       setForm(initialForm);
       setFileName(null);
+      setFileError("");
+      setFieldErrors({});
       if (fileRef.current) fileRef.current.value = "";
       overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (err: unknown) {
@@ -381,7 +443,8 @@ export default function ContactFormSection() {
   const labelClass =
     "mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b]";
 
-  const isBusiness = form.subject === "Business";
+  const errorClass = "mt-1 text-[11px] font-medium text-[#b42318]";
+  const counterClass = "mt-1 text-right text-[10px] text-[#5c5b55]";
 
   return (
     <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-12 sm:py-14 lg:py-16">
@@ -524,7 +587,7 @@ export default function ContactFormSection() {
                 </div>
               </div>
 
-              <form onSubmit={onSubmit} className="relative z-10 space-y-3 sm:space-y-3">
+              <form onSubmit={onSubmit} noValidate className="relative z-10 space-y-3 sm:space-y-3">
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
                   <div>
                     <label htmlFor="fullName" className={labelClass}>
@@ -535,12 +598,17 @@ export default function ContactFormSection() {
                       name="fullName"
                       type="text"
                       required
+                      maxLength={CONTACT_LIMITS.name}
                       value={form.fullName}
                       onChange={onChange}
                       placeholder="Your full name"
                       className={fieldClass}
                       disabled={loading}
+                      aria-invalid={Boolean(fieldErrors.fullName)}
                     />
+                    {fieldErrors.fullName ? (
+                      <p className={errorClass}>{fieldErrors.fullName}</p>
+                    ) : null}
                   </div>
                   <div>
                     <label htmlFor="email" className={labelClass}>
@@ -551,12 +619,17 @@ export default function ContactFormSection() {
                       name="email"
                       type="email"
                       required
+                      maxLength={CONTACT_LIMITS.email}
                       value={form.email}
                       onChange={onChange}
                       placeholder="you@example.com"
                       className={fieldClass}
                       disabled={loading}
+                      aria-invalid={Boolean(fieldErrors.email)}
                     />
+                    {fieldErrors.email ? (
+                      <p className={errorClass}>{fieldErrors.email}</p>
+                    ) : null}
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>
@@ -567,6 +640,7 @@ export default function ContactFormSection() {
                       name="phone"
                       type="tel"
                       required={isBusiness}
+                      maxLength={CONTACT_LIMITS.phone}
                       value={form.phone}
                       onChange={onChange}
                       placeholder={
@@ -574,7 +648,11 @@ export default function ContactFormSection() {
                       }
                       className={fieldClass}
                       disabled={loading}
+                      aria-invalid={Boolean(fieldErrors.phone)}
                     />
+                    {fieldErrors.phone ? (
+                      <p className={errorClass}>{fieldErrors.phone}</p>
+                    ) : null}
                   </div>
                   <div>
                     <label htmlFor="subject" className={labelClass}>
@@ -618,7 +696,12 @@ export default function ContactFormSection() {
                         placeholder="Company name"
                         className={fieldClass}
                         disabled={loading}
+                        maxLength={CONTACT_LIMITS.company}
+                        aria-invalid={Boolean(fieldErrors.companyName)}
                       />
+                      {fieldErrors.companyName ? (
+                        <p className={errorClass}>{fieldErrors.companyName}</p>
+                      ) : null}
                     </div>
                     <div>
                       <label htmlFor="businessType" className={labelClass}>
@@ -634,7 +717,12 @@ export default function ContactFormSection() {
                         placeholder="Business type"
                         className={fieldClass}
                         disabled={loading}
+                        maxLength={CONTACT_LIMITS.businessType}
+                        aria-invalid={Boolean(fieldErrors.businessType)}
                       />
+                      {fieldErrors.businessType ? (
+                        <p className={errorClass}>{fieldErrors.businessType}</p>
+                      ) : null}
                     </div>
                     <div>
                       <label htmlFor="city" className={labelClass}>
@@ -650,7 +738,12 @@ export default function ContactFormSection() {
                         placeholder="City"
                         className={fieldClass}
                         disabled={loading}
+                        maxLength={CONTACT_LIMITS.city}
+                        aria-invalid={Boolean(fieldErrors.city)}
                       />
+                      {fieldErrors.city ? (
+                        <p className={errorClass}>{fieldErrors.city}</p>
+                      ) : null}
                     </div>
                   </div>
                 ) : null}
@@ -669,7 +762,16 @@ export default function ContactFormSection() {
                     placeholder="Tell us how we can help..."
                     className={`${fieldClass} min-h-[72px] resize-y`}
                     disabled={loading}
+                    maxLength={CONTACT_LIMITS.message}
+                    aria-invalid={Boolean(fieldErrors.message)}
                   />
+                  {fieldErrors.message ? (
+                    <p className={errorClass}>{fieldErrors.message}</p>
+                  ) : (
+                    <p className={counterClass}>
+                      {form.message.length}/{CONTACT_LIMITS.message}
+                    </p>
+                  )}
                 </div>
 
                 <label className="flex cursor-pointer items-center gap-2.5 rounded-[12px] border border-dashed border-[#d4d0c6] bg-[#F7F4EC] px-3 py-2 transition-colors hover:border-[#FCE001]/50 sm:px-3.5 sm:py-2.5">
@@ -693,20 +795,27 @@ export default function ContactFormSection() {
                   <input
                     ref={fileRef}
                     type="file"
-                    accept=".pdf,.png,.jpg,.jpeg"
+                    accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
                     className="sr-only"
                     onChange={onFile}
                     disabled={loading}
                   />
                 </label>
+                {fileError ? <p className={errorClass}>{fileError}</p> : null}
+                {fileName && !fileError ? (
+                  <p className="text-[11px] leading-relaxed text-[#5c5b55]">
+                    Attachments aren&apos;t sent with this form yet. Please include
+                    any details in your message.
+                  </p>
+                ) : null}
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="group flex w-full items-center justify-center gap-2.5 rounded-full bg-[#0b0b0b] px-5 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-60 sm:py-3"
+                  className="group flex w-full items-center justify-center gap-2.5 rounded-full bg-[#0b0b0b] px-5 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 sm:py-3"
                 >
                   <span className="font-poppins text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
-                    Send Message
+                    {loading ? "Sending..." : "Send Message"}
                   </span>
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] transition-transform duration-300 group-hover:translate-x-0.5">
                     <svg
@@ -730,14 +839,14 @@ export default function ContactFormSection() {
                   By sending this message you agree to our{" "}
                   <Link
                     href="/privacy-policy"
-                    className="font-semibold text-[#FCE001] hover:underline"
+                    className="font-semibold text-[#5c4a00] underline hover:text-[#0b0b0b]"
                   >
                     Privacy Policy
                   </Link>{" "}
                   and{" "}
                   <Link
                     href="/terms-conditions"
-                    className="font-semibold text-[#FCE001] hover:underline"
+                    className="font-semibold text-[#5c4a00] underline hover:text-[#0b0b0b]"
                   >
                     Terms &amp; Conditions
                   </Link>

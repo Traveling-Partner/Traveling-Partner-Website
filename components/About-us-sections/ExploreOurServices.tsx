@@ -95,7 +95,7 @@ const services: Service[] = [
   },
   {
     number: "04",
-    title: "Logistic",
+    title: "Logistics",
     label: "Enterprise",
     key: "logistic",
     image: "/images/about/explore/card-logistic.png",

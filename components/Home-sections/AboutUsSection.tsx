@@ -194,7 +194,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize) }}
         >
-          Start yours journey
+          Start your journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white transition-colors duration-300 group-hover:bg-[#1a1a1a]"
@@ -223,7 +223,7 @@ function LearnMoreButton(): React.ReactElement {
           className="flex items-center whitespace-nowrap font-semibold leading-none text-[#0b0b0b]"
           style={{ fontSize: scaleStoryCta(s.labelSize + 3, mobileScale) }}
         >
-          Start yours journey
+          Start your journey
         </span>
         <span
           className="flex shrink-0 items-center justify-center rounded-full bg-[#0b0b0b] font-bold leading-none text-white"

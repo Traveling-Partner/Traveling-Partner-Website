@@ -11,7 +11,7 @@ const categories = [
 "Traveling Partner offers a platform connecting you with Cab Ride, providing hassle-free commuting without additional commissions."
   },
   {
-    title: "Logistic",
+    title: "Logistics",
     image:
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253809/tp-Imgs/img/Categories_3_e7lefn.png",
     description:
@@ -104,12 +104,12 @@ export default function FeaturedCategoriesSection(): React.ReactElement {
             </span>
           </div>
 
-          <h1 className="uppercase text-[50px] font-bold text-[#1a1a1a] max-md:text-[30px] max-md:p-4">
+          <h2 className="uppercase text-[50px] font-bold text-[#1a1a1a] max-md:text-[30px] max-md:p-4">
             Featured{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fce001] to-[#fdb813]">
               Categories
             </span>
-          </h1>
+          </h2>
           <div className="w-32 h-1.5 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-full mx-auto mt-4"></div>
         </div>
 

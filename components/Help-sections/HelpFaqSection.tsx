@@ -339,6 +339,7 @@ export default function HelpFaqSection({
                             isOpen ? "bg-[#FFFDF0]" : "bg-white"
                           }`}
                           aria-expanded={isOpen}
+                          aria-controls={`faq-panel-${item.id}`}
                         >
                           <span
                             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[13px] font-bold sm:h-10 sm:w-10 sm:text-[14px] ${
@@ -374,6 +375,8 @@ export default function HelpFaqSection({
                         </button>
 
                         <div
+                          id={`faq-panel-${item.id}`}
+                          role="region"
                           className={`grid bg-white transition-all duration-300 ease-out ${
                             isOpen
                               ? "grid-rows-[1fr] opacity-100"

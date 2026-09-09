@@ -220,7 +220,12 @@ function DetailPanel({
   return (
     <div className="relative flex h-full flex-col lg:rounded-l-[40px]">
       {/* ——— Mobile spotlight panel ——— */}
-      <div className="relative overflow-hidden lg:hidden">
+      <div
+        id="six-rides-panel"
+        role="tabpanel"
+        aria-labelledby={`six-rides-tab-${ride.id}`}
+        className="relative overflow-hidden lg:hidden"
+      >
         <div className="relative overflow-hidden bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 pb-8 pt-5 sm:px-6 sm:pb-9 sm:pt-6">
           {/* Soft bottom wave into black — light, not the desktop B-curve */}
           <svg
@@ -499,6 +504,8 @@ function MobileRideChips({
               role="tab"
               data-ride-index={index}
               aria-selected={active}
+              aria-controls="six-rides-panel"
+              id={`six-rides-tab-${ride.id}`}
               onClick={() => onSelect(index)}
               whileTap={{ scale: 0.97 }}
               className={`relative flex w-[156px] shrink-0 snap-center flex-col overflow-hidden rounded-[20px] border p-3.5 text-left transition-colors ${

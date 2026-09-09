@@ -129,7 +129,7 @@ function FeaturedStoryCard({
               src={getImageSrc(blog.cover_image)}
               alt={blog.main_title}
               fill
-              className="object-cover object-center"
+              className="object-cover object-top"
               style={{ objectFit: "cover", objectPosition: "center" }}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority={priority}
