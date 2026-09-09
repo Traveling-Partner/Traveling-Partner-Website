@@ -72,14 +72,15 @@ function HeroHeadline({
   const alignClass = align === "center" ? "text-center" : "text-left";
 
   return (
-    <h1
+    <p
       className={`font-poppins font-semibold leading-[0.98] tracking-[-0.03em] ${alignClass} ${className}`}
       style={{ fontSize: size === "tablet" ? tabletSize : mobileSize }}
+      aria-hidden="true"
     >
       <span className="block text-[#fdb813]">One App,</span>
       <span className="block text-[#0b0b0b]">Every way</span>
       <span className="block text-[#0b0b0b]">to move.</span>
-    </h1>
+    </p>
   );
 }
 
@@ -94,7 +95,7 @@ function HeroSubtext({
 
   return (
     <div
-      className={`font-poppins text-[13px] leading-[1.55] text-[#6f6e68] sm:text-[14px] sm:leading-[1.57] ${alignClass} ${className}`}
+      className={`font-poppins text-[13px] leading-[1.55] text-[#3d3d38] sm:text-[14px] sm:leading-[1.57] ${alignClass} ${className}`}
     >
       <p>
         <HeroBodyCopy />
@@ -202,6 +203,8 @@ function HeroBottomFade({ className = "" }: { className?: string }): React.React
 
 export default function HeroSection(): React.ReactElement {
   return (
+    <>
+    <h1 className="sr-only">One App, Every way to move.</h1>
     <HeroBackgroundRoot className="w-full">
       <div className="relative mx-auto w-full max-w-[1920px] overflow-hidden">
         {/* Desktop — Figma canvas (1024px+) */}
@@ -236,22 +239,24 @@ export default function HeroSection(): React.ReactElement {
               />
             </div>
 
-            <h1
-              className="absolute -translate-y-1/2 font-poppins font-semibold text-[#fdb813]"
+            <p
+              className="absolute -translate-y-1/2 font-poppins font-semibold"
+              aria-hidden="true"
               style={{
                 left: pct(558.55, FW),
                 top: pct(256.73, FH),
-                width: pct(865.45, FW),
+                width: pct(1226, FW),
                 fontSize: "clamp(52px, 6.97vw, 133.82px)",
                 lineHeight: "0.98",
                 letterSpacing: "-4.68px",
               }}
             >
-              <span className="block whitespace-nowrap">One App,</span>
-            </h1>
+              <span className="block whitespace-nowrap text-[#fdb813]">One App,</span>
+            </p>
 
-            <h1
+            <p
               className="absolute -translate-y-1/2 font-poppins font-semibold text-[#0b0b0b]"
+              aria-hidden="true"
               style={{
                 left: pct(919, FW),
                 top: pct(551, FH),
@@ -263,10 +268,10 @@ export default function HeroSection(): React.ReactElement {
             >
               <span className="block whitespace-nowrap">Every way</span>
               <span className="block whitespace-nowrap">to move.</span>
-            </h1>
+            </p>
 
             <div
-              className="absolute -translate-y-1/2 font-poppins text-[#6f6e68]"
+              className="absolute -translate-y-1/2 font-poppins text-[#3d3d38]"
               style={{
                 left: pct(930.91, FW),
                 top: pct(826, FH),
@@ -349,5 +354,6 @@ export default function HeroSection(): React.ReactElement {
         <HeroMobileSection />
       </div>
     </HeroBackgroundRoot>
+    </>
   );
 }

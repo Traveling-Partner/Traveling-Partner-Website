@@ -1,3 +1,11 @@
+function buildContactSubmitUrl(apiBaseUrl) {
+  const normalized = apiBaseUrl.replace(/\/$/, "");
+  if (normalized.endsWith("/api")) {
+    return `${normalized}/contact/submit`;
+  }
+  return `${normalized}/api/contact/submit`;
+}
+
 export async function submitContactForm(formData) {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -5,7 +13,7 @@ export async function submitContactForm(formData) {
     throw new Error("API base URL is not configured.");
   }
 
-  const response = await fetch(`${apiBaseUrl}/api/contact/submit`, {
+  const response = await fetch(buildContactSubmitUrl(apiBaseUrl), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

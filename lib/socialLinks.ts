@@ -1,5 +1,4 @@
 import {
-  FaDiscord,
   FaFacebook,
   FaInstagram,
   FaLinkedin,
@@ -79,11 +78,5 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     label: "Reddit",
     href: "https://www.reddit.com/user/partner_official/",
     color: "#FF4500",
-  },
-  {
-    icon: FaDiscord,
-    label: "Discord",
-    href: "https://discord.gg/ZQKqpbRYV",
-    color: "#5865F2",
   },
 ] as const;

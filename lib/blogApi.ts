@@ -35,11 +35,18 @@ export function blogDetailApiUrl(id: string): string {
 }
 
 /** Public website list — used when CRM GET /api/blog/getAll returns 401. */
-export function legacyBlogListApiUrl(page = 0, size = LIST_PAGE_SIZE): string {
+export function legacyBlogListApiUrl(
+  page = 0,
+  size = LIST_PAGE_SIZE,
+  search = ""
+): string {
   const params = new URLSearchParams({
     page: String(page),
     size: String(size),
   });
+  if (search.trim()) {
+    params.set("search", search.trim());
+  }
   return websiteApiUrl(`/blog/list?${params.toString()}`);
 }
 
@@ -239,19 +246,21 @@ async function fetchPagedPublishedList(
   return all;
 }
 
-export async function fetchPublishedBlogPages(): Promise<
-  Record<string, unknown>[]
-> {
+export async function fetchPublishedBlogPages(
+  search = ""
+): Promise<Record<string, unknown>[]> {
   try {
     return await fetchPagedPublishedList((page) =>
-      blogListApiUrl(page, LIST_PAGE_SIZE, "")
+      legacyBlogListApiUrl(page, LIST_PAGE_SIZE, search)
     );
   } catch (err) {
     console.warn(
-      "[blog] GET /api/blog/getAll unavailable; falling back to /api/website/blog/list",
+      "[blog] GET /api/website/blog/list unavailable; falling back to /api/blog/getAll",
       err
     );
-    return await fetchPagedPublishedList((page) => legacyBlogListApiUrl(page));
+    return await fetchPagedPublishedList((page) =>
+      blogListApiUrl(page, LIST_PAGE_SIZE, search)
+    );
   }
 }
 

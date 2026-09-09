@@ -1,12 +1,11 @@
 "use client";
+import { PLAY_STORE_URL, APP_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
-const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 const cards = [
   {
@@ -191,13 +190,13 @@ export default function TripReliable() {
           className="mb-12 flex flex-col items-center justify-center gap-3 sm:mb-14 sm:flex-row sm:gap-4 lg:mb-16"
         >
           <StorePill
-            href={PLAY_STORE_URL}
+            href={PLAY_STORE_URL} onClick={handleStoreClick}
             label="Get it on"
             title="Google Play"
             icon={<PlayStoreIcon className="h-8 w-8" />}
           />
           <StorePill
-            href={APP_STORE_URL}
+            href={APP_STORE_URL} onClick={handleStoreClick}
             label="Download on"
             title="App Store"
             icon={<AppleIcon className="h-8 w-8" />}

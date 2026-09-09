@@ -218,6 +218,8 @@ export function formatBlogDate(dateInput: unknown): string {
 export function formatReadTimeLabel(value?: string): string {
   const raw = String(value ?? "").trim();
   if (!raw) return "";
+  // API sometimes stores "20 hours ago" in readTime — that is not a read time.
+  if (/\bago\b/i.test(raw)) return "";
   return raw.replace(/\s+read\b/gi, "").replace(/\s+/g, " ").trim();
 }
 

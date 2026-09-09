@@ -27,13 +27,19 @@ const bricolage = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: "Traveling Partner",
-  description: "Your ultimate travel companion app",
+  title: {
+    default: "Traveling Partner — One app, every way to move",
+    template: "%s | Traveling Partner",
+  },
+  description:
+    "Book taxis, pool rides, deliveries, logistics, and trips across Pakistan — upfront fares and live tracking.",
+  alternates: { canonical: getSiteUrl() },
   openGraph: {
     type: "website",
     siteName: "Traveling Partner",
-    title: "Traveling Partner",
-    description: "Your ultimate travel companion app",
+    title: "Traveling Partner — One app, every way to move",
+    description:
+      "Book taxis, pool rides, deliveries, logistics, and trips across Pakistan — upfront fares and live tracking.",
     url: getSiteUrl(),
     images: [
       {
@@ -46,8 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Traveling Partner",
-    description: "Your ultimate travel companion app",
+    title: "Traveling Partner — One app, every way to move",
+    description:
+      "Book taxis, pool rides, deliveries, logistics, and trips across Pakistan — upfront fares and live tracking.",
     images: [
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
     ],
@@ -79,12 +86,18 @@ export default function RootLayout({
           type="image/svg+xml"
         />
         <AppSplashLoader />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[#0b0b0b] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#FCE001] focus:outline-none focus:ring-2 focus:ring-[#FCE001]"
+        >
+          Skip to content
+        </a>
 
         {/* Top Navigation */}
         <Navigation />
 
         {/* Page Content */}
-        <main className="flex-1 min-w-0 overflow-x-hidden">
+        <main id="main-content" className="flex-1 min-w-0 overflow-x-hidden">
           {children}
         </main>
 

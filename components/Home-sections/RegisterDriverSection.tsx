@@ -1,4 +1,5 @@
 "use client";
+import { PLAY_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 
 import React from "react";
 import Image from "next/image";
@@ -14,8 +15,6 @@ const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 const cqw = (px: number) => `${(px / SECTION_W) * 100}cqw`;
 const cqh = (px: number) => `${(px / SECTION_H) * 100}cqh`;
 
-const DRIVER_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
-const PARTNER_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
 
 const HEAD_W = 820;
 const SUBTEXT_W = 720;
@@ -78,7 +77,7 @@ function RegisterHeadline(): React.ReactElement {
       style={
         {
           maxWidth: cqw(HEAD_W),
-          "--register-headline-size": cqw(80),
+          "--register-headline-size": `max(1.75rem, ${cqw(80)})`,
           "--register-headline-lh": cqw(80),
           letterSpacing: cqw(-2.8),
         } as React.CSSProperties
@@ -103,7 +102,7 @@ function RegisterSubheadline(): React.ReactElement {
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(HEADLINE_SUBTEXT_GAP),
-        fontSize: cqw(28),
+        fontSize: `max(1.05rem, ${cqw(28)})`,
         lineHeight: 1.25,
       }}
     >
@@ -119,7 +118,7 @@ function RegisterSubtext(): React.ReactElement {
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(12),
-        fontSize: cqw(18),
+        fontSize: `max(0.875rem, ${cqw(18)})`,
         lineHeight: 1.5,
       }}
     >
@@ -238,7 +237,7 @@ function RegisterCard({
         <span
           className="block whitespace-nowrap font-poppins font-bold uppercase leading-none text-[#6F6E68]"
           style={{
-            fontSize: BTN_EYEBROW,
+            fontSize: `max(10px, ${BTN_EYEBROW})`,
             letterSpacing: "0.14em",
           }}
         >
@@ -246,7 +245,7 @@ function RegisterCard({
         </span>
         <span
           className="block whitespace-nowrap font-poppins font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: BTN_TITLE, marginTop: BTN_TITLE_GAP }}
+          style={{ fontSize: `max(14px, ${BTN_TITLE})`, marginTop: BTN_TITLE_GAP }}
         >
           {title}
         </span>
@@ -315,7 +314,7 @@ function RegisterSectionCanvas(): React.ReactElement {
       <div className="absolute inset-0 z-[2] overflow-visible">
         <CtaSlot box={DRIVER_CTA}>
           <RegisterCard
-            href={DRIVER_HREF}
+            href={PLAY_STORE_URL} onClick={handleStoreClick}
             eyebrow="FOR DRIVERS"
             title="Become a Driver"
             variant="driver"
@@ -323,7 +322,7 @@ function RegisterSectionCanvas(): React.ReactElement {
         </CtaSlot>
         <CtaSlot box={PARTNER_CTA}>
           <RegisterCard
-            href={PARTNER_HREF}
+            href={PLAY_STORE_URL} onClick={handleStoreClick}
             eyebrow="FOR PARTNER"
             title="Partner With Us"
             variant="partner"

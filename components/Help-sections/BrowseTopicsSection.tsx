@@ -68,8 +68,7 @@ export default function BrowseTopicsSection({
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center sm:mb-10">
           <h2 className="font-poppins text-[clamp(26px,3.2vw,36px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b]">
-            Browse by{" "}
-            <span className="bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent">topic.</span>
+            Browse by topic
           </h2>
           <p className="mx-auto mt-3 max-w-[560px] text-[14px] leading-relaxed text-[#6b6960] sm:text-[15px]">
             Choose a topic below or search for what you need.
