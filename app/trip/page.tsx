@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import StaticRedirect from "@/components/StaticRedirect";
 
 export default function TripRedirect() {
-  redirect("/tourism");
+  return <StaticRedirect to="/tourism" />;
 }

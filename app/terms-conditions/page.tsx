@@ -291,7 +291,7 @@ export default function TermsConditionsPage() {
       {/* Print / PDF document header (A4 only) */}
       <div className="terms-print-doc-header hidden print:block">
         <p className="terms-print-kicker">Traveling Partner</p>
-        <h1>Terms &amp; Conditions</h1>
+        <h2 className="terms-print-doc-title">Terms &amp; Conditions</h2>
         <p className="terms-print-meta">
           Effective as of October 23, 2023 · traveling-partner.com
         </p>

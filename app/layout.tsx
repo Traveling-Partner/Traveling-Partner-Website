@@ -93,6 +93,13 @@ export default function RootLayout({
           Skip to content
         </a>
 
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-[#0b0b0b] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Skip to content
+        </a>
+
         {/* Top Navigation */}
         <Navigation />
 

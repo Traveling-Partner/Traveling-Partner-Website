@@ -587,7 +587,12 @@ export default function ContactFormSection() {
                 </div>
               </div>
 
-              <form onSubmit={onSubmit} noValidate className="relative z-10 space-y-3 sm:space-y-3">
+              <form
+                method="post"
+                noValidate
+                onSubmit={onSubmit}
+                className="relative z-10 space-y-3 sm:space-y-3"
+              >
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
                   <div>
                     <label htmlFor="fullName" className={labelClass}>
@@ -602,6 +607,7 @@ export default function ContactFormSection() {
                       value={form.fullName}
                       onChange={onChange}
                       placeholder="Your full name"
+                      autoComplete="name"
                       className={fieldClass}
                       disabled={loading}
                       aria-invalid={Boolean(fieldErrors.fullName)}
@@ -623,6 +629,7 @@ export default function ContactFormSection() {
                       value={form.email}
                       onChange={onChange}
                       placeholder="you@example.com"
+                      autoComplete="email"
                       className={fieldClass}
                       disabled={loading}
                       aria-invalid={Boolean(fieldErrors.email)}
@@ -646,6 +653,7 @@ export default function ContactFormSection() {
                       placeholder={
                         isBusiness ? "Business phone" : "+92 3XX XXXXXXX"
                       }
+                      autoComplete="tel"
                       className={fieldClass}
                       disabled={loading}
                       aria-invalid={Boolean(fieldErrors.phone)}
@@ -794,6 +802,8 @@ export default function ContactFormSection() {
                   </span>
                   <input
                     ref={fileRef}
+                    id="attachment"
+                    name="attachment"
                     type="file"
                     accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
                     className="sr-only"

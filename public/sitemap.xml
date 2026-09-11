@@ -10,7 +10,6 @@
   <url><loc>https://traveling-partner.com/delivery</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://traveling-partner.com/logistic</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://traveling-partner.com/tourism</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://traveling-partner.com/trip</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://traveling-partner.com/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://traveling-partner.com/terms-conditions</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
 </urlset>

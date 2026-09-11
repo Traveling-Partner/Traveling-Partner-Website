@@ -9,6 +9,26 @@
       "source": "/taxi-stand/",
       "destination": "/taxi-ride",
       "permanent": true
+    },
+    {
+      "source": "/trip",
+      "destination": "/tourism",
+      "permanent": true
+    },
+    {
+      "source": "/trip/",
+      "destination": "/tourism",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/privacy/",
+      "destination": "/privacy-policy",
+      "permanent": true
     }
   ],
   "rewrites": [

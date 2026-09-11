@@ -1046,7 +1046,8 @@ img {
     color: #6f6e68 !important;
   }
 
-  .terms-print-doc-header h1 {
+  .terms-print-doc-header h1,
+  .terms-print-doc-header .terms-print-doc-title {
     margin: 0 0 1.5mm !important;
     font-size: 18pt !important;
     font-weight: 800 !important;

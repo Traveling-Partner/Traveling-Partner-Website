@@ -408,7 +408,12 @@ export default function ContactUsForm(): React.ReactElement {
                 </p>
               </div>
 
-              <form onSubmit={submitHandler} noValidate className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3">
+              <form
+                method="post"
+                noValidate
+                onSubmit={submitHandler}
+                className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3"
+              >
                 <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                   <div>
                     <label htmlFor="home-firstName" className={labelClass}>
@@ -421,6 +426,7 @@ export default function ContactUsForm(): React.ReactElement {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="First Name"
+                      autoComplete="given-name"
                       required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
@@ -442,6 +448,7 @@ export default function ContactUsForm(): React.ReactElement {
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Last Name"
+                      autoComplete="family-name"
                       required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
@@ -465,6 +472,7 @@ export default function ContactUsForm(): React.ReactElement {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Email address"
+                    autoComplete="email"
                     required
                     maxLength={CONTACT_LIMITS.email}
                     disabled={loading}
@@ -489,6 +497,7 @@ export default function ContactUsForm(): React.ReactElement {
                         value={formData.companyName}
                         onChange={handleChange}
                         placeholder="Company name"
+                        autoComplete="organization"
                         required
                         maxLength={CONTACT_LIMITS.company}
                         disabled={loading}
@@ -532,6 +541,7 @@ export default function ContactUsForm(): React.ReactElement {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="Business phone"
+                          autoComplete="tel"
                           required
                           maxLength={CONTACT_LIMITS.phone}
                           disabled={loading}
