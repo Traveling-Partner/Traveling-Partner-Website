@@ -280,7 +280,8 @@ export default function Footer(): React.ReactElement | null {
   const pathname = usePathname();
   // The public live-trip tracking experience is a focused, distraction-free
   // screen - skip the full marketing footer entirely on these routes.
-  const isLiveTripRoute = pathname === "/trip/track";
+  const isLiveTripRoute =
+    pathname === "/trip/track" || pathname.startsWith("/ride-location");
   if (isLiveTripRoute) return null;
 
   return (

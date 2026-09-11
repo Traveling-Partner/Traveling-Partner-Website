@@ -236,7 +236,8 @@ export default function Navigation() {
 
   // The public live-trip tracking experience uses its own minimal header —
   // skip the full marketing navigation entirely on these routes.
-  const isLiveTripRoute = pathname === "/trip/track";
+  const isLiveTripRoute =
+    pathname === "/trip/track" || pathname.startsWith("/ride-location");
   if (isLiveTripRoute) return null;
 
   return (

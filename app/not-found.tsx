@@ -14,7 +14,7 @@ export default function NotFound() {
           Send those URLs to the always-exported detail page (same API). */}
       <script
         dangerouslySetInnerHTML={{
-          __html: `(function(){try{var m=location.pathname.match(/^\\/blog\\/([^/]+)\\/?$/);if(!m)return;var id=decodeURIComponent(m[1]||"").trim();if(!id||id.toLowerCase()==="detail")return;location.replace("/blog/detail?id="+encodeURIComponent(id));}catch(e){}})();`,
+          __html: `(function(){try{var ride=location.pathname.match(/^\\/ride-location\\/([^/]+)\\/?$/);if(ride){var tok=decodeURIComponent(ride[1]||"").trim();if(tok){location.replace("/ride-location?shareToken="+encodeURIComponent(tok));return;}}var m=location.pathname.match(/^\\/blog\\/([^/]+)\\/?$/);if(!m)return;var id=decodeURIComponent(m[1]||"").trim();if(!id||id.toLowerCase()==="detail")return;location.replace("/blog/detail?id="+encodeURIComponent(id));}catch(e){}})();`,
         }}
       />
       <NotFoundPage />
