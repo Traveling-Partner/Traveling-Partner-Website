@@ -24,9 +24,15 @@ export default function AppSplashLoader() {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const isRideLocation =
+      typeof window !== "undefined" &&
+      window.location.pathname.startsWith("/ride-location");
+
     const hide = () => {
       if (cancelled) return;
-      const wait = Math.max(0, MIN_VISIBLE_MS - (performance.now() - started));
+      const wait = isRideLocation
+        ? 0
+        : Math.max(0, MIN_VISIBLE_MS - (performance.now() - started));
       hideTimer = setTimeout(() => {
         if (cancelled) return;
         setFading(true);

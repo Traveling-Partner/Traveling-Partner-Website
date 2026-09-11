@@ -15,6 +15,10 @@
     {
       "source": "/website/:path*",
       "destination": "https://staging.api.traveling-partner.com/api/website/:path*"
+    },
+    {
+      "source": "/ride-location/:token",
+      "destination": "/ride-location?shareToken=:token"
     }
   ]
 }
