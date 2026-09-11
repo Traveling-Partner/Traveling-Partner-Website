@@ -524,7 +524,11 @@ export default function ContactFormSection() {
                 </div>
               </div>
 
-              <form onSubmit={onSubmit} className="relative z-10 space-y-3 sm:space-y-3">
+              <form
+                method="post"
+                onSubmit={onSubmit}
+                className="relative z-10 space-y-3 sm:space-y-3"
+              >
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
                   <div>
                     <label htmlFor="fullName" className={labelClass}>
@@ -538,6 +542,7 @@ export default function ContactFormSection() {
                       value={form.fullName}
                       onChange={onChange}
                       placeholder="Your full name"
+                      autoComplete="name"
                       className={fieldClass}
                       disabled={loading}
                     />
@@ -554,6 +559,7 @@ export default function ContactFormSection() {
                       value={form.email}
                       onChange={onChange}
                       placeholder="you@example.com"
+                      autoComplete="email"
                       className={fieldClass}
                       disabled={loading}
                     />
@@ -572,6 +578,7 @@ export default function ContactFormSection() {
                       placeholder={
                         isBusiness ? "Business phone" : "+92 3XX XXXXXXX"
                       }
+                      autoComplete="tel"
                       className={fieldClass}
                       disabled={loading}
                     />
@@ -692,6 +699,8 @@ export default function ContactFormSection() {
                   </span>
                   <input
                     ref={fileRef}
+                    id="attachment"
+                    name="attachment"
                     type="file"
                     accept=".pdf,.png,.jpg,.jpeg"
                     className="sr-only"

@@ -128,7 +128,7 @@ export default function NewsletterSection() {
           </div>
 
           <div className="sil__right">
-            <form className="sil__form" onSubmit={handleSubmit}>
+            <form className="sil__form" method="post" onSubmit={handleSubmit}>
               <label htmlFor="sil-email" className="sil__sr-only">
                 Email address
               </label>

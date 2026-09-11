@@ -355,7 +355,11 @@ export default function ContactUsForm(): React.ReactElement {
                 </p>
               </div>
 
-              <form onSubmit={submitHandler} className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3">
+              <form
+                method="post"
+                onSubmit={submitHandler}
+                className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3"
+              >
                 <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                   <input
                     type="text"
@@ -363,6 +367,7 @@ export default function ContactUsForm(): React.ReactElement {
                     value={formData.firstName}
                     onChange={handleChange}
                     placeholder="First Name"
+                    autoComplete="given-name"
                     required
                     disabled={loading}
                     className={fieldClass}
@@ -373,6 +378,7 @@ export default function ContactUsForm(): React.ReactElement {
                     value={formData.lastName}
                     onChange={handleChange}
                     placeholder="Last Name"
+                    autoComplete="family-name"
                     required
                     disabled={loading}
                     className={fieldClass}
@@ -385,6 +391,7 @@ export default function ContactUsForm(): React.ReactElement {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Email address"
+                  autoComplete="email"
                   required
                   disabled={loading}
                   className={fieldClass}
@@ -419,6 +426,7 @@ export default function ContactUsForm(): React.ReactElement {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="Business phone"
+                        autoComplete="tel"
                         required
                         disabled={loading}
                         className={fieldClass}

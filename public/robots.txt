@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /trip/track
+Disallow: /blog/detail
+
+Host: traveling-partner.com
+Sitemap: https://traveling-partner.com/sitemap.xml

@@ -1,15 +1,6 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import StaticRedirect from "@/components/StaticRedirect";
 
 /** Old URL — send visitors to /taxi-ride. */
 export default function TaxiStandRedirect() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/taxi-ride");
-  }, [router]);
-
-  return null;
+  return <StaticRedirect to="/taxi-ride" />;
 }
