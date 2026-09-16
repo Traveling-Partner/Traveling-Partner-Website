@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins, Montserrat, Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
@@ -72,6 +73,12 @@ export default function RootLayout({
         className={`${poppins.variable} ${montserrat.variable} ${bricolage.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
         suppressHydrationWarning
       >
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         {/* Hoisted by Next — preload so loader assets are ready on first paint */}
         <link
           rel="preload"
