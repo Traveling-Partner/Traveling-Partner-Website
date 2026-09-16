@@ -60,6 +60,9 @@ export const metadata: Metadata = {
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
     ],
   },
+  other: {
+    "google-adsense-account": "ca-pub-9237873671718047",
+  },
 };
 
 export default function RootLayout({
@@ -75,7 +78,7 @@ export default function RootLayout({
       >
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718047"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
