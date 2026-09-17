@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/storeLinks";
 
+const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
+const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 const cards = [
   {

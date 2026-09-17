@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
-import { PLAY_STORE_URL } from "@/lib/storeLinks";
 
 const highlights = [
   { text: "Need daily deliveries?", bold: [] as const },
@@ -190,7 +189,7 @@ export default function LogisticsFasterSaferSection() {
                 transition={{ duration: 0.4, delay: 0.4 }}
               >
                 <Link
-                  href={PLAY_STORE_URL}
+                  href="https://play.google.com/store/apps?hl=en&gl=US"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 shadow-[0_10px_28px_rgba(252,224,1,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_14px_34px_rgba(252,224,1,0.38)] sm:px-7 sm:py-4"

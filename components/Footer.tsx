@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/storeLinks";
 
 const FOOTER_LINKS = {
   /** Interleaved for 2-column mobile: col1 = even indices, col2 = odd */
@@ -29,6 +28,8 @@ const FOOTER_LINKS = {
   ],
 } as const;
 
+const PLAY_STORE_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
+const APP_STORE_HREF = "https://www.apple.com/app-store/";
 
 const FOOTER_IMAGES = {
   duns: "/images/footer/duns-badge.png",
@@ -163,14 +164,14 @@ function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.Reac
   const storeButtons = (
     <div className="mx-auto flex w-full min-w-0 max-w-[150px] flex-col gap-2.5">
       <FooterStoreButton
-        href={PLAY_STORE_URL}
+        href={PLAY_STORE_HREF}
         label="Get it on"
         title="Google Play"
         ariaLabel="Get it on Google Play"
         icon={<PlayStoreIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
       />
       <FooterStoreButton
-        href={APP_STORE_URL}
+        href={APP_STORE_HREF}
         label="Download on"
         title="App Store"
         ariaLabel="Download on the App Store"

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/storeLinks";
 
 interface StoreButtonsProps {
   className?: string;
@@ -11,7 +10,7 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
   return (
     <div className={`flex flex-wrap items-center gap-4 ${className}`.trim()}>
       <Link
-        href={PLAY_STORE_URL}
+        href="https://play.google.com/store/apps?hl=en&gl=US"
         target="_blank"
         rel="noopener noreferrer"
         className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
@@ -28,7 +27,7 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
       </Link>
 
       <Link
-        href={APP_STORE_URL}
+        href="https://www.apple.com/app-store/"
         target="_blank"
         rel="noopener noreferrer"
         className="w-full sm:w-[240px] h-[72px] flex items-center gap-3 bg-gradient-to-r from-[#fce001] to-[#fdb813] rounded-xl px-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"

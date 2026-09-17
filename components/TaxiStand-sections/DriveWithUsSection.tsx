@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
-import { PLAY_STORE_URL } from "@/lib/storeLinks";
 
 const features = [
   { text: "Keep more with 0% commission", bold: ["0% commission"] as const },
@@ -167,7 +166,7 @@ export default function DriveWithUsSection() {
                 className="mt-8 sm:mt-10"
               >
                 <Link
-                  href={PLAY_STORE_URL}
+                  href="https://play.google.com/store/apps?hl=en&gl=US"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"

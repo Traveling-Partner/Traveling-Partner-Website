@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { emphasizePhrases } from "@/lib/emphasizePhrases";
-import { PLAY_STORE_URL } from "@/lib/storeLinks";
 
 /** Figma Register section — 124:3589 (1920 × 1200) */
 const SECTION_W = 1920;
@@ -15,6 +14,8 @@ const pct = (px: number, base: number) => `${(px / base) * 100}%`;
 const cqw = (px: number) => `${(px / SECTION_W) * 100}cqw`;
 const cqh = (px: number) => `${(px / SECTION_H) * 100}cqh`;
 
+const DRIVER_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
+const PARTNER_HREF = "https://play.google.com/store/apps?hl=en&gl=US";
 
 const HEAD_W = 820;
 const SUBTEXT_W = 720;
@@ -314,7 +315,7 @@ function RegisterSectionCanvas(): React.ReactElement {
       <div className="absolute inset-0 z-[2] overflow-visible">
         <CtaSlot box={DRIVER_CTA}>
           <RegisterCard
-            href={PLAY_STORE_URL}
+            href={DRIVER_HREF}
             eyebrow="FOR DRIVERS"
             title="Become a Driver"
             variant="driver"
@@ -322,7 +323,7 @@ function RegisterSectionCanvas(): React.ReactElement {
         </CtaSlot>
         <CtaSlot box={PARTNER_CTA}>
           <RegisterCard
-            href={PLAY_STORE_URL}
+            href={PARTNER_HREF}
             eyebrow="FOR PARTNER"
             title="Partner With Us"
             variant="partner"

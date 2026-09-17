@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/storeLinks";
+const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
+const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 const ASSETS = "/images/pool-ride/going-same-way";
 const SHARED_ICONS = "/images/taxi-stand/need-a-ride";
