@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-const APP_STORE_URL = "https://www.apple.com/app-store/";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/storeLinks";
 
 function PlayStoreIcon({ className = "" }: { className?: string }) {
   return (

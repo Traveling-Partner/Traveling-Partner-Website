@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { PLAY_STORE_URL } from "@/lib/storeLinks";
 
 const benefits = [
   "Connect with passengers without paying commission.",
@@ -133,7 +134,7 @@ export default function BenefitsSection() {
               transition={{ duration: 0.4, delay: 0.45 }}
             >
               <Link
-                href="https://play.google.com/store/apps?hl=en&gl=US"
+                href={PLAY_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#fdb813] hover:shadow-[0_12px_30px_rgba(252,224,1,0.35)] sm:px-7 sm:py-4"
