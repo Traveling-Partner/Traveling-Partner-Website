@@ -1,7 +1,7 @@
 import type {
   RideLocationCurrentData,
   RideLocationSnapshotData,
-  RideLocationSocketData,
+  RideLocationUpdatePayload,
   RideLocationViewData,
   RideShareStatus,
 } from "./types";
@@ -15,8 +15,8 @@ export function hasLivePosition(data: Pick<RideLocationViewData, "latitude" | "l
 }
 
 /**
- * Socket timestamp is [year, month, day, hour, minute, second, nanosecond]
- * in Asia/Karachi. REST uses a normal ISO string. Separate helpers on purpose.
+ * Socket timestamp may be [year, month, day, hour, minute, second, nanosecond]
+ * in Asia/Karachi (legacy) or a normal ISO string (current handoff).
  */
 export function parseKarachiTimestampArray(value: unknown): number | null {
   if (!Array.isArray(value) || value.length < 6) return null;
@@ -42,6 +42,11 @@ export function parseIsoTimestamp(value: unknown): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+/** Accept ISO string or legacy Karachi array. */
+export function parseUpdateTimestamp(value: unknown): number | null {
+  return parseIsoTimestamp(value) ?? parseKarachiTimestampArray(value);
+}
+
 function asNullableString(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
@@ -57,6 +62,16 @@ function asNullableInt(value: unknown): number | null {
   return value;
 }
 
+function asNullableRating(value: unknown): number | null {
+  if (typeof value !== "number" || !Number.isFinite(value)) return null;
+  if (value < 0 || value > 5) return null;
+  return value;
+}
+
+/**
+ * Handoff: status is "live" | "ended" | "completed" | "cancelled".
+ * Anything other than "live" is a terminal end signal for the public page.
+ */
 export function deriveShareStatus(
   status: unknown,
   sharingActive: boolean | null | undefined,
@@ -64,12 +79,21 @@ export function deriveShareStatus(
 ): RideShareStatus {
   const normalized = typeof status === "string" ? status.trim().toLowerCase() : "";
   if (normalized === "cancelled" || normalized === "canceled") return "cancelled";
+  if (normalized === "completed") return "completed";
   if (normalized === "ended") return "ended";
-  if (normalized === "live") return "live";
+  if (normalized === "live") {
+    if (sharingActive === false) return "ended";
+    return "live";
+  }
 
   const ride = typeof rideStatus === "string" ? rideStatus.trim().toUpperCase() : "";
   if (ride === "CANCELED") return "cancelled";
-  if (sharingActive === false || ride === "COMPLETED" || ride === "EXPIRED") return "ended";
+  if (ride === "COMPLETED") return "completed";
+  if (sharingActive === false || ride === "EXPIRED") return "ended";
+
+  // Unknown status string that isn't "live" → treat as ended (handoff rule)
+  if (normalized && normalized !== "live") return "ended";
+
   return "live";
 }
 
@@ -87,6 +111,7 @@ const EMPTY: RideLocationViewData = {
   driverId: null,
   driverName: null,
   driverPhoto: null,
+  driverRating: null,
   vehicleMake: null,
   vehicleModel: null,
   vehiclePlate: null,
@@ -109,18 +134,17 @@ function merge(
   return { ...base, ...patch };
 }
 
-export function viewFromSocket(
-  data: RideLocationSocketData,
-  previous: RideLocationViewData | null
-): RideLocationViewData {
-  const base = previous ?? EMPTY;
+function patchFromUpdate(
+  data: RideLocationUpdatePayload,
+  base: RideLocationViewData
+): Partial<RideLocationViewData> {
   const sharingActive = data.sharingActive !== false;
-  return merge(base, {
+  return {
     rideId: asNullableInt(data.rideId) ?? base.rideId,
     partnerId: asNullableInt(data.partnerId) ?? base.partnerId,
-    latitude: asNullableNumber(data.latitude),
-    longitude: asNullableNumber(data.longitude),
-    heading: asNullableNumber(data.heading),
+    latitude: asNullableNumber(data.latitude) ?? base.latitude,
+    longitude: asNullableNumber(data.longitude) ?? base.longitude,
+    heading: asNullableNumber(data.heading) ?? base.heading,
     sharingActive,
     rideStatus: asNullableString(data.rideStatus) ?? base.rideStatus,
     status: deriveShareStatus(data.status, data.sharingActive, data.rideStatus),
@@ -128,9 +152,11 @@ export function viewFromSocket(
     partnerPhoto: asNullableString(data.partnerPhoto) ?? base.partnerPhoto,
     driverId: asNullableInt(data.driverId) ?? base.driverId,
     driverName: asNullableString(data.driverName) ?? base.driverName,
+    driverRating: asNullableRating(data.driverRating) ?? base.driverRating,
     vehicleMake: asNullableString(data.vehicleMake) ?? base.vehicleMake,
     vehicleModel: asNullableString(data.vehicleModel) ?? base.vehicleModel,
     vehiclePlate: asNullableString(data.vehiclePlate) ?? base.vehiclePlate,
+    vehicleColor: asNullableString(data.vehicleColor) ?? base.vehicleColor,
     pickupLatitude: asNullableNumber(data.pickupLatitude) ?? base.pickupLatitude,
     pickupLongitude: asNullableNumber(data.pickupLongitude) ?? base.pickupLongitude,
     pickupAddress: asNullableString(data.pickupAddress) ?? base.pickupAddress,
@@ -139,7 +165,25 @@ export function viewFromSocket(
     dropoffAddress: asNullableString(data.dropoffAddress) ?? base.dropoffAddress,
     etaMinutes: asNullableInt(data.etaMinutes) ?? base.etaMinutes,
     passengerFirstName: asNullableString(data.passengerFirstName) ?? base.passengerFirstName,
-    lastUpdatedAt: parseKarachiTimestampArray(data.timestamp) ?? Date.now(),
+    lastUpdatedAt: parseUpdateTimestamp(data.timestamp) ?? Date.now(),
+  };
+}
+
+export function viewFromSocket(
+  data: RideLocationUpdatePayload,
+  previous: RideLocationViewData | null
+): RideLocationViewData {
+  const base = previous ?? EMPTY;
+  // Live frames should replace coordinates when present (null lat means keep previous)
+  const sharingActive = data.sharingActive !== false;
+  const lat = asNullableNumber(data.latitude);
+  const lng = asNullableNumber(data.longitude);
+  return merge(base, {
+    ...patchFromUpdate(data, base),
+    latitude: lat ?? base.latitude,
+    longitude: lng ?? base.longitude,
+    sharingActive,
+    lastUpdatedAt: parseUpdateTimestamp(data.timestamp) ?? Date.now(),
   });
 }
 
@@ -175,18 +219,7 @@ export function viewFromCurrent(
   data: RideLocationCurrentData,
   previous: RideLocationViewData | null
 ): RideLocationViewData {
-  const base = previous ?? EMPTY;
-  const sharingActive = data.sharingActive !== false;
-  return merge(base, {
-    rideId: asNullableInt(data.rideId) ?? base.rideId,
-    partnerId: asNullableInt(data.partnerId) ?? base.partnerId,
-    latitude: asNullableNumber(data.latitude),
-    longitude: asNullableNumber(data.longitude),
-    sharingActive,
-    rideStatus: asNullableString(data.rideStatus) ?? base.rideStatus,
-    status: deriveShareStatus(null, data.sharingActive, data.rideStatus),
-    lastUpdatedAt: parseIsoTimestamp(data.timestamp) ?? Date.now(),
-  });
+  return viewFromSocket(data, previous);
 }
 
 export function firstName(full: string | null): string | null {

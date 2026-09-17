@@ -15,6 +15,7 @@ import {
   CLOSE_EXPIRED_OR_ENDED,
   CLOSE_INVALID_LINK,
   CLOSE_MISSING_TOKEN,
+  LINK_NO_LONGER_ACTIVE,
 } from "@/lib/rideLocation/types";
 import {
   buildRideLocationCurrentUrl,
@@ -36,10 +37,19 @@ function closeKind(code: number): "invalid" | "expired" | null {
 
 function pageStateFromData(data: RideLocationViewData): RideLocationPageState {
   if (data.status === "cancelled") return "cancelled";
+  if (data.status === "completed") return "completed";
   if (data.status === "ended") return "ended";
   return "live";
 }
 
+function isTerminalPageState(state: RideLocationPageState): boolean {
+  return state === "ended" || state === "completed" || state === "cancelled";
+}
+
+/**
+ * Handoff flow: snapshot once on load → open WebSocket for live updates.
+ * Poll GET /current only when WebSockets are blocked / fail.
+ */
 export function useRideLocation(token: string | null, enabled = true) {
   const [pageState, setPageState] = useState<RideLocationPageState>("connecting");
   const [data, setData] = useState<RideLocationViewData | null>(null);
@@ -66,7 +76,7 @@ export function useRideLocation(token: string | null, enabled = true) {
 
     if (!token) {
       setPageState("invalid");
-      setCloseReason("This tracking link is missing a share token.");
+      setCloseReason(LINK_NO_LONGER_ACTIVE);
       return;
     }
 
@@ -103,9 +113,14 @@ export function useRideLocation(token: string | null, enabled = true) {
       setData(next);
       const nextState = pageStateFromData(next);
       setPageState(nextState);
-      if (nextState === "ended" || nextState === "cancelled") {
+      if (isTerminalPageState(nextState)) {
         terminalRef.current = true;
         clearTimers();
+        try {
+          socket?.close();
+        } catch {
+          /* ignore */
+        }
       }
     };
 
@@ -132,6 +147,14 @@ export function useRideLocation(token: string | null, enabled = true) {
       }
     };
 
+    const markInactiveLink = (message?: string | null) => {
+      terminalRef.current = true;
+      clearTimers();
+      setPageState("invalid");
+      setCloseReason(message?.trim() || LINK_NO_LONGER_ACTIVE);
+      setConnection("connecting");
+    };
+
     const pollOnce = async () => {
       const current = await fetchRideLocationJson<RideLocationCurrentData>(
         buildRideLocationCurrentUrl(token)
@@ -140,11 +163,7 @@ export function useRideLocation(token: string | null, enabled = true) {
 
       if (!current.ok) {
         if (current.statusCode === 404) {
-          terminalRef.current = true;
-          clearTimers();
-          setPageState("invalid");
-          setCloseReason(current.message || "Location share not found or expired");
-          setConnection("connecting");
+          markInactiveLink(current.message);
         }
         return;
       }
@@ -166,21 +185,6 @@ export function useRideLocation(token: string | null, enabled = true) {
       if (cancelled || terminalRef.current || pollingRef.current) return;
       pollingRef.current = true;
       setConnection("polling");
-
-      const snapshot = await fetchRideLocationJson<RideLocationSnapshotData>(
-        buildRideLocationSnapshotUrl(token)
-      );
-      if (cancelled || terminalRef.current) return;
-
-      if (snapshot.ok) {
-        applyView(viewFromSnapshot(snapshot.data, dataRef.current));
-      } else if (snapshot.statusCode === 404) {
-        terminalRef.current = true;
-        clearTimers();
-        setPageState("invalid");
-        setCloseReason(snapshot.message || "Location share not found or expired");
-        return;
-      }
 
       await pollOnce();
       if (cancelled || terminalRef.current) return;
@@ -217,7 +221,9 @@ export function useRideLocation(token: string | null, enabled = true) {
       socket.onmessage = (event) => {
         if (cancelled || typeof event.data !== "string") return;
         applySocketPayload(event.data);
-        setConnection("live");
+        if (!terminalRef.current) {
+          setConnection("live");
+        }
       };
 
       socket.onclose = (event) => {
@@ -228,7 +234,10 @@ export function useRideLocation(token: string | null, enabled = true) {
           terminalRef.current = true;
           clearTimers();
           setPageState(kind);
-          setCloseReason(event.reason?.trim() || null);
+          setCloseReason(
+            event.reason?.trim() ||
+              (kind === "expired" ? LINK_NO_LONGER_ACTIVE : LINK_NO_LONGER_ACTIVE)
+          );
           setConnection("connecting");
           return;
         }
@@ -257,7 +266,29 @@ export function useRideLocation(token: string | null, enabled = true) {
       };
     };
 
-    connectSocket();
+    const bootstrap = async () => {
+      // 1) Snapshot once — draw the page before live frames arrive
+      const snapshot = await fetchRideLocationJson<RideLocationSnapshotData>(
+        buildRideLocationSnapshotUrl(token)
+      );
+      if (cancelled) return;
+
+      if (!snapshot.ok) {
+        if (snapshot.statusCode === 404) {
+          markInactiveLink(snapshot.message);
+          return;
+        }
+        // Non-404: still try WS / polling; page stays connecting until data arrives
+      } else {
+        applyView(viewFromSnapshot(snapshot.data, null));
+        if (terminalRef.current) return;
+      }
+
+      // 2) WebSocket for live GPS (immediate frame on open, then each ping)
+      connectSocket();
+    };
+
+    void bootstrap();
 
     return () => {
       cancelled = true;

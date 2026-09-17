@@ -1,9 +1,10 @@
 /**
  * Public ride live-location share — socket + REST contract.
  * Token in the URL is the only credential. Do not log it.
+ * Contract: Backend Live Ride Sharing handoff (staging + production).
  */
 
-export type RideShareStatus = "live" | "ended" | "cancelled";
+export type RideShareStatus = "live" | "ended" | "completed" | "cancelled";
 
 export type RidePlanStatus =
   | "REQUESTED"
@@ -21,6 +22,7 @@ export type RideLocationPageState =
   | "connecting"
   | "live"
   | "ended"
+  | "completed"
   | "cancelled"
   | "invalid"
   | "expired";
@@ -30,25 +32,33 @@ export type RideLocationConnection = "connecting" | "live" | "reconnecting" | "p
 /** Envelope on every WebSocket frame. */
 export interface RideLocationSocketMessage {
   type: "RIDE_LOCATION_UPDATE";
-  data: RideLocationSocketData;
+  data: RideLocationUpdatePayload;
 }
 
-export interface RideLocationSocketData {
+/**
+ * Live update payload — WS `data` and GET `/current` (no envelope).
+ * Phone numbers are intentionally never included.
+ */
+export interface RideLocationUpdatePayload {
   rideId?: number | null;
   partnerId?: number | null;
   latitude?: number | null;
   longitude?: number | null;
-  timestamp?: number[] | null;
+  /** ISO string or legacy [y,m,d,h,min,s,nano] Karachi array */
+  timestamp?: string | number[] | null;
   sharingActive?: boolean | null;
   rideStatus?: string | null;
+  /** "live" | "ended" | "completed" | "cancelled" */
   status?: string | null;
   partnerName?: string | null;
   partnerPhoto?: string | null;
   driverId?: number | null;
   driverName?: string | null;
+  driverRating?: number | null;
   vehicleMake?: string | null;
   vehicleModel?: string | null;
   vehiclePlate?: string | null;
+  vehicleColor?: string | null;
   pickupLatitude?: number | null;
   pickupLongitude?: number | null;
   pickupAddress?: string | null;
@@ -59,6 +69,9 @@ export interface RideLocationSocketData {
   heading?: number | null;
   passengerFirstName?: string | null;
 }
+
+/** @deprecated Prefer RideLocationUpdatePayload — kept as alias for older imports */
+export type RideLocationSocketData = RideLocationUpdatePayload;
 
 export interface RideLocationSnapshotData {
   rideId?: number | null;
@@ -77,15 +90,8 @@ export interface RideLocationSnapshotData {
   sharingActive?: boolean | null;
 }
 
-export interface RideLocationCurrentData {
-  rideId?: number | null;
-  partnerId?: number | null;
-  latitude?: number | null;
-  longitude?: number | null;
-  timestamp?: string | null;
-  sharingActive?: boolean | null;
-  rideStatus?: string | null;
-}
+/** GET /current — same fields as WS data (minus envelope). */
+export type RideLocationCurrentData = RideLocationUpdatePayload;
 
 /** Normalized view model used by the page. */
 export interface RideLocationViewData {
@@ -102,6 +108,7 @@ export interface RideLocationViewData {
   driverId: number | null;
   driverName: string | null;
   driverPhoto: string | null;
+  driverRating: number | null;
   vehicleMake: string | null;
   vehicleModel: string | null;
   vehiclePlate: string | null;
@@ -129,6 +136,9 @@ export const RIDE_STATUS_LINE: Record<string, string> = {
   CANCELED: "Ride cancelled",
   EXPIRED: "Ride expired",
 };
+
+/** Generic public-page copy for bad / revoked / expired tokens (REST 404). */
+export const LINK_NO_LONGER_ACTIVE = "This link is no longer active.";
 
 export const CLOSE_MISSING_TOKEN = 4000;
 export const CLOSE_INVALID_LINK = 4001;

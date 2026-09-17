@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MapPinOff, TimerOff } from "lucide-react";
 import LiveTripHeader from "@/components/live-trip/LiveTripHeader";
-import TrackingErrorState from "@/components/live-trip/TrackingErrorState";
-import TripExpiredState from "@/components/live-trip/TripExpiredState";
 import TripLoadingState from "@/components/live-trip/TripLoadingState";
 import TripRouteBar from "@/components/live-trip/TripRouteBar";
 import TripSpinner from "@/components/live-trip/TripSpinner";
@@ -67,17 +65,16 @@ export default function RideLocationView() {
     return (
       <div className="flex min-h-dvh flex-col">
         <LiveTripHeader showLiveBadge={false} />
-        {closeReason ? (
-          <TripStateShell
-            icon={<MapPinOff className="h-7 w-7" />}
-            iconTone="danger"
-            title="We couldn't open this link"
-            description={closeReason}
-            ctaLabel="Go to Traveling Partner"
-          />
-        ) : (
-          <TrackingErrorState />
-        )}
+        <TripStateShell
+          icon={<MapPinOff className="h-7 w-7" />}
+          iconTone="danger"
+          title="This link is no longer active"
+          description={
+            closeReason ||
+            "This tracking link is invalid, expired, or sharing was stopped."
+          }
+          ctaLabel="Go to Traveling Partner"
+        />
       </div>
     );
   }
@@ -86,17 +83,16 @@ export default function RideLocationView() {
     return (
       <div className="flex min-h-dvh flex-col">
         <LiveTripHeader showLiveBadge={false} />
-        {closeReason ? (
-          <TripStateShell
-            icon={<TimerOff className="h-7 w-7" />}
-            iconTone="brand"
-            title="This link has expired"
-            description={closeReason}
-            ctaLabel="Go to Traveling Partner"
-          />
-        ) : (
-          <TripExpiredState />
-        )}
+        <TripStateShell
+          icon={<TimerOff className="h-7 w-7" />}
+          iconTone="brand"
+          title="This link is no longer active"
+          description={
+            closeReason ||
+            "This tracking link has expired or sharing was stopped."
+          }
+          ctaLabel="Go to Traveling Partner"
+        />
       </div>
     );
   }
@@ -112,7 +108,8 @@ export default function RideLocationView() {
 
   const pickupLabel = data.pickupAddress || "Pickup";
   const dropoffLabel = data.dropoffAddress || "Drop-off";
-  const frozen = pageState === "ended" || pageState === "cancelled";
+  const frozen =
+    pageState === "ended" || pageState === "completed" || pageState === "cancelled";
 
   return (
     <div className="flex min-h-dvh w-full flex-col lg:h-dvh lg:overflow-hidden">
@@ -153,7 +150,9 @@ export default function RideLocationView() {
                 <div className="pointer-events-none absolute inset-x-3 top-3 z-[600] rounded-2xl bg-[#0b0b0b]/90 px-4 py-3 text-center text-sm font-semibold text-white shadow-[0_8px_20px_rgba(11,11,11,0.2)]">
                   {pageState === "cancelled"
                     ? "This ride was cancelled."
-                    : "This ride has ended — live tracking stopped."}
+                    : pageState === "completed"
+                      ? "This ride is complete — live tracking stopped."
+                      : "Sharing has ended — live tracking stopped."}
                 </div>
               )}
             </div>
