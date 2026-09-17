@@ -18,10 +18,16 @@ function statusMeta(data: RideLocationViewData, pageState: RideLocationPageState
   if (pageState === "cancelled") {
     return { label: "Cancelled", headline: "This ride was cancelled." };
   }
+  if (pageState === "completed") {
+    return {
+      label: "Completed",
+      headline: "This ride is complete — live tracking stopped.",
+    };
+  }
   if (pageState === "ended") {
     return {
-      label: "Ended",
-      headline: "This ride has ended — live tracking stopped.",
+      label: "Sharing ended",
+      headline: "Sharing has ended — live tracking stopped.",
     };
   }
   const rideLine =
@@ -125,6 +131,7 @@ export default function RideLocationPanel({ data, pageState }: RideLocationPanel
                   <PersonInfo
                     name={driverName}
                     avatarUrl={data.driverPhoto || undefined}
+                    rating={data.driverRating ?? undefined}
                     subtitle={
                       firstName(data.partnerName) &&
                       data.partnerName !== driverName
