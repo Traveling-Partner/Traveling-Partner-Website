@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   APP_STORE_URL,
   PLAY_STORE_URL,
-  STORE_COMING_SOON_LABEL,
   handleStoreClick,
 } from "@/lib/storeLinks";
 
@@ -18,8 +17,9 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
       <Link
         href={PLAY_STORE_URL}
         onClick={handleStoreClick}
-        title={STORE_COMING_SOON_LABEL}
-        aria-label={`Google Play — ${STORE_COMING_SOON_LABEL}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Get it on Google Play"
         className="flex h-[72px] w-full items-center gap-3 rounded-xl bg-gradient-to-r from-[#fce001] to-[#fdb813] px-4 shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:w-[240px]"
       >
         <svg className="h-8 w-8 text-black" viewBox="0 0 24 24" fill="currentColor">
@@ -27,7 +27,7 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
         </svg>
         <div className="text-left leading-tight">
           <p className="text-[10px] font-bold uppercase tracking-wider text-black">
-            {STORE_COMING_SOON_LABEL}
+            Get it on
           </p>
           <p className="text-lg font-bold text-black">Google Play</p>
         </div>
@@ -36,8 +36,9 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
       <Link
         href={APP_STORE_URL}
         onClick={handleStoreClick}
-        title={STORE_COMING_SOON_LABEL}
-        aria-label={`App Store — ${STORE_COMING_SOON_LABEL}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Download on the App Store"
         className="flex h-[72px] w-full items-center gap-3 rounded-xl bg-gradient-to-r from-[#fce001] to-[#fdb813] px-4 shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl sm:w-[240px]"
       >
         <svg className="h-8 w-8 text-black" viewBox="0 0 24 24" fill="currentColor">
@@ -45,7 +46,7 @@ export default function StoreButtons({ className = "" }: StoreButtonsProps) {
         </svg>
         <div className="text-left leading-tight">
           <p className="text-[10px] font-bold uppercase tracking-wider text-black">
-            {STORE_COMING_SOON_LABEL}
+            Download on
           </p>
           <p className="text-lg font-bold text-black">App Store</p>
         </div>
