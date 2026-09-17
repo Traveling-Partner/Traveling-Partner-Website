@@ -9,7 +9,6 @@ import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   APP_STORE_URL,
   PLAY_STORE_URL,
-  STORE_COMING_SOON_LABEL,
   handleStoreClick,
 } from "@/lib/storeLinks";
 
@@ -144,8 +143,10 @@ function FooterStoreButton({
     <a
       href={href}
       onClick={handleStoreClick}
-      aria-label={`${ariaLabel} — ${STORE_COMING_SOON_LABEL}`}
-      title={STORE_COMING_SOON_LABEL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={ariaLabel}
+      title={ariaLabel}
       className="inline-flex h-[40px] w-full min-w-0 max-w-[150px] items-center gap-1.5 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] py-1.5 pl-1.5 pr-2.5 shadow-[0_6px_18px_rgba(253,184,19,0.28)] transition-opacity hover:opacity-90 sm:h-[42px] sm:gap-2 sm:py-2 sm:pl-2 sm:pr-3"
     >
       <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-white text-black sm:h-[30px] sm:w-[30px]">
