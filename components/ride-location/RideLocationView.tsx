@@ -10,6 +10,10 @@ import TripRouteBar from "@/components/live-trip/TripRouteBar";
 import TripSpinner from "@/components/live-trip/TripSpinner";
 import TripStateShell from "@/components/live-trip/TripStateShell";
 import { useRideLocation } from "@/hooks/useRideLocation";
+import {
+  getDemoRideLocationView,
+  isRideLocationDemoToken,
+} from "@/lib/rideLocation/demoPayload";
 import { firstName, hasLivePosition } from "@/lib/rideLocation/parse";
 import {
   getRideShareTokenFromLocation,
@@ -50,7 +54,12 @@ export default function RideLocationView() {
     setReady(true);
   }, [searchParams]);
 
-  const { pageState, data, connection, closeReason } = useRideLocation(token, ready);
+  const isDemo = isRideLocationDemoToken(token);
+  const live = useRideLocation(token, ready && !isDemo);
+  const pageState = isDemo ? "live" : live.pageState;
+  const data = isDemo ? getDemoRideLocationView() : live.data;
+  const connection = isDemo ? "live" : live.connection;
+  const closeReason = isDemo ? null : live.closeReason;
 
   if (!ready || pageState === "connecting") {
     return (
@@ -159,7 +168,7 @@ export default function RideLocationView() {
           </div>
         </div>
 
-        <RideLocationPanel data={data} pageState={pageState} />
+        <RideLocationPanel data={data} pageState={pageState} preview={isDemo} />
       </div>
 
       {pageState === "live" && !hasLivePosition(data) ? (
