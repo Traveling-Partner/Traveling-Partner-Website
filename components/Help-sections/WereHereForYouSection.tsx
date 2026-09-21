@@ -1,4 +1,5 @@
 "use client";
+import { PLAY_STORE_URL, APP_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +7,6 @@ import type { ReactNode } from "react";
 import { HELP_ICONS } from "@/lib/helpAssets";
 
 const ASSETS = "/images/help/were-here-for-you";
-const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 const CONTACT_CARDS = [
   {
@@ -142,10 +141,10 @@ function ContactCard({
         />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-[#FDB813] sm:text-[10px]">
+        <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-[#6b5a00] sm:text-[10px]">
           {label}
         </span>
-        <span className="mt-0.5 block truncate text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
+        <span className="mt-0.5 block break-words text-[13px] font-bold text-[#0b0b0b] sm:text-[14px]">
           {value}
         </span>
       </span>
@@ -196,13 +195,7 @@ function SectionCopy({
       <h2
         className={`font-extrabold tracking-tight text-[#0b0b0b] ${headingClassName}`}
       >
-        <span className="block">Didn&apos;t find what</span>
-        <em
-          className="mt-0.5 block bg-gradient-to-b from-[#FCE001] to-[#FDB813] bg-clip-text font-medium italic text-transparent"
-          style={{ fontStyle: "italic" }}
-        >
-          you were looking for?
-        </em>
+        Didn&apos;t find what you were looking for?
       </h2>
 
       <p className={`text-[#6B6960] ${bodyClassName}`}>
@@ -217,13 +210,13 @@ function StoreButtons({ className = "" }: { className?: string }) {
   return (
     <div className={className}>
       <StoreButton
-        href={PLAY_STORE_URL}
+        href={PLAY_STORE_URL} onClick={handleStoreClick}
         label="GET IT ON"
         title="Google Play"
         icon={<PlayStoreIcon className="h-[18px] w-[18px]" />}
       />
       <StoreButton
-        href={APP_STORE_URL}
+        href={APP_STORE_URL} onClick={handleStoreClick}
         label="DOWNLOAD ON"
         title="App Store"
         icon={<AppleIcon className="h-[18px] w-[18px] text-black" />}
@@ -268,13 +261,13 @@ export default function WereHereForYouSection() {
       </div>
 
       {/* ——— Desktop ——— native cover aspect 1024×232 — no zoom ——— */}
-      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FFFBF2] lg:block lg:aspect-[1024/232] xl:rounded-[32px]">
+      <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[28px] bg-[#FFFBF2] lg:block min-h-[280px] xl:rounded-[32px] xl:min-h-[300px]">
         <Image
           src={`${ASSETS}/bg-desktop.png`}
           alt=""
           fill
           sizes="1280px"
-          className="object-contain object-center"
+          className="object-cover object-right"
           priority
         />
 

@@ -122,7 +122,7 @@ export const SERVICES: ServiceItem[] = [
   {
     id: "logistic",
     href: "/logistic",
-    label: "Logistic",
+    label: "Logistics",
     short: "Bulk cargo for your business.",
     description: "Fleet-ready logistics for growing businesses.",
     features: [

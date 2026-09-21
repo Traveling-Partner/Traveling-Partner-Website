@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Bell, Gift, Mail, MapPin, ArrowRight } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
 import { subscribeNewsletter } from "@/services/newsletter";
+import { newsletterFeedbackMessage } from "@/lib/newsletterFeedback";
+import { isValidEmail } from "@/lib/contactValidation";
 import "./NewsletterSection.css";
 
 /** Original full artwork — rings, airplane, clouds, dots, mailbox */
@@ -47,6 +49,11 @@ export default function NewsletterSection() {
     event.preventDefault();
     const trimmed = email.trim();
     if (!trimmed || loading) return;
+    if (!isValidEmail(trimmed)) {
+      setStatus({ type: "error", message: "Please enter a valid email address." });
+      setAlertVisible(true);
+      return;
+    }
 
     setLoading(true);
     try {
@@ -60,10 +67,7 @@ export default function NewsletterSection() {
     } catch (err: unknown) {
       setStatus({
         type: "error",
-        message:
-          err instanceof Error
-            ? err.message
-            : "Couldn’t subscribe right now. Please try again.",
+        message: newsletterFeedbackMessage(err),
       });
       setAlertVisible(true);
     } finally {
@@ -156,6 +160,17 @@ export default function NewsletterSection() {
                 ) : null}
               </button>
             </form>
+            {status.message ? (
+              <p
+                className={`sil__feedback mt-2 text-[12px] font-medium ${
+                  status.type === "success" ? "text-[#0b0b0b]" : "text-[#b42318]"
+                }`}
+                role="status"
+                aria-live="polite"
+              >
+                {status.message}
+              </p>
+            ) : null}
 
             <div className="sil__social">
               <div className="sil__avatars" aria-hidden="true">

@@ -171,8 +171,9 @@ export default function HeroMobileSection(): React.ReactElement {
           className="mx-auto flex flex-col items-center text-center"
           style={{ maxWidth: cqw(350) }}
         >
-          <h1
+          <p
             className="w-full font-poppins font-semibold text-[#0b0b0b]"
+            aria-hidden="true"
             style={{
               fontSize: cqw(34),
               lineHeight: 0.95,
@@ -182,10 +183,10 @@ export default function HeroMobileSection(): React.ReactElement {
             <span className="block text-[#fdb813]">One App,</span>
             <span className="block">Every way</span>
             <span className="block">to move.</span>
-          </h1>
+          </p>
 
           <div
-            className="w-full text-center font-poppins text-[#6f6e68]"
+            className="w-full text-center font-poppins text-[#3d3d38]"
             style={{
               marginTop: cqw(16),
               fontSize: cqw(11.5),

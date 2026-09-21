@@ -118,7 +118,7 @@ function MobileVideoCard({
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-black/65 via-black/25 to-transparent" />

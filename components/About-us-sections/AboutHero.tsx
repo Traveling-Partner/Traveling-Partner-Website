@@ -1,11 +1,10 @@
 "use client";
+import { PLAY_STORE_URL, APP_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 function PlayStoreIcon({ className = "" }: { className?: string }) {
   return (
@@ -173,13 +172,13 @@ export default function AboutHero() {
             style={{ animationDelay: "280ms" }}
           >
             <StoreButton
-              href={PLAY_STORE_URL}
+              href={PLAY_STORE_URL} onClick={handleStoreClick}
               label="Get it on"
               title="Google Play"
               icon={<PlayStoreIcon className="h-8 w-8" />}
             />
             <StoreButton
-              href={APP_STORE_URL}
+              href={APP_STORE_URL} onClick={handleStoreClick}
               label="Download on"
               title="App Store"
               icon={<AppleIcon className="h-8 w-8 text-black" />}

@@ -37,7 +37,7 @@ export async function submitContactForm(formData) {
     payload.photo = await readPhotoAsString(formData.photoFile);
   }
 
-  const response = await fetch(buildContactUrl(apiBaseUrl), {
+  const response = await fetch(buildContactSubmitUrl(apiBaseUrl), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
