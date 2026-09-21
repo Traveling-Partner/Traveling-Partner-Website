@@ -13,8 +13,10 @@ export type RideApiResult<T> =
  * Public GET. URL may contain the share token — never log it.
  */
 export async function fetchRideLocationJson<T>(url: string): Promise<RideApiResult<T>> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 12_000);
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache: "no-store", signal: controller.signal });
     let body: RideApiEnvelope<T> | null = null;
     try {
       body = (await res.json()) as RideApiEnvelope<T>;
@@ -32,5 +34,7 @@ export async function fetchRideLocationJson<T>(url: string): Promise<RideApiResu
     return { ok: true, data: body.data };
   } catch {
     return { ok: false, statusCode: 0, message: null };
+  } finally {
+    clearTimeout(timer);
   }
 }

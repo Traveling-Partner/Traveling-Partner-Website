@@ -27,6 +27,11 @@ const POLL_MS = 5000;
 const RECONNECT_BASE_MS = 1000;
 const RECONNECT_MAX_MS = 8000;
 const WS_RETRY_WHILE_POLLING_MS = 12000;
+const CONNECT_GIVE_UP_MS = 15000;
+
+function isInactiveHttp(statusCode: number): boolean {
+  return statusCode === 404 || statusCode === 403;
+}
 
 function closeKind(code: number): "invalid" | "expired" | null {
   if (code === CLOSE_EXPIRED_OR_ENDED) return "expired";
@@ -162,7 +167,7 @@ export function useRideLocation(token: string | null, enabled = true) {
       if (cancelled || terminalRef.current) return;
 
       if (!current.ok) {
-        if (current.statusCode === 404) {
+        if (isInactiveHttp(current.statusCode)) {
           markInactiveLink(current.message);
         }
         return;
@@ -274,7 +279,7 @@ export function useRideLocation(token: string | null, enabled = true) {
       if (cancelled) return;
 
       if (!snapshot.ok) {
-        if (snapshot.statusCode === 404) {
+        if (isInactiveHttp(snapshot.statusCode)) {
           markInactiveLink(snapshot.message);
           return;
         }
@@ -286,6 +291,11 @@ export function useRideLocation(token: string | null, enabled = true) {
 
       // 2) WebSocket for live GPS (immediate frame on open, then each ping)
       connectSocket();
+
+      window.setTimeout(() => {
+        if (cancelled || terminalRef.current || dataRef.current) return;
+        markInactiveLink(LINK_NO_LONGER_ACTIVE);
+      }, CONNECT_GIVE_UP_MS);
     };
 
     void bootstrap();
