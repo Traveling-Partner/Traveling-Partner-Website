@@ -213,6 +213,7 @@ export default function ContactUsForm(): React.ReactElement {
         subject: activeTab,
         message: businessDetails,
         phoneNumber: isBusiness ? formData.phone : "",
+        photo: "",
       });
       setSubmissionStatus({
         type: "success",
