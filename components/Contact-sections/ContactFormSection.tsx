@@ -18,8 +18,10 @@ import ContactFileAttach from "@/components/ContactFileAttach";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   CONTACT_LIMITS,
+  contactValidationBanner,
   isValidEmail,
-  isValidPhone,
+  messageFieldError,
+  phoneFieldError,
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
@@ -304,24 +306,18 @@ export default function ContactFormSection() {
     const emailErr = requiredError("Email", form.email);
     if (emailErr) next.email = emailErr;
     else if (!isValidEmail(form.email)) next.email = "Enter a valid email address.";
+    const phoneErr = phoneFieldError(form.phone);
+    if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
-      const phoneErr = requiredError("Phone", form.phone);
-      if (phoneErr) next.phone = phoneErr;
-      else if (!isValidPhone(form.phone)) next.phone = "Enter a valid phone number.";
       const companyErr = requiredError("Company name", form.companyName);
       if (companyErr) next.companyName = companyErr;
       const typeErr = requiredError("Business type", form.businessType);
       if (typeErr) next.businessType = typeErr;
       const cityErr = requiredError("City", form.city);
       if (cityErr) next.city = cityErr;
-    } else if (form.phone.trim() && !isValidPhone(form.phone)) {
-      next.phone = "Enter a valid phone number.";
     }
-    const messageErr = requiredError("Message", form.message);
+    const messageErr = messageFieldError(form.message);
     if (messageErr) next.message = messageErr;
-    else if (form.message.trim().length < CONTACT_LIMITS.messageMin) {
-      next.message = `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
-    }
     return next;
   };
 
@@ -332,7 +328,7 @@ export default function ContactFormSection() {
     if (Object.keys(nextErrors).length) {
       setStatus({
         type: "error",
-        message: "Please fix the highlighted fields and try again.",
+        message: contactValidationBanner(nextErrors),
       });
       setAlertVisible(true);
       return;
@@ -601,19 +597,17 @@ export default function ContactFormSection() {
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>
-                      {isBusiness ? "Business Phone" : "Phone Number"}
+                      Phone Number
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
-                      required={isBusiness}
+                      required
                       maxLength={CONTACT_LIMITS.phone}
                       value={form.phone}
                       onChange={onChange}
-                      placeholder={
-                        isBusiness ? "Business phone" : "+92 3XX XXXXXXX"
-                      }
+                      placeholder="+92 3XX XXXXXXX"
                       autoComplete="tel"
                       className={fieldClass}
                       disabled={loading}

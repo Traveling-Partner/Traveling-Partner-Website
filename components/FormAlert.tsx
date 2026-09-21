@@ -68,8 +68,8 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
   if (!status) return null;
 
   const isSuccess = status === "success";
-  const title = isSuccess ? "Message sent" : "Something went wrong";
   const body = friendlyMessage(status, message);
+  const title = isSuccess ? "Message sent" : body;
 
   return (
     <div
@@ -116,9 +116,11 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
               <p className="font-poppins text-[13px] font-bold leading-tight text-[#0b0b0b]">
                 {title}
               </p>
-              <p className="mt-0.5 font-poppins text-[12px] leading-snug text-[#4a4a45]">
-                {body}
-              </p>
+              {isSuccess ? (
+                <p className="mt-0.5 font-poppins text-[12px] leading-snug text-[#4a4a45]">
+                  {body}
+                </p>
+              ) : null}
             </div>
 
             <button
