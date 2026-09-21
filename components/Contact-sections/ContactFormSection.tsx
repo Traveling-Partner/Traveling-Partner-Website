@@ -20,6 +20,7 @@ import {
   CONTACT_LIMITS,
   contactValidationBanner,
   isValidEmail,
+  messageFieldError,
   phoneFieldError,
   requiredError,
   type ContactFieldErrors,
@@ -315,11 +316,8 @@ export default function ContactFormSection() {
       const cityErr = requiredError("City", form.city);
       if (cityErr) next.city = cityErr;
     }
-    const messageErr = requiredError("Message", form.message);
+    const messageErr = messageFieldError(form.message);
     if (messageErr) next.message = messageErr;
-    else if (form.message.trim().length < CONTACT_LIMITS.messageMin) {
-      next.message = `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
-    }
     return next;
   };
 
@@ -599,7 +597,7 @@ export default function ContactFormSection() {
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelClass}>
-                      {isBusiness ? "Business Phone" : "Phone Number"}
+                      Phone Number
                     </label>
                     <input
                       id="phone"
@@ -609,9 +607,7 @@ export default function ContactFormSection() {
                       maxLength={CONTACT_LIMITS.phone}
                       value={form.phone}
                       onChange={onChange}
-                      placeholder={
-                        isBusiness ? "Business phone" : "+92 3XX XXXXXXX"
-                      }
+                      placeholder="+92 3XX XXXXXXX"
                       autoComplete="tel"
                       className={fieldClass}
                       disabled={loading}

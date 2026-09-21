@@ -37,8 +37,17 @@ export function phoneFieldError(value: string): string {
   return "";
 }
 
+export function messageFieldError(value: string): string {
+  if (!value.trim()) return "Message is required";
+  if (value.trim().length < CONTACT_LIMITS.messageMin) {
+    return `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
+  }
+  return "";
+}
+
 export function contactValidationBanner(errors: ContactFieldErrors): string {
   if (errors.phone) return errors.phone;
+  if (errors.message) return errors.message;
   return "Please fix the highlighted fields and try again.";
 }
 
