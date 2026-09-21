@@ -1,23 +1,57 @@
-function buildContactSubmitUrl(apiBaseUrl) {
+function buildApiUrl(apiBaseUrl, path) {
   const normalized = String(apiBaseUrl || "").replace(/\/$/, "");
   if (normalized.endsWith("/api")) {
-    return `${normalized}/web/contact/submit`;
+    return `${normalized}${path}`;
   }
-  return `${normalized}/api/web/contact/submit`;
+  return `${normalized}/api${path}`;
 }
 
-function readPhotoAsString(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("Could not read photo."));
-    reader.readAsDataURL(file);
-  });
+async function parseApiResponse(response, fallbackMessage) {
+  const contentType = response.headers.get("content-type") || "";
+  const isJsonResponse = contentType.includes("application/json");
+  const responseData = isJsonResponse
+    ? await response.json()
+    : await response.text();
+
+  if (
+    !response.ok ||
+    (isJsonResponse && responseData && responseData.success === false)
+  ) {
+    const message =
+      (isJsonResponse && responseData?.message) ||
+      (typeof responseData === "string" && responseData) ||
+      fallbackMessage;
+    throw new Error(message);
+  }
+
+  return responseData;
+}
+
+async function uploadContactFile(file, apiBaseUrl) {
+  const body = new FormData();
+  body.append("file", file);
+
+  const response = await fetch(
+    buildApiUrl(apiBaseUrl, "/documents/contact-us"),
+    { method: "POST", body }
+  );
+
+  const responseData = await parseApiResponse(
+    response,
+    `File upload failed with status ${response.status}.`
+  );
+
+  const url = responseData && responseData.data;
+  if (typeof url !== "string" || !url) {
+    throw new Error("File upload did not return a URL.");
+  }
+  return url;
 }
 
 /**
- * Public website contact — POST /api/web/contact/submit (no JWT).
- * Payload: ContactUsDto
+ * Public website contact:
+ * 1. optional file → POST /api/documents/contact-us (form-data `file`)
+ * 2. POST /api/web/contact/submit with ContactUsDto (`photo` = uploaded URL)
  */
 export async function submitContactForm(formData) {
   const apiBaseUrl =
@@ -34,33 +68,22 @@ export async function submitContactForm(formData) {
   };
 
   if (formData.photoFile instanceof File) {
-    payload.photo = await readPhotoAsString(formData.photoFile);
+    payload.photo = await uploadContactFile(formData.photoFile, apiBaseUrl);
   }
 
-  const response = await fetch(buildContactSubmitUrl(apiBaseUrl), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  const response = await fetch(
+    buildApiUrl(apiBaseUrl, "/web/contact/submit"),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }
+  );
 
-  const contentType = response.headers.get("content-type") || "";
-  const isJsonResponse = contentType.includes("application/json");
-  const responseData = isJsonResponse
-    ? await response.json()
-    : await response.text();
-
-  if (
-    !response.ok ||
-    (isJsonResponse && responseData && responseData.success === false)
-  ) {
-    const message =
-      (isJsonResponse && responseData?.message) ||
-      (typeof responseData === "string" && responseData) ||
-      `Contact form request failed with status ${response.status}.`;
-    throw new Error(message);
-  }
-
-  return responseData;
+  return parseApiResponse(
+    response,
+    `Contact form request failed with status ${response.status}.`
+  );
 }

@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import FormAlert from "@/components/FormAlert";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
+import ContactFileAttach from "@/components/ContactFileAttach";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   CONTACT_LIMITS,
@@ -123,20 +124,6 @@ function ArrowOutIcon() {
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PaperclipIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 text-white" aria-hidden="true">
-      <path
-        d="M15.5 7.5 8.2 14.8a3 3 0 0 0 4.2 4.2l8.1-8.1a5 5 0 0 0-7.1-7.1L5.2 12a1.5 1.5 0 0 0 2.1 2.1l7.2-7.2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
       />
     </svg>
   );
@@ -297,10 +284,9 @@ export default function ContactFormSection() {
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
-  const [fileName, setFileName] = useState<string | null>(null);
   const [fileError, setFileError] = useState("");
+  const [attachFile, setAttachFile] = useState<File | null>(null);
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
-  const fileRef = useRef<HTMLInputElement>(null);
   const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isBusiness = form.subject === "Business";
 
@@ -310,32 +296,6 @@ export default function ContactFormSection() {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setFieldErrors((prev) => ({ ...prev, [name]: "" }));
-  };
-
-  const onFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      setFileName(null);
-      setFileError("");
-      return;
-    }
-    const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
-    const allowedExt = [".pdf", ".png", ".jpg", ".jpeg"];
-    const allowedType = ["application/pdf", "image/png", "image/jpeg"];
-    if (file.size > 10 * 1024 * 1024) {
-      setFileError("File must be under 10MB.");
-      setFileName(null);
-      e.target.value = "";
-      return;
-    }
-    if (!allowedExt.includes(ext) && !allowedType.includes(file.type)) {
-      setFileError("Please attach a PDF, PNG, or JPG.");
-      setFileName(null);
-      e.target.value = "";
-      return;
-    }
-    setFileError("");
-    setFileName(file.name);
   };
 
   const validate = (): ContactFieldErrors => {
@@ -398,17 +358,16 @@ export default function ContactFormSection() {
         message,
         phoneNumber: form.phone.trim(),
         photo: "",
-        photoFile: fileRef.current?.files?.[0] ?? null,
+        photoFile: attachFile,
       });
       const successMsg = "Message sent successfully!";
       setStatus({ type: "success", message: successMsg });
       setOverlayPhase("success");
       setAlertVisible(true);
       setForm(initialForm);
-      setFileName(null);
+      setAttachFile(null);
       setFileError("");
       setFieldErrors({});
-      if (fileRef.current) fileRef.current.value = "";
       overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (err: unknown) {
       const errorMsg =
@@ -782,42 +741,18 @@ export default function ContactFormSection() {
                   )}
                 </div>
 
-                <label className="flex cursor-pointer items-center gap-2.5 rounded-[12px] border border-dashed border-[#d4d0c6] bg-[#F7F4EC] px-3 py-2 transition-colors hover:border-[#FCE001]/50 sm:px-3.5 sm:py-2.5">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-[#0b0b0b]">
-                    <PaperclipIcon />
-                  </span>
-                  <span className="min-w-0 text-left text-[11px] text-[#6f6e68] sm:text-[12px]">
-                    {fileName ? (
-                      <span className="font-semibold text-[#0b0b0b]">
-                        {fileName}
-                      </span>
-                    ) : (
-                      <>
-                        Attach a file — optional{" "}
-                        <span className="text-[#9a968c]">
-                          (PDF, PNG, JPG, up to 10MB)
-                        </span>
-                      </>
-                    )}
-                  </span>
-                  <input
-                    ref={fileRef}
-                    id="attachment"
-                    name="attachment"
-                    type="file"
-                    accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
-                    className="sr-only"
-                    onChange={onFile}
-                    disabled={loading}
-                  />
-                </label>
-                {fileError ? <p className={errorClass}>{fileError}</p> : null}
-                {fileName && !fileError ? (
-                  <p className="text-[11px] leading-relaxed text-[#5c5b55]">
-                    Attachments aren&apos;t sent with this form yet. Please include
-                    any details in your message.
-                  </p>
-                ) : null}
+                <ContactFileAttach
+                  id="attachment"
+                  file={attachFile}
+                  error={fileError}
+                  disabled={loading}
+                  errorClass={errorClass}
+                  tone="page"
+                  onChange={(next, nextError) => {
+                    setAttachFile(next);
+                    setFileError(nextError);
+                  }}
+                />
 
                 <button
                   type="submit"
