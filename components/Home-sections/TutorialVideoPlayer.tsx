@@ -165,7 +165,7 @@ export default function TutorialVideoPlayer({
           className="h-full w-full object-cover"
           poster={tutorial.posterSrc}
           playsInline
-          preload="metadata"
+          preload="none"
           onClick={togglePlay}
         >
           <source src={tutorial.videoSrc} type="video/mp4" />

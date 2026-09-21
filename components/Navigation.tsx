@@ -77,10 +77,25 @@ export default function Navigation() {
 
   useEffect(() => {
     if (!isOpen) return;
-    const prev = document.body.style.overflow;
+    const html = document.documentElement;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyPosition = document.body.style.position;
+    const prevBodyTop = document.body.style.top;
+    const prevBodyWidth = document.body.style.width;
+    const scrollY = window.scrollY;
+    html.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
     return () => {
-      document.body.style.overflow = prev;
+      html.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+      document.body.style.position = prevBodyPosition;
+      document.body.style.top = prevBodyTop;
+      document.body.style.width = prevBodyWidth;
+      window.scrollTo(0, scrollY);
     };
   }, [isOpen]);
 
@@ -175,6 +190,9 @@ export default function Navigation() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  const navAriaCurrent = (href: string) =>
+    isActive(href) ? ("page" as const) : undefined;
+
   const navLinkClass = (href: string) =>
     `border border-transparent text-black transition-all duration-200 hover:border-[#FDB813] hover:bg-[rgba(11,11,11,0.07)] ${
       isActive(href) ? "bg-[rgba(11,11,11,0.07)]" : ""
@@ -253,6 +271,7 @@ export default function Navigation() {
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
+            aria-current={navAriaCurrent("/")}
             className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/")}`}
           >
             Home
@@ -266,6 +285,7 @@ export default function Navigation() {
           <Link
             href="/about"
             onClick={(e) => handleNavClick(e, "/about")}
+            aria-current={navAriaCurrent("/about")}
             className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/about")}`}
           >
             About Us
@@ -274,6 +294,7 @@ export default function Navigation() {
           <Link
             href="/blog"
             onClick={(e) => handleNavClick(e, "/blog")}
+            aria-current={navAriaCurrent("/blog")}
             className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/blog")}`}
           >
             Blog
@@ -282,6 +303,7 @@ export default function Navigation() {
           <Link
             href="/help"
             onClick={(e) => handleNavClick(e, "/help")}
+            aria-current={navAriaCurrent("/help")}
             className={`hidden min-[1200px]:inline-flex h-[32px] shrink-0 items-center whitespace-nowrap rounded-[100px] px-3 font-poppins text-[13px] font-medium leading-none transition-all duration-200 ${navLinkClass("/help")}`}
           >
             Help Center
@@ -290,6 +312,7 @@ export default function Navigation() {
           <Link
             href="/contact"
             onClick={(e) => handleNavClick(e, "/contact")}
+            aria-current={navAriaCurrent("/contact")}
             className={`hidden min-[1200px]:inline-flex h-[34px] shrink-0 items-center gap-1 rounded-[100px] border px-3.5 py-1.5 font-poppins text-[12px] font-bold leading-none transition-all duration-200 ${
               contactActive
                 ? "border-transparent bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-white shadow-sm"
@@ -408,6 +431,7 @@ export default function Navigation() {
                     <Link
                       href="/"
                       onClick={(e) => handleNavClick(e, "/")}
+                      aria-current={navAriaCurrent("/")}
                       className={mobileLinkClass("/")}
                     >
                       Home
@@ -423,6 +447,7 @@ export default function Navigation() {
                     <Link
                       href="/about"
                       onClick={(e) => handleNavClick(e, "/about")}
+                      aria-current={navAriaCurrent("/about")}
                       className={mobileLinkClass("/about")}
                     >
                       About Us
@@ -431,6 +456,7 @@ export default function Navigation() {
                     <Link
                       href="/blog"
                       onClick={(e) => handleNavClick(e, "/blog")}
+                      aria-current={navAriaCurrent("/blog")}
                       className={mobileLinkClass("/blog")}
                     >
                       Blog
@@ -439,6 +465,7 @@ export default function Navigation() {
                     <Link
                       href="/help"
                       onClick={(e) => handleNavClick(e, "/help")}
+                      aria-current={navAriaCurrent("/help")}
                       className={mobileLinkClass("/help")}
                     >
                       Help Center

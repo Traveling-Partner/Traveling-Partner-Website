@@ -4,6 +4,8 @@ import { forwardRef, useEffect, useState, type FormEvent } from "react";
 import { Mail } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
 import { subscribeNewsletter } from "@/services/newsletter";
+import { newsletterFeedbackMessage } from "@/lib/newsletterFeedback";
+import { isValidEmail } from "@/lib/contactValidation";
 
 export type TocItem = {
   id: string;
@@ -26,30 +28,35 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const trimmed = email.trim();
-      if (!trimmed || loading) return;
+        const trimmed = email.trim();
+        if (!trimmed || loading) return;
+        if (!isValidEmail(trimmed)) {
+          setStatus({
+            type: "error",
+            message: "Please enter a valid email address.",
+          });
+          setAlertVisible(true);
+          return;
+        }
 
-      setLoading(true);
-      try {
-        await subscribeNewsletter(trimmed);
-        setStatus({
-          type: "success",
-          message: "You’re subscribed! Watch your inbox for travel tips and offers.",
-        });
-        setAlertVisible(true);
-        setEmail("");
-      } catch (err: unknown) {
-        setStatus({
-          type: "error",
-          message:
-            err instanceof Error
-              ? err.message
-              : "Couldn’t subscribe right now. Please try again.",
-        });
-        setAlertVisible(true);
-      } finally {
-        setLoading(false);
-      }
+        setLoading(true);
+        try {
+          await subscribeNewsletter(trimmed);
+          setStatus({
+            type: "success",
+            message: "You’re subscribed! Watch your inbox for travel tips and offers.",
+          });
+          setAlertVisible(true);
+          setEmail("");
+        } catch (err: unknown) {
+          setStatus({
+            type: "error",
+            message: newsletterFeedbackMessage(err),
+          });
+          setAlertVisible(true);
+        } finally {
+          setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -104,8 +111,19 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
                 {!loading ? <span aria-hidden="true">→</span> : null}
               </button>
             </form>
+            {status.message ? (
+              <p
+                className={`mt-3 text-[12px] font-medium ${
+                  status.type === "success" ? "text-[#0b0b0b]" : "text-[#b42318]"
+                }`}
+                role="status"
+                aria-live="polite"
+              >
+                {status.message}
+              </p>
+            ) : null}
 
-            <p className="mt-4 text-center text-[11px] leading-snug text-[#8a867c]">
+            <p className="mt-4 text-center text-[11px] leading-snug text-[#5c5b55]">
               No spam. Unsubscribe anytime.
             </p>
           </div>

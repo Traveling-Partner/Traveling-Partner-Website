@@ -1,5 +1,7 @@
 /** Normalize API blog HTML so every detail page uses the same section styling. */
 
+import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
+
 export type BlogTocItem = {
   id: string;
   text: string;
@@ -141,25 +143,8 @@ function enhanceTables(html: string): string {
   });
 }
 
-function encodeMediaSrc(url: string): string {
-  const trimmed = url.trim();
-  if (!trimmed) return url;
-  try {
-    const parsed = new URL(trimmed);
-    parsed.pathname = parsed.pathname
-      .split("/")
-      .map((segment) => {
-        try {
-          return encodeURIComponent(decodeURIComponent(segment));
-        } catch {
-          return encodeURIComponent(segment);
-        }
-      })
-      .join("/");
-    return parsed.toString();
-  } catch {
-    return trimmed.replace(/ /g, "%20");
-  }
+export function encodeMediaSrc(url: string): string {
+  return encodeMediaUrl(url);
 }
 
 /** Encode spaces/parentheses in API image URLs so <img src> does not break. */

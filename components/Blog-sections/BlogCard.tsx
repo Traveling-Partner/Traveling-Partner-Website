@@ -111,8 +111,8 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
             src={getImageSrc(blog.cover_image)}
             alt={blog.main_title}
             fill
-            className="object-cover object-center"
-            style={{ objectFit: "cover", objectPosition: "center" }}
+            className="object-cover object-top"
+            style={{ objectFit: "cover", objectPosition: "center top" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 

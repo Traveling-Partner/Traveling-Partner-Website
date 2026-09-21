@@ -1,8 +1,9 @@
-// app/blog/BlogListingClient.tsx
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState, Suspense } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
+import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
 import { formatBlogType } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
 import {
@@ -18,8 +19,10 @@ import SearchEmptyState from "@/components/SearchEmptyState";
 import BlogLoadError from "@/components/BlogLoadError";
 import TPLoader from "@/components/TPLoader";
 
+const INITIAL_VISIBLE_COUNT = 6;
+
 const getImageSrc = (value: string): string => {
-  const src = String(value || "").trim();
+  const src = encodeMediaUrl(String(value || "").trim());
   if (!src) return "/mock-images/blog-cover.svg";
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
     return optimizeCloudinaryImage(src, 1000, 72);
@@ -63,13 +66,45 @@ function matchesListingFilters(
   );
 }
 
-export default function BlogListingClient() {
+function BlogListingInner() {
+  const router = useRouter();
+  const pathname = usePathname() || "/blog";
+  const searchParams = useSearchParams();
+
+  const searchQuery = searchParams?.get("q") ?? "";
+  const selectedCategory = searchParams?.get("cat") ?? "All";
+  const sortOrder =
+    searchParams?.get("sort") === "oldest" ? "oldest" : "newest";
+  const shownRaw = Number(searchParams?.get("shown"));
+  const visibleCount =
+    Number.isFinite(shownRaw) && shownRaw > 0
+      ? shownRaw
+      : INITIAL_VISIBLE_COUNT;
+
   const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
   const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const writeParams = useCallback(
+    (patch: Record<string, string | number | undefined>) => {
+      const next = new URLSearchParams(searchParams?.toString() ?? "");
+      Object.entries(patch).forEach(([key, value]) => {
+        const asString = value == null ? "" : String(value);
+        const isDefault =
+          (key === "q" && !asString.trim()) ||
+          (key === "cat" && (asString === "All" || !asString)) ||
+          (key === "sort" && (asString === "newest" || !asString)) ||
+          (key === "shown" &&
+            (asString === String(INITIAL_VISIBLE_COUNT) || !asString));
+        if (isDefault) next.delete(key);
+        else next.set(key, asString);
+      });
+      const qs = next.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
 
   const loadBlogs = useCallback(async () => {
     try {
@@ -146,15 +181,32 @@ export default function BlogListingClient() {
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogHero
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onSearchChange={(value) =>
+          writeParams({ q: value, shown: INITIAL_VISIBLE_COUNT })
+        }
         onSearchSubmit={() => {
+          if (searchQuery.trim()) {
+            fetchBlogListClient(searchQuery.trim())
+              .then((listData) => {
+                setBlogs(
+                  extractBlogList(listData)
+                    .map(mapBlogCard)
+                    .filter((blog) => blog.id)
+                );
+              })
+              .catch(() => {
+                /* keep already-loaded catalogue; client filter still applies */
+              });
+          }
           document
             .getElementById("blog-stories")
             ?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
         categories={categories}
         selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+        onCategoryChange={(cat) =>
+          writeParams({ cat, shown: INITIAL_VISIBLE_COUNT })
+        }
         hideCategories={
           !loading && !error && searchQuery.trim() !== "" && carouselBlogs.length === 0
         }
@@ -191,11 +243,34 @@ export default function BlogListingClient() {
             blogs={visibleFeaturedBlogs}
             getImageSrc={getImageSrc}
           />
-          <LatestStoriesSection blogs={carouselBlogs} getImageSrc={getImageSrc} />
+          <LatestStoriesSection
+            blogs={carouselBlogs}
+            getImageSrc={getImageSrc}
+            sortOrder={sortOrder}
+            visibleCount={visibleCount}
+            onSortChange={(sort) =>
+              writeParams({ sort, shown: INITIAL_VISIBLE_COUNT })
+            }
+            onVisibleCountChange={(shown) => writeParams({ shown })}
+          />
         </div>
       )}
 
       <TPJournalSection />
     </div>
+  );
+}
+
+export default function BlogListingClient() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#FEFBF6]">
+          <Loader />
+        </div>
+      }
+    >
+      <BlogListingInner />
+    </Suspense>
   );
 }

@@ -57,7 +57,7 @@ export async function generateMetadata({
   const url = getBlogCanonicalUrl(id);
 
   return {
-    title: `${title} | Traveling Partner`,
+    title,
     description: desc,
     ...(keywords.length ? { keywords } : {}),
     alternates: { canonical: url },

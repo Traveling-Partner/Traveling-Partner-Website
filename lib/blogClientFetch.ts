@@ -6,6 +6,7 @@ import {
   legacyBlogDetailApiUrl,
   findBlogInListPayload,
 } from "@/lib/blogApi";
+import { isValidBlogId } from "@/lib/isValidBlogId";
 
 async function fetchJsonUrl(url: string): Promise<unknown> {
   const response = await fetch(url, {
@@ -28,9 +29,9 @@ function publishedDetail(
   return detail;
 }
 
-/** Published blog list — prefers GET /api/blog/getAll, falls back to /website/blog/list. */
-export async function fetchBlogListClient(): Promise<unknown> {
-  const content = await fetchPublishedBlogPages();
+/** Published blog list — public /website/blog/list first (no admin getAll 401). */
+export async function fetchBlogListClient(search = ""): Promise<unknown> {
+  const content = await fetchPublishedBlogPages(search);
   return { success: true, data: { content } };
 }
 
@@ -48,7 +49,10 @@ export async function fetchBlogDetailClient(
   routeId: string,
   idCandidates: string[]
 ): Promise<Record<string, unknown> | null> {
+  if (!isValidBlogId(routeId)) return null;
+
   for (const candidateId of idCandidates) {
+    if (!isValidBlogId(candidateId) && /^-?\d/.test(candidateId)) continue;
     for (const url of [
       legacyBlogDetailApiUrl(candidateId),
       blogDetailApiUrl(candidateId),

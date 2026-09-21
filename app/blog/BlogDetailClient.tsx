@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { fetchBlogDetailClient, fetchBlogListClient } from "@/lib/blogClientFetch";
+import { isValidBlogId } from "@/lib/isValidBlogId";
+import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
 import {
   buildShareLinks,
   getBlogCanonicalUrl,
@@ -19,7 +21,7 @@ import TPLoader from "@/components/TPLoader";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 
 const getImageSrc = (value: string): string => {
-  const src = String(value || "").trim();
+  const src = encodeMediaUrl(String(value || "").trim());
   if (!src) return "/mock-images/blog-cover.svg";
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) {
     return optimizeCloudinaryImage(src, 1800, 75);
@@ -71,6 +73,7 @@ export default function BlogDetailClient({
 } = {}): React.ReactElement {
   const searchParams = useSearchParams();
   const routeId = (blogId?.trim() || searchParams?.get("id") || "").trim();
+  const idIsValid = isValidBlogId(routeId);
   const [blog, setBlog] = useState<MappedBlogDetail | null>(null);
   const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -135,7 +138,7 @@ export default function BlogDetailClient({
       }
     };
 
-    if (!routeId) {
+    if (!routeId || !idIsValid) {
       setLoading(false);
       setBlog(null);
       setRelatedBlogs([]);
@@ -143,7 +146,7 @@ export default function BlogDetailClient({
     }
 
     fetchBlogDetail();
-  }, [routeId]);
+  }, [routeId, idIsValid]);
 
   const displayTags = useMemo(
     () => (blog?.tags ?? []).filter((tag) => String(tag).trim()),

@@ -1,4 +1,4 @@
-function buildContactUrl(apiBaseUrl) {
+function buildContactSubmitUrl(apiBaseUrl) {
   const normalized = String(apiBaseUrl || "").replace(/\/$/, "");
   if (normalized.endsWith("/api")) {
     return `${normalized}/web/contact/submit`;
@@ -37,7 +37,7 @@ export async function submitContactForm(formData) {
     payload.photo = await readPhotoAsString(formData.photoFile);
   }
 
-  const response = await fetch(buildContactUrl(apiBaseUrl), {
+  const response = await fetch(buildContactSubmitUrl(apiBaseUrl), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

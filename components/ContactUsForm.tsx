@@ -12,6 +12,13 @@ import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
+import {
+  CONTACT_LIMITS,
+  isValidEmail,
+  isValidPhone,
+  requiredError,
+  type ContactFieldErrors,
+} from "@/lib/contactValidation";
 
 /** Figma Contact — node 124:3877 */
 const PHONE_DISPLAY = "+92 325 2801261";
@@ -180,16 +187,61 @@ export default function ContactUsForm(): React.ReactElement {
     message: "",
   });
   const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+  const isBusiness = activeTab === "Business";
+  const labelClass =
+    "mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b]";
+  const errorClass = "mt-1 text-[11px] font-medium text-[#b42318]";
+  const counterClass = "mt-1 text-right text-[10px] text-[#5c5b55]";
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const validate = (): ContactFieldErrors => {
+    const next: ContactFieldErrors = {};
+    const first = requiredError("First name", formData.firstName);
+    if (first) next.firstName = first;
+    const last = requiredError("Last name", formData.lastName);
+    if (last) next.lastName = last;
+    const emailErr = requiredError("Email", formData.email);
+    if (emailErr) next.email = emailErr;
+    else if (!isValidEmail(formData.email)) next.email = "Enter a valid email address.";
+    if (isBusiness) {
+      const company = requiredError("Company name", formData.companyName);
+      if (company) next.companyName = company;
+      const type = requiredError("Business type", formData.businessType);
+      if (type) next.businessType = type;
+      const phone = requiredError("Phone", formData.phone);
+      if (phone) next.phone = phone;
+      else if (!isValidPhone(formData.phone)) next.phone = "Enter a valid phone number.";
+      const city = requiredError("City", formData.city);
+      if (city) next.city = city;
+    }
+    const messageErr = requiredError("Message", formData.message);
+    if (messageErr) next.message = messageErr;
+    else if (formData.message.trim().length < CONTACT_LIMITS.messageMin) {
+      next.message = `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
+    }
+    return next;
   };
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    const nextErrors = validate();
+    setFieldErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      setSubmissionStatus({
+        type: "error",
+        message: "Please fix the highlighted fields and try again.",
+      });
+      setAlertVisible(true);
+      return;
+    }
     if (overlayTimer.current) clearTimeout(overlayTimer.current);
     setLoading(true);
     setOverlayPhase("loading");
@@ -222,6 +274,7 @@ export default function ContactUsForm(): React.ReactElement {
       setOverlayPhase("success");
       setAlertVisible(true);
       setFormData(initialFormData);
+      setFieldErrors({});
       overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (error: unknown) {
       const errorMessage =
@@ -358,104 +411,198 @@ export default function ContactUsForm(): React.ReactElement {
 
               <form
                 method="post"
+                noValidate
                 onSubmit={submitHandler}
                 className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3"
               >
                 <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="First Name"
-                    autoComplete="given-name"
-                    required
-                    disabled={loading}
-                    className={fieldClass}
-                  />
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Last Name"
-                    autoComplete="family-name"
-                    required
-                    disabled={loading}
-                    className={fieldClass}
-                  />
+                  <div>
+                    <label htmlFor="home-firstName" className={labelClass}>
+                      First Name
+                    </label>
+                    <input
+                      id="home-firstName"
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      placeholder="First Name"
+                      autoComplete="given-name"
+                      required
+                      maxLength={CONTACT_LIMITS.name}
+                      disabled={loading}
+                      className={fieldClass}
+                      aria-invalid={Boolean(fieldErrors.firstName)}
+                    />
+                    {fieldErrors.firstName ? (
+                      <p className={errorClass}>{fieldErrors.firstName}</p>
+                    ) : null}
+                  </div>
+                  <div>
+                    <label htmlFor="home-lastName" className={labelClass}>
+                      Last Name
+                    </label>
+                    <input
+                      id="home-lastName"
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      placeholder="Last Name"
+                      autoComplete="family-name"
+                      required
+                      maxLength={CONTACT_LIMITS.name}
+                      disabled={loading}
+                      className={fieldClass}
+                      aria-invalid={Boolean(fieldErrors.lastName)}
+                    />
+                    {fieldErrors.lastName ? (
+                      <p className={errorClass}>{fieldErrors.lastName}</p>
+                    ) : null}
+                  </div>
                 </div>
 
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email address"
-                  autoComplete="email"
-                  required
-                  disabled={loading}
-                  className={fieldClass}
-                />
+                <div>
+                  <label htmlFor="home-email" className={labelClass}>
+                    Email Address
+                  </label>
+                  <input
+                    id="home-email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email address"
+                    autoComplete="email"
+                    required
+                    maxLength={CONTACT_LIMITS.email}
+                    disabled={loading}
+                    className={fieldClass}
+                    aria-invalid={Boolean(fieldErrors.email)}
+                  />
+                  {fieldErrors.email ? (
+                    <p className={errorClass}>{fieldErrors.email}</p>
+                  ) : null}
+                </div>
 
                 {activeTab === "Business" ? (
                   <>
-                    <input
-                      type="text"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleChange}
-                      placeholder="Company name"
-                      required
-                      disabled={loading}
-                      className={fieldClass}
-                    />
-                    <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+                    <div>
+                      <label htmlFor="home-companyName" className={labelClass}>
+                        Company Name
+                      </label>
                       <input
+                        id="home-companyName"
                         type="text"
-                        name="businessType"
-                        value={formData.businessType}
+                        name="companyName"
+                        value={formData.companyName}
                         onChange={handleChange}
-                        placeholder="Business type"
+                        placeholder="Company name"
+                        autoComplete="organization"
                         required
+                        maxLength={CONTACT_LIMITS.company}
                         disabled={loading}
                         className={fieldClass}
+                        aria-invalid={Boolean(fieldErrors.companyName)}
                       />
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="Business phone"
-                        autoComplete="tel"
-                        required
-                        disabled={loading}
-                        className={fieldClass}
-                      />
+                      {fieldErrors.companyName ? (
+                        <p className={errorClass}>{fieldErrors.companyName}</p>
+                      ) : null}
                     </div>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      placeholder="City"
-                      required
-                      disabled={loading}
-                      className={fieldClass}
-                    />
+                    <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+                      <div>
+                        <label htmlFor="home-businessType" className={labelClass}>
+                          Business Type
+                        </label>
+                        <input
+                          id="home-businessType"
+                          type="text"
+                          name="businessType"
+                          value={formData.businessType}
+                          onChange={handleChange}
+                          placeholder="Business type"
+                          required
+                          maxLength={CONTACT_LIMITS.businessType}
+                          disabled={loading}
+                          className={fieldClass}
+                          aria-invalid={Boolean(fieldErrors.businessType)}
+                        />
+                        {fieldErrors.businessType ? (
+                          <p className={errorClass}>{fieldErrors.businessType}</p>
+                        ) : null}
+                      </div>
+                      <div>
+                        <label htmlFor="home-phone" className={labelClass}>
+                          Business Phone
+                        </label>
+                        <input
+                          id="home-phone"
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="Business phone"
+                          autoComplete="tel"
+                          required
+                          maxLength={CONTACT_LIMITS.phone}
+                          disabled={loading}
+                          className={fieldClass}
+                          aria-invalid={Boolean(fieldErrors.phone)}
+                        />
+                        {fieldErrors.phone ? (
+                          <p className={errorClass}>{fieldErrors.phone}</p>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="home-city" className={labelClass}>
+                        City
+                      </label>
+                      <input
+                        id="home-city"
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        placeholder="City"
+                        required
+                        maxLength={CONTACT_LIMITS.city}
+                        disabled={loading}
+                        className={fieldClass}
+                        aria-invalid={Boolean(fieldErrors.city)}
+                      />
+                      {fieldErrors.city ? (
+                        <p className={errorClass}>{fieldErrors.city}</p>
+                      ) : null}
+                    </div>
                   </>
                 ) : null}
 
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="How can we help?"
-                  required
-                  rows={3}
-                  disabled={loading}
-                  className={`${fieldClass} min-h-[88px] resize-none sm:min-h-[96px]`}
-                />
+                <div>
+                  <label htmlFor="home-message" className={labelClass}>
+                    Your Message
+                  </label>
+                  <textarea
+                    id="home-message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="How can we help?"
+                    required
+                    rows={3}
+                    maxLength={CONTACT_LIMITS.message}
+                    disabled={loading}
+                    className={`${fieldClass} min-h-[88px] resize-none sm:min-h-[96px]`}
+                    aria-invalid={Boolean(fieldErrors.message)}
+                  />
+                  {fieldErrors.message ? (
+                    <p className={errorClass}>{fieldErrors.message}</p>
+                  ) : (
+                    <p className={counterClass}>
+                      {formData.message.length}/{CONTACT_LIMITS.message}
+                    </p>
+                  )}
+                </div>
 
                 <button
                   type="submit"

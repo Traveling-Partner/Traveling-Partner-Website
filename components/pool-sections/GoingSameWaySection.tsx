@@ -1,10 +1,9 @@
 "use client";
+import { PLAY_STORE_URL, APP_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-const PLAY_STORE_URL = "https://play.google.com/store/apps?hl=en&gl=US";
-const APP_STORE_URL = "https://www.apple.com/app-store/";
 
 const ASSETS = "/images/pool-ride/going-same-way";
 const SHARED_ICONS = "/images/taxi-stand/need-a-ride";
@@ -251,13 +250,13 @@ export default function GoingSameWaySection() {
             {/* Store buttons */}
             <div className="mb-3 grid grid-cols-2 gap-2 lg:mb-3 lg:flex lg:gap-3">
               <StoreButton
-                href={PLAY_STORE_URL}
+                href={PLAY_STORE_URL} onClick={handleStoreClick}
                 label="Get it on"
                 title="Google Play"
                 icon={<PlayStoreIcon className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px]" />}
               />
               <StoreButton
-                href={APP_STORE_URL}
+                href={APP_STORE_URL} onClick={handleStoreClick}
                 label="Download on"
                 title="App Store"
                 icon={

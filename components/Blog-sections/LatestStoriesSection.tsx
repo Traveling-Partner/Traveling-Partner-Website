@@ -9,9 +9,13 @@ type SortOrder = "newest" | "oldest";
 type LatestStoriesSectionProps = {
   blogs: BlogCardData[];
   getImageSrc: (value: string) => string;
+  sortOrder?: SortOrder;
+  visibleCount?: number;
+  onSortChange?: (sort: SortOrder) => void;
+  onVisibleCountChange?: (count: number) => void;
 };
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 6;
 
 function SortIcon({ className = "" }: { className?: string }) {
   return (
@@ -98,9 +102,15 @@ function StoriesToggleButton({
 export default function LatestStoriesSection({
   blogs,
   getImageSrc,
+  sortOrder: sortOrderProp,
+  visibleCount: visibleCountProp,
+  onSortChange,
+  onVisibleCountChange,
 }: LatestStoriesSectionProps) {
-  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [sortOrderLocal, setSortOrderLocal] = useState<SortOrder>("newest");
+  const [visibleCountLocal, setVisibleCountLocal] = useState(PAGE_SIZE);
+  const sortOrder = sortOrderProp ?? sortOrderLocal;
+  const visibleCount = visibleCountProp ?? visibleCountLocal;
 
   const sortedBlogs = useMemo(() => {
     const list = [...blogs];
@@ -113,8 +123,8 @@ export default function LatestStoriesSection({
   }, [blogs, sortOrder]);
 
   useEffect(() => {
-    setVisibleCount(PAGE_SIZE);
-  }, [blogs, sortOrder]);
+    if (visibleCountProp == null) setVisibleCountLocal(PAGE_SIZE);
+  }, [blogs, sortOrder, visibleCountProp]);
 
   const visibleBlogs = sortedBlogs.slice(0, visibleCount);
   const allVisible = visibleCount >= sortedBlogs.length;
@@ -123,10 +133,19 @@ export default function LatestStoriesSection({
 
   const handleToggleStories = () => {
     if (allVisible) {
-      setVisibleCount(PAGE_SIZE);
+      if (onVisibleCountChange) onVisibleCountChange(PAGE_SIZE);
+      else setVisibleCountLocal(PAGE_SIZE);
       return;
     }
-    setVisibleCount((count) => Math.min(count + PAGE_SIZE, sortedBlogs.length));
+    const next = Math.min(visibleCount + PAGE_SIZE, sortedBlogs.length);
+    if (onVisibleCountChange) onVisibleCountChange(next);
+    else setVisibleCountLocal(next);
+  };
+
+  const handleSort = () => {
+    const next = sortOrder === "newest" ? "oldest" : "newest";
+    if (onSortChange) onSortChange(next);
+    else setSortOrderLocal(next);
   };
 
   if (!blogs.length) {
@@ -159,9 +178,7 @@ export default function LatestStoriesSection({
 
           <button
             type="button"
-            onClick={() =>
-              setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"))
-            }
+            onClick={handleSort}
             className="inline-flex items-center gap-2 rounded-full border border-[#e8e4da] bg-white px-4 py-2 text-[13px] font-medium text-[#0b0b0b] shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-opacity hover:opacity-85 sm:px-5 sm:py-2.5 sm:text-[14px]"
             aria-label={`Sort blogs: ${sortLabel}`}
           >
