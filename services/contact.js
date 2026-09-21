@@ -1,4 +1,4 @@
-function buildContactUrl(apiBaseUrl) {
+function buildContactSubmitUrl(apiBaseUrl) {
   const normalized = String(apiBaseUrl || "").replace(/\/$/, "");
   if (normalized.endsWith("/api")) {
     return `${normalized}/web/contact/submit`;
