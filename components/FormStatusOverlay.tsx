@@ -69,9 +69,6 @@ export default function FormStatusOverlay({
             </svg>
           </span>
           <p className="font-poppins text-[16px] font-extrabold text-[#0b0b0b]">
-            Something went wrong
-          </p>
-          <p className="mt-1 text-[13px] leading-snug text-[#6b6960]">
             {message || "Please try again."}
           </p>
         </div>
