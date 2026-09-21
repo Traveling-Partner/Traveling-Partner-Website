@@ -399,6 +399,8 @@ export default function ContactFormSection() {
         subject: form.subject,
         message,
         phoneNumber: form.phone.trim(),
+        photo: "",
+        photoFile: fileRef.current?.files?.[0] ?? null,
       });
       const successMsg = "Message sent successfully!";
       setStatus({ type: "success", message: successMsg });
