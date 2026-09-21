@@ -14,8 +14,9 @@ import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import {
   CONTACT_LIMITS,
+  contactValidationBanner,
   isValidEmail,
-  isValidPhone,
+  phoneFieldError,
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
@@ -211,14 +212,13 @@ export default function ContactUsForm(): React.ReactElement {
     const emailErr = requiredError("Email", formData.email);
     if (emailErr) next.email = emailErr;
     else if (!isValidEmail(formData.email)) next.email = "Enter a valid email address.";
+    const phoneErr = phoneFieldError(formData.phone);
+    if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
       const company = requiredError("Company name", formData.companyName);
       if (company) next.companyName = company;
       const type = requiredError("Business type", formData.businessType);
       if (type) next.businessType = type;
-      const phone = requiredError("Phone", formData.phone);
-      if (phone) next.phone = phone;
-      else if (!isValidPhone(formData.phone)) next.phone = "Enter a valid phone number.";
       const city = requiredError("City", formData.city);
       if (city) next.city = city;
     }
@@ -237,7 +237,7 @@ export default function ContactUsForm(): React.ReactElement {
     if (Object.keys(nextErrors).length) {
       setSubmissionStatus({
         type: "error",
-        message: "Please fix the highlighted fields and try again.",
+        message: contactValidationBanner(nextErrors),
       });
       setAlertVisible(true);
       return;
@@ -264,7 +264,7 @@ export default function ContactUsForm(): React.ReactElement {
         email: formData.email,
         subject: activeTab,
         message: businessDetails,
-        phoneNumber: isBusiness ? formData.phone : "",
+        phoneNumber: formData.phone.trim(),
         photo: "",
       });
       setSubmissionStatus({
@@ -484,6 +484,31 @@ export default function ContactUsForm(): React.ReactElement {
                     <p className={errorClass}>{fieldErrors.email}</p>
                   ) : null}
                 </div>
+
+                {activeTab !== "Business" ? (
+                  <div>
+                    <label htmlFor="home-phone" className={labelClass}>
+                      Phone Number
+                    </label>
+                    <input
+                      id="home-phone"
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+92 3XX XXXXXXX"
+                      autoComplete="tel"
+                      required
+                      maxLength={CONTACT_LIMITS.phone}
+                      disabled={loading}
+                      className={fieldClass}
+                      aria-invalid={Boolean(fieldErrors.phone)}
+                    />
+                    {fieldErrors.phone ? (
+                      <p className={errorClass}>{fieldErrors.phone}</p>
+                    ) : null}
+                  </div>
+                ) : null}
 
                 {activeTab === "Business" ? (
                   <>

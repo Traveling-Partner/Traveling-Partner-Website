@@ -17,8 +17,9 @@ import { submitContactForm } from "@/services/contact";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   CONTACT_LIMITS,
+  contactValidationBanner,
   isValidEmail,
-  isValidPhone,
+  phoneFieldError,
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
@@ -344,18 +345,15 @@ export default function ContactFormSection() {
     const emailErr = requiredError("Email", form.email);
     if (emailErr) next.email = emailErr;
     else if (!isValidEmail(form.email)) next.email = "Enter a valid email address.";
+    const phoneErr = phoneFieldError(form.phone);
+    if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
-      const phoneErr = requiredError("Phone", form.phone);
-      if (phoneErr) next.phone = phoneErr;
-      else if (!isValidPhone(form.phone)) next.phone = "Enter a valid phone number.";
       const companyErr = requiredError("Company name", form.companyName);
       if (companyErr) next.companyName = companyErr;
       const typeErr = requiredError("Business type", form.businessType);
       if (typeErr) next.businessType = typeErr;
       const cityErr = requiredError("City", form.city);
       if (cityErr) next.city = cityErr;
-    } else if (form.phone.trim() && !isValidPhone(form.phone)) {
-      next.phone = "Enter a valid phone number.";
     }
     const messageErr = requiredError("Message", form.message);
     if (messageErr) next.message = messageErr;
@@ -372,7 +370,7 @@ export default function ContactFormSection() {
     if (Object.keys(nextErrors).length) {
       setStatus({
         type: "error",
-        message: "Please fix the highlighted fields and try again.",
+        message: contactValidationBanner(nextErrors),
       });
       setAlertVisible(true);
       return;
@@ -648,7 +646,7 @@ export default function ContactFormSection() {
                       id="phone"
                       name="phone"
                       type="tel"
-                      required={isBusiness}
+                      required
                       maxLength={CONTACT_LIMITS.phone}
                       value={form.phone}
                       onChange={onChange}
