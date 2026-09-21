@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
+import ContactFileAttach from "@/components/ContactFileAttach";
 import {
   CONTACT_LIMITS,
   isValidEmail,
@@ -187,6 +188,8 @@ export default function ContactUsForm(): React.ReactElement {
     message: "",
   });
   const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [attachFile, setAttachFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
   const isBusiness = activeTab === "Business";
   const labelClass =
@@ -266,6 +269,7 @@ export default function ContactUsForm(): React.ReactElement {
         message: businessDetails,
         phoneNumber: isBusiness ? formData.phone : "",
         photo: "",
+        photoFile: attachFile,
       });
       setSubmissionStatus({
         type: "success",
@@ -274,6 +278,8 @@ export default function ContactUsForm(): React.ReactElement {
       setOverlayPhase("success");
       setAlertVisible(true);
       setFormData(initialFormData);
+      setAttachFile(null);
+      setFileError("");
       setFieldErrors({});
       overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (error: unknown) {
@@ -603,6 +609,19 @@ export default function ContactUsForm(): React.ReactElement {
                     </p>
                   )}
                 </div>
+
+                <ContactFileAttach
+                  id="home-attachment"
+                  file={attachFile}
+                  error={fileError}
+                  disabled={loading}
+                  errorClass={errorClass}
+                  tone="home"
+                  onChange={(next, nextError) => {
+                    setAttachFile(next);
+                    setFileError(nextError);
+                  }}
+                />
 
                 <button
                   type="submit"

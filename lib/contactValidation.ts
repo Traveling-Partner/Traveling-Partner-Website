@@ -30,3 +30,24 @@ export type ContactFieldErrors = Record<string, string>;
 export function requiredError(label: string, value: string): string {
   return value.trim() ? "" : `${label} is required.`;
 }
+
+export const CONTACT_FILE = {
+  maxBytes: 10 * 1024 * 1024,
+  accept: ".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg",
+} as const;
+
+const CONTACT_FILE_EXT = [".pdf", ".png", ".jpg", ".jpeg"];
+const CONTACT_FILE_TYPE = ["application/pdf", "image/png", "image/jpeg"];
+
+export function contactFileError(file: File): string {
+  const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
+  if (file.size > CONTACT_FILE.maxBytes) return "File must be under 10MB.";
+  if (!CONTACT_FILE_EXT.includes(ext) && !CONTACT_FILE_TYPE.includes(file.type)) {
+    return "Please attach a PDF, PNG, or JPG.";
+  }
+  return "";
+}
+
+export function isContactImageFile(file: File): boolean {
+  return file.type.startsWith("image/") || /\.(png|jpe?g)$/i.test(file.name);
+}
