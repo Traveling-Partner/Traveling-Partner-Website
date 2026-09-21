@@ -236,8 +236,8 @@ function injectIntoHtml(html, metaBlock) {
     ""
   );
 
-  if (!next.includes("<head>")) return html;
-  return next.replace("<head>", `<head>${metaBlock}`);
+  if (!next.includes("<head>") && !/<head[\s>]/i.test(next)) return html;
+  return next.replace(/<head[^>]*>/i, (open) => `${open}${metaBlock}`);
 }
 
 /** Collect out/blog/{id}.html and out/blog/{id}/index.html */
@@ -265,6 +265,17 @@ function collectBlogHtmlFiles() {
   return found;
 }
 
+function buildFallbackMetaBlock(id) {
+  return buildSocialMetaBlock(
+    {
+      seoTitle: "Traveling Partner Blog",
+      seoDescription: "Stories and updates from Traveling Partner.",
+      coverImage: DEFAULT_OG_IMAGE,
+    },
+    id
+  );
+}
+
 async function main() {
   const files = collectBlogHtmlFiles();
   if (files.length === 0) {
@@ -278,19 +289,24 @@ async function main() {
 
   for (const { id, filePath } of files) {
     const blog = await fetchBlog(id);
+    const html = fs.readFileSync(filePath, "utf8");
+    const metaBlock = blog
+      ? buildSocialMetaBlock(blog, id)
+      : buildFallbackMetaBlock(id);
     if (!blog) {
-      console.warn(`[inject-blog-og] no data for blog ${id}`);
-      continue;
+      console.warn(
+        `[inject-blog-og] no data for blog ${id} — wrote default og:image`
+      );
     }
 
-    const html = fs.readFileSync(filePath, "utf8");
-    const metaBlock = buildSocialMetaBlock(blog, id);
     const nextHtml = injectIntoHtml(html, metaBlock);
     fs.writeFileSync(filePath, nextHtml, "utf8");
     updated += 1;
-    console.log(
-      `[inject-blog-og] ${id}: ${blog.mainTitle ?? blog.main_title} → ${SITE_URL}/blog/${id}`
-    );
+    if (blog) {
+      console.log(
+        `[inject-blog-og] ${id}: ${blog.mainTitle ?? blog.main_title} → ${SITE_URL}/blog/${id}`
+      );
+    }
   }
 
   console.log(`[inject-blog-og] updated ${updated} blog page(s)`);
