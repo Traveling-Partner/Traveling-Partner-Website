@@ -15,7 +15,7 @@ type LatestStoriesSectionProps = {
   onVisibleCountChange?: (count: number) => void;
 };
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 6;
 
 function SortIcon({ className = "" }: { className?: string }) {
   return (

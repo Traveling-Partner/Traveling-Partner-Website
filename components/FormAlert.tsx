@@ -82,8 +82,8 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
   return (
     <div
       className="pointer-events-none fixed inset-x-0 top-0 z-[100] flex justify-center px-3 pt-4 sm:inset-x-auto sm:right-5 sm:justify-end sm:px-0 sm:pt-5"
-      role="status"
-      aria-live="polite"
+      role={isSuccess ? "status" : "alert"}
+      aria-live={isSuccess ? "polite" : "assertive"}
     >
       <div
         className={`pointer-events-auto w-full max-w-[300px] origin-top transition-all duration-300 ease-out sm:origin-top-right ${

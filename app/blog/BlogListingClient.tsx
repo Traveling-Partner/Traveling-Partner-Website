@@ -19,6 +19,8 @@ import SearchEmptyState from "@/components/SearchEmptyState";
 import BlogLoadError from "@/components/BlogLoadError";
 import TPLoader from "@/components/TPLoader";
 
+const INITIAL_VISIBLE_COUNT = 6;
+
 const getImageSrc = (value: string): string => {
   const src = encodeMediaUrl(String(value || "").trim());
   if (!src) return "/mock-images/blog-cover.svg";
@@ -74,7 +76,10 @@ function BlogListingInner() {
   const sortOrder =
     searchParams?.get("sort") === "oldest" ? "oldest" : "newest";
   const shownRaw = Number(searchParams?.get("shown"));
-  const visibleCount = Number.isFinite(shownRaw) && shownRaw > 0 ? shownRaw : 3;
+  const visibleCount =
+    Number.isFinite(shownRaw) && shownRaw > 0
+      ? shownRaw
+      : INITIAL_VISIBLE_COUNT;
 
   const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
   const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
@@ -90,7 +95,8 @@ function BlogListingInner() {
           (key === "q" && !asString.trim()) ||
           (key === "cat" && (asString === "All" || !asString)) ||
           (key === "sort" && (asString === "newest" || !asString)) ||
-          (key === "shown" && (asString === "3" || !asString));
+          (key === "shown" &&
+            (asString === String(INITIAL_VISIBLE_COUNT) || !asString));
         if (isDefault) next.delete(key);
         else next.set(key, asString);
       });
@@ -175,7 +181,9 @@ function BlogListingInner() {
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogHero
         searchQuery={searchQuery}
-        onSearchChange={(value) => writeParams({ q: value, shown: 3 })}
+        onSearchChange={(value) =>
+          writeParams({ q: value, shown: INITIAL_VISIBLE_COUNT })
+        }
         onSearchSubmit={() => {
           if (searchQuery.trim()) {
             fetchBlogListClient(searchQuery.trim())
@@ -196,7 +204,9 @@ function BlogListingInner() {
         }}
         categories={categories}
         selectedCategory={selectedCategory}
-        onCategoryChange={(cat) => writeParams({ cat, shown: 3 })}
+        onCategoryChange={(cat) =>
+          writeParams({ cat, shown: INITIAL_VISIBLE_COUNT })
+        }
         hideCategories={
           !loading && !error && searchQuery.trim() !== "" && carouselBlogs.length === 0
         }
@@ -238,7 +248,9 @@ function BlogListingInner() {
             getImageSrc={getImageSrc}
             sortOrder={sortOrder}
             visibleCount={visibleCount}
-            onSortChange={(sort) => writeParams({ sort, shown: 3 })}
+            onSortChange={(sort) =>
+              writeParams({ sort, shown: INITIAL_VISIBLE_COUNT })
+            }
             onVisibleCountChange={(shown) => writeParams({ shown })}
           />
         </div>

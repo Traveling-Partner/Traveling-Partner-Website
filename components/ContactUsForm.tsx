@@ -13,10 +13,13 @@ import FormAlert from "./FormAlert";
 import FieldError from "@/components/FieldError";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
+import ContactFileAttach from "@/components/ContactFileAttach";
 import {
   CONTACT_LIMITS,
+  contactValidationBanner,
   isValidEmail,
-  isValidPhone,
+  messageFieldError,
+  phoneFieldError,
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
@@ -123,7 +126,7 @@ function PhoneCtaButton(): React.ReactElement {
   );
 }
 
-const TABS = ["General", "Drivers", "Business"] as const;
+const TABS = ["General", "Drivers", "Business", "Partnership"] as const;
 type ContactTab = (typeof TABS)[number];
 
 const SOCIAL_AVATARS = [
@@ -189,6 +192,8 @@ export default function ContactUsForm(): React.ReactElement {
     message: "",
   });
   const overlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [attachFile, setAttachFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
   const isBusiness = activeTab === "Business";
   const labelClass =
@@ -212,22 +217,18 @@ export default function ContactUsForm(): React.ReactElement {
     const emailErr = requiredError("Email", formData.email);
     if (emailErr) next.email = emailErr;
     else if (!isValidEmail(formData.email)) next.email = "Enter a valid email address.";
+    const phoneErr = phoneFieldError(formData.phone);
+    if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
       const company = requiredError("Company name", formData.companyName);
       if (company) next.companyName = company;
       const type = requiredError("Business type", formData.businessType);
       if (type) next.businessType = type;
-      const phone = requiredError("Phone", formData.phone);
-      if (phone) next.phone = phone;
-      else if (!isValidPhone(formData.phone)) next.phone = "Enter a valid phone number.";
       const city = requiredError("City", formData.city);
       if (city) next.city = city;
     }
-    const messageErr = requiredError("Message", formData.message);
+    const messageErr = messageFieldError(formData.message);
     if (messageErr) next.message = messageErr;
-    else if (formData.message.trim().length < CONTACT_LIMITS.messageMin) {
-      next.message = `Message must be at least ${CONTACT_LIMITS.messageMin} characters.`;
-    }
     return next;
   };
 
@@ -238,7 +239,7 @@ export default function ContactUsForm(): React.ReactElement {
     if (Object.keys(nextErrors).length) {
       setSubmissionStatus({
         type: "error",
-        message: "Please fix the highlighted fields and try again.",
+        message: contactValidationBanner(nextErrors),
       });
       setAlertVisible(true);
       return;
@@ -265,7 +266,9 @@ export default function ContactUsForm(): React.ReactElement {
         email: formData.email,
         subject: activeTab,
         message: businessDetails,
-        phoneNumber: isBusiness ? formData.phone : "",
+        phoneNumber: formData.phone.trim(),
+        photo: "",
+        photoFile: attachFile,
       });
       setSubmissionStatus({
         type: "success",
@@ -274,6 +277,8 @@ export default function ContactUsForm(): React.ReactElement {
       setOverlayPhase("success");
       setAlertVisible(true);
       setFormData(initialFormData);
+      setAttachFile(null);
+      setFileError("");
       setFieldErrors({});
       overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
     } catch (error: unknown) {
@@ -380,7 +385,7 @@ export default function ContactUsForm(): React.ReactElement {
 
               {/* Tabs */}
               <div className="rounded-full bg-[#f5f0e6] p-1">
-                <div className="grid grid-cols-3 gap-0.5">
+                <div className="grid grid-cols-4 gap-0.5">
                   {TABS.map((tab) => {
                     const active = tab === activeTab;
                     return (
@@ -388,7 +393,7 @@ export default function ContactUsForm(): React.ReactElement {
                         key={tab}
                         type="button"
                         onClick={() => setActiveTab(tab)}
-                        className={`flex min-h-[40px] min-w-0 items-center justify-center truncate rounded-full px-1.5 py-2 font-poppins text-[10px] font-semibold transition-all sm:min-h-[44px] sm:px-3 sm:py-2.5 sm:text-[13px] ${
+                        className={`flex min-h-[40px] min-w-0 items-center justify-center truncate rounded-full px-1 py-2 font-poppins text-[9px] font-semibold transition-all sm:min-h-[44px] sm:px-2 sm:py-2.5 sm:text-[12px] ${
                           active
                             ? "bg-white text-[#0b0b0b] shadow-sm"
                             : "text-[#6f6e68] hover:text-[#0b0b0b]"
@@ -418,7 +423,12 @@ export default function ContactUsForm(): React.ReactElement {
                 </p>
               </div>
 
-              <form onSubmit={submitHandler} noValidate className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3">
+              <form
+                method="post"
+                noValidate
+                onSubmit={submitHandler}
+                className="relative mt-3.5 space-y-2.5 sm:mt-4 sm:space-y-3"
+              >
                 <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                   <div>
                     <label htmlFor="home-firstName" className={labelClass}>
@@ -431,6 +441,7 @@ export default function ContactUsForm(): React.ReactElement {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="First Name"
+                      autoComplete="given-name"
                       required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
@@ -452,6 +463,7 @@ export default function ContactUsForm(): React.ReactElement {
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Last Name"
+                      autoComplete="family-name"
                       required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
@@ -475,6 +487,7 @@ export default function ContactUsForm(): React.ReactElement {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Email address"
+                    autoComplete="email"
                     required
                     maxLength={CONTACT_LIMITS.email}
                     disabled={loading}
@@ -483,6 +496,29 @@ export default function ContactUsForm(): React.ReactElement {
                   />
                   {fieldErrors.email ? (
                     <FieldError message={fieldErrors.email} />
+                  ) : null}
+                </div>
+
+                <div>
+                  <label htmlFor="home-phone" className={labelClass}>
+                    Phone Number
+                  </label>
+                  <input
+                    id="home-phone"
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+92 3XX XXXXXXX"
+                    autoComplete="tel"
+                    required
+                    maxLength={CONTACT_LIMITS.phone}
+                    disabled={loading}
+                    className={fieldClass}
+                    aria-invalid={Boolean(fieldErrors.phone)}
+                  />
+                  {fieldErrors.phone ? (
+                    <FieldError message={fieldErrors.phone} />
                   ) : null}
                 </div>
 
@@ -499,6 +535,7 @@ export default function ContactUsForm(): React.ReactElement {
                         value={formData.companyName}
                         onChange={handleChange}
                         placeholder="Company name"
+                        autoComplete="organization"
                         required
                         maxLength={CONTACT_LIMITS.company}
                         disabled={loading}
@@ -532,47 +569,26 @@ export default function ContactUsForm(): React.ReactElement {
                         ) : null}
                       </div>
                       <div>
-                        <label htmlFor="home-phone" className={labelClass}>
-                          Business Phone
+                        <label htmlFor="home-city" className={labelClass}>
+                          City
                         </label>
                         <input
-                          id="home-phone"
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
+                          id="home-city"
+                          type="text"
+                          name="city"
+                          value={formData.city}
                           onChange={handleChange}
-                          placeholder="Business phone"
+                          placeholder="City"
                           required
-                          maxLength={CONTACT_LIMITS.phone}
+                          maxLength={CONTACT_LIMITS.city}
                           disabled={loading}
                           className={fieldClass}
-                          aria-invalid={Boolean(fieldErrors.phone)}
+                          aria-invalid={Boolean(fieldErrors.city)}
                         />
-                        {fieldErrors.phone ? (
-                          <FieldError message={fieldErrors.phone} />
+                        {fieldErrors.city ? (
+                          <FieldError message={fieldErrors.city} />
                         ) : null}
                       </div>
-                    </div>
-                    <div>
-                      <label htmlFor="home-city" className={labelClass}>
-                        City
-                      </label>
-                      <input
-                        id="home-city"
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        placeholder="City"
-                        required
-                        maxLength={CONTACT_LIMITS.city}
-                        disabled={loading}
-                        className={fieldClass}
-                        aria-invalid={Boolean(fieldErrors.city)}
-                      />
-                      {fieldErrors.city ? (
-                        <FieldError message={fieldErrors.city} />
-                      ) : null}
                     </div>
                   </>
                 ) : null}
@@ -602,6 +618,18 @@ export default function ContactUsForm(): React.ReactElement {
                     </p>
                   )}
                 </div>
+
+                <ContactFileAttach
+                  id="home-attachment"
+                  file={attachFile}
+                  error={fileError}
+                  disabled={loading}
+                  tone="home"
+                  onChange={(next, nextError) => {
+                    setAttachFile(next);
+                    setFileError(nextError);
+                  }}
+                />
 
                 <button
                   type="submit"

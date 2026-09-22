@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins, Montserrat, Bricolage_Grotesque } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
@@ -59,6 +60,9 @@ export const metadata: Metadata = {
       "https://res.cloudinary.com/duubabjk7/image/upload/v1715253815/tp-Imgs/logo/Footer-logo_hyzuc1.png",
     ],
   },
+  other: {
+    "google-adsense-account": "ca-pub-9237873671718047",
+  },
 };
 
 export default function RootLayout({
@@ -72,6 +76,12 @@ export default function RootLayout({
         className={`${poppins.variable} ${montserrat.variable} ${bricolage.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
         suppressHydrationWarning
       >
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718047"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         {/* Hoisted by Next — preload so loader assets are ready on first paint */}
         <link
           rel="preload"
@@ -89,6 +99,13 @@ export default function RootLayout({
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[#0b0b0b] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#FCE001] focus:outline-none focus:ring-2 focus:ring-[#FCE001]"
+        >
+          Skip to content
+        </a>
+
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-[#0b0b0b] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         >
           Skip to content
         </a>

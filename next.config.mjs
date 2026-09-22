@@ -21,6 +21,14 @@ const nextConfig = {
         source: "/website/:path*",
         destination: `${backendOrigin}/api/website/:path*`,
       },
+      {
+        source: "/api/ridePlans/:path*",
+        destination: `${backendOrigin}/api/ridePlans/:path*`,
+      },
+      {
+        source: "/ride-location/:token",
+        destination: "/ride-location?shareToken=:token",
+      },
     ];
   },
 

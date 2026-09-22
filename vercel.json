@@ -9,12 +9,36 @@
       "source": "/taxi-stand/",
       "destination": "/taxi-ride",
       "permanent": true
+    },
+    {
+      "source": "/trip",
+      "destination": "/tourism",
+      "permanent": true
+    },
+    {
+      "source": "/trip/",
+      "destination": "/tourism",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/privacy/",
+      "destination": "/privacy-policy",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
       "source": "/website/:path*",
       "destination": "https://staging.api.traveling-partner.com/api/website/:path*"
+    },
+    {
+      "source": "/ride-location/:token",
+      "destination": "/ride-location?shareToken=:token"
     }
   ]
 }
