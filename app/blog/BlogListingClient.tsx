@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState, Suspense } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, Suspense } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
@@ -8,6 +8,7 @@ import { formatBlogType } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
 import {
   fetchBlogListClient,
+  fetchBlogListHeadClient,
   fetchFeaturedBlogListClient,
 } from "@/lib/blogClientFetch";
 import { mapBlogCard, type MappedBlogCard } from "@/lib/blogMap";
@@ -85,6 +86,7 @@ function BlogListingInner() {
   const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const loadRequest = useRef(0);
 
   const writeParams = useCallback(
     (patch: Record<string, string | number | undefined>) => {
@@ -107,30 +109,41 @@ function BlogListingInner() {
   );
 
   const loadBlogs = useCallback(async () => {
+    const requestId = ++loadRequest.current;
+    const toCards = (payload: unknown) =>
+      extractBlogList(payload)
+        .map(mapBlogCard)
+        .filter((blog) => blog.id);
+
     try {
       setLoading(true);
       setError(null);
 
       const [listData, featuredData] = await Promise.all([
-        fetchBlogListClient(),
+        fetchBlogListHeadClient(),
         fetchFeaturedBlogListClient(),
       ]);
-      setBlogs(
-        extractBlogList(listData)
-          .map(mapBlogCard)
-          .filter((blog) => blog.id)
-      );
+      if (requestId !== loadRequest.current) return;
+      setBlogs(toCards(listData));
       setFeaturedBlogs(
-        extractBlogList(featuredData)
-          .map(mapBlogCard)
-          .filter((blog) => blog.id && blog.isFeatured)
+        toCards(featuredData).filter((blog) => blog.isFeatured)
       );
+      setLoading(false);
     } catch (err) {
       console.error("Error while fetching blog list:", err);
+      if (requestId !== loadRequest.current) return;
       setFeaturedBlogs([]);
       setError("Unable to load blogs right now. Please try again.");
-    } finally {
       setLoading(false);
+      return;
+    }
+
+    try {
+      const listData = await fetchBlogListClient();
+      if (requestId !== loadRequest.current) return;
+      setBlogs(toCards(listData));
+    } catch (err) {
+      console.error("Error while fetching the rest of the blog list:", err);
     }
   }, []);
 

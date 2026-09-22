@@ -206,61 +206,126 @@ export const getBlogIdFromItem = (item: Record<string, unknown>): string => {
   return raw != null && String(raw).trim() !== "" ? String(raw) : "";
 };
 
+/** Successful list only. A failed call does not read this. */
+const LIST_CACHE_MS = 2 * 60 * 1000;
+const MAX_LIST_PAGES = 50;
+
+let publishedListCache: { at: number; items: Record<string, unknown>[] } | null =
+  null;
+let featuredListCache: { at: number; items: Record<string, unknown>[] } | null =
+  null;
+
+function readFreshListCache(
+  entry: { at: number; items: Record<string, unknown>[] } | null
+): Record<string, unknown>[] | null {
+  if (!entry) return null;
+  if (Date.now() - entry.at > LIST_CACHE_MS) return null;
+  return entry.items;
+}
+
+async function fetchOneListPage(url: string): Promise<{
+  items: Record<string, unknown>[];
+  totalPages: number;
+  totalPagesKnown: boolean;
+}> {
+  const response = await fetch(url, {
+    method: "GET",
+    cache: "no-store",
+    headers: { Accept: "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error(`${url} → ${response.status}`);
+  }
+  const json = await response.json();
+  const items = extractBlogList(json).filter((item) => {
+    const status = String(item.status ?? "").trim().toUpperCase();
+    return !status || status === "PUBLISHED";
+  });
+  const data = (json?.data ?? {}) as Record<string, unknown>;
+  const reportedPages = Number(data.totalPages);
+  const totalPagesKnown = Number.isFinite(reportedPages) && reportedPages > 0;
+  return {
+    items,
+    totalPages: totalPagesKnown ? reportedPages : 1,
+    totalPagesKnown,
+  };
+}
+
 async function fetchPagedPublishedList(
   listUrl: (page: number) => string
 ): Promise<Record<string, unknown>[]> {
-  const all: Record<string, unknown>[] = [];
-  let page = 0;
-  let totalPages = 1;
-  const maxPages = 50;
-
-  while (page < totalPages && page < maxPages) {
-    const url = listUrl(page);
-    const response = await fetch(url, {
-      method: "GET",
-      cache: "no-store",
-      headers: { Accept: "application/json" },
-    });
-    if (!response.ok) {
-      throw new Error(`${url} → ${response.status}`);
-    }
-    const json = await response.json();
-    const items = extractBlogList(json).filter((item) => {
-      const status = String(item.status ?? "").trim().toUpperCase();
-      return !status || status === "PUBLISHED";
-    });
-    all.push(...items);
-    const data = (json?.data ?? {}) as Record<string, unknown>;
-    const reportedPages = Number(data.totalPages);
-    if (Number.isFinite(reportedPages) && reportedPages > 0) {
-      totalPages = reportedPages;
-    } else if (items.length < LIST_PAGE_SIZE) {
-      totalPages = page + 1;
-    } else {
-      totalPages = page + 2;
-    }
-    if (items.length === 0) break;
-    page += 1;
+  const first = await fetchOneListPage(listUrl(0));
+  if (first.totalPagesKnown) {
+    const pageCount = Math.min(first.totalPages, MAX_LIST_PAGES);
+    if (pageCount <= 1) return first.items;
+    const rest = await Promise.all(
+      Array.from({ length: pageCount - 1 }, (_, index) =>
+        fetchOneListPage(listUrl(index + 1))
+      )
+    );
+    return [first.items, ...rest.map((page) => page.items)].flat();
   }
 
+  const all = [...first.items];
+  let page = 1;
+  while (page < MAX_LIST_PAGES) {
+    const next = await fetchOneListPage(listUrl(page));
+    if (next.items.length === 0) break;
+    all.push(...next.items);
+    if (next.items.length < LIST_PAGE_SIZE) break;
+    page += 1;
+  }
   return all;
 }
 
 export async function fetchPublishedBlogPages(
   search = ""
 ): Promise<Record<string, unknown>[]> {
+  const query = search.trim();
+  if (!query) {
+    const fresh = readFreshListCache(publishedListCache);
+    if (fresh) return fresh;
+  }
   try {
-    return await fetchPagedPublishedList((page) =>
+    const items = await fetchPagedPublishedList((page) =>
       legacyBlogListApiUrl(page, LIST_PAGE_SIZE, search)
     );
+    if (!query) publishedListCache = { at: Date.now(), items };
+    return items;
   } catch (err) {
     console.warn(
       "[blog] GET /api/website/blog/list unavailable; falling back to /api/blog/getAll",
       err
     );
-    return await fetchPagedPublishedList((page) =>
+    const items = await fetchPagedPublishedList((page) =>
       blogListApiUrl(page, LIST_PAGE_SIZE, search)
     );
+    if (!query) publishedListCache = { at: Date.now(), items };
+    return items;
+  }
+}
+
+/** First page only, so the listing can render before the rest of the catalogue arrives. */
+export async function fetchPublishedBlogHead(
+  search = ""
+): Promise<Record<string, unknown>[]> {
+  const query = search.trim();
+  if (!query) {
+    const fresh = readFreshListCache(publishedListCache);
+    if (fresh) return fresh;
+  }
+  try {
+    return (
+      await fetchOneListPage(legacyBlogListApiUrl(0, LIST_PAGE_SIZE, search))
+    ).items;
+  } catch (err) {
+    console.warn(
+      "[blog] GET /api/website/blog/list page 0 unavailable; falling back to /api/blog/getAll",
+      err
+    );
+    return (
+      await fetchOneListPage(blogListApiUrl(0, LIST_PAGE_SIZE, search))
+    ).items;
   }
 }
 
@@ -272,6 +337,8 @@ export async function fetchPublishedBlogPages(
 export async function fetchFeaturedBlogPages(): Promise<
   Record<string, unknown>[]
 > {
+  const fresh = readFreshListCache(featuredListCache);
+  if (fresh) return fresh;
   try {
     const all: Record<string, unknown>[] = [];
     let page = 0;
@@ -305,6 +372,7 @@ export async function fetchFeaturedBlogPages(): Promise<
       page += 1;
     }
 
+    featuredListCache = { at: Date.now(), items: all };
     return all;
   } catch (err) {
     console.warn("[blog] GET /api/website/blog/featured failed", err);
