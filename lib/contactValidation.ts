@@ -50,10 +50,33 @@ export const CONTACT_SUCCESS = {
   message: "Thank you. Our team will contact you within 24 hours.",
 } as const;
 
-export function contactValidationBanner(errors: ContactFieldErrors): string {
-  if (errors.phone) return errors.phone;
-  if (errors.message) return errors.message;
-  return "Please fix the highlighted fields and try again.";
+function isRequiredMessage(message: string): boolean {
+  return /is required\.?$/i.test(message);
+}
+
+/**
+ * Toast copy for a failed submit.
+ * Every required field empty → ask them to fill the form.
+ * More than one required field wrong → ask them to complete it.
+ * One field wrong → that field's own message.
+ */
+export function contactValidationBanner(
+  errors: ContactFieldErrors,
+  requiredCount: number
+): string {
+  const messages = Object.values(errors).filter(Boolean);
+  if (messages.length === 1) return messages[0];
+
+  const everyRequiredFieldEmpty =
+    requiredCount > 0 &&
+    messages.length === requiredCount &&
+    messages.every(isRequiredMessage);
+
+  if (everyRequiredFieldEmpty) {
+    return "Please fill in the form, then submit it.";
+  }
+
+  return "Please complete all required fields before submitting.";
 }
 
 export const CONTACT_FILE = {
