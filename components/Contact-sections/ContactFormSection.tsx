@@ -333,7 +333,7 @@ export default function ContactFormSection() {
     if (Object.keys(nextErrors).length) {
       setStatus({
         type: "error",
-        message: contactValidationBanner(nextErrors),
+        message: contactValidationBanner(nextErrors, isBusiness ? 7 : 4),
       });
       setAlertVisible(true);
       return;

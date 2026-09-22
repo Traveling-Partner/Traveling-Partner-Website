@@ -242,7 +242,7 @@ export default function ContactUsForm(): React.ReactElement {
     if (Object.keys(nextErrors).length) {
       setSubmissionStatus({
         type: "error",
-        message: contactValidationBanner(nextErrors),
+        message: contactValidationBanner(nextErrors, isBusiness ? 8 : 5),
       });
       setAlertVisible(true);
       return;
