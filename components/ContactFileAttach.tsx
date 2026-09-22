@@ -11,6 +11,7 @@ import {
   contactFileError,
   isContactImageFile,
 } from "@/lib/contactValidation";
+import FieldError from "@/components/FieldError";
 
 function PaperclipIcon() {
   return (
@@ -31,7 +32,6 @@ export default function ContactFileAttach({
   file,
   error,
   disabled,
-  errorClass,
   tone = "home",
   onChange,
 }: {
@@ -39,7 +39,6 @@ export default function ContactFileAttach({
   file: File | null;
   error: string;
   disabled?: boolean;
-  errorClass: string;
   tone?: "home" | "page";
   onChange: (file: File | null, error: string) => void;
 }) {
@@ -138,7 +137,7 @@ export default function ContactFileAttach({
           disabled={disabled}
         />
       </label>
-      {error ? <p className={errorClass}>{error}</p> : null}
+      <FieldError message={error} />
     </div>
   );
 }

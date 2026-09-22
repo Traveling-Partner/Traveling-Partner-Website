@@ -4,9 +4,11 @@ import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { Bell, Gift, Mail, MapPin, ArrowRight } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
+import FieldError from "@/components/FieldError";
 import { subscribeNewsletter } from "@/services/newsletter";
 import { newsletterFeedbackMessage } from "@/lib/newsletterFeedback";
 import { isValidEmail } from "@/lib/contactValidation";
+import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
 import "./NewsletterSection.css";
 
 /** Original full artwork — rings, airplane, clouds, dots, mailbox */
@@ -45,6 +47,11 @@ export default function NewsletterSection() {
     message: string;
   }>({ type: null, message: "" });
 
+  useClearOnRouteChange(() => {
+    setAlertVisible(false);
+    setStatus({ type: null, message: "" });
+  });
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmed = email.trim();
@@ -77,7 +84,10 @@ export default function NewsletterSection() {
 
   useEffect(() => {
     if (!alertVisible) return;
-    const timer = window.setTimeout(() => setAlertVisible(false), 3200);
+    const timer = window.setTimeout(() => {
+      setAlertVisible(false);
+      setStatus({ type: null, message: "" });
+    }, 3200);
     return () => window.clearTimeout(timer);
   }, [alertVisible]);
 
@@ -146,7 +156,10 @@ export default function NewsletterSection() {
                 type="email"
                 name="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (status.type) setStatus({ type: null, message: "" });
+                }}
                 placeholder="Enter your email"
                 required
                 disabled={loading}
@@ -160,13 +173,12 @@ export default function NewsletterSection() {
                 ) : null}
               </button>
             </form>
-            {status.message ? (
+            {status.type === "error" ? (
+              <FieldError message={status.message} />
+            ) : status.type === "success" && status.message ? (
               <p
-                className={`sil__feedback mt-2 text-[12px] font-medium ${
-                  status.type === "success" ? "text-[#0b0b0b]" : "text-[#b42318]"
-                }`}
+                className="mt-1.5 rounded-[10px] bg-[#FFF6D0] px-2.5 py-1.5 font-poppins text-[11px] font-medium text-[#0b0b0b]"
                 role="status"
-                aria-live="polite"
               >
                 {status.message}
               </p>

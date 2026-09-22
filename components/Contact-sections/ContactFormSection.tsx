@@ -12,6 +12,7 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import FormAlert from "@/components/FormAlert";
+import FieldError from "@/components/FieldError";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import ContactFileAttach from "@/components/ContactFileAttach";
@@ -25,6 +26,7 @@ import {
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
+import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
 
 const SUBJECTS = [
   "General Inquiry",
@@ -381,9 +383,19 @@ export default function ContactFormSection() {
     }
   };
 
+  useClearOnRouteChange(() => {
+    setAlertVisible(false);
+    setFieldErrors({});
+    setFileError("");
+    setStatus({ type: null, message: "" });
+  });
+
   useEffect(() => {
     if (!alertVisible) return;
-    const t = window.setTimeout(() => setAlertVisible(false), 3200);
+    const t = window.setTimeout(() => {
+      setAlertVisible(false);
+      setStatus({ type: null, message: "" });
+    }, 3200);
     return () => window.clearTimeout(t);
   }, [alertVisible]);
 
@@ -395,12 +407,11 @@ export default function ContactFormSection() {
   );
 
   const fieldClass =
-    "w-full rounded-[12px] border border-[#ebe6da] bg-[#F7F4EC] px-3 py-2 font-poppins text-[12.5px] text-[#0b0b0b] outline-none transition-colors placeholder:text-[#9a968c] focus:border-[#FCE001]/70 focus:bg-[#faf8f2] sm:px-3.5 sm:py-2.5 sm:text-[13px]";
+    "w-full rounded-[12px] border border-[#ebe6da] bg-[#F7F4EC] px-3 py-2 font-poppins text-[12.5px] text-[#0b0b0b] outline-none transition-colors placeholder:text-[#9a968c] focus:border-[#FCE001]/70 focus:bg-[#faf8f2] aria-invalid:border-[#FDB813] aria-invalid:bg-[#fff9e6] sm:px-3.5 sm:py-2.5 sm:text-[13px]";
 
   const labelClass =
     "mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b]";
 
-  const errorClass = "mt-1 text-[11px] font-medium text-[#b42318]";
   const counterClass = "mt-1 text-right text-[10px] text-[#5c5b55]";
 
   return (
@@ -570,7 +581,7 @@ export default function ContactFormSection() {
                       aria-invalid={Boolean(fieldErrors.fullName)}
                     />
                     {fieldErrors.fullName ? (
-                      <p className={errorClass}>{fieldErrors.fullName}</p>
+                      <FieldError message={fieldErrors.fullName} />
                     ) : null}
                   </div>
                   <div>
@@ -592,7 +603,7 @@ export default function ContactFormSection() {
                       aria-invalid={Boolean(fieldErrors.email)}
                     />
                     {fieldErrors.email ? (
-                      <p className={errorClass}>{fieldErrors.email}</p>
+                      <FieldError message={fieldErrors.email} />
                     ) : null}
                   </div>
                   <div>
@@ -614,7 +625,7 @@ export default function ContactFormSection() {
                       aria-invalid={Boolean(fieldErrors.phone)}
                     />
                     {fieldErrors.phone ? (
-                      <p className={errorClass}>{fieldErrors.phone}</p>
+                      <FieldError message={fieldErrors.phone} />
                     ) : null}
                   </div>
                   <div>
@@ -663,7 +674,7 @@ export default function ContactFormSection() {
                         aria-invalid={Boolean(fieldErrors.companyName)}
                       />
                       {fieldErrors.companyName ? (
-                        <p className={errorClass}>{fieldErrors.companyName}</p>
+                        <FieldError message={fieldErrors.companyName} />
                       ) : null}
                     </div>
                     <div>
@@ -684,7 +695,7 @@ export default function ContactFormSection() {
                         aria-invalid={Boolean(fieldErrors.businessType)}
                       />
                       {fieldErrors.businessType ? (
-                        <p className={errorClass}>{fieldErrors.businessType}</p>
+                        <FieldError message={fieldErrors.businessType} />
                       ) : null}
                     </div>
                     <div>
@@ -705,7 +716,7 @@ export default function ContactFormSection() {
                         aria-invalid={Boolean(fieldErrors.city)}
                       />
                       {fieldErrors.city ? (
-                        <p className={errorClass}>{fieldErrors.city}</p>
+                        <FieldError message={fieldErrors.city} />
                       ) : null}
                     </div>
                   </div>
@@ -729,7 +740,7 @@ export default function ContactFormSection() {
                     aria-invalid={Boolean(fieldErrors.message)}
                   />
                   {fieldErrors.message ? (
-                    <p className={errorClass}>{fieldErrors.message}</p>
+                    <FieldError message={fieldErrors.message} />
                   ) : (
                     <p className={counterClass}>
                       {form.message.length}/{CONTACT_LIMITS.message}
@@ -742,7 +753,6 @@ export default function ContactFormSection() {
                   file={attachFile}
                   error={fileError}
                   disabled={loading}
-                  errorClass={errorClass}
                   tone="page"
                   onChange={(next, nextError) => {
                     setAttachFile(next);

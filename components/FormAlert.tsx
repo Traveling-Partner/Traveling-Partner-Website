@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface FormAlertProps {
   status: "success" | "error" | null;
@@ -54,18 +55,25 @@ function friendlyMessage(
  * Compact toast — cream card + dark text for clear readability.
  */
 const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
+  const pathname = usePathname();
+  const pathRef = useRef(pathname);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (pathRef.current !== pathname) {
+      pathRef.current = pathname;
+      setVisible(false);
+      return;
+    }
     if (!status) {
       setVisible(false);
       return;
     }
     const show = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(show);
-  }, [status, message]);
+  }, [status, message, pathname]);
 
-  if (!status) return null;
+  if (!status || !visible) return null;
 
   const isSuccess = status === "success";
   const body = friendlyMessage(status, message);
@@ -88,15 +96,13 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
           className={`relative overflow-hidden rounded-[14px] border px-3 py-2.5 shadow-[0_10px_28px_rgba(11,11,11,0.14)] ${
             isSuccess
               ? "border-[#FCE001]/70 bg-[#FFFEF6]"
-              : "border-[#e8e0d0] bg-[#FFFEF6]"
+              : "border-[#FCE001]/50 bg-[#FFFEF6]"
           }`}
         >
           <div
             className="pointer-events-none absolute inset-y-0 left-0 w-[3px]"
             style={{
-              background: isSuccess
-                ? "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)"
-                : "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
+              background: "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
             }}
             aria-hidden
           />
