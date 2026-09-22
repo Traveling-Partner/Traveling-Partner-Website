@@ -16,6 +16,7 @@ import { submitContactForm } from "@/services/contact";
 import ContactFileAttach from "@/components/ContactFileAttach";
 import {
   CONTACT_LIMITS,
+  CONTACT_SUCCESS,
   contactValidationBanner,
   isValidEmail,
   messageFieldError,
@@ -210,13 +211,9 @@ export default function ContactUsForm(): React.ReactElement {
 
   const validate = (): ContactFieldErrors => {
     const next: ContactFieldErrors = {};
-    const first = requiredError("First name", formData.firstName);
-    if (first) next.firstName = first;
-    const last = requiredError("Last name", formData.lastName);
-    if (last) next.lastName = last;
-    const emailErr = requiredError("Email", formData.email);
-    if (emailErr) next.email = emailErr;
-    else if (!isValidEmail(formData.email)) next.email = "Enter a valid email address.";
+    if (formData.email.trim() && !isValidEmail(formData.email)) {
+      next.email = "Enter a valid email address.";
+    }
     const phoneErr = phoneFieldError(formData.phone);
     if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
@@ -272,7 +269,7 @@ export default function ContactUsForm(): React.ReactElement {
       });
       setSubmissionStatus({
         type: "success",
-        message: "Message sent successfully!",
+        message: CONTACT_SUCCESS.message,
       });
       setOverlayPhase("success");
       setAlertVisible(true);
@@ -280,7 +277,7 @@ export default function ContactUsForm(): React.ReactElement {
       setAttachFile(null);
       setFileError("");
       setFieldErrors({});
-      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 2800);
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -306,7 +303,7 @@ export default function ContactUsForm(): React.ReactElement {
     const timer = window.setTimeout(() => {
       setAlertVisible(false);
       setSubmissionStatus({ type: null, message: "" });
-    }, 3000);
+    }, 4500);
     return () => window.clearTimeout(timer);
   }, [alertVisible]);
 
@@ -433,6 +430,9 @@ export default function ContactUsForm(): React.ReactElement {
                   <div>
                     <label htmlFor="home-firstName" className={labelClass}>
                       First Name
+                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
+                        optional
+                      </span>
                     </label>
                     <input
                       id="home-firstName"
@@ -442,7 +442,6 @@ export default function ContactUsForm(): React.ReactElement {
                       onChange={handleChange}
                       placeholder="First Name"
                       autoComplete="given-name"
-                      required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
                       className={fieldClass}
@@ -455,6 +454,9 @@ export default function ContactUsForm(): React.ReactElement {
                   <div>
                     <label htmlFor="home-lastName" className={labelClass}>
                       Last Name
+                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
+                        optional
+                      </span>
                     </label>
                     <input
                       id="home-lastName"
@@ -464,7 +466,6 @@ export default function ContactUsForm(): React.ReactElement {
                       onChange={handleChange}
                       placeholder="Last Name"
                       autoComplete="family-name"
-                      required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
                       className={fieldClass}
@@ -479,6 +480,9 @@ export default function ContactUsForm(): React.ReactElement {
                 <div>
                   <label htmlFor="home-email" className={labelClass}>
                     Email Address
+                    <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
+                      optional
+                    </span>
                   </label>
                   <input
                     id="home-email"
@@ -488,7 +492,6 @@ export default function ContactUsForm(): React.ReactElement {
                     onChange={handleChange}
                     placeholder="Email address"
                     autoComplete="email"
-                    required
                     maxLength={CONTACT_LIMITS.email}
                     disabled={loading}
                     className={fieldClass}
@@ -647,6 +650,11 @@ export default function ContactUsForm(): React.ReactElement {
                 <div className="mt-4">
                   <FormAlert
                     status={submissionStatus.type}
+                    title={
+                      submissionStatus.type === "success"
+                        ? CONTACT_SUCCESS.title
+                        : undefined
+                    }
                     message={submissionStatus.message}
                   />
                 </div>

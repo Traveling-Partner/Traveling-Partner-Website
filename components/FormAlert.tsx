@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 interface FormAlertProps {
   status: "success" | "error" | null;
   message?: string;
+  title?: string;
 }
 
 function CheckIcon() {
@@ -54,7 +55,7 @@ function friendlyMessage(
 /**
  * Compact toast — cream card + dark text for clear readability.
  */
-const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
+const FormAlert: React.FC<FormAlertProps> = ({ status, message, title: titleProp }) => {
   const pathname = usePathname();
   const pathRef = useRef(pathname);
   const [visible, setVisible] = useState(false);
@@ -77,7 +78,7 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
 
   const isSuccess = status === "success";
   const body = friendlyMessage(status, message);
-  const title = isSuccess ? "Message sent" : body;
+  const title = isSuccess ? titleProp || "Message sent" : body;
 
   return (
     <div
@@ -86,7 +87,7 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
       aria-live={isSuccess ? "polite" : "assertive"}
     >
       <div
-        className={`pointer-events-auto w-full max-w-[300px] origin-top transition-all duration-300 ease-out sm:origin-top-right ${
+        className={`pointer-events-auto w-full max-w-[340px] origin-top transition-all duration-300 ease-out sm:origin-top-right ${
           visible
             ? "translate-y-0 scale-100 opacity-100"
             : "-translate-y-2 scale-[0.98] opacity-0"
