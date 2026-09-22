@@ -3,7 +3,6 @@ import {
   FaInstagram,
   FaLinkedin,
   FaPinterest,
-  FaReddit,
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
@@ -72,11 +71,5 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
     label: "Pinterest",
     href: "https://www.pinterest.com/travelingpartnerofficial/",
     color: "#E60023",
-  },
-  {
-    icon: FaReddit,
-    label: "Reddit",
-    href: "https://www.reddit.com/user/partner_official/",
-    color: "#FF4500",
   },
 ] as const;
