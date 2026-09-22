@@ -45,6 +45,11 @@ export function messageFieldError(value: string): string {
   return "";
 }
 
+export const CONTACT_SUCCESS = {
+  title: "Query submitted",
+  message: "Thank you. Our team will contact you within 24 hours.",
+} as const;
+
 export function contactValidationBanner(errors: ContactFieldErrors): string {
   if (errors.phone) return errors.phone;
   if (errors.message) return errors.message;

@@ -19,6 +19,7 @@ import ContactFileAttach from "@/components/ContactFileAttach";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   CONTACT_LIMITS,
+  CONTACT_SUCCESS,
   contactValidationBanner,
   isValidEmail,
   messageFieldError,
@@ -303,11 +304,9 @@ export default function ContactFormSection() {
 
   const validate = (): ContactFieldErrors => {
     const next: ContactFieldErrors = {};
-    const nameErr = requiredError("Full name", form.fullName);
-    if (nameErr) next.fullName = nameErr;
-    const emailErr = requiredError("Email", form.email);
-    if (emailErr) next.email = emailErr;
-    else if (!isValidEmail(form.email)) next.email = "Enter a valid email address.";
+    if (form.email.trim() && !isValidEmail(form.email)) {
+      next.email = "Enter a valid email address.";
+    }
     const phoneErr = phoneFieldError(form.phone);
     if (phoneErr) next.phone = phoneErr;
     if (isBusiness) {
@@ -360,15 +359,14 @@ export default function ContactFormSection() {
         photo: "",
         photoFile: attachFile,
       });
-      const successMsg = "Message sent successfully!";
-      setStatus({ type: "success", message: successMsg });
+      setStatus({ type: "success", message: CONTACT_SUCCESS.message });
       setOverlayPhase("success");
       setAlertVisible(true);
       setForm(initialForm);
       setAttachFile(null);
       setFileError("");
       setFieldErrors({});
-      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 1600);
+      overlayTimer.current = setTimeout(() => setOverlayPhase(null), 2800);
     } catch (err: unknown) {
       const errorMsg =
         err instanceof Error
@@ -395,7 +393,7 @@ export default function ContactFormSection() {
     const t = window.setTimeout(() => {
       setAlertVisible(false);
       setStatus({ type: null, message: "" });
-    }, 3200);
+    }, 4500);
     return () => window.clearTimeout(t);
   }, [alertVisible]);
 
@@ -565,12 +563,14 @@ export default function ContactFormSection() {
                   <div>
                     <label htmlFor="fullName" className={labelClass}>
                       Full Name
+                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
+                        optional
+                      </span>
                     </label>
                     <input
                       id="fullName"
                       name="fullName"
                       type="text"
-                      required
                       maxLength={CONTACT_LIMITS.name}
                       value={form.fullName}
                       onChange={onChange}
@@ -587,12 +587,14 @@ export default function ContactFormSection() {
                   <div>
                     <label htmlFor="email" className={labelClass}>
                       Email Address
+                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
+                        optional
+                      </span>
                     </label>
                     <input
                       id="email"
                       name="email"
                       type="email"
-                      required
                       maxLength={CONTACT_LIMITS.email}
                       value={form.email}
                       onChange={onChange}
@@ -810,7 +812,11 @@ export default function ContactFormSection() {
       </div>
 
       {alertVisible ? (
-        <FormAlert status={status.type} message={status.message} />
+        <FormAlert
+          status={status.type}
+          title={status.type === "success" ? CONTACT_SUCCESS.title : undefined}
+          message={status.message}
+        />
       ) : null}
     </section>
   );
