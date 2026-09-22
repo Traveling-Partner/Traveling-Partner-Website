@@ -180,7 +180,6 @@ export default function GoingSameWaySection() {
             sizes="100vw"
             className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
             style={{ width: "100%", height: "auto" }}
-            priority
           />
           {/* Desktop: phone + van + city — anchored right at natural aspect */}
           <div className="absolute inset-y-0 right-0 hidden aspect-[1024/578] lg:block">
@@ -190,7 +189,6 @@ export default function GoingSameWaySection() {
               fill
               sizes="(max-width: 1280px) 60vw, 700px"
               className="object-contain object-right"
-              priority
             />
             <div
               className="absolute inset-0"

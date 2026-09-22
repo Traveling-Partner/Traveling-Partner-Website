@@ -211,7 +211,13 @@ export default function ContactUsForm(): React.ReactElement {
 
   const validate = (): ContactFieldErrors => {
     const next: ContactFieldErrors = {};
-    if (formData.email.trim() && !isValidEmail(formData.email)) {
+    const firstNameErr = requiredError("First name", formData.firstName);
+    if (firstNameErr) next.firstName = firstNameErr;
+    const lastNameErr = requiredError("Last name", formData.lastName);
+    if (lastNameErr) next.lastName = lastNameErr;
+    const emailErr = requiredError("Email address", formData.email);
+    if (emailErr) next.email = emailErr;
+    else if (!isValidEmail(formData.email)) {
       next.email = "Enter a valid email address.";
     }
     const phoneErr = phoneFieldError(formData.phone);
@@ -430,9 +436,6 @@ export default function ContactUsForm(): React.ReactElement {
                   <div>
                     <label htmlFor="home-firstName" className={labelClass}>
                       First Name
-                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
-                        optional
-                      </span>
                     </label>
                     <input
                       id="home-firstName"
@@ -442,6 +445,7 @@ export default function ContactUsForm(): React.ReactElement {
                       onChange={handleChange}
                       placeholder="First Name"
                       autoComplete="given-name"
+                      required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
                       className={fieldClass}
@@ -454,9 +458,6 @@ export default function ContactUsForm(): React.ReactElement {
                   <div>
                     <label htmlFor="home-lastName" className={labelClass}>
                       Last Name
-                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
-                        optional
-                      </span>
                     </label>
                     <input
                       id="home-lastName"
@@ -466,6 +467,7 @@ export default function ContactUsForm(): React.ReactElement {
                       onChange={handleChange}
                       placeholder="Last Name"
                       autoComplete="family-name"
+                      required
                       maxLength={CONTACT_LIMITS.name}
                       disabled={loading}
                       className={fieldClass}
@@ -480,9 +482,6 @@ export default function ContactUsForm(): React.ReactElement {
                 <div>
                   <label htmlFor="home-email" className={labelClass}>
                     Email Address
-                    <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
-                      optional
-                    </span>
                   </label>
                   <input
                     id="home-email"
@@ -492,6 +491,7 @@ export default function ContactUsForm(): React.ReactElement {
                     onChange={handleChange}
                     placeholder="Email address"
                     autoComplete="email"
+                    required
                     maxLength={CONTACT_LIMITS.email}
                     disabled={loading}
                     className={fieldClass}

@@ -121,12 +121,10 @@ function DesktopPhotoCard({
             height={340}
             className="h-full w-full object-fill object-left"
             sizes="(min-width: 1024px) 35vw, 100vw"
-            priority
           />
           <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
             <video
               ref={videoRef}
-              src={video}
               className="h-full w-full object-cover object-center [transform:translateZ(0)]"
               autoPlay
               muted

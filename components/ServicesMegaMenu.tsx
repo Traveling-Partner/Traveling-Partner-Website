@@ -328,7 +328,6 @@ function PreviewVisual({ service }: { service: ServiceItem }) {
           fill
           sizes="480px"
           className="h-full w-full object-contain object-center"
-          priority
           // Already optimized public assets — skip /_next/image so idle preload hits the same URL.
           unoptimized
         />
@@ -379,7 +378,6 @@ function PreviewVisual({ service }: { service: ServiceItem }) {
             fill
             sizes="420px"
             className="object-contain object-bottom drop-shadow-[0_14px_22px_rgba(11,11,11,0.14)]"
-            priority
           />
         </div>
         <div className="pointer-events-none absolute bottom-[6%] left-[18%] right-[22%] h-3 rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(11,11,11,0.18)_0%,transparent_72%)] blur-[3px]" />
@@ -394,7 +392,6 @@ function PreviewVisual({ service }: { service: ServiceItem }) {
             fill
             sizes="160px"
             className="object-contain object-bottom"
-            priority
           />
         </div>
       </div>
@@ -1126,7 +1123,6 @@ export function ServicesMobileAccordion({
                         fill
                         sizes="(max-width: 1200px) 100vw, 480px"
                         className="object-contain object-center"
-                        priority
                       />
                     </motion.div>
                   </AnimatePresence>

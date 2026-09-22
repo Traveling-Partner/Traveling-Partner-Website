@@ -409,7 +409,6 @@ function ServicesOrbit(): React.ReactElement {
         box={CENTER_BRAND}
         zIndex={10}
         imgStyle={CENTER_BRAND_IMG_STYLE}
-        priority
       />
 
       <div

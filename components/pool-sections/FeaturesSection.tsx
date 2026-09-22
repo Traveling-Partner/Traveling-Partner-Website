@@ -90,7 +90,6 @@ function FeatureCard({
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           className="scale-[1.02] object-cover object-center"
-          priority
         />
 
         <div

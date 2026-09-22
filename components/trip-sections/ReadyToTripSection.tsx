@@ -164,7 +164,6 @@ export default function ReadyToTripSection() {
           sizes="400px"
           className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
           style={{ width: "100%", height: "auto" }}
-          priority
         />
 
         {/* Desktop background — unchanged */}
@@ -179,7 +178,6 @@ export default function ReadyToTripSection() {
               fill
               sizes="(max-width: 1280px) 60vw, 700px"
               className="object-contain object-right"
-              priority
             />
             <div
               className="absolute inset-0"

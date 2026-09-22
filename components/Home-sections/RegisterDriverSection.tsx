@@ -298,7 +298,6 @@ function RegisterSectionCanvas(): React.ReactElement {
           fill
           className="object-cover object-center"
           sizes="100vw"
-          priority
         />
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-[1]"

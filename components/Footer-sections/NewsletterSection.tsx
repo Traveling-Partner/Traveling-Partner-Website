@@ -102,7 +102,6 @@ export default function NewsletterSection() {
           height={1024}
           className="sil__scene"
           sizes="(max-width: 900px) 100vw, 1200px"
-          priority
         />
         <div className="sil__veil" aria-hidden="true" />
 

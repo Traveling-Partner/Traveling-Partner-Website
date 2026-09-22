@@ -163,7 +163,6 @@ export default function NeedARideSection() {
             sizes="100vw"
             className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
             style={{ width: "100%", height: "auto" }}
-            priority
           />
           {/* Desktop: landscape city/taxi */}
           <Image
@@ -172,7 +171,6 @@ export default function NeedARideSection() {
             fill
             sizes="100vw"
             className="hidden object-cover object-[center_38%] opacity-90 lg:block"
-            priority
           />
           {/* Desktop fades only — mobile art already includes black top */}
           <div

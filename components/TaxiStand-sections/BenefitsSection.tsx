@@ -169,7 +169,6 @@ export default function BenefitsSection() {
                   fill
                   sizes="(max-width: 1024px) 90vw, 560px"
                   className="object-cover object-center"
-                  priority
                 />
               </motion.div>
 

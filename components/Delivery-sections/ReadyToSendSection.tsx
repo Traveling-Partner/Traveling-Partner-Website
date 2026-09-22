@@ -163,7 +163,6 @@ export default function ReadyToSendSection() {
             sizes="100vw"
             className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
             style={{ width: "100%", height: "auto" }}
-            priority
           />
           {/* Desktop background */}
           <div className="absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block">
@@ -173,7 +172,6 @@ export default function ReadyToSendSection() {
               fill
               sizes="(max-width: 1280px) 60vw, 700px"
               className="object-contain object-right"
-              priority
             />
           </div>
         </div>
