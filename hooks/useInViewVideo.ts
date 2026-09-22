@@ -21,11 +21,19 @@ export function useInViewVideo(src?: string) {
       void el.play().catch(() => {});
     };
 
+    const arm = () => {
+      // Keep the file off the network until the card is actually on screen.
+      if (!el.getAttribute("src")) {
+        el.preload = "auto";
+        el.src = src;
+      }
+      tryPlay();
+    };
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-          if (el.preload !== "auto") el.preload = "auto";
-          tryPlay();
+          arm();
         } else {
           el.pause();
         }

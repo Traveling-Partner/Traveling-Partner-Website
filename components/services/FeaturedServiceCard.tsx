@@ -63,7 +63,6 @@ function DesktopContent({
             width={96}
             height={96}
             className="h-full w-full scale-[1.2] object-cover object-center"
-            priority
           />
         </span>
         <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5 sm:h-8 sm:px-3">
@@ -120,7 +119,6 @@ function MobileContent({
             width={72}
             height={72}
             className="h-full w-full scale-[1.2] object-cover object-center"
-            priority
           />
         </span>
         <div className="inline-flex h-7 items-center gap-1.5 rounded-full bg-black px-2.5">
@@ -227,7 +225,6 @@ export default function FeaturedServiceCard({
           width={589}
           height={609}
           className="h-auto w-full"
-          priority
           sizes="(max-width: 1024px) 400px, 520px"
         />
         <div className="absolute inset-0 flex flex-col pl-[11%] pr-[22%] pt-[8%] pb-[8%]">

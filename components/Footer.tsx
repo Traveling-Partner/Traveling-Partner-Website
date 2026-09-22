@@ -195,6 +195,7 @@ function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.Reac
           height={149}
           className="block h-auto w-[132px] shrink-0 sm:w-[148px]"
           decoding="async"
+          loading="lazy"
         />
         <div className="flex w-full min-w-0 max-w-[150px] justify-center sm:justify-start">
           {storeButtons}
@@ -213,6 +214,7 @@ function TrustAndAppsBlock({ mobile = false }: { mobile?: boolean }): React.Reac
         height={149}
         className="block h-auto w-[180px] max-w-full"
         decoding="async"
+        loading="lazy"
       />
       <div className="mt-2 flex w-full min-w-0 justify-center">{storeButtons}</div>
     </div>

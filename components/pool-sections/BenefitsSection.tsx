@@ -94,7 +94,6 @@ function BenefitCard({
           fill
           sizes="(max-width: 1024px) 100vw, 40vw"
           className="scale-[1.02] object-cover object-center"
-          priority
         />
 
         {/* Step badge overlay */}

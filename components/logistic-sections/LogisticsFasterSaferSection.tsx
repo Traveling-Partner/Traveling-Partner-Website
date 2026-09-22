@@ -61,7 +61,6 @@ export default function LogisticsFasterSaferSection() {
           sizes="100vw"
           className="object-cover object-center"
           aria-hidden="true"
-          priority
         />
         <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
       </div>
@@ -102,7 +101,6 @@ export default function LogisticsFasterSaferSection() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"
-                  priority
                 />
               </motion.div>
             </div>

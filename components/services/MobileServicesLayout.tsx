@@ -107,12 +107,10 @@ function MobileVideoCard({
             fill
             className="object-cover object-center"
             sizes="50vw"
-            priority
             unoptimized
           />
           <video
             ref={videoRef}
-            src={video}
             className="absolute inset-0 h-full w-full object-cover object-center [transform:translateZ(0)]"
             autoPlay
             muted

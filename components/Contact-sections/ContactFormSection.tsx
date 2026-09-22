@@ -304,7 +304,11 @@ export default function ContactFormSection() {
 
   const validate = (): ContactFieldErrors => {
     const next: ContactFieldErrors = {};
-    if (form.email.trim() && !isValidEmail(form.email)) {
+    const nameErr = requiredError("Full name", form.fullName);
+    if (nameErr) next.fullName = nameErr;
+    const emailErr = requiredError("Email address", form.email);
+    if (emailErr) next.email = emailErr;
+    else if (!isValidEmail(form.email)) {
       next.email = "Enter a valid email address.";
     }
     const phoneErr = phoneFieldError(form.phone);
@@ -563,14 +567,12 @@ export default function ContactFormSection() {
                   <div>
                     <label htmlFor="fullName" className={labelClass}>
                       Full Name
-                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
-                        optional
-                      </span>
                     </label>
                     <input
                       id="fullName"
                       name="fullName"
                       type="text"
+                      required
                       maxLength={CONTACT_LIMITS.name}
                       value={form.fullName}
                       onChange={onChange}
@@ -587,14 +589,12 @@ export default function ContactFormSection() {
                   <div>
                     <label htmlFor="email" className={labelClass}>
                       Email Address
-                      <span className="ml-1 font-medium normal-case tracking-normal text-[#9a968c]">
-                        optional
-                      </span>
                     </label>
                     <input
                       id="email"
                       name="email"
                       type="email"
+                      required
                       maxLength={CONTACT_LIMITS.email}
                       value={form.email}
                       onChange={onChange}

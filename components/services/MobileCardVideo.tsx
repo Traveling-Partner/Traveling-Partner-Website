@@ -63,7 +63,6 @@ export default function MobileCardVideo({
         <div className="absolute inset-0 bg-[#121212]" />
         <video
           ref={videoRef}
-          src={src}
           className="absolute inset-0 h-full w-full object-cover object-center [transform:translateZ(0)]"
           autoPlay
           muted

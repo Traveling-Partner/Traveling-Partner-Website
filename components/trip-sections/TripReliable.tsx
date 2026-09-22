@@ -140,7 +140,6 @@ export default function TripReliable() {
           fill
           sizes="100vw"
           className="object-cover object-center"
-          priority
         />
         <div
           className="absolute inset-0"
