@@ -23,6 +23,7 @@ export type BlogCardData = {
 type BlogCardProps = {
   blog: BlogCardData;
   getImageSrc: (value: string) => string;
+  priority?: boolean;
 };
 
 function getAuthorInitials(author: string): string {
@@ -89,7 +90,7 @@ function renderCardTitle(title: string): ReactNode {
 }
 
 /** Latest stories card — 1:1 Figma match, live API data only */
-export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
+export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCardProps) {
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
   const dateLabel = formatCardDate(blog.date);
   const readTimeLabel = formatReadTimeBadge(blog.readTime);
@@ -114,6 +115,7 @@ export default function BlogCard({ blog, getImageSrc }: BlogCardProps) {
             className="object-cover object-top"
             style={{ objectFit: "cover", objectPosition: "center top" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
           />
 
           {categoryLabel ? (

@@ -191,8 +191,13 @@ export default function LatestStoriesSection({
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {visibleBlogs.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} getImageSrc={getImageSrc} />
+          {visibleBlogs.map((blog, index) => (
+            <BlogCard
+              key={blog.id}
+              blog={blog}
+              getImageSrc={getImageSrc}
+              priority={index < 3}
+            />
           ))}
         </div>
 

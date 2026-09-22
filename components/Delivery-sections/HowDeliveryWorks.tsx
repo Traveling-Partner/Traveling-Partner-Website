@@ -140,18 +140,9 @@ export default function HowDeliveryWorks() {
             gap-x-2.5 → 4 gaps = 2.5rem; xl:gap-x-3 → 3rem (handled approx by %).
           */}
           <div
-            className="pointer-events-none absolute z-[5] h-[2px] bg-[#FCE001] max-xl:left-[calc((100%-2.5rem)/5-1px)] xl:left-[calc((100%-3rem)/5-1px)]"
+            className="pointer-events-none absolute z-[5] h-[2px] bg-[#FCE001] max-xl:left-[calc((100%-2.5rem)/5-1px)] xl:left-[calc((100%-3rem)/5-1px)] max-xl:right-[calc(10%-0.25rem-2px)] xl:right-[calc(10%-0.3rem-2px)]"
             style={{
-              right: "calc(10% - 6px)",
               bottom: "calc(230px + 17px)",
-            }}
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute z-[5] h-[10px] w-[10px] rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]"
-            style={{
-              right: "calc(10% - 11px)",
-              bottom: "calc(230px + 13px)",
             }}
             aria-hidden="true"
           />

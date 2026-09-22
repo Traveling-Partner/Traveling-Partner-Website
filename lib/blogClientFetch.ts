@@ -1,6 +1,7 @@
 import {
   extractBlogDetail,
   fetchFeaturedBlogPages,
+  fetchPublishedBlogHead,
   fetchPublishedBlogPages,
   blogDetailApiUrl,
   legacyBlogDetailApiUrl,
@@ -32,6 +33,12 @@ function publishedDetail(
 /** Published blog list — public /website/blog/list first (no admin getAll 401). */
 export async function fetchBlogListClient(search = ""): Promise<unknown> {
   const content = await fetchPublishedBlogPages(search);
+  return { success: true, data: { content } };
+}
+
+/** First page of the published list, for the listing's first paint. */
+export async function fetchBlogListHeadClient(search = ""): Promise<unknown> {
+  const content = await fetchPublishedBlogHead(search);
   return { success: true, data: { content } };
 }
 
