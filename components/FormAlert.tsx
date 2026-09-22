@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface FormAlertProps {
   status: "success" | "error" | null;
@@ -54,22 +55,29 @@ function friendlyMessage(
  * Compact toast — cream card + dark text for clear readability.
  */
 const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
+  const pathname = usePathname();
+  const pathRef = useRef(pathname);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (pathRef.current !== pathname) {
+      pathRef.current = pathname;
+      setVisible(false);
+      return;
+    }
     if (!status) {
       setVisible(false);
       return;
     }
     const show = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(show);
-  }, [status, message]);
+  }, [status, message, pathname]);
 
-  if (!status) return null;
+  if (!status || !visible) return null;
 
   const isSuccess = status === "success";
-  const title = isSuccess ? "Message sent" : "Something went wrong";
   const body = friendlyMessage(status, message);
+  const title = isSuccess ? "Message sent" : body;
 
   return (
     <div
@@ -88,15 +96,13 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
           className={`relative overflow-hidden rounded-[14px] border px-3 py-2.5 shadow-[0_10px_28px_rgba(11,11,11,0.14)] ${
             isSuccess
               ? "border-[#FCE001]/70 bg-[#FFFEF6]"
-              : "border-[#e8e0d0] bg-[#FFFEF6]"
+              : "border-[#FCE001]/50 bg-[#FFFEF6]"
           }`}
         >
           <div
             className="pointer-events-none absolute inset-y-0 left-0 w-[3px]"
             style={{
-              background: isSuccess
-                ? "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)"
-                : "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
+              background: "linear-gradient(180deg, #FCE001 0%, #FDB813 100%)",
             }}
             aria-hidden
           />
@@ -116,9 +122,11 @@ const FormAlert: React.FC<FormAlertProps> = ({ status, message }) => {
               <p className="font-poppins text-[13px] font-bold leading-tight text-[#0b0b0b]">
                 {title}
               </p>
-              <p className="mt-0.5 font-poppins text-[12px] leading-snug text-[#4a4a45]">
-                {body}
-              </p>
+              {isSuccess ? (
+                <p className="mt-0.5 font-poppins text-[12px] leading-snug text-[#4a4a45]">
+                  {body}
+                </p>
+              ) : null}
             </div>
 
             <button

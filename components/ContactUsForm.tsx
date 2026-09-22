@@ -10,6 +10,7 @@ import React, {
 import Image from "next/image";
 import { motion } from "framer-motion";
 import FormAlert from "./FormAlert";
+import FieldError from "@/components/FieldError";
 import FormStatusOverlay from "@/components/FormStatusOverlay";
 import { submitContactForm } from "@/services/contact";
 import {
@@ -19,6 +20,7 @@ import {
   requiredError,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
+import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
 
 /** Figma Contact — node 124:3877 */
 const PHONE_DISPLAY = "+92 325 2801261";
@@ -158,7 +160,7 @@ const initialFormData: ContactFormFields = {
 };
 
 const fieldClass =
-  "w-full rounded-[12px] border border-transparent bg-[#f5f0e6] px-3.5 py-2.5 font-poppins text-[13px] text-[#0b0b0b] placeholder:text-[#8a877f] outline-none transition-colors focus:border-[#fdb813]/40 focus:bg-[#faf6ee] disabled:opacity-50 sm:px-4 sm:py-3 sm:text-[14px]";
+  "w-full rounded-[12px] border border-transparent bg-[#f5f0e6] px-3.5 py-2.5 font-poppins text-[13px] text-[#0b0b0b] placeholder:text-[#8a877f] outline-none transition-colors focus:border-[#fdb813]/40 focus:bg-[#faf6ee] disabled:opacity-50 aria-invalid:border-[#FDB813] aria-invalid:bg-[#fff9e6] sm:px-4 sm:py-3 sm:text-[14px]";
 
 function PencilIcon(): React.ReactElement {
   return (
@@ -191,7 +193,6 @@ export default function ContactUsForm(): React.ReactElement {
   const isBusiness = activeTab === "Business";
   const labelClass =
     "mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b0b0b]";
-  const errorClass = "mt-1 text-[11px] font-medium text-[#b42318]";
   const counterClass = "mt-1 text-right text-[10px] text-[#5c5b55]";
 
   const handleChange = (
@@ -289,9 +290,18 @@ export default function ContactUsForm(): React.ReactElement {
     }
   };
 
+  useClearOnRouteChange(() => {
+    setAlertVisible(false);
+    setFieldErrors({});
+    setSubmissionStatus({ type: null, message: "" });
+  });
+
   useEffect(() => {
     if (!alertVisible) return;
-    const timer = window.setTimeout(() => setAlertVisible(false), 3000);
+    const timer = window.setTimeout(() => {
+      setAlertVisible(false);
+      setSubmissionStatus({ type: null, message: "" });
+    }, 3000);
     return () => window.clearTimeout(timer);
   }, [alertVisible]);
 
@@ -428,7 +438,7 @@ export default function ContactUsForm(): React.ReactElement {
                       aria-invalid={Boolean(fieldErrors.firstName)}
                     />
                     {fieldErrors.firstName ? (
-                      <p className={errorClass}>{fieldErrors.firstName}</p>
+                      <FieldError message={fieldErrors.firstName} />
                     ) : null}
                   </div>
                   <div>
@@ -449,7 +459,7 @@ export default function ContactUsForm(): React.ReactElement {
                       aria-invalid={Boolean(fieldErrors.lastName)}
                     />
                     {fieldErrors.lastName ? (
-                      <p className={errorClass}>{fieldErrors.lastName}</p>
+                      <FieldError message={fieldErrors.lastName} />
                     ) : null}
                   </div>
                 </div>
@@ -472,7 +482,7 @@ export default function ContactUsForm(): React.ReactElement {
                     aria-invalid={Boolean(fieldErrors.email)}
                   />
                   {fieldErrors.email ? (
-                    <p className={errorClass}>{fieldErrors.email}</p>
+                    <FieldError message={fieldErrors.email} />
                   ) : null}
                 </div>
 
@@ -496,7 +506,7 @@ export default function ContactUsForm(): React.ReactElement {
                         aria-invalid={Boolean(fieldErrors.companyName)}
                       />
                       {fieldErrors.companyName ? (
-                        <p className={errorClass}>{fieldErrors.companyName}</p>
+                        <FieldError message={fieldErrors.companyName} />
                       ) : null}
                     </div>
                     <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
@@ -518,7 +528,7 @@ export default function ContactUsForm(): React.ReactElement {
                           aria-invalid={Boolean(fieldErrors.businessType)}
                         />
                         {fieldErrors.businessType ? (
-                          <p className={errorClass}>{fieldErrors.businessType}</p>
+                          <FieldError message={fieldErrors.businessType} />
                         ) : null}
                       </div>
                       <div>
@@ -539,7 +549,7 @@ export default function ContactUsForm(): React.ReactElement {
                           aria-invalid={Boolean(fieldErrors.phone)}
                         />
                         {fieldErrors.phone ? (
-                          <p className={errorClass}>{fieldErrors.phone}</p>
+                          <FieldError message={fieldErrors.phone} />
                         ) : null}
                       </div>
                     </div>
@@ -561,7 +571,7 @@ export default function ContactUsForm(): React.ReactElement {
                         aria-invalid={Boolean(fieldErrors.city)}
                       />
                       {fieldErrors.city ? (
-                        <p className={errorClass}>{fieldErrors.city}</p>
+                        <FieldError message={fieldErrors.city} />
                       ) : null}
                     </div>
                   </>
@@ -585,7 +595,7 @@ export default function ContactUsForm(): React.ReactElement {
                     aria-invalid={Boolean(fieldErrors.message)}
                   />
                   {fieldErrors.message ? (
-                    <p className={errorClass}>{fieldErrors.message}</p>
+                    <FieldError message={fieldErrors.message} />
                   ) : (
                     <p className={counterClass}>
                       {formData.message.length}/{CONTACT_LIMITS.message}

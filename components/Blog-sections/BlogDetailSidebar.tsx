@@ -3,9 +3,11 @@
 import { forwardRef, useEffect, useState, type FormEvent } from "react";
 import { Mail } from "lucide-react";
 import FormAlert from "@/components/FormAlert";
+import FieldError from "@/components/FieldError";
 import { subscribeNewsletter } from "@/services/newsletter";
 import { newsletterFeedbackMessage } from "@/lib/newsletterFeedback";
 import { isValidEmail } from "@/lib/contactValidation";
+import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
 
 export type TocItem = {
   id: string;
@@ -25,6 +27,11 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
       type: "success" | "error" | null;
       message: string;
     }>({ type: null, message: "" });
+
+    useClearOnRouteChange(() => {
+      setAlertVisible(false);
+      setStatus({ type: null, message: "" });
+    });
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -61,7 +68,10 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
 
     useEffect(() => {
       if (!alertVisible) return;
-      const timer = window.setTimeout(() => setAlertVisible(false), 3200);
+      const timer = window.setTimeout(() => {
+        setAlertVisible(false);
+        setStatus({ type: null, message: "" });
+      }, 3200);
       return () => window.clearTimeout(timer);
     }, [alertVisible]);
 
@@ -95,7 +105,10 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
                 type="email"
                 name="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (status.type) setStatus({ type: null, message: "" });
+                }}
                 placeholder="Enter your email"
                 required
                 disabled={loading}
@@ -111,13 +124,12 @@ const BlogDetailSidebar = forwardRef<HTMLElement, BlogDetailSidebarProps>(
                 {!loading ? <span aria-hidden="true">→</span> : null}
               </button>
             </form>
-            {status.message ? (
+            {status.type === "error" ? (
+              <FieldError message={status.message} />
+            ) : status.type === "success" && status.message ? (
               <p
-                className={`mt-3 text-[12px] font-medium ${
-                  status.type === "success" ? "text-[#0b0b0b]" : "text-[#b42318]"
-                }`}
+                className="mt-3 rounded-[10px] bg-[#FFF6D0] px-2.5 py-1.5 text-[12px] font-medium text-[#0b0b0b]"
                 role="status"
-                aria-live="polite"
               >
                 {status.message}
               </p>
