@@ -78,7 +78,7 @@ function StorePill({
       rel="noopener noreferrer"
       className="inline-flex h-[56px] items-center gap-3 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] px-5 shadow-[0_10px_28px_rgba(252,224,1,0.22)] transition-transform duration-300 hover:-translate-y-0.5 sm:h-[60px] sm:min-w-[190px] sm:px-6"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center text-black sm:h-9 sm:w-9">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black sm:h-9 sm:w-9">
         {icon}
       </span>
       <span className="flex flex-col items-start leading-none">
@@ -193,13 +193,13 @@ export default function TripReliable() {
             href={PLAY_STORE_URL} onClick={handleStoreClick}
             label="Get it on"
             title="Google Play"
-            icon={<PlayStoreIcon className="h-8 w-8" />}
+            icon={<PlayStoreIcon className="h-5 w-5" />}
           />
           <StorePill
             href={APP_STORE_URL} onClick={handleStoreClick}
             label="Download on"
             title="App Store"
-            icon={<AppleIcon className="h-8 w-8" />}
+            icon={<AppleIcon className="h-5 w-5" />}
           />
         </motion.div>
 
