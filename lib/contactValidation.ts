@@ -19,10 +19,28 @@ export function isValidEmail(value: string): boolean {
   return EMAIL_RE.test(value.trim());
 }
 
+function phoneDigits(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+/** 0000000, 1111111111, and the same digit repeated through a longer number. */
+function hasRepeatedDigitRun(digits: string): boolean {
+  return /(\d)\1{6,}/.test(digits);
+}
+
+/** 12345678, 1234567890, or 87654321 as the whole number. */
+function isStraightSequence(digits: string): boolean {
+  if (digits.length < 7) return false;
+  return "01234567890".includes(digits) || "09876543210".includes(digits);
+}
+
 export function isValidPhone(value: string): boolean {
   const trimmed = value.trim();
-  if (!trimmed) return false;
-  return PHONE_RE.test(trimmed);
+  if (!trimmed || !PHONE_RE.test(trimmed)) return false;
+  const digits = phoneDigits(trimmed);
+  if (digits.length < 7) return false;
+  if (hasRepeatedDigitRun(digits) || isStraightSequence(digits)) return false;
+  return true;
 }
 
 /** Names stay letters only. Spaces, hyphens, and apostrophes are kept. */
@@ -43,7 +61,7 @@ export function requiredError(label: string, value: string): string {
 
 export function phoneFieldError(value: string): string {
   if (!value.trim()) return "Phone number is required";
-  if (!isValidPhone(value)) return "Enter a valid phone number.";
+  if (!isValidPhone(value)) return "Please enter a valid phone number.";
   return "";
 }
 
