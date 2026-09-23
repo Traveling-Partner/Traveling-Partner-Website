@@ -22,6 +22,8 @@ import {
   messageFieldError,
   phoneFieldError,
   requiredError,
+  sanitizePersonName,
+  sanitizePhoneInput,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
 import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
@@ -204,7 +206,10 @@ export default function ContactUsForm(): React.ReactElement {
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
+    if (name === "firstName" || name === "lastName") value = sanitizePersonName(value);
+    if (name === "phone") value = sanitizePhoneInput(value);
     setFormData((prev) => ({ ...prev, [name]: value }));
     setFieldErrors((prev) => ({ ...prev, [name]: "" }));
   };

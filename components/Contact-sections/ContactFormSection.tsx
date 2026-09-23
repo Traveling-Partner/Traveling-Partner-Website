@@ -25,6 +25,8 @@ import {
   messageFieldError,
   phoneFieldError,
   requiredError,
+  sanitizePersonName,
+  sanitizePhoneInput,
   type ContactFieldErrors,
 } from "@/lib/contactValidation";
 import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
@@ -297,7 +299,10 @@ export default function ContactFormSection() {
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
+    if (name === "fullName") value = sanitizePersonName(value);
+    if (name === "phone") value = sanitizePhoneInput(value);
     setForm((prev) => ({ ...prev, [name]: value }));
     setFieldErrors((prev) => ({ ...prev, [name]: "" }));
   };
