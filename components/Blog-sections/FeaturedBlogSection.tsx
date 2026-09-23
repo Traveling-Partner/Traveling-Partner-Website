@@ -26,14 +26,6 @@ type FeaturedBlogSectionProps = {
   getImageSrc: (value: string) => string;
 };
 
-function StarIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-      <path d="M8 1.2 9.8 5.8l4.9.4-3.7 3.2 1.1 4.8L8 11.8 4 14.2l1.1-4.8L1.4 6.2l4.9-.4L8 1.2Z" />
-    </svg>
-  );
-}
-
 function ArrowIcon({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -112,31 +104,21 @@ function FeaturedStoryCard({
 
   return (
     <article className="overflow-hidden rounded-[28px] border border-[#eceae4] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] sm:rounded-[32px]">
-      <div className="grid lg:grid-cols-2">
-        <div className="relative p-4 sm:p-5 lg:p-6 lg:pr-3">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-[#f7f4ec] sm:rounded-[24px]">
-            <Image
-              src={getImageSrc(blog.cover_image)}
-              alt={blog.main_title}
-              fill
-              className="object-cover object-top"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority={priority}
-            />
+      <div className="relative aspect-[8/3] w-full overflow-hidden bg-[#f7f4ec]">
+        <Image
+          src={getImageSrc(blog.cover_image)}
+          alt={blog.main_title}
+          fill
+          className="object-contain object-center"
+          style={{ objectFit: "contain", objectPosition: "center" }}
+          sizes="(max-width: 1280px) 94vw, 1216px"
+          priority={priority}
+        />
+      </div>
 
-            <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#0b0b0b] px-3 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.25)] sm:left-5 sm:top-5 sm:px-3.5 sm:py-2">
-              <StarIcon className="h-3 w-3 text-[#FCE001] sm:h-3.5 sm:w-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#FCE001] sm:text-[11px]">
-                Featured Article
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col justify-center px-4 pb-5 pt-0 sm:px-5 sm:pb-6 lg:px-6 lg:py-8 lg:pl-3 xl:px-8 xl:py-10">
+      <div className="flex flex-col px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
           {metaParts.length > 0 ? (
-            <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-semibold sm:mb-5 sm:text-[13px]">
+            <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-semibold sm:text-[13px]">
               {categoryLabel ? (
                 <span className="font-bold uppercase tracking-[0.08em] text-[#FCE001]">
                   {categoryLabel}
@@ -169,17 +151,17 @@ function FeaturedStoryCard({
             </div>
           ) : null}
 
-          <h2 className="mb-4 font-poppins text-[clamp(24px,3.2vw,36px)] font-extrabold leading-[1.15] tracking-tight text-[#0b0b0b] sm:mb-5">
+          <h2 className="mb-2 font-poppins text-[clamp(22px,2.4vw,32px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-3">
             {renderFeaturedTitle(blog.main_title)}
           </h2>
 
           {blog.description1 ? (
-            <p className="mb-6 line-clamp-4 text-[14px] leading-[1.7] text-[#5c5b55] sm:mb-7 sm:text-[15px]">
+            <p className="mb-4 line-clamp-3 text-[14px] leading-[1.55] text-[#5c5b55] sm:text-[15px]">
               {blog.description1}
             </p>
           ) : null}
 
-          <div className="mt-auto flex flex-wrap items-center justify-end gap-4 border-t border-[#eceae4] pt-5 sm:pt-6">
+          <div className="mt-auto flex flex-wrap items-center justify-end gap-4 border-t border-[#eceae4] pt-3 sm:pt-4">
             <Link
               href={detailHref}
               className="group inline-flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-85"
@@ -192,7 +174,6 @@ function FeaturedStoryCard({
               </span>
             </Link>
           </div>
-        </div>
       </div>
     </article>
   );

@@ -98,33 +98,16 @@ export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCa
     <Link href={detailHref} className="group block h-full">
       <article className="flex h-full flex-col overflow-hidden rounded-[24px] border border-[#eceae4] bg-white shadow-[0_8px_28px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(0,0,0,0.1)] sm:rounded-[28px]">
         {/* Image */}
-        <div className="relative aspect-[16/9] overflow-hidden bg-[#f7f4ec]">
+        <div className="relative aspect-[8/3] overflow-hidden bg-[#f7f4ec]">
           <Image
             src={getImageSrc(blog.cover_image)}
             alt={blog.main_title}
             fill
-            className="object-cover object-top"
-            style={{ objectFit: "cover", objectPosition: "center top" }}
+            className="object-contain object-center"
+            style={{ objectFit: "contain", objectPosition: "center" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             priority={priority}
           />
-
-          {categoryLabel ? (
-            <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0b0b0b] sm:text-[11px]">
-                {categoryLabel}
-              </span>
-            </div>
-          ) : null}
-
-          {blog.isFeatured ? (
-            <div className="absolute right-4 top-4 inline-flex items-center rounded-full bg-[#0b0b0b] px-2.5 py-1 shadow-[0_4px_12px_rgba(0,0,0,0.18)]">
-              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#FCE001] sm:text-[11px]">
-                Featured
-              </span>
-            </div>
-          ) : null}
 
           {readTimeLabel ? (
             <div className="absolute bottom-3 right-3 rounded-full bg-[#0b0b0b]/75 px-2.5 py-1 backdrop-blur-sm">
@@ -175,7 +158,24 @@ export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCa
           ) : null}
 
           {/* Footer */}
-          <div className="mt-auto flex items-center justify-end gap-3 border-t border-dashed border-[#e8e4da] pt-3 sm:pt-3.5">
+          <div className="mt-auto flex items-center justify-between gap-2 border-t border-dashed border-[#e8e4da] pt-3 sm:pt-3.5">
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+              {categoryLabel ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#eceae4] bg-white px-2.5 py-1">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0b0b0b] sm:text-[11px]">
+                    {categoryLabel}
+                  </span>
+                </span>
+              ) : null}
+              {blog.isFeatured ? (
+                <span className="inline-flex items-center rounded-full bg-[#0b0b0b] px-2.5 py-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#FCE001] sm:text-[11px]">
+                    Featured
+                  </span>
+                </span>
+              ) : null}
+            </div>
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-[#dbeafe] text-[#1e40af] transition-colors duration-300 group-hover:bg-[#bfdbfe] sm:h-9 sm:w-9">
               <ExternalLinkIcon className="h-4 w-4" />
             </span>
