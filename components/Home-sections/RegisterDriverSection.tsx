@@ -4,8 +4,6 @@ import { PLAY_STORE_URL, handleStoreClick } from "@/lib/storeLinks";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { emphasizePhrases } from "@/lib/emphasizePhrases";
-
 /** Figma Register section — 124:3589 (1920 × 1200) */
 const SECTION_W = 1920;
 const SECTION_H = 1200;
@@ -77,17 +75,17 @@ function RegisterHeadline(): React.ReactElement {
       style={
         {
           maxWidth: cqw(HEAD_W),
-          "--register-headline-size": `max(1.75rem, ${cqw(80)})`,
+          "--register-headline-size": cqw(80),
           "--register-headline-lh": cqw(80),
           letterSpacing: cqw(-2.8),
         } as React.CSSProperties
       }
     >
       <h2 id="register-section-heading" className="overflow-visible">
-        <span className={`block overflow-visible ${headlineBase} font-bold not-italic text-white`}>
+        <span className={`block overflow-visible whitespace-nowrap ${headlineBase} font-bold not-italic text-white`}>
           Drive with us.
         </span>
-        <span className={`block overflow-visible ${accentClass}`}>
+        <span className={`block overflow-visible whitespace-nowrap ${accentClass}`}>
           Partner with us.
         </span>
       </h2>
@@ -102,11 +100,12 @@ function RegisterSubheadline(): React.ReactElement {
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(HEADLINE_SUBTEXT_GAP),
-        fontSize: `max(1.05rem, ${cqw(28)})`,
+        fontSize: cqw(28),
         lineHeight: 1.25,
       }}
     >
-      More than a ride. More than an app.
+      <span className="block">More than a ride.</span>
+      <span className="block">More than an app.</span>
     </p>
   );
 }
@@ -118,15 +117,11 @@ function RegisterSubtext(): React.ReactElement {
       style={{
         maxWidth: cqw(SUBTEXT_W),
         marginTop: cqh(12),
-        fontSize: `max(0.875rem, ${cqw(18)})`,
+        fontSize: cqw(18),
         lineHeight: 1.5,
       }}
     >
-      {emphasizePhrases(
-        "Traveling Partner runs on three kinds of people: drivers who want to actually keep what they earn, businesses that need their deliveries handled without the runaround, and riders who just want to get somewhere without overpaying for it. Drivers keep more of every fare with our zero-commission ride app. Businesses get flexible transport and delivery support that scales as they grow.",
-        ["zero-commission ride app"],
-        "onDark",
-      )}
+      Connecting partners, drivers, and businesses, all in one place.
     </div>
   );
 }
@@ -237,7 +232,7 @@ function RegisterCard({
         <span
           className="block whitespace-nowrap font-poppins font-bold uppercase leading-none text-[#6F6E68]"
           style={{
-            fontSize: `max(10px, ${BTN_EYEBROW})`,
+            fontSize: BTN_EYEBROW,
             letterSpacing: "0.14em",
           }}
         >
@@ -245,7 +240,7 @@ function RegisterCard({
         </span>
         <span
           className="block whitespace-nowrap font-poppins font-semibold leading-none text-[#0b0b0b]"
-          style={{ fontSize: `max(14px, ${BTN_TITLE})`, marginTop: BTN_TITLE_GAP }}
+          style={{ fontSize: BTN_TITLE, marginTop: BTN_TITLE_GAP }}
         >
           {title}
         </span>
@@ -279,7 +274,7 @@ function CtaSlot({
           transformOrigin: "center center",
         }}
       >
-        <div className="h-full w-full origin-center [container-type:size] max-md:origin-bottom max-md:scale-[1.12]">
+        <div className="h-full w-full origin-center [container-type:size]">
           {children}
         </div>
       </div>
@@ -287,16 +282,16 @@ function CtaSlot({
   );
 }
 
-/** Single Figma canvas — scales proportionally on mobile & desktop */
+/** Same Figma frame on every screen — positions scale with the canvas, photo is not cropped. */
 function RegisterSectionCanvas(): React.ReactElement {
   return (
-    <div className="relative mx-auto aspect-[1920/1200] w-full max-w-[1920px] overflow-visible [container-type:size] max-md:aspect-[1920/1700]">
-      <div className="absolute inset-0 overflow-hidden">
+    <div className="relative mx-auto aspect-[1920/1200] w-full max-w-[1920px] overflow-hidden [container-type:size]">
+      <div className="absolute inset-0">
         <Image
           src="/images/register-section-car.png"
           alt="Driver and passenger smiling inside a car"
           fill
-          className="object-cover object-center"
+          className="object-contain object-center"
           sizes="100vw"
         />
         <div
