@@ -9,7 +9,7 @@ import { extractBlogList } from "@/lib/blogApi";
 import { fetchFeaturedBlogListClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
-import { formatBlogDate, formatReadTimeLabel } from "@/lib/blogFormat";
+import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
 import { mapBlogCard } from "@/lib/blogMap";
 import { getBlogDetailHref } from "@/lib/blogShare";
 import BlogLoadError from "@/components/BlogLoadError";
@@ -22,8 +22,8 @@ const ACTIVE_W = Math.round(600*DESIGN_SCALE);
 const SIDE_W = Math.round(440 * DESIGN_SCALE);
 const CARD_GAP = Math.round(25* DESIGN_SCALE);
 const CARD_RADIUS = Math.round(25.43 * DESIGN_SCALE);
-/** Same image slot height on every card (16:9 of the active card width). */
-const IMAGE_H = Math.round(ACTIVE_W * 9 / 16);
+/** Active card image height at the 8:3 cover ratio. */
+const IMAGE_H = Math.round(ACTIVE_W * 3 / 8);
 const TEXT_H = Math.round(252 * DESIGN_SCALE);
 const ACTIVE_H = IMAGE_H + TEXT_H;
 /** Exactly 3 cards: 1 active + gap + 2 side */
@@ -142,13 +142,6 @@ const displayApiDate = (value: unknown): string => {
   return formatBlogDate(value);
 };
 
-const getAuthorInitials = (author: string): string => {
-  const words = author.trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return "";
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
-};
-
 function BlogCard({
   blog,
   isActive,
@@ -158,11 +151,11 @@ function BlogCard({
   isActive: boolean;
   isCompact?: boolean;
 }) {
-  const categoryLabel = blog.category ? String(blog.category).trim() : "";
+  const categoryLabel = blog.category
+    ? formatBlogType(String(blog.category)).toUpperCase()
+    : "";
   const imageSrc = getImageSrc(blog.cover_image);
   const dateLabel = displayApiDate(blog.date);
-  const authorLabel = blog.author?.trim() ?? "";
-  const authorInitials = getAuthorInitials(authorLabel);
   const readTimeLabel = formatReadTimeLabel(blog.readTime);
   const textPad = isCompact
     ? "14px 16px 16px"
@@ -174,6 +167,7 @@ function BlogCard({
   const metaSize = isCompact ? 11 : isActive ? 12 : 11;
   const contentGap = isActive ? 6 : 6;
   const titleLineHeight = 1.35;
+  const imageH = isCompact ? undefined : IMAGE_H;
 
   return (
     <Link href={getBlogDetailHref(blog.id)} className="block h-full w-full min-w-0 max-w-full">
@@ -193,44 +187,27 @@ function BlogCard({
       >
         <div
           className={`relative w-full shrink-0 overflow-hidden bg-[#1a1a1a] ${
-            isCompact ? "aspect-[16/9]" : ""
+            isCompact ? "aspect-[8/3]" : ""
           }`}
-          style={isCompact ? undefined : { height: IMAGE_H }}
+          style={isCompact ? undefined : { height: imageH }}
         >
           {imageSrc ? (
             <img
               src={imageSrc}
               alt={blog.main_title}
-              className="absolute inset-0 h-full w-full object-cover object-top"
-              style={{ objectFit: "cover", objectPosition: "center top" }}
+              className={`absolute inset-0 h-full w-full object-center ${
+                isCompact || isActive ? "object-contain" : "object-cover"
+              }`}
+              style={{
+                objectFit: isCompact || isActive ? "contain" : "cover",
+                objectPosition: "center",
+              }}
             />
           ) : null}
           <div
             className="pointer-events-none absolute inset-0"
             style={{ background: "linear-gradient(to top, #161616 0%, transparent 45%)" }}
           />
-          {categoryLabel ? (
-            <span
-              className="absolute left-[18px] top-[18px] rounded-[6px] bg-gradient-to-b from-[#FCE001] to-[#FDB813] font-bold uppercase tracking-[0.06em] text-black"
-              style={{
-                fontSize: isActive ? 11 : 9,
-                padding: isActive ? "6px 11px" : "4px 8px",
-              }}
-            >
-              {categoryLabel.toUpperCase()}
-            </span>
-          ) : null}
-          {blog.isFeatured ? (
-            <span
-              className="absolute right-[18px] top-[18px] rounded-[6px] bg-black font-bold uppercase tracking-[0.06em] text-[#FCE001]"
-              style={{
-                fontSize: isActive ? 11 : 9,
-                padding: isActive ? "6px 11px" : "4px 8px",
-              }}
-            >
-              Featured
-            </span>
-          ) : null}
         </div>
 
         <div
@@ -273,24 +250,18 @@ function BlogCard({
             }`}
             style={{ fontSize: metaSize }}
           >
-            {authorLabel ? (
-              <span className="inline-flex min-w-0 max-w-full items-center gap-1.5">
-                {authorInitials ? (
-                  <span
-                    className="flex shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] font-bold text-black"
-                    style={{
-                      width: isActive ? 24 : 20,
-                      height: isActive ? 24 : 20,
-                      fontSize: isActive ? 9 : 8,
-                    }}
-                  >
-                    {authorInitials}
-                  </span>
-                ) : null}
-                <span className="truncate text-white/70">{authorLabel}</span>
+            {categoryLabel ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2 py-0.5 font-bold uppercase tracking-[0.08em] text-[#0b0b0b]">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813]" />
+                {categoryLabel}
               </span>
             ) : null}
-            {authorLabel && dateLabel ? (
+            {blog.isFeatured ? (
+              <span className="inline-flex items-center rounded-full bg-[#0b0b0b] px-2 py-0.5 font-bold uppercase tracking-[0.08em] text-[#FCE001] ring-1 ring-white/25">
+                Featured
+              </span>
+            ) : null}
+            {(categoryLabel || blog.isFeatured) && (dateLabel || readTimeLabel) ? (
               <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
             ) : null}
             {dateLabel ? (
@@ -388,14 +359,16 @@ export default function BlogSlider() {
     const compact = available < COMPACT_BREAKPOINT;
     const designW = compact ? available : VIEWPORT_W;
     setIsCompact(compact);
-    setFrameScale(compact ? 1 : Math.min(MAX_FRAME_SCALE, available / designW));
+    setFrameScale(
+      compact ? 1 : Math.min(MAX_FRAME_SCALE, available / designW)
+    );
   }, []);
 
   useEffect(() => {
     updateFrameScale();
     window.addEventListener("resize", updateFrameScale);
     return () => window.removeEventListener("resize", updateFrameScale);
-  }, [updateFrameScale]);
+  }, [updateFrameScale, loading, blogs.length]);
 
   const loadBlogs = useCallback(async () => {
     try {
@@ -567,13 +540,18 @@ export default function BlogSlider() {
             style={{ height: ACTIVE_H * frameScale }}
             {...carouselHoverHandlers}
           >
+            <div
+              style={{
+                width: VIEWPORT_W,
+                transform: `scale(${frameScale})`,
+                transformOrigin: "top left",
+              }}
+            >
             <motion.div
               className="flex shrink-0 items-stretch"
               style={{
                 width: VIEWPORT_W,
                 gap: CARD_GAP,
-                transform: `scale(${frameScale})`,
-                transformOrigin: "top left",
               }}
               layout
             >
@@ -600,7 +578,7 @@ export default function BlogSlider() {
                       animate={{
                         opacity: isActive ? 1 : 0.78,
                         x: 0,
-                        scale: isActive ? 1 : 0.97,
+                        scale: 1,
                         width: cardW,
                         filter: isActive ? "blur(0px)" : "blur(0.4px)",
                       }}
@@ -619,6 +597,7 @@ export default function BlogSlider() {
                 })}
               </AnimatePresence>
             </motion.div>
+            </div>
           </div>
         )}
 
