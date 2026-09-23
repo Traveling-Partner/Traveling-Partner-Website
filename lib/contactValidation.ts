@@ -25,6 +25,16 @@ export function isValidPhone(value: string): boolean {
   return PHONE_RE.test(trimmed);
 }
 
+/** Names stay letters only. Spaces, hyphens, and apostrophes are kept. */
+export function sanitizePersonName(value: string): string {
+  return value.replace(/[^\p{L}\s'-]/gu, "");
+}
+
+/** Phone box stays numbers and the usual phone symbols. Letters are dropped. */
+export function sanitizePhoneInput(value: string): string {
+  return value.replace(/[^0-9+\s()-]/g, "");
+}
+
 export type ContactFieldErrors = Record<string, string>;
 
 export function requiredError(label: string, value: string): string {
