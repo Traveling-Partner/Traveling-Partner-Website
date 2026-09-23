@@ -297,7 +297,7 @@ export default function BlogDetailBody({
   return (
     <section className="relative w-full bg-[#FEFBF6] pb-14 pt-2 sm:pb-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 w-full sm:mb-5">
+        <div className="mx-2 mb-4 w-auto sm:mb-5">
           <div className="relative aspect-[8/3] w-full overflow-hidden rounded-[22px] bg-[#f7f4ec] sm:rounded-[28px]">
             <Image
               src={getImageSrc(coverImage)}
