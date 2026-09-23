@@ -26,13 +26,6 @@ type BlogCardProps = {
   priority?: boolean;
 };
 
-function getAuthorInitials(author: string): string {
-  const words = author.trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return "";
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
-}
-
 function formatCardDate(value: unknown): string {
   const formatted = formatBlogDate(value);
   if (!formatted) return "";
@@ -94,8 +87,6 @@ export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCa
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
   const dateLabel = formatCardDate(blog.date);
   const readTimeLabel = formatReadTimeBadge(blog.readTime);
-  const authorLabel = blog.author?.trim() ?? "";
-  const authorInitials = getAuthorInitials(authorLabel);
   const detailHref = getBlogDetailHref(blog.id);
   const tags = (blog.tags ?? []).map((tag) => String(tag).trim()).filter(Boolean);
   const extraCategories = (blog.categories ?? [])
@@ -146,15 +137,11 @@ export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCa
 
         {/* Body */}
         <div className="flex flex-grow flex-col px-4 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
-          {(dateLabel || authorLabel) && (
+          {dateLabel ? (
             <p className="mb-2 text-[11px] font-medium text-[#9a968c] sm:mb-2.5 sm:text-[12px]">
               {dateLabel}
-              {dateLabel && authorLabel ? (
-                <span className="mx-1.5 text-[#c4c0b6]">•</span>
-              ) : null}
-              {authorLabel ? `By ${authorLabel}` : null}
             </p>
-          )}
+          ) : null}
 
           <h2 className="mb-2 line-clamp-2 font-poppins text-[15px] font-extrabold leading-[1.25] tracking-tight text-[#0b0b0b] sm:text-[16px]">
             {renderCardTitle(blog.main_title)}
@@ -188,20 +175,7 @@ export default function BlogCard({ blog, getImageSrc, priority = false }: BlogCa
           ) : null}
 
           {/* Footer */}
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-[#e8e4da] pt-3 sm:pt-3.5">
-            <div className="flex min-w-0 items-center gap-2">
-              {authorInitials ? (
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[11px] font-bold text-[#0b0b0b] sm:h-9 sm:w-9 sm:text-[12px]">
-                  {authorInitials}
-                </span>
-              ) : null}
-              {authorLabel ? (
-                <span className="truncate text-[12px] font-bold text-[#0b0b0b] sm:text-[13px]">
-                  {authorLabel}
-                </span>
-              ) : null}
-            </div>
-
+          <div className="mt-auto flex items-center justify-end gap-3 border-t border-dashed border-[#e8e4da] pt-3 sm:pt-3.5">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-[#dbeafe] text-[#1e40af] transition-colors duration-300 group-hover:bg-[#bfdbfe] sm:h-9 sm:w-9">
               <ExternalLinkIcon className="h-4 w-4" />
             </span>
