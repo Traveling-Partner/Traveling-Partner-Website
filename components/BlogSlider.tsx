@@ -167,9 +167,7 @@ function BlogCard({
   const metaSize = isCompact ? 11 : isActive ? 12 : 11;
   const contentGap = isActive ? 6 : 6;
   const titleLineHeight = 1.35;
-  const imageH = isCompact
-    ? undefined
-    : Math.round((isActive ? ACTIVE_W : SIDE_W) * 3 / 8);
+  const imageH = isCompact ? undefined : IMAGE_H;
 
   return (
     <Link href={getBlogDetailHref(blog.id)} className="block h-full w-full min-w-0 max-w-full">
@@ -197,8 +195,13 @@ function BlogCard({
             <img
               src={imageSrc}
               alt={blog.main_title}
-              className="absolute inset-0 h-full w-full object-contain object-center"
-              style={{ objectFit: "contain", objectPosition: "center" }}
+              className={`absolute inset-0 h-full w-full object-center ${
+                isCompact || isActive ? "object-contain" : "object-cover"
+              }`}
+              style={{
+                objectFit: isCompact || isActive ? "contain" : "cover",
+                objectPosition: "center",
+              }}
             />
           ) : null}
           <div
@@ -575,7 +578,7 @@ export default function BlogSlider() {
                       animate={{
                         opacity: isActive ? 1 : 0.78,
                         x: 0,
-                        scale: isActive ? 1 : 0.97,
+                        scale: 1,
                         width: cardW,
                         filter: isActive ? "blur(0px)" : "blur(0.4px)",
                       }}
