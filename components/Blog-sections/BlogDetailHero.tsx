@@ -80,7 +80,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
   const readTimeLabel = formatReadTimeLabel(blog.readTime);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#FEFBF6] pb-8 pt-[110px] sm:pb-10 sm:pt-[128px] md:pt-[140px] lg:pt-[150px]">
+    <section className="relative w-full overflow-hidden bg-[#FEFBF6] pb-3 pt-[96px] sm:pb-4 sm:pt-[108px] md:pt-[116px] lg:pt-[120px]">
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
@@ -94,7 +94,7 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex w-full flex-col items-start justify-between gap-3 sm:mb-10 sm:flex-row sm:items-center">
+        <div className="mb-4 flex w-full flex-col items-start justify-between gap-3 sm:mb-5 sm:flex-row sm:items-center">
           <Link
             href="/blog"
             className="inline-flex w-fit items-center gap-2.5 rounded-full border border-[#eceae4] bg-white px-4 py-2 shadow-[0_4px_14px_rgba(0,0,0,0.06)] transition-opacity hover:opacity-85"
