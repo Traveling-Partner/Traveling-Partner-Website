@@ -31,13 +31,6 @@ function BackArrowIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function getAuthorInitials(author: string): string {
-  const words = author.trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return "";
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
-}
-
 function formatHeroDate(value: unknown): string {
   const formatted = formatBlogDate(value);
   if (!formatted) return "";
@@ -85,10 +78,6 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
   const primaryCategory = categoryLabels[0]?.toUpperCase() ?? "";
   const dateLabel = formatHeroDate(blog.date);
   const readTimeLabel = formatReadTimeLabel(blog.readTime);
-  const authorLabel = blog.author?.trim() ?? "";
-  const isAdminAuthor = /admin/i.test(authorLabel);
-  const showAuthor = Boolean(authorLabel) && !isAdminAuthor;
-  const authorInitials = showAuthor ? getAuthorInitials(authorLabel) : "";
 
   return (
     <section className="relative w-full overflow-hidden bg-[#FEFBF6] pb-8 pt-[110px] sm:pb-10 sm:pt-[128px] md:pt-[140px] lg:pt-[150px]">
@@ -146,29 +135,9 @@ export default function BlogDetailHero({ blog }: { blog: BlogDetailHeroData }) {
         </div>
 
         <div className="text-center">
-          <h1 className="mb-8 font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b] sm:mb-10">
+          <h1 className="font-poppins text-[clamp(28px,4.5vw,52px)] font-extrabold leading-[1.12] tracking-tight text-[#0b0b0b]">
             {renderHeroTitle(blog.main_title)}
           </h1>
-
-          {showAuthor ? (
-            <div className="inline-flex items-center gap-3 rounded-full border border-[#eceae4] bg-white px-4 py-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.06)] sm:gap-3.5 sm:px-5 sm:py-3">
-              {authorInitials ? (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b]">
-                  {authorInitials}
-                </span>
-              ) : null}
-              <div className="text-left">
-                {authorLabel ? (
-                  <p className="text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    {authorLabel}
-                  </p>
-                ) : null}
-                <p className="text-[12px] font-medium text-[#9a968c] sm:text-[13px]">
-                  Editor
-                </p>
-              </div>
-            </div>
-          ) : null}
         </div>
       </div>
     </section>

@@ -102,7 +102,6 @@ function RelatedStoryCard({
   const categoryLabel = blog.category ? formatBlogType(blog.category).toUpperCase() : "";
   const dateLabel = formatCardDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
-  const authorLabel = blog.author?.trim() ?? "";
   const detailHref = getBlogDetailHref(blog.id);
 
   return (
@@ -143,15 +142,7 @@ function RelatedStoryCard({
             {renderCardTitle(blog.main_title)}
           </h3>
 
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-[#e8e4da] pt-4">
-            {authorLabel ? (
-              <span className="truncate text-[13px] font-medium text-[#0b0b0b] sm:text-[14px]">
-                By {authorLabel}
-              </span>
-            ) : (
-              <span />
-            )}
-
+          <div className="mt-auto flex items-center justify-end gap-3 border-t border-dashed border-[#e8e4da] pt-4">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-[#dbeafe] text-[#1e40af] transition-colors duration-300 group-hover:bg-[#bfdbfe]">
               <ExternalLinkIcon className="h-4 w-4" />
             </span>

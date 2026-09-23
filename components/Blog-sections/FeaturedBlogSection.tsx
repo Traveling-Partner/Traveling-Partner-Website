@@ -51,13 +51,6 @@ function ArrowIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function getAuthorInitials(author: string): string {
-  const words = author.trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return "";
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
-}
-
 function formatFeaturedDate(value: unknown): string {
   const formatted = formatBlogDate(value);
   if (!formatted) return "";
@@ -113,9 +106,6 @@ function FeaturedStoryCard({
     .filter(Boolean);
   const dateLabel = formatFeaturedDate(blog.date);
   const readTimeLabel = formatReadTime(blog.readTime);
-  const authorLabel = blog.author?.trim() ?? "";
-  const authorInitials = getAuthorInitials(authorLabel);
-  const authorRole = "Editor";
   const detailHref = getBlogDetailHref(blog.id);
 
   const metaParts = [categoryLabel, ...extraCategories, dateLabel, readTimeLabel].filter(Boolean);
@@ -189,25 +179,7 @@ function FeaturedStoryCard({
             </p>
           ) : null}
 
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-[#eceae4] pt-5 sm:pt-6">
-            <div className="flex min-w-0 items-center gap-3">
-              {authorInitials ? (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[13px] font-bold text-[#0b0b0b] sm:h-11 sm:w-11 sm:text-[14px]">
-                  {authorInitials}
-                </span>
-              ) : null}
-              <div className="min-w-0 text-left">
-                {authorLabel ? (
-                  <p className="truncate text-[14px] font-bold text-[#0b0b0b] sm:text-[15px]">
-                    {authorLabel}
-                  </p>
-                ) : null}
-                <p className="truncate text-[12px] font-medium text-[#9a968c] sm:text-[13px]">
-                  {authorRole}
-                </p>
-              </div>
-            </div>
-
+          <div className="mt-auto flex flex-wrap items-center justify-end gap-4 border-t border-[#eceae4] pt-5 sm:pt-6">
             <Link
               href={detailHref}
               className="group inline-flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-85"
