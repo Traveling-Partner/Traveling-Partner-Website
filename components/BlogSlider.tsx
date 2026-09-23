@@ -195,12 +195,12 @@ function BlogCard({
             <img
               src={imageSrc}
               alt={blog.main_title}
-              className={`absolute inset-0 h-full w-full object-center ${
-                isCompact || isActive ? "object-contain" : "object-cover"
+              className={`absolute inset-0 h-full w-full object-contain ${
+                isCompact || isActive ? "object-center" : "object-top"
               }`}
               style={{
-                objectFit: isCompact || isActive ? "contain" : "cover",
-                objectPosition: "center",
+                objectFit: "contain",
+                objectPosition: isCompact || isActive ? "center" : "center top",
               }}
             />
           ) : null}
