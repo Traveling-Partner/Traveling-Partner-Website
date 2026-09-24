@@ -17,13 +17,12 @@ const LOAD_TIMEOUT_MS = 12_000;
 const DEMO_KMH = 36;
 const LIVE_MIN_KMH = 18;
 const LIVE_MAX_KMH = 52;
-const TURN_DEG_PER_SEC = 260;
 const CAR_W = 28;
 const CAR_H = 62;
 const CAR_ICON_W = CAR_W + 4;
 const CAR_ICON_H = CAR_H + 6;
-/** Nose starts turning this far before a corner. The body stays on the line. */
-const HEADING_LOOKAHEAD_KM = 0.02;
+/** Only a real junction slows the car. Gentle bends stay at road speed. */
+const SHARP_TURN_DEG = 55;
 const ROUTE_BLUE = "#1a73e8";
 const LOOK_BACK_KM = 0.4;
 const LOOK_AHEAD_KM = 20;
@@ -172,10 +171,59 @@ function nearestOnRoute(
   return windowed ?? search(0, total) ?? fallback();
 }
 
+function angleDelta(fromDeg: number, toDeg: number): number {
+  return ((toDeg - fromDeg + 540) % 360) - 180;
+}
+
 function stepHeading(current: number, target: number, maxDeg: number): number {
-  const delta = ((target - current + 540) % 360) - 180;
+  const delta = angleDelta(current, target);
   if (Math.abs(delta) <= maxDeg) return (target + 360) % 360;
   return (current + Math.sign(delta) * maxDeg + 360) % 360;
+}
+
+function segmentIndexAt(cumulative: number[], along: number): number {
+  let i = 1;
+  while (i < cumulative.length - 1 && cumulative[i] < along) i += 1;
+  return i;
+}
+
+/** Bearing of the road under the car. Short corner stubs are skipped so the nose stays on a real segment. */
+function localRoadBearing(line: GeoPoint[], cumulative: number[], along: number): number {
+  const total = cumulative[cumulative.length - 1] || 0;
+  const target = Math.min(Math.max(along, 0), total);
+  const i = segmentIndexAt(cumulative, target);
+  if (cumulative[i] - cumulative[i - 1] >= 0.0004) return bearingBetween(line[i - 1], line[i]);
+  for (let j = i + 1; j < line.length; j += 1) {
+    if (cumulative[j] - cumulative[j - 1] >= 0.0004) return bearingBetween(line[j - 1], line[j]);
+  }
+  for (let j = i - 1; j >= 1; j -= 1) {
+    if (cumulative[j] - cumulative[j - 1] >= 0.0004) return bearingBetween(line[j - 1], line[j]);
+  }
+  return segmentBearing(line, i);
+}
+
+/** Next corner where the road heading jumps. Distance is measured to that vertex. */
+function nextSharpTurn(
+  line: GeoPoint[],
+  cumulative: number[],
+  along: number
+): { distKm: number; turnDeg: number } | null {
+  let i = segmentIndexAt(cumulative, along);
+  let prevBearing: number | null = null;
+  for (; i < line.length && cumulative[i - 1] - along < 0.09; i += 1) {
+    if (cumulative[i] - cumulative[i - 1] < 0.0004) continue;
+    const bearing = bearingBetween(line[i - 1], line[i]);
+    if (prevBearing == null) {
+      prevBearing = bearing;
+      continue;
+    }
+    const turnDeg = angleDelta(prevBearing, bearing);
+    if (Math.abs(turnDeg) >= SHARP_TURN_DEG) {
+      return { distKm: Math.max(0, cumulative[i - 1] - along), turnDeg };
+    }
+    prevBearing = bearing;
+  }
+  return null;
 }
 
 function setCarBearing(marker: L.Marker | null, bearing: number) {
@@ -285,7 +333,7 @@ export default function RideLocationMap({
     let demoFramed = false;
     let lastFollow = 0;
     let segmentFrom = 0;
-    let segmentStart = 0;
+    let speedKmh = DEMO_KMH;
     let programmatic = false;
     let userAdjusted = false;
     let cameraFollow = false;
@@ -315,30 +363,67 @@ export default function RideLocationMap({
 
       const prev = lastFrameRef.current ?? now;
       lastFrameRef.current = now;
-      const frameDt = Math.min(0.25, Math.max(0.016, (now - prev) / 1000));
+      const frameDt = Math.min(0.4, Math.max(0.016, (now - prev) / 1000));
       const total = cumulative[cumulative.length - 1] || 0;
-      const origin = segmentFrom;
-      const elapsedSec = segmentStart ? Math.max(0, (now - segmentStart) / 1000) : 0;
+      const origin = alongRef.current ?? segmentFrom;
       const gapKm = Math.abs(target - origin);
-      const speedKmh = demoDriveRef.current
+      const cruiseKmh = demoDriveRef.current
         ? DEMO_KMH
         : Math.min(LIVE_MAX_KMH, Math.max(LIVE_MIN_KMH, (gapKm / 2) * 3600));
-      const traveled = (speedKmh / 3600) * elapsedSec;
       const dir = Math.sign(target - origin) || 1;
-      let along = origin + dir * Math.min(gapKm, traveled);
+      let along = origin;
+      let left = frameDt;
+
+      // Step through the frame so a sharp corner is braked and pivoted, not crossed sideways.
+      while (left > 0 && Math.abs(target - along) >= 0.0004) {
+        const h = Math.min(1 / 30, left);
+        const roadBearing = localRoadBearing(line, cumulative, along);
+        const err = angleDelta(bearingRef.current, roadBearing);
+        const corner = nextSharpTurn(line, cumulative, along);
+        let desired = cruiseKmh;
+        if (corner) {
+          const sharpness = Math.min(1, Math.abs(corner.turnDeg) / 100);
+          const brakeKm = 0.012 + sharpness * 0.028;
+          if (corner.distKm < brakeKm) {
+            desired = Math.min(desired, Math.max(5, cruiseKmh * (1 - sharpness * 0.78)));
+          }
+        }
+        const absErr = Math.abs(err);
+        if (absErr > 50) desired = Math.min(desired, 4);
+        else if (absErr > 32) desired = Math.min(desired, 14);
+
+        const accel = (desired < speedKmh ? (absErr > 32 ? 12 : 7) : 3.2) * 3.6 * h;
+        speedKmh += Math.max(-accel, Math.min(accel, desired - speedKmh));
+
+        // Fast yaw only once the car has slowed, so the nose turns instead of sliding sideways.
+        const yaw = absErr > 50 ? 70 + (1 - Math.min(1, speedKmh / 30)) * 190 : absErr > 20 ? 150 : 110;
+        bearingRef.current = stepHeading(bearingRef.current, roadBearing, yaw * h);
+
+        const stepKm = (speedKmh / 3600) * h;
+        if (stepKm >= Math.abs(target - along)) {
+          along = target;
+          left = 0;
+          break;
+        }
+        along += dir * stepKm;
+        left -= h;
+      }
+
       const remaining = target - along;
 
       if (Math.abs(remaining) < 0.0004) {
-        placeOnRoute(target);
+        bearingRef.current = localRoadBearing(line, cumulative, target);
+        placeOnRoute(target, bearingRef.current);
         if (demoDriveRef.current && total > 0.05) {
           if (!holdUntil) holdUntil = now + 1600;
           if (now >= holdUntil) {
             holdUntil = 0;
             segmentFrom = 0;
-            segmentStart = now;
             alongRef.current = 0;
-            bearingRef.current = pointAtAlong(line, cumulative, HEADING_LOOKAHEAD_KM).bearing;
+            speedKmh = DEMO_KMH;
+            bearingRef.current = localRoadBearing(line, cumulative, 0);
             placeOnRoute(0, bearingRef.current);
+            lastFrameRef.current = now;
           }
           animRafRef.current = window.requestAnimationFrame(driveTick);
           return;
@@ -348,8 +433,6 @@ export default function RideLocationMap({
       }
 
       const pose = pointAtAlong(line, cumulative, along);
-      const look = pointAtAlong(line, cumulative, along + Math.sign(remaining) * HEADING_LOOKAHEAD_KM);
-      bearingRef.current = stepHeading(bearingRef.current, look.bearing, TURN_DEG_PER_SEC * frameDt);
       alongRef.current = along;
       currentPosRef.current = pose.point;
       car.setLatLng([pose.point.lat, pose.point.lng]);
@@ -404,7 +487,6 @@ export default function RideLocationMap({
         Math.abs(previousTarget - clamped) < 0.001;
       if (!alreadyDriving) {
         segmentFrom = alongRef.current ?? (demoDriveRef.current ? 0 : clamped);
-        segmentStart = performance.now();
       }
       if (animRafRef.current == null) {
         lastFrameRef.current = null;
