@@ -29,6 +29,8 @@ export type RideLocationPageState =
 
 export type RideLocationConnection = "connecting" | "live" | "reconnecting" | "polling";
 
+export type VehicleKind = "car" | "motorcycle";
+
 /** Envelope on every WebSocket frame. */
 export interface RideLocationSocketMessage {
   type: "RIDE_LOCATION_UPDATE";
@@ -59,6 +61,10 @@ export interface RideLocationUpdatePayload {
   vehicleModel?: string | null;
   vehiclePlate?: string | null;
   vehicleColor?: string | null;
+  /** CAR, MOTORCYCLE, BIKE, or a service name from the share payload. */
+  vehicleType?: string | null;
+  rideType?: string | null;
+  serviceType?: string | null;
   pickupLatitude?: number | null;
   pickupLongitude?: number | null;
   pickupAddress?: string | null;
@@ -80,6 +86,9 @@ export interface RideLocationSnapshotData {
   driverPhoto?: string | null;
   vehicleColor?: string | null;
   vehicleRegistrationNo?: string | null;
+  vehicleType?: string | null;
+  rideType?: string | null;
+  serviceType?: string | null;
   pickupAddress?: string | null;
   dropoffAddress?: string | null;
   estimatedDuration?: string | null;
@@ -113,6 +122,7 @@ export interface RideLocationViewData {
   vehicleModel: string | null;
   vehiclePlate: string | null;
   vehicleColor: string | null;
+  vehicleKind: VehicleKind;
   pickupLatitude: number | null;
   pickupLongitude: number | null;
   pickupAddress: string | null;

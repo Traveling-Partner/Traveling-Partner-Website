@@ -145,7 +145,8 @@ export default function RideLocationView() {
                 frozen={frozen}
                 demoDrive={
                   token?.trim().toLowerCase() === "demo" ||
-                  token?.trim().toLowerCase() === "demo-active"
+                  token?.trim().toLowerCase() === "demo-active" ||
+                  token?.trim().toLowerCase() === "demo-bike"
                 }
                 waitingLabel={waitingLabel(data.partnerName)}
                 className="h-full w-full"

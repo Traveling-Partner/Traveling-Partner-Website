@@ -4,6 +4,7 @@ import type {
   RideLocationUpdatePayload,
   RideLocationViewData,
   RideShareStatus,
+  VehicleKind,
 } from "./types";
 
 export function isFiniteCoord(value: unknown): value is number {
@@ -62,6 +63,19 @@ function asNullableInt(value: unknown): number | null {
   return value;
 }
 
+/** Motorcycle when the share payload says so. Null when this frame does not say. */
+export function vehicleKindFromText(parts: unknown[]): VehicleKind | null {
+  const text = parts
+    .filter((value): value is string => typeof value === "string")
+    .join(" ")
+    .toLowerCase();
+  if (/\b(motorcycle|motorbike|scooter|bike|two[ -]?wheeler|cd\s?70|cd\s?125|cg\s?125)\b/.test(text)) {
+    return "motorcycle";
+  }
+  if (/\b(car|sedan|suv|hatchback|corolla|civic|city)\b/.test(text)) return "car";
+  return null;
+}
+
 function asNullableRating(value: unknown): number | null {
   if (typeof value !== "number" || !Number.isFinite(value)) return null;
   if (value < 0 || value > 5) return null;
@@ -116,6 +130,7 @@ const EMPTY: RideLocationViewData = {
   vehicleModel: null,
   vehiclePlate: null,
   vehicleColor: null,
+  vehicleKind: "car",
   pickupLatitude: null,
   pickupLongitude: null,
   pickupAddress: null,
@@ -157,6 +172,14 @@ function patchFromUpdate(
     vehicleModel: asNullableString(data.vehicleModel) ?? base.vehicleModel,
     vehiclePlate: asNullableString(data.vehiclePlate) ?? base.vehiclePlate,
     vehicleColor: asNullableString(data.vehicleColor) ?? base.vehicleColor,
+    vehicleKind:
+      vehicleKindFromText([
+        data.vehicleType,
+        data.rideType,
+        data.serviceType,
+        data.vehicleMake ?? base.vehicleMake,
+        data.vehicleModel ?? base.vehicleModel,
+      ]) ?? base.vehicleKind,
     pickupLatitude: asNullableNumber(data.pickupLatitude) ?? base.pickupLatitude,
     pickupLongitude: asNullableNumber(data.pickupLongitude) ?? base.pickupLongitude,
     pickupAddress: asNullableString(data.pickupAddress) ?? base.pickupAddress,
@@ -208,6 +231,14 @@ export function viewFromSnapshot(
     partnerPhoto: base.partnerPhoto ?? asNullableString(data.driverPhoto),
     vehiclePlate: asNullableString(data.vehicleRegistrationNo) ?? base.vehiclePlate,
     vehicleColor: asNullableString(data.vehicleColor) ?? base.vehicleColor,
+    vehicleKind:
+      vehicleKindFromText([
+        data.vehicleType,
+        data.rideType,
+        data.serviceType,
+        base.vehicleMake,
+        base.vehicleModel,
+      ]) ?? base.vehicleKind,
     pickupAddress: asNullableString(data.pickupAddress) ?? base.pickupAddress,
     dropoffAddress: asNullableString(data.dropoffAddress) ?? base.dropoffAddress,
     etaMinutes: etaFromSeconds ?? base.etaMinutes,

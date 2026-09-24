@@ -86,7 +86,8 @@ export function useRideLocation(token: string | null, enabled = true) {
     }
 
     const normalized = token.trim().toLowerCase();
-    if (normalized === "demo" || normalized === "demo-active") {
+    if (normalized === "demo" || normalized === "demo-active" || normalized === "demo-bike") {
+      const bike = normalized === "demo-bike";
       setData({
         rideId: 181,
         partnerId: 36,
@@ -102,10 +103,11 @@ export function useRideLocation(token: string | null, enabled = true) {
         driverName: "Bilal Ahmed",
         driverPhoto: null,
         driverRating: 4.8,
-        vehicleMake: "Toyota",
-        vehicleModel: "Corolla",
-        vehiclePlate: "LEA-1234",
-        vehicleColor: "White",
+        vehicleMake: bike ? "Honda" : "Toyota",
+        vehicleModel: bike ? "CD 70" : "Corolla",
+        vehiclePlate: bike ? "LEB-5678" : "LEA-1234",
+        vehicleColor: bike ? "Red" : "White",
+        vehicleKind: bike ? "motorcycle" : "car",
         pickupLatitude: 31.5204,
         pickupLongitude: 74.3587,
         pickupAddress: "Gulberg, Lahore",
