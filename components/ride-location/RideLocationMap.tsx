@@ -17,10 +17,11 @@ const LOAD_TIMEOUT_MS = 12_000;
 const DEMO_KMH = 36;
 const LIVE_MIN_KMH = 18;
 const LIVE_MAX_KMH = 52;
-const CAR_W = 28;
-const CAR_H = 62;
-const CAR_ICON_W = CAR_W + 4;
-const CAR_ICON_H = CAR_H + 6;
+const CAR_W = 24;
+const CAR_H = 54;
+const BIKE_W = 28;
+const BIKE_H = 72;
+const BIKE_SRC = "/images/map-bike.png?v=2";
 /** Only a real junction slows the car. Gentle bends stay at road speed. */
 const SHARP_TURN_DEG = 55;
 const ROUTE_BLUE = "#1a73e8";
@@ -40,22 +41,32 @@ function pinIconHtml(color: string): string {
   );
 }
 
-/** Photoreal top-down sedan, nose up. Rotates with the road bearing. */
-function carIconHtml(bearingDeg: number): string {
+function markerBox(kind: "car" | "motorcycle") {
+  const w = kind === "motorcycle" ? BIKE_W : CAR_W;
+  const h = kind === "motorcycle" ? BIKE_H : CAR_H;
+  return { w, h, iconW: w + 4, iconH: h + 6 };
+}
+
+/** Top-down photo, nose up. Car for car rides, motorcycle for bike rides. */
+function markerIconHtml(bearingDeg: number, kind: "car" | "motorcycle"): string {
+  const box = markerBox(kind);
+  const src = kind === "motorcycle" ? BIKE_SRC : "/images/map-car.png";
+  const rounded = Math.round(bearingDeg);
   return (
-    `<div style="width:${CAR_ICON_W}px;height:${CAR_ICON_H}px;display:flex;align-items:center;justify-content:center;">` +
-    `<div data-car-rotator="1" style="transform:rotate(${bearingDeg}deg);width:${CAR_W}px;height:${CAR_H}px;line-height:0;will-change:transform;filter:drop-shadow(0 1px 2px rgba(32,33,36,0.5));">` +
-    `<img src="/images/map-car.png" alt="" width="${CAR_W}" height="${CAR_H}" draggable="false" style="display:block;width:${CAR_W}px;height:${CAR_H}px;pointer-events:none;" />` +
+    `<div style="width:${box.iconW}px;height:${box.iconH}px;display:flex;align-items:center;justify-content:center;">` +
+    `<div data-car-rotator="1" data-bearing="${rounded}" style="transform:rotate(${rounded}deg);width:${box.w}px;height:${box.h}px;line-height:0;filter:drop-shadow(0 1px 1px rgba(32,33,36,0.35));">` +
+    `<img src="${src}" alt="" width="${box.w}" height="${box.h}" draggable="false" style="display:block;width:${box.w}px;height:${box.h}px;pointer-events:none;" />` +
     `</div></div>`
   );
 }
 
-function carDivIcon(bearingDeg: number): L.DivIcon {
+function markerDivIcon(bearingDeg: number, kind: "car" | "motorcycle"): L.DivIcon {
+  const box = markerBox(kind);
   return L.divIcon({
-    html: carIconHtml(bearingDeg),
+    html: markerIconHtml(bearingDeg, kind),
     className: "ride-car-marker",
-    iconSize: [CAR_ICON_W, CAR_ICON_H],
-    iconAnchor: [CAR_ICON_W / 2, CAR_ICON_H / 2],
+    iconSize: [box.iconW, box.iconH],
+    iconAnchor: [box.iconW / 2, box.iconH / 2],
   });
 }
 
@@ -110,6 +121,47 @@ function cumulativeDistances(line: GeoPoint[]): number[] {
     out.push(out[i - 1] + haversineKm(line[i - 1], line[i]));
   }
   return out;
+}
+
+function crossTrackKm(p: GeoPoint, a: GeoPoint, b: GeoPoint): number {
+  const lngScale = 111.32 * Math.cos((((a.lat + b.lat) / 2) * Math.PI) / 180);
+  const bx = (b.lng - a.lng) * lngScale;
+  const by = (b.lat - a.lat) * 111.32;
+  const px = (p.lng - a.lng) * lngScale;
+  const py = (p.lat - a.lat) * 111.32;
+  const ab2 = bx * bx + by * by;
+  if (ab2 < 1e-12) return Math.hypot(px, py);
+  const t = Math.max(0, Math.min(1, (px * bx + py * by) / ab2));
+  return Math.hypot(px - bx * t, py - by * t);
+}
+
+/** Drop tiny road wiggles so the marker does not shiver, and keep real corners. */
+function simplifyRoute(line: GeoPoint[]): GeoPoint[] {
+  if (line.length < 3) return line;
+  const keep = new Uint8Array(line.length);
+  keep[0] = 1;
+  keep[line.length - 1] = 1;
+  const stack: Array<[number, number]> = [[0, line.length - 1]];
+  while (stack.length) {
+    const next = stack.pop();
+    if (!next) break;
+    const [start, end] = next;
+    let max = 0;
+    let idx = -1;
+    for (let i = start + 1; i < end; i += 1) {
+      const dist = crossTrackKm(line[i], line[start], line[end]);
+      if (dist > max) {
+        max = dist;
+        idx = i;
+      }
+    }
+    if (idx !== -1 && max > 0.004) {
+      keep[idx] = 1;
+      stack.push([start, idx], [idx, end]);
+    }
+  }
+  const simplified = line.filter((_, index) => keep[index]);
+  return simplified.length >= 2 ? simplified : line;
 }
 
 function pointAtAlong(line: GeoPoint[], cumulative: number[], along: number): { point: GeoPoint; bearing: number } {
@@ -229,7 +281,11 @@ function nextSharpTurn(
 function setCarBearing(marker: L.Marker | null, bearing: number) {
   const el = marker?.getElement();
   const rotator = el?.querySelector("[data-car-rotator]") as HTMLElement | null;
-  if (rotator) rotator.style.transform = `rotate(${bearing}deg)`;
+  if (!rotator) return;
+  const next = String(Math.round(bearing));
+  if (rotator.dataset.bearing === next) return;
+  rotator.dataset.bearing = next;
+  rotator.style.transform = `rotate(${next}deg)`;
 }
 
 async function fetchRoadRoute(from: GeoPoint, to: GeoPoint): Promise<GeoPoint[] | null> {
@@ -334,6 +390,7 @@ export default function RideLocationMap({
     let lastFollow = 0;
     let segmentFrom = 0;
     let speedKmh = DEMO_KMH;
+    let headingLock: number | null = null;
     let programmatic = false;
     let userAdjusted = false;
     let cameraFollow = false;
@@ -378,7 +435,11 @@ export default function RideLocationMap({
       while (left > 0 && Math.abs(target - along) >= 0.0004) {
         const h = Math.min(1 / 30, left);
         const roadBearing = localRoadBearing(line, cumulative, along);
-        const err = angleDelta(bearingRef.current, roadBearing);
+        if (headingLock == null || Math.abs(angleDelta(headingLock, roadBearing)) >= 14) {
+          headingLock = roadBearing;
+        }
+        const lockedBearing = headingLock ?? roadBearing;
+        const err = angleDelta(bearingRef.current, lockedBearing);
         const corner = nextSharpTurn(line, cumulative, along);
         let desired = cruiseKmh;
         if (corner) {
@@ -397,7 +458,7 @@ export default function RideLocationMap({
 
         // Fast yaw only once the car has slowed, so the nose turns instead of sliding sideways.
         const yaw = absErr > 50 ? 70 + (1 - Math.min(1, speedKmh / 30)) * 190 : absErr > 20 ? 150 : 110;
-        bearingRef.current = stepHeading(bearingRef.current, roadBearing, yaw * h);
+        bearingRef.current = stepHeading(bearingRef.current, lockedBearing, yaw * h);
 
         const stepKm = (speedKmh / 3600) * h;
         if (stepKm >= Math.abs(target - along)) {
@@ -421,7 +482,8 @@ export default function RideLocationMap({
             segmentFrom = 0;
             alongRef.current = 0;
             speedKmh = DEMO_KMH;
-            bearingRef.current = localRoadBearing(line, cumulative, 0);
+            headingLock = localRoadBearing(line, cumulative, 0);
+            bearingRef.current = headingLock;
             placeOnRoute(0, bearingRef.current);
             lastFrameRef.current = now;
           }
@@ -448,7 +510,7 @@ export default function RideLocationMap({
         } else if (now - lastFollow > 1400) {
           const pt = mapNow.latLngToContainerPoint([pose.point.lat, pose.point.lng]);
           const size = mapNow.getSize();
-          const margin = 120;
+          const margin = Math.max(16, Math.floor(Math.min(size.x, size.y) * 0.08));
           const nearEdge =
             pt.x < margin || pt.y < margin || pt.x > size.x - margin || pt.y > size.y - margin;
           if (nearEdge) {
@@ -604,13 +666,14 @@ export default function RideLocationMap({
       fitRoute();
 
       void (async () => {
-        const road = await fetchRoadRoute(pickup, dropoff);
-        if (cancelled || !road) return;
+        const fetched = await fetchRoadRoute(pickup, dropoff);
+        if (cancelled || !fetched) return;
+        const road = simplifyRoute(fetched);
         routeRef.current = road;
         cumulativeRef.current = cumulativeDistances(road);
         const latLngs = road.map((p) => [p.lat, p.lng] as [number, number]);
-        L.polyline(latLngs, { color: "#ffffff", weight: 9, opacity: 0.9 }).addTo(map);
-        L.polyline(latLngs, { color: ROUTE_BLUE, weight: 5, opacity: 0.95 }).addTo(map);
+        L.polyline(latLngs, { color: "#ffffff", weight: 12, opacity: 0.9 }).addTo(map);
+        L.polyline(latLngs, { color: ROUTE_BLUE, weight: 8, opacity: 0.95 }).addTo(map);
         const bounds = L.latLngBounds(latLngs);
         boundsRef.current = bounds;
         fitRoute();
@@ -650,13 +713,20 @@ export default function RideLocationMap({
 
     const line = routeRef.current;
     const cumulative = cumulativeRef.current;
+    const kind = data.vehicleKind === "motorcycle" ? "motorcycle" : "car";
+    const marker = carMarkerRef.current;
+    const markerImg = marker?.getElement()?.querySelector("img");
+    const markerSrc = kind === "motorcycle" ? BIKE_SRC : "/images/map-car.png";
+    if (marker && markerImg && markerImg.getAttribute("src") !== markerSrc) {
+      marker.setIcon(markerDivIcon(bearingRef.current, kind));
+    }
 
     if (demoDriveRef.current && line && cumulative && line.length >= 2) {
       const total = cumulative[cumulative.length - 1] || 0;
       const start = pointAtAlong(line, cumulative, 0);
       if (!carMarkerRef.current) {
         carMarkerRef.current = L.marker([start.point.lat, start.point.lng], {
-          icon: carDivIcon(start.bearing),
+          icon: markerDivIcon(start.bearing, data.vehicleKind),
           interactive: false,
           zIndexOffset: 1000,
         }).addTo(map);
@@ -692,7 +762,7 @@ export default function RideLocationMap({
 
     if (!carMarkerRef.current) {
       carMarkerRef.current = L.marker([point.lat, point.lng], {
-        icon: carDivIcon(heading),
+        icon: markerDivIcon(heading, data.vehicleKind),
         interactive: false,
         zIndexOffset: 1000,
       }).addTo(map);
@@ -751,7 +821,7 @@ export default function RideLocationMap({
       }
     };
     animRafRef.current = window.requestAnimationFrame(tick);
-  }, [live?.lat, live?.lng, data.heading, pickup, dropoff, routeTick, frozen]);
+  }, [live?.lat, live?.lng, data.heading, data.vehicleKind, pickup, dropoff, routeTick, frozen]);
 
   const handleRecenter = () => {
     const map = mapRef.current;
