@@ -470,6 +470,11 @@ img {
   height: auto;
 }
 
+.ride-car-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
 /* Custom gradient text utility */
 .text-gradient-yellow {
   background: linear-gradient(to bottom, #fce001, #fdb813);
