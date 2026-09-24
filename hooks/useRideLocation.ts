@@ -85,6 +85,43 @@ export function useRideLocation(token: string | null, enabled = true) {
       return;
     }
 
+    const normalized = token.trim().toLowerCase();
+    if (normalized === "demo" || normalized === "demo-active") {
+      setData({
+        rideId: 181,
+        partnerId: 36,
+        latitude: 31.5204,
+        longitude: 74.3587,
+        heading: 0,
+        sharingActive: true,
+        rideStatus: "RIDE_STARTED",
+        status: "live",
+        partnerName: "Ayesha Khan",
+        partnerPhoto: null,
+        driverId: 50,
+        driverName: "Bilal Ahmed",
+        driverPhoto: null,
+        driverRating: 4.8,
+        vehicleMake: "Toyota",
+        vehicleModel: "Corolla",
+        vehiclePlate: "LEA-1234",
+        vehicleColor: "White",
+        pickupLatitude: 31.5204,
+        pickupLongitude: 74.3587,
+        pickupAddress: "Gulberg, Lahore",
+        dropoffLatitude: 31.5225,
+        dropoffLongitude: 74.352,
+        dropoffAddress: "Gulberg II, Lahore",
+        etaMinutes: 13,
+        passengerFirstName: "Ayesha",
+        lastUpdatedAt: Date.now(),
+      });
+      setPageState("live");
+      setConnection("live");
+      setCloseReason(null);
+      return;
+    }
+
     let cancelled = false;
     let socket: WebSocket | null = null;
     terminalRef.current = false;
