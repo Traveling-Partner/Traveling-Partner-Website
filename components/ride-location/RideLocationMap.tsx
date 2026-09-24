@@ -709,7 +709,8 @@ export default function RideLocationMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !live) return;
+    if (!map) return;
+    if (!live && !pickup) return;
 
     const line = routeRef.current;
     const cumulative = cumulativeRef.current;
@@ -720,6 +721,30 @@ export default function RideLocationMap({
     if (marker && markerImg && markerImg.getAttribute("src") !== markerSrc) {
       marker.setIcon(markerDivIcon(bearingRef.current, kind));
     }
+
+    if (!live && pickup) {
+      const snapped =
+        line && cumulative && line.length >= 2
+          ? nearestOnRoute(line, cumulative, pickup, null)
+          : null;
+      const point = snapped?.point ?? pickup;
+      const heading = snapped?.bearing ?? (isFiniteCoord(data.heading) ? data.heading : 0);
+      if (!carMarkerRef.current) {
+        carMarkerRef.current = L.marker([point.lat, point.lng], {
+          icon: markerDivIcon(heading, kind),
+          interactive: false,
+          zIndexOffset: 1000,
+        }).addTo(map);
+      } else {
+        carMarkerRef.current.setLatLng([point.lat, point.lng]);
+      }
+      setCarBearing(carMarkerRef.current, heading);
+      currentPosRef.current = point;
+      bearingRef.current = heading;
+      return;
+    }
+
+    if (!live) return;
 
     if (demoDriveRef.current && line && cumulative && line.length >= 2) {
       const total = cumulative[cumulative.length - 1] || 0;
@@ -821,7 +846,7 @@ export default function RideLocationMap({
       }
     };
     animRafRef.current = window.requestAnimationFrame(tick);
-  }, [live?.lat, live?.lng, data.heading, data.vehicleKind, pickup, dropoff, routeTick, frozen]);
+  }, [live?.lat, live?.lng, data.heading, data.vehicleKind, pickup?.lat, pickup?.lng, routeTick, frozen]);
 
   const handleRecenter = () => {
     const map = mapRef.current;
@@ -849,7 +874,7 @@ export default function RideLocationMap({
         </button>
       )}
 
-      {!live && (
+      {!live && !pickup && (
         <div className="absolute inset-x-3 top-3 z-[500] rounded-2xl bg-white/95 px-4 py-3 text-center shadow-[0_8px_20px_rgba(11,11,11,0.12)] backdrop-blur-sm sm:inset-x-auto sm:left-1/2 sm:w-[min(360px,calc(100%-24px))] sm:-translate-x-1/2">
           <p className="text-sm font-semibold text-[#0b0b0b]">{waitingLabel}</p>
           <p className="mt-0.5 text-xs font-medium text-[#6f6e68]">
