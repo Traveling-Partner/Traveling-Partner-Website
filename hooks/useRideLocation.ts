@@ -175,8 +175,15 @@ export function useRideLocation(token: string | null, enabled = true) {
       } catch {
         return;
       }
-      if (parsed?.type !== "RIDE_LOCATION_UPDATE" || !parsed.data) return;
-      applyView(viewFromSocket(parsed.data, dataRef.current));
+      const data =
+        parsed?.data && typeof parsed.data === "object"
+          ? parsed.data
+          : parsed && typeof parsed === "object" && ("latitude" in parsed || "rideId" in parsed)
+            ? (parsed as RideLocationSocketMessage["data"])
+            : null;
+      if (!data) return;
+      if (parsed?.type && parsed.type !== "RIDE_LOCATION_UPDATE") return;
+      applyView(viewFromSocket(data, dataRef.current));
     };
 
     const stopPolling = () => {
@@ -263,10 +270,19 @@ export function useRideLocation(token: string | null, enabled = true) {
       };
 
       socket.onmessage = (event) => {
-        if (cancelled || typeof event.data !== "string") return;
-        applySocketPayload(event.data);
-        if (!terminalRef.current) {
-          setConnection("live");
+        if (cancelled) return;
+        const apply = (raw: string) => {
+          applySocketPayload(raw);
+          if (!terminalRef.current) setConnection("live");
+        };
+        if (typeof event.data === "string") {
+          apply(event.data);
+          return;
+        }
+        if (event.data instanceof Blob) {
+          void event.data.text().then((raw) => {
+            if (!cancelled) apply(raw);
+          });
         }
       };
 

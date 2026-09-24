@@ -55,7 +55,25 @@ function asNullableString(value: unknown): string | null {
 }
 
 function asNullableNumber(value: unknown): number | null {
-  return isFiniteCoord(value) ? value : null;
+  if (isFiniteCoord(value)) return value;
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return null;
+}
+
+function coordFrom(source: object, keys: string[]): number | null {
+  const record = source as Record<string, unknown>;
+  for (const key of keys) {
+    const value = asNullableNumber(record[key]);
+    if (value != null) return value;
+  }
+  const nested = record.location ?? record.currentLocation ?? record.position;
+  if (nested && typeof nested === "object") {
+    return coordFrom(nested, keys);
+  }
+  return null;
 }
 
 function asNullableInt(value: unknown): number | null {
@@ -157,8 +175,11 @@ function patchFromUpdate(
   return {
     rideId: asNullableInt(data.rideId) ?? base.rideId,
     partnerId: asNullableInt(data.partnerId) ?? base.partnerId,
-    latitude: asNullableNumber(data.latitude) ?? base.latitude,
-    longitude: asNullableNumber(data.longitude) ?? base.longitude,
+    latitude:
+      coordFrom(data, ["latitude", "lat", "currentLatitude", "driverLatitude"]) ?? base.latitude,
+    longitude:
+      coordFrom(data, ["longitude", "lng", "lon", "currentLongitude", "driverLongitude"]) ??
+      base.longitude,
     heading: asNullableNumber(data.heading) ?? base.heading,
     sharingActive,
     rideStatus: asNullableString(data.rideStatus) ?? base.rideStatus,
@@ -199,8 +220,8 @@ export function viewFromSocket(
   const base = previous ?? EMPTY;
   // Live frames should replace coordinates when present (null lat means keep previous)
   const sharingActive = data.sharingActive !== false;
-  const lat = asNullableNumber(data.latitude);
-  const lng = asNullableNumber(data.longitude);
+  const lat = coordFrom(data, ["latitude", "lat", "currentLatitude", "driverLatitude"]);
+  const lng = coordFrom(data, ["longitude", "lng", "lon", "currentLongitude", "driverLongitude"]);
   return merge(base, {
     ...patchFromUpdate(data, base),
     latitude: lat ?? base.latitude,
@@ -220,8 +241,11 @@ export function viewFromSnapshot(
   const sharingActive = data.sharingActive !== false;
   return merge(base, {
     rideId: asNullableInt(data.rideId) ?? base.rideId,
-    latitude: asNullableNumber(data.latitude) ?? base.latitude,
-    longitude: asNullableNumber(data.longitude) ?? base.longitude,
+    latitude:
+      coordFrom(data, ["latitude", "lat", "currentLatitude", "driverLatitude"]) ?? base.latitude,
+    longitude:
+      coordFrom(data, ["longitude", "lng", "lon", "currentLongitude", "driverLongitude"]) ??
+      base.longitude,
     sharingActive,
     rideStatus: asNullableString(data.status) ?? base.rideStatus,
     status: deriveShareStatus(null, data.sharingActive, data.status),
