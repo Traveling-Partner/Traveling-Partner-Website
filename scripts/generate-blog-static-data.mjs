@@ -68,11 +68,11 @@ function extractIds(listPayload) {
 
 async function fetchPagedList(urlForPage) {
   const all = [];
-  let page = 0;
+  let page = 1;
   let totalPages = 1;
   const maxPages = 50;
 
-  while (page < totalPages && page < maxPages) {
+  while (page <= totalPages && page <= maxPages) {
     const json = await fetchJson(urlForPage(page));
     const items = extractContent(json).filter(isPublished);
     all.push(...items);
@@ -80,9 +80,9 @@ async function fetchPagedList(urlForPage) {
     if (Number.isFinite(reportedPages) && reportedPages > 0) {
       totalPages = reportedPages;
     } else if (items.length < LIST_PAGE_SIZE) {
-      totalPages = page + 1;
+      totalPages = page;
     } else {
-      totalPages = page + 2;
+      totalPages = page + 1;
     }
     if (items.length === 0) break;
     page += 1;
