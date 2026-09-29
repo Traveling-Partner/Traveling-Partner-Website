@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "prebuild": "node scripts/generate-blog-static-data.mjs --public-only",
-    "build": "next build && node scripts/generate-blog-static-data.mjs && node scripts/inject-blog-og-tags.mjs",
+    "build": "next build --webpack && node scripts/generate-blog-static-data.mjs && node scripts/inject-blog-og-tags.mjs",
     "start": "npx serve@latest out -l ${PORT:-8080}",
     "lint": "next lint"
   },
