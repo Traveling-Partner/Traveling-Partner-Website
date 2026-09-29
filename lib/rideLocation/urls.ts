@@ -1,17 +1,31 @@
 /**
- * Ride-location share page — staging API only (for testing staging tokens).
- * Switch these back to production when live Share is ready.
+ * Public ride-location API hosts.
+ * The live site talks to production. A staging hostname talks to staging.
  */
 
-export const RIDE_LOCATION_API_ORIGIN =
-  "https://staging.api.traveling-partner.com";
+function envApiOrigin(): string | null {
+  const fromEnv =
+    (globalThis as { process?: { env?: Record<string, string | undefined> } })
+      .process?.env?.NEXT_PUBLIC_API_BASE_URL?.trim();
+  if (!fromEnv) return null;
+  return fromEnv.replace(/\/api\/?$/, "").replace(/\/$/, "");
+}
 
 export function getRideLocationApiOrigin(): string {
-  return RIDE_LOCATION_API_ORIGIN;
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname.toLowerCase();
+    if (host === "traveling-partner.com" || host === "www.traveling-partner.com") {
+      return "https://api.traveling-partner.com";
+    }
+    if (host.includes("stagging") || host.includes("staging")) {
+      return "https://staging.api.traveling-partner.com";
+    }
+  }
+  return envApiOrigin() || "https://api.traveling-partner.com";
 }
 
 export function getRideLocationWsOrigin(): string {
-  return RIDE_LOCATION_API_ORIGIN;
+  return getRideLocationApiOrigin();
 }
 
 function wsScheme(origin: string): string {

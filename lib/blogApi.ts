@@ -7,7 +7,7 @@ import { stripHtml } from "@/lib/blogShare";
 import { normalizeStringList } from "@/lib/blogFormat";
 
 /** @deprecated Use blogListApiUrl() — kept for backward compatibility. */
-export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=0&size=10&search=&status=PUBLISHED`;
+export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=1&size=10&search=&status=PUBLISHED`;
 
 /** Build-time OG snapshot only — client UI never reads this. */
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
@@ -20,7 +20,7 @@ export function blogDataStaticPath(id: string): string {
 }
 
 /** Live published list URL. */
-export function blogListApiUrl(page = 0, size = LIST_PAGE_SIZE, search = ""): string {
+export function blogListApiUrl(page = 1, size = LIST_PAGE_SIZE, search = ""): string {
   const params = new URLSearchParams({
     page: String(page),
     size: String(size),
@@ -36,7 +36,7 @@ export function blogDetailApiUrl(id: string): string {
 
 /** Public website list — used when CRM GET /api/blog/getAll returns 401. */
 export function legacyBlogListApiUrl(
-  page = 0,
+  page = 1,
   size = LIST_PAGE_SIZE,
   search = ""
 ): string {
@@ -57,7 +57,7 @@ export function legacyBlogDetailApiUrl(id: string): string {
 
 /** Public featured list — GET /api/website/blog/featured (no auth). */
 export function featuredBlogListApiUrl(
-  page = 0,
+  page = 1,
   size = LIST_PAGE_SIZE
 ): string {
   const params = new URLSearchParams({
@@ -254,21 +254,23 @@ async function fetchOneListPage(url: string): Promise<{
 async function fetchPagedPublishedList(
   listUrl: (page: number) => string
 ): Promise<Record<string, unknown>[]> {
-  const first = await fetchOneListPage(listUrl(0));
+  const first = await fetchOneListPage(listUrl(1));
   if (first.totalPagesKnown) {
     const pageCount = Math.min(first.totalPages, MAX_LIST_PAGES);
     if (pageCount <= 1) return first.items;
     const rest = await Promise.all(
       Array.from({ length: pageCount - 1 }, (_, index) =>
-        fetchOneListPage(listUrl(index + 1))
+        fetchOneListPage(listUrl(index + 2))
       )
     );
     return [first.items, ...rest.map((page) => page.items)].flat();
   }
 
+  if (first.items.length < LIST_PAGE_SIZE) return first.items;
+
   const all = [...first.items];
-  let page = 1;
-  while (page < MAX_LIST_PAGES) {
+  let page = 2;
+  while (page <= MAX_LIST_PAGES) {
     const next = await fetchOneListPage(listUrl(page));
     if (next.items.length === 0) break;
     all.push(...next.items);
@@ -316,15 +318,15 @@ export async function fetchPublishedBlogHead(
   }
   try {
     return (
-      await fetchOneListPage(legacyBlogListApiUrl(0, LIST_PAGE_SIZE, search))
+      await fetchOneListPage(legacyBlogListApiUrl(1, LIST_PAGE_SIZE, search))
     ).items;
   } catch (err) {
     console.warn(
-      "[blog] GET /api/website/blog/list page 0 unavailable; falling back to /api/blog/getAll",
+      "[blog] GET /api/website/blog/list page 1 unavailable; falling back to /api/blog/getAll",
       err
     );
     return (
-      await fetchOneListPage(blogListApiUrl(0, LIST_PAGE_SIZE, search))
+      await fetchOneListPage(blogListApiUrl(1, LIST_PAGE_SIZE, search))
     ).items;
   }
 }
@@ -341,11 +343,11 @@ export async function fetchFeaturedBlogPages(): Promise<
   if (fresh) return fresh;
   try {
     const all: Record<string, unknown>[] = [];
-    let page = 0;
+    let page = 1;
     let totalPages = 1;
     const maxPages = 50;
 
-    while (page < totalPages && page < maxPages) {
+    while (page <= totalPages && page <= maxPages) {
       const url = featuredBlogListApiUrl(page, LIST_PAGE_SIZE);
       const response = await fetch(url, {
         method: "GET",
@@ -354,7 +356,7 @@ export async function fetchFeaturedBlogPages(): Promise<
       });
       if (!response.ok) {
         console.warn(`[blog] GET /api/website/blog/featured → ${response.status}`);
-        return page === 0 ? [] : all;
+        return page === 1 ? [] : all;
       }
       const json = await response.json();
       const items = extractBlogList(json).filter(isFeaturedBlogItem);
@@ -364,9 +366,9 @@ export async function fetchFeaturedBlogPages(): Promise<
       if (Number.isFinite(reportedPages) && reportedPages > 0) {
         totalPages = reportedPages;
       } else if (items.length < LIST_PAGE_SIZE) {
-        totalPages = page + 1;
+        totalPages = page;
       } else {
-        totalPages = page + 2;
+        totalPages = page + 1;
       }
       if (items.length === 0) break;
       page += 1;
