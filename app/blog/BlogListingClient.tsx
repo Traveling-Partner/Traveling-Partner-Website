@@ -8,7 +8,6 @@ import { formatBlogType } from "@/lib/blogFormat";
 import { extractBlogList } from "@/lib/blogApi";
 import {
   fetchBlogListClient,
-  fetchBlogListHeadClient,
   fetchFeaturedBlogListClient,
 } from "@/lib/blogClientFetch";
 import { mapBlogCard, type MappedBlogCard } from "@/lib/blogMap";
@@ -120,7 +119,7 @@ function BlogListingInner() {
       setError(null);
 
       const [listData, featuredData] = await Promise.all([
-        fetchBlogListHeadClient(),
+        fetchBlogListClient(),
         fetchFeaturedBlogListClient(),
       ]);
       if (requestId !== loadRequest.current) return;
@@ -135,15 +134,6 @@ function BlogListingInner() {
       setFeaturedBlogs([]);
       setError("Unable to load blogs right now. Please try again.");
       setLoading(false);
-      return;
-    }
-
-    try {
-      const listData = await fetchBlogListClient();
-      if (requestId !== loadRequest.current) return;
-      setBlogs(toCards(listData));
-    } catch (err) {
-      console.error("Error while fetching the rest of the blog list:", err);
     }
   }, []);
 
