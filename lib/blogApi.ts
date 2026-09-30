@@ -13,6 +13,8 @@ export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=1&size=10&sear
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
 const LIST_PAGE_SIZE = 10;
+/** One request large enough for the whole published catalogue. */
+const CATALOGUE_SIZE = 200;
 
 /** @deprecated Build artifact only — client always uses the live view API. */
 export function blogDataStaticPath(id: string): string {
@@ -208,7 +210,6 @@ export const getBlogIdFromItem = (item: Record<string, unknown>): string => {
 
 /** Successful list only. A failed call does not read this. */
 const LIST_CACHE_MS = 2 * 60 * 1000;
-const MAX_LIST_PAGES = 50;
 
 let publishedListCache: { at: number; items: Record<string, unknown>[] } | null =
   null;
@@ -251,33 +252,18 @@ async function fetchOneListPage(url: string): Promise<{
   };
 }
 
-async function fetchPagedPublishedList(
-  listUrl: (page: number) => string
-): Promise<Record<string, unknown>[]> {
-  const first = await fetchOneListPage(listUrl(1));
-  if (first.totalPagesKnown) {
-    const pageCount = Math.min(first.totalPages, MAX_LIST_PAGES);
-    if (pageCount <= 1) return first.items;
-    const rest = await Promise.all(
-      Array.from({ length: pageCount - 1 }, (_, index) =>
-        fetchOneListPage(listUrl(index + 2))
-      )
-    );
-    return [first.items, ...rest.map((page) => page.items)].flat();
+function uniqueByBlogId(
+  items: Record<string, unknown>[]
+): Record<string, unknown>[] {
+  const seen = new Set<string>();
+  const unique: Record<string, unknown>[] = [];
+  for (const item of items) {
+    const id = getBlogIdFromItem(item);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    unique.push(item);
   }
-
-  if (first.items.length < LIST_PAGE_SIZE) return first.items;
-
-  const all = [...first.items];
-  let page = 2;
-  while (page <= MAX_LIST_PAGES) {
-    const next = await fetchOneListPage(listUrl(page));
-    if (next.items.length === 0) break;
-    all.push(...next.items);
-    if (next.items.length < LIST_PAGE_SIZE) break;
-    page += 1;
-  }
-  return all;
+  return unique;
 }
 
 export async function fetchPublishedBlogPages(
@@ -288,10 +274,10 @@ export async function fetchPublishedBlogPages(
     const fresh = readFreshListCache(publishedListCache);
     if (fresh) return fresh;
   }
+  const load = async (url: string) =>
+    uniqueByBlogId((await fetchOneListPage(url)).items);
   try {
-    const items = await fetchPagedPublishedList((page) =>
-      legacyBlogListApiUrl(page, LIST_PAGE_SIZE, search)
-    );
+    const items = await load(legacyBlogListApiUrl(1, CATALOGUE_SIZE, search));
     if (!query) publishedListCache = { at: Date.now(), items };
     return items;
   } catch (err) {
@@ -299,9 +285,7 @@ export async function fetchPublishedBlogPages(
       "[blog] GET /api/website/blog/list unavailable; falling back to /api/blog/getAll",
       err
     );
-    const items = await fetchPagedPublishedList((page) =>
-      blogListApiUrl(page, LIST_PAGE_SIZE, search)
-    );
+    const items = await load(blogListApiUrl(1, CATALOGUE_SIZE, search));
     if (!query) publishedListCache = { at: Date.now(), items };
     return items;
   }

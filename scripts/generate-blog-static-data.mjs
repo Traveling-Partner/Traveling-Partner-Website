@@ -21,7 +21,7 @@ function toBlogApiBase(raw) {
 
 const BLOG_API = toBlogApiBase(process.env.NEXT_PUBLIC_API_BASE_URL);
 const WEBSITE_API = BLOG_API.replace(/\/blog$/, "/website");
-const LIST_PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 200;
 
 const OUT_DIR = path.join(process.cwd(), "out");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -67,26 +67,17 @@ function extractIds(listPayload) {
 }
 
 async function fetchPagedList(urlForPage) {
+  const json = await fetchJson(urlForPage(1));
+  const items = extractContent(json).filter(isPublished);
+  const seen = new Set();
   const all = [];
-  let page = 1;
-  let totalPages = 1;
-  const maxPages = 50;
-
-  while (page <= totalPages && page <= maxPages) {
-    const json = await fetchJson(urlForPage(page));
-    const items = extractContent(json).filter(isPublished);
-    all.push(...items);
-    const reportedPages = Number(json?.data?.totalPages);
-    if (Number.isFinite(reportedPages) && reportedPages > 0) {
-      totalPages = reportedPages;
-    } else if (items.length < LIST_PAGE_SIZE) {
-      totalPages = page;
-    } else {
-      totalPages = page + 1;
-    }
-    if (items.length === 0) break;
-    page += 1;
+  for (const item of items) {
+    const id = String(item?.id ?? item?.blogId ?? "").trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    all.push(item);
   }
+  const page = 1;
 
   return {
     success: true,
