@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { BLOG_GRID_PAGE_SIZE } from "@/lib/blogApi";
 import { parseBlogDate } from "@/lib/blogFormat";
 import BlogCard, { type BlogCardData } from "@/components/Blog-sections/BlogCard";
 
@@ -11,11 +12,14 @@ type LatestStoriesSectionProps = {
   getImageSrc: (value: string) => string;
   sortOrder?: SortOrder;
   visibleCount?: number;
+  hasMore?: boolean;
+  loadingMore?: boolean;
   onSortChange?: (sort: SortOrder) => void;
   onVisibleCountChange?: (count: number) => void;
+  onLoadMore?: () => void;
 };
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = BLOG_GRID_PAGE_SIZE;
 
 function SortIcon({ className = "" }: { className?: string }) {
   return (
@@ -70,9 +74,11 @@ function ChevronUpIcon({ className = "" }: { className?: string }) {
 
 function StoriesToggleButton({
   expanded,
+  loading,
   onClick,
 }: {
   expanded: boolean;
+  loading?: boolean;
   onClick: () => void;
 }) {
   return (
@@ -80,7 +86,9 @@ function StoriesToggleButton({
       <button
         type="button"
         onClick={onClick}
-        className="inline-flex items-center gap-3 rounded-full bg-[#0b0b0b] px-6 py-3 font-poppins shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-opacity hover:opacity-90 sm:px-8 sm:py-3.5"
+        disabled={loading}
+        aria-busy={loading || undefined}
+        className="inline-flex items-center gap-3 rounded-full bg-[#0b0b0b] px-6 py-3 font-poppins shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-opacity hover:opacity-90 disabled:opacity-60 sm:px-8 sm:py-3.5"
         aria-label={expanded ? "Show less articles" : "Load more articles"}
       >
         <span className="text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
@@ -104,8 +112,11 @@ export default function LatestStoriesSection({
   getImageSrc,
   sortOrder: sortOrderProp,
   visibleCount: visibleCountProp,
+  hasMore = false,
+  loadingMore = false,
   onSortChange,
   onVisibleCountChange,
+  onLoadMore,
 }: LatestStoriesSectionProps) {
   const [sortOrderLocal, setSortOrderLocal] = useState<SortOrder>("newest");
   const [visibleCountLocal, setVisibleCountLocal] = useState(PAGE_SIZE);
@@ -127,19 +138,26 @@ export default function LatestStoriesSection({
   }, [blogs, sortOrder, visibleCountProp]);
 
   const visibleBlogs = sortedBlogs.slice(0, visibleCount);
-  const allVisible = visibleCount >= sortedBlogs.length;
-  const showToggle = sortedBlogs.length > PAGE_SIZE;
+  const moreLoadedHidden = visibleCount < sortedBlogs.length;
+  const expanded =
+    !moreLoadedHidden && !hasMore && sortedBlogs.length > PAGE_SIZE;
+  const showToggle = moreLoadedHidden || hasMore || expanded;
   const sortLabel = sortOrder === "newest" ? "Newest first" : "Oldest first";
 
   const handleToggleStories = () => {
-    if (allVisible) {
-      if (onVisibleCountChange) onVisibleCountChange(PAGE_SIZE);
-      else setVisibleCountLocal(PAGE_SIZE);
+    if (loadingMore) return;
+    if (moreLoadedHidden) {
+      const next = Math.min(visibleCount + PAGE_SIZE, sortedBlogs.length);
+      if (onVisibleCountChange) onVisibleCountChange(next);
+      else setVisibleCountLocal(next);
       return;
     }
-    const next = Math.min(visibleCount + PAGE_SIZE, sortedBlogs.length);
-    if (onVisibleCountChange) onVisibleCountChange(next);
-    else setVisibleCountLocal(next);
+    if (hasMore) {
+      onLoadMore?.();
+      return;
+    }
+    if (onVisibleCountChange) onVisibleCountChange(PAGE_SIZE);
+    else setVisibleCountLocal(PAGE_SIZE);
   };
 
   const handleSort = () => {
@@ -203,7 +221,8 @@ export default function LatestStoriesSection({
 
         {showToggle ? (
           <StoriesToggleButton
-            expanded={allVisible}
+            expanded={expanded}
+            loading={loadingMore}
             onClick={handleToggleStories}
           />
         ) : null}

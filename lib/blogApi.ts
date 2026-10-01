@@ -13,6 +13,8 @@ export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=1&size=10&sear
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
 const LIST_PAGE_SIZE = 10;
+/** One grid page on the blog listing. Load more asks for the next page. */
+export const BLOG_GRID_PAGE_SIZE = 6;
 /** One request large enough for the whole published catalogue. */
 const CATALOGUE_SIZE = 200;
 
@@ -40,14 +42,18 @@ export function blogDetailApiUrl(id: string): string {
 export function legacyBlogListApiUrl(
   page = 1,
   size = LIST_PAGE_SIZE,
-  search = ""
+  search = "",
+  categoryName = ""
 ): string {
   const params = new URLSearchParams({
     page: String(page),
     size: String(size),
   });
-  if (search.trim()) {
-    params.set("search", search.trim());
+  const query = search.trim();
+  if (query) params.set("search", query);
+  const category = categoryName.trim();
+  if (category && category.toLowerCase() !== "all") {
+    params.set("categoryName", category);
   }
   return websiteApiUrl(`/blog/list?${params.toString()}`);
 }
@@ -215,6 +221,7 @@ let publishedListCache: { at: number; items: Record<string, unknown>[] } | null 
   null;
 let featuredListCache: { at: number; items: Record<string, unknown>[] } | null =
   null;
+let featuredInflight: Promise<Record<string, unknown>[]> | null = null;
 
 function readFreshListCache(
   entry: { at: number; items: Record<string, unknown>[] } | null
@@ -227,7 +234,8 @@ function readFreshListCache(
 async function fetchOneListPage(url: string): Promise<{
   items: Record<string, unknown>[];
   totalPages: number;
-  totalPagesKnown: boolean;
+  totalElements: number;
+  last: boolean;
 }> {
   const response = await fetch(url, {
     method: "GET",
@@ -244,12 +252,81 @@ async function fetchOneListPage(url: string): Promise<{
   });
   const data = (json?.data ?? {}) as Record<string, unknown>;
   const reportedPages = Number(data.totalPages);
-  const totalPagesKnown = Number.isFinite(reportedPages) && reportedPages > 0;
+  const reportedTotal = Number(data.totalElements);
+  const totalPages = Number.isFinite(reportedPages)
+    ? Math.max(0, reportedPages)
+    : items.length > 0
+      ? 1
+      : 0;
   return {
     items,
-    totalPages: totalPagesKnown ? reportedPages : 1,
-    totalPagesKnown,
+    totalPages,
+    totalElements: Number.isFinite(reportedTotal) ? reportedTotal : items.length,
+    last: data.last === true,
   };
+}
+
+export type PublishedBlogPage = {
+  items: Record<string, unknown>[];
+  page: number;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+};
+
+const listPageInflight = new Map<string, Promise<PublishedBlogPage>>();
+
+/** One list page. Same query shares one request so a remount cannot fire it twice. */
+export async function fetchPublishedBlogListPage(options?: {
+  page?: number;
+  size?: number;
+  search?: string;
+  categoryName?: string;
+}): Promise<PublishedBlogPage> {
+  const page = Math.max(1, options?.page ?? 1);
+  const size = options?.size ?? BLOG_GRID_PAGE_SIZE;
+  const search = options?.search?.trim() ?? "";
+  const rawCategory = options?.categoryName?.trim() ?? "";
+  const category =
+    rawCategory && rawCategory.toLowerCase() !== "all" ? rawCategory : "";
+  const key = `${page}|${size}|${search}|${category}`;
+  const pending = listPageInflight.get(key);
+  if (pending) return pending;
+
+  const run = async (): Promise<PublishedBlogPage> => {
+    const toPage = (
+      loaded: Awaited<ReturnType<typeof fetchOneListPage>>
+    ): PublishedBlogPage => ({
+      items: uniqueByBlogId(loaded.items),
+      page,
+      totalPages: loaded.totalPages,
+      totalElements: loaded.totalElements,
+      last:
+        loaded.last ||
+        loaded.totalPages === 0 ||
+        page >= loaded.totalPages ||
+        loaded.items.length === 0,
+    });
+    try {
+      return toPage(
+        await fetchOneListPage(
+          legacyBlogListApiUrl(page, size, search, category)
+        )
+      );
+    } catch (err) {
+      console.warn(
+        "[blog] GET /api/website/blog/list unavailable; falling back to /api/blog/getAll",
+        err
+      );
+      return toPage(await fetchOneListPage(blogListApiUrl(page, size, search)));
+    }
+  };
+
+  const promise = run().finally(() => {
+    listPageInflight.delete(key);
+  });
+  listPageInflight.set(key, promise);
+  return promise;
 }
 
 function uniqueByBlogId(
@@ -325,14 +402,11 @@ export async function fetchFeaturedBlogPages(): Promise<
 > {
   const fresh = readFreshListCache(featuredListCache);
   if (fresh) return fresh;
-  try {
-    const all: Record<string, unknown>[] = [];
-    let page = 1;
-    let totalPages = 1;
-    const maxPages = 50;
+  if (featuredInflight) return featuredInflight;
 
-    while (page <= totalPages && page <= maxPages) {
-      const url = featuredBlogListApiUrl(page, LIST_PAGE_SIZE);
+  const run = async (): Promise<Record<string, unknown>[]> => {
+    try {
+      const url = featuredBlogListApiUrl(1, 50);
       const response = await fetch(url, {
         method: "GET",
         cache: "no-store",
@@ -340,30 +414,22 @@ export async function fetchFeaturedBlogPages(): Promise<
       });
       if (!response.ok) {
         console.warn(`[blog] GET /api/website/blog/featured → ${response.status}`);
-        return page === 1 ? [] : all;
+        return [];
       }
       const json = await response.json();
       const items = extractBlogList(json).filter(isFeaturedBlogItem);
-      all.push(...items);
-      const data = (json?.data ?? {}) as Record<string, unknown>;
-      const reportedPages = Number(data.totalPages);
-      if (Number.isFinite(reportedPages) && reportedPages > 0) {
-        totalPages = reportedPages;
-      } else if (items.length < LIST_PAGE_SIZE) {
-        totalPages = page;
-      } else {
-        totalPages = page + 1;
-      }
-      if (items.length === 0) break;
-      page += 1;
+      featuredListCache = { at: Date.now(), items };
+      return items;
+    } catch (err) {
+      console.warn("[blog] GET /api/website/blog/featured failed", err);
+      return [];
     }
+  };
 
-    featuredListCache = { at: Date.now(), items: all };
-    return all;
-  } catch (err) {
-    console.warn("[blog] GET /api/website/blog/featured failed", err);
-    return [];
-  }
+  featuredInflight = run().finally(() => {
+    featuredInflight = null;
+  });
+  return featuredInflight;
 }
 
 export async function fetchAllBlogIds(): Promise<string[]> {
