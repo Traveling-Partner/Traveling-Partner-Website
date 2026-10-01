@@ -13,8 +13,8 @@ export const BLOG_LIST_URL = `${PUBLIC_BLOG_API_BASE}/getAll?page=1&size=10&sear
 export const BLOG_LIST_STATIC_PATH = "/blog-list.json";
 
 const LIST_PAGE_SIZE = 10;
-/** One grid page on the blog listing. Load more asks for the next page. */
-export const BLOG_GRID_PAGE_SIZE = 6;
+/** Posts shown on each blog-list page. */
+export const BLOG_GRID_PAGE_SIZE = 12;
 /** One request large enough for the whole published catalogue. */
 const CATALOGUE_SIZE = 200;
 

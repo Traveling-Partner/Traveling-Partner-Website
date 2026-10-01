@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { BLOG_GRID_PAGE_SIZE } from "@/lib/blogApi";
+import { useMemo, useState } from "react";
 import { parseBlogDate } from "@/lib/blogFormat";
 import BlogCard, { type BlogCardData } from "@/components/Blog-sections/BlogCard";
 
@@ -11,15 +10,11 @@ type LatestStoriesSectionProps = {
   blogs: BlogCardData[];
   getImageSrc: (value: string) => string;
   sortOrder?: SortOrder;
-  visibleCount?: number;
-  hasMore?: boolean;
-  loadingMore?: boolean;
+  page?: number;
+  totalPages?: number;
   onSortChange?: (sort: SortOrder) => void;
-  onVisibleCountChange?: (count: number) => void;
-  onLoadMore?: () => void;
+  onPageChange?: (page: number) => void;
 };
-
-const PAGE_SIZE = BLOG_GRID_PAGE_SIZE;
 
 function SortIcon({ className = "" }: { className?: string }) {
   return (
@@ -38,7 +33,7 @@ function SortIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function ChevronDownIcon({ className = "" }: { className?: string }) {
+function ChevronLeftIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -50,12 +45,12 @@ function ChevronDownIcon({ className = "" }: { className?: string }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="m6 9 6 6 6-6" />
+      <path d="m15 18-6-6 6-6" />
     </svg>
   );
 }
 
-function ChevronUpIcon({ className = "" }: { className?: string }) {
+function ChevronRightIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -67,61 +62,111 @@ function ChevronUpIcon({ className = "" }: { className?: string }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="m18 15-6-6-6 6" />
+      <path d="m9 18 6-6-6-6" />
     </svg>
   );
 }
 
-function StoriesToggleButton({
-  expanded,
-  loading,
-  onClick,
+function pageItems(current: number, total: number): Array<number | "gap"> {
+  if (total <= 5) {
+    return Array.from({ length: total }, (_, index) => index + 1);
+  }
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  const items: Array<number | "gap"> = [1];
+  if (start > 2) items.push("gap");
+  for (let page = start; page <= end; page += 1) items.push(page);
+  if (end < total - 1) items.push("gap");
+  items.push(total);
+  return items;
+}
+
+function StoryPagination({
+  page,
+  totalPages,
+  onPageChange,
 }: {
-  expanded: boolean;
-  loading?: boolean;
-  onClick: () => void;
+  page: number;
+  totalPages: number;
+  onPageChange?: (page: number) => void;
 }) {
+  if (totalPages <= 1) return null;
+  const items = pageItems(page, totalPages);
+
   return (
-    <div className="mt-10 flex justify-center sm:mt-12">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={loading}
-        aria-busy={loading || undefined}
-        className="inline-flex items-center gap-3 rounded-full bg-[#0b0b0b] px-6 py-3 font-poppins shadow-[0_8px_24px_rgba(0,0,0,0.14)] transition-opacity hover:opacity-90 disabled:opacity-60 sm:px-8 sm:py-3.5"
-        aria-label={expanded ? "Show less articles" : "Load more articles"}
-      >
-        <span className="text-[14px] font-bold text-[#FCE001] sm:text-[15px]">
-          {expanded ? "Show Less Articles" : "Load More Articles"}
-        </span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] sm:h-9 sm:w-9">
-          {expanded ? (
-            <ChevronUpIcon className="h-4 w-4" />
-          ) : (
-            <ChevronDownIcon className="h-4 w-4" />
+    <nav
+      className="mt-10 flex justify-center sm:mt-12"
+      aria-label="Blog pages"
+    >
+      <div className="rounded-full bg-gradient-to-r from-[#FCE001] to-[#FDB813] p-[1.5px] shadow-[0_14px_36px_rgba(253,184,19,0.28)]">
+        <div className="flex items-center gap-1 rounded-full bg-white px-1.5 py-1.5 sm:gap-1.5 sm:px-2">
+          <button
+            type="button"
+            onClick={() => onPageChange?.(page - 1)}
+            disabled={page <= 1}
+            className="inline-flex h-10 items-center gap-1 rounded-full px-2.5 text-[13px] font-bold text-[#0b0b0b] transition hover:bg-[#FFF6CC] disabled:pointer-events-none disabled:opacity-30 sm:px-3.5"
+            aria-label="Previous page"
+          >
+            <ChevronLeftIcon className="h-4 w-4" />
+            <span className="hidden sm:inline">Prev</span>
+          </button>
+
+          {items.map((item, index) =>
+            item === "gap" ? (
+              <span
+                key={`gap-${index}`}
+                className="px-1 text-[14px] font-bold text-[#9a968c]"
+                aria-hidden="true"
+              >
+                …
+              </span>
+            ) : (
+              <button
+                key={item}
+                type="button"
+                onClick={() => onPageChange?.(item)}
+                disabled={item === page}
+                aria-label={`Page ${item}`}
+                aria-current={item === page ? "page" : undefined}
+                className={`flex h-10 w-10 items-center justify-center rounded-full text-[14px] font-bold transition ${
+                  item === page
+                    ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b] shadow-[0_6px_16px_rgba(253,184,19,0.5)]"
+                    : "text-[#0b0b0b] hover:bg-[#FFF6CC]"
+                }`}
+              >
+                {item}
+              </button>
+            )
           )}
-        </span>
-      </button>
-    </div>
+
+          <button
+            type="button"
+            onClick={() => onPageChange?.(page + 1)}
+            disabled={page >= totalPages}
+            className="inline-flex h-10 items-center gap-1 rounded-full px-2.5 text-[13px] font-bold text-[#0b0b0b] transition hover:bg-[#FFF6CC] disabled:pointer-events-none disabled:opacity-30 sm:px-3.5"
+            aria-label="Next page"
+          >
+            <span className="hidden sm:inline">Next</span>
+            <ChevronRightIcon className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 }
 
-/** Latest stories grid — Figma header + cards + load more */
+/** Latest stories grid — current API page plus page controls. */
 export default function LatestStoriesSection({
   blogs,
   getImageSrc,
   sortOrder: sortOrderProp,
-  visibleCount: visibleCountProp,
-  hasMore = false,
-  loadingMore = false,
+  page = 1,
+  totalPages = 1,
   onSortChange,
-  onVisibleCountChange,
-  onLoadMore,
+  onPageChange,
 }: LatestStoriesSectionProps) {
   const [sortOrderLocal, setSortOrderLocal] = useState<SortOrder>("newest");
-  const [visibleCountLocal, setVisibleCountLocal] = useState(PAGE_SIZE);
   const sortOrder = sortOrderProp ?? sortOrderLocal;
-  const visibleCount = visibleCountProp ?? visibleCountLocal;
 
   const sortedBlogs = useMemo(() => {
     const list = [...blogs];
@@ -133,32 +178,7 @@ export default function LatestStoriesSection({
     return list;
   }, [blogs, sortOrder]);
 
-  useEffect(() => {
-    if (visibleCountProp == null) setVisibleCountLocal(PAGE_SIZE);
-  }, [blogs, sortOrder, visibleCountProp]);
-
-  const visibleBlogs = sortedBlogs.slice(0, visibleCount);
-  const moreLoadedHidden = visibleCount < sortedBlogs.length;
-  const expanded =
-    !moreLoadedHidden && !hasMore && sortedBlogs.length > PAGE_SIZE;
-  const showToggle = moreLoadedHidden || hasMore || expanded;
   const sortLabel = sortOrder === "newest" ? "Newest first" : "Oldest first";
-
-  const handleToggleStories = () => {
-    if (loadingMore) return;
-    if (moreLoadedHidden) {
-      const next = Math.min(visibleCount + PAGE_SIZE, sortedBlogs.length);
-      if (onVisibleCountChange) onVisibleCountChange(next);
-      else setVisibleCountLocal(next);
-      return;
-    }
-    if (hasMore) {
-      onLoadMore?.();
-      return;
-    }
-    if (onVisibleCountChange) onVisibleCountChange(PAGE_SIZE);
-    else setVisibleCountLocal(PAGE_SIZE);
-  };
 
   const handleSort = () => {
     const next = sortOrder === "newest" ? "oldest" : "newest";
@@ -209,7 +229,7 @@ export default function LatestStoriesSection({
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {visibleBlogs.map((blog, index) => (
+          {sortedBlogs.map((blog, index) => (
             <BlogCard
               key={blog.id}
               blog={blog}
@@ -219,13 +239,11 @@ export default function LatestStoriesSection({
           ))}
         </div>
 
-        {showToggle ? (
-          <StoriesToggleButton
-            expanded={expanded}
-            loading={loadingMore}
-            onClick={handleToggleStories}
-          />
-        ) : null}
+        <StoryPagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </div>
     </section>
   );
