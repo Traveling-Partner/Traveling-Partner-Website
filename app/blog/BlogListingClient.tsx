@@ -92,22 +92,20 @@ function BlogListingInner() {
   const selectedCategory = searchParams?.get("cat") ?? "All";
   const sortOrder =
     searchParams?.get("sort") === "oldest" ? "oldest" : "newest";
+  const pageRaw = Number(searchParams?.get("page"));
+  const currentPage =
+    Number.isFinite(pageRaw) && pageRaw > 0 ? Math.floor(pageRaw) : 1;
 
   const [searchDraft, setSearchDraft] = useState(committedSearch);
   const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
   const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
   const [categoryCatalog, setCategoryCatalog] = useState<BlogHeroCategory[]>([]);
   const [allCount, setAllCount] = useState<number | null>(null);
-  const [pageLoaded, setPageLoaded] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [reachedEnd, setReachedEnd] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(BLOG_GRID_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const requestGeneration = useRef(0);
-  const loadingMoreRef = useRef(false);
 
   const writeParams = useCallback(
     (patch: Record<string, string | number | undefined>) => {
@@ -117,7 +115,8 @@ function BlogListingInner() {
         const isDefault =
           (key === "q" && !asString.trim()) ||
           (key === "cat" && (asString === "All" || !asString)) ||
-          (key === "sort" && (asString === "newest" || !asString));
+          (key === "sort" && (asString === "newest" || !asString)) ||
+          (key === "page" && (asString === "1" || !asString || Number(asString) < 1));
         if (isDefault) next.delete(key);
         else next.set(key, asString);
       });
@@ -153,15 +152,11 @@ function BlogListingInner() {
 
   useEffect(() => {
     const requestId = ++requestGeneration.current;
-    loadingMoreRef.current = false;
-    setLoadingMore(false);
     setLoading(true);
     setError(null);
-    setReachedEnd(false);
-    setVisibleCount(BLOG_GRID_PAGE_SIZE);
 
     fetchBlogListPageClient({
-      page: 1,
+      page: currentPage,
       size: BLOG_GRID_PAGE_SIZE,
       search: committedSearch,
       categoryName: selectedCategory,
@@ -170,9 +165,7 @@ function BlogListingInner() {
         if (requestId !== requestGeneration.current) return;
         const cards = toCards({ data: { content: result.items } });
         setBlogs(cards);
-        setPageLoaded(1);
         setTotalPages(result.totalPages);
-        setReachedEnd(result.last || result.totalPages <= 1);
         setCategoryCatalog((prev) =>
           rememberCategories(
             prev,
@@ -193,82 +186,7 @@ function BlogListingInner() {
         setError("Unable to load blogs right now. Please try again.");
         setLoading(false);
       });
-  }, [committedSearch, selectedCategory, refreshKey]);
-
-  const loadMore = useCallback(async () => {
-    if (loadingMoreRef.current || loading) return;
-    if (visibleCount < blogs.length) {
-      setVisibleCount((count) =>
-        Math.min(count + BLOG_GRID_PAGE_SIZE, blogs.length)
-      );
-      return;
-    }
-    if (reachedEnd || pageLoaded >= totalPages) return;
-
-    const requestId = requestGeneration.current;
-    const nextPage = pageLoaded + 1;
-    loadingMoreRef.current = true;
-    setLoadingMore(true);
-    try {
-      const result = await fetchBlogListPageClient({
-        page: nextPage,
-        size: BLOG_GRID_PAGE_SIZE,
-        search: committedSearch,
-        categoryName: selectedCategory,
-      });
-      if (requestId !== requestGeneration.current) return;
-
-      const cards = toCards({ data: { content: result.items } });
-      const seen = new Set(blogs.map((blog) => String(blog.id)));
-      const extra = cards.filter(
-        (blog) => blog.id && !seen.has(String(blog.id))
-      );
-      if (extra.length === 0) {
-        setReachedEnd(true);
-      } else {
-        setBlogs((prev) => {
-          const ids = new Set(prev.map((blog) => String(blog.id)));
-          const more = cards.filter(
-            (blog) => blog.id && !ids.has(String(blog.id))
-          );
-          return more.length ? [...prev, ...more] : prev;
-        });
-        setVisibleCount((count) => count + extra.length);
-      }
-      setPageLoaded(nextPage);
-      setTotalPages(result.totalPages);
-      setReachedEnd(
-        extra.length === 0 || result.last || nextPage >= result.totalPages
-      );
-      setCategoryCatalog((prev) =>
-        rememberCategories(
-          prev,
-          cards,
-          selectedCategory,
-          result.totalElements
-        )
-      );
-      if (!committedSearch.trim() && selectedCategory === "All") {
-        setAllCount(result.totalElements);
-      }
-    } catch (err) {
-      console.error("Error while fetching the next blog page:", err);
-    } finally {
-      if (requestId === requestGeneration.current) {
-        loadingMoreRef.current = false;
-        setLoadingMore(false);
-      }
-    }
-  }, [
-    blogs,
-    committedSearch,
-    loading,
-    pageLoaded,
-    reachedEnd,
-    selectedCategory,
-    totalPages,
-    visibleCount,
-  ]);
+  }, [committedSearch, currentPage, selectedCategory, refreshKey]);
 
   const categories = useMemo(() => {
     const chips = [...categoryCatalog];
@@ -290,7 +208,16 @@ function BlogListingInner() {
 
   const filtersActive =
     committedSearch.trim() !== "" || selectedCategory !== "All";
-  const hasMore = !reachedEnd && totalPages > pageLoaded;
+
+  const goToPage = (page: number) => {
+    if (page === currentPage || page < 1 || (totalPages > 0 && page > totalPages)) {
+      return;
+    }
+    writeParams({ page });
+    document
+      .getElementById("blog-stories")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
@@ -299,8 +226,11 @@ function BlogListingInner() {
         onSearchChange={setSearchDraft}
         onSearchSubmit={() => {
           const next = searchDraft.trim();
-          if (next === committedSearch.trim()) setRefreshKey((key) => key + 1);
-          else writeParams({ q: next });
+          if (next === committedSearch.trim() && currentPage === 1) {
+            setRefreshKey((key) => key + 1);
+          } else {
+            writeParams({ q: next, page: 1 });
+          }
           document
             .getElementById("blog-stories")
             ?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -309,7 +239,7 @@ function BlogListingInner() {
         selectedCategory={selectedCategory}
         onCategoryChange={(cat) => {
           if (cat === selectedCategory) return;
-          writeParams({ cat });
+          writeParams({ cat, page: 1 });
         }}
         hideCategories={
           !loading &&
@@ -359,17 +289,10 @@ function BlogListingInner() {
             blogs={blogs}
             getImageSrc={getImageSrc}
             sortOrder={sortOrder}
-            visibleCount={visibleCount}
-            hasMore={hasMore}
-            loadingMore={loadingMore}
-            onSortChange={(sort) => {
-              writeParams({ sort });
-              setVisibleCount(BLOG_GRID_PAGE_SIZE);
-            }}
-            onVisibleCountChange={setVisibleCount}
-            onLoadMore={() => {
-              void loadMore();
-            }}
+            page={currentPage}
+            totalPages={totalPages}
+            onSortChange={(sort) => writeParams({ sort })}
+            onPageChange={goToPage}
           />
         </div>
       )}
