@@ -2,10 +2,12 @@ import {
   extractBlogDetail,
   fetchFeaturedBlogPages,
   fetchPublishedBlogHead,
+  fetchPublishedBlogListPage,
   fetchPublishedBlogPages,
   blogDetailApiUrl,
   legacyBlogDetailApiUrl,
   findBlogInListPayload,
+  type PublishedBlogPage,
 } from "@/lib/blogApi";
 import { isValidBlogId } from "@/lib/isValidBlogId";
 
@@ -28,6 +30,16 @@ function publishedDetail(
   const status = String(detail.status ?? "").trim().toUpperCase();
   if (status && status !== "PUBLISHED") return null;
   return detail;
+}
+
+/** One page of the public list, with search and category applied by the API. */
+export async function fetchBlogListPageClient(options?: {
+  page?: number;
+  size?: number;
+  search?: string;
+  categoryName?: string;
+}): Promise<PublishedBlogPage> {
+  return fetchPublishedBlogListPage(options);
 }
 
 /** Published blog list — public /website/blog/list first (no admin getAll 401). */

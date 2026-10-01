@@ -4,22 +4,20 @@ import React, { useCallback, useEffect, useMemo, useRef, useState, Suspense } fr
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
-import { formatBlogType } from "@/lib/blogFormat";
-import { extractBlogList } from "@/lib/blogApi";
+import { BLOG_GRID_PAGE_SIZE, extractBlogList } from "@/lib/blogApi";
 import {
-  fetchBlogListClient,
+  fetchBlogListPageClient,
   fetchFeaturedBlogListClient,
 } from "@/lib/blogClientFetch";
+import { formatBlogType } from "@/lib/blogFormat";
 import { mapBlogCard, type MappedBlogCard } from "@/lib/blogMap";
-import BlogHero from "@/components/Blog-sections/BlogHero";
+import BlogHero, { type BlogHeroCategory } from "@/components/Blog-sections/BlogHero";
 import FeaturedBlogSection from "@/components/Blog-sections/FeaturedBlogSection";
 import LatestStoriesSection from "@/components/Blog-sections/LatestStoriesSection";
 import TPJournalSection from "@/components/Blog-sections/TPJournalSection";
 import SearchEmptyState from "@/components/SearchEmptyState";
 import BlogLoadError from "@/components/BlogLoadError";
 import TPLoader from "@/components/TPLoader";
-
-const INITIAL_VISIBLE_COUNT = 6;
 
 const getImageSrc = (value: string): string => {
   const src = encodeMediaUrl(String(value || "").trim());
@@ -36,34 +34,53 @@ const Loader = () => (
   </div>
 );
 
-function matchesListingFilters(
-  blog: MappedBlogCard,
-  selectedCategory: string,
-  searchQuery: string
-): boolean {
-  const blogCategories = blog.categories?.length
+function toCards(payload: unknown): MappedBlogCard[] {
+  return extractBlogList(payload)
+    .map(mapBlogCard)
+    .filter((blog) => blog.id);
+}
+
+function categoryNames(blog: MappedBlogCard): string[] {
+  const names = blog.categories?.length
     ? blog.categories
     : blog.category
       ? [blog.category]
       : [];
-  const matchesCategory =
-    selectedCategory === "All" || blogCategories.includes(selectedCategory);
-  if (!matchesCategory) return false;
+  return names.map((name) => name.trim()).filter(Boolean);
+}
 
-  const query = searchQuery.trim().toLowerCase();
-  if (!query) return true;
-
-  const title = blog.main_title?.toLowerCase() ?? "";
-  const description = blog.description1?.toLowerCase() ?? "";
-  const categoryText = blogCategories.join(" ").toLowerCase();
-  const tags = (blog.tags ?? []).join(" ").toLowerCase();
-
-  return (
-    title.includes(query) ||
-    description.includes(query) ||
-    categoryText.includes(query) ||
-    tags.includes(query)
+function rememberCategories(
+  prev: BlogHeroCategory[],
+  cards: MappedBlogCard[],
+  activeCategory: string,
+  totalElements: number
+): BlogHeroCategory[] {
+  const map = new Map(
+    prev
+      .filter((category) => category.key !== "All")
+      .map((category) => [category.key, { ...category }])
   );
+
+  if (activeCategory !== "All") {
+    map.set(activeCategory, {
+      key: activeCategory,
+      label: formatBlogType(activeCategory) || activeCategory,
+      count: totalElements,
+    });
+  }
+
+  for (const card of cards) {
+    for (const name of categoryNames(card)) {
+      if (map.has(name)) continue;
+      map.set(name, {
+        key: name,
+        label: formatBlogType(name) || name,
+        count: null,
+      });
+    }
+  }
+
+  return [...map.values()];
 }
 
 function BlogListingInner() {
@@ -71,21 +88,26 @@ function BlogListingInner() {
   const pathname = usePathname() || "/blog";
   const searchParams = useSearchParams();
 
-  const searchQuery = searchParams?.get("q") ?? "";
+  const committedSearch = searchParams?.get("q") ?? "";
   const selectedCategory = searchParams?.get("cat") ?? "All";
   const sortOrder =
     searchParams?.get("sort") === "oldest" ? "oldest" : "newest";
-  const shownRaw = Number(searchParams?.get("shown"));
-  const visibleCount =
-    Number.isFinite(shownRaw) && shownRaw > 0
-      ? shownRaw
-      : INITIAL_VISIBLE_COUNT;
 
+  const [searchDraft, setSearchDraft] = useState(committedSearch);
   const [blogs, setBlogs] = useState<MappedBlogCard[]>([]);
   const [featuredBlogs, setFeaturedBlogs] = useState<MappedBlogCard[]>([]);
+  const [categoryCatalog, setCategoryCatalog] = useState<BlogHeroCategory[]>([]);
+  const [allCount, setAllCount] = useState<number | null>(null);
+  const [pageLoaded, setPageLoaded] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [reachedEnd, setReachedEnd] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(BLOG_GRID_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const loadRequest = useRef(0);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const requestGeneration = useRef(0);
+  const loadingMoreRef = useRef(false);
 
   const writeParams = useCallback(
     (patch: Record<string, string | number | undefined>) => {
@@ -95,9 +117,7 @@ function BlogListingInner() {
         const isDefault =
           (key === "q" && !asString.trim()) ||
           (key === "cat" && (asString === "All" || !asString)) ||
-          (key === "sort" && (asString === "newest" || !asString)) ||
-          (key === "shown" &&
-            (asString === String(INITIAL_VISIBLE_COUNT) || !asString));
+          (key === "sort" && (asString === "newest" || !asString));
         if (isDefault) next.delete(key);
         else next.set(key, asString);
       });
@@ -107,111 +127,195 @@ function BlogListingInner() {
     [pathname, router, searchParams]
   );
 
-  const loadBlogs = useCallback(async () => {
-    const requestId = ++loadRequest.current;
-    const toCards = (payload: unknown) =>
-      extractBlogList(payload)
-        .map(mapBlogCard)
-        .filter((blog) => blog.id);
+  useEffect(() => {
+    setSearchDraft(committedSearch);
+  }, [committedSearch]);
 
-    try {
-      setLoading(true);
-      setError(null);
-
-      const [listData, featuredData] = await Promise.all([
-        fetchBlogListClient(),
-        fetchFeaturedBlogListClient(),
-      ]);
-      if (requestId !== loadRequest.current) return;
-      setBlogs(toCards(listData));
-      setFeaturedBlogs(
-        toCards(featuredData).filter((blog) => blog.isFeatured)
-      );
-      setLoading(false);
-    } catch (err) {
-      console.error("Error while fetching blog list:", err);
-      if (requestId !== loadRequest.current) return;
-      setFeaturedBlogs([]);
-      setError("Unable to load blogs right now. Please try again.");
-      setLoading(false);
-    }
+  useEffect(() => {
+    let active = true;
+    fetchFeaturedBlogListClient()
+      .then((payload) => {
+        if (!active) return;
+        const cards = toCards(payload).filter((blog) => blog.isFeatured);
+        setFeaturedBlogs(cards);
+        setCategoryCatalog((prev) =>
+          rememberCategories(prev, cards, "All", 0)
+        );
+      })
+      .catch(() => {
+        if (!active) return;
+        setFeaturedBlogs([]);
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
-    loadBlogs();
-  }, [loadBlogs]);
+    const requestId = ++requestGeneration.current;
+    loadingMoreRef.current = false;
+    setLoadingMore(false);
+    setLoading(true);
+    setError(null);
+    setReachedEnd(false);
+    setVisibleCount(BLOG_GRID_PAGE_SIZE);
+
+    fetchBlogListPageClient({
+      page: 1,
+      size: BLOG_GRID_PAGE_SIZE,
+      search: committedSearch,
+      categoryName: selectedCategory,
+    })
+      .then((result) => {
+        if (requestId !== requestGeneration.current) return;
+        const cards = toCards({ data: { content: result.items } });
+        setBlogs(cards);
+        setPageLoaded(1);
+        setTotalPages(result.totalPages);
+        setReachedEnd(result.last || result.totalPages <= 1);
+        setCategoryCatalog((prev) =>
+          rememberCategories(
+            prev,
+            cards,
+            selectedCategory,
+            result.totalElements
+          )
+        );
+        if (!committedSearch.trim() && selectedCategory === "All") {
+          setAllCount(result.totalElements);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error while fetching blog list:", err);
+        if (requestId !== requestGeneration.current) return;
+        setBlogs([]);
+        setError("Unable to load blogs right now. Please try again.");
+        setLoading(false);
+      });
+  }, [committedSearch, selectedCategory, refreshKey]);
+
+  const loadMore = useCallback(async () => {
+    if (loadingMoreRef.current || loading) return;
+    if (visibleCount < blogs.length) {
+      setVisibleCount((count) =>
+        Math.min(count + BLOG_GRID_PAGE_SIZE, blogs.length)
+      );
+      return;
+    }
+    if (reachedEnd || pageLoaded >= totalPages) return;
+
+    const requestId = requestGeneration.current;
+    const nextPage = pageLoaded + 1;
+    loadingMoreRef.current = true;
+    setLoadingMore(true);
+    try {
+      const result = await fetchBlogListPageClient({
+        page: nextPage,
+        size: BLOG_GRID_PAGE_SIZE,
+        search: committedSearch,
+        categoryName: selectedCategory,
+      });
+      if (requestId !== requestGeneration.current) return;
+
+      const cards = toCards({ data: { content: result.items } });
+      const seen = new Set(blogs.map((blog) => String(blog.id)));
+      const extra = cards.filter(
+        (blog) => blog.id && !seen.has(String(blog.id))
+      );
+      if (extra.length === 0) {
+        setReachedEnd(true);
+      } else {
+        setBlogs((prev) => {
+          const ids = new Set(prev.map((blog) => String(blog.id)));
+          const more = cards.filter(
+            (blog) => blog.id && !ids.has(String(blog.id))
+          );
+          return more.length ? [...prev, ...more] : prev;
+        });
+        setVisibleCount((count) => count + extra.length);
+      }
+      setPageLoaded(nextPage);
+      setTotalPages(result.totalPages);
+      setReachedEnd(
+        extra.length === 0 || result.last || nextPage >= result.totalPages
+      );
+      setCategoryCatalog((prev) =>
+        rememberCategories(
+          prev,
+          cards,
+          selectedCategory,
+          result.totalElements
+        )
+      );
+      if (!committedSearch.trim() && selectedCategory === "All") {
+        setAllCount(result.totalElements);
+      }
+    } catch (err) {
+      console.error("Error while fetching the next blog page:", err);
+    } finally {
+      if (requestId === requestGeneration.current) {
+        loadingMoreRef.current = false;
+        setLoadingMore(false);
+      }
+    }
+  }, [
+    blogs,
+    committedSearch,
+    loading,
+    pageLoaded,
+    reachedEnd,
+    selectedCategory,
+    totalPages,
+    visibleCount,
+  ]);
 
   const categories = useMemo(() => {
-    const unique = Array.from(
-      new Set(
-        blogs.flatMap((blog) =>
-          (blog.categories?.length ? blog.categories : blog.category ? [blog.category] : [])
-            .map((cat) => cat.trim())
-            .filter(Boolean)
-        )
-      )
-    );
-
+    const chips = [...categoryCatalog];
+    if (
+      selectedCategory !== "All" &&
+      !chips.some((category) => category.key === selectedCategory)
+    ) {
+      chips.unshift({
+        key: selectedCategory,
+        label: formatBlogType(selectedCategory) || selectedCategory,
+        count: null,
+      });
+    }
     return [
-      { key: "All", label: "All Posts", count: blogs.length },
-      ...unique.map((cat) => ({
-        key: cat,
-        label: formatBlogType(cat) || cat,
-        count: blogs.filter((blog) =>
-          (blog.categories?.length ? blog.categories : [blog.category]).includes(cat)
-        ).length,
-      })),
+      { key: "All", label: "All Posts", count: allCount },
+      ...chips,
     ];
-  }, [blogs]);
+  }, [allCount, categoryCatalog, selectedCategory]);
 
-  const carouselBlogs = useMemo(
-    () =>
-      blogs.filter((blog) =>
-        matchesListingFilters(blog, selectedCategory, searchQuery)
-      ),
-    [blogs, selectedCategory, searchQuery]
-  );
-
-  const visibleFeaturedBlogs = useMemo(
-    () =>
-      featuredBlogs.filter((blog) =>
-        matchesListingFilters(blog, selectedCategory, searchQuery)
-      ),
-    [featuredBlogs, selectedCategory, searchQuery]
-  );
+  const filtersActive =
+    committedSearch.trim() !== "" || selectedCategory !== "All";
+  const hasMore = !reachedEnd && totalPages > pageLoaded;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FEFBF6]">
       <BlogHero
-        searchQuery={searchQuery}
-        onSearchChange={(value) =>
-          writeParams({ q: value, shown: INITIAL_VISIBLE_COUNT })
-        }
+        searchQuery={searchDraft}
+        onSearchChange={setSearchDraft}
         onSearchSubmit={() => {
-          if (searchQuery.trim()) {
-            fetchBlogListClient(searchQuery.trim())
-              .then((listData) => {
-                setBlogs(
-                  extractBlogList(listData)
-                    .map(mapBlogCard)
-                    .filter((blog) => blog.id)
-                );
-              })
-              .catch(() => {
-                /* keep already-loaded catalogue; client filter still applies */
-              });
-          }
+          const next = searchDraft.trim();
+          if (next === committedSearch.trim()) setRefreshKey((key) => key + 1);
+          else writeParams({ q: next });
           document
             .getElementById("blog-stories")
             ?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
         categories={categories}
         selectedCategory={selectedCategory}
-        onCategoryChange={(cat) =>
-          writeParams({ cat, shown: INITIAL_VISIBLE_COUNT })
-        }
+        onCategoryChange={(cat) => {
+          if (cat === selectedCategory) return;
+          writeParams({ cat });
+        }}
         hideCategories={
-          !loading && !error && searchQuery.trim() !== "" && carouselBlogs.length === 0
+          !loading &&
+          !error &&
+          committedSearch.trim() !== "" &&
+          blogs.length === 0
         }
       />
 
@@ -225,36 +329,47 @@ function BlogListingInner() {
           className="relative w-full bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4"
         >
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <BlogLoadError variant="light" onRetry={loadBlogs} />
+            <BlogLoadError
+              variant="light"
+              onRetry={() => setRefreshKey((key) => key + 1)}
+            />
           </div>
         </section>
-      ) : carouselBlogs.length === 0 ? (
+      ) : blogs.length === 0 ? (
         <section
           id="blog-stories"
           className="relative w-full bg-[#FEFBF6] pb-16 pt-2 sm:pb-20 sm:pt-4"
         >
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <SearchEmptyState
-              query={searchQuery}
+              query={committedSearch || (selectedCategory !== "All" ? selectedCategory : "")}
               description="We couldn't find any blogs matching that keyword. Try another search, or reach our team and we'll point you in the right direction."
             />
           </div>
         </section>
       ) : (
         <div id="blog-stories">
-          <FeaturedBlogSection
-            blogs={visibleFeaturedBlogs}
-            getImageSrc={getImageSrc}
-          />
+          {filtersActive ? null : (
+            <FeaturedBlogSection
+              blogs={featuredBlogs}
+              getImageSrc={getImageSrc}
+            />
+          )}
           <LatestStoriesSection
-            blogs={carouselBlogs}
+            blogs={blogs}
             getImageSrc={getImageSrc}
             sortOrder={sortOrder}
             visibleCount={visibleCount}
-            onSortChange={(sort) =>
-              writeParams({ sort, shown: INITIAL_VISIBLE_COUNT })
-            }
-            onVisibleCountChange={(shown) => writeParams({ shown })}
+            hasMore={hasMore}
+            loadingMore={loadingMore}
+            onSortChange={(sort) => {
+              writeParams({ sort });
+              setVisibleCount(BLOG_GRID_PAGE_SIZE);
+            }}
+            onVisibleCountChange={setVisibleCount}
+            onLoadMore={() => {
+              void loadMore();
+            }}
           />
         </div>
       )}

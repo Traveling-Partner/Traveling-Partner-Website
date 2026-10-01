@@ -5,7 +5,7 @@ import type { FormEvent } from "react";
 export type BlogHeroCategory = {
   key: string;
   label: string;
-  count: number;
+  count?: number | null;
 };
 
 type BlogHeroProps = {
@@ -152,15 +152,17 @@ export default function BlogHero({
                       }`}
                     />
                     <span>{cat.label}</span>
-                    <span
-                      className={`inline-flex min-w-[22px] items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-bold leading-none sm:min-w-[24px] sm:text-[12px] ${
-                        active
-                          ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]"
-                          : "bg-[#eceae4] text-[#6b6960]"
-                      }`}
-                    >
-                      {cat.count}
-                    </span>
+                    {typeof cat.count === "number" ? (
+                      <span
+                        className={`inline-flex min-w-[22px] items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-bold leading-none sm:min-w-[24px] sm:text-[12px] ${
+                          active
+                            ? "bg-gradient-to-b from-[#FCE001] to-[#FDB813] text-[#0b0b0b]"
+                            : "bg-[#eceae4] text-[#6b6960]"
+                        }`}
+                      >
+                        {cat.count}
+                      </span>
+                    ) : null}
                   </button>
                 );
               })}
