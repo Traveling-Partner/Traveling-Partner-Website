@@ -95,11 +95,11 @@ function StatItem({
     <div
       className={
         boxed
-          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-white/15 bg-[#161310]/92 px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md"
+          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-white/10 bg-white/[0.13] px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md"
           : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
       }
     >
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[#0c0b09] lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/30 bg-[#fce001]/15 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
         {icon}
       </span>
       <span className="min-w-0 leading-tight">
@@ -154,23 +154,30 @@ export default function NeedARideSection() {
       <div className="relative overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[28px]">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          {/* Mobile/tablet: Figma cover 442×1024 — full width, natural height, no crop */}
-          <Image
-            src={`${ASSETS}/bg-taxi-city-mobile.png`}
-            alt=""
-            width={442}
-            height={1024}
-            sizes="100vw"
-            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
-            style={{ width: "100%", height: "auto" }}
-          />
+          {/* Mobile/tablet: phone + car part of the cover, anchored to the bottom */}
+          <div className="absolute inset-x-0 bottom-0 aspect-[560/579] lg:hidden">
+            <Image
+              src={`${ASSETS}/bg-taxi-city-v2.png`}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-[85%_50%]"
+            />
+            <div
+              className="absolute inset-x-0 top-0 h-1/5"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(7,6,4,0.35) 0%, rgba(7,6,4,0) 100%)",
+              }}
+            />
+          </div>
           {/* Desktop: landscape city/taxi */}
           <Image
-            src={`${ASSETS}/bg-taxi-city.png`}
+            src={`${ASSETS}/bg-taxi-city-v2.png`}
             alt=""
             fill
             sizes="100vw"
-            className="hidden object-cover object-[center_38%] opacity-90 lg:block"
+            className="hidden object-contain object-right opacity-90 lg:block"
           />
           {/* Desktop fades only — mobile art already includes black top */}
           <div
@@ -351,7 +358,7 @@ export default function NeedARideSection() {
           {/* ── Visual: phone + chips ── */}
           <div className="relative z-10 mt-1 flex w-full items-center justify-center px-2 pb-5 lg:mt-0 lg:min-h-[400px] lg:flex-1 lg:px-0 lg:pb-0">
             <svg
-              className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%] lg:block"
+              className="pointer-events-none absolute right-[2%] top-[2%] hidden h-[64%] w-[52%]"
               viewBox="0 0 340 400"
               fill="none"
               aria-hidden="true"
@@ -365,9 +372,9 @@ export default function NeedARideSection() {
               />
             </svg>
 
-            <div className="nar-phone relative aspect-[375/739] w-[230px] sm:w-[240px] lg:w-[220px] xl:w-[235px]">
+            <div className="nar-phone relative aspect-[375/739] w-[190px] sm:w-[200px] lg:w-[220px] xl:w-[235px]">
               <div
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[110%] w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                className="pointer-events-none invisible absolute left-1/2 top-1/2 h-[110%] w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full"
                 aria-hidden="true"
                 style={{
                   background:
@@ -379,12 +386,12 @@ export default function NeedARideSection() {
                 alt="Traveling Partner app showing available rides"
                 fill
                 sizes="(max-width: 640px) 260px, 340px"
-                className="object-contain drop-shadow-[0_40px_70px_rgba(0,0,0,0.6)]"
+                className="invisible object-contain drop-shadow-[0_40px_70px_rgba(0,0,0,0.6)]"
               />
             </div>
 
             <FloatChip
-              className="absolute right-0 top-[8%] sm:right-1 sm:top-[8%] lg:right-[1%] lg:top-[10%]"
+              className="absolute bottom-[calc((100vw-32px)*0.78)] right-[5%] sm:bottom-[calc((100vw-48px)*0.78)] lg:bottom-auto lg:right-[1%] lg:top-[10%]"
               title="Nearest Driver"
               subtitle="Under 5 min"
               icon={
@@ -398,7 +405,7 @@ export default function NeedARideSection() {
               }
             />
             <FloatChip
-              className="absolute right-0 top-[32%] sm:right-1 sm:top-[34%] lg:bottom-auto lg:right-[1%] lg:top-[48%]"
+              className="absolute bottom-[calc((100vw-32px)*0.19)] right-[5%] sm:bottom-[calc((100vw-48px)*0.19)] lg:bottom-auto lg:right-[1%] lg:top-[48%]"
               title="No Surge"
               subtitle="Fair Pricing"
               delay="1.4s"
