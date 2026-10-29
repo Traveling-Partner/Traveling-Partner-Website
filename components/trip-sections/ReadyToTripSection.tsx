@@ -157,10 +157,10 @@ export default function ReadyToTripSection() {
       <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[24px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[28px]">
         {/* Mobile cover IN FLOW — defines card height */}
         <Image
-          src={`${ASSETS}/bg-trip-mobile.png`}
+          src={`${ASSETS}/bg-trip-mobile-v3.png`}
           alt=""
-          width={299}
-          height={1024}
+          width={598}
+          height={1896}
           sizes="400px"
           className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
           style={{ width: "100%", height: "auto" }}
@@ -173,7 +173,7 @@ export default function ReadyToTripSection() {
         >
           <div className="absolute inset-y-0 right-0 aspect-[1024/579]">
             <Image
-              src={`${ASSETS}/bg-phone-car.png`}
+              src={`${ASSETS}/bg-phone-car-v2.png`}
               alt=""
               fill
               sizes="(max-width: 1280px) 60vw, 700px"

@@ -158,7 +158,7 @@ export default function GetTheAppSection() {
       <div className="relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[28px] bg-[#070604] max-lg:max-w-[400px] sm:rounded-[32px] lg:hidden">
         {/* Cover IN FLOW — natural height, no crop */}
         <Image
-          src={`${ASSETS}/bg-mobile.png`}
+          src={`${ASSETS}/bg-mobile-v2.png`}
           alt=""
           width={715}
           height={1024}
@@ -227,7 +227,7 @@ export default function GetTheAppSection() {
       {/* ——— Desktop ——— original layout; content not flush to edges */}
       <div className="relative mx-auto hidden w-full max-w-7xl overflow-hidden rounded-[36px] bg-[#070604] lg:block lg:aspect-[1688/409] xl:rounded-[40px]">
         <Image
-          src={`${ASSETS}/bg-desktop.png`}
+          src={`${ASSETS}/bg-desktop-v2.png`}
           alt=""
           fill
           sizes="1400px"
