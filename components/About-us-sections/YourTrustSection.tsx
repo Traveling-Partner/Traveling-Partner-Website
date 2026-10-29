@@ -157,10 +157,10 @@ export default function YourTrustSection() {
       <div className="relative overflow-hidden rounded-[24px] bg-[#F8F1DF] sm:rounded-[28px] lg:min-h-[560px]">
         {/* Mobile cover IN FLOW — same pattern as Going same way */}
         <Image
-          src={`${ASSETS}/bg-trust-mobile.png`}
+          src={`${ASSETS}/bg-trust-mobile-v2.png`}
           alt=""
-          width={376}
-          height={1024}
+          width={752}
+          height={1808}
           sizes="400px"
           className="pointer-events-none relative z-0 block h-auto w-full select-none lg:hidden"
           style={{ width: "100%", height: "auto" }}
@@ -169,16 +169,16 @@ export default function YourTrustSection() {
 
         {/* Desktop background */}
         <div
-          className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
+          className="pointer-events-none absolute inset-0 z-0 hidden bg-[#FDFBEE] lg:block"
           aria-hidden="true"
         >
           <Image
-            src={`${ASSETS}/bg-section-v3.png`}
+            src={`${ASSETS}/bg-section-v4.png`}
             alt=""
             fill
             sizes="(max-width: 1280px) 100vw, 1152px"
             quality={95}
-            className="object-cover object-right"
+            className="object-contain object-right"
             priority
           />
         </div>

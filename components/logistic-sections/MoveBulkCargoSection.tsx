@@ -154,20 +154,27 @@ export default function MoveBulkCargoSection() {
       <div className="relative overflow-hidden rounded-[24px] bg-[#FFF8E6] sm:rounded-[28px]">
         {/* Background — same shell as Ready to Send */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          {/* Mobile cover: absolute (does not inflate card height) */}
-          <Image
-            src={`${ASSETS}/bg-logistic-mobile.png`}
-            alt=""
-            width={360}
-            height={1024}
-            sizes="100vw"
-            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
-            style={{ width: "100%", height: "auto" }}
-          />
+          {/* Mobile/tablet: phone + map part of the cover, anchored to the bottom */}
+          <div className="absolute inset-x-0 bottom-0 aspect-[474/529] lg:hidden">
+            <Image
+              src={`${ASSETS}/bg-phone-map-v2.png`}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-right"
+            />
+            <div
+              className="absolute inset-x-0 top-0 h-1/4"
+              style={{
+                background:
+                  "linear-gradient(180deg, #FFF8E6 0%, rgba(255,248,230,0) 100%)",
+              }}
+            />
+          </div>
           {/* Desktop background */}
           <div className="absolute inset-y-0 right-0 hidden aspect-[1024/662] lg:block">
             <Image
-              src={`${ASSETS}/bg-phone-map-rounded.png`}
+              src={`${ASSETS}/bg-phone-map-v2.png`}
               alt=""
               fill
               sizes="(max-width: 1280px) 60vw, 700px"
@@ -340,7 +347,7 @@ export default function MoveBulkCargoSection() {
           {/* Visual + chips — same height shell as Ready to Send */}
           <div className="relative z-10 mt-2 flex w-full items-center justify-center px-2 pb-6 lg:mt-0 lg:min-h-[260px] lg:flex-1 lg:px-0 lg:pb-0">
             <div
-              className="relative min-h-[240px] w-full sm:min-h-[280px] lg:hidden"
+              className="relative aspect-[474/529] w-full lg:hidden"
               aria-hidden="true"
             />
 

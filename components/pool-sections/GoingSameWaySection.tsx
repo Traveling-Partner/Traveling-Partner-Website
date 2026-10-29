@@ -6,8 +6,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 const ASSETS = "/images/pool-ride/going-same-way";
-const SHARED_ICONS = "/images/taxi-stand/need-a-ride";
-
 function PlayStoreIcon({ className = "" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
@@ -56,6 +54,17 @@ function PeopleIcon({ className = "" }: { className?: string }) {
       <path
         d="M14.6 12.9c2.9.2 5.2 2.2 5.2 5.3v.8h-4.4v-.8c0-2-.7-3.8-1.9-5.1.4-.1.7-.2 1.1-.2z"
         fill="#fdb813"
+      />
+    </svg>
+  );
+}
+
+function StarIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9L12 2.5z"
+        fill="#fce001"
       />
     </svg>
   );
@@ -112,11 +121,11 @@ function StatItem({
     <div
       className={
         boxed
-          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-white/15 bg-[#161310]/92 px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md"
+          ? "flex w-full items-center gap-3.5 rounded-[16px] border border-white/10 bg-white/[0.13] px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md"
           : "flex items-center gap-3.5 px-1 py-3.5 lg:gap-2.5 lg:px-0 lg:py-0"
       }
     >
-      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-white/10 bg-[#0c0b09] lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
+      <span className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] border border-[#fce001]/30 bg-[#fce001]/15 lg:h-[36px] lg:w-[36px] lg:rounded-[10px] lg:border-[#fce001]/25 lg:bg-[#fce001]/12">
         {icon}
       </span>
       <span className="min-w-0 leading-tight">
@@ -171,20 +180,35 @@ export default function GoingSameWaySection() {
       <div className="relative overflow-hidden rounded-[24px] bg-[#070604] sm:rounded-[28px]">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          {/* Mobile/tablet: Figma cover 417×1024 — full width, natural height, no crop */}
-          <Image
-            src={`${ASSETS}/bg-pool-mobile.png`}
-            alt=""
-            width={417}
-            height={1024}
-            sizes="100vw"
-            className="absolute bottom-0 left-0 h-auto w-full max-w-none lg:hidden"
-            style={{ width: "100%", height: "auto" }}
+          {/* Mobile/tablet: yellow glow behind the stats, flowing into the cover */}
+          <div
+            className="absolute inset-0 lg:hidden"
+            style={{
+              background:
+                "radial-gradient(ellipse 85% 38% at 100% 58%, rgba(253,184,19,0.55) 0%, rgba(253,184,19,0.22) 45%, rgba(253,184,19,0) 100%)",
+            }}
           />
+          {/* Mobile/tablet: phone + van part of the cover, anchored to the bottom */}
+          <div className="absolute inset-x-0 bottom-0 aspect-[535/578] lg:hidden">
+            <Image
+              src={`${ASSETS}/bg-van-phone-v2.png`}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-[92%_50%]"
+            />
+            <div
+              className="absolute inset-x-0 top-0 h-1/5"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(7,6,4,0.35) 0%, rgba(7,6,4,0) 100%)",
+              }}
+            />
+          </div>
           {/* Desktop: phone + van + city — anchored right at natural aspect */}
           <div className="absolute inset-y-0 right-0 hidden aspect-[1024/578] lg:block">
             <Image
-              src={`${ASSETS}/bg-van-phone.png`}
+              src={`${ASSETS}/bg-van-phone-v2.png`}
               alt=""
               fill
               sizes="(max-width: 1280px) 60vw, 700px"
@@ -267,15 +291,7 @@ export default function GoingSameWaySection() {
             <div className="flex w-full flex-col gap-2.5 lg:hidden">
               <StatItem
                 boxed
-                icon={
-                  <Image
-                    src={`${SHARED_ICONS}/icon-star.png`}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 object-contain"
-                  />
-                }
+                icon={<StarIcon className="h-5 w-5" />}
                 value="4.8★"
                 label="Rating"
               />
@@ -298,15 +314,7 @@ export default function GoingSameWaySection() {
             </div>
             <div className="hidden w-full rounded-[14px] border border-white/10 bg-[#171410]/85 px-4 py-2.5 backdrop-blur-sm lg:inline-flex lg:w-auto lg:max-w-[500px] lg:flex-row lg:items-center">
               <StatItem
-                icon={
-                  <Image
-                    src={`${SHARED_ICONS}/icon-star.png`}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 object-contain"
-                  />
-                }
+                icon={<StarIcon className="h-5 w-5" />}
                 value="4.8★"
                 label="Rating"
               />
@@ -355,7 +363,7 @@ export default function GoingSameWaySection() {
 
             {/* Mobile spacer — cover already includes phone + van; keep room for chips */}
             <div
-              className="relative min-h-[220px] w-full sm:min-h-[280px] lg:hidden"
+              className="relative aspect-[535/578] w-full lg:hidden"
               aria-hidden="true"
             />
 
