@@ -95,10 +95,11 @@ function HeroManMobile(): React.ReactElement {
       />
 
       <Image
-        src="/images/hero-man-figma-new.png"
+        src="/images/hero-man-figma-new.webp"
         alt="Traveling Partner app user"
         fill
         priority
+        fetchPriority="high"
         className="object-cover"
         style={HERO_MAN_IMAGE_STYLE}
         sizes="100vw"
@@ -112,7 +113,6 @@ function HeroManMobile(): React.ReactElement {
           width={378}
           height={253}
           className="h-auto w-full drop-shadow-[0_14px_42px_rgba(11,11,11,0.12)]"
-          priority
         />
       </div>
 

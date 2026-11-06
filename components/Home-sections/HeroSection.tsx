@@ -123,10 +123,11 @@ function HeroManWithCard({
       style={{ maxWidth }}
     >
       <Image
-        src="/images/hero-man-figma-new.png"
+        src="/images/hero-man-figma-new.webp"
         alt="Traveling Partner app user"
         fill
         priority
+        fetchPriority="high"
         className={
           isMobile
             ? "object-cover"
@@ -160,7 +161,6 @@ function HeroManWithCard({
           width={378}
           height={253}
           className="h-auto w-full drop-shadow-[0_12px_40px_rgba(11,11,11,0.1)]"
-          priority
         />
       </div>
       {isMobile ? (
@@ -223,11 +223,12 @@ export default function HeroSection(): React.ReactElement {
               }}
             >
               <Image
-                src="/images/hero-man-figma-new.png"
+                src="/images/hero-man-figma-new.webp"
                 alt="Traveling Partner app user"
                 width={967}
                 height={1209}
                 priority
+                fetchPriority="high"
                 className="pointer-events-none absolute max-w-none object-cover"
                 style={{
                   left: pct(-152.73, 584.73),
@@ -299,7 +300,6 @@ export default function HeroSection(): React.ReactElement {
                 width={378}
                 height={253}
                 className="h-auto w-full drop-shadow-[0_23px_70px_rgba(11,11,11,0.1),0_6px_17px_rgba(11,11,11,0.06)]"
-                priority
               />
             </div>
 
