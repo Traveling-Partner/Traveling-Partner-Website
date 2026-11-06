@@ -59,7 +59,7 @@ const RIDES: RideItem[] = [
     panelDescription:
       "Traveling the same direction as someone else? Split the cost. Pool Ride cuts down your travel expenses and keeps more cars off the road, a solid option for students, professionals, and anyone doing the same commute day after day.",
     features: ["Split fares", "Verified riders", "Eco-friendly"],
-    icon: "/images/five-rides/icon-pool.png",
+    icon: "/images/five-rides/icon-pool.webp",
     panelIcon: "/images/five-rides/panel-pool.png",
     href: "/pool-ride",
   },
@@ -74,7 +74,7 @@ const RIDES: RideItem[] = [
       "Documents, gifts, business orders, everyday errands, our delivery service handles it. Every parcel is tracked in real time from pickup to doorstep, with couriers you can actually trust.",
     boldPhrases: ["real time"],
     features: ["Same-day", "Live GPS", "Verified couriers"],
-    icon: "/images/five-rides/icon-delivery.png",
+    icon: "/images/five-rides/icon-delivery.webp",
     panelIcon: "/images/five-rides/panel-delivery.png",
     href: "/delivery",
   },
@@ -88,7 +88,7 @@ const RIDES: RideItem[] = [
     panelDescription:
       "Running a retail store or managing enterprise operations, deliveries pile up fast and someone still has to sort them out. Our logistics solutions give you dedicated fleet support and delivery options built to keep pace as your business grows.",
     features: ["Volume pricing", "Account manager", "Live dashboard"],
-    icon: "/images/five-rides/icon-logistics.png",
+    icon: "/images/five-rides/icon-logistics.webp",
     panelIcon: "/images/five-rides/panel-logistics.png",
     href: "/logistic",
   },
