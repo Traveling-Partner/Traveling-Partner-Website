@@ -13,6 +13,13 @@ import OurServicesSection from "@/components/Home-sections/OurServicesSection";
 export default function Home(): React.ReactElement {
   return (
     <div className="min-w-0 overflow-x-hidden">
+      <link
+        rel="preload"
+        as="image"
+        href="/images/hero-man-figma-new.webp"
+        type="image/webp"
+        fetchPriority="high"
+      />
       <HeroSection />
       <RegisterDriverSection />
       <SixRidesSection />
