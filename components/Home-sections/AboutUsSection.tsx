@@ -337,7 +337,7 @@ function AboutVisual(): React.ReactElement {
         sizes="(max-width: 1024px) 45vw, 435px"
       />
       <FigmaLayer
-        src="/images/about-us/profile-top-right.png"
+        src="/images/about-us/profile-top-right.webp"
         alt="Amna, rider"
         box={profileCell(0, 0)}
         zIndex={10}
@@ -345,7 +345,7 @@ function AboutVisual(): React.ReactElement {
         priority
       />
       <FigmaLayer
-        src="/images/about-us/profile-top-left.png"
+        src="/images/about-us/profile-top-left.webp"
         alt="Usman, driver"
         box={profileCell(1, 0)}
         zIndex={10}
@@ -372,7 +372,7 @@ function AboutVisual(): React.ReactElement {
 
       {/* Active drivers card — Figma 124:3727 */}
       <FigmaLayer
-        src="/images/about-us/stat-card.png"
+        src="/images/about-us/stat-card.webp"
         alt="Active drivers Q4 — 12k plus, up 12.4 percent this month"
         box={{
           x: 371.6057434082031,

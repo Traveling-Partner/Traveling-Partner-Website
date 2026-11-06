@@ -244,7 +244,7 @@ function OrbitDotMarker({ dot, index }: { dot: OrbitDot; index: number }): React
         ...orbitDotStyle(dot),
         backgroundColor: dot.fill,
         border: `1px solid ${dot.fill}`,
-        ["--orbit-dot-glow" as string]: `${dot.core}73`,
+        boxShadow: `0 0 8px 2px ${dot.core}73`,
         animation: `our-services-orbit-dot-blink ${ORBIT_DOT_BLINK_DURATION_S}s ease-in-out ${delay}s infinite`,
       }}
       aria-hidden
@@ -255,7 +255,7 @@ function OrbitDotMarker({ dot, index }: { dot: OrbitDot; index: number }): React
           width: "52%",
           height: "52%",
           backgroundColor: dot.core,
-          ["--orbit-dot-glow" as string]: `${dot.core}a6`,
+          boxShadow: `0 0 6px 2px ${dot.core}a6`,
           animation: `our-services-orbit-dot-core-blink ${ORBIT_DOT_BLINK_DURATION_S}s ease-in-out ${delay + 0.1}s infinite`,
         }}
       />
@@ -490,7 +490,7 @@ export default function OurServicesSection(): React.ReactElement {
                       {stat.value}
                       <span className="text-[clamp(24px,5.5vw,48px)] font-bold">{stat.suffix}</span>
                     </p>
-                    <p className="mt-1.5 font-poppins text-[9px] font-semibold uppercase leading-tight tracking-[0.08em] text-[#8a877f] sm:mt-2 sm:text-[10px] sm:tracking-[0.12em] md:text-[11px]">
+                    <p className="mt-1.5 font-poppins text-[11px] font-semibold uppercase leading-tight tracking-[0.08em] text-[#5c5a54] sm:mt-2 sm:tracking-[0.12em]">
                       {stat.label}
                     </p>
                   </div>

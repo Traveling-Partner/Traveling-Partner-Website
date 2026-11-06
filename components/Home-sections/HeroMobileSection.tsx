@@ -110,8 +110,8 @@ function HeroManMobile(): React.ReactElement {
         <Image
           src="/images/hero-active-drivers-card.png"
           alt="2,847 active drivers, up 12.4 percent"
-          width={378}
-          height={253}
+          width={518}
+          height={366}
           className="h-auto w-full drop-shadow-[0_14px_42px_rgba(11,11,11,0.12)]"
         />
       </div>

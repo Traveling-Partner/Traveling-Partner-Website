@@ -347,7 +347,7 @@ export default function Footer(): React.ReactElement | null {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-[#ddd8cb] pt-4 sm:mt-10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-5">
-          <p className="font-poppins text-[12px] font-normal text-[#8a877f] sm:text-[13px]">
+          <p className="font-poppins text-[12px] font-normal text-[#5c5a54] sm:text-[13px]">
             {"\u00A9"} {new Date().getFullYear()} Traveling Partner. All rights reserved.
           </p>
 

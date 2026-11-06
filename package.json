@@ -2,6 +2,13 @@
   "name": "my-project",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "chrome >= 93",
+    "firefox >= 92",
+    "safari >= 15.4",
+    "edge >= 93",
+    "not dead"
+  ],
   "scripts": {
     "dev": "next dev --turbo",
     "prebuild": "node scripts/generate-blog-static-data.mjs --public-only",

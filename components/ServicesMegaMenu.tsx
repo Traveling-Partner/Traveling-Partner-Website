@@ -59,7 +59,7 @@ export const SERVICES: ServiceItem[] = [
     icon: "/images/taxi-stand/services/icon-taxi.png",
     hero: "/images/taxi-stand/taxi-hero-car-v3.png",
     phone: "/images/taxi-stand/need-a-ride/phone-mockup.png",
-    preview: "/images/taxi-stand/mega-menu-taxi-preview.png",
+    preview: "/images/taxi-stand/mega-menu-taxi-preview.webp",
     heroScale: 1.2,
     heroOffsetY: 8,
     stats: [
@@ -159,7 +159,7 @@ export const SERVICES: ServiceItem[] = [
     icon: "/images/taxi-stand/services/icon-trip.png",
     hero: "/images/trip/mega-menu-suv.png",
     phone: "/images/trip/ready-to-trip/bg-phone-car.png",
-    preview: "/images/trip/mega-menu-tourism-preview.png",
+    preview: "/images/trip/mega-menu-tourism-preview.webp",
     heroScale: 1.08,
     heroOffsetY: 6,
     stats: [

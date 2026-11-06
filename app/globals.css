@@ -865,12 +865,10 @@ img {
   100% {
     opacity: 0.45;
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 transparent;
   }
   50% {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 8px 2px var(--orbit-dot-glow, rgba(252, 224, 1, 0.35));
   }
 }
 
@@ -879,12 +877,10 @@ img {
   100% {
     opacity: 0.6;
     transform: scale(0.88);
-    box-shadow: 0 0 0 0 transparent;
   }
   50% {
     opacity: 1;
     transform: scale(1.04);
-    box-shadow: 0 0 6px 2px var(--orbit-dot-glow, rgba(252, 224, 1, 0.45));
   }
 }
 

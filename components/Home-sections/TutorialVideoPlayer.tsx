@@ -437,7 +437,7 @@ export function TutorialPreviewCard({
           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#fce001] to-[#fdb813] font-poppins text-[10px] font-bold text-[#0b0b0b]">
             {tutorial.num}
           </span>
-          <span className="font-poppins text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a9890] sm:text-[10px]">
+          <span className="font-poppins text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5c5a54] sm:text-[11px]">
             {tutorial.categoryLabel}
           </span>
         </div>
