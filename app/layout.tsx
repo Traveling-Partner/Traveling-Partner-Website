@@ -13,17 +13,26 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
   variable: "--font-poppins",
+  display: "swap",
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: false,
 });
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-montserrat",
+  display: "swap",
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: false,
 });
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-bricolage",
+  display: "swap",
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
