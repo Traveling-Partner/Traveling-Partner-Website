@@ -158,8 +158,8 @@ function HeroManWithCard({
         <Image
           src="/images/hero-active-drivers-card.png"
           alt="2,847 active drivers, up 12.4 percent"
-          width={378}
-          height={253}
+          width={518}
+          height={366}
           className="h-auto w-full drop-shadow-[0_12px_40px_rgba(11,11,11,0.1)]"
         />
       </div>
@@ -297,8 +297,8 @@ export default function HeroSection(): React.ReactElement {
               <Image
                 src="/images/hero-active-drivers-card.png"
                 alt="2,847 active drivers, up 12.4 percent"
-                width={378}
-                height={253}
+                width={518}
+                height={366}
                 className="h-auto w-full drop-shadow-[0_23px_70px_rgba(11,11,11,0.1),0_6px_17px_rgba(11,11,11,0.06)]"
               />
             </div>
