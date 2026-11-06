@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Poppins, Montserrat, Bricolage_Grotesque } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import AppSplashLoader from "@/components/AppSplashLoader";
@@ -13,23 +13,6 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
   variable: "--font-poppins",
-  display: "swap",
-  fallback: ["system-ui", "arial"],
-  adjustFontFallback: false,
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
-  display: "swap",
-  fallback: ["system-ui", "arial"],
-  adjustFontFallback: false,
-});
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
   display: "swap",
   fallback: ["system-ui", "arial"],
   adjustFontFallback: false,
@@ -82,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${montserrat.variable} ${bricolage.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
+        className={`${poppins.variable} font-poppins antialiased bg-white text-gray-900 flex min-h-screen flex-col overflow-x-hidden`}
         suppressHydrationWarning
       >
         <Script
@@ -90,19 +73,6 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718047"
           crossOrigin="anonymous"
           strategy="lazyOnload"
-        />
-        {/* Hoisted by Next — preload so loader assets are ready on first paint */}
-        <link
-          rel="preload"
-          href="/images/loader/tp-loader-ring.svg"
-          as="image"
-          type="image/svg+xml"
-        />
-        <link
-          rel="preload"
-          href="/images/loader/tp-loader-logo.svg"
-          as="image"
-          type="image/svg+xml"
         />
         <AppSplashLoader />
         <a

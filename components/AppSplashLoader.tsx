@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import TPLoader from "@/components/TPLoader";
 
-const MIN_VISIBLE_MS = 180;
+const MIN_VISIBLE_MS = 80;
 const FADE_MS = 200;
 
 /**
@@ -46,10 +46,9 @@ export default function AppSplashLoader() {
       hide();
     } else {
       document.addEventListener("DOMContentLoaded", hide, { once: true });
-      window.addEventListener("load", hide, { once: true });
     }
 
-    const safety = setTimeout(hide, 700);
+    const safety = setTimeout(hide, 280);
 
     return () => {
       cancelled = true;
@@ -58,7 +57,6 @@ export default function AppSplashLoader() {
       if (removeTimer) clearTimeout(removeTimer);
       clearTimeout(safety);
       document.removeEventListener("DOMContentLoaded", hide);
-      window.removeEventListener("load", hide);
     };
   }, []);
 

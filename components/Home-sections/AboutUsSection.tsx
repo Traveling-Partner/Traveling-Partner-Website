@@ -342,7 +342,6 @@ function AboutVisual(): React.ReactElement {
         box={profileCell(0, 0)}
         zIndex={10}
         className="object-contain"
-        priority
       />
       <FigmaLayer
         src="/images/about-us/profile-top-left.webp"
@@ -350,7 +349,6 @@ function AboutVisual(): React.ReactElement {
         box={profileCell(1, 0)}
         zIndex={10}
         className="object-contain"
-        priority
       />
       <FigmaLayer
         src="/images/about-us/profile-bottom-left.png"
@@ -381,7 +379,6 @@ function AboutVisual(): React.ReactElement {
           h: 336.78485107421875,
         }}
         zIndex={20}
-        priority
       />
 
       {/* Total Rides — total-rides-tag.png */}

@@ -28,7 +28,7 @@ const TUTORIALS: TutorialVideoData[] = [
     videoSrc:
       "https://traveling-partner-storage.nyc3.cdn.digitaloceanspaces.com/Introduction%20Videos/Driver%20Introduction-F.mp4",
     posterSrc:
-      "https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239883/How_to_register_as_a_Driver_a01zuj.png",
+      "https://res.cloudinary.com/dabxnoxsx/image/upload/f_auto,q_auto,w_900,c_limit/v1710239883/How_to_register_as_a_Driver_a01zuj.png",
   },
   {
     id: "rider",
@@ -47,7 +47,7 @@ const TUTORIALS: TutorialVideoData[] = [
     videoSrc:
       "https://traveling-partner-storage.nyc3.cdn.digitaloceanspaces.com/Introduction%20Videos/Partner%20Introduction-F.mp4",
     posterSrc:
-      "https://res.cloudinary.com/dabxnoxsx/image/upload/v1710239860/video-sing_yzrcqg.png",
+      "https://res.cloudinary.com/dabxnoxsx/image/upload/f_auto,q_auto,w_900,c_limit/v1710239860/video-sing_yzrcqg.png",
   },
 ];
 

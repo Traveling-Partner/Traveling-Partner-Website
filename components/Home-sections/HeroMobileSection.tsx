@@ -108,7 +108,7 @@ function HeroManMobile(): React.ReactElement {
       {/* Active drivers glass card */}
       <div className="absolute z-[3]" style={ACTIVE_DRIVERS_CARD_STYLE}>
         <Image
-          src="/images/hero-active-drivers-card.png"
+          src="/images/hero-active-drivers-card.webp"
           alt="2,847 active drivers, up 12.4 percent"
           width={518}
           height={366}

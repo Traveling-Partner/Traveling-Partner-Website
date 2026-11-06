@@ -12,7 +12,7 @@ import { useClearOnRouteChange } from "@/lib/useClearOnRouteChange";
 import "./NewsletterSection.css";
 
 /** Original full artwork — rings, airplane, clouds, dots, mailbox */
-const SCENE = "/images/footer/stay-in-the-loop/bg-desktop-lg.png";
+const SCENE = "/images/footer/stay-in-the-loop/bg-desktop-lg.webp";
 
 const AVATARS = [
   "/images/footer/stay-in-the-loop/avatar-1.png",
