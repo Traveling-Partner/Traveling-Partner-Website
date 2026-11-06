@@ -102,13 +102,13 @@ export default function ContactFileAttach({
             <PaperclipIcon />
           </span>
         )}
-        <span className="min-w-0 flex-1 truncate text-left font-poppins text-[11px] text-[#6f6e68] sm:text-[12px]">
+        <span className="min-w-0 flex-1 truncate text-left font-poppins text-[11px] text-[#5c5a54] sm:text-[12px]">
           {file ? (
             <span className="font-semibold text-[#0b0b0b]">{file.name}</span>
           ) : (
             <>
               Attach a file — optional{" "}
-              <span className="text-[#9a968c]">(PDF, PNG, JPG, up to 10MB)</span>
+              <span className="text-[#5c5a54]">(PDF, PNG, JPG, up to 10MB)</span>
             </>
           )}
         </span>

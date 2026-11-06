@@ -288,7 +288,7 @@ function RegisterSectionCanvas(): React.ReactElement {
     <div className="relative mx-auto aspect-[1920/1200] w-full max-w-[1920px] overflow-hidden [container-type:size]">
       <div className="absolute inset-0">
         <Image
-          src="/images/register-section-car.png"
+          src="/images/register-section-car.webp"
           alt="Driver and passenger smiling inside a car"
           fill
           className="object-contain object-center"

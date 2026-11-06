@@ -3,43 +3,27 @@
 import { useEffect, useState } from "react";
 import TPLoader from "@/components/TPLoader";
 
-const MIN_VISIBLE_MS = 80;
-const FADE_MS = 200;
+const FADE_MS = 80;
 
 /**
  * Cream full-page cover with compact Figma TP loader.
  * Dismisses via React state only (no DOM script) to avoid hydration mismatches.
- * CSS animations on TPLoader start as soon as the SSR HTML paints.
+ * Hides as soon as the document is interactive so it cannot steal LCP.
  */
 export default function AppSplashLoader() {
   const [visible, setVisible] = useState(true);
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const started = performance.now();
-    let hideTimer: ReturnType<typeof setTimeout> | null = null;
     let removeTimer: ReturnType<typeof setTimeout> | null = null;
     let cancelled = false;
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const isRideLocation =
-      typeof window !== "undefined" &&
-      window.location.pathname.startsWith("/ride-location");
-
     const hide = () => {
       if (cancelled) return;
-      const wait = isRideLocation
-        ? 0
-        : Math.max(0, MIN_VISIBLE_MS - (performance.now() - started));
-      hideTimer = setTimeout(() => {
-        if (cancelled) return;
-        setFading(true);
-        removeTimer = setTimeout(() => {
-          if (!cancelled) setVisible(false);
-        }, FADE_MS);
-      }, wait);
+      setFading(true);
+      removeTimer = setTimeout(() => {
+        if (!cancelled) setVisible(false);
+      }, FADE_MS);
     };
 
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -48,21 +32,15 @@ export default function AppSplashLoader() {
       document.addEventListener("DOMContentLoaded", hide, { once: true });
     }
 
-    const safety = setTimeout(hide, 280);
+    const safety = setTimeout(hide, 120);
 
     return () => {
       cancelled = true;
-      document.body.style.overflow = prevOverflow;
-      if (hideTimer) clearTimeout(hideTimer);
       if (removeTimer) clearTimeout(removeTimer);
       clearTimeout(safety);
       document.removeEventListener("DOMContentLoaded", hide);
     };
   }, []);
-
-  useEffect(() => {
-    if (!visible) document.body.style.overflow = "";
-  }, [visible]);
 
   if (!visible) return null;
 
@@ -73,6 +51,7 @@ export default function AppSplashLoader() {
       role="status"
       aria-live="polite"
       aria-label="Loading"
+      aria-hidden="true"
       // Extensions (Grammarly, rulers) often mutate this node — ignore mismatch noise.
       suppressHydrationWarning
     >

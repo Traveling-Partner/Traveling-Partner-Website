@@ -478,7 +478,7 @@ export default function OurServicesSection(): React.ReactElement {
               </span>
             </h2>
 
-            <p className="mt-4 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#6f6e68] sm:mt-5 sm:text-[15px] md:text-[16px] lg:mt-6 lg:text-[16px]">
+            <p className="mt-4 max-w-[677px] font-poppins text-[14px] font-normal leading-[1.62] text-[#5c5a54] sm:mt-5 sm:text-[15px] md:text-[16px] lg:mt-6 lg:text-[16px]">
               {BODY_COPY}
             </p>
 
