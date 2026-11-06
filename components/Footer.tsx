@@ -4,13 +4,17 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import NewsletterSection from "@/components/Footer-sections/NewsletterSection";
+import dynamic from "next/dynamic";
 import { SOCIAL_LINKS } from "@/lib/socialLinks";
 import {
   APP_STORE_URL,
   PLAY_STORE_URL,
   handleStoreClick,
 } from "@/lib/storeLinks";
+
+const NewsletterSection = dynamic(
+  () => import("@/components/Footer-sections/NewsletterSection")
+);
 
 const FOOTER_LINKS = {
   /** Interleaved for 2-column mobile: col1 = even indices, col2 = odd */

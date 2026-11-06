@@ -126,8 +126,6 @@ function HeroManWithCard({
         src="/images/hero-man-figma-new.webp"
         alt="Traveling Partner app user"
         fill
-        priority
-        fetchPriority="high"
         className={
           isMobile
             ? "object-cover"
@@ -156,7 +154,7 @@ function HeroManWithCard({
         }
       >
         <Image
-          src="/images/hero-active-drivers-card.png"
+          src="/images/hero-active-drivers-card.webp"
           alt="2,847 active drivers, up 12.4 percent"
           width={518}
           height={366}
@@ -295,7 +293,7 @@ export default function HeroSection(): React.ReactElement {
               }}
             >
               <Image
-                src="/images/hero-active-drivers-card.png"
+                src="/images/hero-active-drivers-card.webp"
                 alt="2,847 active drivers, up 12.4 percent"
                 width={518}
                 height={366}
