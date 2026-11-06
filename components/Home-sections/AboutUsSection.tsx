@@ -321,7 +321,7 @@ function AboutVisual(): React.ReactElement {
     >
       <div className="absolute inset-0 origin-[48%_12%] overflow-visible max-lg:scale-[0.94] lg:origin-top-left lg:scale-[1.08]">
       <PositionedImage
-        src="/images/about-us/bg-line.png"
+        src="/images/about-us/bg-line.webp"
         alt=""
         position={BG_LINE_POSITION_MOBILE}
         zIndex={1}
@@ -329,7 +329,7 @@ function AboutVisual(): React.ReactElement {
         sizes="(max-width: 1024px) 45vw, 435px"
       />
       <PositionedImage
-        src="/images/about-us/bg-line.png"
+        src="/images/about-us/bg-line.webp"
         alt=""
         position={BG_LINE_POSITION}
         zIndex={1}
