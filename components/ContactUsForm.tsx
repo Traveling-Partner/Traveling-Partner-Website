@@ -404,7 +404,7 @@ export default function ContactUsForm(): React.ReactElement {
                         className={`flex min-h-[40px] min-w-0 items-center justify-center truncate rounded-full px-1 py-2 font-poppins text-[9px] font-semibold transition-all sm:min-h-[44px] sm:px-2 sm:py-2.5 sm:text-[12px] ${
                           active
                             ? "bg-white text-[#0b0b0b] shadow-sm"
-                            : "text-[#6f6e68] hover:text-[#0b0b0b]"
+                            : "text-[#5c5a54] hover:text-[#0b0b0b]"
                         }`}
                       >
                         {tab}

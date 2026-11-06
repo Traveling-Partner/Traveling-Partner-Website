@@ -1,0 +1,24 @@
+# Traveling Partner
+
+> Book taxis, pool rides, deliveries, logistics, and trips across Pakistan — upfront fares and live tracking.
+
+Traveling Partner is a ride-booking website and app for everyday travel in Pakistan. Use it to book a taxi, share a pool ride, send a delivery, move cargo, or plan an out-of-town trip.
+
+## Site
+
+- [Home](https://traveling-partner.com/): Overview of all services
+- [About Us](https://traveling-partner.com/about): Company and community
+- [Taxi Ride](https://traveling-partner.com/taxi-ride): Point-to-point taxi booking
+- [Pool Ride](https://traveling-partner.com/pool-ride): Shared rides on the same route
+- [Delivery](https://traveling-partner.com/delivery): Parcel delivery with live tracking
+- [Logistics](https://traveling-partner.com/logistic): Business fleet and cargo
+- [Tourism](https://traveling-partner.com/tourism): Intercity and trip booking
+- [Blog](https://traveling-partner.com/blog): Guides and travel news
+- [Help Center](https://traveling-partner.com/help): Support articles
+- [Contact](https://traveling-partner.com/contact): Contact form and phone
+- [Privacy Policy](https://traveling-partner.com/privacy-policy)
+- [Terms of Service](https://traveling-partner.com/terms-conditions)
+
+## Optional
+
+- Phone: +92 325 2801261

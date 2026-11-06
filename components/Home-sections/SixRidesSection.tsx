@@ -472,7 +472,7 @@ function MobileRideChips({
         <p className="font-poppins text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9a968c]">
           Browse services
         </p>
-        <div className="flex items-center gap-1.5" aria-hidden>
+        <div className="flex items-center gap-1.5">
           {RIDES.map((ride, index) => (
             <button
               key={ride.id}
