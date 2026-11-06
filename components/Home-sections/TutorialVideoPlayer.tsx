@@ -8,6 +8,9 @@ const accentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   style: "italic",
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+  adjustFontFallback: false,
 });
 
 export type TutorialVideoData = {
