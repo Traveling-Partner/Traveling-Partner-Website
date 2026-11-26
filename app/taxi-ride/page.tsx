@@ -5,6 +5,7 @@ import ForDriversSection from "@/components/TaxiStand-sections/ForDriversSection
 import DriveWithUsSection from "@/components/TaxiStand-sections/DriveWithUsSection";
 import ForPartnersSection from "@/components/TaxiStand-sections/ForPartnersSection";
 import BenefitsSection from "@/components/TaxiStand-sections/BenefitsSection";
+import AdSlot from "@/components/ads/AdSlot";
 
 export default function TaxiRide() {
   return (
@@ -14,8 +15,10 @@ export default function TaxiRide() {
       <DriveWithUsSection />
       <ForPartnersSection />
       <BenefitsSection />
+      <AdSlot placement="service1" />
       <OurServicesSection />
       <NeedARideSection />
+      <AdSlot placement="service2" />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/Home-sections/HeroSection";
 import RegisterDriverSection from "@/components/Home-sections/RegisterDriverSection";
+import AdSlot from "@/components/ads/AdSlot";
 
 const SixRidesSection = dynamic(
   () => import("@/components/Home-sections/SixRidesSection")
@@ -39,6 +40,7 @@ export default function Home(): React.ReactElement {
       <HeroSection />
       <RegisterDriverSection />
       <SixRidesSection />
+      <AdSlot placement="homeA" />
 
       <GetStartedSection />
 
@@ -47,7 +49,9 @@ export default function Home(): React.ReactElement {
       <BlogSection />
       <SafetySecuritySection />
       <ContactSection />
+      <AdSlot placement="homeB" />
       <OurServicesSection />
+      <AdSlot placement="homeC" />
     </div>
   );
 }

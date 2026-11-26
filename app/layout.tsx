@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import AppSplashLoader from "@/components/AppSplashLoader";
+import AdSenseLoader from "@/components/ads/AdSenseLoader";
 import { getSiteUrl } from "@/lib/blogShare";
 import "./globals.css";
 
@@ -88,12 +89,7 @@ export default function RootLayout({
             title="Google Tag Manager"
           />
         </noscript>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9237873671718047"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
+        <AdSenseLoader />
         <AppSplashLoader />
         <a
           href="#main-content"

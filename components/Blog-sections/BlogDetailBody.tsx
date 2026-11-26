@@ -17,6 +17,8 @@ import type { IconType } from "react-icons";
 import type { BlogCardData } from "@/components/Blog-sections/BlogCard";
 import RelatedStoriesSection from "@/components/Blog-sections/RelatedStoriesSection";
 import BlogDetailSidebar from "@/components/Blog-sections/BlogDetailSidebar";
+import AdSlot from "@/components/ads/AdSlot";
+import BlogArticleBody from "@/components/ads/BlogArticleBody";
 import BlogOptionalSections from "@/components/Blog-sections/BlogOptionalSections";
 import BlogFaqAccordion from "@/components/Blog-sections/BlogFaqAccordion";
 import {
@@ -361,9 +363,9 @@ export default function BlogDetailBody({
 
           <article className="min-w-0 order-1 lg:order-none">
             {contentHtml ? (
-              <div
+              <BlogArticleBody
+                html={contentHtml}
                 className="blog-detail-content blog-detail-figma"
-                dangerouslySetInnerHTML={{ __html: contentHtml }}
               />
             ) : null}
 
@@ -422,9 +424,13 @@ export default function BlogDetailBody({
                 </SocialIconButton>
               </div>
             </div>
+            <AdSlot placement="blogArticle" />
           </article>
 
           <div ref={sidebarColRef} className="relative min-h-[1px] order-last lg:order-none">
+            <div className="mb-8 hidden lg:block">
+              <AdSlot placement="blogSidebar" className="lg:sticky lg:top-28" />
+            </div>
             <div
               style={
                 sidebarPin === "static"

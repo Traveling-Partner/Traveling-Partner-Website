@@ -4,16 +4,20 @@ import TripReliable from "@/components/trip-sections/TripReliable";
 import TripHowItWorks from "@/components/trip-sections/TripHowItWorks";
 import OurServicesSection from "@/components/trip-sections/OurServicesSection";
 import ReadyToTripSection from "@/components/trip-sections/ReadyToTripSection";
+import AdSlot from "@/components/ads/AdSlot";
+import TourismSponsorSlot from "@/components/ads/TourismSponsorSlot";
 
 export default function Tourism() {
   return (
     <div className="w-full min-w-0 overflow-x-hidden">
       <TripHero />
       <TripWeekend />
+      <TourismSponsorSlot />
       <TripReliable />
       <TripHowItWorks />
       <OurServicesSection />
       <ReadyToTripSection />
+      <AdSlot placement="service2" />
     </div>
   );
 }

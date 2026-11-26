@@ -5,8 +5,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import CircularIndeterminate from "./loader";
-import { extractBlogList } from "@/lib/blogApi";
-import { fetchFeaturedBlogListClient } from "@/lib/blogClientFetch";
+import { fetchBlogListPageClient } from "@/lib/blogClientFetch";
 import { optimizeCloudinaryImage } from "@/lib/cloudinaryImage";
 import { encodeMediaUrl } from "@/lib/encodeMediaUrl";
 import { formatBlogDate, formatBlogType, formatReadTimeLabel } from "@/lib/blogFormat";
@@ -140,6 +139,10 @@ const getImageSrc = (v: string): string | null => {
 const displayApiDate = (value: unknown): string => {
   if (value == null || value === "") return "";
   return formatBlogDate(value);
+};
+
+type BlogSliderProps = {
+  onResolved?: (count: number, status: "ok" | "error") => void;
 };
 
 function BlogCard({
@@ -319,7 +322,7 @@ function getSlideDirection(current: number, next: number, total: number): number
   return forward <= backward ? 1 : -1;
 }
 
-export default function BlogSlider() {
+export default function BlogSlider({ onResolved }: BlogSliderProps = {}) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blogsRef = useRef<Blog[]>([]);
   const isHoveredRef = useRef(false);
@@ -374,18 +377,21 @@ export default function BlogSlider() {
     try {
       setLoading(true);
       setError(null);
-      const json = await fetchFeaturedBlogListClient();
-      setBlogs(
-        extractBlogList(json)
-          .map(mapBlogCard)
-          .filter((b) => b.id && b.main_title && b.isFeatured)
-      );
+      const page = await fetchBlogListPageClient({ page: 1, size: 3 });
+      const next = page.items
+        .map(mapBlogCard)
+        .filter((b) => b.id && b.main_title)
+        .slice(0, 3);
+      setBlogs(next);
+      onResolved?.(next.length, "ok");
     } catch {
+      setBlogs([]);
       setError("Unable to load blogs right now.");
+      onResolved?.(0, "error");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [onResolved]);
 
   useEffect(() => {
     loadBlogs();
