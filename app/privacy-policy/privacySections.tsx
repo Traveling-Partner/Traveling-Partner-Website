@@ -130,6 +130,13 @@ export const privacySections: PrivacySection[] = [
             technologies used may vary depending on the services and features
             available on the platform.
           </p>
+          <p className="mt-3">
+            On traveling-partner.com we also use advertising cookies and similar
+            technologies from third-party ad partners, including Google, so we
+            can show ads. Google may use cookies to serve ads based on visits to
+            this site and other sites. You can learn more in Google&apos;s
+            advertising policies.
+          </p>
         </CalloutCard>
         <CalloutCard label="Driver and Vehicle Data">
           <p className="mb-3">
@@ -216,6 +223,12 @@ export const privacySections: PrivacySection[] = [
             advertising, analytics and marketing purposes. We do not sell your
             personal information to advertisers.
           </p>
+          <p className="mt-3">
+            Website ads are served by Google AdSense and other Google
+            advertising products. Those partners may collect or receive
+            information about your browser, device, and how you use this site,
+            including through cookies, in order to provide and measure ads.
+          </p>
         </CalloutCard>
       </div>
     ),
@@ -271,8 +284,8 @@ export const privacySections: PrivacySection[] = [
             Service providers supporting platform operations.
           </CheckItem>
           <CheckItem>
-            Advertising and marketing service providers, where necessary to
-            provide relevant advertising or promotional services.
+            Advertising and marketing service providers, including Google, where
+            necessary to provide relevant advertising or promotional services.
           </CheckItem>
           <CheckItem>
             Government authorities where required by law.

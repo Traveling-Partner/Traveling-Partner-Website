@@ -1,6 +1,6 @@
 // components/Home-sections/BlogSection.tsx
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -17,7 +17,16 @@ const BlogSlider = dynamic(() => import("../BlogSlider"), {
   ),
 });
 
-export default function BlogSection(): React.ReactElement {
+export default function BlogSection(): React.ReactElement | null {
+  const [postCount, setPostCount] = useState<number | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const handleResolved = useCallback((count: number, status: "ok" | "error") => {
+    setPostCount(count);
+    setLoadFailed(status === "error");
+  }, []);
+
+  if (postCount === 0 && !loadFailed) return null;
+
   return (
     <section
       className="relative w-full py-[72px] sm:py-[88px] lg:py-[104px]"
@@ -60,7 +69,7 @@ export default function BlogSection(): React.ReactElement {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
           <Suspense fallback={<div className="text-center p-4 text-white/70">Loading...</div>}>
-            <BlogSlider />
+            <BlogSlider onResolved={handleResolved} />
           </Suspense>
         </motion.div>
       </div>

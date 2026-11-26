@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { parseBlogDate } from "@/lib/blogFormat";
 import BlogCard, { type BlogCardData } from "@/components/Blog-sections/BlogCard";
+import AdSlot from "@/components/ads/AdSlot";
 
 type SortOrder = "newest" | "oldest";
 
@@ -229,14 +230,25 @@ export default function LatestStoriesSection({
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {sortedBlogs.map((blog, index) => (
-            <BlogCard
-              key={blog.id}
-              blog={blog}
-              getImageSrc={getImageSrc}
-              priority={index < 3}
-            />
-          ))}
+          {sortedBlogs.flatMap((blog, index) => {
+            const card = (
+              <BlogCard
+                key={blog.id}
+                blog={blog}
+                getImageSrc={getImageSrc}
+                priority={index < 3}
+              />
+            );
+            if ((index + 1) % 5 !== 0) return [card];
+            return [
+              card,
+              <AdSlot
+                key={`blog-infeed-${index}`}
+                placement="blogInfeed"
+                className="h-full min-h-[250px]"
+              />,
+            ];
+          })}
         </div>
 
         <StoryPagination

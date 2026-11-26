@@ -20,8 +20,22 @@ export const APP_STORE_URL = "https://www.apple.com/app-store/";
 export const STORE_COMING_SOON_LABEL = "Coming soon";
 
 export function handleStoreClick(
-  event: { preventDefault: () => void }
+  event: { preventDefault: () => void; currentTarget?: { href?: string } }
 ): void {
+  if (typeof window !== "undefined") {
+    const href = event.currentTarget?.href ?? "";
+    const store = href.includes("play.google.com")
+      ? "google_play"
+      : href.includes("apple.com") || href.includes("itunes.apple.com")
+        ? "app_store"
+        : "unknown";
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "store_badge_click",
+      store,
+      href,
+    });
+  }
   if (!STORE_LISTINGS_LIVE) {
     event.preventDefault();
   }

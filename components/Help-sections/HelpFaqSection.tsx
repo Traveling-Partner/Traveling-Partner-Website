@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { HelpCategory } from "@/app/help/helpContent";
 import SearchEmptyState from "@/components/SearchEmptyState";
+import AdSlot from "@/components/ads/AdSlot";
 
 type HelpFaqSectionProps = {
   categories: HelpCategory[];
@@ -294,9 +295,15 @@ export default function HelpFaqSection({
               />
             ) : null}
 
-            {filteredCategories.map((category) => (
+            {filteredCategories.map((category, categoryIndex) => {
+              const nextCategory = filteredCategories[categoryIndex + 1];
+              const showHelpAd =
+                category.id !== "safety-and-security" &&
+                (nextCategory?.id === "safety-and-security" || !nextCategory);
+
+              return (
+              <div key={category.id}>
               <section
-                key={category.id}
                 id={category.id}
                 className="scroll-mt-28"
                 aria-labelledby={`help-category-${category.id}`}
@@ -394,7 +401,10 @@ export default function HelpFaqSection({
                   })}
                 </div>
               </section>
-            ))}
+              {showHelpAd ? <AdSlot placement="help" /> : null}
+              </div>
+              );
+            })}
           </div>
         </div>
       </div>
