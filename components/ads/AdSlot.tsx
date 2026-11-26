@@ -62,7 +62,7 @@ export default function AdSlot({ placement, className = "" }: AdSlotProps) {
     }
   }, [allowed, visible, slotId]);
 
-  if (!allowed) return null;
+  if (!allowed || !slotId) return null;
 
   return (
     <aside
